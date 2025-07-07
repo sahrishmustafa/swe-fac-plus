@@ -1,0 +1,28 @@
+Compile-time error when mixing named argument with automatic indexing
+Minimal reproducer ([godbolt](https://godbolt.org/z/bxYGbn9cE)):
+```
+fmt::print("{} {a}", 1, "a"_a = 2);
+```
+
+I believe this is supposed to compile, but it causes:
+```
+on_error("cannot switch from automatic to manual argument indexing");
+```
+
+Are the named arguments considered as "indexed", or is it a bug?
+
+It works with `fmt::runtime`, so if nothing else, there is a problem with consistency between compile-time and runtime checking.
+Compile-time error when mixing named argument with automatic indexing
+Minimal reproducer ([godbolt](https://godbolt.org/z/bxYGbn9cE)):
+```
+fmt::print("{} {a}", 1, "a"_a = 2);
+```
+
+I believe this is supposed to compile, but it causes:
+```
+on_error("cannot switch from automatic to manual argument indexing");
+```
+
+Are the named arguments considered as "indexed", or is it a bug?
+
+It works with `fmt::runtime`, so if nothing else, there is a problem with consistency between compile-time and runtime checking.

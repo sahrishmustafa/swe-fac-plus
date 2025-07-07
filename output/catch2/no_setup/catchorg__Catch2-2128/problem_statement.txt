@@ -1,0 +1,62 @@
+Problem with user provided operator == (with proposed fix)
+**Describe the bug**
+The test doesn't compile when the user provides a more general `operator ==` overload than `ExprLhs`.
+`operator ==` in the code sample below is a better match when r-value reference is passed because it accepts forwarding reference (`U&&`) and `ExprLhs` accepts only const reference (`RhsT const& rhs`) https://github.com/catchorg/Catch2/blob/devel/src/catch2/internal/catch_decomposer.hpp#L187
+```
+        template<typename RhsT>
+        auto operator == ( RhsT const& rhs ) -> BinaryExpr<LhsT, RhsT const&> const {
+            return { compareEqual( m_lhs, rhs ), m_lhs, "=="_sr, rhs };
+        }
+```
+
+**Expected behavior**
+The test should compile.
+
+**Reproduction steps**
+```
+namespace adl {
+
+struct activate_adl {};
+
+struct equality_expression {
+    operator bool() const { return true; }
+};
+
+template <class T, class U>
+constexpr auto operator == (T&&, U&&) {
+    return equality_expression{};
+}
+
+}
+
+TEST_CASE("User provided equality operator", "[compilation]") {
+    REQUIRE(0 == adl::activate_adl{});
+}
+```
+error: no matching member function for call to 'handleExpr' REQUIRE(0 == adl::activate_adl{});
+
+**Fix**
+My first attempt was to change the `operator == ` definition (and similarly all other operators) to
+```
+        template<typename RhsT>
+        auto operator == ( RhsT && rhs ) -> BinaryExpr<LhsT, RhsT const&> const {
+            return { compareEqual( m_lhs, rhs ), m_lhs, "=="_sr, rhs };
+        }
+```
+However, this broke a test for bitfields
+error: non-const reference cannot bind to bit-field 'v' REQUIRE(0 == y.v);
+
+This can be resolved by two not so clean overloads, maybe you know a better way:
+```
+        template<typename RhsT>
+        auto operator == ( RhsT const& rhs ) -> BinaryExpr<LhsT, RhsT const&> const {
+            return { compareEqual( m_lhs, rhs ), m_lhs, "=="_sr, rhs };
+        }
+        template<typename RhsT, std::enable_if_t<!std::is_arithmetic<std::decay_t<RhsT>>::value, int> = 0>
+        auto operator == ( RhsT && rhs ) -> BinaryExpr<LhsT, RhsT const&> const {
+            return { compareEqual( m_lhs, rhs ), m_lhs, "=="_sr, rhs };
+        }
+```
+
+**Unrelated note**
+I don't think const reference here prolongs the lifetime of rhs, because it's not local but stored in a class: `BinaryExpr<LhsT, RhsT const&>`. Not sure if it's a problem.

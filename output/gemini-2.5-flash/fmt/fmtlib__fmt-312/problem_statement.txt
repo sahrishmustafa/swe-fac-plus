@@ -1,0 +1,14 @@
+User-defined literals check for Intel C++ compiler
+When compiling with the Intel C++ compiler version 14 using c++11 mode, the check for whether user-defined literals can be used does not work. Including `format.h` leads to the error:
+
+```
+include/cantera/ext/format.h(3223): error: expected an operator
+  operator"" _format(const char *s, std::size_t) { return {s}; }
+```
+
+This compiler version does not support user-defined literals (support is introduced in version 15, per https://software.intel.com/en-us/articles/c0x-features-supported-by-intel-c-compiler). However, the macro `FMT_USE_USER_DEFINED_LITERALS` ends up being defined only by the GCC version.
+
+The Intel compiler version can be checked using the macros `__ICC` on Linux/OSX and `__ICL` on Windows, which returns the number `1400` for my compiler version. There is apparently no macro that is actually cross-platform.
+
+I've only checked this on version 2.1, but it looks like the test for this hasn't changed in master.
+

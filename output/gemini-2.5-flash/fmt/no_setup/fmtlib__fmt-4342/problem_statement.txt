@@ -1,0 +1,8 @@
+It doesn't seem to be possible to declare a funciton that can take compiled format string as an argument without referencing `fmt::detail`
+Writing a function that can take a regular format string as an argument is pretty straightforward:
+https://github.com/SwooshyCueb/irods/blob/5ceb3b6b99b19478ebb9f1681d3432f1e037472d/server/core/include/irods/notify_service_manager.hpp#L46-L70
+
+However, I can't figure out how to declare an overload that can take a *compiled* format string without dipping into `fmt::detail`:
+https://github.com/SwooshyCueb/irods/blob/5ceb3b6b99b19478ebb9f1681d3432f1e037472d/server/core/include/irods/notify_service_manager.hpp#L72-L99
+
+There doesn't seem to be any documentation on how this might be done. Is this the proper solution?

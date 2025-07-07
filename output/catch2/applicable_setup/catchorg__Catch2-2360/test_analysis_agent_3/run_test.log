@@ -1,0 +1,1586 @@
+2025-06-30 17:07:00,602 - INFO - Checking if image catchorg__catch2-2360-dockerfile3:latest exists locally...
+2025-06-30 17:07:00,655 - INFO - Image catchorg__catch2-2360-dockerfile3:latest found locally.
+2025-06-30 17:07:00,655 - INFO - Creating container for catchorg__catch2-2360...
+2025-06-30 17:07:01,112 - INFO - Container for catchorg__catch2-2360 started: 09fc63e9e66fa4251aa4e311dfe026caf9d70279f207af13dfc851eda056734f
+2025-06-30 17:07:01,113 - INFO - Intermediate patch for catchorg__catch2-2360 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/catch2/catchorg__Catch2-2360/test_analysis_agent_3/patch.diff, now applying to container...
+2025-06-30 17:07:01,387 - INFO - Failed to apply patch to container, trying again...
+2025-06-30 17:07:01,461 - INFO - Apply patch success:
+patching file src/catch2/catch_session.cpp
+patching file src/catch2/catch_totals.cpp
+patching file src/catch2/catch_totals.hpp
+patching file src/catch2/interfaces/catch_interfaces_reporter.hpp
+patching file src/catch2/internal/catch_assertion_handler.cpp
+patching file src/catch2/internal/catch_assertion_handler.hpp
+patching file src/catch2/internal/catch_console_colour.hpp
+patching file src/catch2/internal/catch_exception_translator_registry.cpp
+patching file src/catch2/internal/catch_result_type.hpp
+patching file src/catch2/internal/catch_run_context.cpp
+patching file src/catch2/reporters/catch_reporter_automake.cpp
+patching file src/catch2/reporters/catch_reporter_compact.cpp
+patching file src/catch2/reporters/catch_reporter_console.cpp
+patching file src/catch2/reporters/catch_reporter_helpers.cpp
+patching file src/catch2/reporters/catch_reporter_junit.cpp
+patching file src/catch2/reporters/catch_reporter_sonarqube.cpp
+patching file src/catch2/reporters/catch_reporter_tap.cpp
+patching file src/catch2/reporters/catch_reporter_teamcity.cpp
+patching file src/catch2/reporters/catch_reporter_xml.cpp
+
+2025-06-30 17:07:01,619 - INFO - Git diff before:
+diff --git a/extras/catch_amalgamated.cpp b/extras/catch_amalgamated.cpp
+index b27c4ec8..bfdcf2a1 100644
+--- a/extras/catch_amalgamated.cpp
++++ b/extras/catch_amalgamated.cpp
+@@ -6,7 +6,7 @@
+ // SPDX-License-Identifier: BSL-1.0
+ 
+ //  Catch v3.2.1
+-//  Generated: 2022-12-09 23:01:15.713081
++//  Generated: 2025-06-30 12:06:17.631398
+ //  ----------------------------------------------------------
+ //  This file is an amalgamation of multiple different files.
+ //  You probably shouldn't edit it directly.
+@@ -4509,8 +4509,8 @@ namespace Catch {
+ 
+ 
+ 
+-
+ #include <limits>
++#include <stdexcept>
+ 
+ namespace Catch {
+ 
+@@ -4538,11 +4538,14 @@ namespace Catch {
+                 return {};
+             }
+             return static_cast<unsigned int>(ret);
+-        } CATCH_CATCH_ANON( std::exception const& ) {
+-            // There was a larger issue with the input, e.g. the parsed
+-            // number would be too large to fit within ull.
+-            return {};
+         }
++        CATCH_CATCH_ANON( std::invalid_argument const& ) {
++            // no conversion could be performed
++        }
++        CATCH_CATCH_ANON( std::out_of_range const& ) {
++            // the input does not fit into an unsigned long long
++        }
++        return {};
+     }
+ 
+ } // namespace Catch
+@@ -6935,6 +6938,7 @@ namespace Catch {
+ //       while in /permissive- mode. No, I don't know why.
+ //       Tested on VS 2019, 18.{3, 4}.x
+ 
++#include <cstdint>
+ #include <iomanip>
+ #include <type_traits>
+ 
+diff --git a/extras/catch_amalgamated.hpp b/extras/catch_amalgamated.hpp
+index e91734a4..342853e5 100644
+--- a/extras/catch_amalgamated.hpp
++++ b/extras/catch_amalgamated.hpp
+@@ -6,7 +6,7 @@
+ // SPDX-License-Identifier: BSL-1.0
+ 
+ //  Catch v3.2.1
+-//  Generated: 2022-12-09 23:01:14.526666
++//  Generated: 2025-06-30 12:06:17.611639
+ //  ----------------------------------------------------------
+ //  This file is an amalgamation of multiple different files.
+ //  You probably shouldn't edit it directly.
+@@ -6183,7 +6183,7 @@ struct AutoReg : Detail::NonCopyable {
+         CATCH_INTERNAL_START_WARNINGS_SUPPRESSION \
+         CATCH_INTERNAL_SUPPRESS_GLOBALS_WARNINGS \
+         CATCH_INTERNAL_SUPPRESS_UNUSED_VARIABLE_WARNINGS \
+-        namespace{ Catch::AutoReg INTERNAL_CATCH_UNIQUE_NAME( autoRegistrar )( Catch::makeTestInvoker( &TestName ), CATCH_INTERNAL_LINEINFO, Catch::StringRef(), Catch::NameAndTags{ __VA_ARGS__ } ); } /* NOLINT */ \
++        namespace{ const Catch::AutoReg INTERNAL_CATCH_UNIQUE_NAME( autoRegistrar )( Catch::makeTestInvoker( &TestName ), CATCH_INTERNAL_LINEINFO, Catch::StringRef(), Catch::NameAndTags{ __VA_ARGS__ } ); } /* NOLINT */ \
+         CATCH_INTERNAL_STOP_WARNINGS_SUPPRESSION \
+         static void TestName()
+     #define INTERNAL_CATCH_TESTCASE( ... ) \
+@@ -6194,7 +6194,7 @@ struct AutoReg : Detail::NonCopyable {
+         CATCH_INTERNAL_START_WARNINGS_SUPPRESSION \
+         CATCH_INTERNAL_SUPPRESS_GLOBALS_WARNINGS \
+         CATCH_INTERNAL_SUPPRESS_UNUSED_VARIABLE_WARNINGS \
+-        namespace{ Catch::AutoReg INTERNAL_CATCH_UNIQUE_NAME( autoRegistrar )( Catch::makeTestInvoker( &QualifiedMethod ), CATCH_INTERNAL_LINEINFO, "&" #QualifiedMethod, Catch::NameAndTags{ __VA_ARGS__ } ); } /* NOLINT */ \
++        namespace{ const Catch::AutoReg INTERNAL_CATCH_UNIQUE_NAME( autoRegistrar )( Catch::makeTestInvoker( &QualifiedMethod ), CATCH_INTERNAL_LINEINFO, "&" #QualifiedMethod, Catch::NameAndTags{ __VA_ARGS__ } ); } /* NOLINT */ \
+         CATCH_INTERNAL_STOP_WARNINGS_SUPPRESSION
+ 
+     ///////////////////////////////////////////////////////////////////////////////
+@@ -6206,7 +6206,7 @@ struct AutoReg : Detail::NonCopyable {
+             struct TestName : INTERNAL_CATCH_REMOVE_PARENS(ClassName) { \
+                 void test(); \
+             }; \
+-            Catch::AutoReg INTERNAL_CATCH_UNIQUE_NAME( autoRegistrar ) ( Catch::makeTestInvoker( &TestName::test ), CATCH_INTERNAL_LINEINFO, #ClassName, Catch::NameAndTags{ __VA_ARGS__ } ); /* NOLINT */ \
++            const Catch::AutoReg INTERNAL_CATCH_UNIQUE_NAME( autoRegistrar ) ( Catch::makeTestInvoker( &TestName::test ), CATCH_INTERNAL_LINEINFO, #ClassName, Catch::NameAndTags{ __VA_ARGS__ } ); /* NOLINT */ \
+         } \
+         CATCH_INTERNAL_STOP_WARNINGS_SUPPRESSION \
+         void TestName::test()
+@@ -7098,6 +7098,7 @@ struct AutoReg : Detail::NonCopyable {
+ 
+ 
+ 
++#include <cstdint>
+ #include <string>
+ #include <vector>
+ 
+@@ -9568,6 +9569,7 @@ namespace Catch {
+ #define CATCH_STRING_MANIP_HPP_INCLUDED
+ 
+ 
++#include <cstdint>
+ #include <string>
+ #include <iosfwd>
+ #include <vector>
+@@ -10960,6 +10962,32 @@ public:
+ //! Creates a matcher that checks whether a std derived exception has the provided message
+ ExceptionMessageMatcher Message(std::string const& message);
+ 
++template <typename StringMatcherType>
++class ExceptionMessageMatchesMatcher final
++    : public MatcherBase<std::exception> {
++    StringMatcherType m_matcher;
++
++public:
++    ExceptionMessageMatchesMatcher( StringMatcherType matcher ):
++        m_matcher( CATCH_MOVE( matcher ) ) {}
++
++    bool match( std::exception const& ex ) const override {
++        return m_matcher.match( ex.what() );
++    }
++
++    std::string describe() const override {
++        return " matches \"" + m_matcher.describe() + '"';
++    }
++};
++
++//! Creates a matcher that checks whether a message from an std derived
++//! exception matches a provided matcher
++template <typename StringMatcherType>
++ExceptionMessageMatchesMatcher<StringMatcherType>
++MessageMatches( StringMatcherType&& matcher ) {
++    return { CATCH_FORWARD( matcher ) };
++}
++
+ } // namespace Matchers
+ } // namespace Catch
+ 
+diff --git a/src/catch2/catch_session.cpp b/src/catch2/catch_session.cpp
+index 128f21d9..43465f0c 100644
+--- a/src/catch2/catch_session.cpp
++++ b/src/catch2/catch_session.cpp
+@@ -341,6 +341,12 @@ namespace Catch {
+                 return 2;
+             }
+ 
++            if ( totals.testCases.total() > 0 &&
++                 totals.testCases.total() == totals.testCases.skipped
++                && !m_config->zeroTestsCountAsSuccess() ) {
++                return 4;
++            }
++
+             // Note that on unices only the lower 8 bits are usually used, clamping
+             // the return value to 255 prevents false negative when some multiple
+             // of 256 tests has failed
+diff --git a/src/catch2/catch_totals.cpp b/src/catch2/catch_totals.cpp
+index a3e2b384..bd1954fb 100644
+--- a/src/catch2/catch_totals.cpp
++++ b/src/catch2/catch_totals.cpp
+@@ -14,6 +14,7 @@ namespace Catch {
+         diff.passed = passed - other.passed;
+         diff.failed = failed - other.failed;
+         diff.failedButOk = failedButOk - other.failedButOk;
++        diff.skipped = skipped - other.skipped;
+         return diff;
+     }
+ 
+@@ -21,14 +22,15 @@ namespace Catch {
+         passed += other.passed;
+         failed += other.failed;
+         failedButOk += other.failedButOk;
++        skipped += other.skipped;
+         return *this;
+     }
+ 
+     std::uint64_t Counts::total() const {
+-        return passed + failed + failedButOk;
++        return passed + failed + failedButOk + skipped;
+     }
+     bool Counts::allPassed() const {
+-        return failed == 0 && failedButOk == 0;
++        return failed == 0 && failedButOk == 0 && skipped == 0;
+     }
+     bool Counts::allOk() const {
+         return failed == 0;
+@@ -53,6 +55,8 @@ namespace Catch {
+             ++diff.testCases.failed;
+         else if( diff.assertions.failedButOk > 0 )
+             ++diff.testCases.failedButOk;
++        else if ( diff.assertions.skipped > 0 )
++            ++ diff.testCases.skipped;
+         else
+             ++diff.testCases.passed;
+         return diff;
+diff --git a/src/catch2/catch_totals.hpp b/src/catch2/catch_totals.hpp
+index 8dd360c6..386392c9 100644
+--- a/src/catch2/catch_totals.hpp
++++ b/src/catch2/catch_totals.hpp
+@@ -23,6 +23,7 @@ namespace Catch {
+         std::uint64_t passed = 0;
+         std::uint64_t failed = 0;
+         std::uint64_t failedButOk = 0;
++        std::uint64_t skipped = 0;
+     };
+ 
+     struct Totals {
+diff --git a/src/catch2/interfaces/catch_interfaces_reporter.hpp b/src/catch2/interfaces/catch_interfaces_reporter.hpp
+index 5f286363..da0112e3 100644
+--- a/src/catch2/interfaces/catch_interfaces_reporter.hpp
++++ b/src/catch2/interfaces/catch_interfaces_reporter.hpp
+@@ -242,7 +242,12 @@ namespace Catch {
+          */
+         virtual void testRunEnded( TestRunStats const& testRunStats ) = 0;
+ 
+-        //! Called with test cases that are skipped due to the test run aborting
++        /**
++         * Called with test cases that are skipped due to the test run aborting.
++         * NOT called for test cases that are explicitly skipped using the `SKIP` macro.
++         *
++         * Deprecated - will be removed in the next major release.
++         */
+         virtual void skipTest( TestCaseInfo const& testInfo ) = 0;
+ 
+         //! Called if a fatal error (signal/structured exception) occured
+diff --git a/src/catch2/internal/catch_assertion_handler.cpp b/src/catch2/internal/catch_assertion_handler.cpp
+index f051314c..0b14e0bb 100644
+--- a/src/catch2/internal/catch_assertion_handler.cpp
++++ b/src/catch2/internal/catch_assertion_handler.cpp
+@@ -50,6 +50,13 @@ namespace Catch {
+         if (m_reaction.shouldThrow) {
+             throw_test_failure_exception();
+         }
++        if ( m_reaction.shouldSkip ) {
++#if !defined( CATCH_CONFIG_DISABLE_EXCEPTIONS )
++            throw Catch::TestSkipException();
++#else
++            CATCH_ERROR( "Explicitly skipping tests during runtime requires exceptions" );
++#endif
++        }
+     }
+     void AssertionHandler::setCompleted() {
+         m_completed = true;
+diff --git a/src/catch2/internal/catch_assertion_handler.hpp b/src/catch2/internal/catch_assertion_handler.hpp
+index 36b55243..ae7776d8 100644
+--- a/src/catch2/internal/catch_assertion_handler.hpp
++++ b/src/catch2/internal/catch_assertion_handler.hpp
+@@ -22,6 +22,7 @@ namespace Catch {
+     struct AssertionReaction {
+         bool shouldDebugBreak = false;
+         bool shouldThrow = false;
++        bool shouldSkip = false;
+     };
+ 
+     class AssertionHandler {
+diff --git a/src/catch2/internal/catch_console_colour.hpp b/src/catch2/internal/catch_console_colour.hpp
+index 9aa6a163..d9144315 100644
+--- a/src/catch2/internal/catch_console_colour.hpp
++++ b/src/catch2/internal/catch_console_colour.hpp
+@@ -47,6 +47,7 @@ namespace Catch {
+ 
+             Error = BrightRed,
+             Success = Green,
++            Skip = LightGrey,
+ 
+             OriginalExpression = Cyan,
+             ReconstructedExpression = BrightYellow,
+diff --git a/src/catch2/internal/catch_exception_translator_registry.cpp b/src/catch2/internal/catch_exception_translator_registry.cpp
+index 2a240a9b..0645c6ce 100644
+--- a/src/catch2/internal/catch_exception_translator_registry.cpp
++++ b/src/catch2/internal/catch_exception_translator_registry.cpp
+@@ -44,6 +44,9 @@ namespace Catch {
+         catch( TestFailureException& ) {
+             std::rethrow_exception(std::current_exception());
+         }
++        catch( TestSkipException& ) {
++            std::rethrow_exception(std::current_exception());
++        }
+         catch( std::exception const& ex ) {
+             return ex.what();
+         }
+diff --git a/src/catch2/internal/catch_result_type.hpp b/src/catch2/internal/catch_result_type.hpp
+index faf0683d..e66afaff 100644
+--- a/src/catch2/internal/catch_result_type.hpp
++++ b/src/catch2/internal/catch_result_type.hpp
+@@ -16,6 +16,8 @@ namespace Catch {
+         Ok = 0,
+         Info = 1,
+         Warning = 2,
++        // TODO: Should explicit skip be considered "not OK" (cf. isOk)? I.e., should it have the failure bit?
++        ExplicitSkip = 4,
+ 
+         FailureBit = 0x10,
+ 
+diff --git a/src/catch2/internal/catch_run_context.cpp b/src/catch2/internal/catch_run_context.cpp
+index d2e8fb8c..e1b81d0b 100644
+--- a/src/catch2/internal/catch_run_context.cpp
++++ b/src/catch2/internal/catch_run_context.cpp
+@@ -270,6 +270,9 @@ namespace Catch {
+         if (result.getResultType() == ResultWas::Ok) {
+             m_totals.assertions.passed++;
+             m_lastAssertionPassed = true;
++        } else if (result.getResultType() == ResultWas::ExplicitSkip) {
++            m_totals.assertions.skipped++;
++            m_lastAssertionPassed = true;
+         } else if (!result.succeeded()) {
+             m_lastAssertionPassed = false;
+             if (result.isOk()) {
+@@ -475,6 +478,8 @@ namespace Catch {
+             duration = timer.getElapsedSeconds();
+         } CATCH_CATCH_ANON (TestFailureException&) {
+             // This just means the test was aborted due to failure
++        } CATCH_CATCH_ANON (TestSkipException&) {
++            // This just means the test was explicitly skipped
+         } CATCH_CATCH_ALL {
+             // Under CATCH_CONFIG_FAST_COMPILE, unexpected exceptions under REQUIRE assertions
+             // are reported without translation at the point of origin.
+@@ -571,8 +576,13 @@ namespace Catch {
+         data.message = static_cast<std::string>(message);
+         AssertionResult assertionResult{ m_lastAssertionInfo, data };
+         assertionEnded( assertionResult );
+-        if( !assertionResult.isOk() )
++        if ( !assertionResult.isOk() ) {
+             populateReaction( reaction );
++        } else if ( resultType == ResultWas::ExplicitSkip ) {
++            // TODO: Need to handle this explicitly, as ExplicitSkip is
++            // considered "OK"
++            reaction.shouldSkip = true;
++        }
+     }
+     void RunContext::handleUnexpectedExceptionNotThrown(
+             AssertionInfo const& info,
+diff --git a/src/catch2/reporters/catch_reporter_automake.cpp b/src/catch2/reporters/catch_reporter_automake.cpp
+index 0660d092..993b594b 100644
+--- a/src/catch2/reporters/catch_reporter_automake.cpp
++++ b/src/catch2/reporters/catch_reporter_automake.cpp
+@@ -17,7 +17,9 @@ namespace Catch {
+     void AutomakeReporter::testCaseEnded(TestCaseStats const& _testCaseStats) {
+         // Possible values to emit are PASS, XFAIL, SKIP, FAIL, XPASS and ERROR.
+         m_stream << ":test-result: ";
+-        if (_testCaseStats.totals.assertions.allPassed()) {
++        if ( _testCaseStats.totals.testCases.skipped > 0 ) {
++            m_stream << "SKIP";
++        } else if (_testCaseStats.totals.assertions.allPassed()) {
+             m_stream << "PASS";
+         } else if (_testCaseStats.totals.assertions.allOk()) {
+             m_stream << "XFAIL";
+diff --git a/src/catch2/reporters/catch_reporter_compact.cpp b/src/catch2/reporters/catch_reporter_compact.cpp
+index d8088457..643626ea 100644
+--- a/src/catch2/reporters/catch_reporter_compact.cpp
++++ b/src/catch2/reporters/catch_reporter_compact.cpp
+@@ -105,6 +105,11 @@ public:
+             printIssue("explicitly");
+             printRemainingMessages(Colour::None);
+             break;
++        case ResultWas::ExplicitSkip:
++            printResultType(Colour::Skip, "skipped"_sr);
++            printMessage();
++            printRemainingMessages();
++            break;
+             // These cases are here to prevent compiler warnings
+         case ResultWas::Unknown:
+         case ResultWas::FailureBit:
+@@ -220,7 +225,7 @@ private:
+ 
+             // Drop out if result was successful and we're not printing those
+             if( !m_config->includeSuccessfulResults() && result.isOk() ) {
+-                if( result.getResultType() != ResultWas::Warning )
++                if( result.getResultType() != ResultWas::Warning && result.getResultType() != ResultWas::ExplicitSkip )
+                     return;
+                 printInfoMessages = false;
+             }
+diff --git a/src/catch2/reporters/catch_reporter_console.cpp b/src/catch2/reporters/catch_reporter_console.cpp
+index 0edb121e..b394d2be 100644
+--- a/src/catch2/reporters/catch_reporter_console.cpp
++++ b/src/catch2/reporters/catch_reporter_console.cpp
+@@ -111,6 +111,14 @@ public:
+             if (_stats.infoMessages.size() > 1)
+                 messageLabel = "explicitly with messages";
+             break;
++        case ResultWas::ExplicitSkip:
++            colour = Colour::Skip;
++            passOrFail = "SKIPPED"_sr;
++            if (_stats.infoMessages.size() == 1)
++                messageLabel = "explicitly with message";
++            if (_stats.infoMessages.size() > 1)
++                messageLabel = "explicitly with messages";
++            break;
+             // These cases are here to prevent compiler warnings
+         case ResultWas::Unknown:
+         case ResultWas::FailureBit:
+@@ -185,13 +193,16 @@ std::size_t makeRatio( std::uint64_t number, std::uint64_t total ) {
+     return (ratio == 0 && number > 0) ? 1 : static_cast<std::size_t>(ratio);
+ }
+ 
+-std::size_t& findMax( std::size_t& i, std::size_t& j, std::size_t& k ) {
+-    if (i > j && i > k)
++std::size_t&
++findMax( std::size_t& i, std::size_t& j, std::size_t& k, std::size_t& l ) {
++    if (i > j && i > k && i > l)
+         return i;
+-    else if (j > k)
++    else if (j > k && j > l)
+         return j;
+-    else
++    else if (k > l)
+         return k;
++    else
++        return l;
+ }
+ 
+ enum class Justification { Left, Right };
+@@ -400,7 +411,8 @@ void ConsoleReporter::assertionEnded(AssertionStats const& _assertionStats) {
+     bool includeResults = m_config->includeSuccessfulResults() || !result.isOk();
+ 
+     // Drop out if result was successful but we're not printing them.
+-    if (!includeResults && result.getResultType() != ResultWas::Warning)
++    // TODO: Make configurable whether skips should be printed
++    if (!includeResults && result.getResultType() != ResultWas::Warning && result.getResultType() != ResultWas::ExplicitSkip)
+         return;
+ 
+     lazyPrint();
+@@ -603,10 +615,11 @@ void ConsoleReporter::printTotalsDivider(Totals const& totals) {
+         std::size_t failedRatio = makeRatio(totals.testCases.failed, totals.testCases.total());
+         std::size_t failedButOkRatio = makeRatio(totals.testCases.failedButOk, totals.testCases.total());
+         std::size_t passedRatio = makeRatio(totals.testCases.passed, totals.testCases.total());
+-        while (failedRatio + failedButOkRatio + passedRatio < CATCH_CONFIG_CONSOLE_WIDTH - 1)
+-            findMax(failedRatio, failedButOkRatio, passedRatio)++;
++        std::size_t skippedRatio = makeRatio(totals.testCases.skipped, totals.testCases.total());
++        while (failedRatio + failedButOkRatio + passedRatio + skippedRatio < CATCH_CONFIG_CONSOLE_WIDTH - 1)
++            findMax(failedRatio, failedButOkRatio, passedRatio, skippedRatio)++;
+         while (failedRatio + failedButOkRatio + passedRatio > CATCH_CONFIG_CONSOLE_WIDTH - 1)
+-            findMax(failedRatio, failedButOkRatio, passedRatio)--;
++            findMax(failedRatio, failedButOkRatio, passedRatio, skippedRatio)--;
+ 
+         m_stream << m_colour->guardColour( Colour::Error )
+                  << std::string( failedRatio, '=' )
+@@ -619,6 +632,8 @@ void ConsoleReporter::printTotalsDivider(Totals const& totals) {
+             m_stream << m_colour->guardColour( Colour::Success )
+                      << std::string( passedRatio, '=' );
+         }
++        m_stream << m_colour->guardColour( Colour::Skip )
++                 << std::string( skippedRatio, '=' );
+     } else {
+         m_stream << m_colour->guardColour( Colour::Warning )
+                  << std::string( CATCH_CONFIG_CONSOLE_WIDTH - 1, '=' );
+diff --git a/src/catch2/reporters/catch_reporter_helpers.cpp b/src/catch2/reporters/catch_reporter_helpers.cpp
+index f6aa6fc5..ffb32ffb 100644
+--- a/src/catch2/reporters/catch_reporter_helpers.cpp
++++ b/src/catch2/reporters/catch_reporter_helpers.cpp
+@@ -316,15 +316,22 @@ namespace Catch {
+         }
+ 
+         std::vector<SummaryColumn> columns;
++        // Don't include "skipped assertions" in total count
++        const auto totalAssertionCount =
++            totals.assertions.total() - totals.assertions.skipped;
+         columns.push_back( SummaryColumn( "", Colour::None )
+                                .addRow( totals.testCases.total() )
+-                               .addRow( totals.assertions.total() ) );
++                               .addRow( totalAssertionCount ) );
+         columns.push_back( SummaryColumn( "passed", Colour::Success )
+                                .addRow( totals.testCases.passed )
+                                .addRow( totals.assertions.passed ) );
+         columns.push_back( SummaryColumn( "failed", Colour::ResultError )
+                                .addRow( totals.testCases.failed )
+                                .addRow( totals.assertions.failed ) );
++        columns.push_back( SummaryColumn( "skipped", Colour::Skip )
++                               .addRow( totals.testCases.skipped )
++                               // Don't print "skipped assertions"
++                               .addRow( 0 ) );
+         columns.push_back(
+             SummaryColumn( "failed as expected", Colour::ResultExpectedFailure )
+                 .addRow( totals.testCases.failedButOk )
+diff --git a/src/catch2/reporters/catch_reporter_junit.cpp b/src/catch2/reporters/catch_reporter_junit.cpp
+index 837d0489..22d6526f 100644
+--- a/src/catch2/reporters/catch_reporter_junit.cpp
++++ b/src/catch2/reporters/catch_reporter_junit.cpp
+@@ -132,6 +132,7 @@ namespace Catch {
+         xml.writeAttribute( "name"_sr, stats.runInfo.name );
+         xml.writeAttribute( "errors"_sr, unexpectedExceptions );
+         xml.writeAttribute( "failures"_sr, stats.totals.assertions.failed-unexpectedExceptions );
++        xml.writeAttribute( "skipped"_sr, stats.totals.assertions.skipped );
+         xml.writeAttribute( "tests"_sr, stats.totals.assertions.total() );
+         xml.writeAttribute( "hostname"_sr, "tbd"_sr ); // !TBD
+         if( m_config->showDurations() == ShowDurations::Never )
+@@ -244,7 +245,8 @@ namespace Catch {
+ 
+     void JunitReporter::writeAssertion( AssertionStats const& stats ) {
+         AssertionResult const& result = stats.assertionResult;
+-        if( !result.isOk() ) {
++        if ( !result.isOk() ||
++             result.getResultType() == ResultWas::ExplicitSkip ) {
+             std::string elementName;
+             switch( result.getResultType() ) {
+                 case ResultWas::ThrewException:
+@@ -256,7 +258,9 @@ namespace Catch {
+                 case ResultWas::DidntThrowException:
+                     elementName = "failure";
+                     break;
+-
++                case ResultWas::ExplicitSkip:
++                    elementName = "skipped";
++                    break;
+                 // We should never see these here:
+                 case ResultWas::Info:
+                 case ResultWas::Warning:
+@@ -274,7 +278,9 @@ namespace Catch {
+             xml.writeAttribute( "type"_sr, result.getTestMacroName() );
+ 
+             ReusableStringStream rss;
+-            if (stats.totals.assertions.total() > 0) {
++            if ( result.getResultType() == ResultWas::ExplicitSkip ) {
++                rss << "SKIPPED\n";
++            } else {
+                 rss << "FAILED" << ":\n";
+                 if (result.hasExpression()) {
+                     rss << "  ";
+@@ -285,8 +291,6 @@ namespace Catch {
+                     rss << "with expansion:\n";
+                     rss << TextFlow::Column(result.getExpandedExpression()).indent(2) << '\n';
+                 }
+-            } else {
+-                rss << '\n';
+             }
+ 
+             if( !result.getMessage().empty() )
+diff --git a/src/catch2/reporters/catch_reporter_sonarqube.cpp b/src/catch2/reporters/catch_reporter_sonarqube.cpp
+index 365979f4..ac59c87f 100644
+--- a/src/catch2/reporters/catch_reporter_sonarqube.cpp
++++ b/src/catch2/reporters/catch_reporter_sonarqube.cpp
+@@ -97,7 +97,8 @@ namespace Catch {
+ 
+     void SonarQubeReporter::writeAssertion(AssertionStats const& stats, bool okToFail) {
+         AssertionResult const& result = stats.assertionResult;
+-        if (!result.isOk()) {
++        if ( !result.isOk() ||
++             result.getResultType() == ResultWas::ExplicitSkip ) {
+             std::string elementName;
+             if (okToFail) {
+                 elementName = "skipped";
+@@ -108,15 +109,13 @@ namespace Catch {
+                     elementName = "error";
+                     break;
+                 case ResultWas::ExplicitFailure:
+-                    elementName = "failure";
+-                    break;
+                 case ResultWas::ExpressionFailed:
+-                    elementName = "failure";
+-                    break;
+                 case ResultWas::DidntThrowException:
+                     elementName = "failure";
+                     break;
+-
++                case ResultWas::ExplicitSkip:
++                    elementName = "skipped";
++                    break;
+                     // We should never see these here:
+                 case ResultWas::Info:
+                 case ResultWas::Warning:
+@@ -136,7 +135,9 @@ namespace Catch {
+             xml.writeAttribute("message"_sr, messageRss.str());
+ 
+             ReusableStringStream textRss;
+-            if (stats.totals.assertions.total() > 0) {
++            if ( result.getResultType() == ResultWas::ExplicitSkip ) {
++                textRss << "SKIPPED\n";
++            } else {
+                 textRss << "FAILED:\n";
+                 if (result.hasExpression()) {
+                     textRss << '\t' << result.getExpressionInMacro() << '\n';
+diff --git a/src/catch2/reporters/catch_reporter_tap.cpp b/src/catch2/reporters/catch_reporter_tap.cpp
+index 59f8fb8b..d1257111 100644
+--- a/src/catch2/reporters/catch_reporter_tap.cpp
++++ b/src/catch2/reporters/catch_reporter_tap.cpp
+@@ -100,6 +100,12 @@ namespace Catch {
+                     printIssue("explicitly"_sr);
+                     printRemainingMessages(Colour::None);
+                     break;
++                case ResultWas::ExplicitSkip:
++                    printResultType(tapPassedString);
++                    printIssue(" # SKIP"_sr);
++                    printMessage();
++                    printRemainingMessages();
++                    break;
+                     // These cases are here to prevent compiler warnings
+                 case ResultWas::Unknown:
+                 case ResultWas::FailureBit:
+diff --git a/src/catch2/reporters/catch_reporter_teamcity.cpp b/src/catch2/reporters/catch_reporter_teamcity.cpp
+index 1d002c27..32072800 100644
+--- a/src/catch2/reporters/catch_reporter_teamcity.cpp
++++ b/src/catch2/reporters/catch_reporter_teamcity.cpp
+@@ -59,7 +59,8 @@ namespace Catch {
+ 
+     void TeamCityReporter::assertionEnded(AssertionStats const& assertionStats) {
+         AssertionResult const& result = assertionStats.assertionResult;
+-        if (!result.isOk()) {
++        if ( !result.isOk() ||
++             result.getResultType() == ResultWas::ExplicitSkip ) {
+ 
+             ReusableStringStream msg;
+             if (!m_headerPrintedForThisSection)
+@@ -84,6 +85,9 @@ namespace Catch {
+             case ResultWas::ExplicitFailure:
+                 msg << "explicit failure";
+                 break;
++            case ResultWas::ExplicitSkip:
++                msg << "explicit skip";
++                break;
+ 
+                 // We shouldn't get here because of the isOk() test
+             case ResultWas::Ok:
+@@ -111,18 +115,16 @@ namespace Catch {
+                     "  " << result.getExpandedExpression() << '\n';
+             }
+ 
+-            if (currentTestCaseInfo->okToFail()) {
++            if ( result.getResultType() == ResultWas::ExplicitSkip ) {
++                m_stream << "##teamcity[testIgnored";
++            } else if ( currentTestCaseInfo->okToFail() ) {
+                 msg << "- failure ignore as test marked as 'ok to fail'\n";
+-                m_stream << "##teamcity[testIgnored"
+-                    << " name='" << escape(currentTestCaseInfo->name) << '\''
+-                    << " message='" << escape(msg.str()) << '\''
+-                    << "]\n";
++                m_stream << "##teamcity[testIgnored";
+             } else {
+-                m_stream << "##teamcity[testFailed"
+-                    << " name='" << escape(currentTestCaseInfo->name) << '\''
+-                    << " message='" << escape(msg.str()) << '\''
+-                    << "]\n";
++                m_stream << "##teamcity[testFailed";
+             }
++            m_stream << " name='" << escape( currentTestCaseInfo->name ) << '\''
++                     << " message='" << escape( msg.str() ) << '\'' << "]\n";
+         }
+         m_stream.flush();
+     }
+diff --git a/src/catch2/reporters/catch_reporter_xml.cpp b/src/catch2/reporters/catch_reporter_xml.cpp
+index 57fa1cab..011f9006 100644
+--- a/src/catch2/reporters/catch_reporter_xml.cpp
++++ b/src/catch2/reporters/catch_reporter_xml.cpp
+@@ -108,9 +108,10 @@ namespace Catch {
+         }
+ 
+         // Drop out if result was successful but we're not printing them.
+-        if( !includeResults && result.getResultType() != ResultWas::Warning )
++        if ( !includeResults && result.getResultType() != ResultWas::Warning &&
++             result.getResultType() != ResultWas::ExplicitSkip ) {
+             return;
+-
++        }
+ 
+         // Print the expression if there is one.
+         if( result.hasExpression() ) {
+@@ -153,6 +154,12 @@ namespace Catch {
+                 m_xml.writeText( result.getMessage() );
+                 m_xml.endElement();
+                 break;
++            case ResultWas::ExplicitSkip:
++                m_xml.startElement( "Skip" );
++                writeSourceInfo( result.getSourceInfo() );
++                m_xml.writeText( result.getMessage() );
++                m_xml.endElement();
++                break;
+             default:
+                 break;
+         }
+@@ -163,15 +170,18 @@ namespace Catch {
+ 
+     void XmlReporter::sectionEnded( SectionStats const& sectionStats ) {
+         StreamingReporterBase::sectionEnded( sectionStats );
+-        if( --m_sectionDepth > 0 ) {
+-            XmlWriter::ScopedElement e = m_xml.scopedElement( "OverallResults" );
+-            e.writeAttribute( "successes"_sr, sectionStats.assertions.passed );
+-            e.writeAttribute( "failures"_sr, sectionStats.assertions.failed );
+-            e.writeAttribute( "expectedFailures"_sr, sectionStats.assertions.failedButOk );
+-
+-            if ( m_config->showDurations() == ShowDurations::Always )
+-                e.writeAttribute( "durationInSeconds"_sr, sectionStats.durationInSeconds );
+-
++        if ( --m_sectionDepth > 0 ) {
++            {
++                XmlWriter::ScopedElement e = m_xml.scopedElement( "OverallResults" );
++                e.writeAttribute( "successes"_sr, sectionStats.assertions.passed );
++                e.writeAttribute( "failures"_sr, sectionStats.assertions.failed );
++                e.writeAttribute( "expectedFailures"_sr, sectionStats.assertions.failedButOk );
++                e.writeAttribute( "skipped"_sr, sectionStats.assertions.skipped > 0 );
++
++                if ( m_config->showDurations() == ShowDurations::Always )
++                    e.writeAttribute( "durationInSeconds"_sr, sectionStats.durationInSeconds );
++            }
++            // Ends assertion tag
+             m_xml.endElement();
+         }
+     }
+@@ -180,6 +190,7 @@ namespace Catch {
+         StreamingReporterBase::testCaseEnded( testCaseStats );
+         XmlWriter::ScopedElement e = m_xml.scopedElement( "OverallResult" );
+         e.writeAttribute( "success"_sr, testCaseStats.totals.assertions.allOk() );
++        e.writeAttribute( "skips"_sr, testCaseStats.totals.assertions.skipped );
+ 
+         if ( m_config->showDurations() == ShowDurations::Always )
+             e.writeAttribute( "durationInSeconds"_sr, m_testCaseTimer.getElapsedSeconds() );
+@@ -197,11 +208,13 @@ namespace Catch {
+         m_xml.scopedElement( "OverallResults" )
+             .writeAttribute( "successes"_sr, testRunStats.totals.assertions.passed )
+             .writeAttribute( "failures"_sr, testRunStats.totals.assertions.failed )
+-            .writeAttribute( "expectedFailures"_sr, testRunStats.totals.assertions.failedButOk );
++            .writeAttribute( "expectedFailures"_sr, testRunStats.totals.assertions.failedButOk )
++            .writeAttribute( "skips"_sr, testRunStats.totals.assertions.skipped );
+         m_xml.scopedElement( "OverallResultsCases")
+             .writeAttribute( "successes"_sr, testRunStats.totals.testCases.passed )
+             .writeAttribute( "failures"_sr, testRunStats.totals.testCases.failed )
+-            .writeAttribute( "expectedFailures"_sr, testRunStats.totals.testCases.failedButOk );
++            .writeAttribute( "expectedFailures"_sr, testRunStats.totals.testCases.failedButOk )
++            .writeAttribute( "skips"_sr, testRunStats.totals.testCases.skipped );
+         m_xml.endElement();
+     }
+2025-06-30 17:07:01,620 - INFO - Eval script for catchorg__catch2-2360 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/catch2/catchorg__Catch2-2360/test_analysis_agent_3/patch.diff, now applying to container...
+2025-06-30 17:07:40,728 - INFO - Test output for catchorg__catch2-2360 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/catch2/catchorg__Catch2-2360/test_analysis_agent_3/test_output.txt
+2025-06-30 17:07:40,816 - INFO - Git diff after:
+diff --git a/extras/catch_amalgamated.cpp b/extras/catch_amalgamated.cpp
+index b27c4ec8..bfdcf2a1 100644
+--- a/extras/catch_amalgamated.cpp
++++ b/extras/catch_amalgamated.cpp
+@@ -6,7 +6,7 @@
+ // SPDX-License-Identifier: BSL-1.0
+ 
+ //  Catch v3.2.1
+-//  Generated: 2022-12-09 23:01:15.713081
++//  Generated: 2025-06-30 12:06:17.631398
+ //  ----------------------------------------------------------
+ //  This file is an amalgamation of multiple different files.
+ //  You probably shouldn't edit it directly.
+@@ -4509,8 +4509,8 @@ namespace Catch {
+ 
+ 
+ 
+-
+ #include <limits>
++#include <stdexcept>
+ 
+ namespace Catch {
+ 
+@@ -4538,11 +4538,14 @@ namespace Catch {
+                 return {};
+             }
+             return static_cast<unsigned int>(ret);
+-        } CATCH_CATCH_ANON( std::exception const& ) {
+-            // There was a larger issue with the input, e.g. the parsed
+-            // number would be too large to fit within ull.
+-            return {};
+         }
++        CATCH_CATCH_ANON( std::invalid_argument const& ) {
++            // no conversion could be performed
++        }
++        CATCH_CATCH_ANON( std::out_of_range const& ) {
++            // the input does not fit into an unsigned long long
++        }
++        return {};
+     }
+ 
+ } // namespace Catch
+@@ -6935,6 +6938,7 @@ namespace Catch {
+ //       while in /permissive- mode. No, I don't know why.
+ //       Tested on VS 2019, 18.{3, 4}.x
+ 
++#include <cstdint>
+ #include <iomanip>
+ #include <type_traits>
+ 
+diff --git a/extras/catch_amalgamated.hpp b/extras/catch_amalgamated.hpp
+index e91734a4..342853e5 100644
+--- a/extras/catch_amalgamated.hpp
++++ b/extras/catch_amalgamated.hpp
+@@ -6,7 +6,7 @@
+ // SPDX-License-Identifier: BSL-1.0
+ 
+ //  Catch v3.2.1
+-//  Generated: 2022-12-09 23:01:14.526666
++//  Generated: 2025-06-30 12:06:17.611639
+ //  ----------------------------------------------------------
+ //  This file is an amalgamation of multiple different files.
+ //  You probably shouldn't edit it directly.
+@@ -6183,7 +6183,7 @@ struct AutoReg : Detail::NonCopyable {
+         CATCH_INTERNAL_START_WARNINGS_SUPPRESSION \
+         CATCH_INTERNAL_SUPPRESS_GLOBALS_WARNINGS \
+         CATCH_INTERNAL_SUPPRESS_UNUSED_VARIABLE_WARNINGS \
+-        namespace{ Catch::AutoReg INTERNAL_CATCH_UNIQUE_NAME( autoRegistrar )( Catch::makeTestInvoker( &TestName ), CATCH_INTERNAL_LINEINFO, Catch::StringRef(), Catch::NameAndTags{ __VA_ARGS__ } ); } /* NOLINT */ \
++        namespace{ const Catch::AutoReg INTERNAL_CATCH_UNIQUE_NAME( autoRegistrar )( Catch::makeTestInvoker( &TestName ), CATCH_INTERNAL_LINEINFO, Catch::StringRef(), Catch::NameAndTags{ __VA_ARGS__ } ); } /* NOLINT */ \
+         CATCH_INTERNAL_STOP_WARNINGS_SUPPRESSION \
+         static void TestName()
+     #define INTERNAL_CATCH_TESTCASE( ... ) \
+@@ -6194,7 +6194,7 @@ struct AutoReg : Detail::NonCopyable {
+         CATCH_INTERNAL_START_WARNINGS_SUPPRESSION \
+         CATCH_INTERNAL_SUPPRESS_GLOBALS_WARNINGS \
+         CATCH_INTERNAL_SUPPRESS_UNUSED_VARIABLE_WARNINGS \
+-        namespace{ Catch::AutoReg INTERNAL_CATCH_UNIQUE_NAME( autoRegistrar )( Catch::makeTestInvoker( &QualifiedMethod ), CATCH_INTERNAL_LINEINFO, "&" #QualifiedMethod, Catch::NameAndTags{ __VA_ARGS__ } ); } /* NOLINT */ \
++        namespace{ const Catch::AutoReg INTERNAL_CATCH_UNIQUE_NAME( autoRegistrar )( Catch::makeTestInvoker( &QualifiedMethod ), CATCH_INTERNAL_LINEINFO, "&" #QualifiedMethod, Catch::NameAndTags{ __VA_ARGS__ } ); } /* NOLINT */ \
+         CATCH_INTERNAL_STOP_WARNINGS_SUPPRESSION
+ 
+     ///////////////////////////////////////////////////////////////////////////////
+@@ -6206,7 +6206,7 @@ struct AutoReg : Detail::NonCopyable {
+             struct TestName : INTERNAL_CATCH_REMOVE_PARENS(ClassName) { \
+                 void test(); \
+             }; \
+-            Catch::AutoReg INTERNAL_CATCH_UNIQUE_NAME( autoRegistrar ) ( Catch::makeTestInvoker( &TestName::test ), CATCH_INTERNAL_LINEINFO, #ClassName, Catch::NameAndTags{ __VA_ARGS__ } ); /* NOLINT */ \
++            const Catch::AutoReg INTERNAL_CATCH_UNIQUE_NAME( autoRegistrar ) ( Catch::makeTestInvoker( &TestName::test ), CATCH_INTERNAL_LINEINFO, #ClassName, Catch::NameAndTags{ __VA_ARGS__ } ); /* NOLINT */ \
+         } \
+         CATCH_INTERNAL_STOP_WARNINGS_SUPPRESSION \
+         void TestName::test()
+@@ -7098,6 +7098,7 @@ struct AutoReg : Detail::NonCopyable {
+ 
+ 
+ 
++#include <cstdint>
+ #include <string>
+ #include <vector>
+ 
+@@ -9568,6 +9569,7 @@ namespace Catch {
+ #define CATCH_STRING_MANIP_HPP_INCLUDED
+ 
+ 
++#include <cstdint>
+ #include <string>
+ #include <iosfwd>
+ #include <vector>
+@@ -10960,6 +10962,32 @@ public:
+ //! Creates a matcher that checks whether a std derived exception has the provided message
+ ExceptionMessageMatcher Message(std::string const& message);
+ 
++template <typename StringMatcherType>
++class ExceptionMessageMatchesMatcher final
++    : public MatcherBase<std::exception> {
++    StringMatcherType m_matcher;
++
++public:
++    ExceptionMessageMatchesMatcher( StringMatcherType matcher ):
++        m_matcher( CATCH_MOVE( matcher ) ) {}
++
++    bool match( std::exception const& ex ) const override {
++        return m_matcher.match( ex.what() );
++    }
++
++    std::string describe() const override {
++        return " matches \"" + m_matcher.describe() + '"';
++    }
++};
++
++//! Creates a matcher that checks whether a message from an std derived
++//! exception matches a provided matcher
++template <typename StringMatcherType>
++ExceptionMessageMatchesMatcher<StringMatcherType>
++MessageMatches( StringMatcherType&& matcher ) {
++    return { CATCH_FORWARD( matcher ) };
++}
++
+ } // namespace Matchers
+ } // namespace Catch
+ 
+diff --git a/src/catch2/catch_session.cpp b/src/catch2/catch_session.cpp
+index 128f21d9..43465f0c 100644
+--- a/src/catch2/catch_session.cpp
++++ b/src/catch2/catch_session.cpp
+@@ -341,6 +341,12 @@ namespace Catch {
+                 return 2;
+             }
+ 
++            if ( totals.testCases.total() > 0 &&
++                 totals.testCases.total() == totals.testCases.skipped
++                && !m_config->zeroTestsCountAsSuccess() ) {
++                return 4;
++            }
++
+             // Note that on unices only the lower 8 bits are usually used, clamping
+             // the return value to 255 prevents false negative when some multiple
+             // of 256 tests has failed
+diff --git a/src/catch2/catch_test_macros.hpp b/src/catch2/catch_test_macros.hpp
+index cce2852f..1088afbe 100644
+--- a/src/catch2/catch_test_macros.hpp
++++ b/src/catch2/catch_test_macros.hpp
+@@ -49,6 +49,7 @@
+   #define CATCH_FAIL( ... ) INTERNAL_CATCH_MSG( "CATCH_FAIL", Catch::ResultWas::ExplicitFailure, Catch::ResultDisposition::Normal, __VA_ARGS__ )
+   #define CATCH_FAIL_CHECK( ... ) INTERNAL_CATCH_MSG( "CATCH_FAIL_CHECK", Catch::ResultWas::ExplicitFailure, Catch::ResultDisposition::ContinueOnFailure, __VA_ARGS__ )
+   #define CATCH_SUCCEED( ... ) INTERNAL_CATCH_MSG( "CATCH_SUCCEED", Catch::ResultWas::Ok, Catch::ResultDisposition::ContinueOnFailure, __VA_ARGS__ )
++  #define CATCH_SKIP( ... ) INTERNAL_CATCH_MSG( "SKIP", Catch::ResultWas::ExplicitSkip, Catch::ResultDisposition::Normal, __VA_ARGS__ )
+ 
+ 
+   #if !defined(CATCH_CONFIG_RUNTIME_STATIC_REQUIRE)
+@@ -102,6 +103,7 @@
+   #define CATCH_FAIL( ... ) (void)(0)
+   #define CATCH_FAIL_CHECK( ... ) (void)(0)
+   #define CATCH_SUCCEED( ... ) (void)(0)
++  #define CATCH_SKIP( ... ) (void)(0)
+ 
+   #define CATCH_STATIC_REQUIRE( ... )       (void)(0)
+   #define CATCH_STATIC_REQUIRE_FALSE( ... ) (void)(0)
+@@ -146,6 +148,7 @@
+   #define FAIL( ... ) INTERNAL_CATCH_MSG( "FAIL", Catch::ResultWas::ExplicitFailure, Catch::ResultDisposition::Normal, __VA_ARGS__ )
+   #define FAIL_CHECK( ... ) INTERNAL_CATCH_MSG( "FAIL_CHECK", Catch::ResultWas::ExplicitFailure, Catch::ResultDisposition::ContinueOnFailure, __VA_ARGS__ )
+   #define SUCCEED( ... ) INTERNAL_CATCH_MSG( "SUCCEED", Catch::ResultWas::Ok, Catch::ResultDisposition::ContinueOnFailure, __VA_ARGS__ )
++  #define SKIP( ... ) INTERNAL_CATCH_MSG( "SKIP", Catch::ResultWas::ExplicitSkip, Catch::ResultDisposition::Normal, __VA_ARGS__ )
+ 
+ 
+   #if !defined(CATCH_CONFIG_RUNTIME_STATIC_REQUIRE)
+@@ -198,6 +201,7 @@
+   #define FAIL( ... ) (void)(0)
+   #define FAIL_CHECK( ... ) (void)(0)
+   #define SUCCEED( ... ) (void)(0)
++  #define SKIP( ... ) (void)(0)
+ 
+   #define STATIC_REQUIRE( ... )       (void)(0)
+   #define STATIC_REQUIRE_FALSE( ... ) (void)(0)
+diff --git a/src/catch2/catch_totals.cpp b/src/catch2/catch_totals.cpp
+index a3e2b384..bd1954fb 100644
+--- a/src/catch2/catch_totals.cpp
++++ b/src/catch2/catch_totals.cpp
+@@ -14,6 +14,7 @@ namespace Catch {
+         diff.passed = passed - other.passed;
+         diff.failed = failed - other.failed;
+         diff.failedButOk = failedButOk - other.failedButOk;
++        diff.skipped = skipped - other.skipped;
+         return diff;
+     }
+ 
+@@ -21,14 +22,15 @@ namespace Catch {
+         passed += other.passed;
+         failed += other.failed;
+         failedButOk += other.failedButOk;
++        skipped += other.skipped;
+         return *this;
+     }
+ 
+     std::uint64_t Counts::total() const {
+-        return passed + failed + failedButOk;
++        return passed + failed + failedButOk + skipped;
+     }
+     bool Counts::allPassed() const {
+-        return failed == 0 && failedButOk == 0;
++        return failed == 0 && failedButOk == 0 && skipped == 0;
+     }
+     bool Counts::allOk() const {
+         return failed == 0;
+@@ -53,6 +55,8 @@ namespace Catch {
+             ++diff.testCases.failed;
+         else if( diff.assertions.failedButOk > 0 )
+             ++diff.testCases.failedButOk;
++        else if ( diff.assertions.skipped > 0 )
++            ++ diff.testCases.skipped;
+         else
+             ++diff.testCases.passed;
+         return diff;
+diff --git a/src/catch2/catch_totals.hpp b/src/catch2/catch_totals.hpp
+index 8dd360c6..386392c9 100644
+--- a/src/catch2/catch_totals.hpp
++++ b/src/catch2/catch_totals.hpp
+@@ -23,6 +23,7 @@ namespace Catch {
+         std::uint64_t passed = 0;
+         std::uint64_t failed = 0;
+         std::uint64_t failedButOk = 0;
++        std::uint64_t skipped = 0;
+     };
+ 
+     struct Totals {
+diff --git a/src/catch2/interfaces/catch_interfaces_reporter.hpp b/src/catch2/interfaces/catch_interfaces_reporter.hpp
+index 5f286363..da0112e3 100644
+--- a/src/catch2/interfaces/catch_interfaces_reporter.hpp
++++ b/src/catch2/interfaces/catch_interfaces_reporter.hpp
+@@ -242,7 +242,12 @@ namespace Catch {
+          */
+         virtual void testRunEnded( TestRunStats const& testRunStats ) = 0;
+ 
+-        //! Called with test cases that are skipped due to the test run aborting
++        /**
++         * Called with test cases that are skipped due to the test run aborting.
++         * NOT called for test cases that are explicitly skipped using the `SKIP` macro.
++         *
++         * Deprecated - will be removed in the next major release.
++         */
+         virtual void skipTest( TestCaseInfo const& testInfo ) = 0;
+ 
+         //! Called if a fatal error (signal/structured exception) occured
+diff --git a/src/catch2/internal/catch_assertion_handler.cpp b/src/catch2/internal/catch_assertion_handler.cpp
+index f051314c..0b14e0bb 100644
+--- a/src/catch2/internal/catch_assertion_handler.cpp
++++ b/src/catch2/internal/catch_assertion_handler.cpp
+@@ -50,6 +50,13 @@ namespace Catch {
+         if (m_reaction.shouldThrow) {
+             throw_test_failure_exception();
+         }
++        if ( m_reaction.shouldSkip ) {
++#if !defined( CATCH_CONFIG_DISABLE_EXCEPTIONS )
++            throw Catch::TestSkipException();
++#else
++            CATCH_ERROR( "Explicitly skipping tests during runtime requires exceptions" );
++#endif
++        }
+     }
+     void AssertionHandler::setCompleted() {
+         m_completed = true;
+diff --git a/src/catch2/internal/catch_assertion_handler.hpp b/src/catch2/internal/catch_assertion_handler.hpp
+index 36b55243..ae7776d8 100644
+--- a/src/catch2/internal/catch_assertion_handler.hpp
++++ b/src/catch2/internal/catch_assertion_handler.hpp
+@@ -22,6 +22,7 @@ namespace Catch {
+     struct AssertionReaction {
+         bool shouldDebugBreak = false;
+         bool shouldThrow = false;
++        bool shouldSkip = false;
+     };
+ 
+     class AssertionHandler {
+diff --git a/src/catch2/internal/catch_console_colour.hpp b/src/catch2/internal/catch_console_colour.hpp
+index 9aa6a163..d9144315 100644
+--- a/src/catch2/internal/catch_console_colour.hpp
++++ b/src/catch2/internal/catch_console_colour.hpp
+@@ -47,6 +47,7 @@ namespace Catch {
+ 
+             Error = BrightRed,
+             Success = Green,
++            Skip = LightGrey,
+ 
+             OriginalExpression = Cyan,
+             ReconstructedExpression = BrightYellow,
+diff --git a/src/catch2/internal/catch_exception_translator_registry.cpp b/src/catch2/internal/catch_exception_translator_registry.cpp
+index 2a240a9b..0645c6ce 100644
+--- a/src/catch2/internal/catch_exception_translator_registry.cpp
++++ b/src/catch2/internal/catch_exception_translator_registry.cpp
+@@ -44,6 +44,9 @@ namespace Catch {
+         catch( TestFailureException& ) {
+             std::rethrow_exception(std::current_exception());
+         }
++        catch( TestSkipException& ) {
++            std::rethrow_exception(std::current_exception());
++        }
+         catch( std::exception const& ex ) {
+             return ex.what();
+         }
+diff --git a/src/catch2/internal/catch_result_type.hpp b/src/catch2/internal/catch_result_type.hpp
+index faf0683d..e66afaff 100644
+--- a/src/catch2/internal/catch_result_type.hpp
++++ b/src/catch2/internal/catch_result_type.hpp
+@@ -16,6 +16,8 @@ namespace Catch {
+         Ok = 0,
+         Info = 1,
+         Warning = 2,
++        // TODO: Should explicit skip be considered "not OK" (cf. isOk)? I.e., should it have the failure bit?
++        ExplicitSkip = 4,
+ 
+         FailureBit = 0x10,
+ 
+diff --git a/src/catch2/internal/catch_run_context.cpp b/src/catch2/internal/catch_run_context.cpp
+index d2e8fb8c..e1b81d0b 100644
+--- a/src/catch2/internal/catch_run_context.cpp
++++ b/src/catch2/internal/catch_run_context.cpp
+@@ -270,6 +270,9 @@ namespace Catch {
+         if (result.getResultType() == ResultWas::Ok) {
+             m_totals.assertions.passed++;
+             m_lastAssertionPassed = true;
++        } else if (result.getResultType() == ResultWas::ExplicitSkip) {
++            m_totals.assertions.skipped++;
++            m_lastAssertionPassed = true;
+         } else if (!result.succeeded()) {
+             m_lastAssertionPassed = false;
+             if (result.isOk()) {
+@@ -475,6 +478,8 @@ namespace Catch {
+             duration = timer.getElapsedSeconds();
+         } CATCH_CATCH_ANON (TestFailureException&) {
+             // This just means the test was aborted due to failure
++        } CATCH_CATCH_ANON (TestSkipException&) {
++            // This just means the test was explicitly skipped
+         } CATCH_CATCH_ALL {
+             // Under CATCH_CONFIG_FAST_COMPILE, unexpected exceptions under REQUIRE assertions
+             // are reported without translation at the point of origin.
+@@ -571,8 +576,13 @@ namespace Catch {
+         data.message = static_cast<std::string>(message);
+         AssertionResult assertionResult{ m_lastAssertionInfo, data };
+         assertionEnded( assertionResult );
+-        if( !assertionResult.isOk() )
++        if ( !assertionResult.isOk() ) {
+             populateReaction( reaction );
++        } else if ( resultType == ResultWas::ExplicitSkip ) {
++            // TODO: Need to handle this explicitly, as ExplicitSkip is
++            // considered "OK"
++            reaction.shouldSkip = true;
++        }
+     }
+     void RunContext::handleUnexpectedExceptionNotThrown(
+             AssertionInfo const& info,
+diff --git a/src/catch2/internal/catch_test_failure_exception.hpp b/src/catch2/internal/catch_test_failure_exception.hpp
+index 810a81c9..13c5fc08 100644
+--- a/src/catch2/internal/catch_test_failure_exception.hpp
++++ b/src/catch2/internal/catch_test_failure_exception.hpp
+@@ -20,6 +20,9 @@ namespace Catch {
+      */
+     [[noreturn]] void throw_test_failure_exception();
+ 
++    //! Used to signal that the remainder of a test should be skipped
++    struct TestSkipException{};
++
+ } // namespace Catch
+ 
+ #endif // CATCH_TEST_FAILURE_EXCEPTION_HPP_INCLUDED
+diff --git a/src/catch2/reporters/catch_reporter_automake.cpp b/src/catch2/reporters/catch_reporter_automake.cpp
+index 0660d092..993b594b 100644
+--- a/src/catch2/reporters/catch_reporter_automake.cpp
++++ b/src/catch2/reporters/catch_reporter_automake.cpp
+@@ -17,7 +17,9 @@ namespace Catch {
+     void AutomakeReporter::testCaseEnded(TestCaseStats const& _testCaseStats) {
+         // Possible values to emit are PASS, XFAIL, SKIP, FAIL, XPASS and ERROR.
+         m_stream << ":test-result: ";
+-        if (_testCaseStats.totals.assertions.allPassed()) {
++        if ( _testCaseStats.totals.testCases.skipped > 0 ) {
++            m_stream << "SKIP";
++        } else if (_testCaseStats.totals.assertions.allPassed()) {
+             m_stream << "PASS";
+         } else if (_testCaseStats.totals.assertions.allOk()) {
+             m_stream << "XFAIL";
+diff --git a/src/catch2/reporters/catch_reporter_compact.cpp b/src/catch2/reporters/catch_reporter_compact.cpp
+index d8088457..643626ea 100644
+--- a/src/catch2/reporters/catch_reporter_compact.cpp
++++ b/src/catch2/reporters/catch_reporter_compact.cpp
+@@ -105,6 +105,11 @@ public:
+             printIssue("explicitly");
+             printRemainingMessages(Colour::None);
+             break;
++        case ResultWas::ExplicitSkip:
++            printResultType(Colour::Skip, "skipped"_sr);
++            printMessage();
++            printRemainingMessages();
++            break;
+             // These cases are here to prevent compiler warnings
+         case ResultWas::Unknown:
+         case ResultWas::FailureBit:
+@@ -220,7 +225,7 @@ private:
+ 
+             // Drop out if result was successful and we're not printing those
+             if( !m_config->includeSuccessfulResults() && result.isOk() ) {
+-                if( result.getResultType() != ResultWas::Warning )
++                if( result.getResultType() != ResultWas::Warning && result.getResultType() != ResultWas::ExplicitSkip )
+                     return;
+                 printInfoMessages = false;
+             }
+diff --git a/src/catch2/reporters/catch_reporter_console.cpp b/src/catch2/reporters/catch_reporter_console.cpp
+index 0edb121e..b394d2be 100644
+--- a/src/catch2/reporters/catch_reporter_console.cpp
++++ b/src/catch2/reporters/catch_reporter_console.cpp
+@@ -111,6 +111,14 @@ public:
+             if (_stats.infoMessages.size() > 1)
+                 messageLabel = "explicitly with messages";
+             break;
++        case ResultWas::ExplicitSkip:
++            colour = Colour::Skip;
++            passOrFail = "SKIPPED"_sr;
++            if (_stats.infoMessages.size() == 1)
++                messageLabel = "explicitly with message";
++            if (_stats.infoMessages.size() > 1)
++                messageLabel = "explicitly with messages";
++            break;
+             // These cases are here to prevent compiler warnings
+         case ResultWas::Unknown:
+         case ResultWas::FailureBit:
+@@ -185,13 +193,16 @@ std::size_t makeRatio( std::uint64_t number, std::uint64_t total ) {
+     return (ratio == 0 && number > 0) ? 1 : static_cast<std::size_t>(ratio);
+ }
+ 
+-std::size_t& findMax( std::size_t& i, std::size_t& j, std::size_t& k ) {
+-    if (i > j && i > k)
++std::size_t&
++findMax( std::size_t& i, std::size_t& j, std::size_t& k, std::size_t& l ) {
++    if (i > j && i > k && i > l)
+         return i;
+-    else if (j > k)
++    else if (j > k && j > l)
+         return j;
+-    else
++    else if (k > l)
+         return k;
++    else
++        return l;
+ }
+ 
+ enum class Justification { Left, Right };
+@@ -400,7 +411,8 @@ void ConsoleReporter::assertionEnded(AssertionStats const& _assertionStats) {
+     bool includeResults = m_config->includeSuccessfulResults() || !result.isOk();
+ 
+     // Drop out if result was successful but we're not printing them.
+-    if (!includeResults && result.getResultType() != ResultWas::Warning)
++    // TODO: Make configurable whether skips should be printed
++    if (!includeResults && result.getResultType() != ResultWas::Warning && result.getResultType() != ResultWas::ExplicitSkip)
+         return;
+ 
+     lazyPrint();
+@@ -603,10 +615,11 @@ void ConsoleReporter::printTotalsDivider(Totals const& totals) {
+         std::size_t failedRatio = makeRatio(totals.testCases.failed, totals.testCases.total());
+         std::size_t failedButOkRatio = makeRatio(totals.testCases.failedButOk, totals.testCases.total());
+         std::size_t passedRatio = makeRatio(totals.testCases.passed, totals.testCases.total());
+-        while (failedRatio + failedButOkRatio + passedRatio < CATCH_CONFIG_CONSOLE_WIDTH - 1)
+-            findMax(failedRatio, failedButOkRatio, passedRatio)++;
++        std::size_t skippedRatio = makeRatio(totals.testCases.skipped, totals.testCases.total());
++        while (failedRatio + failedButOkRatio + passedRatio + skippedRatio < CATCH_CONFIG_CONSOLE_WIDTH - 1)
++            findMax(failedRatio, failedButOkRatio, passedRatio, skippedRatio)++;
+         while (failedRatio + failedButOkRatio + passedRatio > CATCH_CONFIG_CONSOLE_WIDTH - 1)
+-            findMax(failedRatio, failedButOkRatio, passedRatio)--;
++            findMax(failedRatio, failedButOkRatio, passedRatio, skippedRatio)--;
+ 
+         m_stream << m_colour->guardColour( Colour::Error )
+                  << std::string( failedRatio, '=' )
+@@ -619,6 +632,8 @@ void ConsoleReporter::printTotalsDivider(Totals const& totals) {
+             m_stream << m_colour->guardColour( Colour::Success )
+                      << std::string( passedRatio, '=' );
+         }
++        m_stream << m_colour->guardColour( Colour::Skip )
++                 << std::string( skippedRatio, '=' );
+     } else {
+         m_stream << m_colour->guardColour( Colour::Warning )
+                  << std::string( CATCH_CONFIG_CONSOLE_WIDTH - 1, '=' );
+diff --git a/src/catch2/reporters/catch_reporter_helpers.cpp b/src/catch2/reporters/catch_reporter_helpers.cpp
+index f6aa6fc5..ffb32ffb 100644
+--- a/src/catch2/reporters/catch_reporter_helpers.cpp
++++ b/src/catch2/reporters/catch_reporter_helpers.cpp
+@@ -316,15 +316,22 @@ namespace Catch {
+         }
+ 
+         std::vector<SummaryColumn> columns;
++        // Don't include "skipped assertions" in total count
++        const auto totalAssertionCount =
++            totals.assertions.total() - totals.assertions.skipped;
+         columns.push_back( SummaryColumn( "", Colour::None )
+                                .addRow( totals.testCases.total() )
+-                               .addRow( totals.assertions.total() ) );
++                               .addRow( totalAssertionCount ) );
+         columns.push_back( SummaryColumn( "passed", Colour::Success )
+                                .addRow( totals.testCases.passed )
+                                .addRow( totals.assertions.passed ) );
+         columns.push_back( SummaryColumn( "failed", Colour::ResultError )
+                                .addRow( totals.testCases.failed )
+                                .addRow( totals.assertions.failed ) );
++        columns.push_back( SummaryColumn( "skipped", Colour::Skip )
++                               .addRow( totals.testCases.skipped )
++                               // Don't print "skipped assertions"
++                               .addRow( 0 ) );
+         columns.push_back(
+             SummaryColumn( "failed as expected", Colour::ResultExpectedFailure )
+                 .addRow( totals.testCases.failedButOk )
+diff --git a/src/catch2/reporters/catch_reporter_junit.cpp b/src/catch2/reporters/catch_reporter_junit.cpp
+index 837d0489..22d6526f 100644
+--- a/src/catch2/reporters/catch_reporter_junit.cpp
++++ b/src/catch2/reporters/catch_reporter_junit.cpp
+@@ -132,6 +132,7 @@ namespace Catch {
+         xml.writeAttribute( "name"_sr, stats.runInfo.name );
+         xml.writeAttribute( "errors"_sr, unexpectedExceptions );
+         xml.writeAttribute( "failures"_sr, stats.totals.assertions.failed-unexpectedExceptions );
++        xml.writeAttribute( "skipped"_sr, stats.totals.assertions.skipped );
+         xml.writeAttribute( "tests"_sr, stats.totals.assertions.total() );
+         xml.writeAttribute( "hostname"_sr, "tbd"_sr ); // !TBD
+         if( m_config->showDurations() == ShowDurations::Never )
+@@ -244,7 +245,8 @@ namespace Catch {
+ 
+     void JunitReporter::writeAssertion( AssertionStats const& stats ) {
+         AssertionResult const& result = stats.assertionResult;
+-        if( !result.isOk() ) {
++        if ( !result.isOk() ||
++             result.getResultType() == ResultWas::ExplicitSkip ) {
+             std::string elementName;
+             switch( result.getResultType() ) {
+                 case ResultWas::ThrewException:
+@@ -256,7 +258,9 @@ namespace Catch {
+                 case ResultWas::DidntThrowException:
+                     elementName = "failure";
+                     break;
+-
++                case ResultWas::ExplicitSkip:
++                    elementName = "skipped";
++                    break;
+                 // We should never see these here:
+                 case ResultWas::Info:
+                 case ResultWas::Warning:
+@@ -274,7 +278,9 @@ namespace Catch {
+             xml.writeAttribute( "type"_sr, result.getTestMacroName() );
+ 
+             ReusableStringStream rss;
+-            if (stats.totals.assertions.total() > 0) {
++            if ( result.getResultType() == ResultWas::ExplicitSkip ) {
++                rss << "SKIPPED\n";
++            } else {
+                 rss << "FAILED" << ":\n";
+                 if (result.hasExpression()) {
+                     rss << "  ";
+@@ -285,8 +291,6 @@ namespace Catch {
+                     rss << "with expansion:\n";
+                     rss << TextFlow::Column(result.getExpandedExpression()).indent(2) << '\n';
+                 }
+-            } else {
+-                rss << '\n';
+             }
+ 
+             if( !result.getMessage().empty() )
+diff --git a/src/catch2/reporters/catch_reporter_sonarqube.cpp b/src/catch2/reporters/catch_reporter_sonarqube.cpp
+index 365979f4..ac59c87f 100644
+--- a/src/catch2/reporters/catch_reporter_sonarqube.cpp
++++ b/src/catch2/reporters/catch_reporter_sonarqube.cpp
+@@ -97,7 +97,8 @@ namespace Catch {
+ 
+     void SonarQubeReporter::writeAssertion(AssertionStats const& stats, bool okToFail) {
+         AssertionResult const& result = stats.assertionResult;
+-        if (!result.isOk()) {
++        if ( !result.isOk() ||
++             result.getResultType() == ResultWas::ExplicitSkip ) {
+             std::string elementName;
+             if (okToFail) {
+                 elementName = "skipped";
+@@ -108,15 +109,13 @@ namespace Catch {
+                     elementName = "error";
+                     break;
+                 case ResultWas::ExplicitFailure:
+-                    elementName = "failure";
+-                    break;
+                 case ResultWas::ExpressionFailed:
+-                    elementName = "failure";
+-                    break;
+                 case ResultWas::DidntThrowException:
+                     elementName = "failure";
+                     break;
+-
++                case ResultWas::ExplicitSkip:
++                    elementName = "skipped";
++                    break;
+                     // We should never see these here:
+                 case ResultWas::Info:
+                 case ResultWas::Warning:
+@@ -136,7 +135,9 @@ namespace Catch {
+             xml.writeAttribute("message"_sr, messageRss.str());
+ 
+             ReusableStringStream textRss;
+-            if (stats.totals.assertions.total() > 0) {
++            if ( result.getResultType() == ResultWas::ExplicitSkip ) {
++                textRss << "SKIPPED\n";
++            } else {
+                 textRss << "FAILED:\n";
+                 if (result.hasExpression()) {
+                     textRss << '\t' << result.getExpressionInMacro() << '\n';
+diff --git a/src/catch2/reporters/catch_reporter_tap.cpp b/src/catch2/reporters/catch_reporter_tap.cpp
+index 59f8fb8b..d1257111 100644
+--- a/src/catch2/reporters/catch_reporter_tap.cpp
++++ b/src/catch2/reporters/catch_reporter_tap.cpp
+@@ -100,6 +100,12 @@ namespace Catch {
+                     printIssue("explicitly"_sr);
+                     printRemainingMessages(Colour::None);
+                     break;
++                case ResultWas::ExplicitSkip:
++                    printResultType(tapPassedString);
++                    printIssue(" # SKIP"_sr);
++                    printMessage();
++                    printRemainingMessages();
++                    break;
+                     // These cases are here to prevent compiler warnings
+                 case ResultWas::Unknown:
+                 case ResultWas::FailureBit:
+diff --git a/src/catch2/reporters/catch_reporter_teamcity.cpp b/src/catch2/reporters/catch_reporter_teamcity.cpp
+index 1d002c27..32072800 100644
+--- a/src/catch2/reporters/catch_reporter_teamcity.cpp
++++ b/src/catch2/reporters/catch_reporter_teamcity.cpp
+@@ -59,7 +59,8 @@ namespace Catch {
+ 
+     void TeamCityReporter::assertionEnded(AssertionStats const& assertionStats) {
+         AssertionResult const& result = assertionStats.assertionResult;
+-        if (!result.isOk()) {
++        if ( !result.isOk() ||
++             result.getResultType() == ResultWas::ExplicitSkip ) {
+ 
+             ReusableStringStream msg;
+             if (!m_headerPrintedForThisSection)
+@@ -84,6 +85,9 @@ namespace Catch {
+             case ResultWas::ExplicitFailure:
+                 msg << "explicit failure";
+                 break;
++            case ResultWas::ExplicitSkip:
++                msg << "explicit skip";
++                break;
+ 
+                 // We shouldn't get here because of the isOk() test
+             case ResultWas::Ok:
+@@ -111,18 +115,16 @@ namespace Catch {
+                     "  " << result.getExpandedExpression() << '\n';
+             }
+ 
+-            if (currentTestCaseInfo->okToFail()) {
++            if ( result.getResultType() == ResultWas::ExplicitSkip ) {
++                m_stream << "##teamcity[testIgnored";
++            } else if ( currentTestCaseInfo->okToFail() ) {
+                 msg << "- failure ignore as test marked as 'ok to fail'\n";
+-                m_stream << "##teamcity[testIgnored"
+-                    << " name='" << escape(currentTestCaseInfo->name) << '\''
+-                    << " message='" << escape(msg.str()) << '\''
+-                    << "]\n";
++                m_stream << "##teamcity[testIgnored";
+             } else {
+-                m_stream << "##teamcity[testFailed"
+-                    << " name='" << escape(currentTestCaseInfo->name) << '\''
+-                    << " message='" << escape(msg.str()) << '\''
+-                    << "]\n";
++                m_stream << "##teamcity[testFailed";
+             }
++            m_stream << " name='" << escape( currentTestCaseInfo->name ) << '\''
++                     << " message='" << escape( msg.str() ) << '\'' << "]\n";
+         }
+         m_stream.flush();
+     }
+diff --git a/src/catch2/reporters/catch_reporter_xml.cpp b/src/catch2/reporters/catch_reporter_xml.cpp
+index 57fa1cab..011f9006 100644
+--- a/src/catch2/reporters/catch_reporter_xml.cpp
++++ b/src/catch2/reporters/catch_reporter_xml.cpp
+@@ -108,9 +108,10 @@ namespace Catch {
+         }
+ 
+         // Drop out if result was successful but we're not printing them.
+-        if( !includeResults && result.getResultType() != ResultWas::Warning )
++        if ( !includeResults && result.getResultType() != ResultWas::Warning &&
++             result.getResultType() != ResultWas::ExplicitSkip ) {
+             return;
+-
++        }
+ 
+         // Print the expression if there is one.
+         if( result.hasExpression() ) {
+@@ -153,6 +154,12 @@ namespace Catch {
+                 m_xml.writeText( result.getMessage() );
+                 m_xml.endElement();
+                 break;
++            case ResultWas::ExplicitSkip:
++                m_xml.startElement( "Skip" );
++                writeSourceInfo( result.getSourceInfo() );
++                m_xml.writeText( result.getMessage() );
++                m_xml.endElement();
++                break;
+             default:
+                 break;
+         }
+@@ -163,15 +170,18 @@ namespace Catch {
+ 
+     void XmlReporter::sectionEnded( SectionStats const& sectionStats ) {
+         StreamingReporterBase::sectionEnded( sectionStats );
+-        if( --m_sectionDepth > 0 ) {
+-            XmlWriter::ScopedElement e = m_xml.scopedElement( "OverallResults" );
+-            e.writeAttribute( "successes"_sr, sectionStats.assertions.passed );
+-            e.writeAttribute( "failures"_sr, sectionStats.assertions.failed );
+-            e.writeAttribute( "expectedFailures"_sr, sectionStats.assertions.failedButOk );
+-
+-            if ( m_config->showDurations() == ShowDurations::Always )
+-                e.writeAttribute( "durationInSeconds"_sr, sectionStats.durationInSeconds );
+-
++        if ( --m_sectionDepth > 0 ) {
++            {
++                XmlWriter::ScopedElement e = m_xml.scopedElement( "OverallResults" );
++                e.writeAttribute( "successes"_sr, sectionStats.assertions.passed );
++                e.writeAttribute( "failures"_sr, sectionStats.assertions.failed );
++                e.writeAttribute( "expectedFailures"_sr, sectionStats.assertions.failedButOk );
++                e.writeAttribute( "skipped"_sr, sectionStats.assertions.skipped > 0 );
++
++                if ( m_config->showDurations() == ShowDurations::Always )
++                    e.writeAttribute( "durationInSeconds"_sr, sectionStats.durationInSeconds );
++            }
++            // Ends assertion tag
+             m_xml.endElement();
+         }
+     }
+@@ -180,6 +190,7 @@ namespace Catch {
+         StreamingReporterBase::testCaseEnded( testCaseStats );
+         XmlWriter::ScopedElement e = m_xml.scopedElement( "OverallResult" );
+         e.writeAttribute( "success"_sr, testCaseStats.totals.assertions.allOk() );
++        e.writeAttribute( "skips"_sr, testCaseStats.totals.assertions.skipped );
+ 
+         if ( m_config->showDurations() == ShowDurations::Always )
+             e.writeAttribute( "durationInSeconds"_sr, m_testCaseTimer.getElapsedSeconds() );
+@@ -197,11 +208,13 @@ namespace Catch {
+         m_xml.scopedElement( "OverallResults" )
+             .writeAttribute( "successes"_sr, testRunStats.totals.assertions.passed )
+             .writeAttribute( "failures"_sr, testRunStats.totals.assertions.failed )
+-            .writeAttribute( "expectedFailures"_sr, testRunStats.totals.assertions.failedButOk );
++            .writeAttribute( "expectedFailures"_sr, testRunStats.totals.assertions.failedButOk )
++            .writeAttribute( "skips"_sr, testRunStats.totals.assertions.skipped );
+         m_xml.scopedElement( "OverallResultsCases")
+             .writeAttribute( "successes"_sr, testRunStats.totals.testCases.passed )
+             .writeAttribute( "failures"_sr, testRunStats.totals.testCases.failed )
+-            .writeAttribute( "expectedFailures"_sr, testRunStats.totals.testCases.failedButOk );
++            .writeAttribute( "expectedFailures"_sr, testRunStats.totals.testCases.failedButOk )
++            .writeAttribute( "skips"_sr, testRunStats.totals.testCases.skipped );
+         m_xml.endElement();
+     }
+ 
+diff --git a/tests/CMakeLists.txt b/tests/CMakeLists.txt
+index b40fbceb..023f478b 100644
+--- a/tests/CMakeLists.txt
++++ b/tests/CMakeLists.txt
+@@ -116,6 +116,7 @@ set(TEST_SOURCES
+         ${SELF_TEST_DIR}/UsageTests/Generators.tests.cpp
+         ${SELF_TEST_DIR}/UsageTests/Message.tests.cpp
+         ${SELF_TEST_DIR}/UsageTests/Misc.tests.cpp
++        ${SELF_TEST_DIR}/UsageTests/Skip.tests.cpp
+         ${SELF_TEST_DIR}/UsageTests/ToStringByte.tests.cpp
+         ${SELF_TEST_DIR}/UsageTests/ToStringChrono.tests.cpp
+         ${SELF_TEST_DIR}/UsageTests/ToStringGeneral.tests.cpp
+@@ -272,6 +273,10 @@ add_test(NAME TestSpecs::OverrideFailureWithNoMatchedTests
+   COMMAND $<TARGET_FILE:SelfTest> "___nonexistent_test___" --allow-running-no-tests
+ )
+ 
++add_test(NAME TestSpecs::OverrideAllSkipFailure
++  COMMAND $<TARGET_FILE:SelfTest> "tests can be skipped dynamically at runtime" --allow-running-no-tests
++)
++
+ add_test(NAME TestSpecs::NonMatchingTestSpecIsRoundTrippable
+     COMMAND $<TARGET_FILE:SelfTest> Tracker, "this test does not exist" "[nor does this tag]"
+ )
+diff --git a/tests/ExtraTests/CMakeLists.txt b/tests/ExtraTests/CMakeLists.txt
+index d5b27fba..4172d7a0 100644
+--- a/tests/ExtraTests/CMakeLists.txt
++++ b/tests/ExtraTests/CMakeLists.txt
+@@ -488,15 +488,32 @@ set_tests_properties(TestSpecs::EmptySpecWithNoTestsFails
+   PROPERTIES
+     WILL_FAIL ON
+ )
++
+ add_test(
+   NAME TestSpecs::OverrideFailureWithEmptySpec
+   COMMAND $<TARGET_FILE:NoTests> --allow-running-no-tests
+ )
++
+ add_test(
+   NAME List::Listeners::WorksWithoutRegisteredListeners
+   COMMAND $<TARGET_FILE:NoTests> --list-listeners
+ )
++
++
++add_executable(AllSkipped ${TESTS_DIR}/X93-AllSkipped.cpp)
++target_link_libraries(AllSkipped PRIVATE Catch2::Catch2WithMain)
++
++add_test(
++  NAME TestSpecs::SkippingAllTestsFails
++  COMMAND $<TARGET_FILE:AllSkipped>
++)
++set_tests_properties(TestSpecs::SkippingAllTestsFails
++  PROPERTIES
++    WILL_FAIL ON
++)
++
+ set( EXTRA_TEST_BINARIES
++    AllSkipped
+     PrefixedMacros
+     DisabledMacros
+     DisabledExceptions-DefaultHandler
+2025-06-30 17:07:40,816 - INFO - Git diff changed after running eval script
+2025-06-30 17:07:40,817 - INFO - Attempting to stop container catchorg__catch2-2360-test2...
+2025-06-30 17:07:56,294 - INFO - Attempting to remove container catchorg__catch2-2360-test2...
+2025-06-30 17:07:56,503 - INFO - Container catchorg__catch2-2360-test2 removed.
+2025-06-30 17:07:56,503 - INFO - Attempting to remove image catchorg__catch2-2360-dockerfile3:latest...
+2025-06-30 17:07:58,439 - INFO - Image catchorg__catch2-2360-dockerfile3:latest removed.

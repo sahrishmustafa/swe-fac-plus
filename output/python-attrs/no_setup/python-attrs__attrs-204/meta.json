@@ -1,0 +1,22 @@
+{
+    "task_id": "python-attrs__attrs-204",
+    "setup_info": {
+        "repo_path": "testbed/python-attrs__attrs-204_2025-07-03_17-42-35",
+        "repo_cache_path": "testbed/python-attrs/attrs_cache"
+    },
+    "task_info": {
+        "repo": "python-attrs/attrs",
+        "pull_number": 204,
+        "instance_id": "python-attrs__attrs-204",
+        "issue_numbers": [
+            "203"
+        ],
+        "base_commit": "303b2f627f0a754ffa329c54f024e6e669ae882a",
+        "patch": "diff --git a/src/attr/_make.py b/src/attr/_make.py\n--- a/src/attr/_make.py\n+++ b/src/attr/_make.py\n@@ -965,7 +965,7 @@ def default(self, meth):\n _CountingAttr = _add_cmp(_add_repr(_CountingAttr))\n \n \n-@attributes(slots=True, init=False)\n+@attributes(slots=True, init=False, hash=True)\n class Factory(object):\n     \"\"\"\n     Stores a factory callable.\n",
+        "test_patch": "diff --git a/tests/test_make.py b/tests/test_make.py\n--- a/tests/test_make.py\n+++ b/tests/test_make.py\n@@ -572,6 +572,12 @@ def test_factory_takes_self(self):\n \n         assert i is i.x\n \n+    def test_factory_hashable(self):\n+        \"\"\"\n+        Factory is hashable.\n+        \"\"\"\n+        assert hash(Factory(None, False)) == hash(Factory(None, False))\n+\n     def test_convert_before_validate(self):\n         \"\"\"\n         Validation happens after conversion.\n",
+        "problem_statement": "filtering.include/exclude throw a TypeError when any class attribute uses a Factory default\nThe `hash_` method added by `_add_hash` in `attr._make` throws `TypeError: unhashable type: 'Factory'` if any of the class's attributes uses an `attr.Factory` default. So for example, below no longer works.\r\n\r\n```python\r\n@attr.s\r\nclass C(object):\r\n    a = attr.ib()\r\n    b = attr.ib(default=attr.Factory(list))\r\n\r\nattr.asdict(C(1), filter=attr.filters.include(attr.fields(C).a))\r\n```\n",
+        "hints_text": "",
+        "created_at": "2017-06-06T10:05:07Z",
+        "version": "17.2"
+    }
+}

@@ -1,0 +1,14 @@
+TEMPLATE_TEST_CASE does not support template templates
+## Description
+TEMPLATE_TEST_CASE only supports substitution of simple types, and not template templates.
+
+### Steps to reproduce
+
+```cpp
+template <template <typename> typename T>
+struct Foo { };
+
+TEMPLATE_TEST_CASE("instantiate a template template with int", "", Foo) {
+     using T = TestType<int>;  // ... or something
+}
+```

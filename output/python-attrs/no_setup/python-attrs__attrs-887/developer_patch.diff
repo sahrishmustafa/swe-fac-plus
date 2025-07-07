@@ -1,0 +1,471 @@
+diff --git a/conftest.py b/conftest.py
+--- a/conftest.py
++++ b/conftest.py
+@@ -1,10 +1,8 @@
+ from __future__ import absolute_import, division, print_function
+ 
+-import sys
+-
+ from hypothesis import HealthCheck, settings
+ 
+-from attr._compat import PY310
++from attr._compat import PY36, PY310
+ 
+ 
+ def pytest_configure(config):
+@@ -16,7 +14,7 @@ def pytest_configure(config):
+ 
+ 
+ collect_ignore = []
+-if sys.version_info[:2] < (3, 6):
++if not PY36:
+     collect_ignore.extend(
+         [
+             "tests/test_annotations.py",
+diff --git a/src/attr/_config.py b/src/attr/_config.py
+--- a/src/attr/_config.py
++++ b/src/attr/_config.py
+@@ -11,7 +11,7 @@ def set_run_validators(run):
+     Set whether or not validators are run.  By default, they are run.
+ 
+     .. deprecated:: 21.3.0 It will not be removed, but it also will not be
+-        moved to new ``attrs`` namespace.  Use `attr.validators.set_disabled()`
++        moved to new ``attrs`` namespace. Use `attrs.validators.set_disabled()`
+         instead.
+     """
+     if not isinstance(run, bool):
+@@ -25,7 +25,7 @@ def get_run_validators():
+     Return whether or not validators are run.
+ 
+     .. deprecated:: 21.3.0 It will not be removed, but it also will not be
+-        moved to new ``attrs`` namespace.  Use `attr.validators.get_disabled()`
++        moved to new ``attrs`` namespace. Use `attrs.validators.get_disabled()`
+         instead.
+     """
+     return _run_validators
+diff --git a/src/attr/_funcs.py b/src/attr/_funcs.py
+--- a/src/attr/_funcs.py
++++ b/src/attr/_funcs.py
+@@ -25,7 +25,7 @@ def asdict(
+         ``attrs``-decorated.
+     :param callable filter: A callable whose return code determines whether an
+         attribute or element is included (``True``) or dropped (``False``).  Is
+-        called with the `attr.Attribute` as the first argument and the
++        called with the `attrs.Attribute` as the first argument and the
+         value as the second argument.
+     :param callable dict_factory: A callable to produce dictionaries from.  For
+         example, to produce ordered dictionaries instead of normal Python
+@@ -204,7 +204,7 @@ def astuple(
+         ``attrs``-decorated.
+     :param callable filter: A callable whose return code determines whether an
+         attribute or element is included (``True``) or dropped (``False``).  Is
+-        called with the `attr.Attribute` as the first argument and the
++        called with the `attrs.Attribute` as the first argument and the
+         value as the second argument.
+     :param callable tuple_factory: A callable to produce tuples from.  For
+         example, to produce lists instead of tuples.
+@@ -314,7 +314,9 @@ def assoc(inst, **changes):
+         class.
+ 
+     ..  deprecated:: 17.1.0
+-        Use `evolve` instead.
++        Use `attrs.evolve` instead if you can.
++        This function will not be removed du to the slightly different approach
++        compared to `attrs.evolve`.
+     """
+     import warnings
+ 
+@@ -393,8 +395,8 @@ class and you didn't pass any attribs.
+     :raise NameError: If types cannot be resolved because of missing variables.
+ 
+     :returns: *cls* so you can use this function also as a class decorator.
+-        Please note that you have to apply it **after** `attr.s`. That means
+-        the decorator has to come in the line **before** `attr.s`.
++        Please note that you have to apply it **after** `attrs.define`. That
++        means the decorator has to come in the line **before** `attrs.define`.
+ 
+     ..  versionadded:: 20.1.0
+     ..  versionadded:: 21.1.0 *attribs*
+diff --git a/src/attr/_make.py b/src/attr/_make.py
+--- a/src/attr/_make.py
++++ b/src/attr/_make.py
+@@ -147,11 +147,11 @@ def attrib(
+         is used and no value is passed while instantiating or the attribute is
+         excluded using ``init=False``.
+ 
+-        If the value is an instance of `Factory`, its callable will be
++        If the value is an instance of `attrs.Factory`, its callable will be
+         used to construct a new value (useful for mutable data types like lists
+         or dicts).
+ 
+-        If a default is not set (or set manually to `attr.NOTHING`), a value
++        If a default is not set (or set manually to `attrs.NOTHING`), a value
+         *must* be supplied when instantiating; otherwise a `TypeError`
+         will be raised.
+ 
+@@ -164,7 +164,7 @@ def attrib(
+ 
+     :param validator: `callable` that is called by ``attrs``-generated
+         ``__init__`` methods after the instance has been initialized.  They
+-        receive the initialized instance, the `Attribute`, and the
++        receive the initialized instance, the :func:`~attrs.Attribute`, and the
+         passed value.
+ 
+         The return value is *not* inspected so the validator has to throw an
+@@ -237,10 +237,10 @@ def attrib(
+         parameter is ignored).
+     :param on_setattr: Allows to overwrite the *on_setattr* setting from
+         `attr.s`. If left `None`, the *on_setattr* value from `attr.s` is used.
+-        Set to `attr.setters.NO_OP` to run **no** `setattr` hooks for this
++        Set to `attrs.setters.NO_OP` to run **no** `setattr` hooks for this
+         attribute -- regardless of the setting in `attr.s`.
+     :type on_setattr: `callable`, or a list of callables, or `None`, or
+-        `attr.setters.NO_OP`
++        `attrs.setters.NO_OP`
+ 
+     .. versionadded:: 15.2.0 *convert*
+     .. versionadded:: 16.3.0 *metadata*
+@@ -1286,7 +1286,7 @@ def attrs(
+         *cmp*, or *hash* overrides whatever *auto_detect* would determine.
+ 
+         *auto_detect* requires Python 3. Setting it ``True`` on Python 2 raises
+-        a `PythonTooOldError`.
++        an `attrs.exceptions.PythonTooOldError`.
+ 
+     :param bool repr: Create a ``__repr__`` method with a human readable
+         representation of ``attrs`` attributes..
+@@ -1373,7 +1373,7 @@ def attrs(
+ 
+         If you assign a value to those attributes (e.g. ``x: int = 42``), that
+         value becomes the default value like if it were passed using
+-        ``attr.ib(default=42)``.  Passing an instance of `Factory` also
++        ``attr.ib(default=42)``.  Passing an instance of `attrs.Factory` also
+         works as expected in most cases (see warning below).
+ 
+         Attributes annotated as `typing.ClassVar`, and attributes that are
+@@ -1445,7 +1445,7 @@ def attrs(
+         the callable.
+ 
+         If a list of callables is passed, they're automatically wrapped in an
+-        `attr.setters.pipe`.
++        `attrs.setters.pipe`.
+ 
+     :param Optional[callable] field_transformer:
+         A function that is called with the original class object and all
+@@ -2037,7 +2037,7 @@ def fields(cls):
+     :raise attr.exceptions.NotAnAttrsClassError: If *cls* is not an ``attrs``
+         class.
+ 
+-    :rtype: tuple (with name accessors) of `attr.Attribute`
++    :rtype: tuple (with name accessors) of `attrs.Attribute`
+ 
+     ..  versionchanged:: 16.2.0 Returned tuple allows accessing the fields
+         by name.
+@@ -2064,7 +2064,7 @@ def fields_dict(cls):
+         class.
+ 
+     :rtype: an ordered dict where keys are attribute names and values are
+-        `attr.Attribute`\\ s. This will be a `dict` if it's
++        `attrs.Attribute`\\ s. This will be a `dict` if it's
+         naturally ordered like on Python 3.6+ or an
+         :class:`~collections.OrderedDict` otherwise.
+ 
+@@ -2951,7 +2951,7 @@ class Factory(object):
+     """
+     Stores a factory callable.
+ 
+-    If passed as the default value to `attr.ib`, the factory is used to
++    If passed as the default value to `attrs.field`, the factory is used to
+     generate a new value.
+ 
+     :param callable factory: A callable that takes either none or exactly one
+diff --git a/src/attr/_next_gen.py b/src/attr/_next_gen.py
+--- a/src/attr/_next_gen.py
++++ b/src/attr/_next_gen.py
+@@ -3,11 +3,12 @@
+ `attr.ib` with different default values.
+ """
+ 
+-from functools import partial
+ 
+-from attr.exceptions import UnannotatedAttributeError
++from functools import partial
+ 
+ from . import setters
++from ._funcs import asdict as _asdict
++from ._funcs import astuple as _astuple
+ from ._make import (
+     NOTHING,
+     _frozen_setattrs,
+@@ -15,6 +16,7 @@
+     attrib,
+     attrs,
+ )
++from .exceptions import UnannotatedAttributeError
+ 
+ 
+ def define(
+@@ -43,8 +45,23 @@ def define(
+     r"""
+     Define an ``attrs`` class.
+ 
+-    The behavioral differences to `attr.s` are the handling of the
+-    *auto_attribs* option:
++    Differences to the classic `attr.s` that it uses underneath:
++
++    - Automatically detect whether or not *auto_attribs* should be `True`
++      (c.f. *auto_attribs* parameter).
++    - If *frozen* is `False`, run converters and validators when setting an
++      attribute by default.
++    - *slots=True* (see :term:`slotted classes` for potentially surprising
++      behaviors)
++    - *auto_exc=True*
++    - *auto_detect=True*
++    - *order=False*
++    - *match_args=True*
++    - Some options that were only relevant on Python 2 or were kept around for
++      backwards-compatibility have been removed.
++
++    Please note that these are all defaults and you can change them as you
++    wish.
+ 
+     :param Optional[bool] auto_attribs: If set to `True` or `False`, it behaves
+        exactly like `attr.s`. If left `None`, `attr.s` will try to guess:
+@@ -54,8 +71,7 @@ def define(
+        2. Otherwise it assumes *auto_attribs=False* and tries to collect
+           `attr.ib`\ s.
+ 
+-    and that mutable classes (``frozen=False``) convert and validate on
+-    ``__setattr__``.
++    For now, please refer to `attr.s` for the rest of the parameters.
+ 
+     .. versionadded:: 20.1.0
+     .. versionchanged:: 21.3.0 Converters are also run ``on_setattr``.
+@@ -168,3 +184,31 @@ def field(
+         order=order,
+         on_setattr=on_setattr,
+     )
++
++
++def asdict(inst, *, recurse=True, filter=None, value_serializer=None):
++    """
++    Same as `attr.asdict`, except that collections types are always retained
++    and dict is always used as *dict_factory*.
++
++    .. versionadded:: 21.3.0
++    """
++    return _asdict(
++        inst=inst,
++        recurse=recurse,
++        filter=filter,
++        value_serializer=value_serializer,
++        retain_collection_types=True,
++    )
++
++
++def astuple(inst, *, recurse=True, filter=None):
++    """
++    Same as `attr.astuple`, except that collections types are always retained
++    and `tuple` is always used as the *tuple_factory*.
++
++    .. versionadded:: 21.3.0
++    """
++    return _astuple(
++        inst=inst, recurse=recurse, filter=filter, retain_collection_types=True
++    )
+diff --git a/src/attr/converters.py b/src/attr/converters.py
+--- a/src/attr/converters.py
++++ b/src/attr/converters.py
+@@ -14,9 +14,10 @@
+ 
+ 
+ __all__ = [
+-    "pipe",
+-    "optional",
+     "default_if_none",
++    "optional",
++    "pipe",
++    "to_bool",
+ ]
+ 
+ 
+@@ -65,14 +66,14 @@ def default_if_none(default=NOTHING, factory=None):
+     result of *factory*.
+ 
+     :param default: Value to be used if ``None`` is passed. Passing an instance
+-       of `attr.Factory` is supported, however the ``takes_self`` option
++       of `attrs.Factory` is supported, however the ``takes_self`` option
+        is *not*.
+     :param callable factory: A callable that takes no parameters whose result
+        is used if ``None`` is passed.
+ 
+     :raises TypeError: If **neither** *default* or *factory* is passed.
+     :raises TypeError: If **both** *default* and *factory* are passed.
+-    :raises ValueError: If an instance of `attr.Factory` is passed with
++    :raises ValueError: If an instance of `attrs.Factory` is passed with
+        ``takes_self=True``.
+ 
+     .. versionadded:: 18.2.0
+diff --git a/src/attr/filters.py b/src/attr/filters.py
+--- a/src/attr/filters.py
++++ b/src/attr/filters.py
+@@ -23,7 +23,7 @@ def include(*what):
+     Include *what*.
+ 
+     :param what: What to include.
+-    :type what: `list` of `type` or `attr.Attribute`\\ s
++    :type what: `list` of `type` or `attrs.Attribute`\\ s
+ 
+     :rtype: `callable`
+     """
+@@ -40,7 +40,7 @@ def exclude(*what):
+     Exclude *what*.
+ 
+     :param what: What to exclude.
+-    :type what: `list` of classes or `attr.Attribute`\\ s.
++    :type what: `list` of classes or `attrs.Attribute`\\ s.
+ 
+     :rtype: `callable`
+     """
+diff --git a/src/attr/validators.py b/src/attr/validators.py
+--- a/src/attr/validators.py
++++ b/src/attr/validators.py
+@@ -127,7 +127,7 @@ def instance_of(type):
+     :type type: type or tuple of types
+ 
+     :raises TypeError: With a human readable error message, the attribute
+-        (of type `attr.Attribute`), the expected type, and the value it
++        (of type `attrs.Attribute`), the expected type, and the value it
+         got.
+     """
+     return _InstanceOfValidator(type)
+@@ -250,7 +250,7 @@ def provides(interface):
+     :type interface: ``zope.interface.Interface``
+ 
+     :raises TypeError: With a human readable error message, the attribute
+-        (of type `attr.Attribute`), the expected interface, and the
++        (of type `attrs.Attribute`), the expected interface, and the
+         value it got.
+     """
+     return _ProvidesValidator(interface)
+@@ -323,7 +323,7 @@ def in_(options):
+     :type options: list, tuple, `enum.Enum`, ...
+ 
+     :raises ValueError: With a human readable error message, the attribute (of
+-       type `attr.Attribute`), the expected options, and the value it
++       type `attrs.Attribute`), the expected options, and the value it
+        got.
+ 
+     .. versionadded:: 17.1.0
+@@ -362,7 +362,7 @@ def is_callable():
+     .. versionadded:: 19.1.0
+ 
+     :raises `attr.exceptions.NotCallableError`: With a human readable error
+-        message containing the attribute (`attr.Attribute`) name,
++        message containing the attribute (`attrs.Attribute`) name,
+         and the value it got.
+     """
+     return _IsCallableValidator()
+diff --git a/src/attrs/__init__.py b/src/attrs/__init__.py
+new file mode 100644
+--- /dev/null
++++ b/src/attrs/__init__.py
+@@ -0,0 +1,68 @@
++from attr import (
++    NOTHING,
++    Attribute,
++    Factory,
++    __author__,
++    __copyright__,
++    __description__,
++    __doc__,
++    __email__,
++    __license__,
++    __title__,
++    __url__,
++    __version__,
++    __version_info__,
++    assoc,
++    cmp_using,
++    define,
++    evolve,
++    field,
++    fields,
++    fields_dict,
++    frozen,
++    has,
++    make_class,
++    mutable,
++    resolve_types,
++    validate,
++)
++from attr._next_gen import asdict, astuple
++
++from . import converters, exceptions, filters, setters, validators
++
++
++__all__ = [
++    "__author__",
++    "__copyright__",
++    "__description__",
++    "__doc__",
++    "__email__",
++    "__license__",
++    "__title__",
++    "__url__",
++    "__version__",
++    "__version_info__",
++    "asdict",
++    "assoc",
++    "astuple",
++    "Attribute",
++    "cmp_using",
++    "converters",
++    "define",
++    "evolve",
++    "exceptions",
++    "Factory",
++    "field",
++    "fields_dict",
++    "fields",
++    "filters",
++    "frozen",
++    "has",
++    "make_class",
++    "mutable",
++    "NOTHING",
++    "resolve_types",
++    "setters",
++    "validate",
++    "validators",
++]
+diff --git a/src/attrs/converters.py b/src/attrs/converters.py
+new file mode 100644
+--- /dev/null
++++ b/src/attrs/converters.py
+@@ -0,0 +1 @@
++from attr.converters import *  # noqa
+diff --git a/src/attrs/exceptions.py b/src/attrs/exceptions.py
+new file mode 100644
+--- /dev/null
++++ b/src/attrs/exceptions.py
+@@ -0,0 +1 @@
++from attr.exceptions import *  # noqa
+diff --git a/src/attrs/filters.py b/src/attrs/filters.py
+new file mode 100644
+--- /dev/null
++++ b/src/attrs/filters.py
+@@ -0,0 +1 @@
++from attr.filters import *  # noqa
+diff --git a/src/attrs/setters.py b/src/attrs/setters.py
+new file mode 100644
+--- /dev/null
++++ b/src/attrs/setters.py
+@@ -0,0 +1 @@
++from attr.setters import *  # noqa
+diff --git a/src/attrs/validators.py b/src/attrs/validators.py
+new file mode 100644
+--- /dev/null
++++ b/src/attrs/validators.py
+@@ -0,0 +1 @@
++from attr.validators import *  # noqa

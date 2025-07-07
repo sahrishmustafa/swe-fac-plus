@@ -1,0 +1,38 @@
+Can't format move-only ranges
+[Example](https://godbolt.org/z/cE1P9YdG6):
+
+```cpp
+#include <concepts>
+#include <vector>
+#include <fmt/ranges.h>
+
+template <bool Copyable>
+struct Vector {
+    std::vector<int> v;
+
+    Vector(std::initializer_list<int> elems) : v(elems) { }
+
+    Vector(Vector&&) = default;
+    Vector& operator=(Vector&&) = default;
+
+    Vector(Vector const&) requires Copyable = default;
+    Vector& operator=(Vector const&) requires Copyable = default;
+
+    auto begin() { return v.begin(); }
+    auto end() { return v.end(); }
+};
+
+static_assert(std::movable<Vector<false>>);
+static_assert(std::movable<Vector<true>>);
+static_assert(!std::copyable<Vector<false>>);
+static_assert(std::copyable<Vector<true>>);
+
+int main() {
+    fmt::print("{}\n", Vector<true>{1, 2, 3});  // ok [1, 2, 3]
+    fmt::print("{}\n", Vector<false>{1, 2, 3}); // error
+}
+```
+
+This is because the range check for non-const ranges requires copyability and should probably just be removed (h/t @timsong-cpp):
+
+https://github.com/fmtlib/fmt/blob/a2c05a10ec875712bfee739a05ed99fc3915f4e9/include/fmt/ranges.h#L154-L159

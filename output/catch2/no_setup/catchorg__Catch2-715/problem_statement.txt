@@ -1,0 +1,5 @@
+Add support for <=, >= to Approx
+Approx is very useful and I'd make further use of it if support for <=, >= could be added.
+
+I'll be happy to do this work.
+

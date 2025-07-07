@@ -1,0 +1,74 @@
+diff --git a/include/internal/catch_commandline.cpp b/include/internal/catch_commandline.cpp
+--- a/include/internal/catch_commandline.cpp
++++ b/include/internal/catch_commandline.cpp
+@@ -10,6 +10,9 @@
+ 
+ #include "catch_string_manip.h"
+ 
++#include "catch_interfaces_registry_hub.h"
++#include "catch_interfaces_reporter.h"
++
+ #include <fstream>
+ #include <ctime>
+ 
+@@ -105,6 +108,18 @@ namespace Catch {
+                 return ParserResult::runtimeError( "Unrecognised verbosity, '" + verbosity + "'" );
+             return ParserResult::ok( ParseResultType::Matched );
+         };
++        auto const setReporter = [&]( std::string const& reporter ) {
++            IReporterRegistry::FactoryMap const& factories = getRegistryHub().getReporterRegistry().getFactories();
++
++            auto lcReporter = toLower( reporter );
++            auto result = factories.find( lcReporter );
++
++            if( factories.end() != result )
++                config.reporterName = lcReporter;
++            else
++                return ParserResult::runtimeError( "Unrecognized reporter, '" + reporter + "'. Check available with --list-reporters" );
++            return ParserResult::ok( ParseResultType::Matched );
++        };
+ 
+         auto cli
+             = ExeName( config.processName )
+@@ -130,7 +145,7 @@ namespace Catch {
+             | Opt( config.outputFilename, "filename" )
+                 ["-o"]["--out"]
+                 ( "output filename" )
+-            | Opt( config.reporterName, "name" )
++            | Opt( setReporter, "name" )
+                 ["-r"]["--reporter"]
+                 ( "reporter to use (defaults to console)" )
+             | Opt( config.name, "name" )
+diff --git a/include/internal/catch_list.cpp b/include/internal/catch_list.cpp
+--- a/include/internal/catch_list.cpp
++++ b/include/internal/catch_list.cpp
+@@ -124,7 +124,7 @@ namespace Catch {
+         return tagCounts.size();
+     }
+ 
+-    std::size_t listReporters( Config const& /*config*/ ) {
++    std::size_t listReporters() {
+         Catch::cout() << "Available reporters:\n";
+         IReporterRegistry::FactoryMap const& factories = getRegistryHub().getReporterRegistry().getFactories();
+         std::size_t maxNameLen = 0;
+@@ -155,7 +155,7 @@ namespace Catch {
+         if( config.listTags() )
+             listedCount = listedCount.valueOr(0) + listTags( config );
+         if( config.listReporters() )
+-            listedCount = listedCount.valueOr(0) + listReporters( config );
++            listedCount = listedCount.valueOr(0) + listReporters();
+         return listedCount;
+     }
+ 
+diff --git a/include/internal/catch_list.h b/include/internal/catch_list.h
+--- a/include/internal/catch_list.h
++++ b/include/internal/catch_list.h
+@@ -29,7 +29,7 @@ namespace Catch {
+ 
+     std::size_t listTags( Config const& config );
+ 
+-    std::size_t listReporters( Config const& /*config*/ );
++    std::size_t listReporters();
+     
+     Option<std::size_t> list( Config const& config );
+ 

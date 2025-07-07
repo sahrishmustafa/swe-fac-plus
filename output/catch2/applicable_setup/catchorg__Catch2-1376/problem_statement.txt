@@ -1,0 +1,32 @@
+std::string_view is stringified without quotes
+## Description
+`std::string_view` probably uses some fallback stringification, and is expanded without quotes (and also bypasses pretty printing of invisibles).
+
+
+### Steps to reproduce
+```cpp
+#define CATCH_CONFIG_MAIN
+#include <catch2/catch.hpp>
+
+#include <string>
+#include <string_view>
+
+TEST_CASE("string_view == string") {
+    std::string s = "foo";
+    std::string_view v = s;
+
+    CHECK(s == v);
+}
+```
+run with `-s`:
+```
+PASSED:
+  CHECK( s == v )
+with expansion:
+  "foo" == foo
+```
+
+
+### Extra information
+Catch version: **v2.4.0**
+

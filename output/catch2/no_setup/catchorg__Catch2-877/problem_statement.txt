@@ -1,0 +1,37 @@
+Compilation error when private base of class of tested variable is "ostreamable" but class itself isn't
+## Description
+When private base of class of tested variable is "ostreamable" but class itself isn't test code fails to compile.
+
+### Steps to reproduce
+```
+#define CATCH_CONFIG_MAIN
+#include <catch.hpp>
+struct A {};
+std::ostream &operator<< (std::ostream &o, const A &v) { return o << 0;}
+
+struct B : private A
+{
+    bool operator==(int){ return true;}
+};
+
+B f ();
+std::ostream g ();
+
+TEST_CASE ("asdas")
+{
+    B x;
+    REQUIRE (x == 4);
+}
+
+```
+
+>main.cpp:1579:49: error: 'A' is an inaccessible base of 'B'
+>         enum { value = sizeof( testStreamable(s << t) ) == sizeof( TrueType ) };
+
+So the problem is in `IsStreamInsertable` check which features converting type to some bogus stremable type named `Borgtype` which everything converts to but it's pretty obvious that converting to your base class is still easier and thus error happens. It seems like replacing this check to the one featured in [this stackoverflow answer](http://stackoverflow.com/a/22759544/1269661) fixes this problem. I can send pull-request if that's needed and proposed solution is fine.
+
+### Extra information
+* Catch version: 1.8.2
+* Operating System: Windows + online compilers
+* Compiler+version: g++ 6.3.0, clang 3.8, MSVC 2017
+

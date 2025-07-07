@@ -1,0 +1,35 @@
+Approx::operator() not const-correct
+**Describe the bug**
+
+The `Approx` type has an overload of `template <typename T, ...SFINAE...> Approx operator()(T const&)` which (correct me if I'm wrong) is meant to be a factory function for instances that have the same epsilon, margin, and scale, but that use the passed value. 
+
+AFAICT this should be const on the instance, but it's not.
+
+Minimum failing example:
+```C++
+#include <catch2/catch.hpp>
+
+TEST_CASE("Approx factory is const-correct") {
+  // Set up a template Approx with problem-specific margin, etc.
+  Approx const apprx = Approx(0.0).margin(1e-6);
+  double value = 1.0;
+  // Use template in assertions
+  REQUIRE(value == apprx(1.0));
+}
+```
+
+**Expected behavior**
+Above test compiles, runs and passes.
+
+**Reproduction steps**
+See above.
+
+**Platform information:**
+ - OS: RHEL 8
+ - Compiler+version: GCC 8.2.0
+ - Catch version: 2.13.6
+
+
+**Additional context**
+Add any other context about the problem here.
+

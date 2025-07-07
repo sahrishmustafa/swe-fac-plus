@@ -1,0 +1,10 @@
+Clang 18 rejects `operator"" _a`
+```
+third_party/fmt/include/fmt/format.h:4417:27: warning: identifier '_a' preceded by whitespace in a literal operator declaration is deprecated [-Wdeprecated-literal-operator]
+ 4417 | constexpr auto operator"" _a(const char* s, size_t) -> detail::udl_arg<char> {
+      |                ~~~~~~~~~~~^~
+      |                operator""_a
+1 warning generated.
+```
+
+The fix is to change `operator"" _a` to `operator""_a`

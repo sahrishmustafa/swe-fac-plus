@@ -1,0 +1,27 @@
+#!/bin/bash
+set -uxo pipefail
+cd /testbed
+
+# Ensure the target test file is in its original state before applying any patch
+git checkout c7e6d8afb06cec7b8244f963dc081daf7e70f7f6 "test/chrono-test.cc"
+
+# Required: apply test patch to update target tests
+git apply -v - <<'EOF_114329324912'
+[CONTENT OF TEST PATCH]
+EOF_114329324912
+
+# Test execution
+# Navigate into the build directory where the test executables are located.
+# The project has already been built by the Dockerfile.
+cd build
+
+# Run specific tests: ctest will execute tests matching the regex 'chrono-test',
+# which corresponds to the test/chrono-test.cc file.
+ctest -R chrono-test
+rc=$? # Capture exit code immediately after running tests
+
+echo "OMNIGRIL_EXIT_CODE=$rc" # Required, echo test status
+
+# Cleanup: Revert changes made by the patch to the target test file
+cd /testbed # Ensure we are in the repository root for git checkout
+git checkout c7e6d8afb06cec7b8244f963dc081daf7e70f7f6 "test/chrono-test.cc"

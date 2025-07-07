@@ -1,0 +1,4 @@
+Suggestion: differentiate in cmp between (== , !=) and (>,>=, <, <=).
+Thanks for a fantastic library!
+
+One thing that surprised me at first was that I could not write an effective `__gt__()`-function for my attr-class. I found the `cmp`-init-parameter later (in the code), but I still wonder if it wouldn't be a good idea if I could have the option of keeping the tuple-based `__eq__` and `__ne__`-implementations, but override size-comparisons (maybe based on a single `__lt__`-function?).

@@ -1,0 +1,4 @@
+cache_hash can give the wrong hash code for deserialized objects
+I just realized a bug in the code I wrote for hash code caching (#426).  Because the hash code cache field gets serialized and deserialized by Pickle, when you deserialize a `cache_hash=True` `attrs` object, the hashcode will be the hashcode the object had at serialization-time. However, if your object has fields with hash codes which are not deterministic between interpreter runs, then on a new interpreter run your deserialized object will have a hash code which differs from a newly created identical object.
+
+We can fix this for `pickle` by recomputing the hash code in `__setstate__`.  Other serialization libraries which don't respect `__setstate__` will still have a problem, but I don't think we can do anything about that.  If the `__setstate__` solution sounds acceptable I will implement it next week.

@@ -1,0 +1,73 @@
+Can't access context args() directly in 11.1.0
+I have a use case where my custom formatter needs to format to a buffer and then remove either the front or the back of the buffer.
+
+Example on 11.0.0 where this works: https://godbolt.org/z/96KeTG9bG
+
+In order to do this, I create a new `format_context` using the original context's `args()` and `locale()` in the `format` function, but with a temporary append buffer. I then can output just a chunk of the buffer.
+
+With 11.1.0 there was some code cleanup in 1416edabbb0f9b91053555d80015e6857f6dc433 that removed the accessor for `args_` which breaks my use case. In order for my code to work I either need:
+- An accessor to `args_` and `locale_` (`locale()` is still available)
+- A method to replace `out_`
+- A constructor to make a new context from a `const context&` and a new `appender`
+
+Sample found on godbolt:
+```c++
+#include <fmt/core.h>
+#include <string_view>
+
+template<class T>
+class truncator
+{
+    const T& t;
+    int c;
+  public:
+    constexpr truncator(const T& data_, const int count_) noexcept
+        : t{data_}, c{count_}
+    {}
+
+    constexpr const T& data() const noexcept { return t; }
+    constexpr int count() const noexcept { return c; }
+};
+
+template<class T>
+constexpr truncator<T> trunc(const T& data, int count) noexcept
+{
+    return {data, count};
+}
+
+namespace fmt
+{
+template<typename T, typename Char>
+struct formatter<truncator<T>, Char> : public formatter<T, Char>
+{
+  public:
+    template<typename FormatContext>
+    auto format(const truncator<T>& v, FormatContext& ctx) const
+    {
+        basic_memory_buffer<Char> buffer;
+        format_context ctx2(appender{buffer}, ctx.args(), ctx.locale());
+        formatter<T, Char>::format(v.data(), ctx2);
+		auto beg = buffer.begin();
+		auto end = buffer.end();
+        const auto size = std::distance(beg, end);
+        const auto abs_count = v.count() < 0 ? -v.count() : v.count();
+        if(v.count() != 0 && size > abs_count) {
+            const auto size_remove = size - abs_count;
+			if(v.count() > 0) {
+				beg = std::next(beg, size_remove);
+			} else {
+				end = std::prev(end, size_remove);
+			}
+        }
+        ctx.advance_to(std::copy(beg, end, ctx.out()));
+		return ctx.out();
+    }
+};
+}
+
+int main() {
+  fmt::print(">{0}<\n", trunc(1234, -2));
+  fmt::print(">{0}<\n", trunc(1234, 2));
+}
+```
+

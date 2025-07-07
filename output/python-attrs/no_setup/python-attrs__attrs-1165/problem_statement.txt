@@ -1,0 +1,47 @@
+NamedTuple serialization fails to work
+MRE:
+```python
+import attrs
+from typing import NamedTuple
+class MyNamedTuple(NamedTuple):
+    one: str
+    two: int
+@attrs.define
+class MyAttrsClass:
+    inner: MyNamedTuple
+print(attrs.asdict(MyAttrsClass(MyNamedTuple("Hello!", 0))))
+```
+Expected output:
+```
+{'inner': MyNamedTuple(one='Hello!', two=0)}
+```
+or at least even a
+```
+{'inner': ('Hello!', 0)}
+```
+Instead we get 
+```
+File ~/.local/pipx/venvs/jupyter/lib/python3.11/site-packages/attr/_funcs.py:75, in asdict(inst, recurse, filter, dict_factory, retain_collection_types, value_serializer)
+     73 elif isinstance(v, (tuple, list, set, frozenset)):
+     74     cf = v.__class__ if retain_collection_types is True else list
+---> 75     rv[a.name] = cf(
+     76         [
+     77             _asdict_anything(
+     78                 i,
+     79                 is_key=False,
+     80                 filter=filter,
+     81                 dict_factory=dict_factory,
+     82                 retain_collection_types=retain_collection_types,
+     83                 value_serializer=value_serializer,
+     84             )
+     85             for i in v
+     86         ]
+     87     )
+     88 elif isinstance(v, dict):
+     89     df = dict_factory
+
+TypeError: MyNamedTuple.__new__() missing 1 required positional argument: 'two'
+```
+
+Python: 3.11.0
+Attrs: 23.1.0

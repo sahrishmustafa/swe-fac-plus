@@ -1,0 +1,4 @@
+slots=True do not play nice with __init_subclass__
+A class annotated with `attr.s(slots=True)` can't call `super().__init__subclass__` within its own `__init_subclass__` method - a `TypeError: super(type, obj): obj must be an instance or subtype of type` is raised.
+
+Reproducible example (tested on 16.3.0, 17.2.0 and f7f53d4) is here: https://repl.it/Mmkb/0

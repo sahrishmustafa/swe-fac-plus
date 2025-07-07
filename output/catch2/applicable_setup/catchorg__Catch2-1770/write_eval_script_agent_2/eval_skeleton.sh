@@ -1,0 +1,59 @@
+#!/bin/bash
+set -uxo pipefail
+
+# Ensure we are in the /testbed directory
+cd /testbed
+
+# Reset target files to their original state before applying the patch (if any changes were made previously)
+git checkout 01ef7076f50f5f2b481ddf082e1afca3c926983f "include/internal/catch_test_spec.cpp" "include/internal/catch_test_spec.h" "include/internal/catch_test_spec_parser.cpp" "include/internal/catch_test_spec_parser.h"
+
+# Apply the test patch to update target tests if provided
+git apply -v - <<'EOF_114329324912'
+[CONTENT OF TEST PATCH]
+EOF_114329324912
+
+# Step 1: Run the project-specific pre-build script to generate single header
+echo "Running generateSingleHeader.py..."
+python3 scripts/generateSingleHeader.py || { echo "generateSingleHeader.py failed."; exit 1; }
+
+# Step 2: Create a separate build directory and navigate into it
+echo "Creating and entering build directory..."
+mkdir -p Build-Debug
+cd Build-Debug
+
+# Step 3: Configure CMake with required flags
+echo "Configuring CMake..."
+cmake .. \
+    -DCMAKE_BUILD_TYPE=Debug \
+    -DCATCH_BUILD_EXAMPLES=ON \
+    -DCATCH_BUILD_EXTRA_TESTS=ON \
+    -DCMAKE_CXX_STANDARD=11 \
+    -DCMAKE_CXX_STANDARD_REQUIRED=On \
+    -DCMAKE_CXX_EXTENSIONS=OFF || { echo "CMake configuration failed."; exit 1; }
+
+# Step 4: Compile the project
+echo "Compiling project with make..."
+# FIX: Changed -j$(nproc) to -j1 to address OOM issue during compilation.
+make -j1 || { echo "Compilation failed."; exit 1; }
+
+# Step 5: Execute tests using CTest
+# The collected information states that the target files are source files
+# and ctest will execute the compiled test executables (like SelfTest) which include
+# these source file's tests internally.
+echo "Running CTest tests..."
+CTEST_OUTPUT_ON_FAILURE=1 ctest -j$(nproc)
+rc=$? # Capture the exit code of the ctest command
+
+# Output the captured exit code for the judge
+echo "OMNIGRIL_EXIT_CODE=$rc"
+
+# Navigate back to the testbed directory for cleanup
+cd /testbed
+
+# Clean up: Reset the modified files to their original state
+git checkout 01ef7076f50f5f2b481ddf082e1afca3c926983f "include/internal/catch_test_spec.cpp" "include/internal/catch_test_spec.h" "include/internal/catch_test_spec_parser.cpp" "include/internal/catch_test_spec_parser.h"
+
+# Remove the build directory to ensure a clean state for future runs
+rm -rf Build-Debug
+
+exit $rc

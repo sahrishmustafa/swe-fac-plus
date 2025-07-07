@@ -1,0 +1,6 @@
+Hardcoding `CMAKE_CXX_STANDARD` breaks source-consuming downstream projects using `target_compile_features`
+https://github.com/fmtlib/fmt/blob/a935ac3e60306f9220ed983eac97cb44a492171c/support/cmake/cxx14.cmake#L10-L12
+
+For project consuming the latest release of fmt via `add_subdirectory` like seen [here](https://github.com/zakinadhif/Fyshx/blob/8a5cb8517589c24f9452ff110c962177b5e99261/CMakeLists.txt#L15-L19) who also use the modern `target_compile_features`-based approach to enable a specific language standard like C++17 have their builds broken by the above snippet. The above snippet can result in their requested language standard being overridden by the default language standard used in fmt unless they're careful to set `CMAKE_CXX_STANDARD` themselves before including fmt.
+
+I see this is likely the case because the library claims to support CMake versions all the way back to 3.1, well before `target_compile_features` was added. Can the minimum version be raised to use `target_compile_features` or can we at least add some extra CMake code to us the modern language specification functions when possible? 

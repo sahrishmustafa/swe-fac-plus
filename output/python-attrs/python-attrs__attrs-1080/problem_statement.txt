@@ -1,0 +1,4 @@
+Some API doc entries in objects.inv have double-attr module prefixes
+e.g. `attr.attr.cmp_using`
+
+cursory looking suggests it's autodoc vs manual.

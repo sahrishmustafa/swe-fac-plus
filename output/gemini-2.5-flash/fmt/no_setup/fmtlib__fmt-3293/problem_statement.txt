@@ -1,0 +1,7 @@
+_wfopen support
+On Windows it is important to use UTF-16 file paths for opening files (at least until recent versions that allow using UTF-8 locale for WinAPI).
+
+std::fstream has overload for std::wstring
+for std::FILE* there is Windows-specific "_wfopen" method as a replacement for standard std::fopen.
+
+Is it possible to provide a way to use fmt::output_file with UTF-16 encoded filepath?

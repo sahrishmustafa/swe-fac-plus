@@ -1,0 +1,560 @@
+diff --git a/conftest.py b/conftest.py
+--- a/conftest.py
++++ b/conftest.py
+@@ -1,9 +1,8 @@
+ # SPDX-License-Identifier: MIT
+ 
+-
+ from hypothesis import HealthCheck, settings
+ 
+-from attr._compat import PY36, PY310
++from attr._compat import PY310
+ 
+ 
+ def pytest_configure(config):
+@@ -15,14 +14,5 @@ def pytest_configure(config):
+ 
+ 
+ collect_ignore = []
+-if not PY36:
+-    collect_ignore.extend(
+-        [
+-            "tests/test_annotations.py",
+-            "tests/test_hooks.py",
+-            "tests/test_init_subclass.py",
+-            "tests/test_next_gen.py",
+-        ]
+-    )
+ if not PY310:
+     collect_ignore.extend(["tests/test_pattern_matching.py"])
+diff --git a/setup.py b/setup.py
+--- a/setup.py
++++ b/setup.py
+@@ -4,7 +4,6 @@
+ import os
+ import platform
+ import re
+-import sys
+ 
+ from setuptools import find_packages, setup
+ 
+@@ -33,7 +32,6 @@
+     "Operating System :: OS Independent",
+     "Programming Language :: Python",
+     "Programming Language :: Python :: 3",
+-    "Programming Language :: Python :: 3.5",
+     "Programming Language :: Python :: 3.6",
+     "Programming Language :: Python :: 3.7",
+     "Programming Language :: Python :: 3.8",
+@@ -57,10 +55,7 @@
+         "pytest>=4.3.0",  # 4.3.0 dropped last use of `convert`
+     ],
+ }
+-if (
+-    sys.version_info[:2] >= (3, 6)
+-    and platform.python_implementation() != "PyPy"
+-):
++if platform.python_implementation() != "PyPy":
+     EXTRAS_REQUIRE["tests_no_zope"].extend(
+         ["mypy>=0.900,!=0.940", "pytest-mypy-plugins"]
+     )
+@@ -92,11 +87,11 @@ def find_meta(meta):
+     Extract __*meta*__ from META_FILE.
+     """
+     meta_match = re.search(
+-        r"^__{meta}__ = ['\"]([^'\"]*)['\"]".format(meta=meta), META_FILE, re.M
++        rf"^__{meta}__ = ['\"]([^'\"]*)['\"]", META_FILE, re.M
+     )
+     if meta_match:
+         return meta_match.group(1)
+-    raise RuntimeError("Unable to find __{meta}__ string.".format(meta=meta))
++    raise RuntimeError(f"Unable to find __{meta}__ string.")
+ 
+ 
+ LOGO = """
+@@ -119,7 +114,7 @@ def find_meta(meta):
+         re.S,
+     ).group(1)
+     + "\n\n`Full changelog "
+-    + "<{url}en/stable/changelog.html>`_.\n\n".format(url=URL)
++    + f"<{URL}en/stable/changelog.html>`_.\n\n"
+     + read("AUTHORS.rst")
+ )
+ 
+@@ -141,7 +136,7 @@ def find_meta(meta):
+         long_description_content_type="text/x-rst",
+         packages=PACKAGES,
+         package_dir={"": "src"},
+-        python_requires=">=3.5",
++        python_requires=">=3.6",
+         zip_safe=False,
+         classifiers=CLASSIFIERS,
+         install_requires=INSTALL_REQUIRES,
+diff --git a/src/attr/__init__.py b/src/attr/__init__.py
+--- a/src/attr/__init__.py
++++ b/src/attr/__init__.py
+@@ -1,8 +1,5 @@
+ # SPDX-License-Identifier: MIT
+ 
+-
+-import sys
+-
+ from functools import partial
+ 
+ from . import converters, exceptions, filters, setters, validators
+@@ -20,6 +17,7 @@
+     make_class,
+     validate,
+ )
++from ._next_gen import define, field, frozen, mutable
+ from ._version_info import VersionInfo
+ 
+ 
+@@ -56,15 +54,19 @@
+     "attrs",
+     "cmp_using",
+     "converters",
++    "define",
+     "evolve",
+     "exceptions",
++    "field",
+     "fields",
+     "fields_dict",
+     "filters",
++    "frozen",
+     "get_run_validators",
+     "has",
+     "ib",
+     "make_class",
++    "mutable",
+     "resolve_types",
+     "s",
+     "set_run_validators",
+@@ -72,8 +74,3 @@
+     "validate",
+     "validators",
+ ]
+-
+-if sys.version_info[:2] >= (3, 6):
+-    from ._next_gen import define, field, frozen, mutable  # noqa: F401
+-
+-    __all__.extend(("define", "field", "frozen", "mutable"))
+diff --git a/src/attr/_compat.py b/src/attr/_compat.py
+--- a/src/attr/_compat.py
++++ b/src/attr/_compat.py
+@@ -12,19 +12,9 @@
+ 
+ 
+ PYPY = platform.python_implementation() == "PyPy"
+-PY36 = sys.version_info[:2] >= (3, 6)
+-HAS_F_STRINGS = PY36
+ PY310 = sys.version_info[:2] >= (3, 10)
+ 
+ 
+-if PYPY or PY36:
+-    ordered_dict = dict
+-else:
+-    from collections import OrderedDict
+-
+-    ordered_dict = OrderedDict
+-
+-
+ def just_warn(*args, **kw):
+     warnings.warn(
+         "Running interpreter doesn't sufficiently support code object "
+diff --git a/src/attr/_make.py b/src/attr/_make.py
+--- a/src/attr/_make.py
++++ b/src/attr/_make.py
+@@ -11,14 +11,7 @@
+ # We need to import _compat itself in addition to the _compat members to avoid
+ # having the thread-local in the globals here.
+ from . import _compat, _config, setters
+-from ._compat import (
+-    HAS_F_STRINGS,
+-    PY310,
+-    PYPY,
+-    _AnnotationExtractor,
+-    ordered_dict,
+-    set_closure_cell,
+-)
++from ._compat import PY310, PYPY, _AnnotationExtractor, set_closure_cell
+ from .exceptions import (
+     DefaultAlreadySetError,
+     FrozenInstanceError,
+@@ -201,9 +194,9 @@ def attrib(
+         value is converted before being passed to the validator, if any.
+     :param metadata: An arbitrary mapping, to be used by third-party
+         components.  See `extending_metadata`.
+-    :param type: The type of the attribute.  In Python 3.6 or greater, the
+-        preferred method to specify the type is using a variable annotation
+-        (see :pep:`526`).
++
++    :param type: The type of the attribute. Nowadays, the preferred method to
++        specify the type is using a variable annotation (see :pep:`526`).
+         This argument is provided for backward compatibility.
+         Regardless of the approach used, the type will be stored on
+         ``Attribute.type``.
+@@ -323,7 +316,7 @@ def _make_method(name, script, filename, globs):
+         if old_val == linecache_tuple:
+             break
+         else:
+-            filename = "{}-{}>".format(base_filename[:-1], count)
++            filename = f"{base_filename[:-1]}-{count}>"
+             count += 1
+ 
+     _compile_and_eval(script, globs, locs, filename)
+@@ -341,9 +334,9 @@ class MyClassAttributes(tuple):
+         __slots__ = ()
+         x = property(itemgetter(0))
+     """
+-    attr_class_name = "{}Attributes".format(cls_name)
++    attr_class_name = f"{cls_name}Attributes"
+     attr_class_template = [
+-        "class {}(tuple):".format(attr_class_name),
++        f"class {attr_class_name}(tuple):",
+         "    __slots__ = ()",
+     ]
+     if attr_names:
+@@ -418,13 +411,6 @@ def _get_annotations(cls):
+     return {}
+ 
+ 
+-def _counter_getter(e):
+-    """
+-    Key function for sorting to avoid re-creating a lambda for every class.
+-    """
+-    return e[1].counter
+-
+-
+ def _collect_base_attrs(cls, taken_attr_names):
+     """
+     Collect attr.ibs from base classes of *cls*, except *taken_attr_names*.
+@@ -502,9 +488,6 @@ def _transform_attrs(
+ 
+     if these is not None:
+         ca_list = [(name, ca) for name, ca in these.items()]
+-
+-        if not isinstance(these, ordered_dict):
+-            ca_list.sort(key=_counter_getter)
+     elif auto_attribs is True:
+         ca_names = {
+             name
+@@ -735,7 +718,7 @@ def __init__(
+             ) = self._make_getstate_setstate()
+ 
+     def __repr__(self):
+-        return "<_ClassBuilder(cls={cls})>".format(cls=self._cls.__name__)
++        return f"<_ClassBuilder(cls={self._cls.__name__})>"
+ 
+     def build_class(self):
+         """
+@@ -1218,10 +1201,7 @@ def attrs(
+         If *these* is not ``None``, ``attrs`` will *not* search the class body
+         for attributes and will *not* remove any attributes from it.
+ 
+-        If *these* is an ordered dict (`dict` on Python 3.6+,
+-        `collections.OrderedDict` otherwise), the order is deduced from
+-        the order of the attributes inside *these*.  Otherwise the order
+-        of the definition of the attributes is used.
++        The order is deduced from the order of the attributes inside *these*.
+ 
+     :type these: `dict` of `str` to `attr.ib`
+ 
+@@ -1329,7 +1309,7 @@ def attrs(
+     :param bool weakref_slot: Make instances weak-referenceable.  This has no
+         effect unless ``slots`` is also enabled.
+     :param bool auto_attribs: If ``True``, collect :pep:`526`-annotated
+-        attributes (Python 3.6 and later only) from the class body.
++        attributes from the class body.
+ 
+         In this case, you **must** annotate every field.  If ``attrs``
+         encounters a field that is set to an `attr.ib` but lacks a type
+@@ -1833,126 +1813,61 @@ def _add_eq(cls, attrs=None):
+     return cls
+ 
+ 
+-if HAS_F_STRINGS:
+-
+-    def _make_repr(attrs, ns, cls):
+-        unique_filename = _generate_unique_filename(cls, "repr")
+-        # Figure out which attributes to include, and which function to use to
+-        # format them. The a.repr value can be either bool or a custom
+-        # callable.
+-        attr_names_with_reprs = tuple(
+-            (a.name, (repr if a.repr is True else a.repr), a.init)
+-            for a in attrs
+-            if a.repr is not False
++def _make_repr(attrs, ns, cls):
++    unique_filename = _generate_unique_filename(cls, "repr")
++    # Figure out which attributes to include, and which function to use to
++    # format them. The a.repr value can be either bool or a custom
++    # callable.
++    attr_names_with_reprs = tuple(
++        (a.name, (repr if a.repr is True else a.repr), a.init)
++        for a in attrs
++        if a.repr is not False
++    )
++    globs = {
++        name + "_repr": r for name, r, _ in attr_names_with_reprs if r != repr
++    }
++    globs["_compat"] = _compat
++    globs["AttributeError"] = AttributeError
++    globs["NOTHING"] = NOTHING
++    attribute_fragments = []
++    for name, r, i in attr_names_with_reprs:
++        accessor = (
++            "self." + name if i else 'getattr(self, "' + name + '", NOTHING)'
+         )
+-        globs = {
+-            name + "_repr": r
+-            for name, r, _ in attr_names_with_reprs
+-            if r != repr
+-        }
+-        globs["_compat"] = _compat
+-        globs["AttributeError"] = AttributeError
+-        globs["NOTHING"] = NOTHING
+-        attribute_fragments = []
+-        for name, r, i in attr_names_with_reprs:
+-            accessor = (
+-                "self." + name
+-                if i
+-                else 'getattr(self, "' + name + '", NOTHING)'
+-            )
+-            fragment = (
+-                "%s={%s!r}" % (name, accessor)
+-                if r == repr
+-                else "%s={%s_repr(%s)}" % (name, name, accessor)
+-            )
+-            attribute_fragments.append(fragment)
+-        repr_fragment = ", ".join(attribute_fragments)
+-
+-        if ns is None:
+-            cls_name_fragment = (
+-                '{self.__class__.__qualname__.rsplit(">.", 1)[-1]}'
+-            )
+-        else:
+-            cls_name_fragment = ns + ".{self.__class__.__name__}"
+-
+-        lines = [
+-            "def __repr__(self):",
+-            "  try:",
+-            "    already_repring = _compat.repr_context.already_repring",
+-            "  except AttributeError:",
+-            "    already_repring = {id(self),}",
+-            "    _compat.repr_context.already_repring = already_repring",
+-            "  else:",
+-            "    if id(self) in already_repring:",
+-            "      return '...'",
+-            "    else:",
+-            "      already_repring.add(id(self))",
+-            "  try:",
+-            "    return f'%s(%s)'" % (cls_name_fragment, repr_fragment),
+-            "  finally:",
+-            "    already_repring.remove(id(self))",
+-        ]
+-
+-        return _make_method(
+-            "__repr__", "\n".join(lines), unique_filename, globs=globs
++        fragment = (
++            "%s={%s!r}" % (name, accessor)
++            if r == repr
++            else "%s={%s_repr(%s)}" % (name, name, accessor)
+         )
++        attribute_fragments.append(fragment)
++    repr_fragment = ", ".join(attribute_fragments)
+ 
+-else:
+-
+-    def _make_repr(attrs, ns, _):
+-        """
+-        Make a repr method that includes relevant *attrs*, adding *ns* to the
+-        full name.
+-        """
+-
+-        # Figure out which attributes to include, and which function to use to
+-        # format them. The a.repr value can be either bool or a custom
+-        # callable.
+-        attr_names_with_reprs = tuple(
+-            (a.name, repr if a.repr is True else a.repr)
+-            for a in attrs
+-            if a.repr is not False
+-        )
+-
+-        def __repr__(self):
+-            """
+-            Automatically created by attrs.
+-            """
+-            try:
+-                already_repring = _compat.repr_context.already_repring
+-            except AttributeError:
+-                already_repring = set()
+-                _compat.repr_context.already_repring = already_repring
+-
+-            if id(self) in already_repring:
+-                return "..."
+-            real_cls = self.__class__
+-            if ns is None:
+-                class_name = real_cls.__qualname__.rsplit(">.", 1)[-1]
+-            else:
+-                class_name = ns + "." + real_cls.__name__
++    if ns is None:
++        cls_name_fragment = '{self.__class__.__qualname__.rsplit(">.", 1)[-1]}'
++    else:
++        cls_name_fragment = ns + ".{self.__class__.__name__}"
+ 
+-            # Since 'self' remains on the stack (i.e.: strongly referenced)
+-            # for the duration of this call, it's safe to depend on id(...)
+-            # stability, and not need to track the instance and therefore
+-            # worry about properties like weakref- or hash-ability.
+-            already_repring.add(id(self))
+-            try:
+-                result = [class_name, "("]
+-                first = True
+-                for name, attr_repr in attr_names_with_reprs:
+-                    if first:
+-                        first = False
+-                    else:
+-                        result.append(", ")
+-                    result.extend(
+-                        (name, "=", attr_repr(getattr(self, name, NOTHING)))
+-                    )
+-                return "".join(result) + ")"
+-            finally:
+-                already_repring.remove(id(self))
++    lines = [
++        "def __repr__(self):",
++        "  try:",
++        "    already_repring = _compat.repr_context.already_repring",
++        "  except AttributeError:",
++        "    already_repring = {id(self),}",
++        "    _compat.repr_context.already_repring = already_repring",
++        "  else:",
++        "    if id(self) in already_repring:",
++        "      return '...'",
++        "    else:",
++        "      already_repring.add(id(self))",
++        "  try:",
++        "    return f'%s(%s)'" % (cls_name_fragment, repr_fragment),
++        "  finally:",
++        "    already_repring.remove(id(self))",
++    ]
+ 
+-        return __repr__
++    return _make_method(
++        "__repr__", "\n".join(lines), unique_filename, globs=globs
++    )
+ 
+ 
+ def _add_repr(cls, ns=None, attrs=None):
+@@ -1988,9 +1903,7 @@ def fields(cls):
+         raise TypeError("Passed object must be a class.")
+     attrs = getattr(cls, "__attrs_attrs__", None)
+     if attrs is None:
+-        raise NotAnAttrsClassError(
+-            "{cls!r} is not an attrs-decorated class.".format(cls=cls)
+-        )
++        raise NotAnAttrsClassError(f"{cls!r} is not an attrs-decorated class.")
+     return attrs
+ 
+ 
+@@ -2005,10 +1918,7 @@ def fields_dict(cls):
+     :raise attr.exceptions.NotAnAttrsClassError: If *cls* is not an ``attrs``
+         class.
+ 
+-    :rtype: an ordered dict where keys are attribute names and values are
+-        `attrs.Attribute`\\ s. This will be a `dict` if it's
+-        naturally ordered like on Python 3.6+ or an
+-        :class:`~collections.OrderedDict` otherwise.
++    :rtype: dict
+ 
+     .. versionadded:: 18.1.0
+     """
+@@ -2016,10 +1926,8 @@ def fields_dict(cls):
+         raise TypeError("Passed object must be a class.")
+     attrs = getattr(cls, "__attrs_attrs__", None)
+     if attrs is None:
+-        raise NotAnAttrsClassError(
+-            "{cls!r} is not an attrs-decorated class.".format(cls=cls)
+-        )
+-    return ordered_dict((a.name, a) for a in attrs)
++        raise NotAnAttrsClassError(f"{cls!r} is not an attrs-decorated class.")
++    return {a.name: a for a in attrs}
+ 
+ 
+ def validate(inst):
+@@ -2579,7 +2487,7 @@ def from_counting_attr(cls, name, ca, type=None):
+             type=type,
+             cmp=None,
+             inherited=False,
+-            **inst_dict
++            **inst_dict,
+         )
+ 
+     # Don't use attr.evolve since fields(Attribute) doesn't work
+@@ -2865,10 +2773,9 @@ def make_class(name, attrs, bases=(object,), **attributes_arguments):
+     :param attrs: A list of names or a dictionary of mappings of names to
+         attributes.
+ 
+-        If *attrs* is a list or an ordered dict (`dict` on Python 3.6+,
+-        `collections.OrderedDict` otherwise), the order is deduced from
+-        the order of the names or attributes inside *attrs*.  Otherwise the
+-        order of the definition of the attributes is used.
++        The order is deduced from the order of the names or attributes inside
++        *attrs*.  Otherwise the order of the definition of the attributes is
++        used.
+     :type attrs: `list` or `dict`
+ 
+     :param tuple bases: Classes that the new class will subclass.
+diff --git a/src/attr/_next_gen.py b/src/attr/_next_gen.py
+--- a/src/attr/_next_gen.py
++++ b/src/attr/_next_gen.py
+@@ -1,8 +1,8 @@
+ # SPDX-License-Identifier: MIT
+ 
+ """
+-These are Python 3.6+-only and keyword-only APIs that call `attr.s` and
+-`attr.ib` with different default values.
++These are keyword-only APIs that call `attr.s` and `attr.ib` with different
++default values.
+ """
+ 
+ 
+diff --git a/src/attr/converters.py b/src/attr/converters.py
+--- a/src/attr/converters.py
++++ b/src/attr/converters.py
+@@ -141,4 +141,4 @@ def to_bool(val):
+     except TypeError:
+         # Raised when "val" is not hashable (e.g., lists)
+         pass
+-    raise ValueError("Cannot convert value to bool: {}".format(val))
++    raise ValueError(f"Cannot convert value to bool: {val}")
+diff --git a/src/attr/validators.py b/src/attr/validators.py
+--- a/src/attr/validators.py
++++ b/src/attr/validators.py
+@@ -391,7 +391,7 @@ def __repr__(self):
+         iterable_identifier = (
+             ""
+             if self.iterable_validator is None
+-            else " {iterable!r}".format(iterable=self.iterable_validator)
++            else f" {self.iterable_validator!r}"
+         )
+         return (
+             "<deep_iterable validator for{iterable_identifier}"
+@@ -548,7 +548,7 @@ def __call__(self, inst, attr, value):
+             )
+ 
+     def __repr__(self):
+-        return "<max_len validator for {max}>".format(max=self.max_length)
++        return f"<max_len validator for {self.max_length}>"
+ 
+ 
+ def max_len(length):
+@@ -579,7 +579,7 @@ def __call__(self, inst, attr, value):
+             )
+ 
+     def __repr__(self):
+-        return "<min_len validator for {min}>".format(min=self.min_length)
++        return f"<min_len validator for {self.min_length}>"
+ 
+ 
+ def min_len(length):

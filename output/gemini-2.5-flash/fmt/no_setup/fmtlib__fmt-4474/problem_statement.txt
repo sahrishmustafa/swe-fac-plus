@@ -1,0 +1,26 @@
+Bustache does not compile anymore with v11
+The [bustache](https://github.com/jamboree/bustache) library does not compile with recent fmt versions.
+
+I'm using bustache at commit [1a6d4422](https://github.com/jamboree/bustache/commit/1a6d4422bff46c7c8f37d2ba48c910532bdc8b37) (almost up-to-date).
+Using fmt 10.2.1 the library compiles fine, with fmt 11.2.0 I get the following error:
+```
+In file included from /src/build/fmt-stage/include/fmt/format.h:41,
+                 from /src/build/bustache-prefix/src/bustache/include/bustache/model.hpp:18,
+                 from /src/build/bustache-prefix/src/bustache/include/bustache/render.hpp:10,
+                 from /src/build/bustache-prefix/src/bustache/src/render.cpp:8:
+/src/build/fmt-stage/include/fmt/base.h: In instantiation of ‘constexpr OutputIt fmt::v11::detail::copy(InputIt, InputIt, OutputIt) [with T = char; InputIt = const char*; OutputIt = std::back_insert_iterator<bustache::detail::output_buffer>; typename std::enable_if<(is_back_insert_iterator<OutputIt>::value && (! has_back_insert_iterator_container_append<OutputIt, InputIt>::value)), int>::type <anonymous> = 0]’:
+/src/build/fmt-stage/include/fmt/format.h:1663:26:   required from ‘constexpr OutputIt fmt::v11::detail::write_bytes(OutputIt, fmt::v11::string_view, const fmt::v11::format_specs&) [with Char = char; fmt::v11::align default_align = fmt::v11::align::left; OutputIt = std::back_insert_iterator<bustache::detail::output_buffer>; fmt::v11::string_view = fmt::v11::basic_string_view<char>]’
+/src/build/fmt-stage/include/fmt/format.h:3425:33:   required from ‘constexpr OutputIt fmt::v11::detail::write(OutputIt, T, const fmt::v11::format_specs&, locale_ref) [with Char = char; OutputIt = std::back_insert_iterator<bustache::detail::output_buffer>; T = bool; typename std::enable_if<std::is_same<T, bool>::value, int>::type <anonymous> = 0]’
+/src/build/fmt-stage/include/fmt/format.h:3647:23:   required from ‘constexpr decltype (ctx.out()) fmt::v11::detail::native_formatter<T, Char, TYPE>::format(const T&, FormatContext&) const [with FormatContext = fmt::v11::generic_context<std::back_insert_iterator<bustache::detail::output_buffer>, char>; T = bool; Char = char; fmt::v11::detail::type TYPE = fmt::v11::detail::type::bool_type; decltype (ctx.out()) = std::back_insert_iterator<bustache::detail::output_buffer>]’
+/src/build/bustache-prefix/src/bustache/include/bustache/model.hpp:354:19:   required from ‘void bustache::detail::print_fmt(const T&, bustache::output_handler, const char*) [with T = bool; bustache::output_handler = bustache::fn_ref<void(const char*, long unsigned int)>]’
+/src/build/bustache-prefix/src/bustache/src/render.cpp:511:30:   required from here
+/src/build/fmt-stage/include/fmt/base.h:2054:5: error: ‘struct bustache::detail::output_buffer’ has no member named ‘insert’
+ 2054 |   c.insert(c.end(), begin, end);
+      |   ~~^~~~~~
+/src/build/fmt-stage/include/fmt/base.h:2054:14: error: ‘struct bustache::detail::output_buffer’ has no member named ‘end’
+ 2054 |   c.insert(c.end(), begin, end);
+      |            ~~^~~
+```
+The bustache code uses a [custom buffer/container](https://github.com/jamboree/bustache/blob/master/include/bustache/model.hpp#L317-L354) that does not implement all "standard" methods, in particular no `insert` and no `end`. However it provides `push_back` and uses `std::back_insert_iterator`.
+
+I may be wrong, but while such a custom container may be a corner case for fmt, I believe there is an issue in the selected `copy` implementation. `std::back_insert_iterator` seems to only require a `push_back` method, so fmt should probably not call `insert`/`end`.

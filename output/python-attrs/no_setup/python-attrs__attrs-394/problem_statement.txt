@@ -1,0 +1,17 @@
+attrs._make should document why it is more restrictive with __eq__ than other comparisons
+The type check in `__eq__` for generated classes is different than in other comparison methods.
+
+For all other methods, `isinstance(other, self.__class__)` is used, which means subclasses will participate in the "happy" branch of the comparison.
+
+For `__eq__` though, [`other.__class__ is self.__class__`](https://github.com/python-attrs/attrs/blob/master/src/attr/_make.py#L867) is used, so a trivial subclass will *not* compare equal, leading to the quite confusing:
+
+```
+>>> import attr; Parent = attr.make_class("Parent", dict(foo=attr.ib())); Child = type("Child", (Parent,), {}); print (Parent(foo=1) == Parent(foo=1), Parent(foo=1) == Child(foo=1), Parent(foo=1) < Parent(foo=2), Child(foo=1) < Parent(foo=2))
+(True, False, True, True)
+```
+
+This strikes me as a bug (the incongruity), and that `__eq__` should use the same check, but even if it isn't, it likely bears mentioning that there's a difference.
+
+It even seems like dataclasses have even done something [oddly similar](https://www.youtube.com/watch?v=T-TwcmT6Rcw#t=24m09s), maybe just straight copying the code here?
+
+https://github.com/python-attrs/attrs/commit/d134ce45fc98323576a19f03e39669dce615c4e1 looks like it's the commit that originally made the change (though since then `__eq__` now is hand-generated).

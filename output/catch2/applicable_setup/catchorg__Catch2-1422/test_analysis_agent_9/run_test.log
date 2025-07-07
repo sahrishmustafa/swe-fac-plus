@@ -1,0 +1,626 @@
+2025-06-26 18:18:51,262 - INFO - Checking if image catchorg__catch2-1422-dockerfile9:latest exists locally...
+2025-06-26 18:18:51,297 - INFO - Image catchorg__catch2-1422-dockerfile9:latest found locally.
+2025-06-26 18:18:51,298 - INFO - Creating container for catchorg__catch2-1422...
+2025-06-26 18:18:52,048 - INFO - Container for catchorg__catch2-1422 started: b5efea35000ef622c6b01ed4a5e1d9298786fbec6678a893f7474767b9d0e693
+2025-06-26 18:18:52,049 - INFO - Intermediate patch for catchorg__catch2-1422 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/catch2/catchorg__Catch2-1422/test_analysis_agent_9/patch.diff, now applying to container...
+2025-06-26 18:18:52,272 - INFO - Failed to apply patch to container, trying again...
+2025-06-26 18:18:52,328 - INFO - Apply patch success:
+patching file include/internal/catch_commandline.cpp
+patching file include/internal/catch_list.cpp
+patching file include/internal/catch_list.h
+
+2025-06-26 18:18:52,442 - INFO - Git diff before:
+diff --git a/include/internal/catch_commandline.cpp b/include/internal/catch_commandline.cpp
+index c57b7ed7..66759ebb 100644
+--- a/include/internal/catch_commandline.cpp
++++ b/include/internal/catch_commandline.cpp
+@@ -10,6 +10,9 @@
+ 
+ #include "catch_string_manip.h"
+ 
++#include "catch_interfaces_registry_hub.h"
++#include "catch_interfaces_reporter.h"
++
+ #include <fstream>
+ #include <ctime>
+ 
+@@ -105,6 +108,18 @@ namespace Catch {
+                 return ParserResult::runtimeError( "Unrecognised verbosity, '" + verbosity + "'" );
+             return ParserResult::ok( ParseResultType::Matched );
+         };
++        auto const setReporter = [&]( std::string const& reporter ) {
++            IReporterRegistry::FactoryMap const& factories = getRegistryHub().getReporterRegistry().getFactories();
++
++            auto lcReporter = toLower( reporter );
++            auto result = factories.find( lcReporter );
++
++            if( factories.end() != result )
++                config.reporterName = lcReporter;
++            else
++                return ParserResult::runtimeError( "Unrecognized reporter, '" + reporter + "'. Check available with --list-reporters" );
++            return ParserResult::ok( ParseResultType::Matched );
++        };
+ 
+         auto cli
+             = ExeName( config.processName )
+@@ -130,7 +145,7 @@ namespace Catch {
+             | Opt( config.outputFilename, "filename" )
+                 ["-o"]["--out"]
+                 ( "output filename" )
+-            | Opt( config.reporterName, "name" )
++            | Opt( setReporter, "name" )
+                 ["-r"]["--reporter"]
+                 ( "reporter to use (defaults to console)" )
+             | Opt( config.name, "name" )
+diff --git a/include/internal/catch_list.cpp b/include/internal/catch_list.cpp
+index 3b0e33f1..6010ec15 100644
+--- a/include/internal/catch_list.cpp
++++ b/include/internal/catch_list.cpp
+@@ -124,7 +124,7 @@ namespace Catch {
+         return tagCounts.size();
+     }
+ 
+-    std::size_t listReporters( Config const& /*config*/ ) {
++    std::size_t listReporters() {
+         Catch::cout() << "Available reporters:\n";
+         IReporterRegistry::FactoryMap const& factories = getRegistryHub().getReporterRegistry().getFactories();
+         std::size_t maxNameLen = 0;
+@@ -155,7 +155,7 @@ namespace Catch {
+         if( config.listTags() )
+             listedCount = listedCount.valueOr(0) + listTags( config );
+         if( config.listReporters() )
+-            listedCount = listedCount.valueOr(0) + listReporters( config );
++            listedCount = listedCount.valueOr(0) + listReporters();
+         return listedCount;
+     }
+ 
+diff --git a/include/internal/catch_list.h b/include/internal/catch_list.h
+index 4bc96ec5..bd29d970 100644
+--- a/include/internal/catch_list.h
++++ b/include/internal/catch_list.h
+@@ -29,7 +29,7 @@ namespace Catch {
+ 
+     std::size_t listTags( Config const& config );
+ 
+-    std::size_t listReporters( Config const& /*config*/ );
++    std::size_t listReporters();
+     
+     Option<std::size_t> list( Config const& config );
+ 
+diff --git a/single_include/catch2/catch.hpp b/single_include/catch2/catch.hpp
+index 4191607a..d34fdc87 100644
+--- a/single_include/catch2/catch.hpp
++++ b/single_include/catch2/catch.hpp
+@@ -1,9 +1,9 @@
+ /*
+  *  Catch v2.4.1
+- *  Generated: 2018-09-28 15:50:15.645795
++ *  Generated: 2025-06-26 13:18:29.601507
+  *  ----------------------------------------------------------
+  *  This file has been merged from multiple headers. Please don't edit it directly
+- *  Copyright (c) 2018 Two Blue Cubes Ltd. All rights reserved.
++ *  Copyright (c) 2025 Two Blue Cubes Ltd. All rights reserved.
+  *
+  *  Distributed under the Boost Software License, Version 1.0. (See accompanying
+  *  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+@@ -356,6 +356,10 @@ namespace Catch {
+ #include <string>
+ #include <cstdint>
+ 
++// We need a dummy global operator<< so we can bring it into Catch namespace later
++struct Catch_global_namespace_dummy {};
++std::ostream& operator<<(std::ostream&, Catch_global_namespace_dummy);
++
+ namespace Catch {
+ 
+     struct CaseSensitive { enum Choice {
+@@ -397,6 +401,11 @@ namespace Catch {
+ 
+     std::ostream& operator << ( std::ostream& os, SourceLineInfo const& info );
+ 
++    // Bring in operator<< from global namespace into Catch namespace
++    // This is necessary because the overload of operator<< above makes
++    // lookup stop at namespace Catch
++    using ::operator<<;
++
+     // Use this in variadic streaming macros to allow
+     //    >> +StreamEndStop
+     // as well as
+@@ -850,14 +859,7 @@ inline id performOptionalSelector( id obj, SEL sel ) {
+ #pragma warning(disable:4180) // We attempt to stream a function (address) by const&, which MSVC complains about but is harmless
+ #endif
+ 
+-// We need a dummy global operator<< so we can bring it into Catch namespace later
+-struct Catch_global_namespace_dummy {};
+-std::ostream& operator<<(std::ostream&, Catch_global_namespace_dummy);
+-
+ namespace Catch {
+-    // Bring in operator<< from global namespace into Catch namespace
+-    using ::operator<<;
+-
+     namespace Detail {
+ 
+         extern const std::string unprintableString;
+@@ -5121,6 +5123,7 @@ namespace Catch {
+ 
+     struct LeakDetector {
+         LeakDetector();
++        ~LeakDetector();
+     };
+ 
+ }
+@@ -8292,6 +8295,10 @@ namespace Catch {
+     Catch::LeakDetector::LeakDetector() {}
+ 
+ #endif
++
++Catch::LeakDetector::~LeakDetector() {
++    Catch::cleanUp();
++}
+ // end catch_leak_detector.cpp
+ // start catch_list.cpp
+ 
+@@ -9930,13 +9937,22 @@ namespace Catch {
+         void libIdentify();
+ 
+         int applyCommandLine( int argc, char const * const * argv );
++    #if defined(CATCH_CONFIG_WCHAR) && defined(WIN32) && defined(UNICODE)
++        int applyCommandLine( int argc, wchar_t const * const * argv );
++    #endif
+ 
+         void useConfigData( ConfigData const& configData );
+ 
+-        int run( int argc, char* argv[] );
+-    #if defined(CATCH_CONFIG_WCHAR) && defined(WIN32) && defined(UNICODE)
+-        int run( int argc, wchar_t* const argv[] );
+-    #endif
++        template<typename CharT>
++        int run(int argc, CharT const * const argv[]) {
++            if (m_startupExceptions)
++                return 1;
++            int returnCode = applyCommandLine(argc, argv);
++            if (returnCode == 0)
++                returnCode = run();
++            return returnCode;
++        }
++
+         int run();
+ 
+         clara::Parser const& cli() const;
+@@ -10148,22 +10164,8 @@ namespace Catch {
+         return 0;
+     }
+ 
+-    void Session::useConfigData( ConfigData const& configData ) {
+-        m_configData = configData;
+-        m_config.reset();
+-    }
+-
+-    int Session::run( int argc, char* argv[] ) {
+-        if( m_startupExceptions )
+-            return 1;
+-        int returnCode = applyCommandLine( argc, argv );
+-        if( returnCode == 0 )
+-            returnCode = run();
+-        return returnCode;
+-    }
+-
+ #if defined(CATCH_CONFIG_WCHAR) && defined(WIN32) && defined(UNICODE)
+-    int Session::run( int argc, wchar_t* const argv[] ) {
++    int Session::applyCommandLine( int argc, wchar_t const * const * argv ) {
+ 
+         char **utf8Argv = new char *[ argc ];
+ 
+@@ -10175,7 +10177,7 @@ namespace Catch {
+             WideCharToMultiByte( CP_UTF8, 0, argv[i], -1, utf8Argv[i], bufSize, NULL, NULL );
+         }
+ 
+-        int returnCode = run( argc, utf8Argv );
++        int returnCode = applyCommandLine( argc, utf8Argv );
+ 
+         for ( int i = 0; i < argc; ++i )
+             delete [] utf8Argv[ i ];
+@@ -10185,6 +10187,12 @@ namespace Catch {
+         return returnCode;
+     }
+ #endif
++
++    void Session::useConfigData( ConfigData const& configData ) {
++        m_configData = configData;
++        m_config.reset();
++    }
++
+     int Session::run() {
+         if( ( m_configData.waitForKeypress & WaitForKeypress::BeforeStart ) != 0 ) {
+             Catch::cout() << "...waiting for enter/ return before starting" << std::endl;
+@@ -11686,7 +11694,7 @@ std::string StringMaker<bool>::convert(bool b) {
+     return b ? "true" : "false";
+ }
+ 
+-std::string StringMaker<char>::convert(char value) {
++std::string StringMaker<signed char>::convert(signed char value) {
+     if (value == '\r') {
+         return "'\\r'";
+     } else if (value == '\f') {
+@@ -11703,8 +11711,8 @@ std::string StringMaker<char>::convert(char value) {
+         return chstr;
+     }
+ }
+-std::string StringMaker<signed char>::convert(signed char c) {
+-    return ::Catch::Detail::stringify(static_cast<char>(c));
++std::string StringMaker<char>::convert(char c) {
++    return ::Catch::Detail::stringify(static_cast<signed char>(c));
+ }
+ std::string StringMaker<unsigned char>::convert(unsigned char c) {
+     return ::Catch::Detail::stringify(static_cast<char>(c));
+@@ -13517,6 +13525,9 @@ namespace Catch {
+         m_xml.startElement( "Catch" );
+         if( !m_config->name().empty() )
+             m_xml.writeAttribute( "name", m_config->name() );
++        if( m_config->rngSeed() != 0 )
++            m_xml.scopedElement( "Randomness" )
++                .writeAttribute( "seed", m_config->rngSeed() );
+     }
+ 
+     void XmlReporter::testGroupStarting( GroupInfo const& groupInfo ) {
+@@ -13792,6 +13803,14 @@ int main (int argc, char * const argv[]) {
+ 
+ #define CATCH_ANON_TEST_CASE() INTERNAL_CATCH_TESTCASE()
+ 
++#if !defined(CATCH_CONFIG_RUNTIME_STATIC_REQUIRE)
++#define CATCH_STATIC_REQUIRE( ... )       static_assert(   __VA_ARGS__ ,      #__VA_ARGS__ );     CATCH_SUCCEED( #__VA_ARGS__ )
++#define CATCH_STATIC_REQUIRE_FALSE( ... ) static_assert( !(__VA_ARGS__), "!(" #__VA_ARGS__ ")" ); CATCH_SUCCEED( #__VA_ARGS__ )
++#else
++#define CATCH_STATIC_REQUIRE( ... )       CATCH_REQUIRE( __VA_ARGS__ )
++#define CATCH_STATIC_REQUIRE_FALSE( ... ) CATCH_REQUIRE_FALSE( __VA_ARGS__ )
++#endif
++
+ // "BDD-style" convenience wrappers
+ #define CATCH_SCENARIO( ... ) CATCH_TEST_CASE( "Scenario: " __VA_ARGS__ )
+ #define CATCH_SCENARIO_METHOD( className, ... ) INTERNAL_CATCH_TEST_CASE_METHOD( className, "Scenario: " __VA_ARGS__ )
+@@ -13851,6 +13870,14 @@ int main (int argc, char * const argv[]) {
+ #define SUCCEED( ... ) INTERNAL_CATCH_MSG( "SUCCEED", Catch::ResultWas::Ok, Catch::ResultDisposition::ContinueOnFailure, __VA_ARGS__ )
+ #define ANON_TEST_CASE() INTERNAL_CATCH_TESTCASE()
+ 
++#if !defined(CATCH_CONFIG_RUNTIME_STATIC_REQUIRE)
++#define STATIC_REQUIRE( ... )       static_assert(   __VA_ARGS__,  #__VA_ARGS__ ); SUCCEED( #__VA_ARGS__ )
++#define STATIC_REQUIRE_FALSE( ... ) static_assert( !(__VA_ARGS__), "!(" #__VA_ARGS__ ")" ); SUCCEED( "!(" #__VA_ARGS__ ")" )
++#else
++#define STATIC_REQUIRE( ... )       REQUIRE( __VA_ARGS__ )
++#define STATIC_REQUIRE_FALSE( ... ) REQUIRE_FALSE( __VA_ARGS__ )
++#endif
++
+ #endif
+ 
+ #define CATCH_TRANSLATE_EXCEPTION( signature ) INTERNAL_CATCH_TRANSLATE_EXCEPTION( signature )
+@@ -13931,6 +13958,9 @@ using Catch::Detail::Approx;
+ #define CATCH_THEN( desc )
+ #define CATCH_AND_THEN( desc )
+ 
++#define CATCH_STATIC_REQUIRE( ... )       (void)(0)
++#define CATCH_STATIC_REQUIRE_FALSE( ... ) (void)(0)
++
+ // If CATCH_CONFIG_PREFIX_ALL is not defined then the CATCH_ prefix is not required
+ #else
+ 
+@@ -13980,6 +14010,9 @@ using Catch::Detail::Approx;
+ #define SUCCEED( ... ) (void)(0)
+ #define ANON_TEST_CASE() INTERNAL_CATCH_TESTCASE_NO_REGISTRATION(INTERNAL_CATCH_UNIQUE_NAME( ____C_A_T_C_H____T_E_S_T____ ))
+ 
++#define STATIC_REQUIRE( ... )       (void)(0)
++#define STATIC_REQUIRE_FALSE( ... ) (void)(0)
++
+ #endif
+ 
+ #define CATCH_TRANSLATE_EXCEPTION( signature ) INTERNAL_CATCH_TRANSLATE_EXCEPTION_NO_REG( INTERNAL_CATCH_UNIQUE_NAME( catch_internal_ExceptionTranslator ), signature )
+2025-06-26 18:18:52,442 - INFO - Eval script for catchorg__catch2-1422 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/catch2/catchorg__Catch2-1422/test_analysis_agent_9/patch.diff, now applying to container...
+2025-06-26 18:18:52,678 - INFO - Test output for catchorg__catch2-1422 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/catch2/catchorg__Catch2-1422/test_analysis_agent_9/test_output.txt
+2025-06-26 18:18:52,741 - INFO - Git diff after:
+diff --git a/include/internal/catch_commandline.cpp b/include/internal/catch_commandline.cpp
+index c57b7ed7..66759ebb 100644
+--- a/include/internal/catch_commandline.cpp
++++ b/include/internal/catch_commandline.cpp
+@@ -10,6 +10,9 @@
+ 
+ #include "catch_string_manip.h"
+ 
++#include "catch_interfaces_registry_hub.h"
++#include "catch_interfaces_reporter.h"
++
+ #include <fstream>
+ #include <ctime>
+ 
+@@ -105,6 +108,18 @@ namespace Catch {
+                 return ParserResult::runtimeError( "Unrecognised verbosity, '" + verbosity + "'" );
+             return ParserResult::ok( ParseResultType::Matched );
+         };
++        auto const setReporter = [&]( std::string const& reporter ) {
++            IReporterRegistry::FactoryMap const& factories = getRegistryHub().getReporterRegistry().getFactories();
++
++            auto lcReporter = toLower( reporter );
++            auto result = factories.find( lcReporter );
++
++            if( factories.end() != result )
++                config.reporterName = lcReporter;
++            else
++                return ParserResult::runtimeError( "Unrecognized reporter, '" + reporter + "'. Check available with --list-reporters" );
++            return ParserResult::ok( ParseResultType::Matched );
++        };
+ 
+         auto cli
+             = ExeName( config.processName )
+@@ -130,7 +145,7 @@ namespace Catch {
+             | Opt( config.outputFilename, "filename" )
+                 ["-o"]["--out"]
+                 ( "output filename" )
+-            | Opt( config.reporterName, "name" )
++            | Opt( setReporter, "name" )
+                 ["-r"]["--reporter"]
+                 ( "reporter to use (defaults to console)" )
+             | Opt( config.name, "name" )
+diff --git a/include/internal/catch_list.cpp b/include/internal/catch_list.cpp
+index 3b0e33f1..6010ec15 100644
+--- a/include/internal/catch_list.cpp
++++ b/include/internal/catch_list.cpp
+@@ -124,7 +124,7 @@ namespace Catch {
+         return tagCounts.size();
+     }
+ 
+-    std::size_t listReporters( Config const& /*config*/ ) {
++    std::size_t listReporters() {
+         Catch::cout() << "Available reporters:\n";
+         IReporterRegistry::FactoryMap const& factories = getRegistryHub().getReporterRegistry().getFactories();
+         std::size_t maxNameLen = 0;
+@@ -155,7 +155,7 @@ namespace Catch {
+         if( config.listTags() )
+             listedCount = listedCount.valueOr(0) + listTags( config );
+         if( config.listReporters() )
+-            listedCount = listedCount.valueOr(0) + listReporters( config );
++            listedCount = listedCount.valueOr(0) + listReporters();
+         return listedCount;
+     }
+ 
+diff --git a/include/internal/catch_list.h b/include/internal/catch_list.h
+index 4bc96ec5..bd29d970 100644
+--- a/include/internal/catch_list.h
++++ b/include/internal/catch_list.h
+@@ -29,7 +29,7 @@ namespace Catch {
+ 
+     std::size_t listTags( Config const& config );
+ 
+-    std::size_t listReporters( Config const& /*config*/ );
++    std::size_t listReporters();
+     
+     Option<std::size_t> list( Config const& config );
+ 
+diff --git a/single_include/catch2/catch.hpp b/single_include/catch2/catch.hpp
+index 4191607a..d34fdc87 100644
+--- a/single_include/catch2/catch.hpp
++++ b/single_include/catch2/catch.hpp
+@@ -1,9 +1,9 @@
+ /*
+  *  Catch v2.4.1
+- *  Generated: 2018-09-28 15:50:15.645795
++ *  Generated: 2025-06-26 13:18:29.601507
+  *  ----------------------------------------------------------
+  *  This file has been merged from multiple headers. Please don't edit it directly
+- *  Copyright (c) 2018 Two Blue Cubes Ltd. All rights reserved.
++ *  Copyright (c) 2025 Two Blue Cubes Ltd. All rights reserved.
+  *
+  *  Distributed under the Boost Software License, Version 1.0. (See accompanying
+  *  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+@@ -356,6 +356,10 @@ namespace Catch {
+ #include <string>
+ #include <cstdint>
+ 
++// We need a dummy global operator<< so we can bring it into Catch namespace later
++struct Catch_global_namespace_dummy {};
++std::ostream& operator<<(std::ostream&, Catch_global_namespace_dummy);
++
+ namespace Catch {
+ 
+     struct CaseSensitive { enum Choice {
+@@ -397,6 +401,11 @@ namespace Catch {
+ 
+     std::ostream& operator << ( std::ostream& os, SourceLineInfo const& info );
+ 
++    // Bring in operator<< from global namespace into Catch namespace
++    // This is necessary because the overload of operator<< above makes
++    // lookup stop at namespace Catch
++    using ::operator<<;
++
+     // Use this in variadic streaming macros to allow
+     //    >> +StreamEndStop
+     // as well as
+@@ -850,14 +859,7 @@ inline id performOptionalSelector( id obj, SEL sel ) {
+ #pragma warning(disable:4180) // We attempt to stream a function (address) by const&, which MSVC complains about but is harmless
+ #endif
+ 
+-// We need a dummy global operator<< so we can bring it into Catch namespace later
+-struct Catch_global_namespace_dummy {};
+-std::ostream& operator<<(std::ostream&, Catch_global_namespace_dummy);
+-
+ namespace Catch {
+-    // Bring in operator<< from global namespace into Catch namespace
+-    using ::operator<<;
+-
+     namespace Detail {
+ 
+         extern const std::string unprintableString;
+@@ -5121,6 +5123,7 @@ namespace Catch {
+ 
+     struct LeakDetector {
+         LeakDetector();
++        ~LeakDetector();
+     };
+ 
+ }
+@@ -8292,6 +8295,10 @@ namespace Catch {
+     Catch::LeakDetector::LeakDetector() {}
+ 
+ #endif
++
++Catch::LeakDetector::~LeakDetector() {
++    Catch::cleanUp();
++}
+ // end catch_leak_detector.cpp
+ // start catch_list.cpp
+ 
+@@ -9930,13 +9937,22 @@ namespace Catch {
+         void libIdentify();
+ 
+         int applyCommandLine( int argc, char const * const * argv );
++    #if defined(CATCH_CONFIG_WCHAR) && defined(WIN32) && defined(UNICODE)
++        int applyCommandLine( int argc, wchar_t const * const * argv );
++    #endif
+ 
+         void useConfigData( ConfigData const& configData );
+ 
+-        int run( int argc, char* argv[] );
+-    #if defined(CATCH_CONFIG_WCHAR) && defined(WIN32) && defined(UNICODE)
+-        int run( int argc, wchar_t* const argv[] );
+-    #endif
++        template<typename CharT>
++        int run(int argc, CharT const * const argv[]) {
++            if (m_startupExceptions)
++                return 1;
++            int returnCode = applyCommandLine(argc, argv);
++            if (returnCode == 0)
++                returnCode = run();
++            return returnCode;
++        }
++
+         int run();
+ 
+         clara::Parser const& cli() const;
+@@ -10148,22 +10164,8 @@ namespace Catch {
+         return 0;
+     }
+ 
+-    void Session::useConfigData( ConfigData const& configData ) {
+-        m_configData = configData;
+-        m_config.reset();
+-    }
+-
+-    int Session::run( int argc, char* argv[] ) {
+-        if( m_startupExceptions )
+-            return 1;
+-        int returnCode = applyCommandLine( argc, argv );
+-        if( returnCode == 0 )
+-            returnCode = run();
+-        return returnCode;
+-    }
+-
+ #if defined(CATCH_CONFIG_WCHAR) && defined(WIN32) && defined(UNICODE)
+-    int Session::run( int argc, wchar_t* const argv[] ) {
++    int Session::applyCommandLine( int argc, wchar_t const * const * argv ) {
+ 
+         char **utf8Argv = new char *[ argc ];
+ 
+@@ -10175,7 +10177,7 @@ namespace Catch {
+             WideCharToMultiByte( CP_UTF8, 0, argv[i], -1, utf8Argv[i], bufSize, NULL, NULL );
+         }
+ 
+-        int returnCode = run( argc, utf8Argv );
++        int returnCode = applyCommandLine( argc, utf8Argv );
+ 
+         for ( int i = 0; i < argc; ++i )
+             delete [] utf8Argv[ i ];
+@@ -10185,6 +10187,12 @@ namespace Catch {
+         return returnCode;
+     }
+ #endif
++
++    void Session::useConfigData( ConfigData const& configData ) {
++        m_configData = configData;
++        m_config.reset();
++    }
++
+     int Session::run() {
+         if( ( m_configData.waitForKeypress & WaitForKeypress::BeforeStart ) != 0 ) {
+             Catch::cout() << "...waiting for enter/ return before starting" << std::endl;
+@@ -11686,7 +11694,7 @@ std::string StringMaker<bool>::convert(bool b) {
+     return b ? "true" : "false";
+ }
+ 
+-std::string StringMaker<char>::convert(char value) {
++std::string StringMaker<signed char>::convert(signed char value) {
+     if (value == '\r') {
+         return "'\\r'";
+     } else if (value == '\f') {
+@@ -11703,8 +11711,8 @@ std::string StringMaker<char>::convert(char value) {
+         return chstr;
+     }
+ }
+-std::string StringMaker<signed char>::convert(signed char c) {
+-    return ::Catch::Detail::stringify(static_cast<char>(c));
++std::string StringMaker<char>::convert(char c) {
++    return ::Catch::Detail::stringify(static_cast<signed char>(c));
+ }
+ std::string StringMaker<unsigned char>::convert(unsigned char c) {
+     return ::Catch::Detail::stringify(static_cast<char>(c));
+@@ -13517,6 +13525,9 @@ namespace Catch {
+         m_xml.startElement( "Catch" );
+         if( !m_config->name().empty() )
+             m_xml.writeAttribute( "name", m_config->name() );
++        if( m_config->rngSeed() != 0 )
++            m_xml.scopedElement( "Randomness" )
++                .writeAttribute( "seed", m_config->rngSeed() );
+     }
+ 
+     void XmlReporter::testGroupStarting( GroupInfo const& groupInfo ) {
+@@ -13792,6 +13803,14 @@ int main (int argc, char * const argv[]) {
+ 
+ #define CATCH_ANON_TEST_CASE() INTERNAL_CATCH_TESTCASE()
+ 
++#if !defined(CATCH_CONFIG_RUNTIME_STATIC_REQUIRE)
++#define CATCH_STATIC_REQUIRE( ... )       static_assert(   __VA_ARGS__ ,      #__VA_ARGS__ );     CATCH_SUCCEED( #__VA_ARGS__ )
++#define CATCH_STATIC_REQUIRE_FALSE( ... ) static_assert( !(__VA_ARGS__), "!(" #__VA_ARGS__ ")" ); CATCH_SUCCEED( #__VA_ARGS__ )
++#else
++#define CATCH_STATIC_REQUIRE( ... )       CATCH_REQUIRE( __VA_ARGS__ )
++#define CATCH_STATIC_REQUIRE_FALSE( ... ) CATCH_REQUIRE_FALSE( __VA_ARGS__ )
++#endif
++
+ // "BDD-style" convenience wrappers
+ #define CATCH_SCENARIO( ... ) CATCH_TEST_CASE( "Scenario: " __VA_ARGS__ )
+ #define CATCH_SCENARIO_METHOD( className, ... ) INTERNAL_CATCH_TEST_CASE_METHOD( className, "Scenario: " __VA_ARGS__ )
+@@ -13851,6 +13870,14 @@ int main (int argc, char * const argv[]) {
+ #define SUCCEED( ... ) INTERNAL_CATCH_MSG( "SUCCEED", Catch::ResultWas::Ok, Catch::ResultDisposition::ContinueOnFailure, __VA_ARGS__ )
+ #define ANON_TEST_CASE() INTERNAL_CATCH_TESTCASE()
+ 
++#if !defined(CATCH_CONFIG_RUNTIME_STATIC_REQUIRE)
++#define STATIC_REQUIRE( ... )       static_assert(   __VA_ARGS__,  #__VA_ARGS__ ); SUCCEED( #__VA_ARGS__ )
++#define STATIC_REQUIRE_FALSE( ... ) static_assert( !(__VA_ARGS__), "!(" #__VA_ARGS__ ")" ); SUCCEED( "!(" #__VA_ARGS__ ")" )
++#else
++#define STATIC_REQUIRE( ... )       REQUIRE( __VA_ARGS__ )
++#define STATIC_REQUIRE_FALSE( ... ) REQUIRE_FALSE( __VA_ARGS__ )
++#endif
++
+ #endif
+ 
+ #define CATCH_TRANSLATE_EXCEPTION( signature ) INTERNAL_CATCH_TRANSLATE_EXCEPTION( signature )
+@@ -13931,6 +13958,9 @@ using Catch::Detail::Approx;
+ #define CATCH_THEN( desc )
+ #define CATCH_AND_THEN( desc )
+ 
++#define CATCH_STATIC_REQUIRE( ... )       (void)(0)
++#define CATCH_STATIC_REQUIRE_FALSE( ... ) (void)(0)
++
+ // If CATCH_CONFIG_PREFIX_ALL is not defined then the CATCH_ prefix is not required
+ #else
+ 
+@@ -13980,6 +14010,9 @@ using Catch::Detail::Approx;
+ #define SUCCEED( ... ) (void)(0)
+ #define ANON_TEST_CASE() INTERNAL_CATCH_TESTCASE_NO_REGISTRATION(INTERNAL_CATCH_UNIQUE_NAME( ____C_A_T_C_H____T_E_S_T____ ))
+ 
++#define STATIC_REQUIRE( ... )       (void)(0)
++#define STATIC_REQUIRE_FALSE( ... ) (void)(0)
++
+ #endif
+ 
+ #define CATCH_TRANSLATE_EXCEPTION( signature ) INTERNAL_CATCH_TRANSLATE_EXCEPTION_NO_REG( INTERNAL_CATCH_UNIQUE_NAME( catch_internal_ExceptionTranslator ), signature )
+2025-06-26 18:18:52,741 - INFO - Attempting to stop container catchorg__catch2-1422-test7...
+2025-06-26 18:19:07,901 - INFO - Attempting to remove container catchorg__catch2-1422-test7...
+2025-06-26 18:19:07,926 - INFO - Container catchorg__catch2-1422-test7 removed.
+2025-06-26 18:19:07,926 - INFO - Attempting to remove image catchorg__catch2-1422-dockerfile9:latest...
+2025-06-26 18:19:08,774 - INFO - Image catchorg__catch2-1422-dockerfile9:latest removed.

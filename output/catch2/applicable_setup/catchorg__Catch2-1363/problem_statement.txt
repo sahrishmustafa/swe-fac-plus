@@ -1,0 +1,9 @@
+Feature Request: AND_GIVEN
+
+To be consistent with the `AND_WHEN` and `AND_THEN`; 
+
+With BDD:
+
+there are times when you require to expand the context, if you feel a need to type *'and'* in the context of a `GIVEN`, `WHEN`, and/or `THEN`, you should use `AND`.
+
+we don't have an `AND`, because that just doesn't work in this abstraction; thus we have `AND_WHEN` and `AND_THEN`; thus we should also have `AND_GIVEN`.

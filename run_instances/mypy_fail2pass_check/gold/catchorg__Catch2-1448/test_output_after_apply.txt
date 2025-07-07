@@ -1,0 +1,36 @@
++ cd /testbed
++ git checkout 62460fafe6b54c3173bc5cbc46d05a5f071017ff projects/SelfTest/UsageTests/Message.tests.cpp
+Updated 1 path from ad6ef240
++ git apply -v -
+Checking patch projects/SelfTest/UsageTests/Message.tests.cpp...
+Applied patch projects/SelfTest/UsageTests/Message.tests.cpp cleanly.
++ cd build
+++ nproc
++ ctest -j12 --output-on-failure
+Test project /testbed/build
+    Start 1: RunTests
+    Start 2: ListTests
+    Start 3: ListTags
+    Start 4: ListReporters
+    Start 5: ListTestNamesOnly
+    Start 6: NoAssertions
+    Start 7: NoTest
+    Start 8: ApprovalTests
+1/8 Test #1: RunTests .........................   Passed    0.02 sec
+2/8 Test #2: ListTests ........................   Passed    0.02 sec
+3/8 Test #3: ListTags .........................   Passed    0.02 sec
+4/8 Test #4: ListReporters ....................   Passed    0.02 sec
+5/8 Test #5: ListTestNamesOnly ................   Passed    0.01 sec
+6/8 Test #7: NoTest ...........................   Passed    0.01 sec
+7/8 Test #6: NoAssertions .....................   Passed    0.02 sec
+8/8 Test #8: ApprovalTests ....................   Passed    0.55 sec
+
+100% tests passed, 0 tests failed out of 8
+
+Total Test time (real) =   0.57 sec
++ rc=0
++ echo OMNIGRIL_EXIT_CODE=0
++ cd /testbed
++ git checkout 62460fafe6b54c3173bc5cbc46d05a5f071017ff projects/SelfTest/UsageTests/Message.tests.cpp
+OMNIGRIL_EXIT_CODE=0
+Updated 1 path from ad6ef240

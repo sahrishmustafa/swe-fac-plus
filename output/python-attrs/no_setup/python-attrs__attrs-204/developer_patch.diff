@@ -1,0 +1,12 @@
+diff --git a/src/attr/_make.py b/src/attr/_make.py
+--- a/src/attr/_make.py
++++ b/src/attr/_make.py
+@@ -965,7 +965,7 @@ def default(self, meth):
+ _CountingAttr = _add_cmp(_add_repr(_CountingAttr))
+ 
+ 
+-@attributes(slots=True, init=False)
++@attributes(slots=True, init=False, hash=True)
+ class Factory(object):
+     """
+     Stores a factory callable.

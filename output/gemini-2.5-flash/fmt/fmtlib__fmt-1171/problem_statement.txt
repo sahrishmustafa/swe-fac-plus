@@ -1,0 +1,14 @@
+fmt::prepare fails to compile formatting to an array of chars
+It's reproducible by such a simple code:
+```cpp
+#include <fmt/prepare.h>
+
+int main()
+{
+    char buffer[32];
+    auto prepared = fmt::prepare<int>("12{}");
+    auto formatted = prepared.format_to(buffer, 3);
+}
+```
+
+See an [example](https://gcc.godbolt.org/#g:!((g:!((g:!((h:codeEditor,i:(j:1,lang:c%2B%2B,source:'%23include+%3Cfmt/prepare.h%3E%0A%0Aint+main()%0A%7B%0A++++char+buffer%5B32%5D%3B%0A++++auto+prepared+%3D+fmt::prepare%3Cint%3E(%2212%7B%7D%22)%3B%0A++++auto+formatted+%3D+prepared.format_to(buffer,+3)%3B%0A%7D%0A'),l:'5',n:'0',o:'C%2B%2B+source+%231',t:'0')),k:34.12334812716754,l:'4',n:'0',o:'',s:0,t:'0'),(g:!((h:compiler,i:(compiler:clang800,filters:(b:'0',binary:'1',commentOnly:'0',demangle:'0',directives:'0',execute:'1',intel:'0',libraryCode:'1',trim:'1'),lang:c%2B%2B,libs:!((name:boost,ver:'168'),(name:fmt,ver:trunk)),options:'-std%3Dgnu%2B%2B17+-O2',source:1),l:'5',n:'0',o:'x86-64+clang+8.0.0+(Editor+%231,+Compiler+%231)+C%2B%2B',t:'0')),k:28.69276284992644,l:'4',n:'0',o:'',s:0,t:'0'),(g:!((h:output,i:(compiler:1,editor:1,wrap:'1'),l:'5',n:'0',o:'%231+with+x86-64+clang+8.0.0',t:'0')),k:37.183889022906065,l:'4',n:'0',o:'',s:0,t:'0')),l:'2',n:'0',o:'',t:'0')),version:4)

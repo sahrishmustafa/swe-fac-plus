@@ -1,0 +1,100 @@
++ cd /testbed
++ git checkout 88f4be3d19364a484431309f750535386c7d0d5c test/util-test.cc
+Updated 0 paths from f2f7ba6b
++ git apply -v -
+Checking patch test/util-test.cc...
+Applied patch test/util-test.cc cleanly.
++ cd build
+++ nproc
++ make -j12
+Consolidate compiler generated dependencies of target gmock
+Consolidate compiler generated dependencies of target format
+Consolidate compiler generated dependencies of target noexception-test
+[  3%] Built target gmock
+Consolidate compiler generated dependencies of target testformat
+[  7%] Building CXX object CMakeFiles/format.dir/posix.cc.o
+[  7%] Building CXX object CMakeFiles/format.dir/format.cc.o
+[  9%] Building CXX object test/CMakeFiles/noexception-test.dir/__/format.cc.o
+[ 17%] Building CXX object CMakeFiles/testformat.dir/test/format-impl-test.cc.o
+[ 17%] Building CXX object CMakeFiles/testformat.dir/test/gtest-extra.cc.o
+[ 17%] Building CXX object CMakeFiles/testformat.dir/test/gtest-extra-test.cc.o
+[ 17%] Building CXX object CMakeFiles/testformat.dir/test/format-test.cc.o
+Consolidate compiler generated dependencies of target header-only-test
+[ 19%] Building CXX object CMakeFiles/testformat.dir/test/header-only-test2.cc.o
+[ 21%] Building CXX object CMakeFiles/testformat.dir/test/header-only-test.cc.o
+Consolidate compiler generated dependencies of target posix-test
+Consolidate compiler generated dependencies of target macro-test
+[ 23%] Building CXX object test/CMakeFiles/header-only-test.dir/header-only-test.cc.o
+[ 25%] Building CXX object test/CMakeFiles/posix-test.dir/posix-test.cc.o
+[ 26%] Building CXX object test/CMakeFiles/macro-test.dir/macro-test.cc.o
+[ 28%] Building CXX object test/CMakeFiles/posix-test.dir/__/format.cc.o
+[ 32%] Building CXX object test/CMakeFiles/posix-test.dir/__/posix.cc.o
+[ 32%] Building CXX object test/CMakeFiles/header-only-test.dir/header-only-test2.cc.o
+[ 34%] Building CXX object test/CMakeFiles/posix-test.dir/gtest-extra.cc.o
+[ 36%] Linking CXX executable ../bin/header-only-test
+[ 38%] Building CXX object test/CMakeFiles/macro-test.dir/__/format.cc.o
+[ 40%] Built target header-only-test
+[ 42%] Building CXX object CMakeFiles/testformat.dir/test/macro-test.cc.o
+[ 44%] Building CXX object test/CMakeFiles/macro-test.dir/__/posix.cc.o
+[ 46%] Building CXX object CMakeFiles/testformat.dir/test/posix-test.cc.o
+[ 50%] Building CXX object CMakeFiles/testformat.dir/test/printf-test.cc.o
+[ 50%] Building CXX object test/CMakeFiles/macro-test.dir/gtest-extra.cc.o
+[ 51%] Linking CXX static library libnoexception-test.a
+[ 53%] Linking CXX static library libformat.a
+[ 53%] Built target noexception-test
+[ 55%] Building CXX object CMakeFiles/testformat.dir/test/util-test.cc.o
+[ 55%] Built target format
+Consolidate compiler generated dependencies of target test-main
+[ 57%] Building CXX object test/CMakeFiles/test-main.dir/gtest-extra.cc.o
+[ 59%] Linking CXX executable ../bin/posix-test
+[ 63%] Built target posix-test
+[ 65%] Linking CXX executable ../bin/macro-test
+[ 69%] Built target macro-test
+[ 71%] Linking CXX static library libtest-main.a
+[ 75%] Built target test-main
+Consolidate compiler generated dependencies of target printf-test
+Consolidate compiler generated dependencies of target format-test
+Consolidate compiler generated dependencies of target gtest-extra-test
+Consolidate compiler generated dependencies of target format-impl-test
+Consolidate compiler generated dependencies of target util-test
+[ 76%] Building CXX object test/CMakeFiles/printf-test.dir/printf-test.cc.o
+[ 78%] Building CXX object test/CMakeFiles/format-test.dir/format-test.cc.o
+[ 80%] Building CXX object test/CMakeFiles/gtest-extra-test.dir/gtest-extra-test.cc.o
+[ 82%] Building CXX object test/CMakeFiles/format-impl-test.dir/format-impl-test.cc.o
+[ 84%] Building CXX object test/CMakeFiles/util-test.dir/util-test.cc.o
+[ 86%] Linking CXX executable ../bin/format-impl-test
+[ 86%] Built target format-impl-test
+[ 88%] Linking CXX executable ../bin/gtest-extra-test
+[ 88%] Built target gtest-extra-test
+[ 90%] Linking CXX executable ../bin/util-test
+[ 90%] Built target util-test
+[ 92%] Linking CXX executable ../bin/format-test
+[ 92%] Built target format-test
+[ 94%] Linking CXX executable ../bin/printf-test
+[ 94%] Built target printf-test
+[ 96%] Linking CXX static library libtestformat.a
+[100%] Built target testformat
++ CTEST_OUTPUT_ON_FAILURE=1
++ ctest -R util-test
+Test project /testbed/build
+    Start 5: util-test
+1/1 Test #5: util-test ........................***Exception: SegFault  0.00 sec
+[==========] Running 34 tests from 6 test cases.
+[----------] Global test environment set-up.
+[----------] 1 test from AllocatorTest
+[ RUN      ] AllocatorTest.AllocatorRef
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   0.00 sec
+
+The following tests FAILED:
+	  5 - util-test (SEGFAULT)
+Errors while running CTest
++ rc=8
++ echo OMNIGRIL_EXIT_CODE=8
+OMNIGRIL_EXIT_CODE=8
++ cd /testbed
++ git checkout 88f4be3d19364a484431309f750535386c7d0d5c test/util-test.cc
+Updated 1 path from f2f7ba6b

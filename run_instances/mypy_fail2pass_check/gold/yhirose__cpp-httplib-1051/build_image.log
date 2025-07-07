@@ -1,0 +1,1458 @@
+2025-07-07 03:18:27,376 - INFO - Building image setup.yhirose__cpp-httplib-1051:latest
+Using dockerfile:
+FROM ubuntu:20.04
+
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Etc/UTC
+
+RUN apt update && apt install -y \
+    git \
+    build-essential \
+    cmake \
+    libssl-dev \
+    zlib1g-dev \
+    libbrotli-dev \
+    libgtest-dev \
+    python3 \
+    openssl \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /testbed/
+
+RUN git clone https://github.com/yhirose/cpp-httplib.git /testbed
+RUN cd /testbed && git reset --hard 3c522386e961d61768ea527d04713b5402356dd4
+
+RUN cd /testbed/test && \
+    openssl genrsa 2048 > key.pem && \
+    python3 ../split.py -o . && \
+    openssl req -new -batch -config test.conf -key key.pem | openssl x509 -days 3650 -req -signkey key.pem > cert.pem && \
+    openssl req -x509 -config test.conf -key key.pem -sha256 -days 3650 -nodes -out cert2.pem -extensions SAN && \
+    openssl genrsa 2048 > rootCA.key.pem && \
+    openssl req -x509 -new -batch -config test.rootCA.conf -key rootCA.key.pem -days 1024 > rootCA.cert.pem && \
+    openssl genrsa 2048 > client.key.pem && \
+    openssl req -new -batch -config test.conf -key client.key.pem | openssl x509 -days 370 -req -CA rootCA.cert.pem -CAkey rootCA.key.pem -CAcreateserial > client.cert.pem && \
+    g++ -o test -I.. -g -std=c++11 -I. -Wall -Wextra -Wtype-limits -Wconversion test.cc include_httplib.cc gtest/gtest-all.cc gtest/gtest_main.cc -DCPPHTTPLIB_OPENSSL_SUPPORT -lssl -lcrypto -DCPPHTTPLIB_ZLIB_SUPPORT -lz -DCPPHTTPLIB_BROTLI_SUPPORT -lbrotlicommon -lbrotlienc -lbrotlidec -pthread
+Adding (0) setup scripts to image build repo
+2025-07-07 03:18:27,377 - INFO - Building docker image setup.yhirose__cpp-httplib-1051:latest in run_instances/mypy_fail2pass_check/gold/yhirose__cpp-httplib-1051 with platform linux/x86_64
+2025-07-07 03:18:28,493 - INFO - Step 1/8 : FROM ubuntu:20.04
+2025-07-07 03:18:28,493 - INFO - 
+2025-07-07 03:18:28,506 - INFO - ---> 8feb4d8ca535
+2025-07-07 03:18:28,506 - INFO - Step 2/8 : ARG DEBIAN_FRONTEND=noninteractive
+2025-07-07 03:18:28,506 - INFO - 
+2025-07-07 03:18:28,571 - INFO - ---> Running in 202b393f5229
+2025-07-07 03:18:28,955 - INFO - ---> Removed intermediate container 202b393f5229
+2025-07-07 03:18:28,955 - INFO - ---> 9f8d298bb1ed
+2025-07-07 03:18:28,955 - INFO - Step 3/8 : ENV TZ=Etc/UTC
+2025-07-07 03:18:28,955 - INFO - 
+2025-07-07 03:18:29,017 - INFO - ---> Running in 0da7a78aeee6
+2025-07-07 03:18:29,365 - INFO - ---> Removed intermediate container 0da7a78aeee6
+2025-07-07 03:18:29,365 - INFO - ---> 7c0908a80e5a
+2025-07-07 03:18:29,365 - INFO - Step 4/8 : RUN apt update && apt install -y     git     build-essential     cmake     libssl-dev     zlib1g-dev     libbrotli-dev     libgtest-dev     python3     openssl     && rm -rf /var/lib/apt/lists/*
+2025-07-07 03:18:29,365 - INFO - 
+2025-07-07 03:18:29,437 - INFO - ---> Running in a69fb5debca5
+2025-07-07 03:18:29,555 - INFO - WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+2025-07-07 03:18:30,703 - INFO - Get:1 http://archive.ubuntu.com/ubuntu focal InRelease [265 kB]
+Get:2 http://security.ubuntu.com/ubuntu focal-security InRelease [128 kB]
+2025-07-07 03:18:32,171 - INFO - Get:3 http://security.ubuntu.com/ubuntu focal-security/multiverse amd64 Packages [33.1 kB]
+2025-07-07 03:18:32,503 - INFO - Get:4 http://security.ubuntu.com/ubuntu focal-security/main amd64 Packages [4431 kB]
+2025-07-07 03:18:33,050 - INFO - Get:5 http://archive.ubuntu.com/ubuntu focal-updates InRelease [128 kB]
+2025-07-07 03:18:33,837 - INFO - Get:6 http://archive.ubuntu.com/ubuntu focal-backports InRelease [128 kB]
+2025-07-07 03:18:34,072 - INFO - Get:7 http://security.ubuntu.com/ubuntu focal-security/universe amd64 Packages [1308 kB]
+2025-07-07 03:18:34,249 - INFO - Get:8 http://security.ubuntu.com/ubuntu focal-security/restricted amd64 Packages [4801 kB]
+2025-07-07 03:18:34,416 - INFO - Get:9 http://archive.ubuntu.com/ubuntu focal/main amd64 Packages [1275 kB]
+2025-07-07 03:18:37,555 - INFO - Get:10 http://archive.ubuntu.com/ubuntu focal/universe amd64 Packages [11.3 MB]
+2025-07-07 03:18:42,046 - INFO - Get:11 http://archive.ubuntu.com/ubuntu focal/multiverse amd64 Packages [177 kB]
+2025-07-07 03:18:42,071 - INFO - Get:12 http://archive.ubuntu.com/ubuntu focal/restricted amd64 Packages [33.4 kB]
+2025-07-07 03:18:42,077 - INFO - Get:13 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 Packages [4919 kB]
+2025-07-07 03:18:42,843 - INFO - Get:14 http://archive.ubuntu.com/ubuntu focal-updates/multiverse amd64 Packages [36.8 kB]
+2025-07-07 03:18:42,846 - INFO - Get:15 http://archive.ubuntu.com/ubuntu focal-updates/universe amd64 Packages [1599 kB]
+2025-07-07 03:18:43,093 - INFO - Get:16 http://archive.ubuntu.com/ubuntu focal-updates/restricted amd64 Packages [4998 kB]
+2025-07-07 03:18:43,791 - INFO - Get:17 http://archive.ubuntu.com/ubuntu focal-backports/universe amd64 Packages [28.6 kB]
+2025-07-07 03:18:43,795 - INFO - Get:18 http://archive.ubuntu.com/ubuntu focal-backports/main amd64 Packages [55.2 kB]
+2025-07-07 03:18:44,007 - INFO - Fetched 35.7 MB in 14s (2477 kB/s)
+Reading package lists...
+2025-07-07 03:18:44,963 - INFO - 
+2025-07-07 03:18:44,980 - INFO - Building dependency tree...
+2025-07-07 03:18:45,209 - INFO - Reading state information...
+2025-07-07 03:18:45,237 - INFO - 4 packages can be upgraded. Run 'apt list --upgradable' to see them.
+2025-07-07 03:18:45,242 - INFO - WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+2025-07-07 03:18:45,309 - INFO - Reading package lists...
+2025-07-07 03:18:46,268 - INFO - 
+2025-07-07 03:18:46,287 - INFO - Building dependency tree...
+2025-07-07 03:18:46,526 - INFO - Reading state information...
+2025-07-07 03:18:46,901 - INFO - The following additional packages will be installed:
+  binutils binutils-common binutils-x86-64-linux-gnu ca-certificates
+  cmake-data cpp cpp-9 dirmngr dpkg-dev fakeroot file g++ g++-9 gcc gcc-9
+  gcc-9-base git-man gnupg gnupg-l10n gnupg-utils googletest gpg gpg-agent
+  gpg-wks-client gpg-wks-server gpgconf gpgsm krb5-locales less
+  libalgorithm-diff-perl libalgorithm-diff-xs-perl libalgorithm-merge-perl
+  libarchive13 libasan5 libasn1-8-heimdal libassuan0 libatomic1 libbinutils
+  libbrotli1 libbsd0 libc-dev-bin libc6 libc6-dev libcbor0.6 libcc1-0
+  libcrypt-dev libctf-nobfd0 libctf0 libcurl3-gnutls libcurl4 libdpkg-perl
+  libedit2 liberror-perl libexpat1 libfakeroot libfido2-1
+  libfile-fcntllock-perl libgcc-9-dev libgdbm-compat4 libgdbm6 libgomp1
+  libgssapi-krb5-2 libgssapi3-heimdal libhcrypto4-heimdal libheimbase1-heimdal
+  libheimntlm0-heimdal libhx509-5-heimdal libicu66 libisl22 libitm1
+  libjsoncpp1 libk5crypto3 libkeyutils1 libkrb5-26-heimdal libkrb5-3
+  libkrb5support0 libksba8 libldap-2.4-2 libldap-common liblocale-gettext-perl
+2025-07-07 03:18:46,901 - INFO - liblsan0 libmagic-mgc libmagic1 libmpc3 libmpdec2 libmpfr6 libnghttp2-14
+  libnpth0 libperl5.30 libpsl5 libpython3-stdlib libpython3.8-minimal
+  libpython3.8-stdlib libquadmath0 libreadline8 librhash0 libroken18-heimdal
+2025-07-07 03:18:46,901 - INFO - librtmp1 libsasl2-2 libsasl2-modules libsasl2-modules-db libsqlite3-0
+  libssh-4 libssl1.1 libstdc++-9-dev libtsan0 libubsan1 libuv1
+  libwind0-heimdal libx11-6 libx11-data libxau6 libxcb1 libxdmcp6 libxext6
+2025-07-07 03:18:46,902 - INFO - libxml2 libxmuu1 linux-libc-dev make manpages manpages-dev mime-support
+2025-07-07 03:18:46,902 - INFO - netbase openssh-client patch perl perl-modules-5.30 pinentry-curses
+2025-07-07 03:18:46,902 - INFO - publicsuffix python3-minimal python3.8 python3.8-minimal readline-common
+2025-07-07 03:18:46,902 - INFO - tzdata xauth xz-utils
+2025-07-07 03:18:46,904 - INFO - Suggested packages:
+  binutils-doc cmake-doc ninja-build cpp-doc gcc-9-locales dbus-user-session
+  libpam-systemd pinentry-gnome3 tor debian-keyring g++-multilib
+  g++-9-multilib gcc-9-doc gcc-multilib autoconf automake libtool flex bison
+  gdb gcc-doc gcc-9-multilib gettext-base git-daemon-run | git-daemon-sysvinit
+  git-doc git-el git-email git-gui gitk gitweb git-cvs git-mediawiki git-svn
+  parcimonie xloadimage scdaemon lrzip glibc-doc locales bzr gdbm-l10n
+  krb5-doc krb5-user libsasl2-modules-gssapi-mit
+  | libsasl2-modules-gssapi-heimdal libsasl2-modules-ldap libsasl2-modules-otp
+  libsasl2-modules-sql libssl-doc libstdc++-9-doc make-doc man-browser
+  keychain libpam-ssh monkeysphere ssh-askpass ed diffutils-doc perl-doc
+  libterm-readline-gnu-perl | libterm-readline-perl-perl libb-debug-perl
+  liblocale-codes-perl pinentry-doc python3-doc python3-tk python3-venv
+  python3.8-venv python3.8-doc binfmt-support readline-doc
+2025-07-07 03:18:47,211 - INFO - The following NEW packages will be installed:
+  binutils binutils-common binutils-x86-64-linux-gnu build-essential
+  ca-certificates cmake cmake-data cpp cpp-9 dirmngr dpkg-dev fakeroot file
+  g++ g++-9 gcc gcc-9 gcc-9-base git git-man gnupg gnupg-l10n gnupg-utils
+  googletest gpg gpg-agent gpg-wks-client gpg-wks-server gpgconf gpgsm
+  krb5-locales less libalgorithm-diff-perl libalgorithm-diff-xs-perl
+  libalgorithm-merge-perl libarchive13 libasan5 libasn1-8-heimdal libassuan0
+  libatomic1 libbinutils libbrotli-dev libbrotli1 libbsd0 libc-dev-bin
+  libc6-dev libcbor0.6 libcc1-0 libcrypt-dev libctf-nobfd0 libctf0
+  libcurl3-gnutls libcurl4 libdpkg-perl libedit2 liberror-perl libexpat1
+  libfakeroot libfido2-1 libfile-fcntllock-perl libgcc-9-dev libgdbm-compat4
+  libgdbm6 libgomp1 libgssapi-krb5-2 libgssapi3-heimdal libgtest-dev
+  libhcrypto4-heimdal libheimbase1-heimdal libheimntlm0-heimdal
+  libhx509-5-heimdal libicu66 libisl22 libitm1 libjsoncpp1 libk5crypto3
+  libkeyutils1 libkrb5-26-heimdal libkrb5-3 libkrb5support0 libksba8
+2025-07-07 03:18:47,211 - INFO - libldap-2.4-2 libldap-common liblocale-gettext-perl liblsan0 libmagic-mgc
+  libmagic1 libmpc3 libmpdec2 libmpfr6 libnghttp2-14 libnpth0 libperl5.30
+  libpsl5 libpython3-stdlib libpython3.8-minimal libpython3.8-stdlib
+2025-07-07 03:18:47,211 - INFO - libquadmath0 libreadline8 librhash0 libroken18-heimdal librtmp1 libsasl2-2
+  libsasl2-modules libsasl2-modules-db libsqlite3-0 libssh-4 libssl-dev
+  libssl1.1 libstdc++-9-dev libtsan0 libubsan1 libuv1 libwind0-heimdal
+2025-07-07 03:18:47,211 - INFO - libx11-6 libx11-data libxau6 libxcb1 libxdmcp6 libxext6 libxml2 libxmuu1
+2025-07-07 03:18:47,211 - INFO - linux-libc-dev make manpages manpages-dev mime-support netbase
+2025-07-07 03:18:47,211 - INFO - openssh-client openssl patch perl perl-modules-5.30 pinentry-curses
+2025-07-07 03:18:47,212 - INFO - publicsuffix python3 python3-minimal python3.8 python3.8-minimal
+2025-07-07 03:18:47,212 - INFO - readline-common tzdata xauth xz-utils zlib1g-dev
+2025-07-07 03:18:47,213 - INFO - The following packages will be upgraded:
+2025-07-07 03:18:47,215 - INFO - libc6
+2025-07-07 03:18:47,795 - INFO - 1 upgraded, 144 newly installed, 0 to remove and 3 not upgraded.
+Need to get 97.3 MB of archives.
+After this operation, 452 MB of additional disk space will be used.
+Get:1 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libc6 amd64 2.31-0ubuntu9.18 [2720 kB]
+2025-07-07 03:18:54,170 - INFO - Get:2 http://archive.ubuntu.com/ubuntu focal/main amd64 liblocale-gettext-perl amd64 1.07-4 [17.1 kB]
+2025-07-07 03:18:54,180 - INFO - Get:3 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libssl1.1 amd64 1.1.1f-1ubuntu2.24 [1323 kB]
+2025-07-07 03:18:55,022 - INFO - Get:4 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libpython3.8-minimal amd64 3.8.10-0ubuntu1~20.04.18 [721 kB]
+2025-07-07 03:18:55,344 - INFO - Get:5 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libexpat1 amd64 2.2.9-1ubuntu0.8 [75.6 kB]
+2025-07-07 03:18:55,373 - INFO - Get:6 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 python3.8-minimal amd64 3.8.10-0ubuntu1~20.04.18 [1900 kB]
+2025-07-07 03:18:55,994 - INFO - Get:7 http://archive.ubuntu.com/ubuntu focal/main amd64 python3-minimal amd64 3.8.2-0ubuntu2 [23.6 kB]
+2025-07-07 03:18:55,999 - INFO - Get:8 http://archive.ubuntu.com/ubuntu focal/main amd64 mime-support all 3.64ubuntu1 [30.6 kB]
+2025-07-07 03:18:56,008 - INFO - Get:9 http://archive.ubuntu.com/ubuntu focal/main amd64 libmpdec2 amd64 2.4.2-3 [81.1 kB]
+2025-07-07 03:18:56,477 - INFO - Get:10 http://archive.ubuntu.com/ubuntu focal/main amd64 readline-common all 8.0-4 [53.5 kB]
+2025-07-07 03:18:56,803 - INFO - Get:11 http://archive.ubuntu.com/ubuntu focal/main amd64 libreadline8 amd64 8.0-4 [131 kB]
+2025-07-07 03:18:57,030 - INFO - Get:12 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libsqlite3-0 amd64 3.31.1-4ubuntu0.7 [549 kB]
+2025-07-07 03:18:57,380 - INFO - Get:13 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libpython3.8-stdlib amd64 3.8.10-0ubuntu1~20.04.18 [1676 kB]
+2025-07-07 03:18:57,863 - INFO - Get:14 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 python3.8 amd64 3.8.10-0ubuntu1~20.04.18 [387 kB]
+2025-07-07 03:18:57,954 - INFO - Get:15 http://archive.ubuntu.com/ubuntu focal/main amd64 libpython3-stdlib amd64 3.8.2-0ubuntu2 [7068 B]
+2025-07-07 03:18:57,955 - INFO - Get:16 http://archive.ubuntu.com/ubuntu focal/main amd64 python3 amd64 3.8.2-0ubuntu2 [47.6 kB]
+2025-07-07 03:18:57,965 - INFO - Get:17 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 perl-modules-5.30 all 5.30.0-9ubuntu0.5 [2739 kB]
+2025-07-07 03:18:58,650 - INFO - Get:18 http://archive.ubuntu.com/ubuntu focal/main amd64 libgdbm6 amd64 1.18.1-5 [27.4 kB]
+2025-07-07 03:18:58,650 - INFO - Get:19 http://archive.ubuntu.com/ubuntu focal/main amd64 libgdbm-compat4 amd64 1.18.1-5 [6244 B]
+2025-07-07 03:18:58,651 - INFO - Get:20 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libperl5.30 amd64 5.30.0-9ubuntu0.5 [3941 kB]
+2025-07-07 03:18:59,555 - INFO - Get:21 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 perl amd64 5.30.0-9ubuntu0.5 [224 kB]
+2025-07-07 03:18:59,600 - INFO - Get:22 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 openssl amd64 1.1.1f-1ubuntu2.24 [621 kB]
+2025-07-07 03:18:59,725 - INFO - Get:23 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 ca-certificates all 20240203~20.04.1 [159 kB]
+2025-07-07 03:18:59,757 - INFO - Get:24 http://archive.ubuntu.com/ubuntu focal/main amd64 libmagic-mgc amd64 1:5.38-4 [218 kB]
+2025-07-07 03:18:59,799 - INFO - Get:25 http://archive.ubuntu.com/ubuntu focal/main amd64 libmagic1 amd64 1:5.38-4 [75.9 kB]
+2025-07-07 03:18:59,814 - INFO - Get:26 http://archive.ubuntu.com/ubuntu focal/main amd64 file amd64 1:5.38-4 [23.3 kB]
+2025-07-07 03:18:59,818 - INFO - Get:27 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 less amd64 551-1ubuntu0.3 [123 kB]
+2025-07-07 03:18:59,842 - INFO - Get:28 http://archive.ubuntu.com/ubuntu focal/main amd64 libbsd0 amd64 0.10.0-1 [45.4 kB]
+2025-07-07 03:18:59,850 - INFO - Get:29 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 tzdata all 2025b-0ubuntu0.20.04.1 [300 kB]
+2025-07-07 03:18:59,917 - INFO - Get:30 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libicu66 amd64 66.1-2ubuntu2.1 [8515 kB]
+2025-07-07 03:19:01,480 - INFO - Get:31 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libxml2 amd64 2.9.10+dfsg-5ubuntu0.20.04.10 [640 kB]
+2025-07-07 03:19:01,588 - INFO - Get:32 http://archive.ubuntu.com/ubuntu focal/main amd64 netbase all 6.1 [13.1 kB]
+2025-07-07 03:19:01,590 - INFO - Get:33 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 xz-utils amd64 5.2.4-1ubuntu1.1 [82.6 kB]
+2025-07-07 03:19:01,599 - INFO - Get:34 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 krb5-locales all 1.17-6ubuntu4.11 [12.0 kB]
+2025-07-07 03:19:01,599 - INFO - Get:35 http://archive.ubuntu.com/ubuntu focal/main amd64 libcbor0.6 amd64 0.6.0-0ubuntu1 [21.1 kB]
+2025-07-07 03:19:01,600 - INFO - Get:36 http://archive.ubuntu.com/ubuntu focal/main amd64 libedit2 amd64 3.1-20191231-1 [87.0 kB]
+2025-07-07 03:19:01,618 - INFO - Get:37 http://archive.ubuntu.com/ubuntu focal/main amd64 libfido2-1 amd64 1.3.1-1ubuntu2 [47.9 kB]
+2025-07-07 03:19:01,624 - INFO - Get:38 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libkrb5support0 amd64 1.17-6ubuntu4.11 [31.5 kB]
+2025-07-07 03:19:01,630 - INFO - Get:39 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libk5crypto3 amd64 1.17-6ubuntu4.11 [80.3 kB]
+2025-07-07 03:19:01,703 - INFO - Get:40 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libkeyutils1 amd64 1.6-6ubuntu1.1 [10.3 kB]
+2025-07-07 03:19:01,821 - INFO - Get:41 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libkrb5-3 amd64 1.17-6ubuntu4.11 [330 kB]
+2025-07-07 03:19:01,872 - INFO - Get:42 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libgssapi-krb5-2 amd64 1.17-6ubuntu4.11 [121 kB]
+2025-07-07 03:19:01,890 - INFO - Get:43 http://archive.ubuntu.com/ubuntu focal/main amd64 libpsl5 amd64 0.21.0-1ubuntu1 [51.5 kB]
+2025-07-07 03:19:01,899 - INFO - Get:44 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libuv1 amd64 1.34.2-1ubuntu1.5 [80.9 kB]
+2025-07-07 03:19:01,924 - INFO - Get:45 http://archive.ubuntu.com/ubuntu focal/main amd64 libxau6 amd64 1:1.0.9-0ubuntu1 [7488 B]
+2025-07-07 03:19:01,924 - INFO - Get:46 http://archive.ubuntu.com/ubuntu focal/main amd64 libxdmcp6 amd64 1:1.1.3-0ubuntu1 [10.6 kB]
+2025-07-07 03:19:01,925 - INFO - Get:47 http://archive.ubuntu.com/ubuntu focal/main amd64 libxcb1 amd64 1.14-2 [44.7 kB]
+2025-07-07 03:19:01,928 - INFO - Get:48 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libx11-data all 2:1.6.9-2ubuntu1.6 [114 kB]
+2025-07-07 03:19:01,940 - INFO - Get:49 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libx11-6 amd64 2:1.6.9-2ubuntu1.6 [577 kB]
+2025-07-07 03:19:02,041 - INFO - Get:50 http://archive.ubuntu.com/ubuntu focal/main amd64 libxext6 amd64 2:1.3.4-0ubuntu1 [29.1 kB]
+2025-07-07 03:19:02,099 - INFO - Get:51 http://archive.ubuntu.com/ubuntu focal/main amd64 libxmuu1 amd64 2:1.1.3-0ubuntu1 [9728 B]
+2025-07-07 03:19:02,119 - INFO - Get:52 http://archive.ubuntu.com/ubuntu focal/main amd64 manpages all 5.05-1 [1314 kB]
+2025-07-07 03:19:02,347 - INFO - Get:53 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 openssh-client amd64 1:8.2p1-4ubuntu0.13 [670 kB]
+2025-07-07 03:19:02,454 - INFO - Get:54 http://archive.ubuntu.com/ubuntu focal/main amd64 publicsuffix all 20200303.0012-1 [111 kB]
+2025-07-07 03:19:02,460 - INFO - Get:55 http://archive.ubuntu.com/ubuntu focal/main amd64 xauth amd64 1:1.1-0ubuntu1 [25.0 kB]
+2025-07-07 03:19:02,462 - INFO - Get:56 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 binutils-common amd64 2.34-6ubuntu1.11 [208 kB]
+2025-07-07 03:19:02,479 - INFO - Get:57 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libbinutils amd64 2.34-6ubuntu1.11 [475 kB]
+2025-07-07 03:19:02,534 - INFO - Get:58 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libctf-nobfd0 amd64 2.34-6ubuntu1.11 [48.2 kB]
+2025-07-07 03:19:02,542 - INFO - Get:59 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libctf0 amd64 2.34-6ubuntu1.11 [46.6 kB]
+2025-07-07 03:19:02,543 - INFO - Get:60 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 binutils-x86-64-linux-gnu amd64 2.34-6ubuntu1.11 [1612 kB]
+2025-07-07 03:19:02,800 - INFO - Get:61 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 binutils amd64 2.34-6ubuntu1.11 [3380 B]
+2025-07-07 03:19:02,800 - INFO - Get:62 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libc-dev-bin amd64 2.31-0ubuntu9.18 [71.7 kB]
+2025-07-07 03:19:02,809 - INFO - Get:63 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 linux-libc-dev amd64 5.4.0-216.236 [1111 kB]
+2025-07-07 03:19:02,959 - INFO - Get:64 http://archive.ubuntu.com/ubuntu focal/main amd64 libcrypt-dev amd64 1:4.4.10-10ubuntu4 [104 kB]
+2025-07-07 03:19:02,971 - INFO - Get:65 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libc6-dev amd64 2.31-0ubuntu9.18 [2520 kB]
+2025-07-07 03:19:03,310 - INFO - Get:66 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 gcc-9-base amd64 9.4.0-1ubuntu1~20.04.2 [18.9 kB]
+2025-07-07 03:19:03,310 - INFO - Get:67 http://archive.ubuntu.com/ubuntu focal/main amd64 libisl22 amd64 0.22.1-1 [592 kB]
+2025-07-07 03:19:03,390 - INFO - Get:68 http://archive.ubuntu.com/ubuntu focal/main amd64 libmpfr6 amd64 4.0.2-1 [240 kB]
+2025-07-07 03:19:03,423 - INFO - Get:69 http://archive.ubuntu.com/ubuntu focal/main amd64 libmpc3 amd64 1.1.0-1 [40.8 kB]
+2025-07-07 03:19:03,429 - INFO - Get:70 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 cpp-9 amd64 9.4.0-1ubuntu1~20.04.2 [7502 kB]
+2025-07-07 03:19:04,401 - INFO - Get:71 http://archive.ubuntu.com/ubuntu focal/main amd64 cpp amd64 4:9.3.0-1ubuntu2 [27.6 kB]
+2025-07-07 03:19:04,401 - INFO - Get:72 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libcc1-0 amd64 10.5.0-1ubuntu1~20.04 [48.8 kB]
+2025-07-07 03:19:04,408 - INFO - Get:73 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libgomp1 amd64 10.5.0-1ubuntu1~20.04 [102 kB]
+2025-07-07 03:19:04,425 - INFO - Get:74 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libitm1 amd64 10.5.0-1ubuntu1~20.04 [26.2 kB]
+2025-07-07 03:19:04,425 - INFO - Get:75 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libatomic1 amd64 10.5.0-1ubuntu1~20.04 [9284 B]
+2025-07-07 03:19:04,426 - INFO - Get:76 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libasan5 amd64 9.4.0-1ubuntu1~20.04.2 [2752 kB]
+2025-07-07 03:19:04,729 - INFO - Get:77 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 liblsan0 amd64 10.5.0-1ubuntu1~20.04 [835 kB]
+2025-07-07 03:19:04,820 - INFO - Get:78 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libtsan0 amd64 10.5.0-1ubuntu1~20.04 [2016 kB]
+2025-07-07 03:19:05,043 - INFO - Get:79 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libubsan1 amd64 10.5.0-1ubuntu1~20.04 [785 kB]
+2025-07-07 03:19:05,130 - INFO - Get:80 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libquadmath0 amd64 10.5.0-1ubuntu1~20.04 [146 kB]
+2025-07-07 03:19:05,143 - INFO - Get:81 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libgcc-9-dev amd64 9.4.0-1ubuntu1~20.04.2 [2359 kB]
+2025-07-07 03:19:05,395 - INFO - Get:82 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 gcc-9 amd64 9.4.0-1ubuntu1~20.04.2 [8276 kB]
+2025-07-07 03:19:06,300 - INFO - Get:83 http://archive.ubuntu.com/ubuntu focal/main amd64 gcc amd64 4:9.3.0-1ubuntu2 [5208 B]
+2025-07-07 03:19:06,300 - INFO - Get:84 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libstdc++-9-dev amd64 9.4.0-1ubuntu1~20.04.2 [1722 kB]
+2025-07-07 03:19:06,515 - INFO - Get:85 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 g++-9 amd64 9.4.0-1ubuntu1~20.04.2 [8421 kB]
+2025-07-07 03:19:07,569 - INFO - Get:86 http://archive.ubuntu.com/ubuntu focal/main amd64 g++ amd64 4:9.3.0-1ubuntu2 [1604 B]
+2025-07-07 03:19:07,569 - INFO - Get:87 http://archive.ubuntu.com/ubuntu focal/main amd64 make amd64 4.2.1-1.2 [162 kB]
+2025-07-07 03:19:07,587 - INFO - Get:88 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libdpkg-perl all 1.19.7ubuntu3.2 [231 kB]
+2025-07-07 03:19:07,606 - INFO - Get:89 http://archive.ubuntu.com/ubuntu focal/main amd64 patch amd64 2.7.6-6 [105 kB]
+2025-07-07 03:19:07,609 - INFO - Get:90 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 dpkg-dev all 1.19.7ubuntu3.2 [679 kB]
+2025-07-07 03:19:07,687 - INFO - Get:91 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 build-essential amd64 12.8ubuntu1.1 [4664 B]
+2025-07-07 03:19:07,688 - INFO - Get:92 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 cmake-data all 3.16.3-1ubuntu1.20.04.1 [1613 kB]
+2025-07-07 03:19:08,047 - INFO - Get:93 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libarchive13 amd64 3.4.0-2ubuntu1.5 [327 kB]
+2025-07-07 03:19:08,076 - INFO - Get:94 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libbrotli1 amd64 1.0.7-6ubuntu0.1 [267 kB]
+2025-07-07 03:19:08,117 - INFO - Get:95 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libroken18-heimdal amd64 7.7.0+dfsg-1ubuntu1.4 [42.5 kB]
+2025-07-07 03:19:08,118 - INFO - Get:96 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libasn1-8-heimdal amd64 7.7.0+dfsg-1ubuntu1.4 [181 kB]
+2025-07-07 03:19:08,122 - INFO - Get:97 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libheimbase1-heimdal amd64 7.7.0+dfsg-1ubuntu1.4 [30.4 kB]
+2025-07-07 03:19:08,123 - INFO - Get:98 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libhcrypto4-heimdal amd64 7.7.0+dfsg-1ubuntu1.4 [88.1 kB]
+2025-07-07 03:19:08,125 - INFO - Get:99 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libwind0-heimdal amd64 7.7.0+dfsg-1ubuntu1.4 [47.7 kB]
+2025-07-07 03:19:08,125 - INFO - Get:100 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libhx509-5-heimdal amd64 7.7.0+dfsg-1ubuntu1.4 [107 kB]
+2025-07-07 03:19:08,128 - INFO - Get:101 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libkrb5-26-heimdal amd64 7.7.0+dfsg-1ubuntu1.4 [207 kB]
+2025-07-07 03:19:08,596 - INFO - Get:102 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libheimntlm0-heimdal amd64 7.7.0+dfsg-1ubuntu1.4 [15.1 kB]
+2025-07-07 03:19:09,042 - INFO - Get:103 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libgssapi3-heimdal amd64 7.7.0+dfsg-1ubuntu1.4 [96.5 kB]
+2025-07-07 03:19:09,562 - INFO - Get:104 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libsasl2-modules-db amd64 2.1.27+dfsg-2ubuntu0.1 [14.7 kB]
+2025-07-07 03:19:09,599 - INFO - Get:105 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libsasl2-2 amd64 2.1.27+dfsg-2ubuntu0.1 [49.3 kB]
+2025-07-07 03:19:09,713 - INFO - Get:106 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libldap-common all 2.4.49+dfsg-2ubuntu1.10 [16.5 kB]
+2025-07-07 03:19:09,752 - INFO - Get:107 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libldap-2.4-2 amd64 2.4.49+dfsg-2ubuntu1.10 [155 kB]
+2025-07-07 03:19:09,948 - INFO - Get:108 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libnghttp2-14 amd64 1.40.0-1ubuntu0.3 [79.9 kB]
+2025-07-07 03:19:10,020 - INFO - Get:109 http://archive.ubuntu.com/ubuntu focal/main amd64 librtmp1 amd64 2.4+20151223.gitfa8646d.1-2build1 [54.9 kB]
+2025-07-07 03:19:10,058 - INFO - Get:110 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libssh-4 amd64 0.9.3-2ubuntu2.5 [171 kB]
+2025-07-07 03:19:10,164 - INFO - Get:111 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libcurl4 amd64 7.68.0-1ubuntu2.25 [235 kB]
+2025-07-07 03:19:10,262 - INFO - Get:112 http://archive.ubuntu.com/ubuntu focal/main amd64 libjsoncpp1 amd64 1.7.4-3.1ubuntu2 [75.6 kB]
+2025-07-07 03:19:10,288 - INFO - Get:113 http://archive.ubuntu.com/ubuntu focal/main amd64 librhash0 amd64 1.3.9-1 [113 kB]
+2025-07-07 03:19:10,324 - INFO - Get:114 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 cmake amd64 3.16.3-1ubuntu1.20.04.1 [3668 kB]
+2025-07-07 03:19:10,857 - INFO - Get:115 http://archive.ubuntu.com/ubuntu focal/main amd64 libassuan0 amd64 2.5.3-7ubuntu2 [35.7 kB]
+2025-07-07 03:19:10,858 - INFO - Get:116 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 gpgconf amd64 2.2.19-3ubuntu2.4 [124 kB]
+2025-07-07 03:19:11,457 - INFO - Get:117 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libksba8 amd64 1.3.5-2ubuntu0.20.04.2 [95.2 kB]
+2025-07-07 03:19:11,459 - INFO - Get:118 http://archive.ubuntu.com/ubuntu focal/main amd64 libnpth0 amd64 1.6-1 [7736 B]
+2025-07-07 03:19:11,459 - INFO - Get:119 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 dirmngr amd64 2.2.19-3ubuntu2.4 [329 kB]
+2025-07-07 03:19:11,465 - INFO - Get:120 http://archive.ubuntu.com/ubuntu focal/main amd64 libfakeroot amd64 1.24-1 [25.7 kB]
+2025-07-07 03:19:11,465 - INFO - Get:121 http://archive.ubuntu.com/ubuntu focal/main amd64 fakeroot amd64 1.24-1 [62.6 kB]
+2025-07-07 03:19:11,466 - INFO - Get:122 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libcurl3-gnutls amd64 7.68.0-1ubuntu2.25 [233 kB]
+2025-07-07 03:19:11,470 - INFO - Get:123 http://archive.ubuntu.com/ubuntu focal/main amd64 liberror-perl all 0.17029-1 [26.5 kB]
+2025-07-07 03:19:11,471 - INFO - Get:124 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 git-man all 1:2.25.1-1ubuntu3.14 [887 kB]
+2025-07-07 03:19:11,479 - INFO - Get:125 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 git amd64 1:2.25.1-1ubuntu3.14 [4613 kB]
+2025-07-07 03:19:12,738 - INFO - Get:126 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 gnupg-l10n all 2.2.19-3ubuntu2.4 [51.9 kB]
+2025-07-07 03:19:12,738 - INFO - Get:127 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 gnupg-utils amd64 2.2.19-3ubuntu2.4 [481 kB]
+2025-07-07 03:19:12,745 - INFO - Get:128 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 gpg amd64 2.2.19-3ubuntu2.4 [482 kB]
+2025-07-07 03:19:12,750 - INFO - Get:129 http://archive.ubuntu.com/ubuntu focal/main amd64 pinentry-curses amd64 1.1.0-3build1 [36.3 kB]
+2025-07-07 03:19:12,750 - INFO - Get:130 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 gpg-agent amd64 2.2.19-3ubuntu2.4 [232 kB]
+2025-07-07 03:19:12,754 - INFO - Get:131 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 gpg-wks-client amd64 2.2.19-3ubuntu2.4 [97.4 kB]
+2025-07-07 03:19:12,755 - INFO - Get:132 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 gpg-wks-server amd64 2.2.19-3ubuntu2.4 [90.1 kB]
+2025-07-07 03:19:12,757 - INFO - Get:133 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 gpgsm amd64 2.2.19-3ubuntu2.4 [217 kB]
+2025-07-07 03:19:12,760 - INFO - Get:134 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 gnupg all 2.2.19-3ubuntu2.4 [259 kB]
+2025-07-07 03:19:12,972 - INFO - Get:135 http://archive.ubuntu.com/ubuntu focal/universe amd64 googletest all 1.10.0-2 [623 kB]
+2025-07-07 03:19:13,031 - INFO - Get:136 http://archive.ubuntu.com/ubuntu focal/main amd64 libalgorithm-diff-perl all 1.19.03-2 [46.6 kB]
+2025-07-07 03:19:13,036 - INFO - Get:137 http://archive.ubuntu.com/ubuntu focal/main amd64 libalgorithm-diff-xs-perl amd64 0.04-6 [11.3 kB]
+2025-07-07 03:19:13,036 - INFO - Get:138 http://archive.ubuntu.com/ubuntu focal/main amd64 libalgorithm-merge-perl all 0.08-3 [12.0 kB]
+2025-07-07 03:19:13,037 - INFO - Get:139 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libbrotli-dev amd64 1.0.7-6ubuntu0.1 [279 kB]
+2025-07-07 03:19:13,068 - INFO - Get:140 http://archive.ubuntu.com/ubuntu focal/main amd64 libfile-fcntllock-perl amd64 0.22-3build4 [33.1 kB]
+2025-07-07 03:19:13,069 - INFO - Get:141 http://archive.ubuntu.com/ubuntu focal/universe amd64 libgtest-dev amd64 1.10.0-2 [1583 kB]
+2025-07-07 03:19:13,244 - INFO - Get:142 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libsasl2-modules amd64 2.1.27+dfsg-2ubuntu0.1 [48.8 kB]
+2025-07-07 03:19:13,248 - INFO - Get:143 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 libssl-dev amd64 1.1.1f-1ubuntu2.24 [1586 kB]
+2025-07-07 03:19:13,395 - INFO - Get:144 http://archive.ubuntu.com/ubuntu focal/main amd64 manpages-dev all 5.05-1 [2266 kB]
+2025-07-07 03:19:13,619 - INFO - Get:145 http://archive.ubuntu.com/ubuntu focal-updates/main amd64 zlib1g-dev amd64 1:1.2.11.dfsg-2ubuntu1.5 [155 kB]
+2025-07-07 03:19:13,805 - INFO - debconf: delaying package configuration, since apt-utils is not installed
+2025-07-07 03:19:13,844 - INFO - Fetched 97.3 MB in 26s (3685 kB/s)
+2025-07-07 03:19:13,903 - INFO - (Reading database ...
+2025-07-07 03:19:13,904 - INFO - (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%
+2025-07-07 03:19:13,905 - INFO - (Reading database ... 70%
+2025-07-07 03:19:13,906 - INFO - (Reading database ... 75%
+2025-07-07 03:19:13,906 - INFO - (Reading database ... 80%
+2025-07-07 03:19:13,906 - INFO - (Reading database ... 85%
+2025-07-07 03:19:13,906 - INFO - (Reading database ... 90%
+2025-07-07 03:19:13,906 - INFO - (Reading database ... 95%
+2025-07-07 03:19:13,907 - INFO - (Reading database ... 100%(Reading database ... 4124 files and directories currently installed.)
+2025-07-07 03:19:13,908 - INFO - Preparing to unpack .../libc6_2.31-0ubuntu9.18_amd64.deb ...
+2025-07-07 03:19:14,071 - INFO - Unpacking libc6:amd64 (2.31-0ubuntu9.18) over (2.31-0ubuntu9.17) ...
+2025-07-07 03:19:15,281 - INFO - Setting up libc6:amd64 (2.31-0ubuntu9.18) ...
+2025-07-07 03:19:16,481 - INFO - Selecting previously unselected package liblocale-gettext-perl.
+(Reading database ...
+2025-07-07 03:19:16,482 - INFO - (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%
+2025-07-07 03:19:16,483 - INFO - (Reading database ... 70%
+2025-07-07 03:19:16,484 - INFO - (Reading database ... 75%
+2025-07-07 03:19:16,484 - INFO - (Reading database ... 80%
+2025-07-07 03:19:16,484 - INFO - (Reading database ... 85%
+2025-07-07 03:19:16,484 - INFO - (Reading database ... 90%
+2025-07-07 03:19:16,484 - INFO - (Reading database ... 95%
+2025-07-07 03:19:16,485 - INFO - (Reading database ... 100%(Reading database ... 4124 files and directories currently installed.)
+2025-07-07 03:19:16,486 - INFO - Preparing to unpack .../liblocale-gettext-perl_1.07-4_amd64.deb ...
+2025-07-07 03:19:16,491 - INFO - Unpacking liblocale-gettext-perl (1.07-4) ...
+2025-07-07 03:19:16,559 - INFO - Selecting previously unselected package libssl1.1:amd64.
+2025-07-07 03:19:16,560 - INFO - Preparing to unpack .../libssl1.1_1.1.1f-1ubuntu2.24_amd64.deb ...
+2025-07-07 03:19:16,566 - INFO - Unpacking libssl1.1:amd64 (1.1.1f-1ubuntu2.24) ...
+2025-07-07 03:19:16,693 - INFO - Selecting previously unselected package libpython3.8-minimal:amd64.
+2025-07-07 03:19:16,694 - INFO - Preparing to unpack .../libpython3.8-minimal_3.8.10-0ubuntu1~20.04.18_amd64.deb ...
+2025-07-07 03:19:16,700 - INFO - Unpacking libpython3.8-minimal:amd64 (3.8.10-0ubuntu1~20.04.18) ...
+2025-07-07 03:19:16,803 - INFO - Selecting previously unselected package libexpat1:amd64.
+2025-07-07 03:19:16,804 - INFO - Preparing to unpack .../libexpat1_2.2.9-1ubuntu0.8_amd64.deb ...
+2025-07-07 03:19:16,809 - INFO - Unpacking libexpat1:amd64 (2.2.9-1ubuntu0.8) ...
+2025-07-07 03:19:16,860 - INFO - Selecting previously unselected package python3.8-minimal.
+2025-07-07 03:19:16,861 - INFO - Preparing to unpack .../python3.8-minimal_3.8.10-0ubuntu1~20.04.18_amd64.deb ...
+2025-07-07 03:19:16,874 - INFO - Unpacking python3.8-minimal (3.8.10-0ubuntu1~20.04.18) ...
+2025-07-07 03:19:17,040 - INFO - Setting up libssl1.1:amd64 (1.1.1f-1ubuntu2.24) ...
+2025-07-07 03:19:17,124 - INFO - Setting up libpython3.8-minimal:amd64 (3.8.10-0ubuntu1~20.04.18) ...
+2025-07-07 03:19:17,147 - INFO - Setting up libexpat1:amd64 (2.2.9-1ubuntu0.8) ...
+2025-07-07 03:19:17,162 - INFO - Setting up python3.8-minimal (3.8.10-0ubuntu1~20.04.18) ...
+2025-07-07 03:19:17,695 - INFO - Selecting previously unselected package python3-minimal.
+(Reading database ...
+2025-07-07 03:19:17,696 - INFO - (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%
+2025-07-07 03:19:17,696 - INFO - (Reading database ... 70%
+2025-07-07 03:19:17,697 - INFO - (Reading database ... 75%
+2025-07-07 03:19:17,698 - INFO - (Reading database ... 80%
+2025-07-07 03:19:17,698 - INFO - (Reading database ... 85%
+2025-07-07 03:19:17,698 - INFO - (Reading database ... 90%
+2025-07-07 03:19:17,698 - INFO - (Reading database ... 95%
+2025-07-07 03:19:17,699 - INFO - (Reading database ... 100%(Reading database ... 4439 files and directories currently installed.)
+2025-07-07 03:19:17,700 - INFO - Preparing to unpack .../0-python3-minimal_3.8.2-0ubuntu2_amd64.deb ...
+2025-07-07 03:19:17,706 - INFO - Unpacking python3-minimal (3.8.2-0ubuntu2) ...
+2025-07-07 03:19:17,760 - INFO - Selecting previously unselected package mime-support.
+2025-07-07 03:19:17,761 - INFO - Preparing to unpack .../1-mime-support_3.64ubuntu1_all.deb ...
+2025-07-07 03:19:17,769 - INFO - Unpacking mime-support (3.64ubuntu1) ...
+2025-07-07 03:19:17,845 - INFO - Selecting previously unselected package libmpdec2:amd64.
+2025-07-07 03:19:17,846 - INFO - Preparing to unpack .../2-libmpdec2_2.4.2-3_amd64.deb ...
+2025-07-07 03:19:17,853 - INFO - Unpacking libmpdec2:amd64 (2.4.2-3) ...
+2025-07-07 03:19:17,906 - INFO - Selecting previously unselected package readline-common.
+2025-07-07 03:19:17,906 - INFO - Preparing to unpack .../3-readline-common_8.0-4_all.deb ...
+2025-07-07 03:19:17,917 - INFO - Unpacking readline-common (8.0-4) ...
+2025-07-07 03:19:17,978 - INFO - Selecting previously unselected package libreadline8:amd64.
+2025-07-07 03:19:17,978 - INFO - Preparing to unpack .../4-libreadline8_8.0-4_amd64.deb ...
+2025-07-07 03:19:17,985 - INFO - Unpacking libreadline8:amd64 (8.0-4) ...
+2025-07-07 03:19:18,048 - INFO - Selecting previously unselected package libsqlite3-0:amd64.
+2025-07-07 03:19:18,049 - INFO - Preparing to unpack .../5-libsqlite3-0_3.31.1-4ubuntu0.7_amd64.deb ...
+2025-07-07 03:19:18,056 - INFO - Unpacking libsqlite3-0:amd64 (3.31.1-4ubuntu0.7) ...
+2025-07-07 03:19:18,136 - INFO - Selecting previously unselected package libpython3.8-stdlib:amd64.
+2025-07-07 03:19:18,136 - INFO - Preparing to unpack .../6-libpython3.8-stdlib_3.8.10-0ubuntu1~20.04.18_amd64.deb ...
+2025-07-07 03:19:18,143 - INFO - Unpacking libpython3.8-stdlib:amd64 (3.8.10-0ubuntu1~20.04.18) ...
+2025-07-07 03:19:18,307 - INFO - Selecting previously unselected package python3.8.
+2025-07-07 03:19:18,308 - INFO - Preparing to unpack .../7-python3.8_3.8.10-0ubuntu1~20.04.18_amd64.deb ...
+2025-07-07 03:19:18,313 - INFO - Unpacking python3.8 (3.8.10-0ubuntu1~20.04.18) ...
+2025-07-07 03:19:18,366 - INFO - Selecting previously unselected package libpython3-stdlib:amd64.
+2025-07-07 03:19:18,367 - INFO - Preparing to unpack .../8-libpython3-stdlib_3.8.2-0ubuntu2_amd64.deb ...
+2025-07-07 03:19:18,376 - INFO - Unpacking libpython3-stdlib:amd64 (3.8.2-0ubuntu2) ...
+2025-07-07 03:19:18,425 - INFO - Setting up python3-minimal (3.8.2-0ubuntu2) ...
+2025-07-07 03:19:18,648 - INFO - Selecting previously unselected package python3.
+(Reading database ...
+2025-07-07 03:19:18,648 - INFO - (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%
+2025-07-07 03:19:18,649 - INFO - (Reading database ... 70%
+2025-07-07 03:19:18,650 - INFO - (Reading database ... 75%
+2025-07-07 03:19:18,650 - INFO - (Reading database ... 80%
+2025-07-07 03:19:18,650 - INFO - (Reading database ... 85%
+2025-07-07 03:19:18,650 - INFO - (Reading database ... 90%
+2025-07-07 03:19:18,651 - INFO - (Reading database ... 95%
+2025-07-07 03:19:18,652 - INFO - (Reading database ... 100%(Reading database ... 4869 files and directories currently installed.)
+2025-07-07 03:19:18,652 - INFO - Preparing to unpack .../000-python3_3.8.2-0ubuntu2_amd64.deb ...
+2025-07-07 03:19:18,662 - INFO - Unpacking python3 (3.8.2-0ubuntu2) ...
+2025-07-07 03:19:18,711 - INFO - Selecting previously unselected package perl-modules-5.30.
+2025-07-07 03:19:18,712 - INFO - Preparing to unpack .../001-perl-modules-5.30_5.30.0-9ubuntu0.5_all.deb ...
+2025-07-07 03:19:18,718 - INFO - Unpacking perl-modules-5.30 (5.30.0-9ubuntu0.5) ...
+2025-07-07 03:19:19,118 - INFO - Selecting previously unselected package libgdbm6:amd64.
+2025-07-07 03:19:19,120 - INFO - Preparing to unpack .../002-libgdbm6_1.18.1-5_amd64.deb ...
+2025-07-07 03:19:19,127 - INFO - Unpacking libgdbm6:amd64 (1.18.1-5) ...
+2025-07-07 03:19:19,188 - INFO - Selecting previously unselected package libgdbm-compat4:amd64.
+2025-07-07 03:19:19,189 - INFO - Preparing to unpack .../003-libgdbm-compat4_1.18.1-5_amd64.deb ...
+2025-07-07 03:19:19,196 - INFO - Unpacking libgdbm-compat4:amd64 (1.18.1-5) ...
+2025-07-07 03:19:19,249 - INFO - Selecting previously unselected package libperl5.30:amd64.
+2025-07-07 03:19:19,250 - INFO - Preparing to unpack .../004-libperl5.30_5.30.0-9ubuntu0.5_amd64.deb ...
+2025-07-07 03:19:19,256 - INFO - Unpacking libperl5.30:amd64 (5.30.0-9ubuntu0.5) ...
+2025-07-07 03:19:19,667 - INFO - Selecting previously unselected package perl.
+2025-07-07 03:19:19,667 - INFO - Preparing to unpack .../005-perl_5.30.0-9ubuntu0.5_amd64.deb ...
+2025-07-07 03:19:19,680 - INFO - Unpacking perl (5.30.0-9ubuntu0.5) ...
+2025-07-07 03:19:19,750 - INFO - Selecting previously unselected package openssl.
+2025-07-07 03:19:19,751 - INFO - Preparing to unpack .../006-openssl_1.1.1f-1ubuntu2.24_amd64.deb ...
+2025-07-07 03:19:19,757 - INFO - Unpacking openssl (1.1.1f-1ubuntu2.24) ...
+2025-07-07 03:19:19,855 - INFO - Selecting previously unselected package ca-certificates.
+2025-07-07 03:19:19,857 - INFO - Preparing to unpack .../007-ca-certificates_20240203~20.04.1_all.deb ...
+2025-07-07 03:19:19,864 - INFO - Unpacking ca-certificates (20240203~20.04.1) ...
+2025-07-07 03:19:19,948 - INFO - Selecting previously unselected package libmagic-mgc.
+2025-07-07 03:19:19,949 - INFO - Preparing to unpack .../008-libmagic-mgc_1%3a5.38-4_amd64.deb ...
+2025-07-07 03:19:19,955 - INFO - Unpacking libmagic-mgc (1:5.38-4) ...
+2025-07-07 03:19:20,037 - INFO - Selecting previously unselected package libmagic1:amd64.
+2025-07-07 03:19:20,038 - INFO - Preparing to unpack .../009-libmagic1_1%3a5.38-4_amd64.deb ...
+2025-07-07 03:19:20,050 - INFO - Unpacking libmagic1:amd64 (1:5.38-4) ...
+2025-07-07 03:19:20,095 - INFO - Selecting previously unselected package file.
+2025-07-07 03:19:20,096 - INFO - Preparing to unpack .../010-file_1%3a5.38-4_amd64.deb ...
+2025-07-07 03:19:20,103 - INFO - Unpacking file (1:5.38-4) ...
+2025-07-07 03:19:20,163 - INFO - Selecting previously unselected package less.
+2025-07-07 03:19:20,164 - INFO - Preparing to unpack .../011-less_551-1ubuntu0.3_amd64.deb ...
+2025-07-07 03:19:20,173 - INFO - Unpacking less (551-1ubuntu0.3) ...
+2025-07-07 03:19:20,235 - INFO - Selecting previously unselected package libbsd0:amd64.
+2025-07-07 03:19:20,236 - INFO - Preparing to unpack .../012-libbsd0_0.10.0-1_amd64.deb ...
+2025-07-07 03:19:20,243 - INFO - Unpacking libbsd0:amd64 (0.10.0-1) ...
+2025-07-07 03:19:20,312 - INFO - Selecting previously unselected package tzdata.
+2025-07-07 03:19:20,313 - INFO - Preparing to unpack .../013-tzdata_2025b-0ubuntu0.20.04.1_all.deb ...
+2025-07-07 03:19:20,319 - INFO - Unpacking tzdata (2025b-0ubuntu0.20.04.1) ...
+2025-07-07 03:19:20,613 - INFO - Selecting previously unselected package libicu66:amd64.
+2025-07-07 03:19:20,614 - INFO - Preparing to unpack .../014-libicu66_66.1-2ubuntu2.1_amd64.deb ...
+2025-07-07 03:19:20,622 - INFO - Unpacking libicu66:amd64 (66.1-2ubuntu2.1) ...
+2025-07-07 03:19:21,224 - INFO - Selecting previously unselected package libxml2:amd64.
+2025-07-07 03:19:21,226 - INFO - Preparing to unpack .../015-libxml2_2.9.10+dfsg-5ubuntu0.20.04.10_amd64.deb ...
+2025-07-07 03:19:21,232 - INFO - Unpacking libxml2:amd64 (2.9.10+dfsg-5ubuntu0.20.04.10) ...
+2025-07-07 03:19:21,327 - INFO - Selecting previously unselected package netbase.
+2025-07-07 03:19:21,329 - INFO - Preparing to unpack .../016-netbase_6.1_all.deb ...
+2025-07-07 03:19:21,335 - INFO - Unpacking netbase (6.1) ...
+2025-07-07 03:19:21,387 - INFO - Selecting previously unselected package xz-utils.
+2025-07-07 03:19:21,388 - INFO - Preparing to unpack .../017-xz-utils_5.2.4-1ubuntu1.1_amd64.deb ...
+2025-07-07 03:19:21,397 - INFO - Unpacking xz-utils (5.2.4-1ubuntu1.1) ...
+2025-07-07 03:19:21,448 - INFO - Selecting previously unselected package krb5-locales.
+2025-07-07 03:19:21,450 - INFO - Preparing to unpack .../018-krb5-locales_1.17-6ubuntu4.11_all.deb ...
+2025-07-07 03:19:21,456 - INFO - Unpacking krb5-locales (1.17-6ubuntu4.11) ...
+2025-07-07 03:19:21,512 - INFO - Selecting previously unselected package libcbor0.6:amd64.
+2025-07-07 03:19:21,513 - INFO - Preparing to unpack .../019-libcbor0.6_0.6.0-0ubuntu1_amd64.deb ...
+2025-07-07 03:19:21,519 - INFO - Unpacking libcbor0.6:amd64 (0.6.0-0ubuntu1) ...
+2025-07-07 03:19:21,582 - INFO - Selecting previously unselected package libedit2:amd64.
+2025-07-07 03:19:21,583 - INFO - Preparing to unpack .../020-libedit2_3.1-20191231-1_amd64.deb ...
+2025-07-07 03:19:21,590 - INFO - Unpacking libedit2:amd64 (3.1-20191231-1) ...
+2025-07-07 03:19:21,642 - INFO - Selecting previously unselected package libfido2-1:amd64.
+2025-07-07 03:19:21,644 - INFO - Preparing to unpack .../021-libfido2-1_1.3.1-1ubuntu2_amd64.deb ...
+2025-07-07 03:19:21,650 - INFO - Unpacking libfido2-1:amd64 (1.3.1-1ubuntu2) ...
+2025-07-07 03:19:21,711 - INFO - Selecting previously unselected package libkrb5support0:amd64.
+2025-07-07 03:19:21,712 - INFO - Preparing to unpack .../022-libkrb5support0_1.17-6ubuntu4.11_amd64.deb ...
+2025-07-07 03:19:21,719 - INFO - Unpacking libkrb5support0:amd64 (1.17-6ubuntu4.11) ...
+2025-07-07 03:19:21,786 - INFO - Selecting previously unselected package libk5crypto3:amd64.
+2025-07-07 03:19:21,787 - INFO - Preparing to unpack .../023-libk5crypto3_1.17-6ubuntu4.11_amd64.deb ...
+2025-07-07 03:19:21,794 - INFO - Unpacking libk5crypto3:amd64 (1.17-6ubuntu4.11) ...
+2025-07-07 03:19:21,850 - INFO - Selecting previously unselected package libkeyutils1:amd64.
+2025-07-07 03:19:21,852 - INFO - Preparing to unpack .../024-libkeyutils1_1.6-6ubuntu1.1_amd64.deb ...
+2025-07-07 03:19:21,857 - INFO - Unpacking libkeyutils1:amd64 (1.6-6ubuntu1.1) ...
+2025-07-07 03:19:21,916 - INFO - Selecting previously unselected package libkrb5-3:amd64.
+2025-07-07 03:19:21,917 - INFO - Preparing to unpack .../025-libkrb5-3_1.17-6ubuntu4.11_amd64.deb ...
+2025-07-07 03:19:21,924 - INFO - Unpacking libkrb5-3:amd64 (1.17-6ubuntu4.11) ...
+2025-07-07 03:19:22,004 - INFO - Selecting previously unselected package libgssapi-krb5-2:amd64.
+2025-07-07 03:19:22,005 - INFO - Preparing to unpack .../026-libgssapi-krb5-2_1.17-6ubuntu4.11_amd64.deb ...
+2025-07-07 03:19:22,011 - INFO - Unpacking libgssapi-krb5-2:amd64 (1.17-6ubuntu4.11) ...
+2025-07-07 03:19:22,078 - INFO - Selecting previously unselected package libpsl5:amd64.
+2025-07-07 03:19:22,079 - INFO - Preparing to unpack .../027-libpsl5_0.21.0-1ubuntu1_amd64.deb ...
+2025-07-07 03:19:22,087 - INFO - Unpacking libpsl5:amd64 (0.21.0-1ubuntu1) ...
+2025-07-07 03:19:22,144 - INFO - Selecting previously unselected package libuv1:amd64.
+2025-07-07 03:19:22,146 - INFO - Preparing to unpack .../028-libuv1_1.34.2-1ubuntu1.5_amd64.deb ...
+2025-07-07 03:19:22,152 - INFO - Unpacking libuv1:amd64 (1.34.2-1ubuntu1.5) ...
+2025-07-07 03:19:22,206 - INFO - Selecting previously unselected package libxau6:amd64.
+2025-07-07 03:19:22,207 - INFO - Preparing to unpack .../029-libxau6_1%3a1.0.9-0ubuntu1_amd64.deb ...
+2025-07-07 03:19:22,213 - INFO - Unpacking libxau6:amd64 (1:1.0.9-0ubuntu1) ...
+2025-07-07 03:19:22,266 - INFO - Selecting previously unselected package libxdmcp6:amd64.
+2025-07-07 03:19:22,267 - INFO - Preparing to unpack .../030-libxdmcp6_1%3a1.1.3-0ubuntu1_amd64.deb ...
+2025-07-07 03:19:22,273 - INFO - Unpacking libxdmcp6:amd64 (1:1.1.3-0ubuntu1) ...
+2025-07-07 03:19:22,323 - INFO - Selecting previously unselected package libxcb1:amd64.
+2025-07-07 03:19:22,324 - INFO - Preparing to unpack .../031-libxcb1_1.14-2_amd64.deb ...
+2025-07-07 03:19:22,330 - INFO - Unpacking libxcb1:amd64 (1.14-2) ...
+2025-07-07 03:19:22,370 - INFO - Selecting previously unselected package libx11-data.
+2025-07-07 03:19:22,371 - INFO - Preparing to unpack .../032-libx11-data_2%3a1.6.9-2ubuntu1.6_all.deb ...
+2025-07-07 03:19:22,380 - INFO - Unpacking libx11-data (2:1.6.9-2ubuntu1.6) ...
+2025-07-07 03:19:22,496 - INFO - Selecting previously unselected package libx11-6:amd64.
+2025-07-07 03:19:22,498 - INFO - Preparing to unpack .../033-libx11-6_2%3a1.6.9-2ubuntu1.6_amd64.deb ...
+2025-07-07 03:19:22,504 - INFO - Unpacking libx11-6:amd64 (2:1.6.9-2ubuntu1.6) ...
+2025-07-07 03:19:22,584 - INFO - Selecting previously unselected package libxext6:amd64.
+2025-07-07 03:19:22,586 - INFO - Preparing to unpack .../034-libxext6_2%3a1.3.4-0ubuntu1_amd64.deb ...
+2025-07-07 03:19:22,591 - INFO - Unpacking libxext6:amd64 (2:1.3.4-0ubuntu1) ...
+2025-07-07 03:19:22,645 - INFO - Selecting previously unselected package libxmuu1:amd64.
+2025-07-07 03:19:22,646 - INFO - Preparing to unpack .../035-libxmuu1_2%3a1.1.3-0ubuntu1_amd64.deb ...
+2025-07-07 03:19:22,652 - INFO - Unpacking libxmuu1:amd64 (2:1.1.3-0ubuntu1) ...
+2025-07-07 03:19:22,694 - INFO - Selecting previously unselected package manpages.
+2025-07-07 03:19:22,698 - INFO - Preparing to unpack .../036-manpages_5.05-1_all.deb ...
+2025-07-07 03:19:22,703 - INFO - Unpacking manpages (5.05-1) ...
+2025-07-07 03:19:22,820 - INFO - Selecting previously unselected package openssh-client.
+2025-07-07 03:19:22,822 - INFO - Preparing to unpack .../037-openssh-client_1%3a8.2p1-4ubuntu0.13_amd64.deb ...
+2025-07-07 03:19:22,835 - INFO - Unpacking openssh-client (1:8.2p1-4ubuntu0.13) ...
+2025-07-07 03:19:22,935 - INFO - Selecting previously unselected package publicsuffix.
+2025-07-07 03:19:22,936 - INFO - Preparing to unpack .../038-publicsuffix_20200303.0012-1_all.deb ...
+2025-07-07 03:19:22,941 - INFO - Unpacking publicsuffix (20200303.0012-1) ...
+2025-07-07 03:19:22,986 - INFO - Selecting previously unselected package xauth.
+2025-07-07 03:19:22,987 - INFO - Preparing to unpack .../039-xauth_1%3a1.1-0ubuntu1_amd64.deb ...
+2025-07-07 03:19:22,993 - INFO - Unpacking xauth (1:1.1-0ubuntu1) ...
+2025-07-07 03:19:23,036 - INFO - Selecting previously unselected package binutils-common:amd64.
+2025-07-07 03:19:23,037 - INFO - Preparing to unpack .../040-binutils-common_2.34-6ubuntu1.11_amd64.deb ...
+2025-07-07 03:19:23,043 - INFO - Unpacking binutils-common:amd64 (2.34-6ubuntu1.11) ...
+2025-07-07 03:19:23,097 - INFO - Selecting previously unselected package libbinutils:amd64.
+2025-07-07 03:19:23,098 - INFO - Preparing to unpack .../041-libbinutils_2.34-6ubuntu1.11_amd64.deb ...
+2025-07-07 03:19:23,105 - INFO - Unpacking libbinutils:amd64 (2.34-6ubuntu1.11) ...
+2025-07-07 03:19:23,189 - INFO - Selecting previously unselected package libctf-nobfd0:amd64.
+2025-07-07 03:19:23,191 - INFO - Preparing to unpack .../042-libctf-nobfd0_2.34-6ubuntu1.11_amd64.deb ...
+2025-07-07 03:19:23,198 - INFO - Unpacking libctf-nobfd0:amd64 (2.34-6ubuntu1.11) ...
+2025-07-07 03:19:23,249 - INFO - Selecting previously unselected package libctf0:amd64.
+2025-07-07 03:19:23,251 - INFO - Preparing to unpack .../043-libctf0_2.34-6ubuntu1.11_amd64.deb ...
+2025-07-07 03:19:23,257 - INFO - Unpacking libctf0:amd64 (2.34-6ubuntu1.11) ...
+2025-07-07 03:19:23,298 - INFO - Selecting previously unselected package binutils-x86-64-linux-gnu.
+2025-07-07 03:19:23,299 - INFO - Preparing to unpack .../044-binutils-x86-64-linux-gnu_2.34-6ubuntu1.11_amd64.deb ...
+2025-07-07 03:19:23,305 - INFO - Unpacking binutils-x86-64-linux-gnu (2.34-6ubuntu1.11) ...
+2025-07-07 03:19:23,476 - INFO - Selecting previously unselected package binutils.
+2025-07-07 03:19:23,478 - INFO - Preparing to unpack .../045-binutils_2.34-6ubuntu1.11_amd64.deb ...
+2025-07-07 03:19:23,484 - INFO - Unpacking binutils (2.34-6ubuntu1.11) ...
+2025-07-07 03:19:23,528 - INFO - Selecting previously unselected package libc-dev-bin.
+2025-07-07 03:19:23,530 - INFO - Preparing to unpack .../046-libc-dev-bin_2.31-0ubuntu9.18_amd64.deb ...
+2025-07-07 03:19:23,535 - INFO - Unpacking libc-dev-bin (2.31-0ubuntu9.18) ...
+2025-07-07 03:19:23,579 - INFO - Selecting previously unselected package linux-libc-dev:amd64.
+2025-07-07 03:19:23,581 - INFO - Preparing to unpack .../047-linux-libc-dev_5.4.0-216.236_amd64.deb ...
+2025-07-07 03:19:23,586 - INFO - Unpacking linux-libc-dev:amd64 (5.4.0-216.236) ...
+2025-07-07 03:19:23,782 - INFO - Selecting previously unselected package libcrypt-dev:amd64.
+2025-07-07 03:19:23,784 - INFO - Preparing to unpack .../048-libcrypt-dev_1%3a4.4.10-10ubuntu4_amd64.deb ...
+2025-07-07 03:19:23,789 - INFO - Unpacking libcrypt-dev:amd64 (1:4.4.10-10ubuntu4) ...
+2025-07-07 03:19:23,837 - INFO - Selecting previously unselected package libc6-dev:amd64.
+2025-07-07 03:19:23,839 - INFO - Preparing to unpack .../049-libc6-dev_2.31-0ubuntu9.18_amd64.deb ...
+2025-07-07 03:19:23,845 - INFO - Unpacking libc6-dev:amd64 (2.31-0ubuntu9.18) ...
+2025-07-07 03:19:24,131 - INFO - Selecting previously unselected package gcc-9-base:amd64.
+2025-07-07 03:19:24,133 - INFO - Preparing to unpack .../050-gcc-9-base_9.4.0-1ubuntu1~20.04.2_amd64.deb ...
+2025-07-07 03:19:24,140 - INFO - Unpacking gcc-9-base:amd64 (9.4.0-1ubuntu1~20.04.2) ...
+2025-07-07 03:19:24,205 - INFO - Selecting previously unselected package libisl22:amd64.
+2025-07-07 03:19:24,206 - INFO - Preparing to unpack .../051-libisl22_0.22.1-1_amd64.deb ...
+2025-07-07 03:19:24,213 - INFO - Unpacking libisl22:amd64 (0.22.1-1) ...
+2025-07-07 03:19:24,308 - INFO - Selecting previously unselected package libmpfr6:amd64.
+2025-07-07 03:19:24,310 - INFO - Preparing to unpack .../052-libmpfr6_4.0.2-1_amd64.deb ...
+2025-07-07 03:19:24,316 - INFO - Unpacking libmpfr6:amd64 (4.0.2-1) ...
+2025-07-07 03:19:24,382 - INFO - Selecting previously unselected package libmpc3:amd64.
+2025-07-07 03:19:24,384 - INFO - Preparing to unpack .../053-libmpc3_1.1.0-1_amd64.deb ...
+2025-07-07 03:19:24,390 - INFO - Unpacking libmpc3:amd64 (1.1.0-1) ...
+2025-07-07 03:19:24,437 - INFO - Selecting previously unselected package cpp-9.
+2025-07-07 03:19:24,438 - INFO - Preparing to unpack .../054-cpp-9_9.4.0-1ubuntu1~20.04.2_amd64.deb ...
+2025-07-07 03:19:24,445 - INFO - Unpacking cpp-9 (9.4.0-1ubuntu1~20.04.2) ...
+2025-07-07 03:19:25,005 - INFO - Selecting previously unselected package cpp.
+2025-07-07 03:19:25,006 - INFO - Preparing to unpack .../055-cpp_4%3a9.3.0-1ubuntu2_amd64.deb ...
+2025-07-07 03:19:25,013 - INFO - Unpacking cpp (4:9.3.0-1ubuntu2) ...
+2025-07-07 03:19:25,068 - INFO - Selecting previously unselected package libcc1-0:amd64.
+2025-07-07 03:19:25,069 - INFO - Preparing to unpack .../056-libcc1-0_10.5.0-1ubuntu1~20.04_amd64.deb ...
+2025-07-07 03:19:25,076 - INFO - Unpacking libcc1-0:amd64 (10.5.0-1ubuntu1~20.04) ...
+2025-07-07 03:19:25,136 - INFO - Selecting previously unselected package libgomp1:amd64.
+2025-07-07 03:19:25,137 - INFO - Preparing to unpack .../057-libgomp1_10.5.0-1ubuntu1~20.04_amd64.deb ...
+2025-07-07 03:19:25,144 - INFO - Unpacking libgomp1:amd64 (10.5.0-1ubuntu1~20.04) ...
+2025-07-07 03:19:25,201 - INFO - Selecting previously unselected package libitm1:amd64.
+2025-07-07 03:19:25,202 - INFO - Preparing to unpack .../058-libitm1_10.5.0-1ubuntu1~20.04_amd64.deb ...
+2025-07-07 03:19:25,213 - INFO - Unpacking libitm1:amd64 (10.5.0-1ubuntu1~20.04) ...
+2025-07-07 03:19:25,278 - INFO - Selecting previously unselected package libatomic1:amd64.
+2025-07-07 03:19:25,280 - INFO - Preparing to unpack .../059-libatomic1_10.5.0-1ubuntu1~20.04_amd64.deb ...
+2025-07-07 03:19:25,285 - INFO - Unpacking libatomic1:amd64 (10.5.0-1ubuntu1~20.04) ...
+2025-07-07 03:19:25,327 - INFO - Selecting previously unselected package libasan5:amd64.
+2025-07-07 03:19:25,328 - INFO - Preparing to unpack .../060-libasan5_9.4.0-1ubuntu1~20.04.2_amd64.deb ...
+2025-07-07 03:19:25,334 - INFO - Unpacking libasan5:amd64 (9.4.0-1ubuntu1~20.04.2) ...
+2025-07-07 03:19:25,570 - INFO - Selecting previously unselected package liblsan0:amd64.
+2025-07-07 03:19:25,571 - INFO - Preparing to unpack .../061-liblsan0_10.5.0-1ubuntu1~20.04_amd64.deb ...
+2025-07-07 03:19:25,580 - INFO - Unpacking liblsan0:amd64 (10.5.0-1ubuntu1~20.04) ...
+2025-07-07 03:19:25,679 - INFO - Selecting previously unselected package libtsan0:amd64.
+2025-07-07 03:19:25,681 - INFO - Preparing to unpack .../062-libtsan0_10.5.0-1ubuntu1~20.04_amd64.deb ...
+2025-07-07 03:19:25,686 - INFO - Unpacking libtsan0:amd64 (10.5.0-1ubuntu1~20.04) ...
+2025-07-07 03:19:25,863 - INFO - Selecting previously unselected package libubsan1:amd64.
+2025-07-07 03:19:25,864 - INFO - Preparing to unpack .../063-libubsan1_10.5.0-1ubuntu1~20.04_amd64.deb ...
+2025-07-07 03:19:25,870 - INFO - Unpacking libubsan1:amd64 (10.5.0-1ubuntu1~20.04) ...
+2025-07-07 03:19:25,968 - INFO - Selecting previously unselected package libquadmath0:amd64.
+2025-07-07 03:19:25,969 - INFO - Preparing to unpack .../064-libquadmath0_10.5.0-1ubuntu1~20.04_amd64.deb ...
+2025-07-07 03:19:25,975 - INFO - Unpacking libquadmath0:amd64 (10.5.0-1ubuntu1~20.04) ...
+2025-07-07 03:19:26,023 - INFO - Selecting previously unselected package libgcc-9-dev:amd64.
+2025-07-07 03:19:26,025 - INFO - Preparing to unpack .../065-libgcc-9-dev_9.4.0-1ubuntu1~20.04.2_amd64.deb ...
+2025-07-07 03:19:26,030 - INFO - Unpacking libgcc-9-dev:amd64 (9.4.0-1ubuntu1~20.04.2) ...
+2025-07-07 03:19:26,275 - INFO - Selecting previously unselected package gcc-9.
+2025-07-07 03:19:26,276 - INFO - Preparing to unpack .../066-gcc-9_9.4.0-1ubuntu1~20.04.2_amd64.deb ...
+2025-07-07 03:19:26,282 - INFO - Unpacking gcc-9 (9.4.0-1ubuntu1~20.04.2) ...
+2025-07-07 03:19:26,816 - INFO - Selecting previously unselected package gcc.
+2025-07-07 03:19:26,818 - INFO - Preparing to unpack .../067-gcc_4%3a9.3.0-1ubuntu2_amd64.deb ...
+2025-07-07 03:19:26,825 - INFO - Unpacking gcc (4:9.3.0-1ubuntu2) ...
+2025-07-07 03:19:26,879 - INFO - Selecting previously unselected package libstdc++-9-dev:amd64.
+2025-07-07 03:19:26,881 - INFO - Preparing to unpack .../068-libstdc++-9-dev_9.4.0-1ubuntu1~20.04.2_amd64.deb ...
+2025-07-07 03:19:26,888 - INFO - Unpacking libstdc++-9-dev:amd64 (9.4.0-1ubuntu1~20.04.2) ...
+2025-07-07 03:19:27,128 - INFO - Selecting previously unselected package g++-9.
+2025-07-07 03:19:27,129 - INFO - Preparing to unpack .../069-g++-9_9.4.0-1ubuntu1~20.04.2_amd64.deb ...
+2025-07-07 03:19:27,139 - INFO - Unpacking g++-9 (9.4.0-1ubuntu1~20.04.2) ...
+2025-07-07 03:19:27,696 - INFO - Selecting previously unselected package g++.
+2025-07-07 03:19:27,698 - INFO - Preparing to unpack .../070-g++_4%3a9.3.0-1ubuntu2_amd64.deb ...
+2025-07-07 03:19:27,706 - INFO - Unpacking g++ (4:9.3.0-1ubuntu2) ...
+2025-07-07 03:19:27,760 - INFO - Selecting previously unselected package make.
+2025-07-07 03:19:27,762 - INFO - Preparing to unpack .../071-make_4.2.1-1.2_amd64.deb ...
+2025-07-07 03:19:27,768 - INFO - Unpacking make (4.2.1-1.2) ...
+2025-07-07 03:19:27,820 - INFO - Selecting previously unselected package libdpkg-perl.
+2025-07-07 03:19:27,822 - INFO - Preparing to unpack .../072-libdpkg-perl_1.19.7ubuntu3.2_all.deb ...
+2025-07-07 03:19:27,828 - INFO - Unpacking libdpkg-perl (1.19.7ubuntu3.2) ...
+2025-07-07 03:19:27,902 - INFO - Selecting previously unselected package patch.
+2025-07-07 03:19:27,904 - INFO - Preparing to unpack .../073-patch_2.7.6-6_amd64.deb ...
+2025-07-07 03:19:27,910 - INFO - Unpacking patch (2.7.6-6) ...
+2025-07-07 03:19:27,965 - INFO - Selecting previously unselected package dpkg-dev.
+2025-07-07 03:19:27,967 - INFO - Preparing to unpack .../074-dpkg-dev_1.19.7ubuntu3.2_all.deb ...
+2025-07-07 03:19:27,974 - INFO - Unpacking dpkg-dev (1.19.7ubuntu3.2) ...
+2025-07-07 03:19:28,064 - INFO - Selecting previously unselected package build-essential.
+2025-07-07 03:19:28,067 - INFO - Preparing to unpack .../075-build-essential_12.8ubuntu1.1_amd64.deb ...
+2025-07-07 03:19:28,074 - INFO - Unpacking build-essential (12.8ubuntu1.1) ...
+2025-07-07 03:19:28,142 - INFO - Selecting previously unselected package cmake-data.
+2025-07-07 03:19:28,144 - INFO - Preparing to unpack .../076-cmake-data_3.16.3-1ubuntu1.20.04.1_all.deb ...
+2025-07-07 03:19:28,153 - INFO - Unpacking cmake-data (3.16.3-1ubuntu1.20.04.1) ...
+2025-07-07 03:19:28,653 - INFO - Selecting previously unselected package libarchive13:amd64.
+2025-07-07 03:19:28,655 - INFO - Preparing to unpack .../077-libarchive13_3.4.0-2ubuntu1.5_amd64.deb ...
+2025-07-07 03:19:28,662 - INFO - Unpacking libarchive13:amd64 (3.4.0-2ubuntu1.5) ...
+2025-07-07 03:19:28,728 - INFO - Selecting previously unselected package libbrotli1:amd64.
+2025-07-07 03:19:28,730 - INFO - Preparing to unpack .../078-libbrotli1_1.0.7-6ubuntu0.1_amd64.deb ...
+2025-07-07 03:19:28,736 - INFO - Unpacking libbrotli1:amd64 (1.0.7-6ubuntu0.1) ...
+2025-07-07 03:19:28,803 - INFO - Selecting previously unselected package libroken18-heimdal:amd64.
+2025-07-07 03:19:28,805 - INFO - Preparing to unpack .../079-libroken18-heimdal_7.7.0+dfsg-1ubuntu1.4_amd64.deb ...
+2025-07-07 03:19:28,816 - INFO - Unpacking libroken18-heimdal:amd64 (7.7.0+dfsg-1ubuntu1.4) ...
+2025-07-07 03:19:28,872 - INFO - Selecting previously unselected package libasn1-8-heimdal:amd64.
+2025-07-07 03:19:28,874 - INFO - Preparing to unpack .../080-libasn1-8-heimdal_7.7.0+dfsg-1ubuntu1.4_amd64.deb ...
+2025-07-07 03:19:28,879 - INFO - Unpacking libasn1-8-heimdal:amd64 (7.7.0+dfsg-1ubuntu1.4) ...
+2025-07-07 03:19:28,946 - INFO - Selecting previously unselected package libheimbase1-heimdal:amd64.
+2025-07-07 03:19:28,950 - INFO - Preparing to unpack .../081-libheimbase1-heimdal_7.7.0+dfsg-1ubuntu1.4_amd64.deb ...
+2025-07-07 03:19:28,958 - INFO - Unpacking libheimbase1-heimdal:amd64 (7.7.0+dfsg-1ubuntu1.4) ...
+2025-07-07 03:19:29,016 - INFO - Selecting previously unselected package libhcrypto4-heimdal:amd64.
+2025-07-07 03:19:29,018 - INFO - Preparing to unpack .../082-libhcrypto4-heimdal_7.7.0+dfsg-1ubuntu1.4_amd64.deb ...
+2025-07-07 03:19:29,024 - INFO - Unpacking libhcrypto4-heimdal:amd64 (7.7.0+dfsg-1ubuntu1.4) ...
+2025-07-07 03:19:29,083 - INFO - Selecting previously unselected package libwind0-heimdal:amd64.
+2025-07-07 03:19:29,084 - INFO - Preparing to unpack .../083-libwind0-heimdal_7.7.0+dfsg-1ubuntu1.4_amd64.deb ...
+2025-07-07 03:19:29,091 - INFO - Unpacking libwind0-heimdal:amd64 (7.7.0+dfsg-1ubuntu1.4) ...
+2025-07-07 03:19:29,169 - INFO - Selecting previously unselected package libhx509-5-heimdal:amd64.
+2025-07-07 03:19:29,171 - INFO - Preparing to unpack .../084-libhx509-5-heimdal_7.7.0+dfsg-1ubuntu1.4_amd64.deb ...
+2025-07-07 03:19:29,179 - INFO - Unpacking libhx509-5-heimdal:amd64 (7.7.0+dfsg-1ubuntu1.4) ...
+2025-07-07 03:19:29,241 - INFO - Selecting previously unselected package libkrb5-26-heimdal:amd64.
+2025-07-07 03:19:29,242 - INFO - Preparing to unpack .../085-libkrb5-26-heimdal_7.7.0+dfsg-1ubuntu1.4_amd64.deb ...
+2025-07-07 03:19:29,248 - INFO - Unpacking libkrb5-26-heimdal:amd64 (7.7.0+dfsg-1ubuntu1.4) ...
+2025-07-07 03:19:29,319 - INFO - Selecting previously unselected package libheimntlm0-heimdal:amd64.
+2025-07-07 03:19:29,321 - INFO - Preparing to unpack .../086-libheimntlm0-heimdal_7.7.0+dfsg-1ubuntu1.4_amd64.deb ...
+2025-07-07 03:19:29,328 - INFO - Unpacking libheimntlm0-heimdal:amd64 (7.7.0+dfsg-1ubuntu1.4) ...
+2025-07-07 03:19:29,384 - INFO - Selecting previously unselected package libgssapi3-heimdal:amd64.
+2025-07-07 03:19:29,386 - INFO - Preparing to unpack .../087-libgssapi3-heimdal_7.7.0+dfsg-1ubuntu1.4_amd64.deb ...
+2025-07-07 03:19:29,392 - INFO - Unpacking libgssapi3-heimdal:amd64 (7.7.0+dfsg-1ubuntu1.4) ...
+2025-07-07 03:19:29,444 - INFO - Selecting previously unselected package libsasl2-modules-db:amd64.
+2025-07-07 03:19:29,446 - INFO - Preparing to unpack .../088-libsasl2-modules-db_2.1.27+dfsg-2ubuntu0.1_amd64.deb ...
+2025-07-07 03:19:29,452 - INFO - Unpacking libsasl2-modules-db:amd64 (2.1.27+dfsg-2ubuntu0.1) ...
+2025-07-07 03:19:29,504 - INFO - Selecting previously unselected package libsasl2-2:amd64.
+2025-07-07 03:19:29,506 - INFO - Preparing to unpack .../089-libsasl2-2_2.1.27+dfsg-2ubuntu0.1_amd64.deb ...
+2025-07-07 03:19:29,512 - INFO - Unpacking libsasl2-2:amd64 (2.1.27+dfsg-2ubuntu0.1) ...
+2025-07-07 03:19:29,564 - INFO - Selecting previously unselected package libldap-common.
+2025-07-07 03:19:29,566 - INFO - Preparing to unpack .../090-libldap-common_2.4.49+dfsg-2ubuntu1.10_all.deb ...
+2025-07-07 03:19:29,572 - INFO - Unpacking libldap-common (2.4.49+dfsg-2ubuntu1.10) ...
+2025-07-07 03:19:29,632 - INFO - Selecting previously unselected package libldap-2.4-2:amd64.
+2025-07-07 03:19:29,635 - INFO - Preparing to unpack .../091-libldap-2.4-2_2.4.49+dfsg-2ubuntu1.10_amd64.deb ...
+2025-07-07 03:19:29,643 - INFO - Unpacking libldap-2.4-2:amd64 (2.4.49+dfsg-2ubuntu1.10) ...
+2025-07-07 03:19:29,704 - INFO - Selecting previously unselected package libnghttp2-14:amd64.
+2025-07-07 03:19:29,707 - INFO - Preparing to unpack .../092-libnghttp2-14_1.40.0-1ubuntu0.3_amd64.deb ...
+2025-07-07 03:19:29,714 - INFO - Unpacking libnghttp2-14:amd64 (1.40.0-1ubuntu0.3) ...
+2025-07-07 03:19:29,767 - INFO - Selecting previously unselected package librtmp1:amd64.
+2025-07-07 03:19:29,769 - INFO - Preparing to unpack .../093-librtmp1_2.4+20151223.gitfa8646d.1-2build1_amd64.deb ...
+2025-07-07 03:19:29,776 - INFO - Unpacking librtmp1:amd64 (2.4+20151223.gitfa8646d.1-2build1) ...
+2025-07-07 03:19:29,834 - INFO - Selecting previously unselected package libssh-4:amd64.
+2025-07-07 03:19:29,836 - INFO - Preparing to unpack .../094-libssh-4_0.9.3-2ubuntu2.5_amd64.deb ...
+2025-07-07 03:19:29,842 - INFO - Unpacking libssh-4:amd64 (0.9.3-2ubuntu2.5) ...
+2025-07-07 03:19:29,907 - INFO - Selecting previously unselected package libcurl4:amd64.
+2025-07-07 03:19:29,908 - INFO - Preparing to unpack .../095-libcurl4_7.68.0-1ubuntu2.25_amd64.deb ...
+2025-07-07 03:19:29,914 - INFO - Unpacking libcurl4:amd64 (7.68.0-1ubuntu2.25) ...
+2025-07-07 03:19:29,982 - INFO - Selecting previously unselected package libjsoncpp1:amd64.
+2025-07-07 03:19:29,986 - INFO - Preparing to unpack .../096-libjsoncpp1_1.7.4-3.1ubuntu2_amd64.deb ...
+2025-07-07 03:19:29,992 - INFO - Unpacking libjsoncpp1:amd64 (1.7.4-3.1ubuntu2) ...
+2025-07-07 03:19:30,049 - INFO - Selecting previously unselected package librhash0:amd64.
+2025-07-07 03:19:30,051 - INFO - Preparing to unpack .../097-librhash0_1.3.9-1_amd64.deb ...
+2025-07-07 03:19:30,057 - INFO - Unpacking librhash0:amd64 (1.3.9-1) ...
+2025-07-07 03:19:30,107 - INFO - Selecting previously unselected package cmake.
+2025-07-07 03:19:30,109 - INFO - Preparing to unpack .../098-cmake_3.16.3-1ubuntu1.20.04.1_amd64.deb ...
+2025-07-07 03:19:30,116 - INFO - Unpacking cmake (3.16.3-1ubuntu1.20.04.1) ...
+2025-07-07 03:19:30,427 - INFO - Selecting previously unselected package libassuan0:amd64.
+2025-07-07 03:19:30,428 - INFO - Preparing to unpack .../099-libassuan0_2.5.3-7ubuntu2_amd64.deb ...
+2025-07-07 03:19:30,435 - INFO - Unpacking libassuan0:amd64 (2.5.3-7ubuntu2) ...
+2025-07-07 03:19:30,479 - INFO - Selecting previously unselected package gpgconf.
+2025-07-07 03:19:30,480 - INFO - Preparing to unpack .../100-gpgconf_2.2.19-3ubuntu2.4_amd64.deb ...
+2025-07-07 03:19:30,487 - INFO - Unpacking gpgconf (2.2.19-3ubuntu2.4) ...
+2025-07-07 03:19:30,549 - INFO - Selecting previously unselected package libksba8:amd64.
+2025-07-07 03:19:30,551 - INFO - Preparing to unpack .../101-libksba8_1.3.5-2ubuntu0.20.04.2_amd64.deb ...
+2025-07-07 03:19:30,557 - INFO - Unpacking libksba8:amd64 (1.3.5-2ubuntu0.20.04.2) ...
+2025-07-07 03:19:30,618 - INFO - Selecting previously unselected package libnpth0:amd64.
+2025-07-07 03:19:30,620 - INFO - Preparing to unpack .../102-libnpth0_1.6-1_amd64.deb ...
+2025-07-07 03:19:30,627 - INFO - Unpacking libnpth0:amd64 (1.6-1) ...
+2025-07-07 03:19:30,680 - INFO - Selecting previously unselected package dirmngr.
+2025-07-07 03:19:30,682 - INFO - Preparing to unpack .../103-dirmngr_2.2.19-3ubuntu2.4_amd64.deb ...
+2025-07-07 03:19:30,704 - INFO - Unpacking dirmngr (2.2.19-3ubuntu2.4) ...
+2025-07-07 03:19:30,783 - INFO - Selecting previously unselected package libfakeroot:amd64.
+2025-07-07 03:19:30,785 - INFO - Preparing to unpack .../104-libfakeroot_1.24-1_amd64.deb ...
+2025-07-07 03:19:30,792 - INFO - Unpacking libfakeroot:amd64 (1.24-1) ...
+2025-07-07 03:19:30,844 - INFO - Selecting previously unselected package fakeroot.
+2025-07-07 03:19:30,846 - INFO - Preparing to unpack .../105-fakeroot_1.24-1_amd64.deb ...
+2025-07-07 03:19:30,852 - INFO - Unpacking fakeroot (1.24-1) ...
+2025-07-07 03:19:30,918 - INFO - Selecting previously unselected package libcurl3-gnutls:amd64.
+2025-07-07 03:19:30,920 - INFO - Preparing to unpack .../106-libcurl3-gnutls_7.68.0-1ubuntu2.25_amd64.deb ...
+2025-07-07 03:19:30,926 - INFO - Unpacking libcurl3-gnutls:amd64 (7.68.0-1ubuntu2.25) ...
+2025-07-07 03:19:30,984 - INFO - Selecting previously unselected package liberror-perl.
+2025-07-07 03:19:30,986 - INFO - Preparing to unpack .../107-liberror-perl_0.17029-1_all.deb ...
+2025-07-07 03:19:30,992 - INFO - Unpacking liberror-perl (0.17029-1) ...
+2025-07-07 03:19:31,041 - INFO - Selecting previously unselected package git-man.
+2025-07-07 03:19:31,044 - INFO - Preparing to unpack .../108-git-man_1%3a2.25.1-1ubuntu3.14_all.deb ...
+2025-07-07 03:19:31,050 - INFO - Unpacking git-man (1:2.25.1-1ubuntu3.14) ...
+2025-07-07 03:19:31,160 - INFO - Selecting previously unselected package git.
+2025-07-07 03:19:31,162 - INFO - Preparing to unpack .../109-git_1%3a2.25.1-1ubuntu3.14_amd64.deb ...
+2025-07-07 03:19:31,190 - INFO - Unpacking git (1:2.25.1-1ubuntu3.14) ...
+2025-07-07 03:19:31,607 - INFO - Selecting previously unselected package gnupg-l10n.
+2025-07-07 03:19:31,609 - INFO - Preparing to unpack .../110-gnupg-l10n_2.2.19-3ubuntu2.4_all.deb ...
+2025-07-07 03:19:31,615 - INFO - Unpacking gnupg-l10n (2.2.19-3ubuntu2.4) ...
+2025-07-07 03:19:31,669 - INFO - Selecting previously unselected package gnupg-utils.
+2025-07-07 03:19:31,671 - INFO - Preparing to unpack .../111-gnupg-utils_2.2.19-3ubuntu2.4_amd64.deb ...
+2025-07-07 03:19:31,678 - INFO - Unpacking gnupg-utils (2.2.19-3ubuntu2.4) ...
+2025-07-07 03:19:31,820 - INFO - Selecting previously unselected package gpg.
+2025-07-07 03:19:31,822 - INFO - Preparing to unpack .../112-gpg_2.2.19-3ubuntu2.4_amd64.deb ...
+2025-07-07 03:19:31,829 - INFO - Unpacking gpg (2.2.19-3ubuntu2.4) ...
+2025-07-07 03:19:31,903 - INFO - Selecting previously unselected package pinentry-curses.
+2025-07-07 03:19:31,906 - INFO - Preparing to unpack .../113-pinentry-curses_1.1.0-3build1_amd64.deb ...
+2025-07-07 03:19:31,914 - INFO - Unpacking pinentry-curses (1.1.0-3build1) ...
+2025-07-07 03:19:31,967 - INFO - Selecting previously unselected package gpg-agent.
+2025-07-07 03:19:31,969 - INFO - Preparing to unpack .../114-gpg-agent_2.2.19-3ubuntu2.4_amd64.deb ...
+2025-07-07 03:19:31,976 - INFO - Unpacking gpg-agent (2.2.19-3ubuntu2.4) ...
+2025-07-07 03:19:32,042 - INFO - Selecting previously unselected package gpg-wks-client.
+2025-07-07 03:19:32,045 - INFO - Preparing to unpack .../115-gpg-wks-client_2.2.19-3ubuntu2.4_amd64.deb ...
+2025-07-07 03:19:32,052 - INFO - Unpacking gpg-wks-client (2.2.19-3ubuntu2.4) ...
+2025-07-07 03:19:32,103 - INFO - Selecting previously unselected package gpg-wks-server.
+2025-07-07 03:19:32,105 - INFO - Preparing to unpack .../116-gpg-wks-server_2.2.19-3ubuntu2.4_amd64.deb ...
+2025-07-07 03:19:32,111 - INFO - Unpacking gpg-wks-server (2.2.19-3ubuntu2.4) ...
+2025-07-07 03:19:32,165 - INFO - Selecting previously unselected package gpgsm.
+2025-07-07 03:19:32,167 - INFO - Preparing to unpack .../117-gpgsm_2.2.19-3ubuntu2.4_amd64.deb ...
+2025-07-07 03:19:32,176 - INFO - Unpacking gpgsm (2.2.19-3ubuntu2.4) ...
+2025-07-07 03:19:32,235 - INFO - Selecting previously unselected package gnupg.
+2025-07-07 03:19:32,237 - INFO - Preparing to unpack .../118-gnupg_2.2.19-3ubuntu2.4_all.deb ...
+2025-07-07 03:19:32,243 - INFO - Unpacking gnupg (2.2.19-3ubuntu2.4) ...
+2025-07-07 03:19:32,298 - INFO - Selecting previously unselected package googletest.
+2025-07-07 03:19:32,301 - INFO - Preparing to unpack .../119-googletest_1.10.0-2_all.deb ...
+2025-07-07 03:19:32,307 - INFO - Unpacking googletest (1.10.0-2) ...
+2025-07-07 03:19:32,417 - INFO - Selecting previously unselected package libalgorithm-diff-perl.
+2025-07-07 03:19:32,419 - INFO - Preparing to unpack .../120-libalgorithm-diff-perl_1.19.03-2_all.deb ...
+2025-07-07 03:19:32,426 - INFO - Unpacking libalgorithm-diff-perl (1.19.03-2) ...
+2025-07-07 03:19:32,476 - INFO - Selecting previously unselected package libalgorithm-diff-xs-perl.
+2025-07-07 03:19:32,477 - INFO - Preparing to unpack .../121-libalgorithm-diff-xs-perl_0.04-6_amd64.deb ...
+2025-07-07 03:19:32,485 - INFO - Unpacking libalgorithm-diff-xs-perl (0.04-6) ...
+2025-07-07 03:19:32,552 - INFO - Selecting previously unselected package libalgorithm-merge-perl.
+2025-07-07 03:19:32,555 - INFO - Preparing to unpack .../122-libalgorithm-merge-perl_0.08-3_all.deb ...
+2025-07-07 03:19:32,561 - INFO - Unpacking libalgorithm-merge-perl (0.08-3) ...
+2025-07-07 03:19:32,603 - INFO - Selecting previously unselected package libbrotli-dev.
+2025-07-07 03:19:32,605 - INFO - Preparing to unpack .../123-libbrotli-dev_1.0.7-6ubuntu0.1_amd64.deb ...
+2025-07-07 03:19:32,610 - INFO - Unpacking libbrotli-dev (1.0.7-6ubuntu0.1) ...
+2025-07-07 03:19:32,677 - INFO - Selecting previously unselected package libfile-fcntllock-perl.
+2025-07-07 03:19:32,681 - INFO - Preparing to unpack .../124-libfile-fcntllock-perl_0.22-3build4_amd64.deb ...
+2025-07-07 03:19:32,687 - INFO - Unpacking libfile-fcntllock-perl (0.22-3build4) ...
+2025-07-07 03:19:32,739 - INFO - Selecting previously unselected package libgtest-dev:amd64.
+2025-07-07 03:19:32,741 - INFO - Preparing to unpack .../125-libgtest-dev_1.10.0-2_amd64.deb ...
+2025-07-07 03:19:32,748 - INFO - Unpacking libgtest-dev:amd64 (1.10.0-2) ...
+2025-07-07 03:19:32,932 - INFO - Selecting previously unselected package libsasl2-modules:amd64.
+2025-07-07 03:19:32,935 - INFO - Preparing to unpack .../126-libsasl2-modules_2.1.27+dfsg-2ubuntu0.1_amd64.deb ...
+2025-07-07 03:19:32,940 - INFO - Unpacking libsasl2-modules:amd64 (2.1.27+dfsg-2ubuntu0.1) ...
+2025-07-07 03:19:32,983 - INFO - Selecting previously unselected package libssl-dev:amd64.
+2025-07-07 03:19:32,984 - INFO - Preparing to unpack .../127-libssl-dev_1.1.1f-1ubuntu2.24_amd64.deb ...
+2025-07-07 03:19:32,990 - INFO - Unpacking libssl-dev:amd64 (1.1.1f-1ubuntu2.24) ...
+2025-07-07 03:19:33,154 - INFO - Selecting previously unselected package manpages-dev.
+2025-07-07 03:19:33,156 - INFO - Preparing to unpack .../128-manpages-dev_5.05-1_all.deb ...
+2025-07-07 03:19:33,162 - INFO - Unpacking manpages-dev (5.05-1) ...
+2025-07-07 03:19:33,362 - INFO - Selecting previously unselected package zlib1g-dev:amd64.
+2025-07-07 03:19:33,365 - INFO - Preparing to unpack .../129-zlib1g-dev_1%3a1.2.11.dfsg-2ubuntu1.5_amd64.deb ...
+2025-07-07 03:19:33,371 - INFO - Unpacking zlib1g-dev:amd64 (1:1.2.11.dfsg-2ubuntu1.5) ...
+2025-07-07 03:19:33,436 - INFO - Setting up libksba8:amd64 (1.3.5-2ubuntu0.20.04.2) ...
+2025-07-07 03:19:33,454 - INFO - Setting up libxau6:amd64 (1:1.0.9-0ubuntu1) ...
+2025-07-07 03:19:33,470 - INFO - Setting up libkeyutils1:amd64 (1.6-6ubuntu1.1) ...
+2025-07-07 03:19:33,484 - INFO - Setting up libpsl5:amd64 (0.21.0-1ubuntu1) ...
+2025-07-07 03:19:33,499 - INFO - Setting up perl-modules-5.30 (5.30.0-9ubuntu0.5) ...
+2025-07-07 03:19:33,514 - INFO - Setting up mime-support (3.64ubuntu1) ...
+2025-07-07 03:19:33,555 - INFO - Setting up libmagic-mgc (1:5.38-4) ...
+2025-07-07 03:19:33,572 - INFO - Setting up manpages (5.05-1) ...
+2025-07-07 03:19:33,591 - INFO - Setting up libbrotli1:amd64 (1.0.7-6ubuntu0.1) ...
+2025-07-07 03:19:33,608 - INFO - Setting up libsqlite3-0:amd64 (3.31.1-4ubuntu0.7) ...
+2025-07-07 03:19:33,627 - INFO - Setting up libsasl2-modules:amd64 (2.1.27+dfsg-2ubuntu0.1) ...
+2025-07-07 03:19:33,660 - INFO - Setting up binutils-common:amd64 (2.34-6ubuntu1.11) ...
+2025-07-07 03:19:33,680 - INFO - Setting up libnghttp2-14:amd64 (1.40.0-1ubuntu0.3) ...
+2025-07-07 03:19:33,698 - INFO - Setting up libmagic1:amd64 (1:5.38-4) ...
+2025-07-07 03:19:33,726 - INFO - Setting up less (551-1ubuntu0.3) ...
+2025-07-07 03:19:33,760 - INFO - Setting up linux-libc-dev:amd64 (5.4.0-216.236) ...
+2025-07-07 03:19:33,779 - INFO - Setting up libctf-nobfd0:amd64 (2.34-6ubuntu1.11) ...
+2025-07-07 03:19:33,795 - INFO - Setting up libnpth0:amd64 (1.6-1) ...
+2025-07-07 03:19:33,809 - INFO - Setting up krb5-locales (1.17-6ubuntu4.11) ...
+2025-07-07 03:19:33,824 - INFO - Setting up file (1:5.38-4) ...
+2025-07-07 03:19:33,838 - INFO - Setting up libassuan0:amd64 (2.5.3-7ubuntu2) ...
+2025-07-07 03:19:33,855 - INFO - Setting up libgomp1:amd64 (10.5.0-1ubuntu1~20.04) ...
+2025-07-07 03:19:33,874 - INFO - Setting up libcbor0.6:amd64 (0.6.0-0ubuntu1) ...
+2025-07-07 03:19:33,891 - INFO - Setting up libldap-common (2.4.49+dfsg-2ubuntu1.10) ...
+2025-07-07 03:19:33,913 - INFO - Setting up googletest (1.10.0-2) ...
+2025-07-07 03:19:33,930 - INFO - Setting up libfakeroot:amd64 (1.24-1) ...
+2025-07-07 03:19:33,951 - INFO - Setting up libkrb5support0:amd64 (1.17-6ubuntu4.11) ...
+2025-07-07 03:19:33,968 - INFO - Setting up libsasl2-modules-db:amd64 (2.1.27+dfsg-2ubuntu0.1) ...
+2025-07-07 03:19:33,982 - INFO - Setting up tzdata (2025b-0ubuntu0.20.04.1) ...
+2025-07-07 03:19:34,071 - INFO - Current default time zone: 'Etc/UTC'
+2025-07-07 03:19:34,073 - INFO - Local time is now:      Sun Jul  6 22:19:34 UTC 2025.
+Universal Time is now:  Sun Jul  6 22:19:34 UTC 2025.
+Run 'dpkg-reconfigure tzdata' if you wish to change it.
+2025-07-07 03:19:34,097 - INFO - Setting up fakeroot (1.24-1) ...
+2025-07-07 03:19:34,111 - INFO - update-alternatives: using /usr/bin/fakeroot-sysv to provide /usr/bin/fakeroot (fakeroot) in auto mode
+update-alternatives: warning: skip creation of /usr/share/man/man1/fakeroot.1.gz because associated file /usr/share/man/man1/fakeroot-sysv.1.gz (of link group fakeroot) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/man1/faked.1.gz because associated file /usr/share/man/man1/faked-sysv.1.gz (of link group fakeroot) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/es/man1/fakeroot.1.gz because associated file /usr/share/man/es/man1/fakeroot-sysv.1.gz (of link group fakeroot) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/es/man1/faked.1.gz because associated file /usr/share/man/es/man1/faked-sysv.1.gz (of link group fakeroot) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/fr/man1/fakeroot.1.gz because associated file /usr/share/man/fr/man1/fakeroot-sysv.1.gz (of link group fakeroot) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/fr/man1/faked.1.gz because associated file /usr/share/man/fr/man1/faked-sysv.1.gz (of link group fakeroot) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/sv/man1/fakeroot.1.gz because associated file /usr/share/man/sv/man1/fakeroot-sysv.1.gz (of link group fakeroot) doesn't exist
+2025-07-07 03:19:34,111 - INFO - update-alternatives: warning: skip creation of /usr/share/man/sv/man1/faked.1.gz because associated file /usr/share/man/sv/man1/faked-sysv.1.gz (of link group fakeroot) doesn't exist
+2025-07-07 03:19:34,125 - INFO - Setting up libuv1:amd64 (1.34.2-1ubuntu1.5) ...
+2025-07-07 03:19:34,144 - INFO - Setting up libx11-data (2:1.6.9-2ubuntu1.6) ...
+2025-07-07 03:19:34,161 - INFO - Setting up make (4.2.1-1.2) ...
+2025-07-07 03:19:34,176 - INFO - Setting up libmpfr6:amd64 (4.0.2-1) ...
+2025-07-07 03:19:34,193 - INFO - Setting up gnupg-l10n (2.2.19-3ubuntu2.4) ...
+2025-07-07 03:19:34,208 - INFO - Setting up librtmp1:amd64 (2.4+20151223.gitfa8646d.1-2build1) ...
+2025-07-07 03:19:34,223 - INFO - Setting up xz-utils (5.2.4-1ubuntu1.1) ...
+2025-07-07 03:19:34,238 - INFO - update-alternatives: using /usr/bin/xz to provide /usr/bin/lzma (lzma) in auto mode
+update-alternatives: warning: skip creation of /usr/share/man/man1/lzma.1.gz because associated file /usr/share/man/man1/xz.1.gz (of link group lzma) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/man1/unlzma.1.gz because associated file /usr/share/man/man1/unxz.1.gz (of link group lzma) doesn't exist
+2025-07-07 03:19:34,238 - INFO - update-alternatives: warning: skip creation of /usr/share/man/man1/lzcat.1.gz because associated file /usr/share/man/man1/xzcat.1.gz (of link group lzma) doesn't exist
+2025-07-07 03:19:34,238 - INFO - update-alternatives: warning: skip creation of /usr/share/man/man1/lzmore.1.gz because associated file /usr/share/man/man1/xzmore.1.gz (of link group lzma) doesn't exist
+2025-07-07 03:19:34,238 - INFO - update-alternatives: warning: skip creation of /usr/share/man/man1/lzless.1.gz because associated file /usr/share/man/man1/xzless.1.gz (of link group lzma) doesn't exist
+2025-07-07 03:19:34,238 - INFO - update-alternatives: warning: skip creation of /usr/share/man/man1/lzdiff.1.gz because associated file /usr/share/man/man1/xzdiff.1.gz (of link group lzma) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/man1/lzcmp.1.gz because associated file /usr/share/man/man1/xzcmp.1.gz (of link group lzma) doesn't exist
+2025-07-07 03:19:34,238 - INFO - update-alternatives: warning: skip creation of /usr/share/man/man1/lzgrep.1.gz because associated file /usr/share/man/man1/xzgrep.1.gz (of link group lzma) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/man1/lzegrep.1.gz because associated file /usr/share/man/man1/xzegrep.1.gz (of link group lzma) doesn't exist
+update-alternatives: warning: skip creation of /usr/share/man/man1/lzfgrep.1.gz because associated file /usr/share/man/man1/xzfgrep.1.gz (of link group lzma) doesn't exist
+2025-07-07 03:19:34,249 - INFO - Setting up libquadmath0:amd64 (10.5.0-1ubuntu1~20.04) ...
+2025-07-07 03:19:34,263 - INFO - Setting up libssl-dev:amd64 (1.1.1f-1ubuntu2.24) ...
+2025-07-07 03:19:34,277 - INFO - Setting up libmpc3:amd64 (1.1.0-1) ...
+2025-07-07 03:19:34,293 - INFO - Setting up libatomic1:amd64 (10.5.0-1ubuntu1~20.04) ...
+2025-07-07 03:19:34,312 - INFO - Setting up patch (2.7.6-6) ...
+2025-07-07 03:19:34,332 - INFO - Setting up libk5crypto3:amd64 (1.17-6ubuntu4.11) ...
+2025-07-07 03:19:34,352 - INFO - Setting up libsasl2-2:amd64 (2.1.27+dfsg-2ubuntu0.1) ...
+2025-07-07 03:19:34,370 - INFO - Setting up libroken18-heimdal:amd64 (7.7.0+dfsg-1ubuntu1.4) ...
+2025-07-07 03:19:34,388 - INFO - Setting up libubsan1:amd64 (10.5.0-1ubuntu1~20.04) ...
+2025-07-07 03:19:34,404 - INFO - Setting up librhash0:amd64 (1.3.9-1) ...
+2025-07-07 03:19:34,427 - INFO - Setting up libcrypt-dev:amd64 (1:4.4.10-10ubuntu4) ...
+2025-07-07 03:19:34,484 - INFO - Setting up git-man (1:2.25.1-1ubuntu3.14) ...
+2025-07-07 03:19:34,511 - INFO - Setting up libisl22:amd64 (0.22.1-1) ...
+2025-07-07 03:19:34,542 - INFO - Setting up netbase (6.1) ...
+2025-07-07 03:19:34,578 - INFO - Setting up cmake-data (3.16.3-1ubuntu1.20.04.1) ...
+2025-07-07 03:19:34,602 - INFO - Setting up libkrb5-3:amd64 (1.17-6ubuntu4.11) ...
+2025-07-07 03:19:34,620 - INFO - Setting up libmpdec2:amd64 (2.4.2-3) ...
+2025-07-07 03:19:34,637 - INFO - Setting up libbinutils:amd64 (2.34-6ubuntu1.11) ...
+2025-07-07 03:19:34,652 - INFO - Setting up libfido2-1:amd64 (1.3.1-1ubuntu2) ...
+2025-07-07 03:19:34,667 - INFO - Setting up libc-dev-bin (2.31-0ubuntu9.18) ...
+2025-07-07 03:19:34,681 - INFO - Setting up openssl (1.1.1f-1ubuntu2.24) ...
+2025-07-07 03:19:34,706 - INFO - Setting up libbsd0:amd64 (0.10.0-1) ...
+2025-07-07 03:19:34,721 - INFO - Setting up readline-common (8.0-4) ...
+2025-07-07 03:19:34,740 - INFO - Setting up publicsuffix (20200303.0012-1) ...
+2025-07-07 03:19:34,758 - INFO - Setting up libcc1-0:amd64 (10.5.0-1ubuntu1~20.04) ...
+2025-07-07 03:19:34,773 - INFO - Setting up liblocale-gettext-perl (1.07-4) ...
+2025-07-07 03:19:34,787 - INFO - Setting up libbrotli-dev (1.0.7-6ubuntu0.1) ...
+2025-07-07 03:19:34,806 - INFO - Setting up liblsan0:amd64 (10.5.0-1ubuntu1~20.04) ...
+2025-07-07 03:19:34,825 - INFO - Setting up libitm1:amd64 (10.5.0-1ubuntu1~20.04) ...
+2025-07-07 03:19:34,842 - INFO - Setting up libjsoncpp1:amd64 (1.7.4-3.1ubuntu2) ...
+2025-07-07 03:19:34,858 - INFO - Setting up libheimbase1-heimdal:amd64 (7.7.0+dfsg-1ubuntu1.4) ...
+2025-07-07 03:19:34,874 - INFO - Setting up libgdbm6:amd64 (1.18.1-5) ...
+2025-07-07 03:19:34,893 - INFO - Setting up gcc-9-base:amd64 (9.4.0-1ubuntu1~20.04.2) ...
+2025-07-07 03:19:34,910 - INFO - Setting up libtsan0:amd64 (10.5.0-1ubuntu1~20.04) ...
+2025-07-07 03:19:34,926 - INFO - Setting up libctf0:amd64 (2.34-6ubuntu1.11) ...
+2025-07-07 03:19:34,942 - INFO - Setting up pinentry-curses (1.1.0-3build1) ...
+2025-07-07 03:19:34,964 - INFO - Setting up manpages-dev (5.05-1) ...
+2025-07-07 03:19:34,980 - INFO - Setting up libxdmcp6:amd64 (1:1.1.3-0ubuntu1) ...
+2025-07-07 03:19:35,001 - INFO - Setting up libxcb1:amd64 (1.14-2) ...
+2025-07-07 03:19:35,017 - INFO - Setting up libgtest-dev:amd64 (1.10.0-2) ...
+2025-07-07 03:19:35,034 - INFO - Setting up libicu66:amd64 (66.1-2ubuntu2.1) ...
+2025-07-07 03:19:35,049 - INFO - Setting up libasn1-8-heimdal:amd64 (7.7.0+dfsg-1ubuntu1.4) ...
+2025-07-07 03:19:35,064 - INFO - Setting up libedit2:amd64 (3.1-20191231-1) ...
+2025-07-07 03:19:35,097 - INFO - Setting up libreadline8:amd64 (8.0-4) ...
+2025-07-07 03:19:35,113 - INFO - Setting up libhcrypto4-heimdal:amd64 (7.7.0+dfsg-1ubuntu1.4) ...
+2025-07-07 03:19:35,127 - INFO - Setting up ca-certificates (20240203~20.04.1) ...
+2025-07-07 03:19:35,752 - INFO - Updating certificates in /etc/ssl/certs...
+2025-07-07 03:19:36,773 - INFO - 146 added, 0 removed; done.
+2025-07-07 03:19:36,822 - INFO - Setting up libasan5:amd64 (9.4.0-1ubuntu1~20.04.2) ...
+2025-07-07 03:19:36,838 - INFO - Setting up libwind0-heimdal:amd64 (7.7.0+dfsg-1ubuntu1.4) ...
+2025-07-07 03:19:36,853 - INFO - Setting up libgssapi-krb5-2:amd64 (1.17-6ubuntu4.11) ...
+2025-07-07 03:19:36,869 - INFO - Setting up libgdbm-compat4:amd64 (1.18.1-5) ...
+2025-07-07 03:19:36,882 - INFO - Setting up libssh-4:amd64 (0.9.3-2ubuntu2.5) ...
+2025-07-07 03:19:36,897 - INFO - Setting up gpgconf (2.2.19-3ubuntu2.4) ...
+2025-07-07 03:19:36,915 - INFO - Setting up cpp-9 (9.4.0-1ubuntu1~20.04.2) ...
+2025-07-07 03:19:36,929 - INFO - Setting up libperl5.30:amd64 (5.30.0-9ubuntu0.5) ...
+2025-07-07 03:19:36,943 - INFO - Setting up libc6-dev:amd64 (2.31-0ubuntu9.18) ...
+2025-07-07 03:19:36,957 - INFO - Setting up libx11-6:amd64 (2:1.6.9-2ubuntu1.6) ...
+2025-07-07 03:19:36,974 - INFO - Setting up libpython3.8-stdlib:amd64 (3.8.10-0ubuntu1~20.04.18) ...
+2025-07-07 03:19:36,991 - INFO - Setting up python3.8 (3.8.10-0ubuntu1~20.04.18) ...
+2025-07-07 03:19:37,553 - INFO - Setting up libxml2:amd64 (2.9.10+dfsg-5ubuntu0.20.04.10) ...
+2025-07-07 03:19:37,570 - INFO - Setting up libxmuu1:amd64 (2:1.1.3-0ubuntu1) ...
+2025-07-07 03:19:37,594 - INFO - Setting up gpg (2.2.19-3ubuntu2.4) ...
+2025-07-07 03:19:37,613 - INFO - Setting up libpython3-stdlib:amd64 (3.8.2-0ubuntu2) ...
+2025-07-07 03:19:37,632 - INFO - Setting up gnupg-utils (2.2.19-3ubuntu2.4) ...
+2025-07-07 03:19:37,650 - INFO - Setting up binutils-x86-64-linux-gnu (2.34-6ubuntu1.11) ...
+2025-07-07 03:19:37,673 - INFO - Setting up gpg-agent (2.2.19-3ubuntu2.4) ...
+2025-07-07 03:19:38,115 - INFO - Setting up libarchive13:amd64 (3.4.0-2ubuntu1.5) ...
+2025-07-07 03:19:38,133 - INFO - Setting up openssh-client (1:8.2p1-4ubuntu0.13) ...
+2025-07-07 03:19:38,250 - INFO - Setting up libhx509-5-heimdal:amd64 (7.7.0+dfsg-1ubuntu1.4) ...
+2025-07-07 03:19:38,265 - INFO - Setting up gpgsm (2.2.19-3ubuntu2.4) ...
+2025-07-07 03:19:38,280 - INFO - Setting up libxext6:amd64 (2:1.3.4-0ubuntu1) ...
+2025-07-07 03:19:38,295 - INFO - Setting up python3 (3.8.2-0ubuntu2) ...
+2025-07-07 03:19:38,410 - INFO - Setting up binutils (2.34-6ubuntu1.11) ...
+2025-07-07 03:19:38,426 - INFO - Setting up libgcc-9-dev:amd64 (9.4.0-1ubuntu1~20.04.2) ...
+2025-07-07 03:19:38,447 - INFO - Setting up perl (5.30.0-9ubuntu0.5) ...
+2025-07-07 03:19:38,476 - INFO - Setting up libdpkg-perl (1.19.7ubuntu3.2) ...
+2025-07-07 03:19:38,492 - INFO - Setting up gpg-wks-server (2.2.19-3ubuntu2.4) ...
+2025-07-07 03:19:38,507 - INFO - Setting up zlib1g-dev:amd64 (1:1.2.11.dfsg-2ubuntu1.5) ...
+2025-07-07 03:19:38,521 - INFO - Setting up xauth (1:1.1-0ubuntu1) ...
+2025-07-07 03:19:38,538 - INFO - Setting up cpp (4:9.3.0-1ubuntu2) ...
+2025-07-07 03:19:38,565 - INFO - Setting up libkrb5-26-heimdal:amd64 (7.7.0+dfsg-1ubuntu1.4) ...
+2025-07-07 03:19:38,588 - INFO - Setting up gcc-9 (9.4.0-1ubuntu1~20.04.2) ...
+2025-07-07 03:19:38,609 - INFO - Setting up libstdc++-9-dev:amd64 (9.4.0-1ubuntu1~20.04.2) ...
+2025-07-07 03:19:38,625 - INFO - Setting up libfile-fcntllock-perl (0.22-3build4) ...
+2025-07-07 03:19:38,649 - INFO - Setting up libalgorithm-diff-perl (1.19.03-2) ...
+2025-07-07 03:19:38,664 - INFO - Setting up libheimntlm0-heimdal:amd64 (7.7.0+dfsg-1ubuntu1.4) ...
+2025-07-07 03:19:38,679 - INFO - Setting up gcc (4:9.3.0-1ubuntu2) ...
+2025-07-07 03:19:38,710 - INFO - Setting up dpkg-dev (1.19.7ubuntu3.2) ...
+2025-07-07 03:19:38,737 - INFO - Setting up liberror-perl (0.17029-1) ...
+2025-07-07 03:19:38,756 - INFO - Setting up libgssapi3-heimdal:amd64 (7.7.0+dfsg-1ubuntu1.4) ...
+2025-07-07 03:19:38,771 - INFO - Setting up g++-9 (9.4.0-1ubuntu1~20.04.2) ...
+2025-07-07 03:19:38,787 - INFO - Setting up g++ (4:9.3.0-1ubuntu2) ...
+2025-07-07 03:19:38,813 - INFO - update-alternatives: using /usr/bin/g++ to provide /usr/bin/c++ (c++) in auto mode
+update-alternatives: warning: skip creation of /usr/share/man/man1/c++.1.gz because associated file /usr/share/man/man1/g++.1.gz (of link group c++) doesn't exist
+2025-07-07 03:19:38,823 - INFO - Setting up build-essential (12.8ubuntu1.1) ...
+2025-07-07 03:19:38,838 - INFO - Setting up libalgorithm-diff-xs-perl (0.04-6) ...
+2025-07-07 03:19:38,855 - INFO - Setting up libalgorithm-merge-perl (0.08-3) ...
+2025-07-07 03:19:38,872 - INFO - Setting up libldap-2.4-2:amd64 (2.4.49+dfsg-2ubuntu1.10) ...
+2025-07-07 03:19:38,889 - INFO - Setting up libcurl3-gnutls:amd64 (7.68.0-1ubuntu2.25) ...
+2025-07-07 03:19:38,908 - INFO - Setting up dirmngr (2.2.19-3ubuntu2.4) ...
+2025-07-07 03:19:39,042 - INFO - Setting up git (1:2.25.1-1ubuntu3.14) ...
+2025-07-07 03:19:39,086 - INFO - Setting up libcurl4:amd64 (7.68.0-1ubuntu2.25) ...
+2025-07-07 03:19:39,104 - INFO - Setting up gpg-wks-client (2.2.19-3ubuntu2.4) ...
+2025-07-07 03:19:39,120 - INFO - Setting up gnupg (2.2.19-3ubuntu2.4) ...
+2025-07-07 03:19:39,136 - INFO - Setting up cmake (3.16.3-1ubuntu1.20.04.1) ...
+2025-07-07 03:19:39,152 - INFO - Processing triggers for libc-bin (2.31-0ubuntu9.17) ...
+2025-07-07 03:19:39,185 - INFO - Processing triggers for ca-certificates (20240203~20.04.1) ...
+2025-07-07 03:19:39,197 - INFO - Updating certificates in /etc/ssl/certs...
+2025-07-07 03:19:39,864 - INFO - 0 added, 0 removed; done.
+Running hooks in /etc/ca-certificates/update.d...
+2025-07-07 03:19:39,866 - INFO - done.
+2025-07-07 03:19:59,194 - INFO - ---> Removed intermediate container a69fb5debca5
+2025-07-07 03:19:59,195 - INFO - ---> b053fdcb3881
+2025-07-07 03:19:59,195 - INFO - Step 5/8 : WORKDIR /testbed/
+2025-07-07 03:19:59,195 - INFO - 
+2025-07-07 03:19:59,489 - INFO - ---> Running in 2fc5de980f70
+2025-07-07 03:20:00,772 - INFO - ---> Removed intermediate container 2fc5de980f70
+2025-07-07 03:20:00,772 - INFO - ---> 6e4da821dad6
+2025-07-07 03:20:00,772 - INFO - Step 6/8 : RUN git clone https://github.com/yhirose/cpp-httplib.git /testbed
+2025-07-07 03:20:00,772 - INFO - 
+2025-07-07 03:20:00,841 - INFO - ---> Running in 858d2f805962
+2025-07-07 03:20:00,968 - INFO - Cloning into '/testbed'...
+2025-07-07 03:20:07,500 - INFO - ---> Removed intermediate container 858d2f805962
+2025-07-07 03:20:07,500 - INFO - ---> d67784d61532
+2025-07-07 03:20:07,500 - INFO - Step 7/8 : RUN cd /testbed && git reset --hard 3c522386e961d61768ea527d04713b5402356dd4
+2025-07-07 03:20:07,500 - INFO - 
+2025-07-07 03:20:07,620 - INFO - ---> Running in 3d18aaecb4f1
+2025-07-07 03:20:07,908 - INFO - HEAD is now at 3c52238 Fix "Issue 38551 in oss-fuzz: cpp-httplib:server_fuzzer: Timeout in server_fuzze"
+2025-07-07 03:20:09,422 - INFO - ---> Removed intermediate container 3d18aaecb4f1
+2025-07-07 03:20:09,422 - INFO - ---> 7e35c3e2cf51
+2025-07-07 03:20:09,422 - INFO - Step 8/8 : RUN cd /testbed/test &&     openssl genrsa 2048 > key.pem &&     python3 ../split.py -o . &&     openssl req -new -batch -config test.conf -key key.pem | openssl x509 -days 3650 -req -signkey key.pem > cert.pem &&     openssl req -x509 -config test.conf -key key.pem -sha256 -days 3650 -nodes -out cert2.pem -extensions SAN &&     openssl genrsa 2048 > rootCA.key.pem &&     openssl req -x509 -new -batch -config test.rootCA.conf -key rootCA.key.pem -days 1024 > rootCA.cert.pem &&     openssl genrsa 2048 > client.key.pem &&     openssl req -new -batch -config test.conf -key client.key.pem | openssl x509 -days 370 -req -CA rootCA.cert.pem -CAkey rootCA.key.pem -CAcreateserial > client.cert.pem &&     g++ -o test -I.. -g -std=c++11 -I. -Wall -Wextra -Wtype-limits -Wconversion test.cc include_httplib.cc gtest/gtest-all.cc gtest/gtest_main.cc -DCPPHTTPLIB_OPENSSL_SUPPORT -lssl -lcrypto -DCPPHTTPLIB_ZLIB_SUPPORT -lz -DCPPHTTPLIB_BROTLI_SUPPORT -lbrotlicommon -lbrotlienc -lbrotlidec -pthread
+2025-07-07 03:20:09,422 - INFO - 
+2025-07-07 03:20:09,498 - INFO - ---> Running in 8d8d25c2d830
+2025-07-07 03:20:09,622 - INFO - Generating RSA private key, 2048 bit long modulus (2 primes)
+2025-07-07 03:20:09,623 - INFO - .
+2025-07-07 03:20:09,623 - INFO - .
+2025-07-07 03:20:09,624 - INFO - .
+2025-07-07 03:20:09,625 - INFO - .
+2025-07-07 03:20:09,626 - INFO - .
+2025-07-07 03:20:09,627 - INFO - .
+2025-07-07 03:20:09,627 - INFO - .
+2025-07-07 03:20:09,628 - INFO - .
+2025-07-07 03:20:09,629 - INFO - .
+2025-07-07 03:20:09,630 - INFO - .
+2025-07-07 03:20:09,631 - INFO - .
+2025-07-07 03:20:09,632 - INFO - .
+2025-07-07 03:20:09,632 - INFO - .
+2025-07-07 03:20:09,633 - INFO - .
+2025-07-07 03:20:09,634 - INFO - .
+2025-07-07 03:20:09,635 - INFO - .
+2025-07-07 03:20:09,636 - INFO - .
+2025-07-07 03:20:09,636 - INFO - .
+2025-07-07 03:20:09,637 - INFO - .
+2025-07-07 03:20:09,638 - INFO - .
+2025-07-07 03:20:09,639 - INFO - .
+2025-07-07 03:20:09,640 - INFO - .
+2025-07-07 03:20:09,641 - INFO - .
+2025-07-07 03:20:09,642 - INFO - .
+2025-07-07 03:20:09,642 - INFO - .
+2025-07-07 03:20:09,643 - INFO - .
+2025-07-07 03:20:09,644 - INFO - .
+2025-07-07 03:20:09,645 - INFO - .
+2025-07-07 03:20:09,646 - INFO - .
+2025-07-07 03:20:09,646 - INFO - .
+2025-07-07 03:20:09,647 - INFO - .
+2025-07-07 03:20:09,648 - INFO - .
+2025-07-07 03:20:09,649 - INFO - .
+2025-07-07 03:20:09,650 - INFO - .
+2025-07-07 03:20:09,651 - INFO - .
+2025-07-07 03:20:09,651 - INFO - .
+2025-07-07 03:20:09,652 - INFO - .
+2025-07-07 03:20:09,653 - INFO - .
+2025-07-07 03:20:09,654 - INFO - .
+2025-07-07 03:20:09,655 - INFO - .
+2025-07-07 03:20:09,656 - INFO - .
+2025-07-07 03:20:09,656 - INFO - .
+2025-07-07 03:20:09,657 - INFO - .
+2025-07-07 03:20:09,658 - INFO - .
+2025-07-07 03:20:09,659 - INFO - .
+2025-07-07 03:20:09,660 - INFO - .
+2025-07-07 03:20:09,660 - INFO - .
+2025-07-07 03:20:09,661 - INFO - .
+2025-07-07 03:20:09,662 - INFO - .
+2025-07-07 03:20:09,663 - INFO - .
+2025-07-07 03:20:09,663 - INFO - +
+2025-07-07 03:20:09,663 - INFO - +
+2025-07-07 03:20:09,663 - INFO - +
+2025-07-07 03:20:09,664 - INFO - +
+2025-07-07 03:20:09,664 - INFO - +
+2025-07-07 03:20:09,665 - INFO - .
+2025-07-07 03:20:09,666 - INFO - .
+2025-07-07 03:20:09,666 - INFO - .
+2025-07-07 03:20:09,667 - INFO - .
+2025-07-07 03:20:09,668 - INFO - .
+2025-07-07 03:20:09,669 - INFO - .
+2025-07-07 03:20:09,670 - INFO - .
+2025-07-07 03:20:09,671 - INFO - .
+2025-07-07 03:20:09,671 - INFO - +
+2025-07-07 03:20:09,671 - INFO - +
+2025-07-07 03:20:09,671 - INFO - +
+2025-07-07 03:20:09,672 - INFO - +
+2025-07-07 03:20:09,672 - INFO - +
+2025-07-07 03:20:09,672 - INFO - e is 65537 (0x010001)
+2025-07-07 03:20:09,697 - INFO - Wrote ./httplib.h and ./httplib.cc
+2025-07-07 03:20:09,706 - INFO - Signature ok
+subject=C = US, ST = Test State or Province, L = Test Locality, O = Organization Name, OU = Organizational Unit Name, CN = Common Name, emailAddress = test@email.address
+2025-07-07 03:20:09,706 - INFO - Getting Private key
+2025-07-07 03:20:09,717 - INFO - Generating RSA private key, 2048 bit long modulus (2 primes)
+2025-07-07 03:20:09,717 - INFO - .
+2025-07-07 03:20:09,718 - INFO - .
+2025-07-07 03:20:09,719 - INFO - .
+2025-07-07 03:20:09,719 - INFO - .
+2025-07-07 03:20:09,720 - INFO - .
+2025-07-07 03:20:09,721 - INFO - .
+2025-07-07 03:20:09,722 - INFO - .
+2025-07-07 03:20:09,722 - INFO - .
+2025-07-07 03:20:09,723 - INFO - .
+2025-07-07 03:20:09,724 - INFO - .
+2025-07-07 03:20:09,725 - INFO - .
+2025-07-07 03:20:09,726 - INFO - .
+2025-07-07 03:20:09,727 - INFO - .
+2025-07-07 03:20:09,727 - INFO - .
+2025-07-07 03:20:09,728 - INFO - .
+2025-07-07 03:20:09,733 - INFO - .
+2025-07-07 03:20:09,733 - INFO - .
+2025-07-07 03:20:09,733 - INFO - .
+2025-07-07 03:20:09,733 - INFO - .
+2025-07-07 03:20:09,733 - INFO - .
+2025-07-07 03:20:09,734 - INFO - .
+2025-07-07 03:20:09,735 - INFO - .
+2025-07-07 03:20:09,737 - INFO - .
+2025-07-07 03:20:09,737 - INFO - .
+2025-07-07 03:20:09,739 - INFO - .
+2025-07-07 03:20:09,739 - INFO - .
+2025-07-07 03:20:09,740 - INFO - .
+2025-07-07 03:20:09,741 - INFO - .
+2025-07-07 03:20:09,742 - INFO - .
+2025-07-07 03:20:09,743 - INFO - .
+2025-07-07 03:20:09,744 - INFO - .
+2025-07-07 03:20:09,745 - INFO - .
+2025-07-07 03:20:09,745 - INFO - .
+2025-07-07 03:20:09,746 - INFO - .
+2025-07-07 03:20:09,747 - INFO - .
+2025-07-07 03:20:09,747 - INFO - .
+2025-07-07 03:20:09,748 - INFO - .
+2025-07-07 03:20:09,749 - INFO - .
+2025-07-07 03:20:09,750 - INFO - .
+2025-07-07 03:20:09,750 - INFO - .
+2025-07-07 03:20:09,751 - INFO - .
+2025-07-07 03:20:09,752 - INFO - .
+2025-07-07 03:20:09,753 - INFO - .
+2025-07-07 03:20:09,753 - INFO - .
+2025-07-07 03:20:09,754 - INFO - .
+2025-07-07 03:20:09,755 - INFO - .
+2025-07-07 03:20:09,756 - INFO - .
+2025-07-07 03:20:09,757 - INFO - .
+2025-07-07 03:20:09,757 - INFO - .
+2025-07-07 03:20:09,758 - INFO - .
+2025-07-07 03:20:09,759 - INFO - .
+2025-07-07 03:20:09,760 - INFO - .
+2025-07-07 03:20:09,761 - INFO - .
+2025-07-07 03:20:09,761 - INFO - .
+2025-07-07 03:20:09,762 - INFO - .
+2025-07-07 03:20:09,763 - INFO - .
+2025-07-07 03:20:09,764 - INFO - .
+2025-07-07 03:20:09,764 - INFO - .
+2025-07-07 03:20:09,765 - INFO - .
+2025-07-07 03:20:09,766 - INFO - .
+2025-07-07 03:20:09,767 - INFO - .
+2025-07-07 03:20:09,767 - INFO - .
+2025-07-07 03:20:09,768 - INFO - .
+2025-07-07 03:20:09,769 - INFO - .
+2025-07-07 03:20:09,770 - INFO - .
+2025-07-07 03:20:09,771 - INFO - .
+2025-07-07 03:20:09,771 - INFO - .
+2025-07-07 03:20:09,773 - INFO - .
+2025-07-07 03:20:09,773 - INFO - +
+2025-07-07 03:20:09,773 - INFO - +
+2025-07-07 03:20:09,773 - INFO - +
+2025-07-07 03:20:09,773 - INFO - +
+2025-07-07 03:20:09,773 - INFO - +
+2025-07-07 03:20:09,774 - INFO - .
+2025-07-07 03:20:09,775 - INFO - .
+2025-07-07 03:20:09,776 - INFO - .
+2025-07-07 03:20:09,777 - INFO - .
+2025-07-07 03:20:09,777 - INFO - .
+2025-07-07 03:20:09,778 - INFO - .
+2025-07-07 03:20:09,779 - INFO - .
+2025-07-07 03:20:09,780 - INFO - .
+2025-07-07 03:20:09,781 - INFO - .
+2025-07-07 03:20:09,782 - INFO - .
+2025-07-07 03:20:09,783 - INFO - .
+2025-07-07 03:20:09,783 - INFO - .
+2025-07-07 03:20:09,784 - INFO - .
+2025-07-07 03:20:09,785 - INFO - .
+2025-07-07 03:20:09,786 - INFO - .
+2025-07-07 03:20:09,788 - INFO - .
+2025-07-07 03:20:09,789 - INFO - .
+2025-07-07 03:20:09,789 - INFO - .
+2025-07-07 03:20:09,790 - INFO - .
+2025-07-07 03:20:09,790 - INFO - .
+2025-07-07 03:20:09,791 - INFO - .
+2025-07-07 03:20:09,792 - INFO - .
+2025-07-07 03:20:09,793 - INFO - .
+2025-07-07 03:20:09,793 - INFO - .
+2025-07-07 03:20:09,794 - INFO - .
+2025-07-07 03:20:09,795 - INFO - .
+2025-07-07 03:20:09,796 - INFO - .
+2025-07-07 03:20:09,797 - INFO - .
+2025-07-07 03:20:09,798 - INFO - .
+2025-07-07 03:20:09,799 - INFO - .
+2025-07-07 03:20:09,800 - INFO - .
+2025-07-07 03:20:09,801 - INFO - .
+2025-07-07 03:20:09,801 - INFO - .
+2025-07-07 03:20:09,802 - INFO - .
+2025-07-07 03:20:09,803 - INFO - .
+2025-07-07 03:20:09,804 - INFO - .
+2025-07-07 03:20:09,805 - INFO - .
+2025-07-07 03:20:09,805 - INFO - .
+2025-07-07 03:20:09,806 - INFO - .
+2025-07-07 03:20:09,807 - INFO - .
+2025-07-07 03:20:09,808 - INFO - .
+2025-07-07 03:20:09,809 - INFO - .
+2025-07-07 03:20:09,809 - INFO - .
+2025-07-07 03:20:09,810 - INFO - .
+2025-07-07 03:20:09,811 - INFO - .
+2025-07-07 03:20:09,812 - INFO - .
+2025-07-07 03:20:09,812 - INFO - .
+2025-07-07 03:20:09,813 - INFO - .
+2025-07-07 03:20:09,814 - INFO - .
+2025-07-07 03:20:09,815 - INFO - .
+2025-07-07 03:20:09,816 - INFO - .
+2025-07-07 03:20:09,817 - INFO - .
+2025-07-07 03:20:09,817 - INFO - .
+2025-07-07 03:20:09,818 - INFO - .
+2025-07-07 03:20:09,819 - INFO - .
+2025-07-07 03:20:09,819 - INFO - .
+2025-07-07 03:20:09,820 - INFO - .
+2025-07-07 03:20:09,821 - INFO - .
+2025-07-07 03:20:09,822 - INFO - .
+2025-07-07 03:20:09,823 - INFO - .
+2025-07-07 03:20:09,823 - INFO - .
+2025-07-07 03:20:09,824 - INFO - .
+2025-07-07 03:20:09,825 - INFO - .
+2025-07-07 03:20:09,826 - INFO - .
+2025-07-07 03:20:09,827 - INFO - .
+2025-07-07 03:20:09,829 - INFO - .
+2025-07-07 03:20:09,829 - INFO - .
+2025-07-07 03:20:09,831 - INFO - .
+2025-07-07 03:20:09,831 - INFO - .
+2025-07-07 03:20:09,832 - INFO - .
+2025-07-07 03:20:09,832 - INFO - .
+2025-07-07 03:20:09,833 - INFO - .
+2025-07-07 03:20:09,835 - INFO - .
+2025-07-07 03:20:09,836 - INFO - .
+2025-07-07 03:20:09,837 - INFO - .
+2025-07-07 03:20:09,838 - INFO - .
+2025-07-07 03:20:09,838 - INFO - .
+2025-07-07 03:20:09,839 - INFO - .
+2025-07-07 03:20:09,840 - INFO - .
+2025-07-07 03:20:09,840 - INFO - .
+2025-07-07 03:20:09,841 - INFO - .
+2025-07-07 03:20:09,842 - INFO - .
+2025-07-07 03:20:09,843 - INFO - .
+2025-07-07 03:20:09,844 - INFO - .
+2025-07-07 03:20:09,845 - INFO - .
+2025-07-07 03:20:09,845 - INFO - .
+2025-07-07 03:20:09,846 - INFO - .
+2025-07-07 03:20:09,847 - INFO - .
+2025-07-07 03:20:09,848 - INFO - .
+2025-07-07 03:20:09,848 - INFO - .
+2025-07-07 03:20:09,849 - INFO - .
+2025-07-07 03:20:09,850 - INFO - .
+2025-07-07 03:20:09,851 - INFO - .
+2025-07-07 03:20:09,852 - INFO - .
+2025-07-07 03:20:09,853 - INFO - .
+2025-07-07 03:20:09,854 - INFO - .
+2025-07-07 03:20:09,854 - INFO - .
+2025-07-07 03:20:09,855 - INFO - .
+2025-07-07 03:20:09,856 - INFO - .
+2025-07-07 03:20:09,858 - INFO - .
+2025-07-07 03:20:09,858 - INFO - .
+2025-07-07 03:20:09,859 - INFO - .
+2025-07-07 03:20:09,859 - INFO - .
+2025-07-07 03:20:09,860 - INFO - .
+2025-07-07 03:20:09,861 - INFO - .
+2025-07-07 03:20:09,862 - INFO - .
+2025-07-07 03:20:09,863 - INFO - .
+2025-07-07 03:20:09,863 - INFO - .
+2025-07-07 03:20:09,864 - INFO - .
+2025-07-07 03:20:09,865 - INFO - .
+2025-07-07 03:20:09,866 - INFO - .
+2025-07-07 03:20:09,867 - INFO - .
+2025-07-07 03:20:09,868 - INFO - .
+2025-07-07 03:20:09,868 - INFO - .
+2025-07-07 03:20:09,869 - INFO - .
+2025-07-07 03:20:09,870 - INFO - .
+2025-07-07 03:20:09,871 - INFO - .
+2025-07-07 03:20:09,872 - INFO - .
+2025-07-07 03:20:09,873 - INFO - .
+2025-07-07 03:20:09,873 - INFO - .
+2025-07-07 03:20:09,874 - INFO - .
+2025-07-07 03:20:09,875 - INFO - .
+2025-07-07 03:20:09,876 - INFO - .
+2025-07-07 03:20:09,876 - INFO - .
+2025-07-07 03:20:09,877 - INFO - .
+2025-07-07 03:20:09,878 - INFO - .
+2025-07-07 03:20:09,879 - INFO - .
+2025-07-07 03:20:09,879 - INFO - .
+2025-07-07 03:20:09,880 - INFO - .
+2025-07-07 03:20:09,881 - INFO - .
+2025-07-07 03:20:09,882 - INFO - .
+2025-07-07 03:20:09,882 - INFO - .
+2025-07-07 03:20:09,883 - INFO - .
+2025-07-07 03:20:09,884 - INFO - .
+2025-07-07 03:20:09,885 - INFO - .
+2025-07-07 03:20:09,886 - INFO - .
+2025-07-07 03:20:09,887 - INFO - .
+2025-07-07 03:20:09,887 - INFO - .
+2025-07-07 03:20:09,888 - INFO - .
+2025-07-07 03:20:09,889 - INFO - .
+2025-07-07 03:20:09,889 - INFO - .
+2025-07-07 03:20:09,890 - INFO - .
+2025-07-07 03:20:09,891 - INFO - .
+2025-07-07 03:20:09,892 - INFO - .
+2025-07-07 03:20:09,893 - INFO - .
+2025-07-07 03:20:09,894 - INFO - .
+2025-07-07 03:20:09,894 - INFO - .
+2025-07-07 03:20:09,895 - INFO - .
+2025-07-07 03:20:09,896 - INFO - .
+2025-07-07 03:20:09,897 - INFO - .
+2025-07-07 03:20:09,898 - INFO - .
+2025-07-07 03:20:09,898 - INFO - .
+2025-07-07 03:20:09,899 - INFO - .
+2025-07-07 03:20:09,900 - INFO - .
+2025-07-07 03:20:09,901 - INFO - .
+2025-07-07 03:20:09,902 - INFO - .
+2025-07-07 03:20:09,902 - INFO - .
+2025-07-07 03:20:09,903 - INFO - .
+2025-07-07 03:20:09,904 - INFO - .
+2025-07-07 03:20:09,905 - INFO - .
+2025-07-07 03:20:09,905 - INFO - .
+2025-07-07 03:20:09,906 - INFO - .
+2025-07-07 03:20:09,907 - INFO - .
+2025-07-07 03:20:09,908 - INFO - .
+2025-07-07 03:20:09,908 - INFO - .
+2025-07-07 03:20:09,910 - INFO - .
+2025-07-07 03:20:09,910 - INFO - .
+2025-07-07 03:20:09,911 - INFO - .
+2025-07-07 03:20:09,912 - INFO - .
+2025-07-07 03:20:09,912 - INFO - .
+2025-07-07 03:20:09,913 - INFO - .
+2025-07-07 03:20:09,914 - INFO - .
+2025-07-07 03:20:09,915 - INFO - .
+2025-07-07 03:20:09,916 - INFO - .
+2025-07-07 03:20:09,917 - INFO - .
+2025-07-07 03:20:09,917 - INFO - .
+2025-07-07 03:20:09,918 - INFO - .
+2025-07-07 03:20:09,919 - INFO - .
+2025-07-07 03:20:09,920 - INFO - .
+2025-07-07 03:20:09,920 - INFO - .
+2025-07-07 03:20:09,921 - INFO - .
+2025-07-07 03:20:09,922 - INFO - .
+2025-07-07 03:20:09,923 - INFO - .
+2025-07-07 03:20:09,924 - INFO - .
+2025-07-07 03:20:09,924 - INFO - .
+2025-07-07 03:20:09,925 - INFO - .
+2025-07-07 03:20:09,926 - INFO - .
+2025-07-07 03:20:09,927 - INFO - .
+2025-07-07 03:20:09,927 - INFO - .
+2025-07-07 03:20:09,928 - INFO - .
+2025-07-07 03:20:09,929 - INFO - .
+2025-07-07 03:20:09,930 - INFO - .
+2025-07-07 03:20:09,931 - INFO - .
+2025-07-07 03:20:09,931 - INFO - .
+2025-07-07 03:20:09,932 - INFO - .
+2025-07-07 03:20:09,933 - INFO - .
+2025-07-07 03:20:09,934 - INFO - .
+2025-07-07 03:20:09,935 - INFO - .
+2025-07-07 03:20:09,935 - INFO - .
+2025-07-07 03:20:09,936 - INFO - .
+2025-07-07 03:20:09,937 - INFO - .
+2025-07-07 03:20:09,938 - INFO - .
+2025-07-07 03:20:09,939 - INFO - .
+2025-07-07 03:20:09,939 - INFO - .
+2025-07-07 03:20:09,940 - INFO - .
+2025-07-07 03:20:09,941 - INFO - .
+2025-07-07 03:20:09,942 - INFO - .
+2025-07-07 03:20:09,943 - INFO - .
+2025-07-07 03:20:09,943 - INFO - .
+2025-07-07 03:20:09,944 - INFO - .
+2025-07-07 03:20:09,945 - INFO - .
+2025-07-07 03:20:09,946 - INFO - .
+2025-07-07 03:20:09,947 - INFO - .
+2025-07-07 03:20:09,948 - INFO - .
+2025-07-07 03:20:09,949 - INFO - .
+2025-07-07 03:20:09,949 - INFO - .
+2025-07-07 03:20:09,950 - INFO - .
+2025-07-07 03:20:09,951 - INFO - .
+2025-07-07 03:20:09,952 - INFO - .
+2025-07-07 03:20:09,952 - INFO - .
+2025-07-07 03:20:09,953 - INFO - .
+2025-07-07 03:20:09,954 - INFO - .
+2025-07-07 03:20:09,955 - INFO - .
+2025-07-07 03:20:09,955 - INFO - .
+2025-07-07 03:20:09,956 - INFO - .
+2025-07-07 03:20:09,957 - INFO - .
+2025-07-07 03:20:09,958 - INFO - .
+2025-07-07 03:20:09,958 - INFO - .
+2025-07-07 03:20:09,959 - INFO - .
+2025-07-07 03:20:09,959 - INFO - +
+2025-07-07 03:20:09,959 - INFO - +
+2025-07-07 03:20:09,960 - INFO - +
+2025-07-07 03:20:09,960 - INFO - +
+2025-07-07 03:20:09,960 - INFO - +
+2025-07-07 03:20:09,960 - INFO - e is 65537 (0x010001)
+2025-07-07 03:20:09,971 - INFO - Generating RSA private key, 2048 bit long modulus (2 primes)
+2025-07-07 03:20:09,972 - INFO - .
+2025-07-07 03:20:09,973 - INFO - .
+2025-07-07 03:20:09,973 - INFO - .
+2025-07-07 03:20:09,974 - INFO - .
+2025-07-07 03:20:09,975 - INFO - .
+2025-07-07 03:20:09,976 - INFO - .
+2025-07-07 03:20:09,977 - INFO - .
+2025-07-07 03:20:09,979 - INFO - .
+2025-07-07 03:20:09,979 - INFO - .
+2025-07-07 03:20:09,983 - INFO - ..
+2025-07-07 03:20:09,986 - INFO - .
+2025-07-07 03:20:09,986 - INFO - .
+2025-07-07 03:20:09,988 - INFO - .
+2025-07-07 03:20:09,991 - INFO - .
+2025-07-07 03:20:09,991 - INFO - .
+2025-07-07 03:20:09,992 - INFO - ..
+2025-07-07 03:20:09,992 - INFO - .
+2025-07-07 03:20:09,993 - INFO - .
+2025-07-07 03:20:09,994 - INFO - .
+2025-07-07 03:20:09,994 - INFO - .
+2025-07-07 03:20:09,995 - INFO - +
+2025-07-07 03:20:09,995 - INFO - +
+2025-07-07 03:20:09,996 - INFO - +
+2025-07-07 03:20:09,996 - INFO - +
+2025-07-07 03:20:09,996 - INFO - +
+2025-07-07 03:20:09,996 - INFO - .
+2025-07-07 03:20:09,997 - INFO - .
+2025-07-07 03:20:09,998 - INFO - .
+2025-07-07 03:20:09,999 - INFO - .
+2025-07-07 03:20:10,001 - INFO - .
+2025-07-07 03:20:10,001 - INFO - .
+2025-07-07 03:20:10,002 - INFO - .
+2025-07-07 03:20:10,002 - INFO - .
+2025-07-07 03:20:10,003 - INFO - .
+2025-07-07 03:20:10,004 - INFO - .
+2025-07-07 03:20:10,005 - INFO - .
+2025-07-07 03:20:10,006 - INFO - .
+2025-07-07 03:20:10,007 - INFO - .
+2025-07-07 03:20:10,007 - INFO - .
+2025-07-07 03:20:10,008 - INFO - .
+2025-07-07 03:20:10,009 - INFO - .
+2025-07-07 03:20:10,010 - INFO - .
+2025-07-07 03:20:10,011 - INFO - .
+2025-07-07 03:20:10,012 - INFO - .
+2025-07-07 03:20:10,012 - INFO - .
+2025-07-07 03:20:10,013 - INFO - .
+2025-07-07 03:20:10,014 - INFO - .
+2025-07-07 03:20:10,015 - INFO - .
+2025-07-07 03:20:10,016 - INFO - .
+2025-07-07 03:20:10,016 - INFO - .
+2025-07-07 03:20:10,017 - INFO - .
+2025-07-07 03:20:10,018 - INFO - .
+2025-07-07 03:20:10,019 - INFO - .
+2025-07-07 03:20:10,020 - INFO - .
+2025-07-07 03:20:10,021 - INFO - .
+2025-07-07 03:20:10,021 - INFO - .
+2025-07-07 03:20:10,022 - INFO - .
+2025-07-07 03:20:10,023 - INFO - .
+2025-07-07 03:20:10,024 - INFO - .
+2025-07-07 03:20:10,025 - INFO - .
+2025-07-07 03:20:10,026 - INFO - .
+2025-07-07 03:20:10,027 - INFO - .
+2025-07-07 03:20:10,027 - INFO - .
+2025-07-07 03:20:10,028 - INFO - .
+2025-07-07 03:20:10,029 - INFO - .
+2025-07-07 03:20:10,030 - INFO - .
+2025-07-07 03:20:10,031 - INFO - .
+2025-07-07 03:20:10,031 - INFO - .
+2025-07-07 03:20:10,033 - INFO - .
+2025-07-07 03:20:10,033 - INFO - .
+2025-07-07 03:20:10,034 - INFO - .
+2025-07-07 03:20:10,035 - INFO - .
+2025-07-07 03:20:10,036 - INFO - .
+2025-07-07 03:20:10,036 - INFO - .
+2025-07-07 03:20:10,037 - INFO - .
+2025-07-07 03:20:10,038 - INFO - .
+2025-07-07 03:20:10,039 - INFO - .
+2025-07-07 03:20:10,040 - INFO - .
+2025-07-07 03:20:10,041 - INFO - .
+2025-07-07 03:20:10,041 - INFO - .
+2025-07-07 03:20:10,042 - INFO - .
+2025-07-07 03:20:10,043 - INFO - .
+2025-07-07 03:20:10,044 - INFO - .
+2025-07-07 03:20:10,045 - INFO - .
+2025-07-07 03:20:10,045 - INFO - .
+2025-07-07 03:20:10,046 - INFO - .
+2025-07-07 03:20:10,047 - INFO - .
+2025-07-07 03:20:10,048 - INFO - .
+2025-07-07 03:20:10,049 - INFO - .
+2025-07-07 03:20:10,049 - INFO - +
+2025-07-07 03:20:10,050 - INFO - +
+2025-07-07 03:20:10,050 - INFO - +
+2025-07-07 03:20:10,050 - INFO - +
+2025-07-07 03:20:10,050 - INFO - +
+2025-07-07 03:20:10,051 - INFO - e is 65537 (0x010001)
+2025-07-07 03:20:10,056 - INFO - Signature ok
+subject=C = US, ST = Test State or Province, L = Test Locality, O = Organization Name, OU = Organizational Unit Name, CN = Common Name, emailAddress = test@emai
+2025-07-07 03:20:10,056 - INFO - l.address
+2025-07-07 03:20:10,057 - INFO - Getting CA Private Key
+2025-07-07 03:20:39,024 - INFO - ---> Removed intermediate container 8d8d25c2d830
+2025-07-07 03:20:39,024 - INFO - ---> d8dd3838dc6a
+2025-07-07 03:20:39,028 - INFO - Successfully built d8dd3838dc6a
+2025-07-07 03:20:39,038 - INFO - Successfully tagged setup.yhirose__cpp-httplib-1051:latest
+2025-07-07 03:20:39,039 - INFO - Image built successfully!

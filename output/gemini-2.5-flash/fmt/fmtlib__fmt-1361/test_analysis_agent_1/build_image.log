@@ -1,0 +1,100 @@
+2025-07-04 18:59:30,405 - INFO - Building image fmtlib__fmt-1361
+Using dockerfile:
+# Base image specification. Defines the foundation OS and architecture for the container
+FROM ubuntu:22.04
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Etc/UTC
+
+# System dependencies installation. Installs essential tools and libraries required for development and runtime
+RUN apt update && apt install -y \
+    git \
+    cmake \
+    build-essential \
+    g++-8 \
+    g++-6 \
+    clang-6.0 \
+    clang-4.0 \
+    curl \
+    python3 \
+    && rm -rf /var/lib/apt/lists/*
+
+# set default workdir to testbed.
+WORKDIR /testbed/
+
+# Target Project setup. Clones source code, checkouts to the target version, configures it, and builds the project
+RUN git clone https://github.com/fmtlib/fmt /testbed && \
+    cd /testbed && \
+    git reset --hard a5abe5d95cb8a8015913be9748a9661f3e1fbda8 && \
+    git remote remove origin && \
+    mkdir build && \
+    cd build && \
+    # Configure CMake with specified options and C++17 standard using g++-8
+    CXX=g++-8 cmake \
+        -DFMT_TEST=ON \
+        -DFMT_PEDANTIC=ON \
+        -DFMT_WERROR=ON \
+        -DCMAKE_BUILD_TYPE=Release \
+        -DCMAKE_CXX_STANDARD=17 \
+        .. && \
+    # Build the project, including tests
+    cmake --build .
+
+2025-07-04 18:59:30,862 - INFO - Step 1/6 : FROM ubuntu:22.04
+2025-07-04 18:59:30,874 - INFO -  ---> 3c61d3759c26
+2025-07-04 18:59:30,874 - INFO - Step 2/6 : ARG DEBIAN_FRONTEND=noninteractive
+2025-07-04 18:59:30,943 - INFO -  ---> Running in 86b567be2e23
+2025-07-04 18:59:31,293 - INFO -  ---> Removed intermediate container 86b567be2e23
+2025-07-04 18:59:31,294 - INFO -  ---> 55a8c7f9483d
+2025-07-04 18:59:31,294 - INFO - Step 3/6 : ENV TZ=Etc/UTC
+2025-07-04 18:59:31,353 - INFO -  ---> Running in 046056553ab8
+2025-07-04 18:59:31,694 - INFO -  ---> Removed intermediate container 046056553ab8
+2025-07-04 18:59:31,695 - INFO -  ---> 0588ec4b4afb
+2025-07-04 18:59:31,695 - INFO - Step 4/6 : RUN apt update && apt install -y     git     cmake     build-essential     g++-8     g++-6     clang-6.0     clang-4.0     curl     python3     && rm -rf /var/lib/apt/lists/*
+2025-07-04 18:59:31,762 - INFO -  ---> Running in c9b738bbb34a
+2025-07-04 18:59:31,877 - INFO - WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+2025-07-04 18:59:32,510 - INFO - Get:1 http://security.ubuntu.com/ubuntu jammy-security InRelease [129 kB]
+2025-07-04 18:59:32,511 - INFO - Get:2 http://archive.ubuntu.com/ubuntu jammy InRelease [270 kB]
+2025-07-04 18:59:34,507 - INFO - Get:3 http://security.ubuntu.com/ubuntu jammy-security/restricted amd64 Packages [4763 kB]
+2025-07-04 18:59:35,139 - INFO - Get:4 http://archive.ubuntu.com/ubuntu jammy-updates InRelease [128 kB]
+2025-07-04 18:59:35,495 - INFO - Get:5 http://archive.ubuntu.com/ubuntu jammy-backports InRelease [127 kB]
+2025-07-04 18:59:35,828 - INFO - Get:6 http://archive.ubuntu.com/ubuntu jammy/restricted amd64 Packages [164 kB]
+2025-07-04 18:59:35,979 - INFO - Get:7 http://archive.ubuntu.com/ubuntu jammy/main amd64 Packages [1792 kB]
+2025-07-04 18:59:36,318 - INFO - Get:8 http://security.ubuntu.com/ubuntu jammy-security/universe amd64 Packages [1262 kB]
+2025-07-04 18:59:36,361 - INFO - Get:9 http://security.ubuntu.com/ubuntu jammy-security/multiverse amd64 Packages [48.5 kB]
+2025-07-04 18:59:36,361 - INFO - Get:10 http://security.ubuntu.com/ubuntu jammy-security/main amd64 Packages [3092 kB]
+2025-07-04 18:59:36,608 - INFO - Get:11 http://archive.ubuntu.com/ubuntu jammy/universe amd64 Packages [17.5 MB]
+2025-07-04 18:59:38,123 - INFO - Get:12 http://archive.ubuntu.com/ubuntu jammy/multiverse amd64 Packages [266 kB]
+2025-07-04 18:59:38,142 - INFO - Get:13 http://archive.ubuntu.com/ubuntu jammy-updates/multiverse amd64 Packages [56.4 kB]
+2025-07-04 18:59:38,148 - INFO - Get:14 http://archive.ubuntu.com/ubuntu jammy-updates/universe amd64 Packages [1566 kB]
+2025-07-04 18:59:38,276 - INFO - Get:15 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 Packages [3404 kB]
+2025-07-04 18:59:38,555 - INFO - Get:16 http://archive.ubuntu.com/ubuntu jammy-updates/restricted amd64 Packages [4917 kB]
+2025-07-04 18:59:38,961 - INFO - Get:17 http://archive.ubuntu.com/ubuntu jammy-backports/universe amd64 Packages [35.2 kB]
+2025-07-04 18:59:38,961 - INFO - Get:18 http://archive.ubuntu.com/ubuntu jammy-backports/main amd64 Packages [83.2 kB]
+2025-07-04 18:59:39,130 - INFO - Fetched 39.6 MB in 7s (5492 kB/s)
+2025-07-04 18:59:39,985 - INFO - Reading package lists...
+2025-07-04 18:59:40,229 - INFO - Building dependency tree...
+2025-07-04 18:59:40,229 - INFO - Reading state information...
+2025-07-04 18:59:40,255 - INFO - All packages are up to date.
+2025-07-04 18:59:40,267 - INFO - WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+2025-07-04 18:59:41,170 - INFO - Reading package lists...
+2025-07-04 18:59:41,420 - INFO - Building dependency tree...
+2025-07-04 18:59:41,420 - INFO - Reading state information...
+2025-07-04 18:59:41,443 - INFO - Package clang-4.0 is not available, but is referred to by another package.
+2025-07-04 18:59:41,443 - INFO - This may mean that the package is missing, has been obsoleted, or
+2025-07-04 18:59:41,443 - INFO - is only available from another source
+2025-07-04 18:59:41,443 - INFO - Package clang-6.0 is not available, but is referred to by another package.
+2025-07-04 18:59:41,443 - INFO - This may mean that the package is missing, has been obsoleted, or
+2025-07-04 18:59:41,443 - INFO - is only available from another source
+2025-07-04 18:59:41,443 - INFO - Package g++-8 is not available, but is referred to by another package.
+2025-07-04 18:59:41,443 - INFO - This may mean that the package is missing, has been obsoleted, or
+2025-07-04 18:59:41,443 - INFO - is only available from another source
+2025-07-04 18:59:41,443 - INFO - Package g++-6 is not available, but is referred to by another package.
+2025-07-04 18:59:41,444 - INFO - This may mean that the package is missing, has been obsoleted, or
+2025-07-04 18:59:41,444 - INFO - is only available from another source
+2025-07-04 18:59:41,447 - INFO - E: Package 'g++-8' has no installation candidate
+2025-07-04 18:59:41,447 - INFO - E: Package 'g++-6' has no installation candidate
+2025-07-04 18:59:41,447 - INFO - E: Package 'clang-6.0' has no installation candidate
+2025-07-04 18:59:41,447 - INFO - E: Package 'clang-4.0' has no installation candidate
+2025-07-04 18:59:41,661 - INFO -  ---> Removed intermediate container c9b738bbb34a
+2025-07-04 18:59:41,666 - ERROR - Error: The command '/bin/sh -c apt update && apt install -y     git     cmake     build-essential     g++-8     g++-6     clang-6.0     clang-4.0     curl     python3     && rm -rf /var/lib/apt/lists/*' returned a non-zero code: 100
+2025-07-04 18:59:41,666 - ERROR - The command '/bin/sh -c apt update && apt install -y     git     cmake     build-essential     g++-8     g++-6     clang-6.0     clang-4.0     curl     python3     && rm -rf /var/lib/apt/lists/*' returned a non-zero code: 100

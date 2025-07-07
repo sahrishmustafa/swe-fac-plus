@@ -1,0 +1,92 @@
+Can't compile SingleValueGenerator inside GENERATE_COPY
+**Describe the bug**
+Attempting to invoke the `SingleValueGenerator` (using external variables) inside `GENERATE_COPY` like so...
+```C++
+int a = 1;
+int b = 2;
+int c = GENERATE_COPY( a,b );
+```
+results in a compilation error:
+```C++
+error: no matching function for call to 'Catch::Generators::GeneratorWrapper<const int&>::GeneratorWrapper(Catch::Generators::GeneratorWrapper<const int>)'
+  { ::new((void *)__p) _Up(std::forward<_Args>(__args)...); }
+```
+
+**Expected behavior**
+The above example code should compile fine, since `GENERATE_COPY` should allow the use of external variables (`a` and `b`) in any generator. For example, the following code compiles totally fine (using `RangeGenerator`):
+```C++
+int a = 1;
+int b = 2;
+int c = GENERATE_COPY( range(a,b) );
+```
+
+**Reproduction steps**
+self-contained code **`bugdemo.cpp`:**
+```C++
+#include "catch.hpp"
+
+TEST_CASE( "bug " ) {
+    
+    int a = 1;
+    int b = 2;
+    int c = GENERATE_COPY(a, b);
+    REQUIRE( true );
+}
+```
+and compiled simply with
+```
+g++ -std=c++14 -c bugdemo.cpp
+```
+
+**Platform information:**
+<!-- Fill in any extra information that might be important for your issue. -->
+ - OS: **MacOS 10.14** and **Ubuntu 18.04**
+ - Compiler+version: **GCC v8.2.0** and **GCC v7.4.0** and **clang v10.0.0** (and all other versions on system)
+ - Catch version: **v2.10.0**
+
+Can't compile SingleValueGenerator inside GENERATE_COPY
+**Describe the bug**
+Attempting to invoke the `SingleValueGenerator` (using external variables) inside `GENERATE_COPY` like so...
+```C++
+int a = 1;
+int b = 2;
+int c = GENERATE_COPY( a,b );
+```
+results in a compilation error:
+```C++
+error: no matching function for call to 'Catch::Generators::GeneratorWrapper<const int&>::GeneratorWrapper(Catch::Generators::GeneratorWrapper<const int>)'
+  { ::new((void *)__p) _Up(std::forward<_Args>(__args)...); }
+```
+
+**Expected behavior**
+The above example code should compile fine, since `GENERATE_COPY` should allow the use of external variables (`a` and `b`) in any generator. For example, the following code compiles totally fine (using `RangeGenerator`):
+```C++
+int a = 1;
+int b = 2;
+int c = GENERATE_COPY( range(a,b) );
+```
+
+**Reproduction steps**
+self-contained code **`bugdemo.cpp`:**
+```C++
+#include "catch.hpp"
+
+TEST_CASE( "bug " ) {
+    
+    int a = 1;
+    int b = 2;
+    int c = GENERATE_COPY(a, b);
+    REQUIRE( true );
+}
+```
+and compiled simply with
+```
+g++ -std=c++14 -c bugdemo.cpp
+```
+
+**Platform information:**
+<!-- Fill in any extra information that might be important for your issue. -->
+ - OS: **MacOS 10.14** and **Ubuntu 18.04**
+ - Compiler+version: **GCC v8.2.0** and **GCC v7.4.0** and **clang v10.0.0** (and all other versions on system)
+ - Catch version: **v2.10.0**
+

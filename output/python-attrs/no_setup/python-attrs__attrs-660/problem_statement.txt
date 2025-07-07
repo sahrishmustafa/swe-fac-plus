@@ -1,0 +1,27 @@
+[RFC] __setattr__ hooks
+There's two things that people keep asking for:
+
+1. validation on setting attributes
+2. freezing single attributes
+
+Those two features have something in common: they require `attrs` to write a `__setattr__` method.
+
+I actually had 1 done when I implemented validators but I took it out again, because I didn't want to tamper with `__setattr__` too. But it totally makes sense to expect that validators run there too.
+
+Now that argument has gone away thanks to frozen classes and `attrs` is in the `__setattr__` business. So it feels like the right thing to do, to implement it and make it default for _Operation `import attrs`_ (I hope this is legit the last part of the puzzle).
+
+To allow for 2 too, I would suggest to add a hook called `on_setattr` (better names welcome) that takes a callable that is called with the instance, the attribute definition, and the new value.
+
+To solve 2, the implementation would look like
+
+```python
+def frozen(_, __, ___):
+    raise FrozenInstanceError
+```
+
+***
+
+Open questions:
+
+- what to do about `on_setattr` attributes in a frozen class (incl inheritance)
+- what about converters? Maybe it should take a list/`and` like validator/converter do? They would need to work as a chain, returning values for the next one.

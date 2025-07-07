@@ -1,0 +1,44 @@
+Catch2 does not report unmatched parts of a partially-matched test spec
+## Description
+Catch2's runTests function calls the reporter's noMatchingTestCases if *no* tests match the spec, but if some test matches some part of the spec, nothing reports that the rest of the spec matched nothing. In other words, if I pass "Test1 Test2" as command-line args, and "Test1" matches some test, nothing complains about the fact that "Test2" matched nothing. This can lead the user to believe that they're running all the tests in the spec when they are not.
+
+### Steps to reproduce
+Create a test file with one test. Run it with command-line args that specify two tests: the existing test and
+some other, non-existent test. Everything will be green and happy, with no indication that the second test was not found.
+
+### Extra information
+* Catch version: **v2.4.1**
+* Operating System: **Windows 10**
+* Compiler+version: **MS VS 2015**
+
+-w NoTests should give non-zero status
+docs/command-line.md says "NoTests        // Return non-zero exit code when no test cases were run" but I see a status of zero being returned instead of non-zero
+
+my_bug.cpp:
+```#define CATCH_CONFIG_MAIN
+#include "catch2/catch.hpp"
+
+TEST_CASE("my case", "[foo]") {
+  SECTION("my section") {
+    CHECK(1);
+  }
+}
+```
+```
+> g++ -o my_bug my_bug.cpp -I ...
+> ./my_bug -w NoTests '[x]'
+Filters: [x]
+No test cases matched '[x]'
+===============================================================================
+No tests ran
+
+status=0
+```
+
+I expected a non-zero status.
+
+**Platform information:**
+ - OS: **Linux CentOS 6**
+ - Compiler+version: **GCC v7.3.0**
+ - Catch version: **v2.9.1**
+

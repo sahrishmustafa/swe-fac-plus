@@ -1,0 +1,28 @@
+Infinite recursion in Generators::populate with MSVC
+```
+CATCH_TEST_CASE("Recursion Bug")
+{
+    int x = 42;
+    auto test = GENERATE_COPY(1, x, 2 * x);
+    CATCH_CHECK(test < 50);
+}
+```
+This worked in `2.9.2` but now I get 
+`single_include\catch2\catch.hpp(4027):warning C4717: 'Catch::Generators::Generators<int>::populate<int &>': recursive on all control paths, function will cause runtime stack overflow` with MSVC 2017 `Microsoft (R) C/C++ Optimizing Compiler Version 19.16.27042 for x64`.
+It matches the wrong template.
+
+A possible work-around is `GENERATE_COPY(values<int>({1, x, 2 * x}));`, but the above should work, right?
+GENERATE() changes compile time length of arrays
+**Description**
+GENERATE macro takes type of first argument and cast all other args to it. It is ok for most cases but for string literals it is bad. It takes length of first literal and force it for all.
+`TEST_CASE("t", "[t]") {
+    auto& str = GENERATE("123", "1");
+    WARN(typeid(str).name());
+}`
+Output
+`warning:
+  A4_c`
+Usually you don't see it. If you use std::string to store the result of GENERATE then everything works fine, all lengths are correct. But some string implementations use length from type of array. E.g., https://stackoverflow.com/questions/2384107/magic-arguments-in-function-templates
+This template magic works wrong with GENERATE. I cann't say this is a bug, because I have no idea how to fix it. May be detect arrays and generate compilation error if lengths are different?
+
+It is very bad rule in C++ that references to arrays with different lengths can be cast to each other. 

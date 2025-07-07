@@ -1,0 +1,15 @@
++ cd /testbed
++ git checkout 1faccd601d904a951142d8fba82914a8325b764e projects/SelfTest/IntrospectiveTests/CmdLine.tests.cpp
+Updated 0 paths from d2d8951e
++ git apply -v -
+Checking patch projects/SelfTest/IntrospectiveTests/CmdLine.tests.cpp...
+Applied patch projects/SelfTest/IntrospectiveTests/CmdLine.tests.cpp cleanly.
++ cd build
++ ./projects/SelfTest/SelfTest '[CmdLine]'
+/eval.sh: line 50: ./projects/SelfTest/SelfTest: Not a directory
+OMNIGRIL_EXIT_CODE=126
++ rc=126
++ echo OMNIGRIL_EXIT_CODE=126
++ cd /testbed
++ git checkout 1faccd601d904a951142d8fba82914a8325b764e projects/SelfTest/IntrospectiveTests/CmdLine.tests.cpp
+Updated 1 path from d2d8951e

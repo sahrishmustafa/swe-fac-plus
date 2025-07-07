@@ -1,0 +1,68 @@
+2025-07-03 17:49:52,540 - INFO - Checking if image python-attrs__attrs-1009-dockerfile1:latest exists locally...
+2025-07-03 17:49:52,556 - INFO - Image python-attrs__attrs-1009-dockerfile1:latest found locally.
+2025-07-03 17:49:52,556 - INFO - Creating container for python-attrs__attrs-1009...
+2025-07-03 17:49:53,051 - INFO - Container for python-attrs__attrs-1009 started: 1f9217b3b35f6d6800b8660e9ebfc0a0000af21ec529116d95d917ee67d2ef1c
+2025-07-03 17:49:53,051 - INFO - Intermediate patch for python-attrs__attrs-1009 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/python-attrs/python-attrs__attrs-1009/test_analysis_agent_1/patch.diff, now applying to container...
+2025-07-03 17:49:53,253 - INFO - Failed to apply patch to container, trying again...
+2025-07-03 17:49:53,309 - INFO - Apply patch success:
+patching file src/attr/_make.py
+
+2025-07-03 17:49:53,369 - INFO - Git diff before:
+diff --git a/src/attr/_make.py b/src/attr/_make.py
+index bc296c6..bd666cc 100644
+--- a/src/attr/_make.py
++++ b/src/attr/_make.py
+@@ -922,7 +922,7 @@ class _ClassBuilder:
+             """
+             Automatically created by attrs.
+             """
+-            return tuple(getattr(self, name) for name in state_attr_names)
++            return {name: getattr(self, name) for name in state_attr_names}
+ 
+         hash_caching_enabled = self._cache_hash
+ 
+@@ -931,8 +931,9 @@ class _ClassBuilder:
+             Automatically created by attrs.
+             """
+             __bound_setattr = _obj_setattr.__get__(self)
+-            for name, value in zip(state_attr_names, state):
+-                __bound_setattr(name, value)
++            for name in state_attr_names:
++                if name in state:
++                    __bound_setattr(name, state[name])
+ 
+             # The hash code cache is not included when the object is
+             # serialized, but it still needs to be initialized to None to
+2025-07-03 17:49:53,369 - INFO - Eval script for python-attrs__attrs-1009 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/python-attrs/python-attrs__attrs-1009/test_analysis_agent_1/patch.diff, now applying to container...
+2025-07-03 17:49:54,956 - INFO - Test output for python-attrs__attrs-1009 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/python-attrs/python-attrs__attrs-1009/test_analysis_agent_1/test_output.txt
+2025-07-03 17:49:55,006 - INFO - Git diff after:
+diff --git a/src/attr/_make.py b/src/attr/_make.py
+index bc296c6..bd666cc 100644
+--- a/src/attr/_make.py
++++ b/src/attr/_make.py
+@@ -922,7 +922,7 @@ class _ClassBuilder:
+             """
+             Automatically created by attrs.
+             """
+-            return tuple(getattr(self, name) for name in state_attr_names)
++            return {name: getattr(self, name) for name in state_attr_names}
+ 
+         hash_caching_enabled = self._cache_hash
+ 
+@@ -931,8 +931,9 @@ class _ClassBuilder:
+             Automatically created by attrs.
+             """
+             __bound_setattr = _obj_setattr.__get__(self)
+-            for name, value in zip(state_attr_names, state):
+-                __bound_setattr(name, value)
++            for name in state_attr_names:
++                if name in state:
++                    __bound_setattr(name, state[name])
+ 
+             # The hash code cache is not included when the object is
+             # serialized, but it still needs to be initialized to None to
+2025-07-03 17:49:55,006 - INFO - Attempting to stop container python-attrs__attrs-1009-test1...
+2025-07-03 17:50:10,149 - INFO - Attempting to remove container python-attrs__attrs-1009-test1...
+2025-07-03 17:50:10,182 - INFO - Container python-attrs__attrs-1009-test1 removed.
+2025-07-03 17:50:10,182 - INFO - Attempting to remove image python-attrs__attrs-1009-dockerfile1:latest...
+2025-07-03 17:50:10,520 - INFO - Image python-attrs__attrs-1009-dockerfile1:latest removed.

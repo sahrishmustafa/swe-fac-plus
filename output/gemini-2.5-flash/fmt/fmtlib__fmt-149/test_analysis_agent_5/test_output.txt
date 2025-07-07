@@ -1,0 +1,141 @@
++ cd /testbed
++ git checkout 88f4be3d19364a484431309f750535386c7d0d5c test/util-test.cc
+Updated 0 paths from f2f7ba6b
++ git apply -v -
+Checking patch test/util-test.cc...
+Applied patch test/util-test.cc cleanly.
++ cd /testbed
++ rm -rf build
++ mkdir build
++ cd build
++ cmake -DCMAKE_BUILD_TYPE=Debug -DFMT_EXTRA_TESTS=ON ..
+-- CMake version: 3.22.1
+CMake Deprecation Warning at CMakeLists.txt:3 (cmake_minimum_required):
+  Compatibility with CMake < 2.8.12 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value or use a ...<max> suffix to tell
+  CMake that the project does not need compatibility with older versions.
+
+
+-- The C compiler identification is GNU 11.4.0
+-- The CXX compiler identification is GNU 11.4.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Build type: Debug
+-- Performing Test HAVE_STD_CPP11_FLAG
+-- Performing Test HAVE_STD_CPP11_FLAG - Success
+-- Performing Test FMT_CPP11_CMATH
+-- Performing Test FMT_CPP11_CMATH - Success
+-- Looking for open
+-- Looking for open - found
+-- Target 'doc' disabled (requires doxygen)
+-- Looking for pthread.h
+-- Looking for pthread.h - found
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE  
+-- Performing Test FMT_VARIADIC_TEMPLATES
+-- Performing Test FMT_VARIADIC_TEMPLATES - Success
+-- Performing Test FMT_INITIALIZER_LIST
+-- Performing Test FMT_INITIALIZER_LIST - Success
+-- Performing Test HAVE_ENUM_BASE
+-- Performing Test HAVE_ENUM_BASE - Success
+-- Performing Test HAVE_TYPE_TRAITS
+-- Performing Test HAVE_TYPE_TRAITS - Success
+-- Performing Test HAVE_FNO_EXCEPTIONS_FLAG
+-- Performing Test HAVE_FNO_EXCEPTIONS_FLAG - Success
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /testbed/build
+++ nproc
++ make -j12
+[ 19%] Building CXX object CMakeFiles/testformat.dir/test/macro-test.cc.o
+[ 13%] Building CXX object CMakeFiles/testformat.dir/test/header-only-test2.cc.o
+[ 13%] Building CXX object CMakeFiles/testformat.dir/test/header-only-test.cc.o
+[ 19%] Building CXX object CMakeFiles/format.dir/format.cc.o
+[ 19%] Building CXX object CMakeFiles/testformat.dir/test/format-impl-test.cc.o
+[ 19%] Building CXX object CMakeFiles/testformat.dir/test/gtest-extra.cc.o
+[ 19%] Building CXX object CMakeFiles/format.dir/posix.cc.o
+[ 19%] Building CXX object CMakeFiles/testformat.dir/test/gtest-extra-test.cc.o
+[ 19%] Building CXX object CMakeFiles/gmock.dir/gmock/gmock-gtest-all.cc.o
+[ 19%] Building CXX object CMakeFiles/testformat.dir/test/format-test.cc.o
+[ 21%] Building CXX object test/CMakeFiles/noexception-test.dir/__/format.cc.o
+[ 23%] Building CXX object CMakeFiles/testformat.dir/test/posix-test.cc.o
+[ 25%] Building CXX object CMakeFiles/testformat.dir/test/printf-test.cc.o
+[ 26%] Building CXX object CMakeFiles/testformat.dir/test/test-main.cc.o
+[ 28%] Building CXX object CMakeFiles/testformat.dir/test/util-test.cc.o
+[ 30%] Linking CXX static library libformat.a
+[ 30%] Built target format
+[ 32%] Building CXX object CMakeFiles/testformat.dir/test/util.cc.o
+[ 34%] Linking CXX static library libnoexception-test.a
+[ 34%] Built target noexception-test
+[ 36%] Linking CXX static library libgmock.a
+[ 36%] Built target gmock
+[ 48%] Building CXX object test/CMakeFiles/macro-test.dir/test-main.cc.o
+[ 50%] Building CXX object test/CMakeFiles/test-main.dir/gtest-extra.cc.o
+[ 50%] Building CXX object test/CMakeFiles/test-main.dir/test-main.cc.o
+[ 51%] Building CXX object test/CMakeFiles/posix-test.dir/__/format.cc.o
+[ 50%] Building CXX object test/CMakeFiles/posix-test.dir/posix-test.cc.o
+[ 51%] Building CXX object test/CMakeFiles/macro-test.dir/__/format.cc.o
+[ 50%] Building CXX object test/CMakeFiles/header-only-test.dir/header-only-test.cc.o
+[ 51%] Building CXX object test/CMakeFiles/macro-test.dir/macro-test.cc.o
+[ 55%] Building CXX object test/CMakeFiles/test-main.dir/util.cc.o
+[ 55%] Building CXX object test/CMakeFiles/macro-test.dir/__/posix.cc.o
+[ 57%] Building CXX object test/CMakeFiles/posix-test.dir/__/posix.cc.o
+[ 59%] Building CXX object test/CMakeFiles/posix-test.dir/test-main.cc.o
+[ 61%] Building CXX object test/CMakeFiles/header-only-test.dir/header-only-test2.cc.o
+[ 63%] Building CXX object test/CMakeFiles/posix-test.dir/gtest-extra.cc.o
+[ 65%] Building CXX object test/CMakeFiles/header-only-test.dir/test-main.cc.o
+[ 67%] Building CXX object test/CMakeFiles/macro-test.dir/gtest-extra.cc.o
+[ 69%] Building CXX object test/CMakeFiles/posix-test.dir/util.cc.o
+[ 71%] Building CXX object test/CMakeFiles/macro-test.dir/util.cc.o
+[ 73%] Linking CXX static library libtest-main.a
+[ 73%] Built target test-main
+[ 78%] Building CXX object test/CMakeFiles/printf-test.dir/printf-test.cc.o
+[ 78%] Building CXX object test/CMakeFiles/gtest-extra-test.dir/gtest-extra-test.cc.o
+[ 78%] Building CXX object test/CMakeFiles/util-test.dir/util-test.cc.o
+[ 82%] Building CXX object test/CMakeFiles/format-test.dir/format-test.cc.o
+[ 82%] Building CXX object test/CMakeFiles/format-impl-test.dir/format-impl-test.cc.o
+[ 84%] Linking CXX static library libtestformat.a
+[ 86%] Linking CXX executable ../bin/header-only-test
+[ 86%] Built target testformat
+[ 86%] Built target header-only-test
+[ 88%] Linking CXX executable ../bin/posix-test
+[ 90%] Linking CXX executable ../bin/macro-test
+[ 90%] Built target posix-test
+[ 90%] Built target macro-test
+[ 92%] Linking CXX executable ../bin/format-impl-test
+[ 92%] Built target format-impl-test
+[ 94%] Linking CXX executable ../bin/gtest-extra-test
+[ 94%] Built target gtest-extra-test
+[ 96%] Linking CXX executable ../bin/util-test
+[ 96%] Built target util-test
+[ 98%] Linking CXX executable ../bin/printf-test
+[ 98%] Built target printf-test
+[100%] Linking CXX executable ../bin/format-test
+[100%] Built target format-test
++ CTEST_OUTPUT_ON_FAILURE=1
++ ctest -R util-test
+Test project /testbed/build
+    Start 5: util-test
+1/1 Test #5: util-test ........................   Passed    0.00 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   0.01 sec
+OMNIGRIL_EXIT_CODE=0
++ rc=0
++ '[' 0 -ne 0 ']'
++ echo OMNIGRIL_EXIT_CODE=0
++ cd /testbed
++ git checkout 88f4be3d19364a484431309f750535386c7d0d5c test/util-test.cc
+Updated 1 path from f2f7ba6b

@@ -1,0 +1,3248 @@
+2025-06-30 16:23:12,525 - INFO - Checking if image catchorg__catch2-1770-dockerfile1:latest exists locally...
+2025-06-30 16:23:12,618 - INFO - Image catchorg__catch2-1770-dockerfile1:latest found locally.
+2025-06-30 16:23:12,618 - INFO - Creating container for catchorg__catch2-1770...
+2025-06-30 16:23:13,077 - INFO - Container for catchorg__catch2-1770 started: b9e6cdb818e17d77b6f1321fd92bf30728a12933640ab5ec56b7ab3697868bcb
+2025-06-30 16:23:13,078 - INFO - Intermediate patch for catchorg__catch2-1770 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/catch2/catchorg__Catch2-1770/test_analysis_agent_1/patch.diff, now applying to container...
+2025-06-30 16:23:13,487 - INFO - Failed to apply patch to container, trying again...
+2025-06-30 16:23:13,564 - INFO - Apply patch success:
+patching file include/internal/catch_commandline.cpp
+patching file include/internal/catch_interfaces_reporter.h
+patching file include/internal/catch_session.cpp
+patching file include/reporters/catch_reporter_bases.hpp
+patching file include/reporters/catch_reporter_console.cpp
+patching file include/reporters/catch_reporter_console.h
+patching file include/reporters/catch_reporter_listening.cpp
+patching file include/reporters/catch_reporter_listening.h
+
+2025-06-30 16:23:13,716 - INFO - Git diff before:
+diff --git a/.conan/build.py b/.conan/build.py
+old mode 100644
+new mode 100755
+diff --git a/.conan/test_package/CMakeLists.txt b/.conan/test_package/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/.conan/test_package/conanfile.py b/.conan/test_package/conanfile.py
+old mode 100644
+new mode 100755
+diff --git a/.conan/test_package/test_package.cpp b/.conan/test_package/test_package.cpp
+old mode 100644
+new mode 100755
+diff --git a/.gitattributes b/.gitattributes
+old mode 100644
+new mode 100755
+diff --git a/.github/FUNDING.yml b/.github/FUNDING.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/ISSUE_TEMPLATE/bug_report.md b/.github/ISSUE_TEMPLATE/bug_report.md
+old mode 100644
+new mode 100755
+diff --git a/.github/ISSUE_TEMPLATE/feature_request.md b/.github/ISSUE_TEMPLATE/feature_request.md
+old mode 100644
+new mode 100755
+diff --git a/.github/pull_request_template.md b/.github/pull_request_template.md
+old mode 100644
+new mode 100755
+diff --git a/.gitignore b/.gitignore
+old mode 100644
+new mode 100755
+diff --git a/.travis.yml b/.travis.yml
+old mode 100644
+new mode 100755
+diff --git a/CMake/Catch2Config.cmake.in b/CMake/Catch2Config.cmake.in
+old mode 100644
+new mode 100755
+diff --git a/CMake/FindGcov.cmake b/CMake/FindGcov.cmake
+old mode 100644
+new mode 100755
+diff --git a/CMake/FindLcov.cmake b/CMake/FindLcov.cmake
+old mode 100644
+new mode 100755
+diff --git a/CMake/Findcodecov.cmake b/CMake/Findcodecov.cmake
+old mode 100644
+new mode 100755
+diff --git a/CMake/MiscFunctions.cmake b/CMake/MiscFunctions.cmake
+old mode 100644
+new mode 100755
+diff --git a/CMake/catch2.pc.in b/CMake/catch2.pc.in
+old mode 100644
+new mode 100755
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/CODE_OF_CONDUCT.md b/CODE_OF_CONDUCT.md
+old mode 100644
+new mode 100755
+diff --git a/LICENSE.txt b/LICENSE.txt
+old mode 100644
+new mode 100755
+diff --git a/README.md b/README.md
+old mode 100644
+new mode 100755
+diff --git a/appveyor.yml b/appveyor.yml
+old mode 100644
+new mode 100755
+diff --git a/artwork/catch2-c-logo.png b/artwork/catch2-c-logo.png
+old mode 100644
+new mode 100755
+diff --git a/artwork/catch2-hand-logo.png b/artwork/catch2-hand-logo.png
+old mode 100644
+new mode 100755
+diff --git a/artwork/catch2-logo-small.png b/artwork/catch2-logo-small.png
+old mode 100644
+new mode 100755
+diff --git a/codecov.yml b/codecov.yml
+old mode 100644
+new mode 100755
+diff --git a/conanfile.py b/conanfile.py
+old mode 100644
+new mode 100755
+diff --git a/contrib/Catch.cmake b/contrib/Catch.cmake
+old mode 100644
+new mode 100755
+diff --git a/contrib/CatchAddTests.cmake b/contrib/CatchAddTests.cmake
+old mode 100644
+new mode 100755
+diff --git a/contrib/ParseAndAddCatchTests.cmake b/contrib/ParseAndAddCatchTests.cmake
+old mode 100644
+new mode 100755
+diff --git a/contrib/gdbinit b/contrib/gdbinit
+old mode 100644
+new mode 100755
+diff --git a/contrib/lldbinit b/contrib/lldbinit
+old mode 100644
+new mode 100755
+diff --git a/docs/Readme.md b/docs/Readme.md
+old mode 100644
+new mode 100755
+diff --git a/docs/assertions.md b/docs/assertions.md
+old mode 100644
+new mode 100755
+diff --git a/docs/benchmarks.md b/docs/benchmarks.md
+old mode 100644
+new mode 100755
+diff --git a/docs/ci-and-misc.md b/docs/ci-and-misc.md
+old mode 100644
+new mode 100755
+diff --git a/docs/cmake-integration.md b/docs/cmake-integration.md
+old mode 100644
+new mode 100755
+diff --git a/docs/command-line.md b/docs/command-line.md
+old mode 100644
+new mode 100755
+diff --git a/docs/commercial-users.md b/docs/commercial-users.md
+old mode 100644
+new mode 100755
+diff --git a/docs/configuration.md b/docs/configuration.md
+old mode 100644
+new mode 100755
+diff --git a/docs/contributing.md b/docs/contributing.md
+old mode 100644
+new mode 100755
+diff --git a/docs/deprecations.md b/docs/deprecations.md
+old mode 100644
+new mode 100755
+diff --git a/docs/event-listeners.md b/docs/event-listeners.md
+old mode 100644
+new mode 100755
+diff --git a/docs/generators.md b/docs/generators.md
+old mode 100644
+new mode 100755
+diff --git a/docs/limitations.md b/docs/limitations.md
+old mode 100644
+new mode 100755
+diff --git a/docs/list-of-examples.md b/docs/list-of-examples.md
+old mode 100644
+new mode 100755
+diff --git a/docs/logging.md b/docs/logging.md
+old mode 100644
+new mode 100755
+diff --git a/docs/matchers.md b/docs/matchers.md
+old mode 100644
+new mode 100755
+diff --git a/docs/opensource-users.md b/docs/opensource-users.md
+old mode 100644
+new mode 100755
+diff --git a/docs/other-macros.md b/docs/other-macros.md
+old mode 100644
+new mode 100755
+diff --git a/docs/own-main.md b/docs/own-main.md
+old mode 100644
+new mode 100755
+diff --git a/docs/release-notes.md b/docs/release-notes.md
+old mode 100644
+new mode 100755
+diff --git a/docs/release-process.md b/docs/release-process.md
+old mode 100644
+new mode 100755
+diff --git a/docs/reporters.md b/docs/reporters.md
+old mode 100644
+new mode 100755
+diff --git a/docs/slow-compiles.md b/docs/slow-compiles.md
+old mode 100644
+new mode 100755
+diff --git a/docs/test-cases-and-sections.md b/docs/test-cases-and-sections.md
+old mode 100644
+new mode 100755
+diff --git a/docs/test-fixtures.md b/docs/test-fixtures.md
+old mode 100644
+new mode 100755
+diff --git a/docs/tostring.md b/docs/tostring.md
+old mode 100644
+new mode 100755
+diff --git a/docs/tutorial.md b/docs/tutorial.md
+old mode 100644
+new mode 100755
+diff --git a/docs/why-catch.md b/docs/why-catch.md
+old mode 100644
+new mode 100755
+diff --git a/examples/000-CatchMain.cpp b/examples/000-CatchMain.cpp
+old mode 100644
+new mode 100755
+diff --git a/examples/010-TestCase.cpp b/examples/010-TestCase.cpp
+old mode 100644
+new mode 100755
+diff --git a/examples/020-TestCase-1.cpp b/examples/020-TestCase-1.cpp
+old mode 100644
+new mode 100755
+diff --git a/examples/020-TestCase-2.cpp b/examples/020-TestCase-2.cpp
+old mode 100644
+new mode 100755
+diff --git a/examples/030-Asn-Require-Check.cpp b/examples/030-Asn-Require-Check.cpp
+old mode 100644
+new mode 100755
+diff --git a/examples/100-Fix-Section.cpp b/examples/100-Fix-Section.cpp
+old mode 100644
+new mode 100755
+diff --git a/examples/110-Fix-ClassFixture.cpp b/examples/110-Fix-ClassFixture.cpp
+old mode 100644
+new mode 100755
+diff --git a/examples/120-Bdd-ScenarioGivenWhenThen.cpp b/examples/120-Bdd-ScenarioGivenWhenThen.cpp
+old mode 100644
+new mode 100755
+diff --git a/examples/200-Rpt-CatchMain.cpp b/examples/200-Rpt-CatchMain.cpp
+old mode 100644
+new mode 100755
+diff --git a/examples/207-Rpt-TeamCityReporter.cpp b/examples/207-Rpt-TeamCityReporter.cpp
+old mode 100644
+new mode 100755
+diff --git a/examples/210-Evt-EventListeners.cpp b/examples/210-Evt-EventListeners.cpp
+old mode 100644
+new mode 100755
+diff --git a/examples/231-Cfg-OutputStreams.cpp b/examples/231-Cfg-OutputStreams.cpp
+old mode 100644
+new mode 100755
+diff --git a/examples/300-Gen-OwnGenerator.cpp b/examples/300-Gen-OwnGenerator.cpp
+old mode 100644
+new mode 100755
+diff --git a/examples/301-Gen-MapTypeConversion.cpp b/examples/301-Gen-MapTypeConversion.cpp
+old mode 100644
+new mode 100755
+diff --git a/examples/310-Gen-VariablesInGenerators.cpp b/examples/310-Gen-VariablesInGenerators.cpp
+old mode 100644
+new mode 100755
+diff --git a/examples/311-Gen-CustomCapture.cpp b/examples/311-Gen-CustomCapture.cpp
+old mode 100644
+new mode 100755
+diff --git a/examples/CMakeLists.txt b/examples/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/include/catch.hpp b/include/catch.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/catch_with_main.hpp b/include/catch_with_main.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/external/clara.hpp b/include/external/clara.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/benchmark/catch_benchmark.hpp b/include/internal/benchmark/catch_benchmark.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/benchmark/catch_chronometer.hpp b/include/internal/benchmark/catch_chronometer.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/benchmark/catch_clock.hpp b/include/internal/benchmark/catch_clock.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/benchmark/catch_constructor.hpp b/include/internal/benchmark/catch_constructor.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/benchmark/catch_environment.hpp b/include/internal/benchmark/catch_environment.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/benchmark/catch_estimate.hpp b/include/internal/benchmark/catch_estimate.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/benchmark/catch_execution_plan.hpp b/include/internal/benchmark/catch_execution_plan.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/benchmark/catch_optimizer.hpp b/include/internal/benchmark/catch_optimizer.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/benchmark/catch_outlier_classification.hpp b/include/internal/benchmark/catch_outlier_classification.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/benchmark/catch_sample_analysis.hpp b/include/internal/benchmark/catch_sample_analysis.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/benchmark/detail/catch_analyse.hpp b/include/internal/benchmark/detail/catch_analyse.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/benchmark/detail/catch_benchmark_function.hpp b/include/internal/benchmark/detail/catch_benchmark_function.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/benchmark/detail/catch_complete_invoke.hpp b/include/internal/benchmark/detail/catch_complete_invoke.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/benchmark/detail/catch_estimate_clock.hpp b/include/internal/benchmark/detail/catch_estimate_clock.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/benchmark/detail/catch_measure.hpp b/include/internal/benchmark/detail/catch_measure.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/benchmark/detail/catch_repeat.hpp b/include/internal/benchmark/detail/catch_repeat.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/benchmark/detail/catch_run_for_at_least.hpp b/include/internal/benchmark/detail/catch_run_for_at_least.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/benchmark/detail/catch_stats.cpp b/include/internal/benchmark/detail/catch_stats.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/benchmark/detail/catch_stats.hpp b/include/internal/benchmark/detail/catch_stats.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/benchmark/detail/catch_timing.hpp b/include/internal/benchmark/detail/catch_timing.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_approx.cpp b/include/internal/catch_approx.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_approx.h b/include/internal/catch_approx.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_assertionhandler.cpp b/include/internal/catch_assertionhandler.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_assertionhandler.h b/include/internal/catch_assertionhandler.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_assertioninfo.h b/include/internal/catch_assertioninfo.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_assertionresult.cpp b/include/internal/catch_assertionresult.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_assertionresult.h b/include/internal/catch_assertionresult.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_capture.hpp b/include/internal/catch_capture.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_capture_matchers.cpp b/include/internal/catch_capture_matchers.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_capture_matchers.h b/include/internal/catch_capture_matchers.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_clara.h b/include/internal/catch_clara.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_commandline.cpp b/include/internal/catch_commandline.cpp
+old mode 100644
+new mode 100755
+index 0359272c..365a3c9d
+--- a/include/internal/catch_commandline.cpp
++++ b/include/internal/catch_commandline.cpp
+@@ -49,9 +49,15 @@ namespace Catch {
+                     if( !line.empty() && !startsWith( line, '#' ) ) {
+                         if( !startsWith( line, '"' ) )
+                             line = '"' + line + '"';
+-                        config.testsOrTags.push_back( line + ',' );
++                        config.testsOrTags.push_back( line );
++                        config.testsOrTags.push_back( "," );
++                        
+                     }
+                 }
++                //Remove comma in the end
++                if(!config.testsOrTags.empty())
++                    config.testsOrTags.erase( config.testsOrTags.end()-1 );
++                
+                 return ParserResult::ok( ParseResultType::Matched );
+             };
+         auto const setTestOrder = [&]( std::string const& order ) {
+diff --git a/include/internal/catch_commandline.h b/include/internal/catch_commandline.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_common.cpp b/include/internal/catch_common.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_common.h b/include/internal/catch_common.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_compiler_capabilities.h b/include/internal/catch_compiler_capabilities.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_config.cpp b/include/internal/catch_config.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_config.hpp b/include/internal/catch_config.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_console_colour.cpp b/include/internal/catch_console_colour.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_console_colour.h b/include/internal/catch_console_colour.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_context.cpp b/include/internal/catch_context.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_context.h b/include/internal/catch_context.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_debug_console.cpp b/include/internal/catch_debug_console.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_debug_console.h b/include/internal/catch_debug_console.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_debugger.cpp b/include/internal/catch_debugger.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_debugger.h b/include/internal/catch_debugger.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_decomposer.cpp b/include/internal/catch_decomposer.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_decomposer.h b/include/internal/catch_decomposer.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_default_main.hpp b/include/internal/catch_default_main.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_enforce.cpp b/include/internal/catch_enforce.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_enforce.h b/include/internal/catch_enforce.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_enum_values_registry.cpp b/include/internal/catch_enum_values_registry.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_enum_values_registry.h b/include/internal/catch_enum_values_registry.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_errno_guard.cpp b/include/internal/catch_errno_guard.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_errno_guard.h b/include/internal/catch_errno_guard.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_exception_translator_registry.cpp b/include/internal/catch_exception_translator_registry.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_exception_translator_registry.h b/include/internal/catch_exception_translator_registry.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_external_interfaces.h b/include/internal/catch_external_interfaces.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_fatal_condition.cpp b/include/internal/catch_fatal_condition.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_fatal_condition.h b/include/internal/catch_fatal_condition.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_generators.cpp b/include/internal/catch_generators.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_generators.hpp b/include/internal/catch_generators.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_generators_generic.hpp b/include/internal/catch_generators_generic.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_generators_specific.hpp b/include/internal/catch_generators_specific.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_impl.hpp b/include/internal/catch_impl.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_interfaces_capture.cpp b/include/internal/catch_interfaces_capture.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_interfaces_capture.h b/include/internal/catch_interfaces_capture.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_interfaces_config.cpp b/include/internal/catch_interfaces_config.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_interfaces_config.h b/include/internal/catch_interfaces_config.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_interfaces_enum_values_registry.h b/include/internal/catch_interfaces_enum_values_registry.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_interfaces_exception.cpp b/include/internal/catch_interfaces_exception.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_interfaces_exception.h b/include/internal/catch_interfaces_exception.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_interfaces_generatortracker.h b/include/internal/catch_interfaces_generatortracker.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_interfaces_registry_hub.cpp b/include/internal/catch_interfaces_registry_hub.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_interfaces_registry_hub.h b/include/internal/catch_interfaces_registry_hub.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_interfaces_reporter.cpp b/include/internal/catch_interfaces_reporter.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_interfaces_reporter.h b/include/internal/catch_interfaces_reporter.h
+old mode 100644
+new mode 100755
+index e54a24a8..751ef2c2
+--- a/include/internal/catch_interfaces_reporter.h
++++ b/include/internal/catch_interfaces_reporter.h
+@@ -214,6 +214,8 @@ namespace Catch {
+ 
+         virtual void noMatchingTestCases( std::string const& spec ) = 0;
+ 
++        virtual void reportInvalidArguments(std::string const&) {}
++        
+         virtual void testRunStarting( TestRunInfo const& testRunInfo ) = 0;
+         virtual void testGroupStarting( GroupInfo const& groupInfo ) = 0;
+ 
+diff --git a/include/internal/catch_interfaces_runner.cpp b/include/internal/catch_interfaces_runner.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_interfaces_runner.h b/include/internal/catch_interfaces_runner.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_interfaces_tag_alias_registry.h b/include/internal/catch_interfaces_tag_alias_registry.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_interfaces_testcase.cpp b/include/internal/catch_interfaces_testcase.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_interfaces_testcase.h b/include/internal/catch_interfaces_testcase.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_leak_detector.cpp b/include/internal/catch_leak_detector.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_leak_detector.h b/include/internal/catch_leak_detector.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_list.cpp b/include/internal/catch_list.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_list.h b/include/internal/catch_list.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_matchers.cpp b/include/internal/catch_matchers.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_matchers.h b/include/internal/catch_matchers.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_matchers_exception.cpp b/include/internal/catch_matchers_exception.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_matchers_exception.hpp b/include/internal/catch_matchers_exception.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_matchers_floating.cpp b/include/internal/catch_matchers_floating.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_matchers_floating.h b/include/internal/catch_matchers_floating.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_matchers_generic.cpp b/include/internal/catch_matchers_generic.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_matchers_generic.hpp b/include/internal/catch_matchers_generic.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_matchers_string.cpp b/include/internal/catch_matchers_string.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_matchers_string.h b/include/internal/catch_matchers_string.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_matchers_vector.h b/include/internal/catch_matchers_vector.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_message.cpp b/include/internal/catch_message.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_message.h b/include/internal/catch_message.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_meta.hpp b/include/internal/catch_meta.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_objc.hpp b/include/internal/catch_objc.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_objc_arc.hpp b/include/internal/catch_objc_arc.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_option.hpp b/include/internal/catch_option.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_output_redirect.cpp b/include/internal/catch_output_redirect.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_output_redirect.h b/include/internal/catch_output_redirect.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_platform.h b/include/internal/catch_platform.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_polyfills.cpp b/include/internal/catch_polyfills.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_polyfills.hpp b/include/internal/catch_polyfills.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_preprocessor.hpp b/include/internal/catch_preprocessor.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_random_number_generator.cpp b/include/internal/catch_random_number_generator.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_random_number_generator.h b/include/internal/catch_random_number_generator.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_reenable_warnings.h b/include/internal/catch_reenable_warnings.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_registry_hub.cpp b/include/internal/catch_registry_hub.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_reporter_registrars.hpp b/include/internal/catch_reporter_registrars.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_reporter_registry.cpp b/include/internal/catch_reporter_registry.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_reporter_registry.h b/include/internal/catch_reporter_registry.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_result_type.cpp b/include/internal/catch_result_type.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_result_type.h b/include/internal/catch_result_type.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_run_context.cpp b/include/internal/catch_run_context.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_run_context.h b/include/internal/catch_run_context.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_section.cpp b/include/internal/catch_section.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_section.h b/include/internal/catch_section.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_section_info.cpp b/include/internal/catch_section_info.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_section_info.h b/include/internal/catch_section_info.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_session.cpp b/include/internal/catch_session.cpp
+old mode 100644
+new mode 100755
+index 94db4597..b1d7a404
+--- a/include/internal/catch_session.cpp
++++ b/include/internal/catch_session.cpp
+@@ -68,8 +68,9 @@ namespace Catch {
+             {
+                 auto const& allTestCases = getAllTestCasesSorted(*m_config);
+                 m_matches = m_config->testSpec().matchesByFilter(allTestCases, *m_config);
+-
+-                if (m_matches.empty()) {
++                auto const& invalidArgs = m_config->testSpec().getInvalidArgs();
++                
++                if (m_matches.empty() && invalidArgs.empty()) {
+                     for (auto const& test : allTestCases)
+                         if (!test.isHidden())
+                             m_tests.emplace(&test);
+@@ -80,6 +81,7 @@ namespace Catch {
+             }
+ 
+             Totals execute() {
++                auto const& invalidArgs = m_config->testSpec().getInvalidArgs();
+                 Totals totals;
+                 m_context.testGroupStarting(m_config->name(), 1, 1);
+                 for (auto const& testCase : m_tests) {
+@@ -95,6 +97,12 @@ namespace Catch {
+                         totals.error = -1;
+                     }
+                 }
++                
++                if (!invalidArgs.empty()) {
++                    for (auto const& invalidArg: invalidArgs)                   
++                         m_context.reporter().reportInvalidArguments(invalidArg);
++                }   
++                
+                 m_context.testGroupEnded(m_config->name(), totals, 1, 1);
+                 return totals;
+             }
+diff --git a/include/internal/catch_session.h b/include/internal/catch_session.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_singletons.cpp b/include/internal/catch_singletons.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_singletons.hpp b/include/internal/catch_singletons.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_startup_exception_registry.cpp b/include/internal/catch_startup_exception_registry.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_startup_exception_registry.h b/include/internal/catch_startup_exception_registry.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_stream.cpp b/include/internal/catch_stream.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_stream.h b/include/internal/catch_stream.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_string_manip.cpp b/include/internal/catch_string_manip.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_string_manip.h b/include/internal/catch_string_manip.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_stringref.cpp b/include/internal/catch_stringref.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_stringref.h b/include/internal/catch_stringref.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_suppress_warnings.h b/include/internal/catch_suppress_warnings.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_tag_alias.cpp b/include/internal/catch_tag_alias.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_tag_alias.h b/include/internal/catch_tag_alias.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_tag_alias_autoregistrar.cpp b/include/internal/catch_tag_alias_autoregistrar.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_tag_alias_autoregistrar.h b/include/internal/catch_tag_alias_autoregistrar.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_tag_alias_registry.cpp b/include/internal/catch_tag_alias_registry.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_tag_alias_registry.h b/include/internal/catch_tag_alias_registry.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_test_case_info.cpp b/include/internal/catch_test_case_info.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_test_case_info.h b/include/internal/catch_test_case_info.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_test_case_registry_impl.cpp b/include/internal/catch_test_case_registry_impl.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_test_case_registry_impl.h b/include/internal/catch_test_case_registry_impl.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_test_case_tracker.cpp b/include/internal/catch_test_case_tracker.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_test_case_tracker.h b/include/internal/catch_test_case_tracker.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_test_registry.cpp b/include/internal/catch_test_registry.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_test_registry.h b/include/internal/catch_test_registry.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_test_spec.cpp b/include/internal/catch_test_spec.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_test_spec.h b/include/internal/catch_test_spec.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_test_spec_parser.cpp b/include/internal/catch_test_spec_parser.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_test_spec_parser.h b/include/internal/catch_test_spec_parser.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_text.h b/include/internal/catch_text.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_timer.cpp b/include/internal/catch_timer.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_timer.h b/include/internal/catch_timer.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_to_string.hpp b/include/internal/catch_to_string.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_tostring.cpp b/include/internal/catch_tostring.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_tostring.h b/include/internal/catch_tostring.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_totals.cpp b/include/internal/catch_totals.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_totals.h b/include/internal/catch_totals.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_uncaught_exceptions.cpp b/include/internal/catch_uncaught_exceptions.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_uncaught_exceptions.h b/include/internal/catch_uncaught_exceptions.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_user_interfaces.h b/include/internal/catch_user_interfaces.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_version.cpp b/include/internal/catch_version.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_version.h b/include/internal/catch_version.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_wildcard_pattern.cpp b/include/internal/catch_wildcard_pattern.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_wildcard_pattern.h b/include/internal/catch_wildcard_pattern.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_windows_h_proxy.h b/include/internal/catch_windows_h_proxy.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_xmlwriter.cpp b/include/internal/catch_xmlwriter.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_xmlwriter.h b/include/internal/catch_xmlwriter.h
+old mode 100644
+new mode 100755
+diff --git a/include/reporters/catch_reporter_automake.hpp b/include/reporters/catch_reporter_automake.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/reporters/catch_reporter_bases.cpp b/include/reporters/catch_reporter_bases.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/reporters/catch_reporter_bases.hpp b/include/reporters/catch_reporter_bases.hpp
+old mode 100644
+new mode 100755
+index a9b0640c..66a891ff
+--- a/include/reporters/catch_reporter_bases.hpp
++++ b/include/reporters/catch_reporter_bases.hpp
+@@ -51,6 +51,8 @@ namespace Catch {
+ 
+         void noMatchingTestCases(std::string const&) override {}
+ 
++        void reportInvalidArguments(std::string const&) override {}
++        
+         void testRunStarting(TestRunInfo const& _testRunInfo) override {
+             currentTestRunInfo = _testRunInfo;
+         }
+@@ -277,4 +279,4 @@ namespace Catch {
+ 
+ } // end namespace Catch
+ 
+-#endif // TWOBLUECUBES_CATCH_REPORTER_BASES_HPP_INCLUDED
++#endif // TWOBLUECUBES_CATCH_REPORTER_BASES_HPP_INCLUDED
+\ No newline at end of file
+diff --git a/include/reporters/catch_reporter_compact.cpp b/include/reporters/catch_reporter_compact.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/reporters/catch_reporter_compact.h b/include/reporters/catch_reporter_compact.h
+old mode 100644
+new mode 100755
+diff --git a/include/reporters/catch_reporter_console.cpp b/include/reporters/catch_reporter_console.cpp
+old mode 100644
+new mode 100755
+index ad663ca4..be00d0bd
+--- a/include/reporters/catch_reporter_console.cpp
++++ b/include/reporters/catch_reporter_console.cpp
+@@ -383,6 +383,10 @@ void ConsoleReporter::noMatchingTestCases(std::string const& spec) {
+     stream << "No test cases matched '" << spec << '\'' << std::endl;
+ }
+ 
++void ConsoleReporter::reportInvalidArguments(std::string const&arg){
++    stream << "Invalid Filter: " << arg << std::endl;
++}
++
+ void ConsoleReporter::assertionStarting(AssertionInfo const&) {}
+ 
+ bool ConsoleReporter::assertionEnded(AssertionStats const& _assertionStats) {
+@@ -694,4 +698,4 @@ CATCH_REGISTER_REPORTER("console", ConsoleReporter)
+ 
+ #if defined(__clang__)
+ #  pragma clang diagnostic pop
+-#endif
++#endif
+\ No newline at end of file
+diff --git a/include/reporters/catch_reporter_console.h b/include/reporters/catch_reporter_console.h
+old mode 100644
+new mode 100755
+index 5d21ffb6..43024daf
+--- a/include/reporters/catch_reporter_console.h
++++ b/include/reporters/catch_reporter_console.h
+@@ -32,6 +32,8 @@ namespace Catch {
+ 
+         void noMatchingTestCases(std::string const& spec) override;
+ 
++        void reportInvalidArguments(std::string const&arg) override;
++
+         void assertionStarting(AssertionInfo const&) override;
+ 
+         bool assertionEnded(AssertionStats const& _assertionStats) override;
+@@ -84,4 +86,4 @@ namespace Catch {
+ #pragma warning(pop)
+ #endif
+ 
+-#endif // TWOBLUECUBES_CATCH_REPORTER_CONSOLE_H_INCLUDED
++#endif // TWOBLUECUBES_CATCH_REPORTER_CONSOLE_H_INCLUDED
+\ No newline at end of file
+diff --git a/include/reporters/catch_reporter_junit.cpp b/include/reporters/catch_reporter_junit.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/reporters/catch_reporter_junit.h b/include/reporters/catch_reporter_junit.h
+old mode 100644
+new mode 100755
+diff --git a/include/reporters/catch_reporter_listening.cpp b/include/reporters/catch_reporter_listening.cpp
+old mode 100644
+new mode 100755
+index 6864e90b..91e6b39a
+--- a/include/reporters/catch_reporter_listening.cpp
++++ b/include/reporters/catch_reporter_listening.cpp
+@@ -41,6 +41,13 @@ namespace Catch {
+         }
+         m_reporter->noMatchingTestCases( spec );
+     }
++    
++    void ListeningReporter::reportInvalidArguments(std::string const&arg){
++        for ( auto const& listener : m_listeners ) {
++            listener->reportInvalidArguments( arg );
++        }
++        m_reporter->reportInvalidArguments( arg );
++    }    
+ 
+ #if defined(CATCH_CONFIG_ENABLE_BENCHMARKING)
+     void ListeningReporter::benchmarkPreparing( std::string const& name ) {
+@@ -154,4 +161,4 @@ namespace Catch {
+         return true;
+     }
+ 
+-} // end namespace Catch
++} // end namespace Catch
+\ No newline at end of file
+diff --git a/include/reporters/catch_reporter_listening.h b/include/reporters/catch_reporter_listening.h
+old mode 100644
+new mode 100755
+index 802db446..bfaa3085
+--- a/include/reporters/catch_reporter_listening.h
++++ b/include/reporters/catch_reporter_listening.h
+@@ -28,7 +28,9 @@ namespace Catch {
+         ReporterPreferences getPreferences() const override;
+ 
+         void noMatchingTestCases( std::string const& spec ) override;
+-
++        
++        void reportInvalidArguments(std::string const&arg) override;
++        
+         static std::set<Verbosity> getSupportedVerbosities();
+ 
+ #if defined(CATCH_CONFIG_ENABLE_BENCHMARKING)
+@@ -58,4 +60,4 @@ namespace Catch {
+ 
+ } // end namespace Catch
+ 
+-#endif // TWOBLUECUBES_CATCH_MULTI_REPORTER_H_INCLUDED
++#endif // TWOBLUECUBES_CATCH_MULTI_REPORTER_H_INCLUDED
+\ No newline at end of file
+diff --git a/include/reporters/catch_reporter_tap.hpp b/include/reporters/catch_reporter_tap.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/reporters/catch_reporter_teamcity.hpp b/include/reporters/catch_reporter_teamcity.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/reporters/catch_reporter_xml.cpp b/include/reporters/catch_reporter_xml.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/reporters/catch_reporter_xml.h b/include/reporters/catch_reporter_xml.h
+old mode 100644
+new mode 100755
+diff --git a/misc/CMakeLists.txt b/misc/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/misc/SelfTest.vcxproj.user b/misc/SelfTest.vcxproj.user
+old mode 100644
+new mode 100755
+diff --git a/misc/appveyorBuildConfigurationScript.bat b/misc/appveyorBuildConfigurationScript.bat
+old mode 100644
+new mode 100755
+diff --git a/misc/appveyorMergeCoverageScript.py b/misc/appveyorMergeCoverageScript.py
+old mode 100644
+new mode 100755
+diff --git a/misc/appveyorTestRunScript.bat b/misc/appveyorTestRunScript.bat
+old mode 100644
+new mode 100755
+diff --git a/misc/coverage-helper.cpp b/misc/coverage-helper.cpp
+old mode 100644
+new mode 100755
+diff --git a/misc/installOpenCppCoverage.ps1 b/misc/installOpenCppCoverage.ps1
+old mode 100644
+new mode 100755
+diff --git a/projects/CMakeLists.txt b/projects/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/projects/ExtraTests/CMakeLists.txt b/projects/ExtraTests/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/projects/ExtraTests/ToDo.txt b/projects/ExtraTests/ToDo.txt
+old mode 100644
+new mode 100755
+diff --git a/projects/ExtraTests/X01-PrefixedMacros.cpp b/projects/ExtraTests/X01-PrefixedMacros.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/ExtraTests/X02-DisabledMacros.cpp b/projects/ExtraTests/X02-DisabledMacros.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/ExtraTests/X03-DisabledExceptions-DefaultHandler.cpp b/projects/ExtraTests/X03-DisabledExceptions-DefaultHandler.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/ExtraTests/X04-DisabledExceptions-CustomHandler.cpp b/projects/ExtraTests/X04-DisabledExceptions-CustomHandler.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/ExtraTests/X10-FallbackStringifier.cpp b/projects/ExtraTests/X10-FallbackStringifier.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/ExtraTests/X11-DisableStringification.cpp b/projects/ExtraTests/X11-DisableStringification.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/ExtraTests/X20-BenchmarkingMacros.cpp b/projects/ExtraTests/X20-BenchmarkingMacros.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/ExtraTests/X90-WindowsHeaderInclusion.cpp b/projects/ExtraTests/X90-WindowsHeaderInclusion.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/Baselines/automake.std.approved.txt b/projects/SelfTest/Baselines/automake.std.approved.txt
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/Baselines/compact.sw.approved.txt b/projects/SelfTest/Baselines/compact.sw.approved.txt
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/Baselines/console.std.approved.txt b/projects/SelfTest/Baselines/console.std.approved.txt
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/Baselines/console.sw.approved.txt b/projects/SelfTest/Baselines/console.sw.approved.txt
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/Baselines/console.swa4.approved.txt b/projects/SelfTest/Baselines/console.swa4.approved.txt
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/Baselines/junit.sw.approved.txt b/projects/SelfTest/Baselines/junit.sw.approved.txt
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/Baselines/xml.sw.approved.txt b/projects/SelfTest/Baselines/xml.sw.approved.txt
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/CompileTimePerfTests/10.tests.cpp b/projects/SelfTest/CompileTimePerfTests/10.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/CompileTimePerfTests/100.tests.cpp b/projects/SelfTest/CompileTimePerfTests/100.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/CompileTimePerfTests/All.tests.cpp b/projects/SelfTest/CompileTimePerfTests/All.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/IntrospectiveTests/CmdLine.tests.cpp b/projects/SelfTest/IntrospectiveTests/CmdLine.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/IntrospectiveTests/Details.tests.cpp b/projects/SelfTest/IntrospectiveTests/Details.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/IntrospectiveTests/GeneratorsImpl.tests.cpp b/projects/SelfTest/IntrospectiveTests/GeneratorsImpl.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/IntrospectiveTests/InternalBenchmark.tests.cpp b/projects/SelfTest/IntrospectiveTests/InternalBenchmark.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/IntrospectiveTests/PartTracker.tests.cpp b/projects/SelfTest/IntrospectiveTests/PartTracker.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/IntrospectiveTests/RandomNumberGeneration.tests.cpp b/projects/SelfTest/IntrospectiveTests/RandomNumberGeneration.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/IntrospectiveTests/String.tests.cpp b/projects/SelfTest/IntrospectiveTests/String.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/IntrospectiveTests/StringManip.tests.cpp b/projects/SelfTest/IntrospectiveTests/StringManip.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/IntrospectiveTests/Tag.tests.cpp b/projects/SelfTest/IntrospectiveTests/Tag.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/IntrospectiveTests/ToString.tests.cpp b/projects/SelfTest/IntrospectiveTests/ToString.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/IntrospectiveTests/Xml.tests.cpp b/projects/SelfTest/IntrospectiveTests/Xml.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/Misc/plain-old-tests.input b/projects/SelfTest/Misc/plain-old-tests.input
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/Misc/special-characters-in-file.input b/projects/SelfTest/Misc/special-characters-in-file.input
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/SurrogateCpps/catch_console_colour.cpp b/projects/SelfTest/SurrogateCpps/catch_console_colour.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/SurrogateCpps/catch_debugger.cpp b/projects/SelfTest/SurrogateCpps/catch_debugger.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/SurrogateCpps/catch_interfaces_reporter.cpp b/projects/SelfTest/SurrogateCpps/catch_interfaces_reporter.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/SurrogateCpps/catch_option.cpp b/projects/SelfTest/SurrogateCpps/catch_option.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/SurrogateCpps/catch_stream.cpp b/projects/SelfTest/SurrogateCpps/catch_stream.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/SurrogateCpps/catch_test_case_tracker.cpp b/projects/SelfTest/SurrogateCpps/catch_test_case_tracker.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/SurrogateCpps/catch_test_spec.cpp b/projects/SelfTest/SurrogateCpps/catch_test_spec.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/SurrogateCpps/catch_xmlwriter.cpp b/projects/SelfTest/SurrogateCpps/catch_xmlwriter.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/TestMain.cpp b/projects/SelfTest/TestMain.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/Approx.tests.cpp b/projects/SelfTest/UsageTests/Approx.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/BDD.tests.cpp b/projects/SelfTest/UsageTests/BDD.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/Benchmark.tests.cpp b/projects/SelfTest/UsageTests/Benchmark.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/Class.tests.cpp b/projects/SelfTest/UsageTests/Class.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/Compilation.tests.cpp b/projects/SelfTest/UsageTests/Compilation.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/Condition.tests.cpp b/projects/SelfTest/UsageTests/Condition.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/Decomposition.tests.cpp b/projects/SelfTest/UsageTests/Decomposition.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/EnumToString.tests.cpp b/projects/SelfTest/UsageTests/EnumToString.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/Exception.tests.cpp b/projects/SelfTest/UsageTests/Exception.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/Generators.tests.cpp b/projects/SelfTest/UsageTests/Generators.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/Matchers.tests.cpp b/projects/SelfTest/UsageTests/Matchers.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/Message.tests.cpp b/projects/SelfTest/UsageTests/Message.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/Misc.tests.cpp b/projects/SelfTest/UsageTests/Misc.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/ToStringByte.tests.cpp b/projects/SelfTest/UsageTests/ToStringByte.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/ToStringChrono.tests.cpp b/projects/SelfTest/UsageTests/ToStringChrono.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/ToStringGeneral.tests.cpp b/projects/SelfTest/UsageTests/ToStringGeneral.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/ToStringOptional.tests.cpp b/projects/SelfTest/UsageTests/ToStringOptional.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/ToStringPair.tests.cpp b/projects/SelfTest/UsageTests/ToStringPair.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/ToStringTuple.tests.cpp b/projects/SelfTest/UsageTests/ToStringTuple.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/ToStringVariant.tests.cpp b/projects/SelfTest/UsageTests/ToStringVariant.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/ToStringVector.tests.cpp b/projects/SelfTest/UsageTests/ToStringVector.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/ToStringWhich.tests.cpp b/projects/SelfTest/UsageTests/ToStringWhich.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/Tricky.tests.cpp b/projects/SelfTest/UsageTests/Tricky.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/VariadicMacros.tests.cpp b/projects/SelfTest/UsageTests/VariadicMacros.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/WarnAboutNoTests.cmake b/projects/SelfTest/WarnAboutNoTests.cmake
+old mode 100644
+new mode 100755
+diff --git a/projects/XCode/OCTest/OCTest.xcodeproj/project.pbxproj b/projects/XCode/OCTest/OCTest.xcodeproj/project.pbxproj
+old mode 100644
+new mode 100755
+diff --git a/projects/XCode/OCTest/OCTest.xcodeproj/project.xcworkspace/contents.xcworkspacedata b/projects/XCode/OCTest/OCTest.xcodeproj/project.xcworkspace/contents.xcworkspacedata
+old mode 100644
+new mode 100755
+diff --git a/projects/XCode/OCTest/OCTest.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist b/projects/XCode/OCTest/OCTest.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
+old mode 100644
+new mode 100755
+diff --git a/projects/XCode/OCTest/OCTest/CatchOCTestCase.h b/projects/XCode/OCTest/OCTest/CatchOCTestCase.h
+old mode 100644
+new mode 100755
+diff --git a/projects/XCode/OCTest/OCTest/CatchOCTestCase.mm b/projects/XCode/OCTest/OCTest/CatchOCTestCase.mm
+old mode 100644
+new mode 100755
+diff --git a/projects/XCode/OCTest/OCTest/Main.mm b/projects/XCode/OCTest/OCTest/Main.mm
+old mode 100644
+new mode 100755
+diff --git a/projects/XCode/OCTest/OCTest/OCTest.1 b/projects/XCode/OCTest/OCTest/OCTest.1
+old mode 100644
+new mode 100755
+diff --git a/projects/XCode/OCTest/OCTest/OCTest.mm b/projects/XCode/OCTest/OCTest/OCTest.mm
+old mode 100644
+new mode 100755
+diff --git a/projects/XCode/OCTest/OCTest/TestObj.h b/projects/XCode/OCTest/OCTest/TestObj.h
+old mode 100644
+new mode 100755
+diff --git a/projects/XCode/OCTest/OCTest/TestObj.m b/projects/XCode/OCTest/OCTest/TestObj.m
+old mode 100644
+new mode 100755
+diff --git a/projects/XCode/OCTest/catch_objc_impl.mm b/projects/XCode/OCTest/catch_objc_impl.mm
+old mode 100644
+new mode 100755
+diff --git a/scripts/embed.py b/scripts/embed.py
+old mode 100644
+new mode 100755
+diff --git a/scripts/extractFeaturesFromReleaseNotes.py b/scripts/extractFeaturesFromReleaseNotes.py
+old mode 100644
+new mode 100755
+diff --git a/scripts/releaseCommon.py b/scripts/releaseCommon.py
+old mode 100644
+new mode 100755
+diff --git a/scripts/scriptCommon.py b/scripts/scriptCommon.py
+old mode 100644
+new mode 100755
+diff --git a/scripts/updateDocumentToC.py b/scripts/updateDocumentToC.py
+old mode 100644
+new mode 100755
+diff --git a/scripts/updateWandbox.py b/scripts/updateWandbox.py
+old mode 100644
+new mode 100755
+diff --git a/single_include/catch2/catch.hpp b/single_include/catch2/catch.hpp
+old mode 100644
+new mode 100755
+diff --git a/single_include/catch2/catch_reporter_automake.hpp b/single_include/catch2/catch_reporter_automake.hpp
+old mode 100644
+new mode 100755
+diff --git a/single_include/catch2/catch_reporter_tap.hpp b/single_include/catch2/catch_reporter_tap.hpp
+old mode 100644
+new mode 100755
+diff --git a/single_include/catch2/catch_reporter_teamcity.hpp b/single_include/catch2/catch_reporter_teamcity.hpp
+old mode 100644
+new mode 100755
+diff --git a/third_party/clara.hpp b/third_party/clara.hpp
+old mode 100644
+new mode 100755
+2025-06-30 16:23:13,716 - INFO - Eval script for catchorg__catch2-1770 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/catch2/catchorg__Catch2-1770/test_analysis_agent_1/patch.diff, now applying to container...
+2025-06-30 16:23:14,840 - INFO - Test output for catchorg__catch2-1770 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/catch2/catchorg__Catch2-1770/test_analysis_agent_1/test_output.txt
+2025-06-30 16:23:14,986 - INFO - Git diff after:
+diff --git a/.conan/build.py b/.conan/build.py
+old mode 100644
+new mode 100755
+diff --git a/.conan/test_package/CMakeLists.txt b/.conan/test_package/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/.conan/test_package/conanfile.py b/.conan/test_package/conanfile.py
+old mode 100644
+new mode 100755
+diff --git a/.conan/test_package/test_package.cpp b/.conan/test_package/test_package.cpp
+old mode 100644
+new mode 100755
+diff --git a/.gitattributes b/.gitattributes
+old mode 100644
+new mode 100755
+diff --git a/.github/FUNDING.yml b/.github/FUNDING.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/ISSUE_TEMPLATE/bug_report.md b/.github/ISSUE_TEMPLATE/bug_report.md
+old mode 100644
+new mode 100755
+diff --git a/.github/ISSUE_TEMPLATE/feature_request.md b/.github/ISSUE_TEMPLATE/feature_request.md
+old mode 100644
+new mode 100755
+diff --git a/.github/pull_request_template.md b/.github/pull_request_template.md
+old mode 100644
+new mode 100755
+diff --git a/.gitignore b/.gitignore
+old mode 100644
+new mode 100755
+diff --git a/.travis.yml b/.travis.yml
+old mode 100644
+new mode 100755
+diff --git a/CMake/Catch2Config.cmake.in b/CMake/Catch2Config.cmake.in
+old mode 100644
+new mode 100755
+diff --git a/CMake/FindGcov.cmake b/CMake/FindGcov.cmake
+old mode 100644
+new mode 100755
+diff --git a/CMake/FindLcov.cmake b/CMake/FindLcov.cmake
+old mode 100644
+new mode 100755
+diff --git a/CMake/Findcodecov.cmake b/CMake/Findcodecov.cmake
+old mode 100644
+new mode 100755
+diff --git a/CMake/MiscFunctions.cmake b/CMake/MiscFunctions.cmake
+old mode 100644
+new mode 100755
+diff --git a/CMake/catch2.pc.in b/CMake/catch2.pc.in
+old mode 100644
+new mode 100755
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/CODE_OF_CONDUCT.md b/CODE_OF_CONDUCT.md
+old mode 100644
+new mode 100755
+diff --git a/LICENSE.txt b/LICENSE.txt
+old mode 100644
+new mode 100755
+diff --git a/README.md b/README.md
+old mode 100644
+new mode 100755
+diff --git a/appveyor.yml b/appveyor.yml
+old mode 100644
+new mode 100755
+diff --git a/artwork/catch2-c-logo.png b/artwork/catch2-c-logo.png
+old mode 100644
+new mode 100755
+diff --git a/artwork/catch2-hand-logo.png b/artwork/catch2-hand-logo.png
+old mode 100644
+new mode 100755
+diff --git a/artwork/catch2-logo-small.png b/artwork/catch2-logo-small.png
+old mode 100644
+new mode 100755
+diff --git a/codecov.yml b/codecov.yml
+old mode 100644
+new mode 100755
+diff --git a/conanfile.py b/conanfile.py
+old mode 100644
+new mode 100755
+diff --git a/contrib/Catch.cmake b/contrib/Catch.cmake
+old mode 100644
+new mode 100755
+diff --git a/contrib/CatchAddTests.cmake b/contrib/CatchAddTests.cmake
+old mode 100644
+new mode 100755
+diff --git a/contrib/ParseAndAddCatchTests.cmake b/contrib/ParseAndAddCatchTests.cmake
+old mode 100644
+new mode 100755
+diff --git a/contrib/gdbinit b/contrib/gdbinit
+old mode 100644
+new mode 100755
+diff --git a/contrib/lldbinit b/contrib/lldbinit
+old mode 100644
+new mode 100755
+diff --git a/docs/Readme.md b/docs/Readme.md
+old mode 100644
+new mode 100755
+diff --git a/docs/assertions.md b/docs/assertions.md
+old mode 100644
+new mode 100755
+diff --git a/docs/benchmarks.md b/docs/benchmarks.md
+old mode 100644
+new mode 100755
+diff --git a/docs/ci-and-misc.md b/docs/ci-and-misc.md
+old mode 100644
+new mode 100755
+diff --git a/docs/cmake-integration.md b/docs/cmake-integration.md
+old mode 100644
+new mode 100755
+diff --git a/docs/command-line.md b/docs/command-line.md
+old mode 100644
+new mode 100755
+diff --git a/docs/commercial-users.md b/docs/commercial-users.md
+old mode 100644
+new mode 100755
+diff --git a/docs/configuration.md b/docs/configuration.md
+old mode 100644
+new mode 100755
+diff --git a/docs/contributing.md b/docs/contributing.md
+old mode 100644
+new mode 100755
+diff --git a/docs/deprecations.md b/docs/deprecations.md
+old mode 100644
+new mode 100755
+diff --git a/docs/event-listeners.md b/docs/event-listeners.md
+old mode 100644
+new mode 100755
+diff --git a/docs/generators.md b/docs/generators.md
+old mode 100644
+new mode 100755
+diff --git a/docs/limitations.md b/docs/limitations.md
+old mode 100644
+new mode 100755
+diff --git a/docs/list-of-examples.md b/docs/list-of-examples.md
+old mode 100644
+new mode 100755
+diff --git a/docs/logging.md b/docs/logging.md
+old mode 100644
+new mode 100755
+diff --git a/docs/matchers.md b/docs/matchers.md
+old mode 100644
+new mode 100755
+diff --git a/docs/opensource-users.md b/docs/opensource-users.md
+old mode 100644
+new mode 100755
+diff --git a/docs/other-macros.md b/docs/other-macros.md
+old mode 100644
+new mode 100755
+diff --git a/docs/own-main.md b/docs/own-main.md
+old mode 100644
+new mode 100755
+diff --git a/docs/release-notes.md b/docs/release-notes.md
+old mode 100644
+new mode 100755
+diff --git a/docs/release-process.md b/docs/release-process.md
+old mode 100644
+new mode 100755
+diff --git a/docs/reporters.md b/docs/reporters.md
+old mode 100644
+new mode 100755
+diff --git a/docs/slow-compiles.md b/docs/slow-compiles.md
+old mode 100644
+new mode 100755
+diff --git a/docs/test-cases-and-sections.md b/docs/test-cases-and-sections.md
+old mode 100644
+new mode 100755
+diff --git a/docs/test-fixtures.md b/docs/test-fixtures.md
+old mode 100644
+new mode 100755
+diff --git a/docs/tostring.md b/docs/tostring.md
+old mode 100644
+new mode 100755
+diff --git a/docs/tutorial.md b/docs/tutorial.md
+old mode 100644
+new mode 100755
+diff --git a/docs/why-catch.md b/docs/why-catch.md
+old mode 100644
+new mode 100755
+diff --git a/examples/000-CatchMain.cpp b/examples/000-CatchMain.cpp
+old mode 100644
+new mode 100755
+diff --git a/examples/010-TestCase.cpp b/examples/010-TestCase.cpp
+old mode 100644
+new mode 100755
+diff --git a/examples/020-TestCase-1.cpp b/examples/020-TestCase-1.cpp
+old mode 100644
+new mode 100755
+diff --git a/examples/020-TestCase-2.cpp b/examples/020-TestCase-2.cpp
+old mode 100644
+new mode 100755
+diff --git a/examples/030-Asn-Require-Check.cpp b/examples/030-Asn-Require-Check.cpp
+old mode 100644
+new mode 100755
+diff --git a/examples/100-Fix-Section.cpp b/examples/100-Fix-Section.cpp
+old mode 100644
+new mode 100755
+diff --git a/examples/110-Fix-ClassFixture.cpp b/examples/110-Fix-ClassFixture.cpp
+old mode 100644
+new mode 100755
+diff --git a/examples/120-Bdd-ScenarioGivenWhenThen.cpp b/examples/120-Bdd-ScenarioGivenWhenThen.cpp
+old mode 100644
+new mode 100755
+diff --git a/examples/200-Rpt-CatchMain.cpp b/examples/200-Rpt-CatchMain.cpp
+old mode 100644
+new mode 100755
+diff --git a/examples/207-Rpt-TeamCityReporter.cpp b/examples/207-Rpt-TeamCityReporter.cpp
+old mode 100644
+new mode 100755
+diff --git a/examples/210-Evt-EventListeners.cpp b/examples/210-Evt-EventListeners.cpp
+old mode 100644
+new mode 100755
+diff --git a/examples/231-Cfg-OutputStreams.cpp b/examples/231-Cfg-OutputStreams.cpp
+old mode 100644
+new mode 100755
+diff --git a/examples/300-Gen-OwnGenerator.cpp b/examples/300-Gen-OwnGenerator.cpp
+old mode 100644
+new mode 100755
+diff --git a/examples/301-Gen-MapTypeConversion.cpp b/examples/301-Gen-MapTypeConversion.cpp
+old mode 100644
+new mode 100755
+diff --git a/examples/310-Gen-VariablesInGenerators.cpp b/examples/310-Gen-VariablesInGenerators.cpp
+old mode 100644
+new mode 100755
+diff --git a/examples/311-Gen-CustomCapture.cpp b/examples/311-Gen-CustomCapture.cpp
+old mode 100644
+new mode 100755
+diff --git a/examples/CMakeLists.txt b/examples/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/include/catch.hpp b/include/catch.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/catch_with_main.hpp b/include/catch_with_main.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/external/clara.hpp b/include/external/clara.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/benchmark/catch_benchmark.hpp b/include/internal/benchmark/catch_benchmark.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/benchmark/catch_chronometer.hpp b/include/internal/benchmark/catch_chronometer.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/benchmark/catch_clock.hpp b/include/internal/benchmark/catch_clock.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/benchmark/catch_constructor.hpp b/include/internal/benchmark/catch_constructor.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/benchmark/catch_environment.hpp b/include/internal/benchmark/catch_environment.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/benchmark/catch_estimate.hpp b/include/internal/benchmark/catch_estimate.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/benchmark/catch_execution_plan.hpp b/include/internal/benchmark/catch_execution_plan.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/benchmark/catch_optimizer.hpp b/include/internal/benchmark/catch_optimizer.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/benchmark/catch_outlier_classification.hpp b/include/internal/benchmark/catch_outlier_classification.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/benchmark/catch_sample_analysis.hpp b/include/internal/benchmark/catch_sample_analysis.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/benchmark/detail/catch_analyse.hpp b/include/internal/benchmark/detail/catch_analyse.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/benchmark/detail/catch_benchmark_function.hpp b/include/internal/benchmark/detail/catch_benchmark_function.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/benchmark/detail/catch_complete_invoke.hpp b/include/internal/benchmark/detail/catch_complete_invoke.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/benchmark/detail/catch_estimate_clock.hpp b/include/internal/benchmark/detail/catch_estimate_clock.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/benchmark/detail/catch_measure.hpp b/include/internal/benchmark/detail/catch_measure.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/benchmark/detail/catch_repeat.hpp b/include/internal/benchmark/detail/catch_repeat.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/benchmark/detail/catch_run_for_at_least.hpp b/include/internal/benchmark/detail/catch_run_for_at_least.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/benchmark/detail/catch_stats.cpp b/include/internal/benchmark/detail/catch_stats.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/benchmark/detail/catch_stats.hpp b/include/internal/benchmark/detail/catch_stats.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/benchmark/detail/catch_timing.hpp b/include/internal/benchmark/detail/catch_timing.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_approx.cpp b/include/internal/catch_approx.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_approx.h b/include/internal/catch_approx.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_assertionhandler.cpp b/include/internal/catch_assertionhandler.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_assertionhandler.h b/include/internal/catch_assertionhandler.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_assertioninfo.h b/include/internal/catch_assertioninfo.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_assertionresult.cpp b/include/internal/catch_assertionresult.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_assertionresult.h b/include/internal/catch_assertionresult.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_capture.hpp b/include/internal/catch_capture.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_capture_matchers.cpp b/include/internal/catch_capture_matchers.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_capture_matchers.h b/include/internal/catch_capture_matchers.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_clara.h b/include/internal/catch_clara.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_commandline.cpp b/include/internal/catch_commandline.cpp
+old mode 100644
+new mode 100755
+index 0359272c..365a3c9d
+--- a/include/internal/catch_commandline.cpp
++++ b/include/internal/catch_commandline.cpp
+@@ -49,9 +49,15 @@ namespace Catch {
+                     if( !line.empty() && !startsWith( line, '#' ) ) {
+                         if( !startsWith( line, '"' ) )
+                             line = '"' + line + '"';
+-                        config.testsOrTags.push_back( line + ',' );
++                        config.testsOrTags.push_back( line );
++                        config.testsOrTags.push_back( "," );
++                        
+                     }
+                 }
++                //Remove comma in the end
++                if(!config.testsOrTags.empty())
++                    config.testsOrTags.erase( config.testsOrTags.end()-1 );
++                
+                 return ParserResult::ok( ParseResultType::Matched );
+             };
+         auto const setTestOrder = [&]( std::string const& order ) {
+diff --git a/include/internal/catch_commandline.h b/include/internal/catch_commandline.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_common.cpp b/include/internal/catch_common.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_common.h b/include/internal/catch_common.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_compiler_capabilities.h b/include/internal/catch_compiler_capabilities.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_config.cpp b/include/internal/catch_config.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_config.hpp b/include/internal/catch_config.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_console_colour.cpp b/include/internal/catch_console_colour.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_console_colour.h b/include/internal/catch_console_colour.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_context.cpp b/include/internal/catch_context.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_context.h b/include/internal/catch_context.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_debug_console.cpp b/include/internal/catch_debug_console.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_debug_console.h b/include/internal/catch_debug_console.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_debugger.cpp b/include/internal/catch_debugger.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_debugger.h b/include/internal/catch_debugger.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_decomposer.cpp b/include/internal/catch_decomposer.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_decomposer.h b/include/internal/catch_decomposer.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_default_main.hpp b/include/internal/catch_default_main.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_enforce.cpp b/include/internal/catch_enforce.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_enforce.h b/include/internal/catch_enforce.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_enum_values_registry.cpp b/include/internal/catch_enum_values_registry.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_enum_values_registry.h b/include/internal/catch_enum_values_registry.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_errno_guard.cpp b/include/internal/catch_errno_guard.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_errno_guard.h b/include/internal/catch_errno_guard.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_exception_translator_registry.cpp b/include/internal/catch_exception_translator_registry.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_exception_translator_registry.h b/include/internal/catch_exception_translator_registry.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_external_interfaces.h b/include/internal/catch_external_interfaces.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_fatal_condition.cpp b/include/internal/catch_fatal_condition.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_fatal_condition.h b/include/internal/catch_fatal_condition.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_generators.cpp b/include/internal/catch_generators.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_generators.hpp b/include/internal/catch_generators.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_generators_generic.hpp b/include/internal/catch_generators_generic.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_generators_specific.hpp b/include/internal/catch_generators_specific.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_impl.hpp b/include/internal/catch_impl.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_interfaces_capture.cpp b/include/internal/catch_interfaces_capture.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_interfaces_capture.h b/include/internal/catch_interfaces_capture.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_interfaces_config.cpp b/include/internal/catch_interfaces_config.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_interfaces_config.h b/include/internal/catch_interfaces_config.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_interfaces_enum_values_registry.h b/include/internal/catch_interfaces_enum_values_registry.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_interfaces_exception.cpp b/include/internal/catch_interfaces_exception.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_interfaces_exception.h b/include/internal/catch_interfaces_exception.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_interfaces_generatortracker.h b/include/internal/catch_interfaces_generatortracker.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_interfaces_registry_hub.cpp b/include/internal/catch_interfaces_registry_hub.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_interfaces_registry_hub.h b/include/internal/catch_interfaces_registry_hub.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_interfaces_reporter.cpp b/include/internal/catch_interfaces_reporter.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_interfaces_reporter.h b/include/internal/catch_interfaces_reporter.h
+old mode 100644
+new mode 100755
+index e54a24a8..751ef2c2
+--- a/include/internal/catch_interfaces_reporter.h
++++ b/include/internal/catch_interfaces_reporter.h
+@@ -214,6 +214,8 @@ namespace Catch {
+ 
+         virtual void noMatchingTestCases( std::string const& spec ) = 0;
+ 
++        virtual void reportInvalidArguments(std::string const&) {}
++        
+         virtual void testRunStarting( TestRunInfo const& testRunInfo ) = 0;
+         virtual void testGroupStarting( GroupInfo const& groupInfo ) = 0;
+ 
+diff --git a/include/internal/catch_interfaces_runner.cpp b/include/internal/catch_interfaces_runner.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_interfaces_runner.h b/include/internal/catch_interfaces_runner.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_interfaces_tag_alias_registry.h b/include/internal/catch_interfaces_tag_alias_registry.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_interfaces_testcase.cpp b/include/internal/catch_interfaces_testcase.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_interfaces_testcase.h b/include/internal/catch_interfaces_testcase.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_leak_detector.cpp b/include/internal/catch_leak_detector.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_leak_detector.h b/include/internal/catch_leak_detector.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_list.cpp b/include/internal/catch_list.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_list.h b/include/internal/catch_list.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_matchers.cpp b/include/internal/catch_matchers.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_matchers.h b/include/internal/catch_matchers.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_matchers_exception.cpp b/include/internal/catch_matchers_exception.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_matchers_exception.hpp b/include/internal/catch_matchers_exception.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_matchers_floating.cpp b/include/internal/catch_matchers_floating.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_matchers_floating.h b/include/internal/catch_matchers_floating.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_matchers_generic.cpp b/include/internal/catch_matchers_generic.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_matchers_generic.hpp b/include/internal/catch_matchers_generic.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_matchers_string.cpp b/include/internal/catch_matchers_string.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_matchers_string.h b/include/internal/catch_matchers_string.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_matchers_vector.h b/include/internal/catch_matchers_vector.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_message.cpp b/include/internal/catch_message.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_message.h b/include/internal/catch_message.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_meta.hpp b/include/internal/catch_meta.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_objc.hpp b/include/internal/catch_objc.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_objc_arc.hpp b/include/internal/catch_objc_arc.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_option.hpp b/include/internal/catch_option.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_output_redirect.cpp b/include/internal/catch_output_redirect.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_output_redirect.h b/include/internal/catch_output_redirect.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_platform.h b/include/internal/catch_platform.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_polyfills.cpp b/include/internal/catch_polyfills.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_polyfills.hpp b/include/internal/catch_polyfills.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_preprocessor.hpp b/include/internal/catch_preprocessor.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_random_number_generator.cpp b/include/internal/catch_random_number_generator.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_random_number_generator.h b/include/internal/catch_random_number_generator.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_reenable_warnings.h b/include/internal/catch_reenable_warnings.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_registry_hub.cpp b/include/internal/catch_registry_hub.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_reporter_registrars.hpp b/include/internal/catch_reporter_registrars.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_reporter_registry.cpp b/include/internal/catch_reporter_registry.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_reporter_registry.h b/include/internal/catch_reporter_registry.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_result_type.cpp b/include/internal/catch_result_type.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_result_type.h b/include/internal/catch_result_type.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_run_context.cpp b/include/internal/catch_run_context.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_run_context.h b/include/internal/catch_run_context.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_section.cpp b/include/internal/catch_section.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_section.h b/include/internal/catch_section.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_section_info.cpp b/include/internal/catch_section_info.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_section_info.h b/include/internal/catch_section_info.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_session.cpp b/include/internal/catch_session.cpp
+old mode 100644
+new mode 100755
+index 94db4597..b1d7a404
+--- a/include/internal/catch_session.cpp
++++ b/include/internal/catch_session.cpp
+@@ -68,8 +68,9 @@ namespace Catch {
+             {
+                 auto const& allTestCases = getAllTestCasesSorted(*m_config);
+                 m_matches = m_config->testSpec().matchesByFilter(allTestCases, *m_config);
+-
+-                if (m_matches.empty()) {
++                auto const& invalidArgs = m_config->testSpec().getInvalidArgs();
++                
++                if (m_matches.empty() && invalidArgs.empty()) {
+                     for (auto const& test : allTestCases)
+                         if (!test.isHidden())
+                             m_tests.emplace(&test);
+@@ -80,6 +81,7 @@ namespace Catch {
+             }
+ 
+             Totals execute() {
++                auto const& invalidArgs = m_config->testSpec().getInvalidArgs();
+                 Totals totals;
+                 m_context.testGroupStarting(m_config->name(), 1, 1);
+                 for (auto const& testCase : m_tests) {
+@@ -95,6 +97,12 @@ namespace Catch {
+                         totals.error = -1;
+                     }
+                 }
++                
++                if (!invalidArgs.empty()) {
++                    for (auto const& invalidArg: invalidArgs)                   
++                         m_context.reporter().reportInvalidArguments(invalidArg);
++                }   
++                
+                 m_context.testGroupEnded(m_config->name(), totals, 1, 1);
+                 return totals;
+             }
+diff --git a/include/internal/catch_session.h b/include/internal/catch_session.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_singletons.cpp b/include/internal/catch_singletons.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_singletons.hpp b/include/internal/catch_singletons.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_startup_exception_registry.cpp b/include/internal/catch_startup_exception_registry.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_startup_exception_registry.h b/include/internal/catch_startup_exception_registry.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_stream.cpp b/include/internal/catch_stream.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_stream.h b/include/internal/catch_stream.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_string_manip.cpp b/include/internal/catch_string_manip.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_string_manip.h b/include/internal/catch_string_manip.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_stringref.cpp b/include/internal/catch_stringref.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_stringref.h b/include/internal/catch_stringref.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_suppress_warnings.h b/include/internal/catch_suppress_warnings.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_tag_alias.cpp b/include/internal/catch_tag_alias.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_tag_alias.h b/include/internal/catch_tag_alias.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_tag_alias_autoregistrar.cpp b/include/internal/catch_tag_alias_autoregistrar.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_tag_alias_autoregistrar.h b/include/internal/catch_tag_alias_autoregistrar.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_tag_alias_registry.cpp b/include/internal/catch_tag_alias_registry.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_tag_alias_registry.h b/include/internal/catch_tag_alias_registry.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_test_case_info.cpp b/include/internal/catch_test_case_info.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_test_case_info.h b/include/internal/catch_test_case_info.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_test_case_registry_impl.cpp b/include/internal/catch_test_case_registry_impl.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_test_case_registry_impl.h b/include/internal/catch_test_case_registry_impl.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_test_case_tracker.cpp b/include/internal/catch_test_case_tracker.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_test_case_tracker.h b/include/internal/catch_test_case_tracker.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_test_registry.cpp b/include/internal/catch_test_registry.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_test_registry.h b/include/internal/catch_test_registry.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_test_spec.cpp b/include/internal/catch_test_spec.cpp
+index 4c80c56e..65d34d0e 100644
+--- a/include/internal/catch_test_spec.cpp
++++ b/include/internal/catch_test_spec.cpp
+@@ -91,5 +91,9 @@ namespace Catch {
+         } );
+         return matches;
+     }
++    
++    const TestSpec::vectorStrings& TestSpec::getInvalidArgs() const{
++        return  (m_invalidArgs);
++    }
+ 
+ }
+diff --git a/include/internal/catch_test_spec.h b/include/internal/catch_test_spec.h
+index d0e7ea9f..2e546463 100644
+--- a/include/internal/catch_test_spec.h
++++ b/include/internal/catch_test_spec.h
+@@ -73,14 +73,16 @@ namespace Catch {
+             std::vector<TestCase const*> tests;
+         };
+         using Matches = std::vector<FilterMatch>;
++        using vectorStrings = std::vector<std::string>;
+ 
+         bool hasFilters() const;
+         bool matches( TestCaseInfo const& testCase ) const;
+         Matches matchesByFilter( std::vector<TestCase> const& testCases, IConfig const& config ) const;
++        const vectorStrings & getInvalidArgs() const;
+ 
+     private:
+         std::vector<Filter> m_filters;
+-
++        std::vector<std::string> m_invalidArgs;
+         friend class TestSpecParser;
+     };
+ }
+diff --git a/include/internal/catch_test_spec_parser.cpp b/include/internal/catch_test_spec_parser.cpp
+index 718185fa..b872b191 100644
+--- a/include/internal/catch_test_spec_parser.cpp
++++ b/include/internal/catch_test_spec_parser.cpp
+@@ -20,8 +20,13 @@ namespace Catch {
+         m_substring.reserve(m_arg.size());
+         m_patternName.reserve(m_arg.size());
+         m_realPatternPos = 0;
++        
+         for( m_pos = 0; m_pos < m_arg.size(); ++m_pos )
+-            visitChar( m_arg[m_pos] );
++          //if visitChar fails
++           if( !visitChar( m_arg[m_pos] ) ){ 
++               m_testSpec.m_invalidArgs.push_back(arg);
++               break;
++           }
+         endMode();
+         return *this;
+     }
+@@ -29,38 +34,32 @@ namespace Catch {
+         addFilter();
+         return m_testSpec;
+     }
+-    void TestSpecParser::visitChar( char c ) {
++    bool TestSpecParser::visitChar( char c ) {
+         if( (m_mode != EscapedName) && (c == '\\') ) {
+             escape();
+-            m_substring += c;
+-            m_patternName += c;
+-            m_realPatternPos++;
+-            return;
++            addCharToPattern(c);
++            return true;
+         }else if((m_mode != EscapedName) && (c == ',') )  {
+-            endMode();
+-            addFilter();
+-            return;
++            return separate();
+         }
+ 
+         switch( m_mode ) {
+         case None:
+             if( processNoneChar( c ) )
+-                return;
++                return true;
+             break;
+         case Name:
+             processNameChar( c );
+             break;
+         case EscapedName:
+             endMode();
+-            m_substring += c;
+-            m_patternName += c;
+-            m_realPatternPos++;
+-            return;
++            addCharToPattern(c);
++            return true;
+         default:
+         case Tag:
+         case QuotedName:
+             if( processOtherChar( c ) )
+-                return;
++                return true;
+             break;
+         }
+ 
+@@ -69,6 +68,7 @@ namespace Catch {
+             m_patternName += c;
+             m_realPatternPos++;
+         }
++        return true;
+     }
+     // Two of the processing methods return true to signal the caller to return
+     // without adding the given character to the current pattern strings
+@@ -161,6 +161,20 @@ namespace Catch {
+       m_mode = lastMode;
+     }
+     
++    bool TestSpecParser::separate() {  
++      if( (m_mode==QuotedName) || (m_mode==Tag) ){
++         //invalid argument, signal failure to previous scope.
++         m_mode = None;
++         m_pos = m_arg.size();
++         m_substring.clear();
++         m_patternName.clear();
++         return false;
++      }
++      endMode();
++      addFilter();
++      return true; //success
++    }
++    
+     TestSpec parseTestSpec( std::string const& arg ) {
+         return TestSpecParser( ITagAliasRegistry::get() ).parse( arg ).testSpec();
+     }
+diff --git a/include/internal/catch_test_spec_parser.h b/include/internal/catch_test_spec_parser.h
+index c80787c8..179d3532 100644
+--- a/include/internal/catch_test_spec_parser.h
++++ b/include/internal/catch_test_spec_parser.h
+@@ -41,7 +41,7 @@ namespace Catch {
+         TestSpec testSpec();
+ 
+     private:
+-        void visitChar( char c );
++        bool visitChar( char c );
+         void startNewMode( Mode mode );
+         bool processNoneChar( char c );
+         void processNameChar( char c );
+@@ -51,6 +51,8 @@ namespace Catch {
+         bool isControlChar( char c ) const;
+         void saveLastMode();
+         void revertBackToLastMode();
++        void addFilter();
++        bool separate();
+         
+         template<typename T>
+         void addPattern() {
+@@ -73,8 +75,13 @@ namespace Catch {
+             m_exclusion = false;
+             m_mode = None;
+         }
+-
+-        void addFilter();
++        
++        inline void addCharToPattern(char c) {
++            m_substring += c;
++            m_patternName += c;
++            m_realPatternPos++;
++        }
++        
+     };
+     TestSpec parseTestSpec( std::string const& arg );
+ 
+diff --git a/include/internal/catch_text.h b/include/internal/catch_text.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_timer.cpp b/include/internal/catch_timer.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_timer.h b/include/internal/catch_timer.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_to_string.hpp b/include/internal/catch_to_string.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_tostring.cpp b/include/internal/catch_tostring.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_tostring.h b/include/internal/catch_tostring.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_totals.cpp b/include/internal/catch_totals.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_totals.h b/include/internal/catch_totals.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_uncaught_exceptions.cpp b/include/internal/catch_uncaught_exceptions.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_uncaught_exceptions.h b/include/internal/catch_uncaught_exceptions.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_user_interfaces.h b/include/internal/catch_user_interfaces.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_version.cpp b/include/internal/catch_version.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_version.h b/include/internal/catch_version.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_wildcard_pattern.cpp b/include/internal/catch_wildcard_pattern.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_wildcard_pattern.h b/include/internal/catch_wildcard_pattern.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_windows_h_proxy.h b/include/internal/catch_windows_h_proxy.h
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_xmlwriter.cpp b/include/internal/catch_xmlwriter.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/internal/catch_xmlwriter.h b/include/internal/catch_xmlwriter.h
+old mode 100644
+new mode 100755
+diff --git a/include/reporters/catch_reporter_automake.hpp b/include/reporters/catch_reporter_automake.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/reporters/catch_reporter_bases.cpp b/include/reporters/catch_reporter_bases.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/reporters/catch_reporter_bases.hpp b/include/reporters/catch_reporter_bases.hpp
+old mode 100644
+new mode 100755
+index a9b0640c..66a891ff
+--- a/include/reporters/catch_reporter_bases.hpp
++++ b/include/reporters/catch_reporter_bases.hpp
+@@ -51,6 +51,8 @@ namespace Catch {
+ 
+         void noMatchingTestCases(std::string const&) override {}
+ 
++        void reportInvalidArguments(std::string const&) override {}
++        
+         void testRunStarting(TestRunInfo const& _testRunInfo) override {
+             currentTestRunInfo = _testRunInfo;
+         }
+@@ -277,4 +279,4 @@ namespace Catch {
+ 
+ } // end namespace Catch
+ 
+-#endif // TWOBLUECUBES_CATCH_REPORTER_BASES_HPP_INCLUDED
++#endif // TWOBLUECUBES_CATCH_REPORTER_BASES_HPP_INCLUDED
+\ No newline at end of file
+diff --git a/include/reporters/catch_reporter_compact.cpp b/include/reporters/catch_reporter_compact.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/reporters/catch_reporter_compact.h b/include/reporters/catch_reporter_compact.h
+old mode 100644
+new mode 100755
+diff --git a/include/reporters/catch_reporter_console.cpp b/include/reporters/catch_reporter_console.cpp
+old mode 100644
+new mode 100755
+index ad663ca4..be00d0bd
+--- a/include/reporters/catch_reporter_console.cpp
++++ b/include/reporters/catch_reporter_console.cpp
+@@ -383,6 +383,10 @@ void ConsoleReporter::noMatchingTestCases(std::string const& spec) {
+     stream << "No test cases matched '" << spec << '\'' << std::endl;
+ }
+ 
++void ConsoleReporter::reportInvalidArguments(std::string const&arg){
++    stream << "Invalid Filter: " << arg << std::endl;
++}
++
+ void ConsoleReporter::assertionStarting(AssertionInfo const&) {}
+ 
+ bool ConsoleReporter::assertionEnded(AssertionStats const& _assertionStats) {
+@@ -694,4 +698,4 @@ CATCH_REGISTER_REPORTER("console", ConsoleReporter)
+ 
+ #if defined(__clang__)
+ #  pragma clang diagnostic pop
+-#endif
++#endif
+\ No newline at end of file
+diff --git a/include/reporters/catch_reporter_console.h b/include/reporters/catch_reporter_console.h
+old mode 100644
+new mode 100755
+index 5d21ffb6..43024daf
+--- a/include/reporters/catch_reporter_console.h
++++ b/include/reporters/catch_reporter_console.h
+@@ -32,6 +32,8 @@ namespace Catch {
+ 
+         void noMatchingTestCases(std::string const& spec) override;
+ 
++        void reportInvalidArguments(std::string const&arg) override;
++
+         void assertionStarting(AssertionInfo const&) override;
+ 
+         bool assertionEnded(AssertionStats const& _assertionStats) override;
+@@ -84,4 +86,4 @@ namespace Catch {
+ #pragma warning(pop)
+ #endif
+ 
+-#endif // TWOBLUECUBES_CATCH_REPORTER_CONSOLE_H_INCLUDED
++#endif // TWOBLUECUBES_CATCH_REPORTER_CONSOLE_H_INCLUDED
+\ No newline at end of file
+diff --git a/include/reporters/catch_reporter_junit.cpp b/include/reporters/catch_reporter_junit.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/reporters/catch_reporter_junit.h b/include/reporters/catch_reporter_junit.h
+old mode 100644
+new mode 100755
+diff --git a/include/reporters/catch_reporter_listening.cpp b/include/reporters/catch_reporter_listening.cpp
+old mode 100644
+new mode 100755
+index 6864e90b..91e6b39a
+--- a/include/reporters/catch_reporter_listening.cpp
++++ b/include/reporters/catch_reporter_listening.cpp
+@@ -41,6 +41,13 @@ namespace Catch {
+         }
+         m_reporter->noMatchingTestCases( spec );
+     }
++    
++    void ListeningReporter::reportInvalidArguments(std::string const&arg){
++        for ( auto const& listener : m_listeners ) {
++            listener->reportInvalidArguments( arg );
++        }
++        m_reporter->reportInvalidArguments( arg );
++    }    
+ 
+ #if defined(CATCH_CONFIG_ENABLE_BENCHMARKING)
+     void ListeningReporter::benchmarkPreparing( std::string const& name ) {
+@@ -154,4 +161,4 @@ namespace Catch {
+         return true;
+     }
+ 
+-} // end namespace Catch
++} // end namespace Catch
+\ No newline at end of file
+diff --git a/include/reporters/catch_reporter_listening.h b/include/reporters/catch_reporter_listening.h
+old mode 100644
+new mode 100755
+index 802db446..bfaa3085
+--- a/include/reporters/catch_reporter_listening.h
++++ b/include/reporters/catch_reporter_listening.h
+@@ -28,7 +28,9 @@ namespace Catch {
+         ReporterPreferences getPreferences() const override;
+ 
+         void noMatchingTestCases( std::string const& spec ) override;
+-
++        
++        void reportInvalidArguments(std::string const&arg) override;
++        
+         static std::set<Verbosity> getSupportedVerbosities();
+ 
+ #if defined(CATCH_CONFIG_ENABLE_BENCHMARKING)
+@@ -58,4 +60,4 @@ namespace Catch {
+ 
+ } // end namespace Catch
+ 
+-#endif // TWOBLUECUBES_CATCH_MULTI_REPORTER_H_INCLUDED
++#endif // TWOBLUECUBES_CATCH_MULTI_REPORTER_H_INCLUDED
+\ No newline at end of file
+diff --git a/include/reporters/catch_reporter_tap.hpp b/include/reporters/catch_reporter_tap.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/reporters/catch_reporter_teamcity.hpp b/include/reporters/catch_reporter_teamcity.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/reporters/catch_reporter_xml.cpp b/include/reporters/catch_reporter_xml.cpp
+old mode 100644
+new mode 100755
+diff --git a/include/reporters/catch_reporter_xml.h b/include/reporters/catch_reporter_xml.h
+old mode 100644
+new mode 100755
+diff --git a/misc/CMakeLists.txt b/misc/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/misc/SelfTest.vcxproj.user b/misc/SelfTest.vcxproj.user
+old mode 100644
+new mode 100755
+diff --git a/misc/appveyorBuildConfigurationScript.bat b/misc/appveyorBuildConfigurationScript.bat
+old mode 100644
+new mode 100755
+diff --git a/misc/appveyorMergeCoverageScript.py b/misc/appveyorMergeCoverageScript.py
+old mode 100644
+new mode 100755
+diff --git a/misc/appveyorTestRunScript.bat b/misc/appveyorTestRunScript.bat
+old mode 100644
+new mode 100755
+diff --git a/misc/coverage-helper.cpp b/misc/coverage-helper.cpp
+old mode 100644
+new mode 100755
+diff --git a/misc/installOpenCppCoverage.ps1 b/misc/installOpenCppCoverage.ps1
+old mode 100644
+new mode 100755
+diff --git a/projects/CMakeLists.txt b/projects/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/projects/ExtraTests/CMakeLists.txt b/projects/ExtraTests/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/projects/ExtraTests/ToDo.txt b/projects/ExtraTests/ToDo.txt
+old mode 100644
+new mode 100755
+diff --git a/projects/ExtraTests/X01-PrefixedMacros.cpp b/projects/ExtraTests/X01-PrefixedMacros.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/ExtraTests/X02-DisabledMacros.cpp b/projects/ExtraTests/X02-DisabledMacros.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/ExtraTests/X03-DisabledExceptions-DefaultHandler.cpp b/projects/ExtraTests/X03-DisabledExceptions-DefaultHandler.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/ExtraTests/X04-DisabledExceptions-CustomHandler.cpp b/projects/ExtraTests/X04-DisabledExceptions-CustomHandler.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/ExtraTests/X10-FallbackStringifier.cpp b/projects/ExtraTests/X10-FallbackStringifier.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/ExtraTests/X11-DisableStringification.cpp b/projects/ExtraTests/X11-DisableStringification.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/ExtraTests/X20-BenchmarkingMacros.cpp b/projects/ExtraTests/X20-BenchmarkingMacros.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/ExtraTests/X90-WindowsHeaderInclusion.cpp b/projects/ExtraTests/X90-WindowsHeaderInclusion.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/Baselines/automake.std.approved.txt b/projects/SelfTest/Baselines/automake.std.approved.txt
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/Baselines/compact.sw.approved.txt b/projects/SelfTest/Baselines/compact.sw.approved.txt
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/Baselines/console.std.approved.txt b/projects/SelfTest/Baselines/console.std.approved.txt
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/Baselines/console.sw.approved.txt b/projects/SelfTest/Baselines/console.sw.approved.txt
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/Baselines/console.swa4.approved.txt b/projects/SelfTest/Baselines/console.swa4.approved.txt
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/Baselines/junit.sw.approved.txt b/projects/SelfTest/Baselines/junit.sw.approved.txt
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/Baselines/xml.sw.approved.txt b/projects/SelfTest/Baselines/xml.sw.approved.txt
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/CompileTimePerfTests/10.tests.cpp b/projects/SelfTest/CompileTimePerfTests/10.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/CompileTimePerfTests/100.tests.cpp b/projects/SelfTest/CompileTimePerfTests/100.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/CompileTimePerfTests/All.tests.cpp b/projects/SelfTest/CompileTimePerfTests/All.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/IntrospectiveTests/CmdLine.tests.cpp b/projects/SelfTest/IntrospectiveTests/CmdLine.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/IntrospectiveTests/Details.tests.cpp b/projects/SelfTest/IntrospectiveTests/Details.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/IntrospectiveTests/GeneratorsImpl.tests.cpp b/projects/SelfTest/IntrospectiveTests/GeneratorsImpl.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/IntrospectiveTests/InternalBenchmark.tests.cpp b/projects/SelfTest/IntrospectiveTests/InternalBenchmark.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/IntrospectiveTests/PartTracker.tests.cpp b/projects/SelfTest/IntrospectiveTests/PartTracker.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/IntrospectiveTests/RandomNumberGeneration.tests.cpp b/projects/SelfTest/IntrospectiveTests/RandomNumberGeneration.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/IntrospectiveTests/String.tests.cpp b/projects/SelfTest/IntrospectiveTests/String.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/IntrospectiveTests/StringManip.tests.cpp b/projects/SelfTest/IntrospectiveTests/StringManip.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/IntrospectiveTests/Tag.tests.cpp b/projects/SelfTest/IntrospectiveTests/Tag.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/IntrospectiveTests/ToString.tests.cpp b/projects/SelfTest/IntrospectiveTests/ToString.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/IntrospectiveTests/Xml.tests.cpp b/projects/SelfTest/IntrospectiveTests/Xml.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/Misc/plain-old-tests.input b/projects/SelfTest/Misc/plain-old-tests.input
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/Misc/special-characters-in-file.input b/projects/SelfTest/Misc/special-characters-in-file.input
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/SurrogateCpps/catch_console_colour.cpp b/projects/SelfTest/SurrogateCpps/catch_console_colour.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/SurrogateCpps/catch_debugger.cpp b/projects/SelfTest/SurrogateCpps/catch_debugger.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/SurrogateCpps/catch_interfaces_reporter.cpp b/projects/SelfTest/SurrogateCpps/catch_interfaces_reporter.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/SurrogateCpps/catch_option.cpp b/projects/SelfTest/SurrogateCpps/catch_option.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/SurrogateCpps/catch_stream.cpp b/projects/SelfTest/SurrogateCpps/catch_stream.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/SurrogateCpps/catch_test_case_tracker.cpp b/projects/SelfTest/SurrogateCpps/catch_test_case_tracker.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/SurrogateCpps/catch_test_spec.cpp b/projects/SelfTest/SurrogateCpps/catch_test_spec.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/SurrogateCpps/catch_xmlwriter.cpp b/projects/SelfTest/SurrogateCpps/catch_xmlwriter.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/TestMain.cpp b/projects/SelfTest/TestMain.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/Approx.tests.cpp b/projects/SelfTest/UsageTests/Approx.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/BDD.tests.cpp b/projects/SelfTest/UsageTests/BDD.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/Benchmark.tests.cpp b/projects/SelfTest/UsageTests/Benchmark.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/Class.tests.cpp b/projects/SelfTest/UsageTests/Class.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/Compilation.tests.cpp b/projects/SelfTest/UsageTests/Compilation.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/Condition.tests.cpp b/projects/SelfTest/UsageTests/Condition.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/Decomposition.tests.cpp b/projects/SelfTest/UsageTests/Decomposition.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/EnumToString.tests.cpp b/projects/SelfTest/UsageTests/EnumToString.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/Exception.tests.cpp b/projects/SelfTest/UsageTests/Exception.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/Generators.tests.cpp b/projects/SelfTest/UsageTests/Generators.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/Matchers.tests.cpp b/projects/SelfTest/UsageTests/Matchers.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/Message.tests.cpp b/projects/SelfTest/UsageTests/Message.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/Misc.tests.cpp b/projects/SelfTest/UsageTests/Misc.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/ToStringByte.tests.cpp b/projects/SelfTest/UsageTests/ToStringByte.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/ToStringChrono.tests.cpp b/projects/SelfTest/UsageTests/ToStringChrono.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/ToStringGeneral.tests.cpp b/projects/SelfTest/UsageTests/ToStringGeneral.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/ToStringOptional.tests.cpp b/projects/SelfTest/UsageTests/ToStringOptional.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/ToStringPair.tests.cpp b/projects/SelfTest/UsageTests/ToStringPair.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/ToStringTuple.tests.cpp b/projects/SelfTest/UsageTests/ToStringTuple.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/ToStringVariant.tests.cpp b/projects/SelfTest/UsageTests/ToStringVariant.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/ToStringVector.tests.cpp b/projects/SelfTest/UsageTests/ToStringVector.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/ToStringWhich.tests.cpp b/projects/SelfTest/UsageTests/ToStringWhich.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/Tricky.tests.cpp b/projects/SelfTest/UsageTests/Tricky.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/UsageTests/VariadicMacros.tests.cpp b/projects/SelfTest/UsageTests/VariadicMacros.tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/projects/SelfTest/WarnAboutNoTests.cmake b/projects/SelfTest/WarnAboutNoTests.cmake
+old mode 100644
+new mode 100755
+diff --git a/projects/XCode/OCTest/OCTest.xcodeproj/project.pbxproj b/projects/XCode/OCTest/OCTest.xcodeproj/project.pbxproj
+old mode 100644
+new mode 100755
+diff --git a/projects/XCode/OCTest/OCTest.xcodeproj/project.xcworkspace/contents.xcworkspacedata b/projects/XCode/OCTest/OCTest.xcodeproj/project.xcworkspace/contents.xcworkspacedata
+old mode 100644
+new mode 100755
+diff --git a/projects/XCode/OCTest/OCTest.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist b/projects/XCode/OCTest/OCTest.xcodeproj/project.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
+old mode 100644
+new mode 100755
+diff --git a/projects/XCode/OCTest/OCTest/CatchOCTestCase.h b/projects/XCode/OCTest/OCTest/CatchOCTestCase.h
+old mode 100644
+new mode 100755
+diff --git a/projects/XCode/OCTest/OCTest/CatchOCTestCase.mm b/projects/XCode/OCTest/OCTest/CatchOCTestCase.mm
+old mode 100644
+new mode 100755
+diff --git a/projects/XCode/OCTest/OCTest/Main.mm b/projects/XCode/OCTest/OCTest/Main.mm
+old mode 100644
+new mode 100755
+diff --git a/projects/XCode/OCTest/OCTest/OCTest.1 b/projects/XCode/OCTest/OCTest/OCTest.1
+old mode 100644
+new mode 100755
+diff --git a/projects/XCode/OCTest/OCTest/OCTest.mm b/projects/XCode/OCTest/OCTest/OCTest.mm
+old mode 100644
+new mode 100755
+diff --git a/projects/XCode/OCTest/OCTest/TestObj.h b/projects/XCode/OCTest/OCTest/TestObj.h
+old mode 100644
+new mode 100755
+diff --git a/projects/XCode/OCTest/OCTest/TestObj.m b/projects/XCode/OCTest/OCTest/TestObj.m
+old mode 100644
+new mode 100755
+diff --git a/projects/XCode/OCTest/catch_objc_impl.mm b/projects/XCode/OCTest/catch_objc_impl.mm
+old mode 100644
+new mode 100755
+diff --git a/scripts/embed.py b/scripts/embed.py
+old mode 100644
+new mode 100755
+diff --git a/scripts/extractFeaturesFromReleaseNotes.py b/scripts/extractFeaturesFromReleaseNotes.py
+old mode 100644
+new mode 100755
+diff --git a/scripts/releaseCommon.py b/scripts/releaseCommon.py
+old mode 100644
+new mode 100755
+diff --git a/scripts/scriptCommon.py b/scripts/scriptCommon.py
+old mode 100644
+new mode 100755
+diff --git a/scripts/updateDocumentToC.py b/scripts/updateDocumentToC.py
+old mode 100644
+new mode 100755
+diff --git a/scripts/updateWandbox.py b/scripts/updateWandbox.py
+old mode 100644
+new mode 100755
+diff --git a/single_include/catch2/catch.hpp b/single_include/catch2/catch.hpp
+old mode 100644
+new mode 100755
+index 391db530..ffccb163
+--- a/single_include/catch2/catch.hpp
++++ b/single_include/catch2/catch.hpp
+@@ -1,9 +1,9 @@
+ /*
+  *  Catch v2.10.0
+- *  Generated: 2019-10-13 22:24:46.755734
++ *  Generated: 2025-06-30 11:23:14.030208
+  *  ----------------------------------------------------------
+  *  This file has been merged from multiple headers. Please don't edit it directly
+- *  Copyright (c) 2019 Two Blue Cubes Ltd. All rights reserved.
++ *  Copyright (c) 2025 Two Blue Cubes Ltd. All rights reserved.
+  *
+  *  Distributed under the Boost Software License, Version 1.0. (See accompanying
+  *  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+@@ -163,6 +163,11 @@ namespace Catch {
+ #       define CATCH_INTERNAL_UNSUPPRESS_ZERO_VARIADIC_WARNINGS \
+             _Pragma( "clang diagnostic pop" )
+ 
++#       define CATCH_INTERNAL_SUPPRESS_UNUSED_TEMPLATE_WARNINGS \
++            _Pragma( "clang diagnostic push" ) \
++            _Pragma( "clang diagnostic ignored \"-Wunused-template\"" )
++#       define CATCH_INTERNAL_UNSUPPRESS_UNUSED_TEMPLATE_WARNINGS \
++            _Pragma( "clang diagnostic pop" )
+ #endif // __clang__
+ 
+ ////////////////////////////////////////////////////////////////////////////////
+@@ -409,6 +414,19 @@ namespace Catch {
+ #   define CATCH_INTERNAL_UNSUPPRESS_ZERO_VARIADIC_WARNINGS
+ #endif
+ 
++#if defined(__APPLE__) && defined(__apple_build_version__) && (__clang_major__ < 10)
++#   undef CATCH_INTERNAL_SUPPRESS_UNUSED_TEMPLATE_WARNINGS
++#   undef CATCH_INTERNAL_UNSUPPRESS_UNUSED_TEMPLATE_WARNINGS
++#elif defined(__clang__) && (__clang_major__ < 5)
++#   undef CATCH_INTERNAL_SUPPRESS_UNUSED_TEMPLATE_WARNINGS
++#   undef CATCH_INTERNAL_UNSUPPRESS_UNUSED_TEMPLATE_WARNINGS
++#endif
++
++#if !defined(CATCH_INTERNAL_SUPPRESS_UNUSED_TEMPLATE_WARNINGS)
++#   define CATCH_INTERNAL_SUPPRESS_UNUSED_TEMPLATE_WARNINGS
++#   define CATCH_INTERNAL_UNSUPPRESS_UNUSED_TEMPLATE_WARNINGS
++#endif
++
+ #if defined(CATCH_CONFIG_DISABLE_EXCEPTIONS)
+ #define CATCH_TRY if ((true))
+ #define CATCH_CATCH_ALL if ((false))
+@@ -775,35 +793,49 @@ inline auto operator "" _catch_sr( char const* rawChars, std::size_t size ) noex
+     template<typename...> struct TypeList {};\
+     template<typename...Ts>\
+     constexpr auto get_wrapper() noexcept -> TypeList<Ts...> { return {}; }\
++    template<template<typename...> class...> struct TemplateTypeList{};\
++    template<template<typename...> class...Cs>\
++    constexpr auto get_wrapper() noexcept -> TemplateTypeList<Cs...> { return {}; }\
++    template<typename...>\
++    struct append;\
++    template<typename...>\
++    struct rewrap;\
++    template<template<typename...> class, typename...>\
++    struct create;\
++    template<template<typename...> class, typename>\
++    struct convert;\
+     \
+-    template<template<typename...> class L1, typename...E1, template<typename...> class L2, typename...E2> \
+-    constexpr auto append(L1<E1...>, L2<E2...>) noexcept -> L1<E1...,E2...> { return {}; }\
++    template<typename T> \
++    struct append<T> { using type = T; };\
+     template< template<typename...> class L1, typename...E1, template<typename...> class L2, typename...E2, typename...Rest>\
+-    constexpr auto append(L1<E1...>, L2<E2...>, Rest...) noexcept -> decltype(append(L1<E1...,E2...>{}, Rest{}...)) { return {}; }\
++    struct append<L1<E1...>, L2<E2...>, Rest...> { using type = typename append<L1<E1...,E2...>, Rest...>::type; };\
+     template< template<typename...> class L1, typename...E1, typename...Rest>\
+-    constexpr auto append(L1<E1...>, TypeList<mpl_::na>, Rest...) noexcept -> L1<E1...> { return {}; }\
++    struct append<L1<E1...>, TypeList<mpl_::na>, Rest...> { using type = L1<E1...>; };\
+     \
+     template< template<typename...> class Container, template<typename...> class List, typename...elems>\
+-    constexpr auto rewrap(List<elems...>) noexcept -> TypeList<Container<elems...>> { return {}; }\
++    struct rewrap<TemplateTypeList<Container>, List<elems...>> { using type = TypeList<Container<elems...>>; };\
+     template< template<typename...> class Container, template<typename...> class List, class...Elems, typename...Elements>\
+-    constexpr auto rewrap(List<Elems...>,Elements...) noexcept -> decltype(append(TypeList<Container<Elems...>>{}, rewrap<Container>(Elements{}...))) { return {}; }\
++    struct rewrap<TemplateTypeList<Container>, List<Elems...>, Elements...> { using type = typename append<TypeList<Container<Elems...>>, typename rewrap<TemplateTypeList<Container>, Elements...>::type>::type; };\
+     \
+     template<template <typename...> class Final, template< typename...> class...Containers, typename...Types>\
+-    constexpr auto create(TypeList<Types...>) noexcept -> decltype(append(Final<>{}, rewrap<Containers>(Types{}...)...)) { return {}; }\
++    struct create<Final, TemplateTypeList<Containers...>, TypeList<Types...>> { using type = typename append<Final<>, typename rewrap<TemplateTypeList<Containers>, Types...>::type...>::type; };\
+     template<template <typename...> class Final, template <typename...> class List, typename...Ts>\
+-    constexpr auto convert(const List<Ts...>& ) noexcept -> decltype(append(Final<>{},TypeList<Ts>{}...)) { return {}; }
++    struct convert<Final, List<Ts...>> { using type = typename append<Final<>,TypeList<Ts>...>::type; };
+ 
+ #define INTERNAL_CATCH_NTTP_1(signature, ...)\
+     template<INTERNAL_CATCH_REMOVE_PARENS(signature)> struct Nttp{};\
+     template<INTERNAL_CATCH_REMOVE_PARENS(signature)>\
+     constexpr auto get_wrapper() noexcept -> Nttp<__VA_ARGS__> { return {}; } \
++    template<template<INTERNAL_CATCH_REMOVE_PARENS(signature)> class...> struct NttpTemplateTypeList{};\
++    template<template<INTERNAL_CATCH_REMOVE_PARENS(signature)> class...Cs>\
++    constexpr auto get_wrapper() noexcept -> NttpTemplateTypeList<Cs...> { return {}; } \
+     \
+     template< template<INTERNAL_CATCH_REMOVE_PARENS(signature)> class Container, template<INTERNAL_CATCH_REMOVE_PARENS(signature)> class List, INTERNAL_CATCH_REMOVE_PARENS(signature)>\
+-    constexpr auto rewrap(List<__VA_ARGS__>) noexcept -> TypeList<Container<__VA_ARGS__>> { return {}; }\
++    struct rewrap<NttpTemplateTypeList<Container>, List<__VA_ARGS__>> { using type = TypeList<Container<__VA_ARGS__>>; };\
+     template< template<INTERNAL_CATCH_REMOVE_PARENS(signature)> class Container, template<INTERNAL_CATCH_REMOVE_PARENS(signature)> class List, INTERNAL_CATCH_REMOVE_PARENS(signature), typename...Elements>\
+-    constexpr auto rewrap(List<__VA_ARGS__>,Elements...elems) noexcept -> decltype(append(TypeList<Container<__VA_ARGS__>>{}, rewrap<Container>(elems...))) { return {}; }\
++    struct rewrap<NttpTemplateTypeList<Container>, List<__VA_ARGS__>, Elements...> { using type = typename append<TypeList<Container<__VA_ARGS__>>, typename rewrap<NttpTemplateTypeList<Container>, Elements...>::type>::type; };\
+     template<template <typename...> class Final, template<INTERNAL_CATCH_REMOVE_PARENS(signature)> class...Containers, typename...Types>\
+-    constexpr auto create(TypeList<Types...>) noexcept -> decltype(append(Final<>{}, rewrap<Containers>(Types{}...)...)) { return {}; }
++    struct create<Final, NttpTemplateTypeList<Containers...>, TypeList<Types...>> { using type = typename append<Final<>, typename rewrap<NttpTemplateTypeList<Containers>, Types...>::type...>::type; };
+ 
+ #define INTERNAL_CATCH_DECLARE_SIG_TEST0(TestName)
+ #define INTERNAL_CATCH_DECLARE_SIG_TEST1(TestName, signature)\
+@@ -1050,6 +1082,7 @@ struct AutoReg : NonCopyable {
+     #define INTERNAL_CATCH_TEMPLATE_TEST_CASE_2(TestName, TestFunc, Name, Tags, Signature, ... )\
+         CATCH_INTERNAL_SUPPRESS_GLOBALS_WARNINGS \
+         CATCH_INTERNAL_SUPPRESS_ZERO_VARIADIC_WARNINGS \
++        CATCH_INTERNAL_SUPPRESS_UNUSED_TEMPLATE_WARNINGS \
+         INTERNAL_CATCH_DECLARE_SIG_TEST(TestFunc, INTERNAL_CATCH_REMOVE_PARENS(Signature));\
+         namespace {\
+         namespace INTERNAL_CATCH_MAKE_NAMESPACE(TestName){\
+@@ -1073,6 +1106,7 @@ struct AutoReg : NonCopyable {
+         }\
+         CATCH_INTERNAL_UNSUPPRESS_GLOBALS_WARNINGS \
+         CATCH_INTERNAL_UNSUPPRESS_ZERO_VARIADIC_WARNINGS \
++        CATCH_INTERNAL_UNSUPPRESS_UNUSED_TEMPLATE_WARNINGS \
+         INTERNAL_CATCH_DEFINE_SIG_TEST(TestFunc,INTERNAL_CATCH_REMOVE_PARENS(Signature))
+ 
+ #ifndef CATCH_CONFIG_TRADITIONAL_MSVC_PREPROCESSOR
+@@ -1094,6 +1128,7 @@ struct AutoReg : NonCopyable {
+     #define INTERNAL_CATCH_TEMPLATE_PRODUCT_TEST_CASE2(TestName, TestFuncName, Name, Tags, Signature, TmplTypes, TypesList) \
+         CATCH_INTERNAL_SUPPRESS_GLOBALS_WARNINGS                      \
+         CATCH_INTERNAL_SUPPRESS_ZERO_VARIADIC_WARNINGS                \
++        CATCH_INTERNAL_SUPPRESS_UNUSED_TEMPLATE_WARNINGS                       \
+         template<typename TestType> static void TestFuncName();       \
+         namespace {\
+         namespace INTERNAL_CATCH_MAKE_NAMESPACE(TestName) {                                     \
+@@ -1111,7 +1146,7 @@ struct AutoReg : NonCopyable {
+                 }                                                     \
+             };                                                        \
+             static int INTERNAL_CATCH_UNIQUE_NAME( globalRegistrar ) = [](){ \
+-                using TestInit = decltype(create<TestName, INTERNAL_CATCH_REMOVE_PARENS(TmplTypes)>(TypeList<INTERNAL_CATCH_MAKE_TYPE_LISTS_FROM_TYPES(INTERNAL_CATCH_REMOVE_PARENS(TypesList))>{})); \
++                using TestInit = typename create<TestName, decltype(get_wrapper<INTERNAL_CATCH_REMOVE_PARENS(TmplTypes)>()), TypeList<INTERNAL_CATCH_MAKE_TYPE_LISTS_FROM_TYPES(INTERNAL_CATCH_REMOVE_PARENS(TypesList))>>::type; \
+                 TestInit t;                                           \
+                 t.reg_tests();                                        \
+                 return 0;                                             \
+@@ -1120,6 +1155,7 @@ struct AutoReg : NonCopyable {
+         }                                                             \
+         CATCH_INTERNAL_UNSUPPRESS_GLOBALS_WARNINGS                    \
+         CATCH_INTERNAL_UNSUPPRESS_ZERO_VARIADIC_WARNINGS              \
++        CATCH_INTERNAL_UNSUPPRESS_UNUSED_TEMPLATE_WARNINGS                     \
+         template<typename TestType>                                   \
+         static void TestFuncName()
+ 
+@@ -1141,6 +1177,7 @@ struct AutoReg : NonCopyable {
+ 
+     #define INTERNAL_CATCH_TEMPLATE_LIST_TEST_CASE_2(TestName, TestFunc, Name, Tags, TmplList)\
+         CATCH_INTERNAL_SUPPRESS_GLOBALS_WARNINGS \
++        CATCH_INTERNAL_SUPPRESS_UNUSED_TEMPLATE_WARNINGS \
+         template<typename TestType> static void TestFunc();       \
+         namespace {\
+         namespace INTERNAL_CATCH_MAKE_NAMESPACE(TestName){\
+@@ -1154,13 +1191,14 @@ struct AutoReg : NonCopyable {
+             }                                                     \
+         };\
+         static int INTERNAL_CATCH_UNIQUE_NAME( globalRegistrar ) = [](){ \
+-                using TestInit = decltype(convert<TestName>(std::declval<TmplList>())); \
++                using TestInit = typename convert<TestName, TmplList>::type; \
+                 TestInit t;                                           \
+                 t.reg_tests();                                        \
+                 return 0;                                             \
+             }();                                                        \
+         }}\
+         CATCH_INTERNAL_UNSUPPRESS_GLOBALS_WARNINGS                    \
++        CATCH_INTERNAL_UNSUPPRESS_UNUSED_TEMPLATE_WARNINGS \
+         template<typename TestType>                                   \
+         static void TestFunc()
+ 
+@@ -1170,6 +1208,7 @@ struct AutoReg : NonCopyable {
+     #define INTERNAL_CATCH_TEMPLATE_TEST_CASE_METHOD_2( TestNameClass, TestName, ClassName, Name, Tags, Signature, ... ) \
+         CATCH_INTERNAL_SUPPRESS_GLOBALS_WARNINGS \
+         CATCH_INTERNAL_SUPPRESS_ZERO_VARIADIC_WARNINGS \
++        CATCH_INTERNAL_SUPPRESS_UNUSED_TEMPLATE_WARNINGS \
+         namespace {\
+         namespace INTERNAL_CATCH_MAKE_NAMESPACE(TestName){ \
+             INTERNAL_CATCH_TYPE_GEN\
+@@ -1193,6 +1232,7 @@ struct AutoReg : NonCopyable {
+         }\
+         CATCH_INTERNAL_UNSUPPRESS_GLOBALS_WARNINGS\
+         CATCH_INTERNAL_UNSUPPRESS_ZERO_VARIADIC_WARNINGS\
++        CATCH_INTERNAL_UNSUPPRESS_UNUSED_TEMPLATE_WARNINGS\
+         INTERNAL_CATCH_DEFINE_SIG_TEST_METHOD(TestName, INTERNAL_CATCH_REMOVE_PARENS(Signature))
+ 
+ #ifndef CATCH_CONFIG_TRADITIONAL_MSVC_PREPROCESSOR
+@@ -1214,6 +1254,7 @@ struct AutoReg : NonCopyable {
+     #define INTERNAL_CATCH_TEMPLATE_PRODUCT_TEST_CASE_METHOD_2(TestNameClass, TestName, ClassName, Name, Tags, Signature, TmplTypes, TypesList)\
+         CATCH_INTERNAL_SUPPRESS_GLOBALS_WARNINGS \
+         CATCH_INTERNAL_SUPPRESS_ZERO_VARIADIC_WARNINGS \
++        CATCH_INTERNAL_SUPPRESS_UNUSED_TEMPLATE_WARNINGS \
+         template<typename TestType> \
+             struct TestName : INTERNAL_CATCH_REMOVE_PARENS(ClassName <TestType>) { \
+                 void test();\
+@@ -1234,7 +1275,7 @@ struct AutoReg : NonCopyable {
+                 }\
+             };\
+             static int INTERNAL_CATCH_UNIQUE_NAME( globalRegistrar ) = [](){\
+-                using TestInit = decltype(create<TestNameClass, INTERNAL_CATCH_REMOVE_PARENS(TmplTypes)>(TypeList<INTERNAL_CATCH_MAKE_TYPE_LISTS_FROM_TYPES(INTERNAL_CATCH_REMOVE_PARENS(TypesList))>{}));\
++                using TestInit = typename create<TestNameClass, decltype(get_wrapper<INTERNAL_CATCH_REMOVE_PARENS(TmplTypes)>()), TypeList<INTERNAL_CATCH_MAKE_TYPE_LISTS_FROM_TYPES(INTERNAL_CATCH_REMOVE_PARENS(TypesList))>>::type;\
+                 TestInit t;\
+                 t.reg_tests();\
+                 return 0;\
+@@ -1243,6 +1284,7 @@ struct AutoReg : NonCopyable {
+         }\
+         CATCH_INTERNAL_UNSUPPRESS_GLOBALS_WARNINGS \
+         CATCH_INTERNAL_UNSUPPRESS_ZERO_VARIADIC_WARNINGS \
++        CATCH_INTERNAL_UNSUPPRESS_UNUSED_TEMPLATE_WARNINGS \
+         template<typename TestType> \
+         void TestName<TestType>::test()
+ 
+@@ -1264,6 +1306,7 @@ struct AutoReg : NonCopyable {
+ 
+     #define INTERNAL_CATCH_TEMPLATE_LIST_TEST_CASE_METHOD_2( TestNameClass, TestName, ClassName, Name, Tags, TmplList) \
+         CATCH_INTERNAL_SUPPRESS_GLOBALS_WARNINGS \
++        CATCH_INTERNAL_SUPPRESS_UNUSED_TEMPLATE_WARNINGS \
+         template<typename TestType> \
+         struct TestName : INTERNAL_CATCH_REMOVE_PARENS(ClassName <TestType>) { \
+             void test();\
+@@ -1280,13 +1323,14 @@ struct AutoReg : NonCopyable {
+                 }\
+             };\
+             static int INTERNAL_CATCH_UNIQUE_NAME( globalRegistrar ) = [](){\
+-                using TestInit = decltype(convert<TestNameClass>(std::declval<TmplList>()));\
++                using TestInit = typename convert<TestNameClass, TmplList>::type;\
+                 TestInit t;\
+                 t.reg_tests();\
+                 return 0;\
+             }(); \
+         }}\
+         CATCH_INTERNAL_UNSUPPRESS_GLOBALS_WARNINGS \
++        CATCH_INTERNAL_UNSUPPRESS_UNUSED_TEMPLATE_WARNINGS \
+         template<typename TestType> \
+         void TestName<TestType>::test()
+ 
+@@ -4484,10 +4528,10 @@ namespace Catch {
+         using state_type = std::uint64_t;
+     public:
+         using result_type = std::uint32_t;
+-        static constexpr result_type min() {
++        static constexpr result_type (min)() {
+             return 0;
+         }
+-        static constexpr result_type max() {
++        static constexpr result_type (max)() {
+             return static_cast<result_type>(-1);
+         }
+ 
+@@ -5082,14 +5126,16 @@ namespace Catch {
+             std::vector<TestCase const*> tests;
+         };
+         using Matches = std::vector<FilterMatch>;
++        using vectorStrings = std::vector<std::string>;
+ 
+         bool hasFilters() const;
+         bool matches( TestCaseInfo const& testCase ) const;
+         Matches matchesByFilter( std::vector<TestCase> const& testCases, IConfig const& config ) const;
++        const vectorStrings & getInvalidArgs() const;
+ 
+     private:
+         std::vector<Filter> m_filters;
+-
++        std::vector<std::string> m_invalidArgs;
+         friend class TestSpecParser;
+     };
+ }
+@@ -5143,7 +5189,7 @@ namespace Catch {
+         TestSpec testSpec();
+ 
+     private:
+-        void visitChar( char c );
++        bool visitChar( char c );
+         void startNewMode( Mode mode );
+         bool processNoneChar( char c );
+         void processNameChar( char c );
+@@ -5153,6 +5199,8 @@ namespace Catch {
+         bool isControlChar( char c ) const;
+         void saveLastMode();
+         void revertBackToLastMode();
++        void addFilter();
++        bool separate();
+ 
+         template<typename T>
+         void addPattern() {
+@@ -5176,7 +5224,12 @@ namespace Catch {
+             m_mode = None;
+         }
+ 
+-        void addFilter();
++        inline void addCharToPattern(char c) {
++            m_substring += c;
++            m_patternName += c;
++            m_realPatternPos++;
++        }
++
+     };
+     TestSpec parseTestSpec( std::string const& arg );
+ 
+@@ -5584,6 +5637,8 @@ namespace Catch {
+ 
+         virtual void noMatchingTestCases( std::string const& spec ) = 0;
+ 
++        virtual void reportInvalidArguments(std::string const&) {}
++
+         virtual void testRunStarting( TestRunInfo const& testRunInfo ) = 0;
+         virtual void testGroupStarting( GroupInfo const& groupInfo ) = 0;
+ 
+@@ -5676,6 +5731,8 @@ namespace Catch {
+ 
+         void noMatchingTestCases(std::string const&) override {}
+ 
++        void reportInvalidArguments(std::string const&) override {}
++
+         void testRunStarting(TestRunInfo const& _testRunInfo) override {
+             currentTestRunInfo = _testRunInfo;
+         }
+@@ -6079,6 +6136,8 @@ namespace Catch {
+ 
+         void noMatchingTestCases(std::string const& spec) override;
+ 
++        void reportInvalidArguments(std::string const&arg) override;
++
+         void assertionStarting(AssertionInfo const&) override;
+ 
+         bool assertionEnded(AssertionStats const& _assertionStats) override;
+@@ -9544,9 +9603,15 @@ namespace Catch {
+                     if( !line.empty() && !startsWith( line, '#' ) ) {
+                         if( !startsWith( line, '"' ) )
+                             line = '"' + line + '"';
+-                        config.testsOrTags.push_back( line + ',' );
++                        config.testsOrTags.push_back( line );
++                        config.testsOrTags.push_back( "," );
++
+                     }
+                 }
++                //Remove comma in the end
++                if(!config.testsOrTags.empty())
++                    config.testsOrTags.erase( config.testsOrTags.end()-1 );
++
+                 return ParserResult::ok( ParseResultType::Matched );
+             };
+         auto const setTestOrder = [&]( std::string const& order ) {
+@@ -10755,6 +10820,8 @@ namespace Catch {
+ 
+         void noMatchingTestCases( std::string const& spec ) override;
+ 
++        void reportInvalidArguments(std::string const&arg) override;
++
+         static std::set<Verbosity> getSupportedVerbosities();
+ 
+ #if defined(CATCH_CONFIG_ENABLE_BENCHMARKING)
+@@ -11317,7 +11384,7 @@ namespace Floating {
+     WithinUlpsMatcher::WithinUlpsMatcher(double target, uint64_t ulps, FloatingPointKind baseType)
+         :m_target{ target }, m_ulps{ ulps }, m_type{ baseType } {
+         CATCH_ENFORCE(m_type == FloatingPointKind::Double
+-                   || m_ulps < std::numeric_limits<uint32_t>::max(),
++                   || m_ulps < (std::numeric_limits<uint32_t>::max)(),
+             "Provided ULP is impossibly large for a float comparison.");
+     }
+ 
+@@ -11376,7 +11443,7 @@ namespace Floating {
+     }
+ 
+     bool WithinRelMatcher::match(double const& matchee) const {
+-        const auto relMargin = m_epsilon * std::max(std::fabs(matchee), std::fabs(m_target));
++        const auto relMargin = m_epsilon * (std::max)(std::fabs(matchee), std::fabs(m_target));
+         return marginComparison(matchee, m_target,
+                                 std::isinf(relMargin)? 0 : relMargin);
+     }
+@@ -12983,8 +13050,9 @@ namespace Catch {
+             {
+                 auto const& allTestCases = getAllTestCasesSorted(*m_config);
+                 m_matches = m_config->testSpec().matchesByFilter(allTestCases, *m_config);
++                auto const& invalidArgs = m_config->testSpec().getInvalidArgs();
+ 
+-                if (m_matches.empty()) {
++                if (m_matches.empty() && invalidArgs.empty()) {
+                     for (auto const& test : allTestCases)
+                         if (!test.isHidden())
+                             m_tests.emplace(&test);
+@@ -12995,6 +13063,7 @@ namespace Catch {
+             }
+ 
+             Totals execute() {
++                auto const& invalidArgs = m_config->testSpec().getInvalidArgs();
+                 Totals totals;
+                 m_context.testGroupStarting(m_config->name(), 1, 1);
+                 for (auto const& testCase : m_tests) {
+@@ -13010,6 +13079,12 @@ namespace Catch {
+                         totals.error = -1;
+                     }
+                 }
++
++                if (!invalidArgs.empty()) {
++                    for (auto const& invalidArg: invalidArgs)
++                         m_context.reporter().reportInvalidArguments(invalidArg);
++                }
++
+                 m_context.testGroupEnded(m_config->name(), totals, 1, 1);
+                 return totals;
+             }
+@@ -14305,6 +14380,10 @@ namespace Catch {
+         return matches;
+     }
+ 
++    const TestSpec::vectorStrings& TestSpec::getInvalidArgs() const{
++        return  (m_invalidArgs);
++    }
++
+ }
+ // end catch_test_spec.cpp
+ // start catch_test_spec_parser.cpp
+@@ -14321,8 +14400,13 @@ namespace Catch {
+         m_substring.reserve(m_arg.size());
+         m_patternName.reserve(m_arg.size());
+         m_realPatternPos = 0;
++
+         for( m_pos = 0; m_pos < m_arg.size(); ++m_pos )
+-            visitChar( m_arg[m_pos] );
++          //if visitChar fails
++           if( !visitChar( m_arg[m_pos] ) ){
++               m_testSpec.m_invalidArgs.push_back(arg);
++               break;
++           }
+         endMode();
+         return *this;
+     }
+@@ -14330,38 +14414,32 @@ namespace Catch {
+         addFilter();
+         return m_testSpec;
+     }
+-    void TestSpecParser::visitChar( char c ) {
++    bool TestSpecParser::visitChar( char c ) {
+         if( (m_mode != EscapedName) && (c == '\\') ) {
+             escape();
+-            m_substring += c;
+-            m_patternName += c;
+-            m_realPatternPos++;
+-            return;
++            addCharToPattern(c);
++            return true;
+         }else if((m_mode != EscapedName) && (c == ',') )  {
+-            endMode();
+-            addFilter();
+-            return;
++            return separate();
+         }
+ 
+         switch( m_mode ) {
+         case None:
+             if( processNoneChar( c ) )
+-                return;
++                return true;
+             break;
+         case Name:
+             processNameChar( c );
+             break;
+         case EscapedName:
+             endMode();
+-            m_substring += c;
+-            m_patternName += c;
+-            m_realPatternPos++;
+-            return;
++            addCharToPattern(c);
++            return true;
+         default:
+         case Tag:
+         case QuotedName:
+             if( processOtherChar( c ) )
+-                return;
++                return true;
+             break;
+         }
+ 
+@@ -14370,6 +14448,7 @@ namespace Catch {
+             m_patternName += c;
+             m_realPatternPos++;
+         }
++        return true;
+     }
+     // Two of the processing methods return true to signal the caller to return
+     // without adding the given character to the current pattern strings
+@@ -14462,6 +14541,20 @@ namespace Catch {
+       m_mode = lastMode;
+     }
+ 
++    bool TestSpecParser::separate() {
++      if( (m_mode==QuotedName) || (m_mode==Tag) ){
++         //invalid argument, signal failure to previous scope.
++         m_mode = None;
++         m_pos = m_arg.size();
++         m_substring.clear();
++         m_patternName.clear();
++         return false;
++      }
++      endMode();
++      addFilter();
++      return true; //success
++    }
++
+     TestSpec parseTestSpec( std::string const& arg ) {
+         return TestSpecParser( ITagAliasRegistry::get() ).parse( arg ).testSpec();
+     }
+@@ -15926,6 +16019,10 @@ void ConsoleReporter::noMatchingTestCases(std::string const& spec) {
+     stream << "No test cases matched '" << spec << '\'' << std::endl;
+ }
+ 
++void ConsoleReporter::reportInvalidArguments(std::string const&arg){
++    stream << "Invalid Filter: " << arg << std::endl;
++}
++
+ void ConsoleReporter::assertionStarting(AssertionInfo const&) {}
+ 
+ bool ConsoleReporter::assertionEnded(AssertionStats const& _assertionStats) {
+@@ -16526,6 +16623,13 @@ namespace Catch {
+         m_reporter->noMatchingTestCases( spec );
+     }
+ 
++    void ListeningReporter::reportInvalidArguments(std::string const&arg){
++        for ( auto const& listener : m_listeners ) {
++            listener->reportInvalidArguments( arg );
++        }
++        m_reporter->reportInvalidArguments( arg );
++    }
++
+ #if defined(CATCH_CONFIG_ENABLE_BENCHMARKING)
+     void ListeningReporter::benchmarkPreparing( std::string const& name ) {
+ 		for (auto const& listener : m_listeners) {
+diff --git a/single_include/catch2/catch_reporter_automake.hpp b/single_include/catch2/catch_reporter_automake.hpp
+old mode 100644
+new mode 100755
+diff --git a/single_include/catch2/catch_reporter_tap.hpp b/single_include/catch2/catch_reporter_tap.hpp
+old mode 100644
+new mode 100755
+diff --git a/single_include/catch2/catch_reporter_teamcity.hpp b/single_include/catch2/catch_reporter_teamcity.hpp
+old mode 100644
+new mode 100755
+diff --git a/third_party/clara.hpp b/third_party/clara.hpp
+old mode 100644
+new mode 100755
+2025-06-30 16:23:14,987 - INFO - Git diff changed after running eval script
+2025-06-30 16:23:14,987 - INFO - Attempting to stop container catchorg__catch2-1770-test1...
+2025-06-30 16:23:30,211 - INFO - Attempting to remove container catchorg__catch2-1770-test1...
+2025-06-30 16:23:30,256 - INFO - Container catchorg__catch2-1770-test1 removed.
+2025-06-30 16:23:30,256 - INFO - Attempting to remove image catchorg__catch2-1770-dockerfile1:latest...
+2025-06-30 16:23:31,770 - INFO - Image catchorg__catch2-1770-dockerfile1:latest removed.

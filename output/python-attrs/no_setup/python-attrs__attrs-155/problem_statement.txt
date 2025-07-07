@@ -1,0 +1,44 @@
+Metaclass lost with slots=True 
+Hello.
+
+Using a metaclass with slots=True, e.g.
+```
+@attr.s(slots=True)
+class A(metaclass=abc.ABCMeta):
+    @abc.abstractmethod
+    def f(self):
+        pass
+```
+Will lead to `A` being instantiable and `type(A)` being `<class 'type'>` (unlike the case with slots=False), as for slots to work the new class is generated in [_make.py](https://github.com/python-attrs/attrs/blob/master/src/attr/_make.py#L365) with:
+
+`cls = type(cls.__name__, cls.__bases__, cls_dict)` [1]
+
+This doesn't happen if this line is changed to:
+
+`cls = type(cls)(cls.__name__, cls.__bases__, cls_dict)` [2]
+
+With this change `type(A)` is `<class 'abc.ABCMeta'>` and A is no longer instantiable.
+Can the class generation for slots be changed to something like [2] to avoid losing metaclasses or it is intentionally written as it is now and I am missing something?
+
+Metaclass lost with slots=True 
+Hello.
+
+Using a metaclass with slots=True, e.g.
+```
+@attr.s(slots=True)
+class A(metaclass=abc.ABCMeta):
+    @abc.abstractmethod
+    def f(self):
+        pass
+```
+Will lead to `A` being instantiable and `type(A)` being `<class 'type'>` (unlike the case with slots=False), as for slots to work the new class is generated in [_make.py](https://github.com/python-attrs/attrs/blob/master/src/attr/_make.py#L365) with:
+
+`cls = type(cls.__name__, cls.__bases__, cls_dict)` [1]
+
+This doesn't happen if this line is changed to:
+
+`cls = type(cls)(cls.__name__, cls.__bases__, cls_dict)` [2]
+
+With this change `type(A)` is `<class 'abc.ABCMeta'>` and A is no longer instantiable.
+Can the class generation for slots be changed to something like [2] to avoid losing metaclasses or it is intentionally written as it is now and I am missing something?
+

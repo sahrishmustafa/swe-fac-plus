@@ -1,0 +1,22 @@
++ cd /testbed
++ git checkout 021fcee63667e346c619e04bbae932bcea562334 projects/SelfTest/UsageTests/ToStringWhich.tests.cpp
++ git apply -v -
+Checking patch projects/SelfTest/UsageTests/ToStringWhich.tests.cpp...
+Applied patch projects/SelfTest/UsageTests/ToStringWhich.tests.cpp cleanly.
++ export CXXFLAGS=-Wno-error
++ CXXFLAGS=-Wno-error
+++ nproc
++ cmake --build Build -j 12
+Unknown argument -j
+Unknown argument 12
+Usage: cmake --build <dir> [options] [-- [native-options]]
+Options:
+  <dir>          = Project binary directory to be built.
+  --target <tgt> = Build <tgt> instead of default targets.
+                   May only be specified once.
+  --config <cfg> = For multi-configuration tools, choose <cfg>.
+  --clean-first  = Build target 'clean' first, then build.
+                   (To clean only, use --target 'clean'.)
+  --use-stderr   = Ignored.  Behavior is default in CMake >= 3.0.
+  --             = Pass remaining options to the native tool.
++ exit 1

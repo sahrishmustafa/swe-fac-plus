@@ -1,0 +1,2224 @@
+2025-07-03 18:39:01.728 | INFO     | Model API request cost info: input_tokens=995, output_tokens=326, cost=0.005748
+2025-07-03 18:39:01.765 | DEBUG    | Trying to select search APIs in json. Try 1 of 5.
+2025-07-03 18:39:04.791 | INFO     | Model API request cost info: input_tokens=994, output_tokens=169, cost=0.004175
+2025-07-03 18:39:04.792 | DEBUG    | {
+  "API_calls": [
+    "browse_file_for_environment_info(\"pyproject.toml\", \"Extract Python version, build system, dependencies, and any test configuration.\")",
+    "browse_file_for_environment_info(\"tox.ini\", \"Extract Python versions, test dependencies (deps), commands to run tests, and environment variables.\")",
+    "browse_folder(\".github/workflows\", \"1\")"
+  ],
+  "collected_information": "The plan is to gather environment setup details and test execution processes by examining 'pyproject.toml' for dependencies and build configurations, 'tox.ini' for test environments and commands, and '.github/workflows/' for CI/CD pipeline insights.",
+  "terminate": false
+}
+2025-07-03 18:39:04.792 | DEBUG    | Extracted a valid json
+2025-07-03 18:39:04.796 | INFO     | entering browse
+2025-07-03 18:39:04.796 | INFO     | # SPDX-License-Identifier: MIT
+
+[build-system]
+requires = ["hatchling", "hatch-vcs", "hatch-fancy-pypi-readme"]
+build-backend = "hatchling.build"
+
+
+[project]
+name = "attrs"
+authors = [{ name = "Hynek Schlawack", email = "hs@ox.cx" }]
+license = "MIT"
+requires-python = ">=3.7"
+description = "Classes Without Boilerplate"
+keywords = ["class", "attribute", "boilerplate"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = ["importlib_metadata;python_version<'3.8'"]
+dynamic = ["version", "readme"]
+
+[project.optional-dependencies]
+tests-no-zope = [
+    # For regression test to ensure cloudpickle compat doesn't break.
+    'cloudpickle; python_implementation == "CPython"',
+    "hypothesis",
+    "pympler",
+    # 4.3.0 dropped last use of `convert`
+    "pytest>=4.3.0",
+    "pytest-xdist[psutil]",
+    # Since the mypy error messages keep changing, we have to keep updating this
+    # pin.
+    'mypy>=1.1.1; python_implementation == "CPython"',
+    'pytest-mypy-plugins; python_implementation == "CPython" and python_version<"3.11"',
+]
+tests = ["attrs[tests-no-zope]", "zope.interface"]
+cov = [
+    "attrs[tests]",
+    # Ensure coverage is new enough for `source_pkgs`.
+    "coverage[toml]>=5.3",
+]
+docs = [
+    "furo",
+    "myst-parser",
+    "sphinx",
+    "zope.interface",
+    "sphinx-notfound-page",
+    "sphinxcontrib-towncrier",
+    "towncrier",
+]
+dev = ["attrs[tests,docs]", "pre-commit"]
+
+[project.urls]
+Documentation = "https://www.attrs.org/"
+Changelog = "https://www.attrs.org/en/stable/changelog.html"
+"Bug Tracker" = "https://github.com/python-attrs/attrs/issues"
+"Source Code" = "https://github.com/python-attrs/attrs"
+Funding = "https://github.com/sponsors/hynek"
+Tidelift = "https://tidelift.com/subscription/pkg/pypi-attrs?utm_source=pypi-attrs&utm_medium=pypi"
+
+
+[tool.hatch.version]
+source = "vcs"
+raw-options = { local_scheme = "no-local-version" }
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/attr", "src/attrs"]
+
+[tool.hatch.metadata.hooks.fancy-pypi-readme]
+content-type = "text/markdown"
+
+# PyPI doesn't support the <picture> tag.
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
+text = """<p align="center">
+  <a href="https://www.attrs.org/">
+    <img src="https://raw.githubusercontent.com/python-attrs/attrs/main/docs/_static/attrs_logo.svg" width="35%" alt="attrs" />
+  </a>
+</p>
+"""
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
+path = "README.md"
+start-after = "<!-- teaser-begin -->"
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
+text = """
+
+## Release Information
+
+"""
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
+path = "CHANGELOG.md"
+pattern = "\n(###.+?\n)## "
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
+text = """
+
+---
+
+[Full changelog](https://www.attrs.org/en/stable/changelog.html)
+"""
+
+
+# Make coverage play nicely with pytest-xdist.
+[tool.hatch.build.targets.wheel.hooks.autorun]
+dependencies = ["hatch-autorun"]
+code = """
+import coverage
+coverage.process_startup()
+"""
+enable-by-default = false
+
+
+[tool.pytest.ini_options]
+addopts = ["-ra", "--strict-markers", "--strict-config"]
+xfail_strict = true
+testpaths = "tests"
+filterwarnings = ["once::Warning", "ignore:::pympler[.*]"]
+
+
+[tool.coverage.run]
+parallel = true
+branch = true
+source_pkgs = ["attr", "attrs"]
+
+[tool.coverage.paths]
+source = ["src", ".tox/py*/**/site-packages"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+exclude_lines = [
+    "pragma: no cover",
+    # PyPy is unacceptably slow under coverage.
+    "if PYPY:",
+]
+
+
+[tool.black]
+line-length = 79
+
+
+[tool.isort]
+profile = "attrs"
+
+
+[tool.interrogate]
+verbose = 2
+fail-under = 100
+whitelist-regex = ["test_.*"]
+
+
+[tool.check-wheel-contents]
+toplevel = ["attr", "attrs"]
+
+
+[tool.towncrier]
+name = "attrs"
+directory = "changelog.d"
+filename = "CHANGELOG.md"
+start_string = "<!-- towncrier release notes start -->\n"
+template = "changelog.d/towncrier_template.md.jinja"
+title_format = ""
+issue_format = "[#{issue}](https://github.com/python-attrs/attrs/issues/{issue})"
+underlines = ["", "", ""]
+
+[[tool.towncrier.section]]
+path = ""
+
+[[tool.towncrier.type]]
+directory = "breaking"
+name = "Backwards-incompatible Changes"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "deprecation"
+name = "Deprecations"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "change"
+name = "Changes"
+showcontent = true
+
+
+[tool.mypy]
+disallow_untyped_defs = true
+check_untyped_defs = true
+
+2025-07-03 18:39:04.796 | DEBUG    | Analyzing file content. Try 1 of 3
+2025-07-03 18:39:08.074 | INFO     | Model API request cost info: input_tokens=2055, output_tokens=439, cost=0.009528
+2025-07-03 18:39:08.075 | SUCCESS  | Successfully extracted environment config
+2025-07-03 18:39:08.075 | INFO     | ******
+2025-07-03 18:39:08.075 | INFO     | Runtime Requirements:
+- Python >=3.7
+
+Build System:
+- **Build Backend**: hatchling.build
+- **Build Requirements**:
+    - hatchling
+    - hatch-vcs
+    - hatch-fancy-pypi-readme
+
+List of Libraries:
+- **Core Dependencies**:
+    - importlib_metadata (for Python <3.8)
+- **Optional Dependencies (tests-no-zope)**:
+    - cloudpickle (CPython only)
+    - hypothesis
+    - pympler
+    - pytest>=4.3.0
+    - pytest-xdist[psutil]
+    - mypy>=1.1.1 (CPython only)
+    - pytest-mypy-plugins (CPython and Python <3.11)
+- **Optional Dependencies (tests)**:
+    - attrs[tests-no-zope] (inherits from tests-no-zope)
+    - zope.interface
+- **Optional Dependencies (cov)**:
+    - attrs[tests]
+    - coverage[toml]>=5.3
+
+Testing:
+- **Test Framework**: pytest
+- **Test Paths**: tests
+- **Pytest Addopts**:
+    - -ra
+    - --strict-markers
+    - --strict-config
+- **Pytest XFail Strict**: true
+- **Pytest Filter Warnings**:
+    - once::Warning
+    - ignore:::pympler[.*]
+- **Coverage Configuration**:
+    - parallel = true
+    - branch = true
+    - source_pkgs = ["attr", "attrs"]
+    - source paths = ["src", ".tox/py*/**/site-packages"]
+    - show_missing = true
+    - skip_covered = true
+    - exclude_lines = ["pragma: no cover", "if PYPY:"]
+- **Mypy Configuration**:
+    - disallow_untyped_defs = true
+    - check_untyped_defs = true
+2025-07-03 18:39:08.075 | INFO     | ******
+2025-07-03 18:39:08.075 | DEBUG    | Result of dispatch_intent: ('Runtime Requirements:\n- Python >=3.7\n\nBuild System:\n- **Build Backend**: hatchling.build\n- **Build Requirements**:\n    - hatchling\n    - hatch-vcs\n    - hatch-fancy-pypi-readme\n\nList of Libraries:\n- **Core Dependencies**:\n    - importlib_metadata (for Python <3.8)\n- **Optional Dependencies (tests-no-zope)**:\n    - cloudpickle (CPython only)\n    - hypothesis\n    - pympler\n    - pytest>=4.3.0\n    - pytest-xdist[psutil]\n    - mypy>=1.1.1 (CPython only)\n    - pytest-mypy-plugins (CPython and Python <3.11)\n- **Optional Dependencies (tests)**:\n    - attrs[tests-no-zope] (inherits from tests-no-zope)\n    - zope.interface\n- **Optional Dependencies (cov)**:\n    - attrs[tests]\n    - coverage[toml]>=5.3\n\nTesting:\n- **Test Framework**: pytest\n- **Test Paths**: tests\n- **Pytest Addopts**:\n    - -ra\n    - --strict-markers\n    - --strict-config\n- **Pytest XFail Strict**: true\n- **Pytest Filter Warnings**:\n    - once::Warning\n    - ignore:::pympler[.*]\n- **Coverage Configuration**:\n    - parallel = true\n    - branch = true\n    - source_pkgs = ["attr", "attrs"]\n    - source paths = ["src", ".tox/py*/**/site-packages"]\n    - show_missing = true\n    - skip_covered = true\n    - exclude_lines = ["pragma: no cover", "if PYPY:"]\n- **Mypy Configuration**:\n    - disallow_untyped_defs = true\n    - check_untyped_defs = true', 'Get File Info', True)
+2025-07-03 18:39:08.075 | INFO     | entering browse
+2025-07-03 18:39:08.075 | INFO     | [tox]
+envlist = mypy,pre-commit,py37,py38,py39,py310,py311,py312,pypy3,pyright,docs,changelog,coverage-report
+isolated_build = True
+
+
+[testenv:docs]
+# Keep basepython in sync with ci.yml/docs and .readthedocs.yaml.
+basepython = python3.11
+extras = docs
+commands =
+    sphinx-build -n -T -W -b html -d {envtmpdir}/doctrees docs docs/_build/html
+    sphinx-build -n -T -W -b doctest -d {envtmpdir}/doctrees docs docs/_build/html
+
+
+[testenv]
+extras = tests
+commands = pytest {posargs:-n auto}
+passenv = SETUPTOOLS_SCM_PRETEND_VERSION
+
+
+[testenv:py3{7,10,11}]
+extras = cov
+# Python 3.6+ has a number of compile-time warnings on invalid string escapes.
+# PYTHONWARNINGS=d and --no-compile below make them visible during the Tox run.
+install_command = python -Im pip install --no-compile {opts} {packages}
+setenv =
+    HATCH_BUILD_HOOK_ENABLE_AUTORUN=1
+    COVERAGE_PROCESS_START={toxinidir}/pyproject.toml
+    PYTHONWARNINGS=d
+commands = coverage run -m pytest {posargs:-n auto}
+
+
+[testenv:coverage-report]
+basepython = python3.11
+depends = py3{7,10,11}
+skip_install = true
+deps = coverage[toml]>=5.3
+commands =
+    coverage combine
+    coverage report
+
+
+[testenv:pre-commit]
+skip_install = true
+deps = pre-commit
+commands = pre-commit run --all-files
+
+
+[testenv:changelog]
+deps = towncrier
+skip_install = true
+commands = towncrier build --version main --draft
+
+
+[testenv:mypy]
+deps = mypy>=0.991
+commands =
+    mypy src/attrs/__init__.pyi src/attr/__init__.pyi src/attr/_typing_compat.pyi src/attr/_version_info.pyi src/attr/converters.pyi src/attr/exceptions.pyi src/attr/filters.pyi src/attr/setters.pyi src/attr/validators.pyi
+    mypy tests/typing_example.py
+
+
+[testenv:pyright]
+# Install and configure node and pyright
+# This *could* be folded into a custom install_command
+# Use nodeenv to configure node in the running tox virtual environment
+# Seeing errors using "nodeenv -p"
+# Use npm install -g to install "globally" into the virtual environment
+deps = nodeenv
+commands =
+    nodeenv --prebuilt --node=lts --force {envdir}
+    npm install -g --no-package-lock --no-save pyright
+    pytest tests/test_pyright.py -vv
+
+
+[testenv:docset]
+deps = doc2dash
+extras = docs
+allowlist_externals =
+    rm
+    cp
+    tar
+commands =
+    rm -rf attrs.docset attrs.tgz docs/_build
+    sphinx-build -n -T -W -b html -d {envtmpdir}/doctrees docs docs/_build/html
+    doc2dash --index-page index.html --icon docs/_static/docset-icon.png --online-redirect-url https://www.attrs.org/en/latest/ docs/_build/html
+    cp docs/_static/docset-icon@2x.png attrs.docset/icon@2x.png
+    tar --exclude='.DS_Store' -cvzf attrs.tgz attrs.docset
+
+2025-07-03 18:39:08.075 | DEBUG    | Analyzing file content. Try 1 of 3
+2025-07-03 18:39:20.159 | INFO     | Model API request cost info: input_tokens=1262, output_tokens=505, cost=0.008205
+2025-07-03 18:39:20.160 | SUCCESS  | Successfully extracted environment config
+2025-07-03 18:39:20.161 | INFO     | ******
+2025-07-03 18:39:20.161 | INFO     | Python Runtimes:
+- Python 3.7
+- Python 3.8
+- Python 3.9
+- Python 3.10
+- Python 3.11
+- Python 3.12
+- PyPy3
+
+Test Dependencies:
+- `extras = tests` (implies pytest likely via `pyproject.toml` or `setup.cfg`)
+- `extras = cov` (implies `coverage.py` likely via `pyproject.toml` or `setup.cfg`)
+- `coverage[toml]>=5.3`
+- `mypy>=0.991`
+- `nodeenv` (for Pyright environment)
+- `pyright` (installed globally via npm in `pyright` environment)
+
+Key Environment Variables:
+- `SETUPTOOLS_SCM_PRETEND_VERSION` (passed through to test environments)
+- `HATCH_BUILD_HOOK_ENABLE_AUTORUN=1` (for `py3{7,10,11}` environments)
+- `COVERAGE_PROCESS_START={toxinidir}/pyproject.toml` (for `py3{7,10,11}` environments)
+- `PYTHONWARNINGS=d` (for `py3{7,10,11}` environments)
+
+Testing:
+- Test framework: pytest
+- Core test command: `pytest {posargs:-n auto}`
+- Coverage test command: `coverage run -m pytest {posargs:-n auto}` (for `py3{7,10,11}` environments)
+- MyPy static analysis: `mypy src/attrs/__init__.pyi src/attr/__init__.pyi src/attr/_typing_compat.pyi src/attr/_version_info.pyi src/attr/converters.pyi src/attr/exceptions.pyi src/attr/filters.pyi src/attr/setters.pyi src/attr/validators.pyi` and `mypy tests/typing_example.py`
+- Pyright type checking: `pytest tests/test_pyright.py -vv`
+- Pre-commit checks: `pre-commit run --all-files`
+- Coverage report generation: `coverage combine` and `coverage report`
+2025-07-03 18:39:20.161 | INFO     | ******
+2025-07-03 18:39:20.161 | DEBUG    | Result of dispatch_intent: ('Python Runtimes:\n- Python 3.7\n- Python 3.8\n- Python 3.9\n- Python 3.10\n- Python 3.11\n- Python 3.12\n- PyPy3\n\nTest Dependencies:\n- `extras = tests` (implies pytest likely via `pyproject.toml` or `setup.cfg`)\n- `extras = cov` (implies `coverage.py` likely via `pyproject.toml` or `setup.cfg`)\n- `coverage[toml]>=5.3`\n- `mypy>=0.991`\n- `nodeenv` (for Pyright environment)\n- `pyright` (installed globally via npm in `pyright` environment)\n\nKey Environment Variables:\n- `SETUPTOOLS_SCM_PRETEND_VERSION` (passed through to test environments)\n- `HATCH_BUILD_HOOK_ENABLE_AUTORUN=1` (for `py3{7,10,11}` environments)\n- `COVERAGE_PROCESS_START={toxinidir}/pyproject.toml` (for `py3{7,10,11}` environments)\n- `PYTHONWARNINGS=d` (for `py3{7,10,11}` environments)\n\nTesting:\n- Test framework: pytest\n- Core test command: `pytest {posargs:-n auto}`\n- Coverage test command: `coverage run -m pytest {posargs:-n auto}` (for `py3{7,10,11}` environments)\n- MyPy static analysis: `mypy src/attrs/__init__.pyi src/attr/__init__.pyi src/attr/_typing_compat.pyi src/attr/_version_info.pyi src/attr/converters.pyi src/attr/exceptions.pyi src/attr/filters.pyi src/attr/setters.pyi src/attr/validators.pyi` and `mypy tests/typing_example.py`\n- Pyright type checking: `pytest tests/test_pyright.py -vv`\n- Pre-commit checks: `pre-commit run --all-files`\n- Coverage report generation: `coverage combine` and `coverage report`', 'Get File Info', True)
+2025-07-03 18:39:20.161 | DEBUG    | Result of dispatch_intent: ('You are browsing the path: /home/sahrish/Desktop/swe-bench/swe-factory-local/testbed/python-attrs__attrs-1117_2025-07-03_17-42-49/.github/workflows. The browsing Depth is 1.\nStructure of this path:\n\npypi-package.yml\n\ncodeql-analysis.yml\n\nci.yml\n\nbuild-docset.yml\n\n', 'folder structure collected', True)
+2025-07-03 18:39:32.239 | INFO     | Model API request cost info: input_tokens=2448, output_tokens=343, cost=0.009550
+2025-07-03 18:39:35.612 | INFO     | Model API request cost info: input_tokens=2890, output_tokens=151, cost=0.008735
+2025-07-03 18:39:35.615 | DEBUG    | Trying to select search APIs in json. Try 1 of 5.
+2025-07-03 18:39:37.403 | INFO     | Model API request cost info: input_tokens=819, output_tokens=147, cost=0.003518
+2025-07-03 18:39:37.404 | DEBUG    | {
+  "API_calls": [
+    "browse_file_for_environment_info('.github/workflows/ci.yml', 'Extract environment setup steps, Python version, and commands used to run tests.')"
+  ],
+  "collected_information": "I need to review the contents of `.github/workflows/ci.yml` to get the definitive environment setup steps, including the base operating system, system-level dependencies, specific Python version used in CI, and the exact commands for installing Python dependencies and running tests in an integrated environment. This will help confirm and fill in any gaps from `pyproject.toml` and `tox.ini`.",
+  "terminate": false
+}
+2025-07-03 18:39:37.404 | DEBUG    | Extracted a valid json
+2025-07-03 18:39:37.407 | INFO     | entering browse
+2025-07-03 18:39:37.407 | INFO     | ---
+name: CI
+
+on:
+  push:
+    branches: [main]
+    tags: ["*"]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  FORCE_COLOR: "1" # Make tools pretty.
+  TOX_TESTENV_PASSENV: FORCE_COLOR
+  PIP_DISABLE_PIP_VERSION_CHECK: "1"
+  PIP_NO_PYTHON_VERSION_WARNING: "1"
+  # Keep in sync with .pre-commit-config.yaml/default_language_version/python.
+  PYTHON_LATEST: "3.11"
+  # Avoid warnings about shallow checkout, but also make sure pytest accepts us.
+  SETUPTOOLS_SCM_PRETEND_VERSION: "99.9.9"
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    name: Tests on ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version:
+          - "3.7"
+          - "3.8"
+          - "3.9"
+          - "3.10"
+          - "3.11"
+          - "~3.12.0-0"
+          - "pypy-3.7"
+          - "pypy-3.8"
+
+    continue-on-error: >-
+      ${{ contains(matrix.python-version, '~') && true || false }}
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: python -Im pip install --upgrade wheel tox
+
+      - name: Determine Python version for tox
+        run: |
+          V=${{ matrix.python-version }}
+          if [[ "$V" = ~* ]]; then
+            # Extract version from a '~3.XX.0-0' specifier.
+            V=${V:1:4}
+          fi
+
+          if [[ "$V" = pypy-* ]]; then
+            V=pypy3
+          else
+            V=py$(echo $V | tr -d .)
+          fi
+
+          echo TOX_PYTHON=$V >>$GITHUB_ENV
+
+      - run: python -Im tox run -f ${{ env.TOX_PYTHON }}
+
+      - name: Upload coverage data
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-data
+          path: .coverage.*
+          if-no-files-found: ignore
+
+  coverage:
+    runs-on: ubuntu-latest
+    needs: tests
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          # Use latest Python, so it understands all syntax.
+          python-version: ${{env.PYTHON_LATEST}}
+
+      - run: python -Im pip install --upgrade coverage[toml]
+
+      - name: Download coverage data
+        uses: actions/download-artifact@v3
+        with:
+          name: coverage-data
+
+      - name: Combine coverage and fail if it's <100%.
+        run: |
+          python -Im coverage combine
+          python -Im coverage html --skip-covered --skip-empty
+          python -Im coverage report --fail-under=100
+
+      - name: Upload HTML report if check failed.
+        uses: actions/upload-artifact@v3
+        with:
+          name: html-report
+          path: htmlcov
+        if: ${{ failure() }}
+
+  docs:
+    name: Build docs & run doctests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          # Keep in sync with tox/docs and .readthedocs.yaml.
+          python-version: "3.11"
+
+      - run: python -Im pip install --upgrade wheel tox
+      - run: python -Im tox -e docs,changelog
+
+  mypy:
+    name: Mypy on ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version:
+          - "3.7"
+          - "3.8"
+          - "3.9"
+          - "3.10"
+          - "3.11"
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - run: python -Im pip install --upgrade wheel tox
+      - run: python -Im tox run -e mypy
+
+  pyright:
+    name: Check types using pyright
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{env.PYTHON_LATEST}}
+
+      - run: python -Im pip install --upgrade wheel tox
+      - run: python -Im tox run -e pyright
+
+  install-dev:
+    name: Verify dev env
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{env.PYTHON_LATEST}}
+      - run: python -Im pip install -e .[dev]
+      - run: python -Ic 'import attr; print(attr.__version__)'
+      - run: python -Ic 'import attrs; print(attrs.__version__)'
+
+  # Ensure everything required is passing for branch protection.
+  required-checks-pass:
+    if: always()
+
+    needs:
+      - coverage
+      - docs
+      - install-dev
+      - mypy
+      - pyright
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Decide whether the needed jobs succeeded or failed
+        uses: re-actors/alls-green@release/v1
+        with:
+          jobs: ${{ toJSON(needs) }}
+
+2025-07-03 18:39:37.407 | DEBUG    | Analyzing file content. Try 1 of 3
+2025-07-03 18:39:40.937 | INFO     | Model API request cost info: input_tokens=1841, output_tokens=392, cost=0.008523
+2025-07-03 18:39:40.938 | SUCCESS  | Successfully extracted environment config
+2025-07-03 18:39:40.938 | INFO     | ******
+2025-07-03 18:39:40.938 | INFO     | List of libraries:
+- wheel
+- tox
+- coverage[toml]
+
+Key environment variables:
+- FORCE_COLOR="1"
+- TOX_TESTENV_PASSENV=FORCE_COLOR
+- PIP_DISABLE_PIP_VERSION_CHECK="1"
+- PIP_NO_PYTHON_VERSION_WARNING="1"
+- PYTHON_LATEST="3.11"
+- SETUPTOOLS_SCM_PRETEND_VERSION="99.9.9"
+- TOX_PYTHON (dynamically determined based on `matrix.python-version`)
+
+Runtime Requirements:
+- Python versions: 3.7, 3.8, 3.9, 3.10, 3.11, ~3.12.0-0, pypy-3.7, pypy-3.8
+- Ubuntu Linux environment
+
+Testing:
+- Environment setup:
+    - Install `wheel` and `tox`: `python -Im pip install --upgrade wheel tox`
+    - Install `coverage[toml]`: `python -Im pip install --upgrade coverage[toml]`
+- Test framework: tox
+- Test commands:
+    - Primary tests: `python -Im tox run -f ${{ env.TOX_PYTHON }}`
+    - Doctests: `python -Im tox -e docs,changelog`
+    - Mypy checks: `python -Im tox run -e mypy`
+    - Pyright type checks: `python -Im tox run -e pyright`
+    - Coverage collection & reporting:
+        - `python -Im coverage combine`
+        - `python -Im coverage html --skip-covered --skip-empty`
+        - `python -Im coverage report --fail-under=100`
+2025-07-03 18:39:40.938 | INFO     | ******
+2025-07-03 18:39:40.938 | DEBUG    | Result of dispatch_intent: ('List of libraries:\n- wheel\n- tox\n- coverage[toml]\n\nKey environment variables:\n- FORCE_COLOR="1"\n- TOX_TESTENV_PASSENV=FORCE_COLOR\n- PIP_DISABLE_PIP_VERSION_CHECK="1"\n- PIP_NO_PYTHON_VERSION_WARNING="1"\n- PYTHON_LATEST="3.11"\n- SETUPTOOLS_SCM_PRETEND_VERSION="99.9.9"\n- TOX_PYTHON (dynamically determined based on `matrix.python-version`)\n\nRuntime Requirements:\n- Python versions: 3.7, 3.8, 3.9, 3.10, 3.11, ~3.12.0-0, pypy-3.7, pypy-3.8\n- Ubuntu Linux environment\n\nTesting:\n- Environment setup:\n    - Install `wheel` and `tox`: `python -Im pip install --upgrade wheel tox`\n    - Install `coverage[toml]`: `python -Im pip install --upgrade coverage[toml]`\n- Test framework: tox\n- Test commands:\n    - Primary tests: `python -Im tox run -f ${{ env.TOX_PYTHON }}`\n    - Doctests: `python -Im tox -e docs,changelog`\n    - Mypy checks: `python -Im tox run -e mypy`\n    - Pyright type checks: `python -Im tox run -e pyright`\n    - Coverage collection & reporting:\n        - `python -Im coverage combine`\n        - `python -Im coverage html --skip-covered --skip-empty`\n        - `python -Im coverage report --fail-under=100`', 'Get File Info', True)
+2025-07-03 18:39:50.141 | INFO     | Model API request cost info: input_tokens=3474, output_tokens=537, cost=0.014055
+2025-07-03 18:39:54.479 | INFO     | Model API request cost info: input_tokens=4110, output_tokens=600, cost=0.016275
+2025-07-03 18:39:54.488 | DEBUG    | Trying to select search APIs in json. Try 1 of 5.
+2025-07-03 18:39:57.932 | INFO     | Model API request cost info: input_tokens=1268, output_tokens=645, cost=0.009620
+2025-07-03 18:39:57.932 | DEBUG    | {
+  "API_calls": [],
+  "collected_information": "Yes, I believe we have collected enough information to write a Dockerfile and an evaluation script.\n\nHere is a summary of the collected information:\n\n*   **Base Image / OS**: Ubuntu Linux based (Python's official images are typically Debian-based, which is compatible).\n*   **Python Version**: Python 3.11 is a suitable choice, as it's indicated as `PYTHON_LATEST` in the CI and is fully supported.\n*   **System-level Dependencies**: None explicitly mentioned or implied for basic Python environment; Python and pip are typically sufficient.\n*   **Python Dependencies (Global)**:\n    *   `wheel` (for building Python packages)\n    *   `tox` (to manage test environments and run tests)\n    *   `coverage[toml]` (for test coverage, though `tox` will install most specific test dependencies)\n*   **Project Dependencies**: `attrs` relies on its own `[tests]` and `[cov]` extras. The `tox` environment handles installing these by telling `tox` to install the package with these extras. This implies dependencies like `pytest`, `hypothesis`, `zope.interface`, `mypy`, `cloudpickle`, `pympler`, etc., will be handled by `tox`.\n*   **Build System**: `hatchling`. `tox` will likely use this to install the local package.\n*   **Environment Variables**:\n    *   `SETUPTOOLS_SCM_PRETEND_VERSION=\"99.9.9\"`: Crucial for setting a dummy version during the build process, preventing errors if not building from a proper git tag.\n    *   `FORCE_COLOR=\"1\"`: For colored output.\n    *   `PIP_DISABLE_PIP_VERSION_CHECK=\"1\"` and `PIP_NO_PYTHON_VERSION_WARNING=\"1\"`: To suppress pip warnings.\n    *   `HATCH_BUILD_HOOK_ENABLE_AUTORUN=1`: Possibly needed in some tox environments.\n*   **Test Runner**: `tox` is the primary test runner. It sets up isolated environments and runs `pytest` within them.\n*   **Test Execution Command**:\n    *   To run all tests in a specific Python environment (e.g., `py311`): `python -Im tox run -f py311`\n    *   To run specific test files (e.g., `tests/test_funcs.py`): `python -Im tox run -r -f py311 -- tests/test_funcs.py` (`-r` rebuilds the tox env, good for a fresh container).\n\nThis information is sufficient to create a Dockerfile that sets up the Python environment, installs necessary tools, and an evaluation script that executes the specified test files using `tox`." retain_line_breaks": true,
+  "terminate": true
+}
+2025-07-03 18:39:57.932 | DEBUG    | Invalid json. Will retry.
+2025-07-03 18:39:57.933 | DEBUG    | Trying to select search APIs in json. Try 2 of 5.
+2025-07-03 18:40:01.365 | INFO     | Model API request cost info: input_tokens=1268, output_tokens=602, cost=0.009190
+2025-07-03 18:40:01.366 | DEBUG    | {
+  "API_calls": [],
+  "collected_information": "*   **Base Image / OS**: Ubuntu Linux based (Python's official images are typically Debian-based, which is compatible).\n*   **Python Version**: Python 3.11 is a suitable choice, as it's indicated as `PYTHON_LATEST` in the CI and is fully supported.\n*   **System-level Dependencies**: None explicitly mentioned or implied for basic Python environment; Python and pip are typically sufficient.\n*   **Python Dependencies (Global)**:\n    *   `wheel` (for building Python packages)\n    *   `tox` (to manage test environments and run tests)\n    *   `coverage[toml]` (for test coverage, though `tox` will install most specific test dependencies)\n*   **Project Dependencies**: `attrs` relies on its own `[tests]` and `[cov]` extras. The `tox` environment handles installing these by telling `tox` to install the package with these extras. This implies dependencies like `pytest`, `hypothesis`, `zope.interface`, `mypy`, `cloudpickle`, `pympler`, etc., will be handled by `tox`.\n*   **Build System**: `hatchling`. `tox` will likely use this to install the local package.\n*   **Environment Variables**:\n    *   `SETUPTOOLS_SCM_PRETEND_VERSION=\"99.9.9\"`: Crucial for setting a dummy version during the build process, preventing errors if not building from a proper git tag.\n    *   `FORCE_COLOR=\"1\"`: For colored output.\n    *   `PIP_DISABLE_PIP_VERSION_CHECK=\"1\"` and `PIP_NO_PYTHON_VERSION_WARNING=\"1\"`: To suppress pip warnings.\n    *   `HATCH_BUILD_HOOK_ENABLE_AUTORUN=1`: Possibly needed in some tox environments.\n*   **Test Runner**: `tox` is the primary test runner. It sets up isolated environments and runs `pytest` within them.\n*   **Test Execution Command**:\n    *   To run all tests in a specific Python environment (e.g., `py311`): `python -Im tox run -f py311`\n    *   To run specific test files (e.g., `tests/test_funcs.py`): `python -Im tox run -r -f py311 -- tests/test_funcs.py` (`-r` rebuilds the tox env, good for a fresh container).\n\nThis information is sufficient to create a Dockerfile that sets up the Python environment, installs necessary tools, and an evaluation script that executes the specified test files using `tox`.",
+  "terminate": true
+}
+2025-07-03 18:40:01.366 | DEBUG    | Extracted a valid json
+2025-07-03 18:40:01.369 | INFO     | Trying to extract a dockerfile. Try 1 of 3.
+2025-07-03 18:40:09.001 | INFO     | Model API request cost info: input_tokens=2677, output_tokens=556, cost=0.012253
+2025-07-03 18:40:09.002 | INFO     | Raw dockerfile and produced in try 1. Writing dockerfile into file.
+2025-07-03 18:40:09.017 | INFO     | Trying to extract a eval script. Try 1 of 3.
+2025-07-03 18:40:14.631 | INFO     | Model API request cost info: input_tokens=2877, output_tokens=325, cost=0.010443
+2025-07-03 18:40:14.632 | INFO     | Raw script and produced in try 1. Writing script into file.
+2025-07-03 18:42:32.323 | DEBUG    | Result of dispatch_intent: ('Image built successfully!\nContainer 222bd04fdac4e91fa06b7eee2465dc55f347094b6e5a72a67b2da028a56ead7b started.\nPatch applied successfully.\nFind test_output.txt! Waiting for analysis. ', 'Docker image python-attrs__attrs-1117-dockerfile1:latest built successfully.\nContainer started.\nPatch applied.\nObtain test results successfully.', True)
+2025-07-03 18:42:32.325 | DEBUG    | Trying to analyze the test log. Try 1 of 3.
+2025-07-03 18:43:18.030 | INFO     | Model API request cost info: input_tokens=6724, output_tokens=352, cost=0.020330
+2025-07-03 18:43:18.031 | DEBUG    | {
+    "is_finish": false,
+    "guidance_for_write_dockerfile_agent": "",
+    "guidance_for_write_eval_script_agent": "",
+    "guidance_for_context_retrieval_agent": "The test `tests/test_funcs.py::TestAssoc::test_unknown` failed because `pytest.deprecated_call()` did not detect an expected `DeprecationWarning` when calling `attrs.assoc()`. The log indicates 'Failed: DID NOT WARN. No warnings of type (<class 'DeprecationWarning'>, <class 'PendingDeprecationWarning'>, <class 'FutureWarning'>) were emitted.' Please investigate the `python-attrs/attrs` repository at commit `22ae8473fb88d6e585b05c709e81e1a46398a649` to clarify the intended behavior regarding deprecation warnings for the `assoc` function. Specifically:\n1. Examine the source code of `attr/_funcs.py` and `attr/_deprecate.py` within the specified commit. Confirm whether the `assoc` function is expected to emit a `DeprecationWarning` in `attrs` version 22.2.\n2. If it is expected to emit a warning, check if there are any `pytest` configurations (e.g., in `pyproject.toml` or `conftest.py`) at this commit that might universally suppress `DeprecationWarning`s, or specific `filterwarnings` entries that could interfere with `pytest.deprecated_call()`."
+}
+2025-07-03 18:43:18.031 | DEBUG    | Extracted a valid json
+2025-07-03 18:43:32.527 | INFO     | Model API request cost info: input_tokens=1318, output_tokens=488, cost=0.008175
+2025-07-03 18:43:32.533 | DEBUG    | Trying to select search APIs in json. Try 1 of 5.
+2025-07-03 18:43:36.769 | INFO     | Model API request cost info: input_tokens=1155, output_tokens=336, cost=0.006248
+2025-07-03 18:43:36.770 | DEBUG    | {
+  "API_calls": [
+    "browse_file_for_environment_info(\"pyproject.toml\", \"dependencies, python version, and pytest configuration (especially warning filters)\")",
+    "browse_file_for_environment_info(\"tox.ini\", \"test commands and Python environments (e.g., minimum/maximum Python versions)\")",
+    "browse_file_for_environment_info(\"conftest.py\", \"pytest plugins, fixtures, and warning filters (`filterwarnings`)\")",
+    "browse_folder(\".github/workflows\", \"1\")",
+    "browse_file_for_environment_info(\"src/attr/_funcs.py\", \"implementation of attrs.assoc and any related deprecation mechanisms or warnings\")",
+    "browse_file_for_environment_info(\"src/attr/_deprecate.py\", \"mechanisms for emitting deprecation warnings in attrs, especially for functions\")"
+  ],
+  "collected_information": "Comprehensive information about the `python-attrs/attrs` repository to set up its environment within a Docker container and execute its tests, specifically `tests/test_funcs.py`. This includes identifying Python version requirements, external dependencies, and the correct test execution commands. Furthermore, investigation into a reported failure in `tests/test_funcs.py::TestAssoc::test_unknown` related to a `DeprecationWarning` for `attrs.assoc()`, requiring examination of the relevant source code and pytest configuration for warning suppression.",
+  "terminate": false
+}
+2025-07-03 18:43:36.770 | DEBUG    | Extracted a valid json
+2025-07-03 18:43:36.774 | INFO     | entering browse
+2025-07-03 18:43:36.774 | INFO     | # SPDX-License-Identifier: MIT
+
+[build-system]
+requires = ["hatchling", "hatch-vcs", "hatch-fancy-pypi-readme"]
+build-backend = "hatchling.build"
+
+
+[project]
+name = "attrs"
+authors = [{ name = "Hynek Schlawack", email = "hs@ox.cx" }]
+license = "MIT"
+requires-python = ">=3.7"
+description = "Classes Without Boilerplate"
+keywords = ["class", "attribute", "boilerplate"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = ["importlib_metadata;python_version<'3.8'"]
+dynamic = ["version", "readme"]
+
+[project.optional-dependencies]
+tests-no-zope = [
+    # For regression test to ensure cloudpickle compat doesn't break.
+    'cloudpickle; python_implementation == "CPython"',
+    "hypothesis",
+    "pympler",
+    # 4.3.0 dropped last use of `convert`
+    "pytest>=4.3.0",
+    "pytest-xdist[psutil]",
+    # Since the mypy error messages keep changing, we have to keep updating this
+    # pin.
+    'mypy>=1.1.1; python_implementation == "CPython"',
+    'pytest-mypy-plugins; python_implementation == "CPython" and python_version<"3.11"',
+]
+tests = ["attrs[tests-no-zope]", "zope.interface"]
+cov = [
+    "attrs[tests]",
+    # Ensure coverage is new enough for `source_pkgs`.
+    "coverage[toml]>=5.3",
+]
+docs = [
+    "furo",
+    "myst-parser",
+    "sphinx",
+    "zope.interface",
+    "sphinx-notfound-page",
+    "sphinxcontrib-towncrier",
+    "towncrier",
+]
+dev = ["attrs[tests,docs]", "pre-commit"]
+
+[project.urls]
+Documentation = "https://www.attrs.org/"
+Changelog = "https://www.attrs.org/en/stable/changelog.html"
+"Bug Tracker" = "https://github.com/python-attrs/attrs/issues"
+"Source Code" = "https://github.com/python-attrs/attrs"
+Funding = "https://github.com/sponsors/hynek"
+Tidelift = "https://tidelift.com/subscription/pkg/pypi-attrs?utm_source=pypi-attrs&utm_medium=pypi"
+
+
+[tool.hatch.version]
+source = "vcs"
+raw-options = { local_scheme = "no-local-version" }
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/attr", "src/attrs"]
+
+[tool.hatch.metadata.hooks.fancy-pypi-readme]
+content-type = "text/markdown"
+
+# PyPI doesn't support the <picture> tag.
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
+text = """<p align="center">
+  <a href="https://www.attrs.org/">
+    <img src="https://raw.githubusercontent.com/python-attrs/attrs/main/docs/_static/attrs_logo.svg" width="35%" alt="attrs" />
+  </a>
+</p>
+"""
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
+path = "README.md"
+start-after = "<!-- teaser-begin -->"
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
+text = """
+
+## Release Information
+
+"""
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
+path = "CHANGELOG.md"
+pattern = "\n(###.+?\n)## "
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
+text = """
+
+---
+
+[Full changelog](https://www.attrs.org/en/stable/changelog.html)
+"""
+
+
+# Make coverage play nicely with pytest-xdist.
+[tool.hatch.build.targets.wheel.hooks.autorun]
+dependencies = ["hatch-autorun"]
+code = """
+import coverage
+coverage.process_startup()
+"""
+enable-by-default = false
+
+
+[tool.pytest.ini_options]
+addopts = ["-ra", "--strict-markers", "--strict-config"]
+xfail_strict = true
+testpaths = "tests"
+filterwarnings = ["once::Warning", "ignore:::pympler[.*]"]
+
+
+[tool.coverage.run]
+parallel = true
+branch = true
+source_pkgs = ["attr", "attrs"]
+
+[tool.coverage.paths]
+source = ["src", ".tox/py*/**/site-packages"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+exclude_lines = [
+    "pragma: no cover",
+    # PyPy is unacceptably slow under coverage.
+    "if PYPY:",
+]
+
+
+[tool.black]
+line-length = 79
+
+
+[tool.isort]
+profile = "attrs"
+
+
+[tool.interrogate]
+verbose = 2
+fail-under = 100
+whitelist-regex = ["test_.*"]
+
+
+[tool.check-wheel-contents]
+toplevel = ["attr", "attrs"]
+
+
+[tool.towncrier]
+name = "attrs"
+directory = "changelog.d"
+filename = "CHANGELOG.md"
+start_string = "<!-- towncrier release notes start -->\n"
+template = "changelog.d/towncrier_template.md.jinja"
+title_format = ""
+issue_format = "[#{issue}](https://github.com/python-attrs/attrs/issues/{issue})"
+underlines = ["", "", ""]
+
+[[tool.towncrier.section]]
+path = ""
+
+[[tool.towncrier.type]]
+directory = "breaking"
+name = "Backwards-incompatible Changes"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "deprecation"
+name = "Deprecations"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "change"
+name = "Changes"
+showcontent = true
+
+
+[tool.mypy]
+disallow_untyped_defs = true
+check_untyped_defs = true
+
+2025-07-03 18:43:36.774 | DEBUG    | Analyzing file content. Try 1 of 3
+2025-07-03 18:43:40.054 | INFO     | Model API request cost info: input_tokens=2054, output_tokens=470, cost=0.009835
+2025-07-03 18:43:40.055 | SUCCESS  | Successfully extracted environment config
+2025-07-03 18:43:40.055 | INFO     | ******
+2025-07-03 18:43:40.055 | INFO     | List of libraries:
+- hatchling
+- hatch-vcs
+- hatch-fancy-pypi-readme
+- importlib_metadata (for `python_version<'3.8'`)
+- cloudpickle (for `'CPython'` implementation, `tests-no-zope`
+- hypothesis (for `tests-no-zope`)
+- pympler (for `tests-no-zope`)
+- pytest>=4.3.0 (for `tests-no-zope`)
+- pytest-xdist[psutil] (for `tests-no-zope`)
+- mypy>=1.1.1 (for `'CPython'` implementation, `tests-no-zope`)
+- pytest-mypy-plugins (for `'CPython'` implementation and `python_version<"3.11'`, `tests-no-zope`)
+- zope.interface (for `tests` and `docs`)
+- coverage[toml]>=5.3 (for `cov`)
+- furo (for `docs`)
+- myst-parser (for `docs`)
+- sphinx (for `docs`)
+- sphinx-notfound-page (for `docs`)
+- sphinxcontrib-towncrier (for `docs`)
+- towncrier (for `docs`)
+- pre-commit (for `dev`)
+- hatch-autorun (for `tool.hatch.build.targets.wheel.hooks.autorun`)
+
+Runtime Requirements:
+- Python >=3.7
+
+Testing:
+- Test framework: pytest
+- Test command: The `pyproject.toml` does not contain an explicit command, but it configures `pytest`. Typically, `pytest` or `hatch run test` (if using hatch commands) would be used.
+- Pytest configuration (`[tool.pytest.ini_options]`):
+    - `addopts`: `-ra`, `--strict-markers`, `--strict-config`
+    - `xfail_strict`: `true`
+    - `testpaths`: `tests`
+    - `filterwarnings`: `once::Warning`, `ignore:::pympler[.*]`
+2025-07-03 18:43:40.055 | INFO     | ******
+2025-07-03 18:43:40.055 | DEBUG    | Result of dispatch_intent: ('List of libraries:\n- hatchling\n- hatch-vcs\n- hatch-fancy-pypi-readme\n- importlib_metadata (for `python_version<\'3.8\'`)\n- cloudpickle (for `\'CPython\'` implementation, `tests-no-zope`\n- hypothesis (for `tests-no-zope`)\n- pympler (for `tests-no-zope`)\n- pytest>=4.3.0 (for `tests-no-zope`)\n- pytest-xdist[psutil] (for `tests-no-zope`)\n- mypy>=1.1.1 (for `\'CPython\'` implementation, `tests-no-zope`)\n- pytest-mypy-plugins (for `\'CPython\'` implementation and `python_version<"3.11\'`, `tests-no-zope`)\n- zope.interface (for `tests` and `docs`)\n- coverage[toml]>=5.3 (for `cov`)\n- furo (for `docs`)\n- myst-parser (for `docs`)\n- sphinx (for `docs`)\n- sphinx-notfound-page (for `docs`)\n- sphinxcontrib-towncrier (for `docs`)\n- towncrier (for `docs`)\n- pre-commit (for `dev`)\n- hatch-autorun (for `tool.hatch.build.targets.wheel.hooks.autorun`)\n\nRuntime Requirements:\n- Python >=3.7\n\nTesting:\n- Test framework: pytest\n- Test command: The `pyproject.toml` does not contain an explicit command, but it configures `pytest`. Typically, `pytest` or `hatch run test` (if using hatch commands) would be used.\n- Pytest configuration (`[tool.pytest.ini_options]`):\n    - `addopts`: `-ra`, `--strict-markers`, `--strict-config`\n    - `xfail_strict`: `true`\n    - `testpaths`: `tests`\n    - `filterwarnings`: `once::Warning`, `ignore:::pympler[.*]`', 'Get File Info', True)
+2025-07-03 18:43:40.055 | INFO     | entering browse
+2025-07-03 18:43:40.056 | INFO     | [tox]
+envlist = mypy,pre-commit,py37,py38,py39,py310,py311,py312,pypy3,pyright,docs,changelog,coverage-report
+isolated_build = True
+
+
+[testenv:docs]
+# Keep basepython in sync with ci.yml/docs and .readthedocs.yaml.
+basepython = python3.11
+extras = docs
+commands =
+    sphinx-build -n -T -W -b html -d {envtmpdir}/doctrees docs docs/_build/html
+    sphinx-build -n -T -W -b doctest -d {envtmpdir}/doctrees docs docs/_build/html
+
+
+[testenv]
+extras = tests
+commands = pytest {posargs:-n auto}
+passenv = SETUPTOOLS_SCM_PRETEND_VERSION
+
+
+[testenv:py3{7,10,11}]
+extras = cov
+# Python 3.6+ has a number of compile-time warnings on invalid string escapes.
+# PYTHONWARNINGS=d and --no-compile below make them visible during the Tox run.
+install_command = python -Im pip install --no-compile {opts} {packages}
+setenv =
+    HATCH_BUILD_HOOK_ENABLE_AUTORUN=1
+    COVERAGE_PROCESS_START={toxinidir}/pyproject.toml
+    PYTHONWARNINGS=d
+commands = coverage run -m pytest {posargs:-n auto}
+
+
+[testenv:coverage-report]
+basepython = python3.11
+depends = py3{7,10,11}
+skip_install = true
+deps = coverage[toml]>=5.3
+commands =
+    coverage combine
+    coverage report
+
+
+[testenv:pre-commit]
+skip_install = true
+deps = pre-commit
+commands = pre-commit run --all-files
+
+
+[testenv:changelog]
+deps = towncrier
+skip_install = true
+commands = towncrier build --version main --draft
+
+
+[testenv:mypy]
+deps = mypy>=0.991
+commands =
+    mypy src/attrs/__init__.pyi src/attr/__init__.pyi src/attr/_typing_compat.pyi src/attr/_version_info.pyi src/attr/converters.pyi src/attr/exceptions.pyi src/attr/filters.pyi src/attr/setters.pyi src/attr/validators.pyi
+    mypy tests/typing_example.py
+
+
+[testenv:pyright]
+# Install and configure node and pyright
+# This *could* be folded into a custom install_command
+# Use nodeenv to configure node in the running tox virtual environment
+# Seeing errors using "nodeenv -p"
+# Use npm install -g to install "globally" into the virtual environment
+deps = nodeenv
+commands =
+    nodeenv --prebuilt --node=lts --force {envdir}
+    npm install -g --no-package-lock --no-save pyright
+    pytest tests/test_pyright.py -vv
+
+
+[testenv:docset]
+deps = doc2dash
+extras = docs
+allowlist_externals =
+    rm
+    cp
+    tar
+commands =
+    rm -rf attrs.docset attrs.tgz docs/_build
+    sphinx-build -n -T -W -b html -d {envtmpdir}/doctrees docs docs/_build/html
+    doc2dash --index-page index.html --icon docs/_static/docset-icon.png --online-redirect-url https://www.attrs.org/en/latest/ docs/_build/html
+    cp docs/_static/docset-icon@2x.png attrs.docset/icon@2x.png
+    tar --exclude='.DS_Store' -cvzf attrs.tgz attrs.docset
+
+2025-07-03 18:43:40.056 | DEBUG    | Analyzing file content. Try 1 of 3
+2025-07-03 18:43:49.884 | INFO     | Model API request cost info: input_tokens=1260, output_tokens=569, cost=0.008840
+2025-07-03 18:43:49.885 | SUCCESS  | Successfully extracted environment config
+2025-07-03 18:43:49.885 | INFO     | ******
+2025-07-03 18:43:49.885 | INFO     | List of libraries:
+- pytest (implied by test commands and extras)
+- sphinx (for docs environment)
+- coverage[toml]>=5.3
+- pre-commit
+- towncrier
+- mypy>=0.991
+- nodeenv
+- pyright (installed globally within nodeenv)
+- doc2dash
+
+Key environment variables:
+- SETUPTOOLS_SCM_PRETEND_VERSION (passed through)
+- HATCH_BUILD_HOOK_ENABLE_AUTORUN=1
+- COVERAGE_PROCESS_START={toxinidir}/pyproject.toml
+- PYTHONWARNINGS=d
+
+Runtime Requirements:
+- Python 3.7 to 3.12 (specifically 3.7, 3.8, 3.9, 3.10, 3.11, 3.12)
+- PyPy3
+- Node.js (LTS version, managed by nodeenv for `pyright` testing)
+
+Testing:
+- Test frameworks: pytest, mypy, pre-commit, sphinx (for doctests).
+- Test commands:
+    - Base pytest tests: `pytest {posargs:-n auto}`
+    - Coverage-enabled pytest tests: `coverage run -m pytest {posargs:-n auto}`
+    - Pre-commit checks: `pre-commit run --all-files`
+    - Mypy type checks:
+        - `mypy src/attrs/__init__.pyi src/attr/__init__.pyi src/attr/_typing_compat.pyi src/attr/_version_info.pyi src/attr/converters.pyi src/attr/exceptions.pyi src/attr/filters.pyi src/attr/setters.pyi src/attr/validators.pyi`
+        - `mypy tests/typing_example.py`
+    - Pyright tests: `pytest tests/test_pyright.py -vv` (after nodeenv and npm setup)
+    - Sphinx doctests: `sphinx-build -n -T -W -b doctest -d {envtmpdir}/doctrees docs docs/_build/html`
+- Python environments for testing:
+    - Minimum Python version: 3.7
+    - Maximum Python version: 3.12
+    - Other specific versions: 3.8, 3.9, 3.10, 3.11
+    - PyPy3 is also supported
+    - python3.11 is explicitly used for `docs` and `coverage-report` environments.
+2025-07-03 18:43:49.885 | INFO     | ******
+2025-07-03 18:43:49.885 | DEBUG    | Result of dispatch_intent: ('List of libraries:\n- pytest (implied by test commands and extras)\n- sphinx (for docs environment)\n- coverage[toml]>=5.3\n- pre-commit\n- towncrier\n- mypy>=0.991\n- nodeenv\n- pyright (installed globally within nodeenv)\n- doc2dash\n\nKey environment variables:\n- SETUPTOOLS_SCM_PRETEND_VERSION (passed through)\n- HATCH_BUILD_HOOK_ENABLE_AUTORUN=1\n- COVERAGE_PROCESS_START={toxinidir}/pyproject.toml\n- PYTHONWARNINGS=d\n\nRuntime Requirements:\n- Python 3.7 to 3.12 (specifically 3.7, 3.8, 3.9, 3.10, 3.11, 3.12)\n- PyPy3\n- Node.js (LTS version, managed by nodeenv for `pyright` testing)\n\nTesting:\n- Test frameworks: pytest, mypy, pre-commit, sphinx (for doctests).\n- Test commands:\n    - Base pytest tests: `pytest {posargs:-n auto}`\n    - Coverage-enabled pytest tests: `coverage run -m pytest {posargs:-n auto}`\n    - Pre-commit checks: `pre-commit run --all-files`\n    - Mypy type checks:\n        - `mypy src/attrs/__init__.pyi src/attr/__init__.pyi src/attr/_typing_compat.pyi src/attr/_version_info.pyi src/attr/converters.pyi src/attr/exceptions.pyi src/attr/filters.pyi src/attr/setters.pyi src/attr/validators.pyi`\n        - `mypy tests/typing_example.py`\n    - Pyright tests: `pytest tests/test_pyright.py -vv` (after nodeenv and npm setup)\n    - Sphinx doctests: `sphinx-build -n -T -W -b doctest -d {envtmpdir}/doctrees docs docs/_build/html`\n- Python environments for testing:\n    - Minimum Python version: 3.7\n    - Maximum Python version: 3.12\n    - Other specific versions: 3.8, 3.9, 3.10, 3.11\n    - PyPy3 is also supported\n    - python3.11 is explicitly used for `docs` and `coverage-report` environments.', 'Get File Info', True)
+2025-07-03 18:43:49.886 | INFO     | entering browse
+2025-07-03 18:43:49.886 | INFO     | # SPDX-License-Identifier: MIT
+
+import pytest
+
+from hypothesis import HealthCheck, settings
+
+from attr._compat import PY310
+
+
+@pytest.fixture(name="slots", params=(True, False))
+def _slots(request):
+    return request.param
+
+
+@pytest.fixture(name="frozen", params=(True, False))
+def _frozen(request):
+    return request.param
+
+
+def pytest_configure(config):
+    # HealthCheck.too_slow causes more trouble than good -- especially in CIs.
+    settings.register_profile(
+        "patience", settings(suppress_health_check=[HealthCheck.too_slow])
+    )
+    settings.load_profile("patience")
+
+
+collect_ignore = []
+if not PY310:
+    collect_ignore.extend(["tests/test_pattern_matching.py"])
+
+2025-07-03 18:43:49.886 | DEBUG    | Analyzing file content. Try 1 of 3
+2025-07-03 18:43:53.063 | INFO     | Model API request cost info: input_tokens=562, output_tokens=217, cost=0.003575
+2025-07-03 18:43:53.063 | SUCCESS  | Successfully extracted environment config
+2025-07-03 18:43:53.064 | INFO     | ******
+2025-07-03 18:43:53.064 | INFO     | List of libraries:
+- pytest
+- hypothesis
+- attr (implied by `attr._compat`, though not directly imported)
+
+Pytest Customizations (plugins, fixtures, warnings):
+- **Fixtures**:
+    - `slots` (parameterized: True, False)
+    - `frozen` (parameterized: True, False)
+- **Plugins/Hooks**:
+    - `pytest_configure`: Configures `hypothesis` to suppress `HealthCheck.too_slow`.
+- **Warning Filters**:
+    - No explicit `pytest.mark.filterwarnings` or `filterwarnings` option in `pytest.ini`-like config is present in this file. However, `hypothesis` health checks are being suppressed via `settings.register_profile` within `pytest_configure`.
+- **Ignored Tests**:
+    - `tests/test_pattern_matching.py` is ignored if Python version is not 3.10 or newer (`if not PY310`).
+2025-07-03 18:43:53.064 | INFO     | ******
+2025-07-03 18:43:53.064 | DEBUG    | Result of dispatch_intent: ('List of libraries:\n- pytest\n- hypothesis\n- attr (implied by `attr._compat`, though not directly imported)\n\nPytest Customizations (plugins, fixtures, warnings):\n- **Fixtures**:\n    - `slots` (parameterized: True, False)\n    - `frozen` (parameterized: True, False)\n- **Plugins/Hooks**:\n    - `pytest_configure`: Configures `hypothesis` to suppress `HealthCheck.too_slow`.\n- **Warning Filters**:\n    - No explicit `pytest.mark.filterwarnings` or `filterwarnings` option in `pytest.ini`-like config is present in this file. However, `hypothesis` health checks are being suppressed via `settings.register_profile` within `pytest_configure`.\n- **Ignored Tests**:\n    - `tests/test_pattern_matching.py` is ignored if Python version is not 3.10 or newer (`if not PY310`).', 'Get File Info', True)
+2025-07-03 18:43:53.064 | DEBUG    | Result of dispatch_intent: ('You are browsing the path: /home/sahrish/Desktop/swe-bench/swe-factory-local/testbed/python-attrs__attrs-1117_2025-07-03_17-42-49/.github/workflows. The browsing Depth is 1.\nStructure of this path:\n\npypi-package.yml\n\ncodeql-analysis.yml\n\nci.yml\n\nbuild-docset.yml\n\n', 'folder structure collected', True)
+2025-07-03 18:43:53.064 | INFO     | entering browse
+2025-07-03 18:43:53.064 | INFO     | # SPDX-License-Identifier: MIT
+
+
+import copy
+
+from ._compat import PY_3_9_PLUS, get_generic_base
+from ._make import NOTHING, _obj_setattr, fields
+from .exceptions import AttrsAttributeNotFoundError
+
+
+def asdict(
+    inst,
+    recurse=True,
+    filter=None,
+    dict_factory=dict,
+    retain_collection_types=False,
+    value_serializer=None,
+):
+    """
+    Return the *attrs* attribute values of *inst* as a dict.
+
+    Optionally recurse into other *attrs*-decorated classes.
+
+    :param inst: Instance of an *attrs*-decorated class.
+    :param bool recurse: Recurse into classes that are also
+        *attrs*-decorated.
+    :param callable filter: A callable whose return code determines whether an
+        attribute or element is included (``True``) or dropped (``False``).  Is
+        called with the `attrs.Attribute` as the first argument and the
+        value as the second argument.
+    :param callable dict_factory: A callable to produce dictionaries from.  For
+        example, to produce ordered dictionaries instead of normal Python
+        dictionaries, pass in ``collections.OrderedDict``.
+    :param bool retain_collection_types: Do not convert to ``list`` when
+        encountering an attribute whose type is ``tuple`` or ``set``.  Only
+        meaningful if ``recurse`` is ``True``.
+    :param Optional[callable] value_serializer: A hook that is called for every
+        attribute or dict key/value.  It receives the current instance, field
+        and value and must return the (updated) value.  The hook is run *after*
+        the optional *filter* has been applied.
+
+    :rtype: return type of *dict_factory*
+
+    :raise attrs.exceptions.NotAnAttrsClassError: If *cls* is not an *attrs*
+        class.
+
+    ..  versionadded:: 16.0.0 *dict_factory*
+    ..  versionadded:: 16.1.0 *retain_collection_types*
+    ..  versionadded:: 20.3.0 *value_serializer*
+    ..  versionadded:: 21.3.0 If a dict has a collection for a key, it is
+        serialized as a tuple.
+    """
+    attrs = fields(inst.__class__)
+    rv = dict_factory()
+    for a in attrs:
+        v = getattr(inst, a.name)
+        if filter is not None and not filter(a, v):
+            continue
+
+        if value_serializer is not None:
+            v = value_serializer(inst, a, v)
+
+        if recurse is True:
+            if has(v.__class__):
+                rv[a.name] = asdict(
+                    v,
+                    recurse=True,
+                    filter=filter,
+                    dict_factory=dict_factory,
+                    retain_collection_types=retain_collection_types,
+                    value_serializer=value_serializer,
+                )
+            elif isinstance(v, (tuple, list, set, frozenset)):
+                cf = v.__class__ if retain_collection_types is True else list
+                rv[a.name] = cf(
+                    [
+                        _asdict_anything(
+                            i,
+                            is_key=False,
+                            filter=filter,
+                            dict_factory=dict_factory,
+                            retain_collection_types=retain_collection_types,
+                            value_serializer=value_serializer,
+                        )
+                        for i in v
+                    ]
+                )
+            elif isinstance(v, dict):
+                df = dict_factory
+                rv[a.name] = df(
+                    (
+                        _asdict_anything(
+                            kk,
+                            is_key=True,
+                            filter=filter,
+                            dict_factory=df,
+                            retain_collection_types=retain_collection_types,
+                            value_serializer=value_serializer,
+                        ),
+                        _asdict_anything(
+                            vv,
+                            is_key=False,
+                            filter=filter,
+                            dict_factory=df,
+                            retain_collection_types=retain_collection_types,
+                            value_serializer=value_serializer,
+                        ),
+                    )
+                    for kk, vv in v.items()
+                )
+            else:
+                rv[a.name] = v
+        else:
+            rv[a.name] = v
+    return rv
+
+
+def _asdict_anything(
+    val,
+    is_key,
+    filter,
+    dict_factory,
+    retain_collection_types,
+    value_serializer,
+):
+    """
+    ``asdict`` only works on attrs instances, this works on anything.
+    """
+    if getattr(val.__class__, "__attrs_attrs__", None) is not None:
+        # Attrs class.
+        rv = asdict(
+            val,
+            recurse=True,
+            filter=filter,
+            dict_factory=dict_factory,
+            retain_collection_types=retain_collection_types,
+            value_serializer=value_serializer,
+        )
+    elif isinstance(val, (tuple, list, set, frozenset)):
+        if retain_collection_types is True:
+            cf = val.__class__
+        elif is_key:
+            cf = tuple
+        else:
+            cf = list
+
+        rv = cf(
+            [
+                _asdict_anything(
+                    i,
+                    is_key=False,
+                    filter=filter,
+                    dict_factory=dict_factory,
+                    retain_collection_types=retain_collection_types,
+                    value_serializer=value_serializer,
+                )
+                for i in val
+            ]
+        )
+    elif isinstance(val, dict):
+        df = dict_factory
+        rv = df(
+            (
+                _asdict_anything(
+                    kk,
+                    is_key=True,
+                    filter=filter,
+                    dict_factory=df,
+                    retain_collection_types=retain_collection_types,
+                    value_serializer=value_serializer,
+                ),
+                _asdict_anything(
+                    vv,
+                    is_key=False,
+                    filter=filter,
+                    dict_factory=df,
+                    retain_collection_types=retain_collection_types,
+                    value_serializer=value_serializer,
+                ),
+            )
+            for kk, vv in val.items()
+        )
+    else:
+        rv = val
+        if value_serializer is not None:
+            rv = value_serializer(None, None, rv)
+
+    return rv
+
+
+def astuple(
+    inst,
+    recurse=True,
+    filter=None,
+    tuple_factory=tuple,
+    retain_collection_types=False,
+):
+    """
+    Return the *attrs* attribute values of *inst* as a tuple.
+
+    Optionally recurse into other *attrs*-decorated classes.
+
+    :param inst: Instance of an *attrs*-decorated class.
+    :param bool recurse: Recurse into classes that are also
+        *attrs*-decorated.
+    :param callable filter: A callable whose return code determines whether an
+        attribute or element is included (``True``) or dropped (``False``).  Is
+        called with the `attrs.Attribute` as the first argument and the
+        value as the second argument.
+    :param callable tuple_factory: A callable to produce tuples from.  For
+        example, to produce lists instead of tuples.
+    :param bool retain_collection_types: Do not convert to ``list``
+        or ``dict`` when encountering an attribute which type is
+        ``tuple``, ``dict`` or ``set``.  Only meaningful if ``recurse`` is
+        ``True``.
+
+    :rtype: return type of *tuple_factory*
+
+    :raise attrs.exceptions.NotAnAttrsClassError: If *cls* is not an *attrs*
+        class.
+
+    ..  versionadded:: 16.2.0
+    """
+    attrs = fields(inst.__class__)
+    rv = []
+    retain = retain_collection_types  # Very long. :/
+    for a in attrs:
+        v = getattr(inst, a.name)
+        if filter is not None and not filter(a, v):
+            continue
+        if recurse is True:
+            if has(v.__class__):
+                rv.append(
+                    astuple(
+                        v,
+                        recurse=True,
+                        filter=filter,
+                        tuple_factory=tuple_factory,
+                        retain_collection_types=retain,
+                    )
+                )
+            elif isinstance(v, (tuple, list, set, frozenset)):
+                cf = v.__class__ if retain is True else list
+                rv.append(
+                    cf(
+                        [
+                            astuple(
+                                j,
+                                recurse=True,
+                                filter=filter,
+                                tuple_factory=tuple_factory,
+                                retain_collection_types=retain,
+                            )
+                            if has(j.__class__)
+                            else j
+                            for j in v
+                        ]
+                    )
+                )
+            elif isinstance(v, dict):
+                df = v.__class__ if retain is True else dict
+                rv.append(
+                    df(
+                        (
+                            astuple(
+                                kk,
+                                tuple_factory=tuple_factory,
+                                retain_collection_types=retain,
+                            )
+                            if has(kk.__class__)
+                            else kk,
+                            astuple(
+                                vv,
+                                tuple_factory=tuple_factory,
+                                retain_collection_types=retain,
+                            )
+                            if has(vv.__class__)
+                            else vv,
+                        )
+                        for kk, vv in v.items()
+                    )
+                )
+            else:
+                rv.append(v)
+        else:
+            rv.append(v)
+
+    return rv if tuple_factory is list else tuple_factory(rv)
+
+
+def has(cls):
+    """
+    Check whether *cls* is a class with *attrs* attributes.
+
+    :param type cls: Class to introspect.
+    :raise TypeError: If *cls* is not a class.
+
+    :rtype: bool
+    """
+    attrs = getattr(cls, "__attrs_attrs__", None)
+    if attrs is not None:
+        return True
+
+    # No attrs, maybe it's a specialized generic (A[str])?
+    generic_base = get_generic_base(cls)
+    if generic_base is not None:
+        generic_attrs = getattr(generic_base, "__attrs_attrs__", None)
+        if generic_attrs is not None:
+            # Stick it on here for speed next time.
+            cls.__attrs_attrs__ = generic_attrs
+        return generic_attrs is not None
+    return False
+
+
+def assoc(inst, **changes):
+    """
+    Copy *inst* and apply *changes*.
+
+    This is different from `evolve` that applies the changes to the arguments
+    that create the new instance.
+
+    `evolve`'s behavior is preferable, but there are `edge cases`_ where it
+    doesn't work. Therefore `assoc` is deprecated, but will not be removed.
+
+    .. _`edge cases`: https://github.com/python-attrs/attrs/issues/251
+
+    :param inst: Instance of a class with *attrs* attributes.
+    :param changes: Keyword changes in the new copy.
+
+    :return: A copy of inst with *changes* incorporated.
+
+    :raise attrs.exceptions.AttrsAttributeNotFoundError: If *attr_name*
+        couldn't be found on *cls*.
+    :raise attrs.exceptions.NotAnAttrsClassError: If *cls* is not an *attrs*
+        class.
+
+    ..  deprecated:: 17.1.0
+        Use `attrs.evolve` instead if you can.
+        This function will not be removed du to the slightly different approach
+        compared to `attrs.evolve`.
+    """
+    new = copy.copy(inst)
+    attrs = fields(inst.__class__)
+    for k, v in changes.items():
+        a = getattr(attrs, k, NOTHING)
+        if a is NOTHING:
+            raise AttrsAttributeNotFoundError(
+                f"{k} is not an attrs attribute on {new.__class__}."
+            )
+        _obj_setattr(new, k, v)
+    return new
+
+
+def evolve(inst, **changes):
+    """
+    Create a new instance, based on *inst* with *changes* applied.
+
+    :param inst: Instance of a class with *attrs* attributes.
+    :param changes: Keyword changes in the new copy.
+
+    :return: A copy of inst with *changes* incorporated.
+
+    :raise TypeError: If *attr_name* couldn't be found in the class
+        ``__init__``.
+    :raise attrs.exceptions.NotAnAttrsClassError: If *cls* is not an *attrs*
+        class.
+
+    ..  versionadded:: 17.1.0
+    """
+    cls = inst.__class__
+    attrs = fields(cls)
+    for a in attrs:
+        if not a.init:
+            continue
+        attr_name = a.name  # To deal with private attributes.
+        init_name = a.alias
+        if init_name not in changes:
+            changes[init_name] = getattr(inst, attr_name)
+
+    return cls(**changes)
+
+
+def resolve_types(
+    cls, globalns=None, localns=None, attribs=None, include_extras=True
+):
+    """
+    Resolve any strings and forward annotations in type annotations.
+
+    This is only required if you need concrete types in `Attribute`'s *type*
+    field. In other words, you don't need to resolve your types if you only
+    use them for static type checking.
+
+    With no arguments, names will be looked up in the module in which the class
+    was created. If this is not what you want, e.g. if the name only exists
+    inside a method, you may pass *globalns* or *localns* to specify other
+    dictionaries in which to look up these names. See the docs of
+    `typing.get_type_hints` for more details.
+
+    :param type cls: Class to resolve.
+    :param Optional[dict] globalns: Dictionary containing global variables.
+    :param Optional[dict] localns: Dictionary containing local variables.
+    :param Optional[list] attribs: List of attribs for the given class.
+        This is necessary when calling from inside a ``field_transformer``
+        since *cls* is not an *attrs* class yet.
+    :param bool include_extras: Resolve more accurately, if possible.
+        Pass ``include_extras`` to ``typing.get_hints``, if supported by the
+        typing module. On supported Python versions (3.9+), this resolves the
+        types more accurately.
+
+    :raise TypeError: If *cls* is not a class.
+    :raise attrs.exceptions.NotAnAttrsClassError: If *cls* is not an *attrs*
+        class and you didn't pass any attribs.
+    :raise NameError: If types cannot be resolved because of missing variables.
+
+    :returns: *cls* so you can use this function also as a class decorator.
+        Please note that you have to apply it **after** `attrs.define`. That
+        means the decorator has to come in the line **before** `attrs.define`.
+
+    ..  versionadded:: 20.1.0
+    ..  versionadded:: 21.1.0 *attribs*
+    ..  versionadded:: 23.1.0 *include_extras*
+
+    """
+    # Since calling get_type_hints is expensive we cache whether we've
+    # done it already.
+    if getattr(cls, "__attrs_types_resolved__", None) != cls:
+        import typing
+
+        kwargs = {"globalns": globalns, "localns": localns}
+
+        if PY_3_9_PLUS:
+            kwargs["include_extras"] = include_extras
+
+        hints = typing.get_type_hints(cls, **kwargs)
+        for field in fields(cls) if attribs is None else attribs:
+            if field.name in hints:
+                # Since fields have been frozen we must work around it.
+                _obj_setattr(field, "type", hints[field.name])
+        # We store the class we resolved so that subclasses know they haven't
+        # been resolved.
+        cls.__attrs_types_resolved__ = cls
+
+    # Return the class so you can use it as a decorator too.
+    return cls
+
+2025-07-03 18:43:53.065 | DEBUG    | Analyzing file content. Try 1 of 3
+2025-07-03 18:43:57.050 | INFO     | Model API request cost info: input_tokens=4214, output_tokens=453, cost=0.015065
+2025-07-03 18:43:57.051 | SUCCESS  | Successfully extracted environment config
+2025-07-03 18:43:57.051 | INFO     | ******
+2025-07-03 18:43:57.051 | INFO     | Custom Query: implementation of attrs.assoc and related deprecation
+
+`attrs.assoc` implementation details:
+- **Function Signature:** `def assoc(inst, **changes)`
+- **Purpose:** Creates a new instance by copying the original `inst` and applying specified `changes`. This is achieved by directly setting the attribute values on the new copy using `_obj_setattr`, bypassing potential `__init__` logic.
+- **Internal Mechanism:**
+    - It performs a shallow copy of the instance using `copy.copy(inst)`.
+    - It iterates through the `changes` dictionary.
+    - For each `k, v` in `changes`, it verifies if `k` is a valid *attrs* attribute. If not, it raises `AttrsAttributeNotFoundError`.
+    - It then sets the attribute `k` to value `v` on the new instance using `_obj_setattr(new, k, v)`.
+- **Relationship to `evolve`:** The docstring explicitly states it's different from `evolve`, which applies changes to the arguments that create the new instance (i.e., through the `__init__` method).
+
+Deprecation mechanisms or warnings:
+- **Docstring Annotation:** The docstring includes a `.. deprecated:: 17.1.0` directive.
+- **Deprecation Message:** "Use `attrs.evolve` instead if you can. This function will not be removed due to the slightly different approach compared to `attrs.evolve`."
+- **Reason for Non-Removal:** It is noted that `assoc` will *not* be removed despite being deprecated, due to "edge cases" where `evolve` might not work. A GitHub issue link is provided: `https://github.com/python-attrs/attrs/issues/251`.
+- **No Runtime Warning:** Based on the code, there's no explicit `DeprecationWarning` or similar Python warning being raised programmatically within the `assoc` function itself. The deprecation is primarily announced through the docstring for users and tools that parse it.
+2025-07-03 18:43:57.051 | INFO     | ******
+2025-07-03 18:43:57.051 | DEBUG    | Result of dispatch_intent: ('Custom Query: implementation of attrs.assoc and related deprecation\n\n`attrs.assoc` implementation details:\n- **Function Signature:** `def assoc(inst, **changes)`\n- **Purpose:** Creates a new instance by copying the original `inst` and applying specified `changes`. This is achieved by directly setting the attribute values on the new copy using `_obj_setattr`, bypassing potential `__init__` logic.\n- **Internal Mechanism:**\n    - It performs a shallow copy of the instance using `copy.copy(inst)`.\n    - It iterates through the `changes` dictionary.\n    - For each `k, v` in `changes`, it verifies if `k` is a valid *attrs* attribute. If not, it raises `AttrsAttributeNotFoundError`.\n    - It then sets the attribute `k` to value `v` on the new instance using `_obj_setattr(new, k, v)`.\n- **Relationship to `evolve`:** The docstring explicitly states it\'s different from `evolve`, which applies changes to the arguments that create the new instance (i.e., through the `__init__` method).\n\nDeprecation mechanisms or warnings:\n- **Docstring Annotation:** The docstring includes a `.. deprecated:: 17.1.0` directive.\n- **Deprecation Message:** "Use `attrs.evolve` instead if you can. This function will not be removed due to the slightly different approach compared to `attrs.evolve`."\n- **Reason for Non-Removal:** It is noted that `assoc` will *not* be removed despite being deprecated, due to "edge cases" where `evolve` might not work. A GitHub issue link is provided: `https://github.com/python-attrs/attrs/issues/251`.\n- **No Runtime Warning:** Based on the code, there\'s no explicit `DeprecationWarning` or similar Python warning being raised programmatically within the `assoc` function itself. The deprecation is primarily announced through the docstring for users and tools that parse it.', 'Get File Info', True)
+2025-07-03 18:43:57.051 | INFO     | entering browse
+2025-07-03 18:43:57.051 | INFO     | File not found: [Errno 2] No such file or directory: 'testbed/python-attrs__attrs-1117_2025-07-03_17-42-49/src/attr/_deprecate.py'
+2025-07-03 18:43:57.051 | DEBUG    | Result of dispatch_intent: ('File not found', 'File not found', False)
+2025-07-03 18:44:24.482 | INFO     | Model API request cost info: input_tokens=3791, output_tokens=1426, cost=0.023738
+2025-07-03 18:44:29.671 | INFO     | Model API request cost info: input_tokens=5316, output_tokens=466, cost=0.017950
+2025-07-03 18:44:29.679 | DEBUG    | Trying to select search APIs in json. Try 1 of 5.
+2025-07-03 18:44:32.785 | INFO     | Model API request cost info: input_tokens=1133, output_tokens=469, cost=0.007523
+2025-07-03 18:44:32.786 | DEBUG    | {
+  "API_calls": [],
+  "collected_information": "### Summary of Collected Information:\n\n1.  **Python Version:** The project supports Python `3.7` to `3.12`. Python `3.9` was chosen as a suitable version for the Docker environment.\n2.  **Dependencies:**\n    *   **Build Backend:** `hatchling` is the build backend specified in `pyproject.toml`.\n    *   **Core and Test Dependencies:** The project itself needs to be installed, along with its `tests` and `cov` optional dependencies. This can be done via `pip install -e \".[tests,cov]\"`. This covers dependencies like `pytest`, `hypothesis`, `pytest-xdist[psutil]`, `pympler`, ``zope.interface`, `mypy`, `pytest-mypy-plugins`, and `coverage[toml]`.\n3.  **Environment Variables:** The `tox.ini` file specifies `PYTHONWARNINGS=\"d\"` for test environments, which is important for how Python handles warnings and must be set in the Docker container.\n4.  **Test Framework:** `pytest` is the primary test framework.\n5.  **Test Execution Command:** The standard `pytest` command can be used. To run the specific test file, the command will be `pytest tests/test_funcs.py`.\n6.  **Pytest Configuration:** `pyproject.toml` includes `[tool.pytest.ini_options]` with `addopts`, `xfail_strict`, `testpaths`, and `filterwarnings`. `conftest.py` also has pytest fixtures and configurations, though no explicit warning filters directly impacting the `DeprecationWarning` in question for the `assoc` function were found there.\n7.  **Deprecation Warning Context:** The analysis of `src/attr/_funcs.py` clearly showed that `attrs.assoc()` declares deprecation in its docstring but does *not* programmatically emit a `DeprecationWarning` at runtime. This explains the observed test failure and confirms that the setup should not expect a runtime warning from `assoc()`.",
+  "terminate": true
+}
+2025-07-03 18:44:32.786 | DEBUG    | Extracted a valid json
+2025-07-03 18:46:42.592 | DEBUG    | Result of dispatch_intent: ('Image built successfully!\nContainer 5ca2e4424141fcd60d3b2ccd897d8cfcba6fadca10ae69655cfe6fea0920260d started.\nPatch applied successfully.\nFind test_output.txt! Waiting for analysis. ', 'Docker image python-attrs__attrs-1117-dockerfile2:latest built successfully.\nContainer started.\nPatch applied.\nObtain test results successfully.', True)
+2025-07-03 18:46:42.599 | DEBUG    | Trying to analyze the test log. Try 1 of 3.
+2025-07-03 18:47:17.088 | INFO     | Model API request cost info: input_tokens=6716, output_tokens=288, cost=0.019670
+2025-07-03 18:47:17.089 | DEBUG    | {
+  "is_finish": false,
+  "guidance_for_write_dockerfile_agent": "",
+  "guidance_for_write_eval_script_agent": "",
+  "guidance_for_context_retrieval_agent": "The test `tests/test_funcs.py::TestAssoc::test_unknown` failed. The log indicates the failure was \"Failed: DID NOT WARN. No warnings of type (<class 'DeprecationWarning'>, <class 'PendingDeprecationWarning'>, <class 'FutureWarning'>) were emitted.\". This means that while the `AttrsAttributeNotFoundError` was raised as expected by the test, the associated deprecation warning (expected from the `assoc` function, which is marked as deprecated since 17.1.0) was not emitted by the `attrs` library version 22.2.1.dev45. The Dockerfile correctly sets up the environment and the eval script correctly executes the tests; there are no issues with the test execution infrastructure. However, to fully diagnose why this specific test is failing to emit the expected warning and how to proceed, the content of the test patch applied to `tests/test_funcs.py` is needed. Please provide the full content of the test patch that was applied to `tests/test_funcs.py`."
+}
+2025-07-03 18:47:17.091 | DEBUG    | Extracted a valid json
+2025-07-03 18:47:21.028 | INFO     | Model API request cost info: input_tokens=1252, output_tokens=310, cost=0.006230
+2025-07-03 18:47:21.036 | DEBUG    | Trying to select search APIs in json. Try 1 of 5.
+2025-07-03 18:47:23.383 | INFO     | Model API request cost info: input_tokens=978, output_tokens=162, cost=0.004065
+2025-07-03 18:47:23.383 | DEBUG    | {
+    "API_calls": [
+        "browse_file_for_environment_info(\"pyproject.toml\", \"Python version requirements, build backend, and main dependencies.\")",
+        "browse_file_for_environment_info(\"tox.ini\", \"Test commands, test dependencies, and Python versions used for testing.\")",
+        "browse_file_for_environment_info(\"README.md\", \"General setup instructions and how to run tests.\")"
+    ],
+    "collected_information": "Currently gathering information about environment setup and test execution for 'python-attrs/attrs' by examining 'pyproject.toml', 'tox.ini', and 'README.md'.",
+    "terminate": false
+}
+2025-07-03 18:47:23.384 | DEBUG    | Extracted a valid json
+2025-07-03 18:47:23.386 | INFO     | entering browse
+2025-07-03 18:47:23.389 | INFO     | # SPDX-License-Identifier: MIT
+
+[build-system]
+requires = ["hatchling", "hatch-vcs", "hatch-fancy-pypi-readme"]
+build-backend = "hatchling.build"
+
+
+[project]
+name = "attrs"
+authors = [{ name = "Hynek Schlawack", email = "hs@ox.cx" }]
+license = "MIT"
+requires-python = ">=3.7"
+description = "Classes Without Boilerplate"
+keywords = ["class", "attribute", "boilerplate"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = ["importlib_metadata;python_version<'3.8'"]
+dynamic = ["version", "readme"]
+
+[project.optional-dependencies]
+tests-no-zope = [
+    # For regression test to ensure cloudpickle compat doesn't break.
+    'cloudpickle; python_implementation == "CPython"',
+    "hypothesis",
+    "pympler",
+    # 4.3.0 dropped last use of `convert`
+    "pytest>=4.3.0",
+    "pytest-xdist[psutil]",
+    # Since the mypy error messages keep changing, we have to keep updating this
+    # pin.
+    'mypy>=1.1.1; python_implementation == "CPython"',
+    'pytest-mypy-plugins; python_implementation == "CPython" and python_version<"3.11"',
+]
+tests = ["attrs[tests-no-zope]", "zope.interface"]
+cov = [
+    "attrs[tests]",
+    # Ensure coverage is new enough for `source_pkgs`.
+    "coverage[toml]>=5.3",
+]
+docs = [
+    "furo",
+    "myst-parser",
+    "sphinx",
+    "zope.interface",
+    "sphinx-notfound-page",
+    "sphinxcontrib-towncrier",
+    "towncrier",
+]
+dev = ["attrs[tests,docs]", "pre-commit"]
+
+[project.urls]
+Documentation = "https://www.attrs.org/"
+Changelog = "https://www.attrs.org/en/stable/changelog.html"
+"Bug Tracker" = "https://github.com/python-attrs/attrs/issues"
+"Source Code" = "https://github.com/python-attrs/attrs"
+Funding = "https://github.com/sponsors/hynek"
+Tidelift = "https://tidelift.com/subscription/pkg/pypi-attrs?utm_source=pypi-attrs&utm_medium=pypi"
+
+
+[tool.hatch.version]
+source = "vcs"
+raw-options = { local_scheme = "no-local-version" }
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/attr", "src/attrs"]
+
+[tool.hatch.metadata.hooks.fancy-pypi-readme]
+content-type = "text/markdown"
+
+# PyPI doesn't support the <picture> tag.
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
+text = """<p align="center">
+  <a href="https://www.attrs.org/">
+    <img src="https://raw.githubusercontent.com/python-attrs/attrs/main/docs/_static/attrs_logo.svg" width="35%" alt="attrs" />
+  </a>
+</p>
+"""
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
+path = "README.md"
+start-after = "<!-- teaser-begin -->"
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
+text = """
+
+## Release Information
+
+"""
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
+path = "CHANGELOG.md"
+pattern = "\n(###.+?\n)## "
+
+[[tool.hatch.metadata.hooks.fancy-pypi-readme.fragments]]
+text = """
+
+---
+
+[Full changelog](https://www.attrs.org/en/stable/changelog.html)
+"""
+
+
+# Make coverage play nicely with pytest-xdist.
+[tool.hatch.build.targets.wheel.hooks.autorun]
+dependencies = ["hatch-autorun"]
+code = """
+import coverage
+coverage.process_startup()
+"""
+enable-by-default = false
+
+
+[tool.pytest.ini_options]
+addopts = ["-ra", "--strict-markers", "--strict-config"]
+xfail_strict = true
+testpaths = "tests"
+filterwarnings = ["once::Warning", "ignore:::pympler[.*]"]
+
+
+[tool.coverage.run]
+parallel = true
+branch = true
+source_pkgs = ["attr", "attrs"]
+
+[tool.coverage.paths]
+source = ["src", ".tox/py*/**/site-packages"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+exclude_lines = [
+    "pragma: no cover",
+    # PyPy is unacceptably slow under coverage.
+    "if PYPY:",
+]
+
+
+[tool.black]
+line-length = 79
+
+
+[tool.isort]
+profile = "attrs"
+
+
+[tool.interrogate]
+verbose = 2
+fail-under = 100
+whitelist-regex = ["test_.*"]
+
+
+[tool.check-wheel-contents]
+toplevel = ["attr", "attrs"]
+
+
+[tool.towncrier]
+name = "attrs"
+directory = "changelog.d"
+filename = "CHANGELOG.md"
+start_string = "<!-- towncrier release notes start -->\n"
+template = "changelog.d/towncrier_template.md.jinja"
+title_format = ""
+issue_format = "[#{issue}](https://github.com/python-attrs/attrs/issues/{issue})"
+underlines = ["", "", ""]
+
+[[tool.towncrier.section]]
+path = ""
+
+[[tool.towncrier.type]]
+directory = "breaking"
+name = "Backwards-incompatible Changes"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "deprecation"
+name = "Deprecations"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "change"
+name = "Changes"
+showcontent = true
+
+
+[tool.mypy]
+disallow_untyped_defs = true
+check_untyped_defs = true
+
+2025-07-03 18:47:23.390 | DEBUG    | Analyzing file content. Try 1 of 3
+2025-07-03 18:47:26.045 | INFO     | Model API request cost info: input_tokens=2052, output_tokens=280, cost=0.007930
+2025-07-03 18:47:26.046 | SUCCESS  | Successfully extracted environment config
+2025-07-03 18:47:26.046 | INFO     | ******
+2025-07-03 18:47:26.046 | INFO     | Runtime Requirements:
+- Python >=3.7
+
+Build System:
+- Build backend: hatchling.build
+- Build dependencies:
+    - hatchling
+    - hatch-vcs
+    - hatch-fancy-pypi-readme
+
+List of main dependencies:
+- importlib_metadata (for Python versions < 3.8)
+
+Test Dependencies (from `tests` optional-dependency):
+- attrs[tests-no-zope] (meaning dependencies from tests-no-zope are included)
+- zope.interface
+- cloudpickle (if python_implementation == "CPython")
+- hypothesis
+- pympler
+- pytest>=4.3.0
+- pytest-xdist[psutil]
+- mypy>=1.1.1 (if python_implementation == "CPython")
+- pytest-mypy-plugins (if python_implementation == "CPython" and python_version<"3.11")
+
+Testing:
+- Test framework: pytest
+- Test command via pytest.ini_options: pytest -ra --strict-markers --strict-config
+- Test paths: tests
+- Coverage settings indicate:
+    - Parallel coverage: true
+    - Branch coverage: true
+    - Source packages for coverage: attr, attrs
+2025-07-03 18:47:26.046 | INFO     | ******
+2025-07-03 18:47:26.046 | DEBUG    | Result of dispatch_intent: ('Runtime Requirements:\n- Python >=3.7\n\nBuild System:\n- Build backend: hatchling.build\n- Build dependencies:\n    - hatchling\n    - hatch-vcs\n    - hatch-fancy-pypi-readme\n\nList of main dependencies:\n- importlib_metadata (for Python versions < 3.8)\n\nTest Dependencies (from `tests` optional-dependency):\n- attrs[tests-no-zope] (meaning dependencies from tests-no-zope are included)\n- zope.interface\n- cloudpickle (if python_implementation == "CPython")\n- hypothesis\n- pympler\n- pytest>=4.3.0\n- pytest-xdist[psutil]\n- mypy>=1.1.1 (if python_implementation == "CPython")\n- pytest-mypy-plugins (if python_implementation == "CPython" and python_version<"3.11")\n\nTesting:\n- Test framework: pytest\n- Test command via pytest.ini_options: pytest -ra --strict-markers --strict-config\n- Test paths: tests\n- Coverage settings indicate:\n    - Parallel coverage: true\n    - Branch coverage: true\n    - Source packages for coverage: attr, attrs', 'Get File Info', True)
+2025-07-03 18:47:26.047 | INFO     | entering browse
+2025-07-03 18:47:26.047 | INFO     | [tox]
+envlist = mypy,pre-commit,py37,py38,py39,py310,py311,py312,pypy3,pyright,docs,changelog,coverage-report
+isolated_build = True
+
+
+[testenv:docs]
+# Keep basepython in sync with ci.yml/docs and .readthedocs.yaml.
+basepython = python3.11
+extras = docs
+commands =
+    sphinx-build -n -T -W -b html -d {envtmpdir}/doctrees docs docs/_build/html
+    sphinx-build -n -T -W -b doctest -d {envtmpdir}/doctrees docs docs/_build/html
+
+
+[testenv]
+extras = tests
+commands = pytest {posargs:-n auto}
+passenv = SETUPTOOLS_SCM_PRETEND_VERSION
+
+
+[testenv:py3{7,10,11}]
+extras = cov
+# Python 3.6+ has a number of compile-time warnings on invalid string escapes.
+# PYTHONWARNINGS=d and --no-compile below make them visible during the Tox run.
+install_command = python -Im pip install --no-compile {opts} {packages}
+setenv =
+    HATCH_BUILD_HOOK_ENABLE_AUTORUN=1
+    COVERAGE_PROCESS_START={toxinidir}/pyproject.toml
+    PYTHONWARNINGS=d
+commands = coverage run -m pytest {posargs:-n auto}
+
+
+[testenv:coverage-report]
+basepython = python3.11
+depends = py3{7,10,11}
+skip_install = true
+deps = coverage[toml]>=5.3
+commands =
+    coverage combine
+    coverage report
+
+
+[testenv:pre-commit]
+skip_install = true
+deps = pre-commit
+commands = pre-commit run --all-files
+
+
+[testenv:changelog]
+deps = towncrier
+skip_install = true
+commands = towncrier build --version main --draft
+
+
+[testenv:mypy]
+deps = mypy>=0.991
+commands =
+    mypy src/attrs/__init__.pyi src/attr/__init__.pyi src/attr/_typing_compat.pyi src/attr/_version_info.pyi src/attr/converters.pyi src/attr/exceptions.pyi src/attr/filters.pyi src/attr/setters.pyi src/attr/validators.pyi
+    mypy tests/typing_example.py
+
+
+[testenv:pyright]
+# Install and configure node and pyright
+# This *could* be folded into a custom install_command
+# Use nodeenv to configure node in the running tox virtual environment
+# Seeing errors using "nodeenv -p"
+# Use npm install -g to install "globally" into the virtual environment
+deps = nodeenv
+commands =
+    nodeenv --prebuilt --node=lts --force {envdir}
+    npm install -g --no-package-lock --no-save pyright
+    pytest tests/test_pyright.py -vv
+
+
+[testenv:docset]
+deps = doc2dash
+extras = docs
+allowlist_externals =
+    rm
+    cp
+    tar
+commands =
+    rm -rf attrs.docset attrs.tgz docs/_build
+    sphinx-build -n -T -W -b html -d {envtmpdir}/doctrees docs docs/_build/html
+    doc2dash --index-page index.html --icon docs/_static/docset-icon.png --online-redirect-url https://www.attrs.org/en/latest/ docs/_build/html
+    cp docs/_static/docset-icon@2x.png attrs.docset/icon@2x.png
+    tar --exclude='.DS_Store' -cvzf attrs.tgz attrs.docset
+
+2025-07-03 18:47:26.047 | DEBUG    | Analyzing file content. Try 1 of 3
+2025-07-03 18:47:37.251 | INFO     | Model API request cost info: input_tokens=1257, output_tokens=610, cost=0.009243
+2025-07-03 18:47:37.252 | SUCCESS  | Successfully extracted environment config
+2025-07-03 18:47:37.252 | INFO     | ******
+2025-07-03 18:47:37.252 | INFO     | Runtime Requirements:
+- Python 3.7
+- Python 3.8
+- Python 3.9
+- Python 3.10
+- Python 3.11
+- Python 3.12
+- PyPy3
+- Node.js LTS (for pyright)
+
+List of libraries/dependencies used for testing:
+- `extras = tests` (tests specific dependencies, typically defined in `pyproject.toml`)
+- `extras = cov` (coverage specific dependencies, typically defined in `pyproject.toml`)
+- `pre-commit`
+- `mypy>=0.991`
+- `nodeenv`
+- `pyright` (installed globally via npm in `pyright` environment)
+- `coverage[toml]>=5.3`
+- `extras = docs` (documentation specific dependencies, typically defined in `pyproject.toml`)
+- `doc2dash`
+- `towncrier`
+
+Testing:
+- Test commands:
+    - `pytest {posargs:-n auto}` (general tests)
+    - `coverage run -m pytest {posargs:-n auto}` (coverage tests for Python 3.7, 3.10, 3.11)
+    - `pre-commit run --all-files` (pre-commit checks)
+    - `mypy src/attrs/__init__.pyi src/attr/__init__.pyi src/attr/_typing_compat.pyi src/attr/_version_info.pyi src/attr/converters.pyi src/attr/exceptions.pyi src/attr/filters.pyi src/attr/setters.pyi src/attr/validators.pyi` (mypy checks)
+    - `mypy tests/typing_example.py` (mypy checks)
+    - `pytest tests/test_pyright.py -vv` (pyright tests after `nodeenv` and `npm install`)
+    - `sphinx-build -n -T -W -b html -d {envtmpdir}/doctrees docs docs/_build/html` (docs html build)
+    - `sphinx-build -n -T -W -b doctest -d {envtmpdir}/doctrees docs docs/_build/html` (docs doctest build)
+    - `coverage combine` (coverage report generation)
+    - `coverage report` (coverage report generation)
+    - `towncrier build --version main --draft` (changelog generation)
+    - `doc2dash --index-page index.html --icon docs/_static/docset-icon.png --online-redirect-url https://www.attrs.org/en/latest/ docs/_build/html` (docset generation)
+2025-07-03 18:47:37.252 | INFO     | ******
+2025-07-03 18:47:37.252 | DEBUG    | Result of dispatch_intent: ('Runtime Requirements:\n- Python 3.7\n- Python 3.8\n- Python 3.9\n- Python 3.10\n- Python 3.11\n- Python 3.12\n- PyPy3\n- Node.js LTS (for pyright)\n\nList of libraries/dependencies used for testing:\n- `extras = tests` (tests specific dependencies, typically defined in `pyproject.toml`)\n- `extras = cov` (coverage specific dependencies, typically defined in `pyproject.toml`)\n- `pre-commit`\n- `mypy>=0.991`\n- `nodeenv`\n- `pyright` (installed globally via npm in `pyright` environment)\n- `coverage[toml]>=5.3`\n- `extras = docs` (documentation specific dependencies, typically defined in `pyproject.toml`)\n- `doc2dash`\n- `towncrier`\n\nTesting:\n- Test commands:\n    - `pytest {posargs:-n auto}` (general tests)\n    - `coverage run -m pytest {posargs:-n auto}` (coverage tests for Python 3.7, 3.10, 3.11)\n    - `pre-commit run --all-files` (pre-commit checks)\n    - `mypy src/attrs/__init__.pyi src/attr/__init__.pyi src/attr/_typing_compat.pyi src/attr/_version_info.pyi src/attr/converters.pyi src/attr/exceptions.pyi src/attr/filters.pyi src/attr/setters.pyi src/attr/validators.pyi` (mypy checks)\n    - `mypy tests/typing_example.py` (mypy checks)\n    - `pytest tests/test_pyright.py -vv` (pyright tests after `nodeenv` and `npm install`)\n    - `sphinx-build -n -T -W -b html -d {envtmpdir}/doctrees docs docs/_build/html` (docs html build)\n    - `sphinx-build -n -T -W -b doctest -d {envtmpdir}/doctrees docs docs/_build/html` (docs doctest build)\n    - `coverage combine` (coverage report generation)\n    - `coverage report` (coverage report generation)\n    - `towncrier build --version main --draft` (changelog generation)\n    - `doc2dash --index-page index.html --icon docs/_static/docset-icon.png --online-redirect-url https://www.attrs.org/en/latest/ docs/_build/html` (docset generation)', 'Get File Info', True)
+2025-07-03 18:47:37.253 | INFO     | entering browse
+2025-07-03 18:47:37.273 | INFO     | <p align="center">
+   <a href="https://www.attrs.org/">
+      <picture>
+         <source srcset="https://raw.githubusercontent.com/python-attrs/attrs/main/docs/_static/attrs_logo_white.svg" media="(prefers-color-scheme: dark)">
+         <img src="https://raw.githubusercontent.com/python-attrs/attrs/main/docs/_static/attrs_logo.svg" width="35%" alt="attrs" />
+      </picture>
+   </a>
+</p>
+
+<p align="center">
+   <a href="https://www.attrs.org/en/stable/">
+       <img src="https://img.shields.io/badge/Docs-RTD-black" alt="Documentation" />
+   </a>
+   <a href="https://github.com/python-attrs/attrs/blob/main/LICENSE">
+      <img src="https://img.shields.io/badge/license-MIT-C06524" alt="License: MIT" />
+   </a>
+   <a href="https://bestpractices.coreinfrastructure.org/projects/6482"><img src="https://bestpractices.coreinfrastructure.org/projects/6482/badge"></a>
+   <a href="https://pypi.org/project/attrs/">
+      <img src="https://img.shields.io/pypi/v/attrs" />
+   </a>
+   <a href="https://pepy.tech/project/attrs">
+      <img src="https://static.pepy.tech/personalized-badge/attrs?period=month&units=international_system&left_color=grey&right_color=blue&left_text=Downloads%20/%20Month" alt="Downloads per month" />
+   </a>
+   <a href="https://zenodo.org/badge/latestdoi/29918975"><img src="https://zenodo.org/badge/29918975.svg" alt="DOI"></a>
+</p>
+
+<!-- teaser-begin -->
+
+*attrs* is the Python package that will bring back the **joy** of **writing classes** by relieving you from the drudgery of implementing object protocols (aka [dunder methods](https://www.attrs.org/en/latest/glossary.html#term-dunder-methods)).
+[Trusted by NASA](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-profile/customizing-your-profile/personalizing-your-profile#list-of-qualifying-repositories-for-mars-2020-helicopter-contributor-achievement) for Mars missions since 2020!
+
+Its main goal is to help you to write **concise** and **correct** software without slowing down your code.
+
+
+## Sponsors
+
+*attrs* would not be possible without our [amazing sponsors](https://github.com/sponsors/hynek).
+Especially those generously supporting us at the *The Organization* tier and higher:
+
+<p align="center">
+   <a href="https://www.variomedia.de/">
+      <img src="https://raw.githubusercontent.com/python-attrs/attrs/main/.github/sponsors/Variomedia.svg" width="200" height="60"></img>
+   </a>
+
+   <a href="https://tidelift.com/subscription/pkg/pypi-attrs?utm_source=pypi-attrs&utm_medium=referral&utm_campaign=enterprise&utm_term=repo">
+      <img src="https://raw.githubusercontent.com/python-attrs/attrs/main/.github/sponsors/Tidelift.svg" width="200" height="60"></img>
+   </a>
+
+   <a href="https://sentry.io/">
+      <img src="https://raw.githubusercontent.com/python-attrs/attrs/main/.github/sponsors/Sentry.svg" width="200" height="60"></img>
+   </a>
+
+   <a href="https://filepreviews.io/">
+      <img src="https://raw.githubusercontent.com/python-attrs/attrs/main/.github/sponsors/FilePreviews.svg" width="200" height="60"></img>
+   </a>
+</p>
+
+<p align="center">
+   <strong>Please consider <a href="https://github.com/sponsors/hynek">joining them</a> to help make <em>attrs</em>’s maintenance more sustainable!</strong>
+</p>
+
+<!-- teaser-end -->
+
+## Example
+
+*attrs* gives you a class decorator and a way to declaratively define the attributes on that class:
+
+<!-- code-begin -->
+
+```pycon
+>>> from attrs import asdict, define, make_class, Factory
+
+>>> @define
+... class SomeClass:
+...     a_number: int = 42
+...     list_of_numbers: list[int] = Factory(list)
+...
+...     def hard_math(self, another_number):
+...         return self.a_number + sum(self.list_of_numbers) * another_number
+
+
+>>> sc = SomeClass(1, [1, 2, 3])
+>>> sc
+SomeClass(a_number=1, list_of_numbers=[1, 2, 3])
+
+>>> sc.hard_math(3)
+19
+>>> sc == SomeClass(1, [1, 2, 3])
+True
+>>> sc != SomeClass(2, [3, 2, 1])
+True
+
+>>> asdict(sc)
+{'a_number': 1, 'list_of_numbers': [1, 2, 3]}
+
+>>> SomeClass()
+SomeClass(a_number=42, list_of_numbers=[])
+
+>>> C = make_class("C", ["a", "b"])
+>>> C("foo", "bar")
+C(a='foo', b='bar')
+```
+
+After *declaring* your attributes, *attrs* gives you:
+
+- a concise and explicit overview of the class's attributes,
+- a nice human-readable `__repr__`,
+- equality-checking methods,
+- an initializer,
+- and much more,
+
+*without* writing dull boilerplate code again and again and *without* runtime performance penalties.
+
+**Hate type annotations**!?
+No problem!
+Types are entirely **optional** with *attrs*.
+Simply assign `attrs.field()` to the attributes instead of annotating them with types.
+
+---
+
+This example uses *attrs*'s modern APIs that have been introduced in version 20.1.0, and the *attrs* package import name that has been added in version 21.3.0.
+The classic APIs (`@attr.s`, `attr.ib`, plus their serious-business aliases) and the `attr` package import name will remain **indefinitely**.
+
+Please check out [*On The Core API Names*](https://www.attrs.org/en/latest/names.html) for a more in-depth explanation.
+
+
+## Data Classes
+
+On the tin, *attrs* might remind you of `dataclasses` (and indeed, `dataclasses` [are a descendant](https://hynek.me/articles/import-attrs/) of *attrs*).
+In practice it does a lot more and is more flexible.
+For instance it allows you to define [special handling of NumPy arrays for equality checks](https://www.attrs.org/en/stable/comparison.html#customization), or allows more ways to [plug into the initialization process](https://www.attrs.org/en/stable/init.html#hooking-yourself-into-initialization).
+
+For more details, please refer to our [comparison page](https://www.attrs.org/en/stable/why.html#data-classes).
+
+
+## Project Information
+
+- [**Changelog**](https://www.attrs.org/en/stable/changelog.html)
+- [**Documentation**](https://www.attrs.org/)
+- [**PyPI**](https://pypi.org/project/attrs/)
+- [**Source Code**](https://github.com/python-attrs/attrs)
+- [**Contributing**](https://github.com/python-attrs/attrs/blob/main/.github/CONTRIBUTING.md)
+- [**Third-party Extensions**](https://github.com/python-attrs/attrs/wiki/Extensions-to-attrs)
+- **License**: [MIT](https://www.attrs.org/en/latest/license.html)
+- **Get Help**: please use the `python-attrs` tag on [StackOverflow](https://stackoverflow.com/questions/tagged/python-attrs)
+- **Supported Python Versions**: 3.7 and later
+
+
+### *attrs* for Enterprise
+
+Available as part of the Tidelift Subscription.
+
+The maintainers of *attrs* and thousands of other packages are working with Tidelift to deliver commercial support and maintenance for the open source packages you use to build your applications.
+Save time, reduce risk, and improve code health, while paying the maintainers of the exact packages you use.
+[Learn more.](https://tidelift.com/subscription/pkg/pypi-attrs?utm_source=pypi-attrs&utm_medium=referral&utm_campaign=enterprise&utm_term=repo)
+
+2025-07-03 18:47:37.274 | DEBUG    | Analyzing file content. Try 1 of 3
+2025-07-03 18:47:40.378 | INFO     | Model API request cost info: input_tokens=2499, output_tokens=205, cost=0.008298
+2025-07-03 18:47:40.379 | SUCCESS  | Successfully extracted environment config
+2025-07-03 18:47:40.380 | INFO     | ******
+2025-07-03 18:47:40.380 | INFO     | Runtime Requirements:
+- Python >=3.7
+
+List of libraries:
+- attrs (The package itself)
+
+General setup instructions:
+- The `README.md` file describes the `attrs` Python package and its features.
+- It does not contain explicit installation instructions. Typically, Python packages are installed via `pip install attrs`.
+- Specific setup details (e.g., development environment setup, dependencies for testing beyond `attrs` itself) are not provided in this file. Referencing the "Contributing" guide (`.github/CONTRIBUTING.md`) or `pyproject.toml`/`setup.py` would likely provide more details.
+
+Testing:
+- The `README.md` does not specify a test framework or exact commands to run tests. This information is usually found in a "Contributing" guide or configuration files like `pyproject.toml`, `tox.ini`, or a dedicated `CONTRIBUTING.md` file.
+2025-07-03 18:47:40.380 | INFO     | ******
+2025-07-03 18:47:40.380 | DEBUG    | Result of dispatch_intent: ('Runtime Requirements:\n- Python >=3.7\n\nList of libraries:\n- attrs (The package itself)\n\nGeneral setup instructions:\n- The `README.md` file describes the `attrs` Python package and its features.\n- It does not contain explicit installation instructions. Typically, Python packages are installed via `pip install attrs`.\n- Specific setup details (e.g., development environment setup, dependencies for testing beyond `attrs` itself) are not provided in this file. Referencing the "Contributing" guide (`.github/CONTRIBUTING.md`) or `pyproject.toml`/`setup.py` would likely provide more details.\n\nTesting:\n- The `README.md` does not specify a test framework or exact commands to run tests. This information is usually found in a "Contributing" guide or configuration files like `pyproject.toml`, `tox.ini`, or a dedicated `CONTRIBUTING.md` file.', 'Get File Info', True)
+2025-07-03 18:47:57.074 | INFO     | Model API request cost info: input_tokens=2737, output_tokens=982, cost=0.016663
+2025-07-03 18:48:00.961 | INFO     | Model API request cost info: input_tokens=3818, output_tokens=371, cost=0.013255
+2025-07-03 18:48:00.968 | DEBUG    | Trying to select search APIs in json. Try 1 of 5.
+2025-07-03 18:48:03.630 | INFO     | Model API request cost info: input_tokens=1038, output_tokens=347, cost=0.006065
+2025-07-03 18:48:03.630 | DEBUG    | {
+  "API_calls": [],
+  "collected_information": {
+    "Python Version": "Python 3.11 is a suitable choice, as it's supported by both `pyproject.toml` (>=3.7) and listed in `tox.ini` as a tested environment.",
+    "Build System": "The project uses `hatchling` for building, though for a simple `pip install -e .` it handles this implicitly.",
+    "Dependencies": {
+      "Runtime": "The `attrs` package itself.",
+      "Test": "All necessary test dependencies are specified via the `tests` extra in `pyproject.toml`. These include `pytest`, `pytest-xdist[psutil]`, `hypothesis`, etc.",
+      "System": "`build-essential` and `python3-dev` are needed to compile some Python packages like `psutil` (a dependency of `pytest-xdist`)."
+    },
+    "Test Framework": "`pytest`.",
+    "Test Execution Command": "The `tox.ini` and `pyproject.toml` provide the core `pytest` command: `pytest -ra --strict-markers --strict-config -n auto`. To run a specific file, the file path `tests/test_funcs.py` is appended to this command.",
+    "Installation Method": "The project should be installed in editable mode (`pip install -e \".[tests]\"`) to ensure all local changes (including the test patch, once applied) are reflected and all test dependencies are installed."
+  },
+  "terminate": true
+}
+2025-07-03 18:48:03.631 | DEBUG    | Extracted a valid json
+2025-07-03 18:50:04.379 | DEBUG    | Result of dispatch_intent: ('Image built successfully!\nContainer 9c2d14e3d5149d0b5cf6142131fe5c01883af496f15fea08b0d1b6751fd7b661 started.\nPatch applied successfully.\nFind test_output.txt! Waiting for analysis. ', 'Docker image python-attrs__attrs-1117-dockerfile3:latest built successfully.\nContainer started.\nPatch applied.\nObtain test results successfully.', True)
+2025-07-03 18:50:04.382 | DEBUG    | Trying to analyze the test log. Try 1 of 3.
+2025-07-03 18:50:21.149 | INFO     | Model API request cost info: input_tokens=6724, output_tokens=300, cost=0.019810
+2025-07-03 18:50:21.150 | DEBUG    | {
+    "is_finish": false,
+    "guidance_for_write_dockerfile_agent": "",
+    "guidance_for_write_eval_script_agent": "The test `TestAssoc::test_unknown` in `tests/test_funcs.py` failed with the message \"Failed: DID NOT WARN. No warnings of type (<class 'DeprecationWarning'>, <class 'PendingDeprecationWarning'>, <class 'FutureWarning'>) were emitted.\" This indicates that `pytest.deprecated_call()` did not capture the expected `DeprecationWarning` from the `assoc` function. Python by default suppresses `DeprecationWarning`s, preventing them from being captured by `pytest.deprecated_call()` unless explicitly enabled. To resolve this, you need to configure pytest to show these warnings.\n\nModify the test execution command in your eval script to pass `-W default` to `pytest` via `tox`. This will set the default warning filter, making deprecation warnings visible.\n\nChange the line:\n`python -Im tox run -r -f py311 -- tests/test_funcs.py`\n\nTo:\n`python -Im tox run -r -f py311 -- -W default tests/test_funcs.py`",
+    "guidance_for_context_retrieval_agent": ""
+}
+2025-07-03 18:50:21.150 | DEBUG    | Extracted a valid json
+2025-07-03 18:50:21.155 | INFO     | Trying to extract a eval script. Try 1 of 3.
+2025-07-03 18:50:24.426 | INFO     | Model API request cost info: input_tokens=5359, output_tokens=352, cost=0.016918
+2025-07-03 18:50:24.426 | INFO     | Raw script and produced in try 1. Writing script into file.
+2025-07-03 18:53:10.062 | DEBUG    | Result of dispatch_intent: ('Image built successfully!\nContainer 78c3d3babf07120efe618f5160478b48afe4c302be54c8d060bfb2b09c2730b3 started.\nPatch applied successfully.\nFind test_output.txt! Waiting for analysis. ', 'Docker image python-attrs__attrs-1117-dockerfile4:latest built successfully.\nContainer started.\nPatch applied.\nObtain test results successfully.', True)
+2025-07-03 18:53:10.243 | DEBUG    | Trying to analyze the test log. Try 1 of 3.
+2025-07-03 18:53:24.127 | INFO     | Model API request cost info: input_tokens=6756, output_tokens=267, cost=0.019560
+2025-07-03 18:53:24.179 | DEBUG    | {
+    "is_finish": false,
+    "guidance_for_write_dockerfile_agent": "",
+    "guidance_for_write_eval_script_agent": "The test `TestAssoc::test_unknown` failed because it expected a `DeprecationWarning` to be emitted by the `assoc` function, but no such warning was captured by `pytest.deprecated_call()`. This is likely due to the default Python warning filters suppressing `DeprecationWarning` originating from installed packages.\n\nTo resolve this, explicitly configure `pytest` to show deprecation warnings. Modify the test execution command in the `eval` script. Change `-W default` to `-Wd` (which means 'warn for all deprecation warnings') in the `pytest` arguments.\n\n**Current command:**\n```bash\npython -Im tox run -r -f py311 -- -W default tests/test_funcs.py\n```\n**Recommended change:**\n```bash\npython -Im tox run -r -f py311 -- -Wd tests/test_funcs.py\n```",
+    "guidance_for_context_retrieval_agent": ""
+}
+2025-07-03 18:53:24.180 | DEBUG    | Extracted a valid json
+2025-07-03 18:53:24.223 | INFO     | Trying to extract a eval script. Try 1 of 3.
+2025-07-03 18:53:27.245 | INFO     | Model API request cost info: input_tokens=7075, output_tokens=353, cost=0.021218
+2025-07-03 18:53:27.316 | INFO     | Raw script and produced in try 1. Writing script into file.

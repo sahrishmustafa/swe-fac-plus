@@ -1,0 +1,8 @@
+Support ASCII color escape code numbers
+We currently support a wide range of colors, but the "default" ones from the terminal aren't really there.
+
+I think it would be a good idea to support them, because (now correct me if I'm wrong) that the colors can change slightly depending on the pallete of the terminal. Hard coding the rgb doesn't always look nice and so that the colors are more readable I'd suggest that we add another color mode with only those colors supported.
+
+What do you think?
+
+Note: I just realized that this is what the old color printing does. :)

@@ -1,0 +1,22 @@
+{
+    "task_id": "python-attrs__attrs-732",
+    "setup_info": {
+        "repo_path": "testbed/python-attrs__attrs-732_2025-07-03_17-42-35",
+        "repo_cache_path": "testbed/python-attrs/attrs_cache"
+    },
+    "task_info": {
+        "repo": "python-attrs/attrs",
+        "pull_number": 732,
+        "instance_id": "python-attrs__attrs-732",
+        "issue_numbers": [
+            "720"
+        ],
+        "base_commit": "3d274d0bfab142bc45504533f2c2b5f5ce519fd7",
+        "patch": "diff --git a/src/attr/_make.py b/src/attr/_make.py\n--- a/src/attr/_make.py\n+++ b/src/attr/_make.py\n@@ -69,6 +69,12 @@ def __new__(cls):\n     def __repr__(self):\n         return \"NOTHING\"\n \n+    def __bool__(self):\n+        return False\n+\n+    def __len__(self):\n+        return 0  # __bool__ for Python 2\n+\n \n NOTHING = _Nothing()\n \"\"\"\n",
+        "test_patch": "diff --git a/tests/test_dunders.py b/tests/test_dunders.py\n--- a/tests/test_dunders.py\n+++ b/tests/test_dunders.py\n@@ -808,6 +808,13 @@ def test_eq(self):\n         assert not (_Nothing() != _Nothing())\n         assert 1 != _Nothing()\n \n+    def test_false(self):\n+        \"\"\"\n+        NOTHING evaluates as falsey.\n+        \"\"\"\n+        assert not NOTHING\n+        assert False is bool(NOTHING)\n+\n \n @attr.s(hash=True, order=True)\n class C(object):\n",
+        "problem_statement": "Make bool(attr.NOTHING) == False\n`attr.NOTHING` describes an non-existing/unset attribute in an object.\r\nHowever, `bool(attr.NOTHING)` currently evaluates to True which is unnatural and does not really fit.\r\n\r\n## Other python empty values\r\n\r\nThe meaning of `attr.NOTHING` is very near to `None` but in contrast the latter one evaluates to False.\r\n\r\nIt is also very common that \u2018empty-values\u2019 evaluates to False in Python:\r\n\r\n```python\r\n>>> import attr\r\n>>> bool(attr.NOTHING)\r\nTrue\r\n>>> bool(None)\r\nFalse\r\n>>> bool('')\r\nFalse\r\n>>> bool([])\r\nFalse\r\n>>> bool({})\r\nFalse\r\n```\r\n\r\nAnd `bool(attr.NOTHING)` does not fit there.\r\n\r\n## If case \u201anon-empty\u2018 value\r\n\r\nWhen I want to process a non-empty value I would naturally write:\r\n\r\n```python\r\n# foo is here an instance of an attrs decorated class with the bar attribute\r\n\r\nif foo.bar:\r\n    ... # Do something on a non-empty value\r\n```\r\n\r\nHowever, the above if case would enter if `bar` is `attr.NOTHING`.\r\nHence, you have to write:\r\n\r\n```python\r\nif foo.bar is not attr.NOTHING and foo.bar:\r\n    ... # Do something on a non-empty value\r\n```\r\n\r\nAnd this is kind of wired and can be easily forgotten (Like me until I found out that `attr.NOTHING` is True ;-) ).\r\n\r\nI am aware that usually an instance attribute should normally not be assigned with `attr.NOTHING`, but an Exception should be raised somewhere. However, with an own init, wrappers, not so simple cases, or custom converters, this can happen \u2013 and in this case I would expect that `attr.NOTHING` is behaving like other python empty-values and that `if foo.bar` would not be entered.\r\n\r\n## Interface change\r\n\r\nMaking `bool(attr.NOTHING) == False` would be a more or less severe interface change.\r\nIs `bool(attr.NOTHING) == False` on purpose for some reason?\r\nLike I said attributes should normally not be assigned with `attr.NOTHING`, so it might be a rare case; and direct tests if something is `attr.NOTHING` should be done by `some_value is attr.NOTHING` anyway \u2013 or in other words is someone already relying on the fact that `bool(attr.NOTHING) == True`? Then it would be a severe change, but I guess not.\r\n\r\nSo lets change bool(attr.NOTHING) to False by adding the following to `attr._make._Nothing`?\r\n\r\n```python\r\ndef __bool__(self):\r\n    return False\r\n```\n",
+        "hints_text": "Makes sense to me.  I quickly implemented your proposed change.  All tests keep passing.  \ud83d\udc4d ",
+        "created_at": "2020-12-13T05:58:40Z",
+        "version": "20.3"
+    }
+}

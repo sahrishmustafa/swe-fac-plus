@@ -1,0 +1,48 @@
+Frozen Exceptions cannot be thrown from Exception Handler in PyPy 
+Consider the following code, which generates some random exception, which is then rethrown as a custom attrs exception class (in this case suppressing the context using [PEP 409](https://www.python.org/dev/peps/pep-0409/)'s `from None`):
+```python
+import attr
+
+@attr.s(frozen=True, slots=True, auto_exc=True)
+class MyException(BaseException):
+    msg:str = attr.ib()
+
+try:
+    next(iter([]))
+except StopIteration:
+    raise MyException("test") from None
+```
+In CPython, this works as expected:
+```
+Traceback (most recent call last):
+  File "scratch.py", line 10, in <module>
+    raise MyException("test") from None
+__main__.MyException: test
+```
+On PyPy, this yields a very weird, different exception:
+```
+Traceback (most recent call last):
+  File "scratch.py", line 8, in <module>
+    next(iter([]))
+StopIteration
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "scratch.py", line 10, in <module>
+    raise MyException("test") from None
+  File ".venv-pypy3/site-packages/attr/_make.py", line 528, in _frozen_setattrs
+    raise FrozenInstanceError()
+attr.exceptions.FrozenInstanceError
+```
+I assume this is related to how `__context__` and `__cause__` are set when (re-)raising exceptions (see also the linked PEP for some info on that). The PEP says "To support raise Exception from None, `__context__` will stay as it is, but `__cause__` will start out as Ellipsis and will change to None when the raise Exception from None method is used.", so it's weird that only PyPy seems to be wrong here (which is also the reason I'm reporting this against attrs and not PyPy). Maybe CPython doesn't completely adhere to that and doesn't change the value in this case - or changes it bypassing the high-level `__setattr__` API. Note that leaving the `from None` out doesn't change the weird behaviour. Maybe the `__setattr__` frozen check should be skipped for `__context__` and `__cause__` of exceptions?
+
+The versions of the interpreters I'm using are:
+```
+$ pypy3 -V
+Python 3.6.9 (78d4c48fa091, Apr 30 2020, 07:55:31)
+[PyPy 7.3.1 with GCC 10.0.1 20200328 (Red Hat 10.0.1-0.11)]
+$ python3.9 -VV
+Python 3.9.0 (default, Oct  6 2020, 00:00:00) 
+[GCC 10.2.1 20200723 (Red Hat 10.2.1-1)]
+```

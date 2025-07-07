@@ -1,0 +1,58 @@
+Slots class holding a reference to the original version
+I have a class hierarchy implemented with slots enabled, like this:
+
+import attr
+
+```python
+@attr.s(slots=True)
+class BaseClass(object):
+    foo = attr.ib(default='foo')
+
+@attr.s(slots=True)
+class SubClass(BaseClass):
+    bar = attr.ib(default='bar')
+```
+
+This works fine until I wanted to introspect the class hierarchy:
+
+```python
+BaseClass.__subclasses__()  # returns [<class '__main__.SubClass'>, <class '__main__.SubClass'>]
+```
+
+One of these is the original class, and the other is the new one created and returned by `attr.s`. This behavior manifests on both Python 3 and Python 2 (3.7.0 and 2.7.14, to be specific).
+
+My understanding was that classes kept weak references to their subclasses to allow the `__subclasses__` method to work, and I know that attrs creates and returns a new class when `slots=True`, but it's not clear to me why the old class stays around. I don't see any obvious place where a strong reference to it is held.
+
+I guessed that there might be a reference cycle somewhere, so I tried adding a call to `gc.collect()` and checking `gc.garbage`, but that turned out to be incorrect.
+
+Because I didn't see that the reference-counting mentioned [in this comment](https://github.com/python-attrs/attrs/issues/102#issuecomment-252526692) was ever addressed, I also guessed that this might be a leak due to the `__class__` closure cell fixup. I decided that this isn't the cause, either, because Python 2 does not have the `__class__` closure cell.
+
+Slots class holding a reference to the original version
+I have a class hierarchy implemented with slots enabled, like this:
+
+import attr
+
+```python
+@attr.s(slots=True)
+class BaseClass(object):
+    foo = attr.ib(default='foo')
+
+@attr.s(slots=True)
+class SubClass(BaseClass):
+    bar = attr.ib(default='bar')
+```
+
+This works fine until I wanted to introspect the class hierarchy:
+
+```python
+BaseClass.__subclasses__()  # returns [<class '__main__.SubClass'>, <class '__main__.SubClass'>]
+```
+
+One of these is the original class, and the other is the new one created and returned by `attr.s`. This behavior manifests on both Python 3 and Python 2 (3.7.0 and 2.7.14, to be specific).
+
+My understanding was that classes kept weak references to their subclasses to allow the `__subclasses__` method to work, and I know that attrs creates and returns a new class when `slots=True`, but it's not clear to me why the old class stays around. I don't see any obvious place where a strong reference to it is held.
+
+I guessed that there might be a reference cycle somewhere, so I tried adding a call to `gc.collect()` and checking `gc.garbage`, but that turned out to be incorrect.
+
+Because I didn't see that the reference-counting mentioned [in this comment](https://github.com/python-attrs/attrs/issues/102#issuecomment-252526692) was ever addressed, I also guessed that this might be a leak due to the `__class__` closure cell fixup. I decided that this isn't the cause, either, because Python 2 does not have the `__class__` closure cell.
+

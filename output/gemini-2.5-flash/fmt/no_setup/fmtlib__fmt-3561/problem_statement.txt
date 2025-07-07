@@ -1,0 +1,14 @@
+Ambiguous partial specialization when formatting boost `flat_set` since fmt v10.0.0
+When trying to format a `flat_set` from boost, an ambiguous lookup for `formatter` happens.
+
+Reproducer:
+https://godbolt.org/z/dhqnMf755
+boost version 1.82.0 (changing it to some random previous versions did not change something) 
+Clang 16.0.0 with fmt trunk
+gcc 13.2 with fmt trunk
+gcc 13.2 with fmt 9.1.0 as a proof it worked with fmt 9.1.0
+
+The ambiguous formatters are in lines
+https://github.com/fmtlib/fmt/blob/757564f5cd2fa78b634dd698c63dbf069818e6fd/include/fmt/ranges.h#L560
+and
+https://github.com/fmtlib/fmt/blob/757564f5cd2fa78b634dd698c63dbf069818e6fd/include/fmt/ranges.h#L671

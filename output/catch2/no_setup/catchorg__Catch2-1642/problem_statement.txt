@@ -1,0 +1,23 @@
+Support for generic typelists in TEMPLATE_TEST_CASE
+**Description**
+Often I already have a typelist of some kind (std::tuple, boost::mpl::list (Boost.MPL), mp_list (Boost.mp11)) and I want to execute a test for each of the types contained in the typelist. I have not yet found a good way to do this with catch2. In my case the types in those lists depend on the current platform and other settings so it is hard if not impossible to write them into the test case header.
+
+Currently I am working around this by iterating over the type list in the test body and calling a separate template test method for each type. However, with this approach the type is not part of the test name and it is not easily possible to see which type triggered the error.
+
+To enable this use-case, a new macro called `TEMPLATE_LIST_TEST_CASE` or similar would have to be added which internally adds a test case for each of the contained types.
+This is supported by [Boost.Test](https://www.boost.org/doc/libs/1_70_0/libs/test/doc/html/boost_test/tests_organization/test_cases/test_organization_templates.html) as well as [gtest](https://github.com/google/googletest/blob/master/googletest/docs/advanced.md#typed-tests).
+
+**Additional context**
+Example pseudo code usage:
+```
+using Types = std::tuple<int, double, float>;
+TEMPLATE_LIST_TEST_CASE("test", "[test]", Types)
+{
+    // Do something with the TestType here which would be `int`, `double` or `float`
+}
+TEMPLATE_LIST_TEST_CASE("test2", "[test]", Types)
+{
+    // This allows to reuse the typelist for multiple tests
+}
+```
+

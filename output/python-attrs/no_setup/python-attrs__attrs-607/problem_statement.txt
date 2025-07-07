@@ -1,0 +1,26 @@
+Auto-detect user-written methods
+Currently, if you want to implement a method yourself, you have to remember to do two things:
+
+```python
+@attr.s(repr=False)
+class C:
+    def __repr__(self):
+        return "whatever"
+```
+
+I’ve seen quite a few people be confused/frustrated by that.
+
+***
+
+I think unless `these` is set, it would be kind of cool if we detected that the current class (and not some super class) has a user-written method and set the flag to false automatically such that
+
+```python
+@attr.s
+class C:
+    def __repr__(self):
+        return "whatever"
+```
+
+does what you’d expect.
+
+Opinions?

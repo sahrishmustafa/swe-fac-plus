@@ -1,0 +1,3 @@
+CMakeLists file missing export
+This would be nice to allow the cppformat project to be transitively included in an existing CMake build tree without requiring a separate make install step.
+

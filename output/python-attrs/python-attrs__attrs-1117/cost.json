@@ -1,0 +1,12 @@
+{
+    "start_epoch": 1751549934.560722,
+    "end_epoch": 1751550807.35528,
+    "elapsed_seconds": 872.794558,
+    "model": "gemini-2.5-flash",
+    "input_cost_per_token": 2.5e-06,
+    "output_cost_per_token": 1e-05,
+    "total_input_tokens": 104766,
+    "total_output_tokens": 15810,
+    "total_tokens": 120576,
+    "total_cost": 0.420015
+}

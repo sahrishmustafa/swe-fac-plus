@@ -1,0 +1,12 @@
+Warning C4251: class 'fmt::v8::file' needs to have dll-interface
+I get the following warning with fmt 8.1.1 (or latest commit) on MSCV 2019 (when compiling as a shared lib):
+
+```
+C:\Users\dalbo\vgc\third\fmt\include\fmt\os.h:414: warning: C4251: 'fmt::v8::ostream::file_': class 'fmt::v8::file' needs to have dll-interface to be used by clients of class 'fmt::v8::ostream'
+C:\Users\dalbo\vgc\third\fmt\include\fmt/os.h(287): note: see declaration of 'fmt::v8::file'
+```
+
+The [class `file`](https://github.com/fmtlib/fmt/blob/0cef1f819e9811209a6b110ae37fe65e70aa79b0/include/fmt/os.h#L285) indeed isn't declared with `FMT_API`, although all its non-inline member functions are. The warning goes away if I add  `FMT_API` to the whole class, and remove all the seperate per-function `FMT_API`.
+
+Was there a good reason for not exporting the whole class, or should I make a PR exporting the whole class?
+

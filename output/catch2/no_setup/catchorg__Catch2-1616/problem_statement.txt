@@ -1,0 +1,10 @@
+Rename #define BENCHMARK or allow disabling benchmark feature
+## Description
+
+The `#define BENCHMARK` in https://github.com/catchorg/Catch2/commit/a9b6813ad9e423ddcd6559f52b503a68fe0f624c#diff-c06d59fb4f39c13fb9a355b49d321fcfR52 is an unfortunate name, with high potential of clashes.
+
+For example, it clashes with (older) benchmarking framework, see https://github.com/DigitalInBlue/Celero/commit/dc6853478aece4da17e177f285896648b23dc2fd#diff-f1b66ca763828028068774e33319efb4R137 The generic `BENCHMARK` name issue also reported to Celero https://github.com/DigitalInBlue/Celero/issues/114
+
+It would be extremely helpful Catch offers a `#define` to allow disabling the whole benchmarking feature all the way.
+
+

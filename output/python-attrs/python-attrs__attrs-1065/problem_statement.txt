@@ -1,0 +1,4 @@
+Add unsafe_hash for PEP 681
+I've been asked to add `unsafe_hash` as an alias for `hash` **at class level** for PEP 618 (data class transforms).
+
+I'm not enthusiastic about the lack of symmetry between class-level and field-level hash but this is not the hill I'm dying on.

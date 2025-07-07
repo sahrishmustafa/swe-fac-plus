@@ -1,0 +1,22 @@
+Add option to collect annotated fields
+Since I’m sick of hearing that “[PEP 557](https://www.python.org/dev/peps/pep-0557/) is like attrs, but using variable annotations for field declarations”, I’d like to have an option to collect annotated fields that have no attr.ib definition.
+
+ie.
+
+```python
+@attr.s(collect_bare=True)
+class C:
+    x: int
+```
+
+should be equivalent to:
+
+```python
+@attr.s
+class C:
+    x: int = attr.ib()
+```
+
+I’m open to better/shorter names.
+
+Volunteers?  @chadrik maybe? :)

@@ -1,0 +1,22 @@
+Infinite Recursion in repr with bi-directional relationships
+Take a fairly trivial example (which has obviously been simplified to the point of absurdity):
+
+``` python
+import attr
+
+@attr.s
+class Test():
+    attr = attr.ib(default=None)
+
+test = Test()
+other = Test()
+test.attr = other
+other.attr = test
+
+print(repr(test))
+```
+
+This will result in infinite recursion. This can be worked around by setting `repr=False` in the attr.s decorator.
+
+I've sat on this bug for a week trying to come up with a good solution, and I can't think of anything good. I'm starting to think the best solution is to add a warning to the documentation of this behavior and calling it good.
+

@@ -1,0 +1,4 @@
+Suppress HealthCheck.too_slow for test_not_none_metadata
+On very slow hardware, these may time out.
+
+Bug: https://bugs.gentoo.org/651794

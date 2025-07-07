@@ -1,0 +1,36 @@
+[RFC] Inconvenient defaults?
+As part of “Project`import attrs`” (see also #408) we get a unique opportunity to change default options/behaviors that grew over the years but couldn't be fixed due to backward-compatibility restrictions.
+
+The rough plan is create a new, friendlier API on top of `@attr.s` and `attr.ib()` that won't go anywhere.
+
+The following is cast in stone:
+
+- `auto_attribs=True`
+- consistent (Python 3-style) hashing behavior on every Python version
+- #428 
+
+The following would be really nice to have:
+
+- #368 but it might need too much thinking/research
+
+What else is bugging you?
+
+***
+
+One thing that I just can't make up my mind is related to #223: should we make `slots=True` the default? I’m quite confident that in 99,9% of cases it's the right thing to do and will guide people to write better classes.
+
+However on the other hand, our approach of rewriting classes breaks in certain scenarios, usually involving metaclasses.
+
+So the question is, whether we want to tolerate a higher rate of bogus bug reports/help requests or make the default case nicer?
+
+I welcome your input.
+
+***
+
+Finally a controversial idea: we could make `import attrs` Python 3 only. There isn't much baggage we'd get rid of but there is _some_ and 2020 is less than a year ahead. It would also allow us to embrace enums as part of our API.
+Better defaults for asdict/astuple
+- Would it be acceptable to change the default value for `retain_collection_types` to `True`? This would reduce the likelihood of this issue to appear unexpectedly. It is not a full fix though.
+
+- Would it be ok to use `tuple` as default collection type, when `retain_collection_types=False`? I would expect this to completely resolve the issue.
+
+_Originally posted by @tovrstra in https://github.com/python-attrs/attrs/issues/646#issuecomment-682167908_

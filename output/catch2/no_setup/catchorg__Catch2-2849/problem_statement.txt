@@ -1,0 +1,16 @@
+Handle ANSI escape sequences during text wrapping
+**Description**
+
+I'd like to provide diagnostic messages from a `Catch::Matchers::MatcherBase::describe` function that are colored with ANSI sequences, however Catch2's line wrapping interferes with this.
+
+Would a PR to update the line wrapping logic be welcomed?
+
+**Additional context**
+
+I have an assertion library that I'd like to provide a catch2 integration for. Without color codes, with my current attempt to make it work in Catch2, it looks like this:
+
+![image](https://github.com/catchorg/Catch2/assets/51220084/4f410b0c-a0c4-472d-935a-37e0068770ba)
+
+However with color codes the lines are messed up and escape sequences are split in the middle:
+
+![image](https://github.com/catchorg/Catch2/assets/51220084/a600caf7-f047-4c66-90cf-dd41f9eef258)

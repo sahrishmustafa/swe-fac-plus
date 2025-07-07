@@ -1,0 +1,42 @@
+[
+  {
+    "func_name": "browse_file_for_environment_info",
+    "arguments": {
+      "file_path": "pyproject.toml",
+      "custom_query": "Extract Python version, build system, dependencies, and any test configuration."
+    },
+    "call_ok": true,
+    "result": "Runtime Requirements:\n- Python >=3.7\n\nBuild System:\n- **Build Backend**: hatchling.build\n- **Build Requirements**:\n    - hatchling\n    - hatch-vcs\n    - hatch-fancy-pypi-readme\n\nList of Libraries:\n- **Core Dependencies**:\n    - importlib_metadata (for Python <3.8)\n- **Optional Dependencies (tests-no-zope)**:\n    - cloudpickle (CPython only)\n    - hypothesis\n    - pympler\n    - pytest>=4.3.0\n    - pytest-xdist[psutil]\n    - mypy>=1.1.1 (CPython only)\n    - pytest-mypy-plugins (CPython and Python <3.11)\n- **Optional Dependencies (tests)**:\n    - attrs[tests-no-zope] (inherits from tests-no-zope)\n    - zope.interface\n- **Optional Dependencies (cov)**:\n    - attrs[tests]\n    - coverage[toml]>=5.3\n\nTesting:\n- **Test Framework**: pytest\n- **Test Paths**: tests\n- **Pytest Addopts**:\n    - -ra\n    - --strict-markers\n    - --strict-config\n- **Pytest XFail Strict**: true\n- **Pytest Filter Warnings**:\n    - once::Warning\n    - ignore:::pympler[.*]\n- **Coverage Configuration**:\n    - parallel = true\n    - branch = true\n    - source_pkgs = [\"attr\", \"attrs\"]\n    - source paths = [\"src\", \".tox/py*/**/site-packages\"]\n    - show_missing = true\n    - skip_covered = true\n    - exclude_lines = [\"pragma: no cover\", \"if PYPY:\"]\n- **Mypy Configuration**:\n    - disallow_untyped_defs = true\n    - check_untyped_defs = true",
+    "agent_id": "ContextRetrievalAgent"
+  },
+  {
+    "func_name": "browse_file_for_environment_info",
+    "arguments": {
+      "file_path": "tox.ini",
+      "custom_query": "Extract Python versions, test dependencies (deps), commands to run tests, and environment variables."
+    },
+    "call_ok": true,
+    "result": "Python Runtimes:\n- Python 3.7\n- Python 3.8\n- Python 3.9\n- Python 3.10\n- Python 3.11\n- Python 3.12\n- PyPy3\n\nTest Dependencies:\n- `extras = tests` (implies pytest likely via `pyproject.toml` or `setup.cfg`)\n- `extras = cov` (implies `coverage.py` likely via `pyproject.toml` or `setup.cfg`)\n- `coverage[toml]>=5.3`\n- `mypy>=0.991`\n- `nodeenv` (for Pyright environment)\n- `pyright` (installed globally via npm in `pyright` environment)\n\nKey Environment Variables:\n- `SETUPTOOLS_SCM_PRETEND_VERSION` (passed through to test environments)\n- `HATCH_BUILD_HOOK_ENABLE_AUTORUN=1` (for `py3{7,10,11}` environments)\n- `COVERAGE_PROCESS_START={toxinidir}/pyproject.toml` (for `py3{7,10,11}` environments)\n- `PYTHONWARNINGS=d` (for `py3{7,10,11}` environments)\n\nTesting:\n- Test framework: pytest\n- Core test command: `pytest {posargs:-n auto}`\n- Coverage test command: `coverage run -m pytest {posargs:-n auto}` (for `py3{7,10,11}` environments)\n- MyPy static analysis: `mypy src/attrs/__init__.pyi src/attr/__init__.pyi src/attr/_typing_compat.pyi src/attr/_version_info.pyi src/attr/converters.pyi src/attr/exceptions.pyi src/attr/filters.pyi src/attr/setters.pyi src/attr/validators.pyi` and `mypy tests/typing_example.py`\n- Pyright type checking: `pytest tests/test_pyright.py -vv`\n- Pre-commit checks: `pre-commit run --all-files`\n- Coverage report generation: `coverage combine` and `coverage report`",
+    "agent_id": "ContextRetrievalAgent"
+  },
+  {
+    "func_name": "browse_folder",
+    "arguments": {
+      "path": ".github/workflows",
+      "depth": "1"
+    },
+    "call_ok": true,
+    "result": "You are browsing the path: /home/sahrish/Desktop/swe-bench/swe-factory-local/testbed/python-attrs__attrs-1117_2025-07-03_17-42-49/.github/workflows. The browsing Depth is 1.\nStructure of this path:\n\npypi-package.yml\n\ncodeql-analysis.yml\n\nci.yml\n\nbuild-docset.yml\n\n",
+    "agent_id": "ContextRetrievalAgent"
+  },
+  {
+    "func_name": "browse_file_for_environment_info",
+    "arguments": {
+      "file_path": ".github/workflows/ci.yml",
+      "custom_query": "Extract environment setup steps, Python version, and commands used to run tests."
+    },
+    "call_ok": true,
+    "result": "List of libraries:\n- wheel\n- tox\n- coverage[toml]\n\nKey environment variables:\n- FORCE_COLOR=\"1\"\n- TOX_TESTENV_PASSENV=FORCE_COLOR\n- PIP_DISABLE_PIP_VERSION_CHECK=\"1\"\n- PIP_NO_PYTHON_VERSION_WARNING=\"1\"\n- PYTHON_LATEST=\"3.11\"\n- SETUPTOOLS_SCM_PRETEND_VERSION=\"99.9.9\"\n- TOX_PYTHON (dynamically determined based on `matrix.python-version`)\n\nRuntime Requirements:\n- Python versions: 3.7, 3.8, 3.9, 3.10, 3.11, ~3.12.0-0, pypy-3.7, pypy-3.8\n- Ubuntu Linux environment\n\nTesting:\n- Environment setup:\n    - Install `wheel` and `tox`: `python -Im pip install --upgrade wheel tox`\n    - Install `coverage[toml]`: `python -Im pip install --upgrade coverage[toml]`\n- Test framework: tox\n- Test commands:\n    - Primary tests: `python -Im tox run -f ${{ env.TOX_PYTHON }}`\n    - Doctests: `python -Im tox -e docs,changelog`\n    - Mypy checks: `python -Im tox run -e mypy`\n    - Pyright type checks: `python -Im tox run -e pyright`\n    - Coverage collection & reporting:\n        - `python -Im coverage combine`\n        - `python -Im coverage html --skip-covered --skip-empty`\n        - `python -Im coverage report --fail-under=100`",
+    "agent_id": "ContextRetrievalAgent"
+  }
+]

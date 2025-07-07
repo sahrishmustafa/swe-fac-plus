@@ -1,0 +1,6 @@
+The output of --list-* options should obey -o flag
+**Description**
+Currently, the output of `--list-*` options writes to stdout through `Catch::cout()`. It should obey the `-o` flag instead.
+
+**Additional context**
+Because the default implementation of `--list*` flags is done in the `IStreamingReporter`  interface, we need to extend it to contain the stream it should write to, e.g. by giving it a `ReporterConfig` member and initializing it properly.

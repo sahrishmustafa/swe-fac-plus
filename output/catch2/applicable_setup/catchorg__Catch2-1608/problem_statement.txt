@@ -1,0 +1,38 @@
+CAPTURE("text, with comma") fails
+**Describe the bug**
+When string containing comma is passed to CAPTURE and test succeeds, the program will fail assertion 
+`Capturer::~Capturer() : assert( m_captured == m_messages.size() );`
+
+**Expected behavior**
+Documenting this behavior is probably enough. CAPTURE(("test, with comma")) works as expected. 
+
+**Reproduction steps**
+```
+TEST_CASE("catch") {
+  CAPTURE("test, with comma");
+  CHECK(false);
+  CAPTURE("test, with comma");
+  CHECK(true);
+}
+```
+produces:
+```
+test/test_suite.cpp:35: FAILED:
+  CHECK( false )
+with message:
+  "test := "test, with comma"
+
+test_suite: test/catch.hpp:9638: Catch::Capturer::~Capturer(): Assertion `m_captured == m_messages.size()' failed.
+```
+**Platform information:**
+<!-- Fill in any extra information that might be important for your issue. -->
+ - OS: **Debian stretch**
+ - Compiler+version: **gcc (Debian 6.3.0-18+deb9u1) 6.3.0 20170516**
+ - Catch version: **Catch v2.7.0**
+
+
+**Additional context**
+Capturer::Capturer() does not expect quotation in names. It should be quite easy to fix (just add `bool isquoted` into parsing algorithm.
+
+BTW: Capturing string is quite useful when capturing __VA_ARGS__ in macro ... 
+

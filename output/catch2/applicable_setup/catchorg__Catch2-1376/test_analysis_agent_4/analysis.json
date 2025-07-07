@@ -1,0 +1,7 @@
+{
+  "is_finish": false,
+  "guidance_for_write_dockerfile_agent": "The tests were not found by CTest during execution. This typically indicates that CMake was not configured to generate test targets or that CTest was not set up to discover them. Please modify the Dockerfile's `cmake` command to explicitly enable testing. Add `-DBUILD_TESTING=ON` to the CMake configuration flags. The updated CMake command should look like this in the Dockerfile:\n`cmake -H. -BBuild -DCMAKE_BUILD_TYPE=Debug -DBUILD_TESTING=ON -DCMAKE_CXX_FLAGS=\"-DCATCH_CONFIG_NO_POSIX_SIGNALS -Wno-error=redundant-move\"`",
+  "guidance_for_write_eval_script_agent": "",
+  "guidance_for_context_retrieval_agent": "",
+  "build_image_status": true
+}

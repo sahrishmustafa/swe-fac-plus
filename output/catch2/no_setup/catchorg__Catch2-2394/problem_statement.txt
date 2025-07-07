@@ -1,0 +1,13 @@
+Test case name hashing should consider tags and class name too
+**Describe the bug**
+Recently I changed the "unique test case" criteria to allow test cases with same name, but different tags, or same names and tags but different class name (when a test case hangs off a type).
+
+However, we also hash test cases when ordering them randomly (to get subset-stable ordering), and the hashing currently only considers test case name, which means that hash collisions are now much more realistic (in fact the collision is guaranteed if two test cases have same name, which is a desired property by some users).
+
+_Note that this doesn't break the subset invariant, because we use the ordering of test case infos to break ties, which handles tags and class name properly_
+
+**Expected behavior**
+To fix this, the hasher should also consider tags and class name.
+
+**Additional context**
+This change also makes the hasher complex enough that it should be promoted to a header and receive direct unit tests.

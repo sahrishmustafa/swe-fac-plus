@@ -1,0 +1,525 @@
++ cd /testbed
++ git checkout 8ce92d2c7288b6b3261caf1c016f8a779b6a8efc tests/CMakeLists.txt tests/ExtraTests/CMakeLists.txt
+Updated 0 paths from 345d7eef
++ git apply -v -
+Checking patch tests/CMakeLists.txt...
+Checking patch tests/ExtraTests/CMakeLists.txt...
+Applied patch tests/CMakeLists.txt cleanly.
+Applied patch tests/ExtraTests/CMakeLists.txt cleanly.
++ cmake -Bbuild -H. -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_STANDARD=17 -DCMAKE_CXX_EXTENSIONS=OFF -DCATCH_DEVELOPMENT_BUILD=ON -G Ninja
+-- The CXX compiler identification is GNU 9.4.0
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Performing Test HAVE_FLAG__ffile_prefix_map__testbed__
+-- Performing Test HAVE_FLAG__ffile_prefix_map__testbed__ - Success
+-- Found PythonInterp: /usr/bin/python3 (found suitable version "3.8.10", minimum required is "3") 
+-- Performing Test HAVE_FLAG__Wabsolute_value
+-- Performing Test HAVE_FLAG__Wabsolute_value - Failed
+-- Performing Test HAVE_FLAG__Wall
+-- Performing Test HAVE_FLAG__Wall - Success
+-- Performing Test HAVE_FLAG__Wc__20_compat
+-- Performing Test HAVE_FLAG__Wc__20_compat - Failed
+-- Performing Test HAVE_FLAG__Wcall_to_pure_virtual_from_ctor_dtor
+-- Performing Test HAVE_FLAG__Wcall_to_pure_virtual_from_ctor_dtor - Failed
+-- Performing Test HAVE_FLAG__Wcast_align
+-- Performing Test HAVE_FLAG__Wcast_align - Success
+-- Performing Test HAVE_FLAG__Wcatch_value
+-- Performing Test HAVE_FLAG__Wcatch_value - Success
+-- Performing Test HAVE_FLAG__Wdangling
+-- Performing Test HAVE_FLAG__Wdangling - Failed
+-- Performing Test HAVE_FLAG__Wdeprecated
+-- Performing Test HAVE_FLAG__Wdeprecated - Success
+-- Performing Test HAVE_FLAG__Wdeprecated_register
+-- Performing Test HAVE_FLAG__Wdeprecated_register - Failed
+-- Performing Test HAVE_FLAG__Wexceptions
+-- Performing Test HAVE_FLAG__Wexceptions - Failed
+-- Performing Test HAVE_FLAG__Wexit_time_destructors
+-- Performing Test HAVE_FLAG__Wexit_time_destructors - Failed
+-- Performing Test HAVE_FLAG__Wextra
+-- Performing Test HAVE_FLAG__Wextra - Success
+-- Performing Test HAVE_FLAG__Wextra_semi
+-- Performing Test HAVE_FLAG__Wextra_semi - Success
+-- Performing Test HAVE_FLAG__Wfloat_equal
+-- Performing Test HAVE_FLAG__Wfloat_equal - Success
+-- Performing Test HAVE_FLAG__Wglobal_constructors
+-- Performing Test HAVE_FLAG__Wglobal_constructors - Failed
+-- Performing Test HAVE_FLAG__Winit_self
+-- Performing Test HAVE_FLAG__Winit_self - Success
+-- Performing Test HAVE_FLAG__Wmisleading_indentation
+-- Performing Test HAVE_FLAG__Wmisleading_indentation - Success
+-- Performing Test HAVE_FLAG__Wmismatched_new_delete
+-- Performing Test HAVE_FLAG__Wmismatched_new_delete - Failed
+-- Performing Test HAVE_FLAG__Wmismatched_return_types
+-- Performing Test HAVE_FLAG__Wmismatched_return_types - Failed
+-- Performing Test HAVE_FLAG__Wmismatched_tags
+-- Performing Test HAVE_FLAG__Wmismatched_tags - Failed
+-- Performing Test HAVE_FLAG__Wmissing_braces
+-- Performing Test HAVE_FLAG__Wmissing_braces - Success
+-- Performing Test HAVE_FLAG__Wmissing_declarations
+-- Performing Test HAVE_FLAG__Wmissing_declarations - Success
+-- Performing Test HAVE_FLAG__Wmissing_noreturn
+-- Performing Test HAVE_FLAG__Wmissing_noreturn - Success
+-- Performing Test HAVE_FLAG__Wmissing_prototypes
+-- Performing Test HAVE_FLAG__Wmissing_prototypes - Failed
+-- Performing Test HAVE_FLAG__Wmissing_variable_declarations
+-- Performing Test HAVE_FLAG__Wmissing_variable_declarations - Failed
+-- Performing Test HAVE_FLAG__Wnull_dereference
+-- Performing Test HAVE_FLAG__Wnull_dereference - Success
+-- Performing Test HAVE_FLAG__Wold_style_cast
+-- Performing Test HAVE_FLAG__Wold_style_cast - Success
+-- Performing Test HAVE_FLAG__Woverloaded_virtual
+-- Performing Test HAVE_FLAG__Woverloaded_virtual - Success
+-- Performing Test HAVE_FLAG__Wparentheses
+-- Performing Test HAVE_FLAG__Wparentheses - Success
+-- Performing Test HAVE_FLAG__Wpedantic
+-- Performing Test HAVE_FLAG__Wpedantic - Success
+-- Performing Test HAVE_FLAG__Wreorder
+-- Performing Test HAVE_FLAG__Wreorder - Success
+-- Performing Test HAVE_FLAG__Wreturn_std_move
+-- Performing Test HAVE_FLAG__Wreturn_std_move - Failed
+-- Performing Test HAVE_FLAG__Wshadow
+-- Performing Test HAVE_FLAG__Wshadow - Success
+-- Performing Test HAVE_FLAG__Wstrict_aliasing
+-- Performing Test HAVE_FLAG__Wstrict_aliasing - Success
+-- Performing Test HAVE_FLAG__Wsuggest_destructor_override
+-- Performing Test HAVE_FLAG__Wsuggest_destructor_override - Failed
+-- Performing Test HAVE_FLAG__Wsuggest_override
+-- Performing Test HAVE_FLAG__Wsuggest_override - Success
+-- Performing Test HAVE_FLAG__Wundef
+-- Performing Test HAVE_FLAG__Wundef - Success
+-- Performing Test HAVE_FLAG__Wuninitialized
+-- Performing Test HAVE_FLAG__Wuninitialized - Success
+-- Performing Test HAVE_FLAG__Wunneeded_internal_declaration
+-- Performing Test HAVE_FLAG__Wunneeded_internal_declaration - Failed
+-- Performing Test HAVE_FLAG__Wunreachable_code
+-- Performing Test HAVE_FLAG__Wunreachable_code - Success
+-- Performing Test HAVE_FLAG__Wunused
+-- Performing Test HAVE_FLAG__Wunused - Success
+-- Performing Test HAVE_FLAG__Wunused_function
+-- Performing Test HAVE_FLAG__Wunused_function - Success
+-- Performing Test HAVE_FLAG__Wunused_parameter
+-- Performing Test HAVE_FLAG__Wunused_parameter - Success
+-- Performing Test HAVE_FLAG__Wvla
+-- Performing Test HAVE_FLAG__Wvla - Success
+-- Performing Test HAVE_FLAG__Wweak_vtables
+-- Performing Test HAVE_FLAG__Wweak_vtables - Failed
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /testbed/build
++ cd build
++ ninja
+[1/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_event_listener.cpp.o
+[2/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_common_base.cpp.o
+[3/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_streaming_base.cpp.o
+[4/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_registrars.cpp.o
+[5/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_multi.cpp.o
+[6/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_sonarqube.cpp.o
+[7/156] Building CXX object src/CMakeFiles/Catch2WithMain.dir/catch2/internal/catch_main.cpp.o
+[8/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_automake.cpp.o
+[9/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_compact.cpp.o
+[10/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_tap.cpp.o
+[11/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_console.cpp.o
+[12/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_assertion_handler.cpp.o
+[13/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/catch_assertion_result.cpp.o
+[14/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_junit.cpp.o
+[15/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_context.cpp.o
+[16/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/catch_approx.cpp.o
+[17/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_cumulative_base.cpp.o
+[18/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_teamcity.cpp.o
+[19/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_source_line_info.cpp.o
+[20/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_floating_point_helpers.cpp.o
+[21/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_case_insensitive_comparisons.cpp.o
+[22/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_debug_console.cpp.o
+[23/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_getenv.cpp.o
+[24/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_enforce.cpp.o
+[25/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_helpers.cpp.o
+[26/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_debugger.cpp.o
+[27/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_xml.cpp.o
+[28/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_console_colour.cpp.o
+[29/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_exception_translator_registry.cpp.o
+[30/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_enum_values_registry.cpp.o
+[31/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_parse_numbers.cpp.o
+[32/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_generatortracker.cpp.o
+[33/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_fatal_condition_handler.cpp.o
+[34/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_random_number_generator.cpp.o
+[35/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_istream.cpp.o
+[36/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_output_redirect.cpp.o
+[37/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_quantifiers.cpp.o
+[38/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_templated.cpp.o
+[39/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_reporter.cpp.o
+[40/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_result_type.cpp.o
+[41/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_list.cpp.o
+[42/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/catch_message.cpp.o
+[43/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/catch_config.cpp.o
+[44/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_random_seed_generation.cpp.o
+[45/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_singletons.cpp.o
+[46/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_stdstreams.cpp.o
+[47/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/catch_registry_hub.cpp.o
+[48/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_floating_point.cpp.o
+[49/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_section.cpp.o
+[50/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_reusable_string_stream.cpp.o
+[51/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_stringref.cpp.o
+[52/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_string_manip.cpp.o
+[53/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_reporter_spec_parser.cpp.o
+[54/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_reporter_registry.cpp.o
+[55/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_tag_alias_registry.cpp.o
+[56/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/catch_timer.cpp.o
+[57/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/catch_totals.cpp.o
+[58/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_test_registry.cpp.o
+[59/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_test_case_tracker.cpp.o
+[60/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/catch_version.cpp.o
+[61/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/catch_test_case_info.cpp.o
+[62/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/catch_test_spec.cpp.o
+[63/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_run_context.cpp.o
+[64/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/generators/catch_generator_exception.cpp.o
+[65/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_textflow.cpp.o
+[66/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_wildcard_pattern.cpp.o
+[67/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/catch_tostring.cpp.o
+[68/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_test_case_info_hasher.cpp.o
+[69/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_test_spec_parser.cpp.o
+[70/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/generators/catch_generators_random.cpp.o
+[71/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_clara.cpp.o
+[72/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers.cpp.o
+[73/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/generators/catch_generators.cpp.o
+[74/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_errno_guard.cpp.o
+[75/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/catch_tag_alias_autoregistrar.cpp.o
+[76/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_exception.cpp.o
+[77/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_xmlwriter.cpp.o
+[78/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_predicate.cpp.o
+[79/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_uncaught_exceptions.cpp.o
+[80/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_test_case_registry_impl.cpp.o
+[81/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_polyfills.cpp.o
+[82/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/matchers/internal/catch_matchers_impl.cpp.o
+[83/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_leak_detector.cpp.o
+[84/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_message_info.cpp.o
+[85/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_startup_exception_registry.cpp.o
+[86/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/catch_get_random_seed.cpp.o
+[87/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_decomposer.cpp.o
+[88/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_container_properties.cpp.o
+[89/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_lazy_expr.cpp.o
+[90/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_testcase.cpp.o
+[91/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_capture.cpp.o
+[92/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_registry_hub.cpp.o
+[93/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_reporter_factory.cpp.o
+[94/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_config.cpp.o
+[95/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_exception.cpp.o
+[96/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/benchmark/catch_chronometer.cpp.o
+[97/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/benchmark/detail/catch_benchmark_function.cpp.o
+[98/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/catch_session.cpp.o
+[99/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/benchmark/detail/catch_run_for_at_least.cpp.o
+[100/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_reporter_registry.cpp.o
+[101/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/TestRegistrations.cpp.o
+[102/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_commandline.cpp.o
+[103/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/ColourImpl.tests.cpp.o
+[104/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/Details.tests.cpp.o
+[105/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/FloatingPoint.tests.cpp.o
+[106/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/Parse.tests.cpp.o
+[107/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_string.cpp.o
+[108/156] Building CXX object src/CMakeFiles/Catch2.dir/catch2/benchmark/detail/catch_stats.cpp.o
+[109/156] Linking CXX static library src/libCatch2.a
+[110/156] Linking CXX static library src/libCatch2Main.a
+[111/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/RandomNumberGeneration.tests.cpp.o
+[112/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/TestCaseInfoHasher.tests.cpp.o
+[113/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/Tag.tests.cpp.o
+[114/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/Clara.tests.cpp.o
+[115/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/TestSpecParser.tests.cpp.o
+[116/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/Stream.tests.cpp.o
+[117/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/CmdLineHelpers.tests.cpp.o
+[118/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/Sharding.tests.cpp.o
+[119/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/TextFlow.tests.cpp.o
+[120/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/TimingTests/Sleep.tests.cpp.o
+[121/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/StringManip.tests.cpp.o
+[122/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/UniquePtr.tests.cpp.o
+[123/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/PartTracker.tests.cpp.o
+[124/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/Reporters.tests.cpp.o
+[125/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/BDD.tests.cpp.o
+[126/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/Approx.tests.cpp.o
+[127/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/Decomposition.tests.cpp.o
+[128/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/ToString.tests.cpp.o
+[129/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/InternalBenchmark.tests.cpp.o
+[130/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/String.tests.cpp.o
+[131/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/Compilation.tests.cpp.o
+[132/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/Exception.tests.cpp.o
+[133/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/EnumToString.tests.cpp.o
+[134/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/ToStringChrono.tests.cpp.o
+[135/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/ToStringByte.tests.cpp.o
+[136/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/Message.tests.cpp.o
+[137/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/ToStringOptional.tests.cpp.o
+[138/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/Xml.tests.cpp.o
+[139/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/ToStringPair.tests.cpp.o
+[140/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/Class.tests.cpp.o
+[141/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/ToStringTuple.tests.cpp.o
+[142/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/Condition.tests.cpp.o
+[143/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/VariadicMacros.tests.cpp.o
+[144/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/ToStringVector.tests.cpp.o
+[145/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/ToStringGeneral.tests.cpp.o
+[146/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/ToStringWhich.tests.cpp.o
+[147/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/ToStringVariant.tests.cpp.o
+[148/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/Benchmark.tests.cpp.o
+[149/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/Tricky.tests.cpp.o
+[150/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/Misc.tests.cpp.o
+[151/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/Generators.tests.cpp.o
+[152/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/GeneratorsImpl.tests.cpp.o
+[153/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/MatchersRanges.tests.cpp.o
+[154/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/Matchers.tests.cpp.o
+[155/156] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/CmdLine.tests.cpp.o
+[156/156] Linking CXX executable tests/SelfTest
++ CTEST_OUTPUT_ON_FAILURE=1
++ ctest -C Release -j 2
+Test project /testbed/build
+      Start 28: ApprovalTests
+      Start  1: RunTests
+ 1/62 Test  #1: RunTests .....................................................   Passed    0.41 sec
+      Start  2: List::Tests::Output
+ 2/62 Test  #2: List::Tests::Output ..........................................   Passed    0.01 sec
+      Start  3: List::Tests::Quiet
+ 3/62 Test  #3: List::Tests::Quiet ...........................................   Passed    0.00 sec
+      Start  4: List::Tests::ExitCode
+ 4/62 Test  #4: List::Tests::ExitCode ........................................   Passed    0.01 sec
+      Start  5: List::Tests::XmlOutput
+ 5/62 Test  #5: List::Tests::XmlOutput .......................................   Passed    0.01 sec
+      Start  6: List::Tags::Output
+ 6/62 Test  #6: List::Tags::Output ...........................................   Passed    0.00 sec
+      Start  7: List::Tags::ExitCode
+ 7/62 Test  #7: List::Tags::ExitCode .........................................   Passed    0.00 sec
+      Start  8: List::Tags::XmlOutput
+ 8/62 Test  #8: List::Tags::XmlOutput ........................................   Passed    0.01 sec
+      Start  9: List::Reporters::Output
+ 9/62 Test  #9: List::Reporters::Output ......................................   Passed    0.00 sec
+      Start 10: List::Reporters::ExitCode
+10/62 Test #10: List::Reporters::ExitCode ....................................   Passed    0.00 sec
+      Start 11: List::Reporters::XmlOutput
+11/62 Test #11: List::Reporters::XmlOutput ...................................   Passed    0.00 sec
+      Start 12: List::Listeners::Output
+12/62 Test #12: List::Listeners::Output ......................................   Passed    0.00 sec
+      Start 13: List::Listeners::ExitCode
+13/62 Test #13: List::Listeners::ExitCode ....................................   Passed    0.00 sec
+      Start 14: List::Listeners::XmlOutput
+14/62 Test #14: List::Listeners::XmlOutput ...................................   Passed    0.00 sec
+      Start 15: NoAssertions
+15/62 Test #15: NoAssertions .................................................   Passed    0.00 sec
+      Start 16: TestSpecs::CombiningMatchingAndNonMatchingIsOk-1
+16/62 Test #16: TestSpecs::CombiningMatchingAndNonMatchingIsOk-1 .............   Passed    0.00 sec
+      Start 17: TestSpecs::CombiningMatchingAndNonMatchingIsOk-2
+17/62 Test #17: TestSpecs::CombiningMatchingAndNonMatchingIsOk-2 .............   Passed    0.00 sec
+      Start 18: TestSpecs::NoMatchedTestsFail
+18/62 Test #18: TestSpecs::NoMatchedTestsFail ................................   Passed    0.00 sec
+      Start 19: TestSpecs::OverrideFailureWithNoMatchedTests
+19/62 Test #19: TestSpecs::OverrideFailureWithNoMatchedTests .................   Passed    0.00 sec
+      Start 20: Warnings::UnmatchedTestSpecIsAccepted
+20/62 Test #20: Warnings::UnmatchedTestSpecIsAccepted ........................   Passed    0.00 sec
+      Start 21: Warnings::MultipleWarningsCanBeSpecified
+21/62 Test #21: Warnings::MultipleWarningsCanBeSpecified .....................   Passed    0.00 sec
+      Start 22: TestSpecs::WarnUnmatchedTestSpecFailsWithUnmatchedTestSpec
+22/62 Test #22: TestSpecs::WarnUnmatchedTestSpecFailsWithUnmatchedTestSpec ...   Passed    0.01 sec
+      Start 23: UnmatchedOutputFilter
+23/62 Test #23: UnmatchedOutputFilter ........................................   Passed    0.00 sec
+      Start 24: FilteredSection-1
+24/62 Test #24: FilteredSection-1 ............................................   Passed    0.01 sec
+      Start 25: FilteredSection-2
+25/62 Test #25: FilteredSection-2 ............................................   Passed    0.00 sec
+      Start 26: FilteredSection::GeneratorsDontCauseInfiniteLoop-1
+26/62 Test #26: FilteredSection::GeneratorsDontCauseInfiniteLoop-1 ...........   Passed    0.01 sec
+      Start 27: FilteredSection::GeneratorsDontCauseInfiniteLoop-2
+27/62 Test #27: FilteredSection::GeneratorsDontCauseInfiniteLoop-2 ...........   Passed    0.00 sec
+      Start 29: RegressionCheck-1670
+28/62 Test #29: RegressionCheck-1670 .........................................   Passed    0.01 sec
+      Start 30: VersionCheck
+29/62 Test #30: VersionCheck .................................................   Passed    0.00 sec
+      Start 31: LibIdentityTest
+30/62 Test #31: LibIdentityTest ..............................................   Passed    0.00 sec
+      Start 32: FilenameAsTagsTest
+31/62 Test #32: FilenameAsTagsTest ...........................................   Passed    0.00 sec
+      Start 33: FilenameAsTagsMatching
+32/62 Test #33: FilenameAsTagsMatching .......................................   Passed    0.00 sec
+      Start 34: EscapeSpecialCharactersInTestNames
+33/62 Test #34: EscapeSpecialCharactersInTestNames ...........................   Passed    0.00 sec
+      Start 35: NegativeSpecNoHiddenTests
+34/62 Test #35: NegativeSpecNoHiddenTests ....................................   Passed    0.00 sec
+      Start 36: TestsInFile::SimpleSpecs
+35/62 Test #36: TestsInFile::SimpleSpecs .....................................   Passed    0.00 sec
+      Start 37: TestsInFile::EscapeSpecialCharacters
+36/62 Test #37: TestsInFile::EscapeSpecialCharacters .........................   Passed    0.00 sec
+      Start 38: TestsInFile::InvalidTestNames-1
+37/62 Test #38: TestsInFile::InvalidTestNames-1 ..............................   Passed    0.00 sec
+      Start 39: TagAlias
+38/62 Test #39: TagAlias .....................................................   Passed    0.00 sec
+      Start 40: RandomTestOrdering
+39/62 Test #40: RandomTestOrdering ...........................................   Passed    0.06 sec
+      Start 41: CheckConvenienceHeaders
+40/62 Test #41: CheckConvenienceHeaders ......................................   Passed    0.03 sec
+      Start 42: Benchmarking::SkipBenchmarkMacros
+41/62 Test #42: Benchmarking::SkipBenchmarkMacros ............................   Passed    0.00 sec
+      Start 43: Benchmarking::FailureReporting::OptimizedOut
+42/62 Test #43: Benchmarking::FailureReporting::OptimizedOut .................   Passed    2.10 sec
+      Start 44: Benchmarking::FailureReporting::ThrowingBenchmark
+43/62 Test #28: ApprovalTests ................................................***Failed  Error regular expression found in output. Regex=[Results differed]  3.25 sec
+Running approvals against executable:
+  /testbed/build/tests/SelfTest
+['/testbed/build/tests/SelfTest', '~[!nonportable]~[!benchmark]~[approvals] *', '--order', 'lex', '--rng-seed', '1', '--colour-mode', 'none']
+
+console.std:
+  [92mResults matched
+[0m
+['/testbed/build/tests/SelfTest', '~[!nonportable]~[!benchmark]~[approvals] *', '-s', '-w', 'NoAssertions', '-x', '4', '--order', 'lex', '--rng-seed', '1', '--colour-mode', 'none']
+
+console.swa4:
+  [92mResults matched
+[0m
+['/testbed/build/tests/SelfTest', '~[!nonportable]~[!benchmark]~[approvals] *', '-s', '-w', 'NoAssertions', '--order', 'lex', '--rng-seed', '1', '--colour-mode', 'none', '-r', 'console']
+
+console.sw:
+  [92mResults matched
+[0m
+['/testbed/build/tests/SelfTest', '~[!nonportable]~[!benchmark]~[approvals] *', '-s', '-w', 'NoAssertions', '--order', 'lex', '--rng-seed', '1', '--colour-mode', 'none', '-r', 'junit']
+
+junit.sw:
+  [92mResults matched
+[0m
+['/testbed/build/tests/SelfTest', '~[!nonportable]~[!benchmark]~[approvals] *', '-s', '-w', 'NoAssertions', '--order', 'lex', '--rng-seed', '1', '--colour-mode', 'none', '-r', 'xml']
+
+xml.sw:
+  [92mResults matched
+[0m
+['/testbed/build/tests/SelfTest', '~[!nonportable]~[!benchmark]~[approvals] *', '-s', '-w', 'NoAssertions', '--order', 'lex', '--rng-seed', '1', '--colour-mode', 'none', '-r', 'compact']
+
+compact.sw:
+--- compact.sw.approved.txt
+
++++ compact.sw.unapproved.txt
+
+-Failed 83 test cases, failed 143 assertions.
++test cases:  395 |  305 passed |  83 failed |  7 failed as expected
++assertions: 2310 | 2140 passed | 143 failed | 27 failed as expected
++
+  
+****************************
+  [91mResults differed
+[0m
+['/testbed/build/tests/SelfTest', '~[!nonportable]~[!benchmark]~[approvals] *', '-s', '-w', 'NoAssertions', '--order', 'lex', '--rng-seed', '1', '--colour-mode', 'none', '-r', 'sonarqube']
+
+sonarqube.sw:
+  [92mResults matched
+[0m
+['/testbed/build/tests/SelfTest', '~[!nonportable]~[!benchmark]~[approvals] *', '-s', '-w', 'NoAssertions', '--order', 'lex', '--rng-seed', '1', '--colour-mode', 'none', '-r', 'tap']
+
+tap.sw:
+  [92mResults matched
+[0m
+['/testbed/build/tests/SelfTest', '~[!nonportable]~[!benchmark]~[approvals] *', '-s', '-w', 'NoAssertions', '--order', 'lex', '--rng-seed', '1', '--colour-mode', 'none', '-r', 'teamcity']
+
+teamcity.sw:
+  [92mResults matched
+[0m
+['/testbed/build/tests/SelfTest', '~[!nonportable]~[!benchmark]~[approvals] *', '-s', '-w', 'NoAssertions', '--order', 'lex', '--rng-seed', '1', '--colour-mode', 'none', '-r', 'automake']
+
+automake.sw:
+  [92mResults matched
+[0m
+['/testbed/build/tests/SelfTest', '~[!nonportable]~[!benchmark]~[approvals] *', '-s', '-w', 'NoAssertions', '--order', 'lex', '--rng-seed', '1', '--colour-mode', 'none', '-r', 'console::out=/testbed/tests/SelfTest/Baselines/_console.sw.multi.tmp', '-r', 'junit::out=/testbed/tests/SelfTest/Baselines/_junit.sw.multi.tmp', '-r', 'xml::out=/testbed/tests/SelfTest/Baselines/_xml.sw.multi.tmp', '-r', 'compact::out=/testbed/tests/SelfTest/Baselines/_compact.sw.multi.tmp', '-r', 'sonarqube::out=/testbed/tests/SelfTest/Baselines/_sonarqube.sw.multi.tmp', '-r', 'tap::out=/testbed/tests/SelfTest/Baselines/_tap.sw.multi.tmp', '-r', 'teamcity::out=/testbed/tests/SelfTest/Baselines/_teamcity.sw.multi.tmp', '-r', 'automake::out=/testbed/tests/SelfTest/Baselines/_automake.sw.multi.tmp']
+
+default.sw.multi:
+  [92mResults matched
+[0m
+
+console.sw.multi:
+  [92mResults matched
+[0m
+
+junit.sw.multi:
+  [92mResults matched
+[0m
+
+xml.sw.multi:
+  [92mResults matched
+[0m
+
+compact.sw.multi:
+--- compact.sw.multi.approved.txt
+
++++ compact.sw.multi.unapproved.txt
+
+-Failed 83 test cases, failed 143 assertions.
++test cases:  395 |  305 passed |  83 failed |  7 failed as expected
++assertions: 2310 | 2140 passed | 143 failed | 27 failed as expected
++
+  
+****************************
+  [91mResults differed
+[0m
+
+sonarqube.sw.multi:
+  [92mResults matched
+[0m
+
+tap.sw.multi:
+  [92mResults matched
+[0m
+
+teamcity.sw.multi:
+  [92mResults matched
+[0m
+
+automake.sw.multi:
+  [92mResults matched
+[0m
+If these differences are expected, run approve.py to approve new baselines.
+
+      Start 45: Benchmarking::FailureReporting::FailedAssertion
+44/62 Test #44: Benchmarking::FailureReporting::ThrowingBenchmark ............   Passed    2.17 sec
+      Start 46: Benchmarking::FailureReporting::FailMacro
+45/62 Test #45: Benchmarking::FailureReporting::FailedAssertion ..............   Passed    2.12 sec
+      Start 47: Benchmarking::FailureReporting::ShouldFailIsRespected
+46/62 Test #46: Benchmarking::FailureReporting::FailMacro ....................   Passed    2.16 sec
+      Start 48: ErrorHandling::InvalidTestSpecExitsEarly
+47/62 Test #48: ErrorHandling::InvalidTestSpecExitsEarly .....................   Passed    0.00 sec
+      Start 49: MultiReporter::CapturingReportersDontPropagateStdOut
+48/62 Test #49: MultiReporter::CapturingReportersDontPropagateStdOut .........   Passed    0.01 sec
+      Start 50: MultiReporter::NonCapturingReportersPropagateStdout
+49/62 Test #50: MultiReporter::NonCapturingReportersPropagateStdout ..........   Passed    0.01 sec
+      Start 51: Outputs::DashAsOutLocationSendsOutputToStdout
+50/62 Test #51: Outputs::DashAsOutLocationSendsOutputToStdout ................   Passed    0.01 sec
+      Start 52: Reporters::DashAsLocationInReporterSpecSendsOutputToStdout
+51/62 Test #52: Reporters::DashAsLocationInReporterSpecSendsOutputToStdout ...   Passed    0.00 sec
+      Start 53: Reporters::ReporterSpecificColourOverridesDefaultColour
+52/62 Test #53: Reporters::ReporterSpecificColourOverridesDefaultColour ......   Passed    0.01 sec
+      Start 54: Reporters::UnrecognizedOptionInSpecCausesError
+53/62 Test #54: Reporters::UnrecognizedOptionInSpecCausesError ...............   Passed    0.00 sec
+      Start 55: Colours::ColourModeCanBeExplicitlySetToAnsi
+54/62 Test #55: Colours::ColourModeCanBeExplicitlySetToAnsi ..................   Passed    0.00 sec
+      Start 56: Reporters::JUnit::NamespacesAreNormalized
+55/62 Test #56: Reporters::JUnit::NamespacesAreNormalized ....................   Passed    0.01 sec
+      Start 57: Reporters:RngSeed:compact
+56/62 Test #57: Reporters:RngSeed:compact ....................................   Passed    0.00 sec
+      Start 58: Reporters:RngSeed:console
+57/62 Test #58: Reporters:RngSeed:console ....................................   Passed    0.00 sec
+      Start 59: Reporters:RngSeed:JUnit
+58/62 Test #59: Reporters:RngSeed:JUnit ......................................   Passed    0.00 sec
+      Start 60: Reporters:RngSeed:SonarQube
+59/62 Test #60: Reporters:RngSeed:SonarQube ..................................   Passed    0.01 sec
+      Start 61: Reporters:RngSeed:TAP
+60/62 Test #61: Reporters:RngSeed:TAP ........................................   Passed    0.01 sec
+      Start 62: Reporters:RngSeed:XML
+61/62 Test #62: Reporters:RngSeed:XML ........................................   Passed    0.01 sec
+62/62 Test #47: Benchmarking::FailureReporting::ShouldFailIsRespected ........   Passed    2.09 sec
+
+98% tests passed, 1 tests failed out of 62
+
+Label Time Summary:
+uses-python    =   3.34 sec*proc (3 tests)
+
+Total Test time (real) =   7.46 sec
+
+The following tests FAILED:
+	 28 - ApprovalTests (Failed)
+Errors while running CTest
+OMNIGRIL_EXIT_CODE=8
++ rc=8
++ echo OMNIGRIL_EXIT_CODE=8
++ cd /testbed
++ git checkout 8ce92d2c7288b6b3261caf1c016f8a779b6a8efc tests/CMakeLists.txt tests/ExtraTests/CMakeLists.txt
+Updated 2 paths from 345d7eef

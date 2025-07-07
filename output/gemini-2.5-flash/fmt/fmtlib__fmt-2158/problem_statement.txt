@@ -1,0 +1,4 @@
+truncating_iterator is no std::output_iterator
+My formatter for a custom type has C++20 delegates to a function that has a requirement `template <std::output_iterator<char> It>`. Unfortunately, that one fails when used within `fmt::format_to_n`, because the iterator found in `ctx.out()` is of type `fmt::v6::internal::truncating_iterator<char*, std::false_type>`. That one fails to be a `std::output_iterator`, apparently because it is missing default construction. Potentially, there are other requirements missing.
+
+Is there fundamentally preventing that object from being an output iterator, or has the requirement simply not come up before?

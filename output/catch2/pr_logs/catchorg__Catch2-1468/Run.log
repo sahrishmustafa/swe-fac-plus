@@ -1,0 +1,600 @@
+-- The CXX compiler identification is GNU 7.5.0
+-- Check for working CXX compiler: /usr/bin/g++-7
+-- Check for working CXX compiler: /usr/bin/g++-7 -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found PythonInterp: /usr/bin/python3.6 (found version "3.6.9") 
+-- Enabling C++11
+-- Extra tests included
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /testbed/Build-Debug
+Scanning dependencies of target PrefixedMacros
+Scanning dependencies of target DisabledExceptions-DefaultHandler
+Scanning dependencies of target DisableStringification
+Scanning dependencies of target DisabledExceptions-CustomHandler
+Scanning dependencies of target DisabledMacros
+Scanning dependencies of target FallbackStringifier
+[  2%] Building CXX object projects/ExtraTests/CMakeFiles/PrefixedMacros.dir/X01-PrefixedMacros.cpp.o
+[  2%] Building CXX object projects/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/X04-DisabledExceptions-CustomHandler.cpp.o
+[  2%] Building CXX object projects/ExtraTests/CMakeFiles/DisableStringification.dir/X11-DisableStringification.cpp.o
+[  3%] Building CXX object projects/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/X03-DisabledExceptions-DefaultHandler.cpp.o
+[  4%] Building CXX object projects/ExtraTests/CMakeFiles/DisabledMacros.dir/X02-DisabledMacros.cpp.o
+[  4%] Building CXX object projects/ExtraTests/CMakeFiles/FallbackStringifier.dir/X10-FallbackStringifier.cpp.o
+Scanning dependencies of target SelfTest
+[  7%] Building CXX object projects/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/GeneratorsImpl.tests.cpp.o
+[  7%] Building CXX object projects/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/PartTracker.tests.cpp.o
+[  7%] Building CXX object projects/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/CmdLine.tests.cpp.o
+[  7%] Building CXX object projects/CMakeFiles/SelfTest.dir/SelfTest/TestMain.cpp.o
+[  8%] Building CXX object projects/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/TagAlias.tests.cpp.o
+[  9%] Building CXX object projects/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/String.tests.cpp.o
+projects/CMakeFiles/SelfTest.dir/build.make:134: recipe for target 'projects/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/PartTracker.tests.cpp.o' failed
+projects/CMakeFiles/SelfTest.dir/build.make:62: recipe for target 'projects/CMakeFiles/SelfTest.dir/SelfTest/TestMain.cpp.o' failed
+projects/CMakeFiles/SelfTest.dir/build.make:182: recipe for target 'projects/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/String.tests.cpp.o' failed
+projects/CMakeFiles/SelfTest.dir/build.make:110: recipe for target 'projects/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/GeneratorsImpl.tests.cpp.o' failed
+projects/CMakeFiles/SelfTest.dir/build.make:158: recipe for target 'projects/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/TagAlias.tests.cpp.o' failed
+projects/CMakeFiles/SelfTest.dir/build.make:86: recipe for target 'projects/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/CmdLine.tests.cpp.o' failed
+CMakeFiles/Makefile2:981: recipe for target 'projects/CMakeFiles/SelfTest.dir/all' failed
+projects/ExtraTests/CMakeFiles/FallbackStringifier.dir/build.make:62: recipe for target 'projects/ExtraTests/CMakeFiles/FallbackStringifier.dir/X10-FallbackStringifier.cpp.o' failed
+CMakeFiles/Makefile2:1231: recipe for target 'projects/ExtraTests/CMakeFiles/FallbackStringifier.dir/all' failed
+projects/ExtraTests/CMakeFiles/PrefixedMacros.dir/build.make:62: recipe for target 'projects/ExtraTests/CMakeFiles/PrefixedMacros.dir/X01-PrefixedMacros.cpp.o' failed
+CMakeFiles/Makefile2:1120: recipe for target 'projects/ExtraTests/CMakeFiles/PrefixedMacros.dir/all' failed
+projects/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/build.make:62: recipe for target 'projects/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/X04-DisabledExceptions-CustomHandler.cpp.o' failed
+CMakeFiles/Makefile2:1194: recipe for target 'projects/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/all' failed
+projects/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/build.make:62: recipe for target 'projects/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/X03-DisabledExceptions-DefaultHandler.cpp.o' failed
+CMakeFiles/Makefile2:1157: recipe for target 'projects/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/all' failed
+projects/ExtraTests/CMakeFiles/DisableStringification.dir/build.make:62: recipe for target 'projects/ExtraTests/CMakeFiles/DisableStringification.dir/X11-DisableStringification.cpp.o' failed
+CMakeFiles/Makefile2:1083: recipe for target 'projects/ExtraTests/CMakeFiles/DisableStringification.dir/all' failed
+projects/ExtraTests/CMakeFiles/DisabledMacros.dir/build.make:62: recipe for target 'projects/ExtraTests/CMakeFiles/DisabledMacros.dir/X02-DisabledMacros.cpp.o' failed
+CMakeFiles/Makefile2:1046: recipe for target 'projects/ExtraTests/CMakeFiles/DisabledMacros.dir/all' failed
+Makefile:140: recipe for target 'all' failed
+Test project /testbed/Build-Debug
+      Start  1: RunTests
+Could not find executable /testbed/Build-Debug/projects/SelfTest
+Looked in the following places:
+/testbed/Build-Debug/projects/SelfTest
+/testbed/Build-Debug/projects/SelfTest
+/testbed/Build-Debug/projects/Release/SelfTest
+/testbed/Build-Debug/projects/Release/SelfTest
+/testbed/Build-Debug/projects/Debug/SelfTest
+/testbed/Build-Debug/projects/Debug/SelfTest
+/testbed/Build-Debug/projects/MinSizeRel/SelfTest
+/testbed/Build-Debug/projects/MinSizeRel/SelfTest
+/testbed/Build-Debug/projects/RelWithDebInfo/SelfTest
+/testbed/Build-Debug/projects/RelWithDebInfo/SelfTest
+/testbed/Build-Debug/projects/Deployment/SelfTest
+/testbed/Build-Debug/projects/Deployment/SelfTest
+/testbed/Build-Debug/projects/Development/SelfTest
+/testbed/Build-Debug/projects/Development/SelfTest
+testbed/Build-Debug/projects/SelfTest
+testbed/Build-Debug/projects/SelfTest
+testbed/Build-Debug/projects/Release/SelfTest
+testbed/Build-Debug/projects/Release/SelfTest
+testbed/Build-Debug/projects/Debug/SelfTest
+testbed/Build-Debug/projects/Debug/SelfTest
+testbed/Build-Debug/projects/MinSizeRel/SelfTest
+testbed/Build-Debug/projects/MinSizeRel/SelfTest
+testbed/Build-Debug/projects/RelWithDebInfo/SelfTest
+testbed/Build-Debug/projects/RelWithDebInfo/SelfTest
+testbed/Build-Debug/projects/Deployment/SelfTest
+testbed/Build-Debug/projects/Deployment/SelfTest
+testbed/Build-Debug/projects/Development/SelfTest
+testbed/Build-Debug/projects/Development/SelfTest
+ 1/17 Test  #1: RunTests ...............................***Not Run   0.00 sec
+      Start  2: ListTests
+Could not find executable /testbed/Build-Debug/projects/SelfTest
+Looked in the following places:
+/testbed/Build-Debug/projects/SelfTest
+/testbed/Build-Debug/projects/SelfTest
+/testbed/Build-Debug/projects/Release/SelfTest
+/testbed/Build-Debug/projects/Release/SelfTest
+/testbed/Build-Debug/projects/Debug/SelfTest
+/testbed/Build-Debug/projects/Debug/SelfTest
+/testbed/Build-Debug/projects/MinSizeRel/SelfTest
+/testbed/Build-Debug/projects/MinSizeRel/SelfTest
+/testbed/Build-Debug/projects/RelWithDebInfo/SelfTest
+/testbed/Build-Debug/projects/RelWithDebInfo/SelfTest
+/testbed/Build-Debug/projects/Deployment/SelfTest
+/testbed/Build-Debug/projects/Deployment/SelfTest
+/testbed/Build-Debug/projects/Development/SelfTest
+/testbed/Build-Debug/projects/Development/SelfTest
+testbed/Build-Debug/projects/SelfTest
+testbed/Build-Debug/projects/SelfTest
+testbed/Build-Debug/projects/Release/SelfTest
+testbed/Build-Debug/projects/Release/SelfTest
+testbed/Build-Debug/projects/Debug/SelfTest
+testbed/Build-Debug/projects/Debug/SelfTest
+testbed/Build-Debug/projects/MinSizeRel/SelfTest
+testbed/Build-Debug/projects/MinSizeRel/SelfTest
+testbed/Build-Debug/projects/RelWithDebInfo/SelfTest
+testbed/Build-Debug/projects/RelWithDebInfo/SelfTest
+testbed/Build-Debug/projects/Deployment/SelfTest
+testbed/Build-Debug/projects/Deployment/SelfTest
+testbed/Build-Debug/projects/Development/SelfTest
+testbed/Build-Debug/projects/Development/SelfTest
+ 2/17 Test  #2: ListTests ..............................***Not Run   0.00 sec
+      Start  3: ListTags
+Could not find executable /testbed/Build-Debug/projects/SelfTest
+Looked in the following places:
+/testbed/Build-Debug/projects/SelfTest
+/testbed/Build-Debug/projects/SelfTest
+/testbed/Build-Debug/projects/Release/SelfTest
+/testbed/Build-Debug/projects/Release/SelfTest
+/testbed/Build-Debug/projects/Debug/SelfTest
+/testbed/Build-Debug/projects/Debug/SelfTest
+/testbed/Build-Debug/projects/MinSizeRel/SelfTest
+/testbed/Build-Debug/projects/MinSizeRel/SelfTest
+/testbed/Build-Debug/projects/RelWithDebInfo/SelfTest
+/testbed/Build-Debug/projects/RelWithDebInfo/SelfTest
+/testbed/Build-Debug/projects/Deployment/SelfTest
+/testbed/Build-Debug/projects/Deployment/SelfTest
+/testbed/Build-Debug/projects/Development/SelfTest
+/testbed/Build-Debug/projects/Development/SelfTest
+testbed/Build-Debug/projects/SelfTest
+testbed/Build-Debug/projects/SelfTest
+testbed/Build-Debug/projects/Release/SelfTest
+testbed/Build-Debug/projects/Release/SelfTest
+testbed/Build-Debug/projects/Debug/SelfTest
+testbed/Build-Debug/projects/Debug/SelfTest
+testbed/Build-Debug/projects/MinSizeRel/SelfTest
+testbed/Build-Debug/projects/MinSizeRel/SelfTest
+testbed/Build-Debug/projects/RelWithDebInfo/SelfTest
+testbed/Build-Debug/projects/RelWithDebInfo/SelfTest
+testbed/Build-Debug/projects/Deployment/SelfTest
+testbed/Build-Debug/projects/Deployment/SelfTest
+testbed/Build-Debug/projects/Development/SelfTest
+testbed/Build-Debug/projects/Development/SelfTest
+ 3/17 Test  #3: ListTags ...............................***Not Run   0.00 sec
+      Start  4: ListReporters
+Could not find executable /testbed/Build-Debug/projects/SelfTest
+Looked in the following places:
+/testbed/Build-Debug/projects/SelfTest
+/testbed/Build-Debug/projects/SelfTest
+/testbed/Build-Debug/projects/Release/SelfTest
+/testbed/Build-Debug/projects/Release/SelfTest
+/testbed/Build-Debug/projects/Debug/SelfTest
+/testbed/Build-Debug/projects/Debug/SelfTest
+/testbed/Build-Debug/projects/MinSizeRel/SelfTest
+/testbed/Build-Debug/projects/MinSizeRel/SelfTest
+/testbed/Build-Debug/projects/RelWithDebInfo/SelfTest
+/testbed/Build-Debug/projects/RelWithDebInfo/SelfTest
+/testbed/Build-Debug/projects/Deployment/SelfTest
+/testbed/Build-Debug/projects/Deployment/SelfTest
+/testbed/Build-Debug/projects/Development/SelfTest
+/testbed/Build-Debug/projects/Development/SelfTest
+testbed/Build-Debug/projects/SelfTest
+testbed/Build-Debug/projects/SelfTest
+testbed/Build-Debug/projects/Release/SelfTest
+testbed/Build-Debug/projects/Release/SelfTest
+testbed/Build-Debug/projects/Debug/SelfTest
+testbed/Build-Debug/projects/Debug/SelfTest
+testbed/Build-Debug/projects/MinSizeRel/SelfTest
+testbed/Build-Debug/projects/MinSizeRel/SelfTest
+testbed/Build-Debug/projects/RelWithDebInfo/SelfTest
+testbed/Build-Debug/projects/RelWithDebInfo/SelfTest
+testbed/Build-Debug/projects/Deployment/SelfTest
+testbed/Build-Debug/projects/Deployment/SelfTest
+testbed/Build-Debug/projects/Development/SelfTest
+testbed/Build-Debug/projects/Development/SelfTest
+ 4/17 Test  #4: ListReporters ..........................***Not Run   0.00 sec
+      Start  5: ListTestNamesOnly
+Could not find executable /testbed/Build-Debug/projects/SelfTest
+Looked in the following places:
+/testbed/Build-Debug/projects/SelfTest
+/testbed/Build-Debug/projects/SelfTest
+/testbed/Build-Debug/projects/Release/SelfTest
+/testbed/Build-Debug/projects/Release/SelfTest
+/testbed/Build-Debug/projects/Debug/SelfTest
+/testbed/Build-Debug/projects/Debug/SelfTest
+/testbed/Build-Debug/projects/MinSizeRel/SelfTest
+/testbed/Build-Debug/projects/MinSizeRel/SelfTest
+/testbed/Build-Debug/projects/RelWithDebInfo/SelfTest
+/testbed/Build-Debug/projects/RelWithDebInfo/SelfTest
+/testbed/Build-Debug/projects/Deployment/SelfTest
+/testbed/Build-Debug/projects/Deployment/SelfTest
+/testbed/Build-Debug/projects/Development/SelfTest
+/testbed/Build-Debug/projects/Development/SelfTest
+testbed/Build-Debug/projects/SelfTest
+testbed/Build-Debug/projects/SelfTest
+testbed/Build-Debug/projects/Release/SelfTest
+testbed/Build-Debug/projects/Release/SelfTest
+testbed/Build-Debug/projects/Debug/SelfTest
+testbed/Build-Debug/projects/Debug/SelfTest
+testbed/Build-Debug/projects/MinSizeRel/SelfTest
+testbed/Build-Debug/projects/MinSizeRel/SelfTest
+testbed/Build-Debug/projects/RelWithDebInfo/SelfTest
+testbed/Build-Debug/projects/RelWithDebInfo/SelfTest
+testbed/Build-Debug/projects/Deployment/SelfTest
+testbed/Build-Debug/projects/Deployment/SelfTest
+testbed/Build-Debug/projects/Development/SelfTest
+testbed/Build-Debug/projects/Development/SelfTest
+ 5/17 Test  #5: ListTestNamesOnly ......................***Not Run   0.00 sec
+      Start  6: NoAssertions
+Could not find executable /testbed/Build-Debug/projects/SelfTest
+Looked in the following places:
+/testbed/Build-Debug/projects/SelfTest
+/testbed/Build-Debug/projects/SelfTest
+/testbed/Build-Debug/projects/Release/SelfTest
+/testbed/Build-Debug/projects/Release/SelfTest
+/testbed/Build-Debug/projects/Debug/SelfTest
+/testbed/Build-Debug/projects/Debug/SelfTest
+/testbed/Build-Debug/projects/MinSizeRel/SelfTest
+/testbed/Build-Debug/projects/MinSizeRel/SelfTest
+/testbed/Build-Debug/projects/RelWithDebInfo/SelfTest
+/testbed/Build-Debug/projects/RelWithDebInfo/SelfTest
+/testbed/Build-Debug/projects/Deployment/SelfTest
+/testbed/Build-Debug/projects/Deployment/SelfTest
+/testbed/Build-Debug/projects/Development/SelfTest
+/testbed/Build-Debug/projects/Development/SelfTest
+testbed/Build-Debug/projects/SelfTest
+testbed/Build-Debug/projects/SelfTest
+testbed/Build-Debug/projects/Release/SelfTest
+testbed/Build-Debug/projects/Release/SelfTest
+testbed/Build-Debug/projects/Debug/SelfTest
+testbed/Build-Debug/projects/Debug/SelfTest
+testbed/Build-Debug/projects/MinSizeRel/SelfTest
+testbed/Build-Debug/projects/MinSizeRel/SelfTest
+testbed/Build-Debug/projects/RelWithDebInfo/SelfTest
+testbed/Build-Debug/projects/RelWithDebInfo/SelfTest
+testbed/Build-Debug/projects/Deployment/SelfTest
+testbed/Build-Debug/projects/Deployment/SelfTest
+testbed/Build-Debug/projects/Development/SelfTest
+testbed/Build-Debug/projects/Development/SelfTest
+ 6/17 Test  #6: NoAssertions ...........................***Not Run   0.00 sec
+      Start  7: NoTest
+Could not find executable /testbed/Build-Debug/projects/SelfTest
+Looked in the following places:
+/testbed/Build-Debug/projects/SelfTest
+/testbed/Build-Debug/projects/SelfTest
+/testbed/Build-Debug/projects/Release/SelfTest
+/testbed/Build-Debug/projects/Release/SelfTest
+/testbed/Build-Debug/projects/Debug/SelfTest
+/testbed/Build-Debug/projects/Debug/SelfTest
+/testbed/Build-Debug/projects/MinSizeRel/SelfTest
+/testbed/Build-Debug/projects/MinSizeRel/SelfTest
+/testbed/Build-Debug/projects/RelWithDebInfo/SelfTest
+/testbed/Build-Debug/projects/RelWithDebInfo/SelfTest
+/testbed/Build-Debug/projects/Deployment/SelfTest
+/testbed/Build-Debug/projects/Deployment/SelfTest
+/testbed/Build-Debug/projects/Development/SelfTest
+/testbed/Build-Debug/projects/Development/SelfTest
+testbed/Build-Debug/projects/SelfTest
+testbed/Build-Debug/projects/SelfTest
+testbed/Build-Debug/projects/Release/SelfTest
+testbed/Build-Debug/projects/Release/SelfTest
+testbed/Build-Debug/projects/Debug/SelfTest
+testbed/Build-Debug/projects/Debug/SelfTest
+testbed/Build-Debug/projects/MinSizeRel/SelfTest
+testbed/Build-Debug/projects/MinSizeRel/SelfTest
+testbed/Build-Debug/projects/RelWithDebInfo/SelfTest
+testbed/Build-Debug/projects/RelWithDebInfo/SelfTest
+testbed/Build-Debug/projects/Deployment/SelfTest
+testbed/Build-Debug/projects/Deployment/SelfTest
+testbed/Build-Debug/projects/Development/SelfTest
+testbed/Build-Debug/projects/Development/SelfTest
+ 7/17 Test  #7: NoTest .................................***Not Run   0.00 sec
+      Start  8: ApprovalTests
+      Start  9: CATCH_CONFIG_PREFIX_ALL
+Could not find executable /testbed/Build-Debug/projects/ExtraTests/PrefixedMacros
+Looked in the following places:
+/testbed/Build-Debug/projects/ExtraTests/PrefixedMacros
+/testbed/Build-Debug/projects/ExtraTests/PrefixedMacros
+/testbed/Build-Debug/projects/ExtraTests/Release/PrefixedMacros
+/testbed/Build-Debug/projects/ExtraTests/Release/PrefixedMacros
+/testbed/Build-Debug/projects/ExtraTests/Debug/PrefixedMacros
+/testbed/Build-Debug/projects/ExtraTests/Debug/PrefixedMacros
+/testbed/Build-Debug/projects/ExtraTests/MinSizeRel/PrefixedMacros
+/testbed/Build-Debug/projects/ExtraTests/MinSizeRel/PrefixedMacros
+/testbed/Build-Debug/projects/ExtraTests/RelWithDebInfo/PrefixedMacros
+/testbed/Build-Debug/projects/ExtraTests/RelWithDebInfo/PrefixedMacros
+/testbed/Build-Debug/projects/ExtraTests/Deployment/PrefixedMacros
+/testbed/Build-Debug/projects/ExtraTests/Deployment/PrefixedMacros
+/testbed/Build-Debug/projects/ExtraTests/Development/PrefixedMacros
+/testbed/Build-Debug/projects/ExtraTests/Development/PrefixedMacros
+testbed/Build-Debug/projects/ExtraTests/PrefixedMacros
+testbed/Build-Debug/projects/ExtraTests/PrefixedMacros
+testbed/Build-Debug/projects/ExtraTests/Release/PrefixedMacros
+testbed/Build-Debug/projects/ExtraTests/Release/PrefixedMacros
+testbed/Build-Debug/projects/ExtraTests/Debug/PrefixedMacros
+testbed/Build-Debug/projects/ExtraTests/Debug/PrefixedMacros
+testbed/Build-Debug/projects/ExtraTests/MinSizeRel/PrefixedMacros
+testbed/Build-Debug/projects/ExtraTests/MinSizeRel/PrefixedMacros
+testbed/Build-Debug/projects/ExtraTests/RelWithDebInfo/PrefixedMacros
+testbed/Build-Debug/projects/ExtraTests/RelWithDebInfo/PrefixedMacros
+testbed/Build-Debug/projects/ExtraTests/Deployment/PrefixedMacros
+testbed/Build-Debug/projects/ExtraTests/Deployment/PrefixedMacros
+testbed/Build-Debug/projects/ExtraTests/Development/PrefixedMacros
+testbed/Build-Debug/projects/ExtraTests/Development/PrefixedMacros
+ 8/17 Test  #9: CATCH_CONFIG_PREFIX_ALL ................***Not Run   0.00 sec
+      Start 10: CATCH_CONFIG_DISABLE-1
+Could not find executable /testbed/Build-Debug/projects/ExtraTests/DisabledMacros
+Looked in the following places:
+/testbed/Build-Debug/projects/ExtraTests/DisabledMacros
+/testbed/Build-Debug/projects/ExtraTests/DisabledMacros
+/testbed/Build-Debug/projects/ExtraTests/Release/DisabledMacros
+/testbed/Build-Debug/projects/ExtraTests/Release/DisabledMacros
+/testbed/Build-Debug/projects/ExtraTests/Debug/DisabledMacros
+/testbed/Build-Debug/projects/ExtraTests/Debug/DisabledMacros
+/testbed/Build-Debug/projects/ExtraTests/MinSizeRel/DisabledMacros
+/testbed/Build-Debug/projects/ExtraTests/MinSizeRel/DisabledMacros
+/testbed/Build-Debug/projects/ExtraTests/RelWithDebInfo/DisabledMacros
+/testbed/Build-Debug/projects/ExtraTests/RelWithDebInfo/DisabledMacros
+/testbed/Build-Debug/projects/ExtraTests/Deployment/DisabledMacros
+/testbed/Build-Debug/projects/ExtraTests/Deployment/DisabledMacros
+/testbed/Build-Debug/projects/ExtraTests/Development/DisabledMacros
+/testbed/Build-Debug/projects/ExtraTests/Development/DisabledMacros
+testbed/Build-Debug/projects/ExtraTests/DisabledMacros
+testbed/Build-Debug/projects/ExtraTests/DisabledMacros
+testbed/Build-Debug/projects/ExtraTests/Release/DisabledMacros
+testbed/Build-Debug/projects/ExtraTests/Release/DisabledMacros
+testbed/Build-Debug/projects/ExtraTests/Debug/DisabledMacros
+testbed/Build-Debug/projects/ExtraTests/Debug/DisabledMacros
+testbed/Build-Debug/projects/ExtraTests/MinSizeRel/DisabledMacros
+testbed/Build-Debug/projects/ExtraTests/MinSizeRel/DisabledMacros
+testbed/Build-Debug/projects/ExtraTests/RelWithDebInfo/DisabledMacros
+testbed/Build-Debug/projects/ExtraTests/RelWithDebInfo/DisabledMacros
+testbed/Build-Debug/projects/ExtraTests/Deployment/DisabledMacros
+testbed/Build-Debug/projects/ExtraTests/Deployment/DisabledMacros
+testbed/Build-Debug/projects/ExtraTests/Development/DisabledMacros
+testbed/Build-Debug/projects/ExtraTests/Development/DisabledMacros
+ 9/17 Test #10: CATCH_CONFIG_DISABLE-1 .................***Not Run   0.00 sec
+      Start 11: CATCH_CONFIG_DISABLE-2
+Could not find executable /testbed/Build-Debug/projects/ExtraTests/DisabledMacros
+Looked in the following places:
+/testbed/Build-Debug/projects/ExtraTests/DisabledMacros
+/testbed/Build-Debug/projects/ExtraTests/DisabledMacros
+/testbed/Build-Debug/projects/ExtraTests/Release/DisabledMacros
+/testbed/Build-Debug/projects/ExtraTests/Release/DisabledMacros
+/testbed/Build-Debug/projects/ExtraTests/Debug/DisabledMacros
+/testbed/Build-Debug/projects/ExtraTests/Debug/DisabledMacros
+/testbed/Build-Debug/projects/ExtraTests/MinSizeRel/DisabledMacros
+/testbed/Build-Debug/projects/ExtraTests/MinSizeRel/DisabledMacros
+/testbed/Build-Debug/projects/ExtraTests/RelWithDebInfo/DisabledMacros
+/testbed/Build-Debug/projects/ExtraTests/RelWithDebInfo/DisabledMacros
+/testbed/Build-Debug/projects/ExtraTests/Deployment/DisabledMacros
+/testbed/Build-Debug/projects/ExtraTests/Deployment/DisabledMacros
+/testbed/Build-Debug/projects/ExtraTests/Development/DisabledMacros
+/testbed/Build-Debug/projects/ExtraTests/Development/DisabledMacros
+testbed/Build-Debug/projects/ExtraTests/DisabledMacros
+testbed/Build-Debug/projects/ExtraTests/DisabledMacros
+testbed/Build-Debug/projects/ExtraTests/Release/DisabledMacros
+testbed/Build-Debug/projects/ExtraTests/Release/DisabledMacros
+testbed/Build-Debug/projects/ExtraTests/Debug/DisabledMacros
+testbed/Build-Debug/projects/ExtraTests/Debug/DisabledMacros
+testbed/Build-Debug/projects/ExtraTests/MinSizeRel/DisabledMacros
+testbed/Build-Debug/projects/ExtraTests/MinSizeRel/DisabledMacros
+testbed/Build-Debug/projects/ExtraTests/RelWithDebInfo/DisabledMacros
+testbed/Build-Debug/projects/ExtraTests/RelWithDebInfo/DisabledMacros
+testbed/Build-Debug/projects/ExtraTests/Deployment/DisabledMacros
+testbed/Build-Debug/projects/ExtraTests/Deployment/DisabledMacros
+testbed/Build-Debug/projects/ExtraTests/Development/DisabledMacros
+testbed/Build-Debug/projects/ExtraTests/Development/DisabledMacros
+10/17 Test #11: CATCH_CONFIG_DISABLE-2 .................***Not Run   0.00 sec
+      Start 12: CATCH_CONFIG_DISABLE_EXCEPTIONS-1
+Could not find executable /testbed/Build-Debug/projects/ExtraTests/DisabledExceptions-DefaultHandler
+Looked in the following places:
+/testbed/Build-Debug/projects/ExtraTests/DisabledExceptions-DefaultHandler
+/testbed/Build-Debug/projects/ExtraTests/DisabledExceptions-DefaultHandler
+/testbed/Build-Debug/projects/ExtraTests/Release/DisabledExceptions-DefaultHandler
+/testbed/Build-Debug/projects/ExtraTests/Release/DisabledExceptions-DefaultHandler
+/testbed/Build-Debug/projects/ExtraTests/Debug/DisabledExceptions-DefaultHandler
+/testbed/Build-Debug/projects/ExtraTests/Debug/DisabledExceptions-DefaultHandler
+/testbed/Build-Debug/projects/ExtraTests/MinSizeRel/DisabledExceptions-DefaultHandler
+/testbed/Build-Debug/projects/ExtraTests/MinSizeRel/DisabledExceptions-DefaultHandler
+/testbed/Build-Debug/projects/ExtraTests/RelWithDebInfo/DisabledExceptions-DefaultHandler
+/testbed/Build-Debug/projects/ExtraTests/RelWithDebInfo/DisabledExceptions-DefaultHandler
+/testbed/Build-Debug/projects/ExtraTests/Deployment/DisabledExceptions-DefaultHandler
+/testbed/Build-Debug/projects/ExtraTests/Deployment/DisabledExceptions-DefaultHandler
+/testbed/Build-Debug/projects/ExtraTests/Development/DisabledExceptions-DefaultHandler
+/testbed/Build-Debug/projects/ExtraTests/Development/DisabledExceptions-DefaultHandler
+testbed/Build-Debug/projects/ExtraTests/DisabledExceptions-DefaultHandler
+testbed/Build-Debug/projects/ExtraTests/DisabledExceptions-DefaultHandler
+testbed/Build-Debug/projects/ExtraTests/Release/DisabledExceptions-DefaultHandler
+testbed/Build-Debug/projects/ExtraTests/Release/DisabledExceptions-DefaultHandler
+testbed/Build-Debug/projects/ExtraTests/Debug/DisabledExceptions-DefaultHandler
+testbed/Build-Debug/projects/ExtraTests/Debug/DisabledExceptions-DefaultHandler
+testbed/Build-Debug/projects/ExtraTests/MinSizeRel/DisabledExceptions-DefaultHandler
+testbed/Build-Debug/projects/ExtraTests/MinSizeRel/DisabledExceptions-DefaultHandler
+testbed/Build-Debug/projects/ExtraTests/RelWithDebInfo/DisabledExceptions-DefaultHandler
+testbed/Build-Debug/projects/ExtraTests/RelWithDebInfo/DisabledExceptions-DefaultHandler
+testbed/Build-Debug/projects/ExtraTests/Deployment/DisabledExceptions-DefaultHandler
+testbed/Build-Debug/projects/ExtraTests/Deployment/DisabledExceptions-DefaultHandler
+testbed/Build-Debug/projects/ExtraTests/Development/DisabledExceptions-DefaultHandler
+testbed/Build-Debug/projects/ExtraTests/Development/DisabledExceptions-DefaultHandler
+11/17 Test #12: CATCH_CONFIG_DISABLE_EXCEPTIONS-1 ......***Not Run   0.00 sec
+12/17 Test  #8: ApprovalTests ..........................***Failed    0.03 sec
+Running approvals against executable:
+  /testbed/Build-Debug/projects/SelfTest
+Traceback (most recent call last):
+  File "/testbed/scripts/approvalTests.py", line 196, in <module>
+    approve("console.std", ["~[!nonportable]~[!benchmark]~[approvals]", "--order", "lex", "--rng-seed", "1"])
+  File "/testbed/scripts/approvalTests.py", line 154, in approve
+    raise Exception("Executable doesn't exist at " + cmdPath)
+Exception: Executable doesn't exist at /testbed/Build-Debug/projects/SelfTest
+
+      Start 13: CATCH_CONFIG_DISABLE_EXCEPTIONS-2
+Could not find executable /testbed/Build-Debug/projects/ExtraTests/DisabledExceptions-DefaultHandler
+Looked in the following places:
+/testbed/Build-Debug/projects/ExtraTests/DisabledExceptions-DefaultHandler
+/testbed/Build-Debug/projects/ExtraTests/DisabledExceptions-DefaultHandler
+/testbed/Build-Debug/projects/ExtraTests/Release/DisabledExceptions-DefaultHandler
+/testbed/Build-Debug/projects/ExtraTests/Release/DisabledExceptions-DefaultHandler
+/testbed/Build-Debug/projects/ExtraTests/Debug/DisabledExceptions-DefaultHandler
+/testbed/Build-Debug/projects/ExtraTests/Debug/DisabledExceptions-DefaultHandler
+/testbed/Build-Debug/projects/ExtraTests/MinSizeRel/DisabledExceptions-DefaultHandler
+/testbed/Build-Debug/projects/ExtraTests/MinSizeRel/DisabledExceptions-DefaultHandler
+/testbed/Build-Debug/projects/ExtraTests/RelWithDebInfo/DisabledExceptions-DefaultHandler
+/testbed/Build-Debug/projects/ExtraTests/RelWithDebInfo/DisabledExceptions-DefaultHandler
+/testbed/Build-Debug/projects/ExtraTests/Deployment/DisabledExceptions-DefaultHandler
+/testbed/Build-Debug/projects/ExtraTests/Deployment/DisabledExceptions-DefaultHandler
+/testbed/Build-Debug/projects/ExtraTests/Development/DisabledExceptions-DefaultHandler
+/testbed/Build-Debug/projects/ExtraTests/Development/DisabledExceptions-DefaultHandler
+testbed/Build-Debug/projects/ExtraTests/DisabledExceptions-DefaultHandler
+testbed/Build-Debug/projects/ExtraTests/DisabledExceptions-DefaultHandler
+testbed/Build-Debug/projects/ExtraTests/Release/DisabledExceptions-DefaultHandler
+testbed/Build-Debug/projects/ExtraTests/Release/DisabledExceptions-DefaultHandler
+testbed/Build-Debug/projects/ExtraTests/Debug/DisabledExceptions-DefaultHandler
+testbed/Build-Debug/projects/ExtraTests/Debug/DisabledExceptions-DefaultHandler
+testbed/Build-Debug/projects/ExtraTests/MinSizeRel/DisabledExceptions-DefaultHandler
+testbed/Build-Debug/projects/ExtraTests/MinSizeRel/DisabledExceptions-DefaultHandler
+testbed/Build-Debug/projects/ExtraTests/RelWithDebInfo/DisabledExceptions-DefaultHandler
+testbed/Build-Debug/projects/ExtraTests/RelWithDebInfo/DisabledExceptions-DefaultHandler
+testbed/Build-Debug/projects/ExtraTests/Deployment/DisabledExceptions-DefaultHandler
+testbed/Build-Debug/projects/ExtraTests/Deployment/DisabledExceptions-DefaultHandler
+testbed/Build-Debug/projects/ExtraTests/Development/DisabledExceptions-DefaultHandler
+testbed/Build-Debug/projects/ExtraTests/Development/DisabledExceptions-DefaultHandler
+13/17 Test #13: CATCH_CONFIG_DISABLE_EXCEPTIONS-2 ......***Not Run   0.00 sec
+      Start 14: CATCH_CONFIG_DISABLE_EXCEPTIONS-3
+Could not find executable /testbed/Build-Debug/projects/ExtraTests/DisabledExceptions-CustomHandler
+Looked in the following places:
+/testbed/Build-Debug/projects/ExtraTests/DisabledExceptions-CustomHandler
+/testbed/Build-Debug/projects/ExtraTests/DisabledExceptions-CustomHandler
+/testbed/Build-Debug/projects/ExtraTests/Release/DisabledExceptions-CustomHandler
+/testbed/Build-Debug/projects/ExtraTests/Release/DisabledExceptions-CustomHandler
+/testbed/Build-Debug/projects/ExtraTests/Debug/DisabledExceptions-CustomHandler
+/testbed/Build-Debug/projects/ExtraTests/Debug/DisabledExceptions-CustomHandler
+/testbed/Build-Debug/projects/ExtraTests/MinSizeRel/DisabledExceptions-CustomHandler
+/testbed/Build-Debug/projects/ExtraTests/MinSizeRel/DisabledExceptions-CustomHandler
+/testbed/Build-Debug/projects/ExtraTests/RelWithDebInfo/DisabledExceptions-CustomHandler
+/testbed/Build-Debug/projects/ExtraTests/RelWithDebInfo/DisabledExceptions-CustomHandler
+/testbed/Build-Debug/projects/ExtraTests/Deployment/DisabledExceptions-CustomHandler
+/testbed/Build-Debug/projects/ExtraTests/Deployment/DisabledExceptions-CustomHandler
+/testbed/Build-Debug/projects/ExtraTests/Development/DisabledExceptions-CustomHandler
+/testbed/Build-Debug/projects/ExtraTests/Development/DisabledExceptions-CustomHandler
+testbed/Build-Debug/projects/ExtraTests/DisabledExceptions-CustomHandler
+testbed/Build-Debug/projects/ExtraTests/DisabledExceptions-CustomHandler
+testbed/Build-Debug/projects/ExtraTests/Release/DisabledExceptions-CustomHandler
+testbed/Build-Debug/projects/ExtraTests/Release/DisabledExceptions-CustomHandler
+testbed/Build-Debug/projects/ExtraTests/Debug/DisabledExceptions-CustomHandler
+testbed/Build-Debug/projects/ExtraTests/Debug/DisabledExceptions-CustomHandler
+testbed/Build-Debug/projects/ExtraTests/MinSizeRel/DisabledExceptions-CustomHandler
+testbed/Build-Debug/projects/ExtraTests/MinSizeRel/DisabledExceptions-CustomHandler
+testbed/Build-Debug/projects/ExtraTests/RelWithDebInfo/DisabledExceptions-CustomHandler
+testbed/Build-Debug/projects/ExtraTests/RelWithDebInfo/DisabledExceptions-CustomHandler
+testbed/Build-Debug/projects/ExtraTests/Deployment/DisabledExceptions-CustomHandler
+testbed/Build-Debug/projects/ExtraTests/Deployment/DisabledExceptions-CustomHandler
+testbed/Build-Debug/projects/ExtraTests/Development/DisabledExceptions-CustomHandler
+testbed/Build-Debug/projects/ExtraTests/Development/DisabledExceptions-CustomHandler
+14/17 Test #14: CATCH_CONFIG_DISABLE_EXCEPTIONS-3 ......***Not Run   0.00 sec
+      Start 15: CATCH_CONFIG_DISABLE_EXCEPTIONS-4
+Could not find executable /testbed/Build-Debug/projects/ExtraTests/DisabledExceptions-CustomHandler
+Looked in the following places:
+/testbed/Build-Debug/projects/ExtraTests/DisabledExceptions-CustomHandler
+/testbed/Build-Debug/projects/ExtraTests/DisabledExceptions-CustomHandler
+/testbed/Build-Debug/projects/ExtraTests/Release/DisabledExceptions-CustomHandler
+/testbed/Build-Debug/projects/ExtraTests/Release/DisabledExceptions-CustomHandler
+/testbed/Build-Debug/projects/ExtraTests/Debug/DisabledExceptions-CustomHandler
+/testbed/Build-Debug/projects/ExtraTests/Debug/DisabledExceptions-CustomHandler
+/testbed/Build-Debug/projects/ExtraTests/MinSizeRel/DisabledExceptions-CustomHandler
+/testbed/Build-Debug/projects/ExtraTests/MinSizeRel/DisabledExceptions-CustomHandler
+/testbed/Build-Debug/projects/ExtraTests/RelWithDebInfo/DisabledExceptions-CustomHandler
+/testbed/Build-Debug/projects/ExtraTests/RelWithDebInfo/DisabledExceptions-CustomHandler
+/testbed/Build-Debug/projects/ExtraTests/Deployment/DisabledExceptions-CustomHandler
+/testbed/Build-Debug/projects/ExtraTests/Deployment/DisabledExceptions-CustomHandler
+/testbed/Build-Debug/projects/ExtraTests/Development/DisabledExceptions-CustomHandler
+/testbed/Build-Debug/projects/ExtraTests/Development/DisabledExceptions-CustomHandler
+testbed/Build-Debug/projects/ExtraTests/DisabledExceptions-CustomHandler
+testbed/Build-Debug/projects/ExtraTests/DisabledExceptions-CustomHandler
+testbed/Build-Debug/projects/ExtraTests/Release/DisabledExceptions-CustomHandler
+testbed/Build-Debug/projects/ExtraTests/Release/DisabledExceptions-CustomHandler
+testbed/Build-Debug/projects/ExtraTests/Debug/DisabledExceptions-CustomHandler
+testbed/Build-Debug/projects/ExtraTests/Debug/DisabledExceptions-CustomHandler
+testbed/Build-Debug/projects/ExtraTests/MinSizeRel/DisabledExceptions-CustomHandler
+testbed/Build-Debug/projects/ExtraTests/MinSizeRel/DisabledExceptions-CustomHandler
+testbed/Build-Debug/projects/ExtraTests/RelWithDebInfo/DisabledExceptions-CustomHandler
+testbed/Build-Debug/projects/ExtraTests/RelWithDebInfo/DisabledExceptions-CustomHandler
+testbed/Build-Debug/projects/ExtraTests/Deployment/DisabledExceptions-CustomHandler
+testbed/Build-Debug/projects/ExtraTests/Deployment/DisabledExceptions-CustomHandler
+testbed/Build-Debug/projects/ExtraTests/Development/DisabledExceptions-CustomHandler
+testbed/Build-Debug/projects/ExtraTests/Development/DisabledExceptions-CustomHandler
+15/17 Test #15: CATCH_CONFIG_DISABLE_EXCEPTIONS-4 ......***Not Run   0.00 sec
+      Start 16: FallbackStringifier
+Could not find executable /testbed/Build-Debug/projects/ExtraTests/FallbackStringifier
+Looked in the following places:
+/testbed/Build-Debug/projects/ExtraTests/FallbackStringifier
+/testbed/Build-Debug/projects/ExtraTests/FallbackStringifier
+/testbed/Build-Debug/projects/ExtraTests/Release/FallbackStringifier
+/testbed/Build-Debug/projects/ExtraTests/Release/FallbackStringifier
+/testbed/Build-Debug/projects/ExtraTests/Debug/FallbackStringifier
+/testbed/Build-Debug/projects/ExtraTests/Debug/FallbackStringifier
+/testbed/Build-Debug/projects/ExtraTests/MinSizeRel/FallbackStringifier
+/testbed/Build-Debug/projects/ExtraTests/MinSizeRel/FallbackStringifier
+/testbed/Build-Debug/projects/ExtraTests/RelWithDebInfo/FallbackStringifier
+/testbed/Build-Debug/projects/ExtraTests/RelWithDebInfo/FallbackStringifier
+/testbed/Build-Debug/projects/ExtraTests/Deployment/FallbackStringifier
+/testbed/Build-Debug/projects/ExtraTests/Deployment/FallbackStringifier
+/testbed/Build-Debug/projects/ExtraTests/Development/FallbackStringifier
+/testbed/Build-Debug/projects/ExtraTests/Development/FallbackStringifier
+testbed/Build-Debug/projects/ExtraTests/FallbackStringifier
+testbed/Build-Debug/projects/ExtraTests/FallbackStringifier
+testbed/Build-Debug/projects/ExtraTests/Release/FallbackStringifier
+testbed/Build-Debug/projects/ExtraTests/Release/FallbackStringifier
+testbed/Build-Debug/projects/ExtraTests/Debug/FallbackStringifier
+testbed/Build-Debug/projects/ExtraTests/Debug/FallbackStringifier
+testbed/Build-Debug/projects/ExtraTests/MinSizeRel/FallbackStringifier
+testbed/Build-Debug/projects/ExtraTests/MinSizeRel/FallbackStringifier
+testbed/Build-Debug/projects/ExtraTests/RelWithDebInfo/FallbackStringifier
+testbed/Build-Debug/projects/ExtraTests/RelWithDebInfo/FallbackStringifier
+testbed/Build-Debug/projects/ExtraTests/Deployment/FallbackStringifier
+testbed/Build-Debug/projects/ExtraTests/Deployment/FallbackStringifier
+testbed/Build-Debug/projects/ExtraTests/Development/FallbackStringifier
+testbed/Build-Debug/projects/ExtraTests/Development/FallbackStringifier
+16/17 Test #16: FallbackStringifier ....................***Not Run   0.00 sec
+      Start 17: CATCH_CONFIG_DISABLE_STRINGIFICATION
+Could not find executable /testbed/Build-Debug/projects/ExtraTests/DisableStringification
+Looked in the following places:
+/testbed/Build-Debug/projects/ExtraTests/DisableStringification
+/testbed/Build-Debug/projects/ExtraTests/DisableStringification
+/testbed/Build-Debug/projects/ExtraTests/Release/DisableStringification
+/testbed/Build-Debug/projects/ExtraTests/Release/DisableStringification
+/testbed/Build-Debug/projects/ExtraTests/Debug/DisableStringification
+/testbed/Build-Debug/projects/ExtraTests/Debug/DisableStringification
+/testbed/Build-Debug/projects/ExtraTests/MinSizeRel/DisableStringification
+/testbed/Build-Debug/projects/ExtraTests/MinSizeRel/DisableStringification
+/testbed/Build-Debug/projects/ExtraTests/RelWithDebInfo/DisableStringification
+/testbed/Build-Debug/projects/ExtraTests/RelWithDebInfo/DisableStringification
+/testbed/Build-Debug/projects/ExtraTests/Deployment/DisableStringification
+/testbed/Build-Debug/projects/ExtraTests/Deployment/DisableStringification
+/testbed/Build-Debug/projects/ExtraTests/Development/DisableStringification
+/testbed/Build-Debug/projects/ExtraTests/Development/DisableStringification
+testbed/Build-Debug/projects/ExtraTests/DisableStringification
+testbed/Build-Debug/projects/ExtraTests/DisableStringification
+testbed/Build-Debug/projects/ExtraTests/Release/DisableStringification
+testbed/Build-Debug/projects/ExtraTests/Release/DisableStringification
+testbed/Build-Debug/projects/ExtraTests/Debug/DisableStringification
+testbed/Build-Debug/projects/ExtraTests/Debug/DisableStringification
+testbed/Build-Debug/projects/ExtraTests/MinSizeRel/DisableStringification
+testbed/Build-Debug/projects/ExtraTests/MinSizeRel/DisableStringification
+testbed/Build-Debug/projects/ExtraTests/RelWithDebInfo/DisableStringification
+testbed/Build-Debug/projects/ExtraTests/RelWithDebInfo/DisableStringification
+testbed/Build-Debug/projects/ExtraTests/Deployment/DisableStringification
+testbed/Build-Debug/projects/ExtraTests/Deployment/DisableStringification
+testbed/Build-Debug/projects/ExtraTests/Development/DisableStringification
+testbed/Build-Debug/projects/ExtraTests/Development/DisableStringification
+17/17 Test #17: CATCH_CONFIG_DISABLE_STRINGIFICATION ...***Not Run   0.00 sec
+
+0% tests passed, 17 tests failed out of 17
+
+Total Test time (real) =   0.03 sec
+
+The following tests FAILED:
+	  1 - RunTests (Not Run)
+	  2 - ListTests (Not Run)
+	  3 - ListTags (Not Run)
+	  4 - ListReporters (Not Run)
+	  5 - ListTestNamesOnly (Not Run)
+	  6 - NoAssertions (Not Run)
+	  7 - NoTest (Not Run)
+	  8 - ApprovalTests (Failed)
+	  9 - CATCH_CONFIG_PREFIX_ALL (Not Run)
+	 10 - CATCH_CONFIG_DISABLE-1 (Not Run)
+	 11 - CATCH_CONFIG_DISABLE-2 (Not Run)
+	 12 - CATCH_CONFIG_DISABLE_EXCEPTIONS-1 (Not Run)
+	 13 - CATCH_CONFIG_DISABLE_EXCEPTIONS-2 (Not Run)
+	 14 - CATCH_CONFIG_DISABLE_EXCEPTIONS-3 (Not Run)
+	 15 - CATCH_CONFIG_DISABLE_EXCEPTIONS-4 (Not Run)
+	 16 - FallbackStringifier (Not Run)
+	 17 - CATCH_CONFIG_DISABLE_STRINGIFICATION (Not Run)
+OMNIGRIL_EXIT_CODE=8

@@ -1,0 +1,32 @@
+[
+  {
+    "func_name": "browse_file_for_environment_info",
+    "arguments": {
+      "file_path": "README.md",
+      "custom_query": "environment setup and running tests"
+    },
+    "call_ok": true,
+    "result": "List of libraries:\n- attrs\n\nRuntime Requirements:\n- Python >=3.7\n\nTesting:\n- The README.md does not explicitly provide commands or a framework for running tests. Generally, Python projects use tools like `pytest` or `unittest`. The project typically details such information in a `CONTRIBUTING.md` file, `pyproject.toml`, `setup.py`, or a dedicated testing section.",
+    "agent_id": "ContextRetrievalAgent"
+  },
+  {
+    "func_name": "browse_file_for_environment_info",
+    "arguments": {
+      "file_path": "pyproject.toml",
+      "custom_query": "dependencies and python version"
+    },
+    "call_ok": true,
+    "result": "List of libraries:\n- importlib_metadata (for Python < 3.8)\n- cloudpickle (for CPython, in `tests-no-zope`)\n- hypothesis (in `tests-no-zope`)\n- pympler (in `tests-no-zope`)\n- pytest>=4.3.0 (in `tests-no-zope`)\n- pytest-xdist[psutil] (in `tests-no-zope`)\n- mypy>=1.1.1 (for CPython, in `tests-no-zope`)\n- pytest-mypy-plugins (for CPython and Python < 3.11, in `tests-no-zope`)\n- zope.interface (in `tests`)\n- coverage[toml]>=5.3 (in `cov`)\n- furo (in `docs`)\n- myst-parser (in `docs`)\n- sphinx (in `docs`)\n- sphinx-notfound-page (in `docs`)\n- sphinxcontrib-towncrier (in `docs`)\n- towncrier (in `docs`)\n- pre-commit (in `dev`)\n\nRuntime Requirements:\n- Python >=3.7\n\nTesting:\n- Test framework: pytest\n- Test command: `pytest` (implicitly from `testpaths = \"tests\"` in `[tool.pytest.ini_options]`)\n- Additional pytest options: `-ra`, `--strict-markers`, `--strict-config`",
+    "agent_id": "ContextRetrievalAgent"
+  },
+  {
+    "func_name": "browse_file_for_environment_info",
+    "arguments": {
+      "file_path": "tox.ini",
+      "custom_query": "test execution commands and environment setup details"
+    },
+    "call_ok": true,
+    "result": "List of libraries:\n- pytest\n- sphinx-build\n- coverage\n- pre-commit\n- towncrier\n- mypy>=0.991\n- nodeenv\n- pyright (installed via npm)\n- doc2dash\n\nKey environment variables:\n- SETUPTOOLS_SCM_PRETEND_VERSION (passed through)\n- HATCH_BUILD_HOOK_ENABLE_AUTORUN=1 (for py3{7,10,11} envs)\n- COVERAGE_PROCESS_START={toxinidir}/pyproject.toml (for py3{7,10,11} envs)\n- PYTHONWARNINGS=d (for py3{7,10,11} envs)\n\nRuntime Requirements:\n- Python 3.7, 3.8, 3.9, 3.10, 3.11, 3.12, PyPy3\n- Python 3.11 (for docs and coverage-report)\n- Node.js (LTS version, for pyright env)\n- npm (for pyright env)\n\nTesting:\n- Test framework: pytest\n- Test environments: `py37`, `py38`, `py39`, `py310`, `py311`, `py312`, `pypy3` (core tests), `mypy` (type checking), `pyright` (static analysis), `pre-commit` (linting/formatting), `coverage-report` (reporting).\n- Default install command: `python -Im pip install {opts} {packages}` (for `py3{7,10,11}` specifically set to `--no-compile`)\n- Core test command: `pytest {posargs:-n auto}`\n- Coverage test command: `coverage run -m pytest {posargs:-n auto}` (for `py3{7,10,11}`)\n- MyPy test commands:\n    - `mypy src/attrs/__init__.pyi src/attr/__init__.pyi src/attr/_typing_compat.pyi src/attr/_version_info.pyi src/attr/converters.pyi src/attr/exceptions.pyi src/attr/filters.pyi src/attr/setters.pyi src/attr/validators.pyi`\n    - `mypy tests/typing_example.py`\n- Pyright test commands (after node/pyright setup):\n    - `nodeenv --prebuilt --node=lts --force {envdir}`\n    - `npm install -g --no-package-lock --no-save pyright`\n    - `pytest tests/test_pyright.py -vv`\n- Pre-commit command: `pre-commit run --all-files`\n- Coverage report commands:\n    - `coverage combine`\n    - `coverage report`",
+    "agent_id": "ContextRetrievalAgent"
+  }
+]

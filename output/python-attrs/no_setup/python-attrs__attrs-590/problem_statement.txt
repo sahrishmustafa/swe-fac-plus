@@ -1,0 +1,39 @@
+ValueError: Cell is empty with very specific code
+Consider this horrible and useless code:
+
+```python
+@attr.s(slots=True)
+class C(object):
+    field = attr.ib()
+
+    def f(self, a):
+        super(C, self).__init__()
+```
+
+You get a nice error:
+
+```
+        # The following is a fix for
+        # https://github.com/python-attrs/attrs/issues/102.  On Python 3,
+        # if a method mentions `__class__` or uses the no-arg super(), the
+        # compiler will bake a reference to the class in the method itself
+        # as `method.__closure__`.  Since we replace the class with a
+        # clone, we rewrite these references so it keeps working.
+        for item in cls.__dict__.values():
+            if isinstance(item, (classmethod, staticmethod)):
+                # Class- and staticmethods hide their functions inside.
+                # These might need to be rewritten as well.
+                closure_cells = getattr(item.__func__, "__closure__", None)
+            else:
+                closure_cells = getattr(item, "__closure__", None)
+    
+            if not closure_cells:  # Catch None or the empty list.
+                continue
+            for cell in closure_cells:
+>               if cell.cell_contents is self._cls:
+E               ValueError: Cell is empty
+
+..\src\attr\_make.py:639: ValueError
+```
+
+I'll push a PR right away

@@ -1,0 +1,30 @@
+# Base image specification. Defines the foundation OS and architecture for the container
+FROM ubuntu:22.04
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Etc/UTC
+
+# System dependencies installation. Installs essential tools and libraries required for development and runtime
+RUN apt update && apt install -y \
+    build-essential \
+    cmake \
+    git \
+    ninja-build \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# set default workdir to testbed.
+WORKDIR /testbed/
+
+# Target Project setup. Clones source code, checkouts to the target version, configures it, and builds the project
+RUN git clone https://github.com/fmtlib/fmt /testbed && \
+    cd /testbed && \
+    git reset --hard 8d9d528bf52c60864802844e8acf16db09dae19a && \
+    mkdir build && \
+    cmake -S . -B build \
+    -DFMT_DOC=OFF \
+    -DFMT_PEDANTIC=ON \
+    -DFMT_WERROR=ON \
+    -DFMT_TEST=ON \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_CXX_STANDARD=14 && \
+    cmake --build build -j$(nproc)

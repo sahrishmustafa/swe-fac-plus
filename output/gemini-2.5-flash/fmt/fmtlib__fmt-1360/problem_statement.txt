@@ -1,0 +1,63 @@
+Cannot override float processing
+Tried to override format for standard types according to documentation:
+
+`
+using arg_formatter = fmt::arg_formatter<fmt::back_insert_range<fmt::internal::buffer>>;
+
+class na_arg_formatter : public arg_formatter {
+public:
+	na_arg_formatter(fmt::format_context &ctx, fmt::format_specs *spec = nullptr)
+		: arg_formatter(ctx, spec),
+		m_na_formatter(ctx)
+	{}
+
+	using arg_formatter::operator();
+
+	auto operator()(double value) {
+		if (IsNA(value))
+			return m_na_formatter("NA");
+		return arg_formatter::operator()(value);
+	}
+
+	auto operator()(float value) {
+		if (IsNA(value))
+			return m_na_formatter("NA");
+		return arg_formatter::operator()(value);
+	}
+
+	auto operator()(unsigned value) {
+		if (IsNA(value))
+			return m_na_formatter("NA");
+		return arg_formatter::operator()(value);
+	}
+
+	auto operator()(int value) {
+		if (IsNA(value))
+			return m_na_formatter("NA");
+		return arg_formatter::operator()(value);
+	}
+
+private:
+	arg_formatter m_na_formatter;
+};
+
+inline std::string na_vformat(fmt::string_view format_str, fmt::format_args args) {
+	fmt::memory_buffer buffer;
+	// Pass custom argument formatter as a template arg to vformat_to.
+	fmt::vformat_to<na_arg_formatter>(buffer, format_str, args);
+	return fmt::to_string(buffer);
+}
+
+template <typename ...Args>
+inline std::string na_format(
+	fmt::string_view format_str, const Args &... args) {
+	return na_vformat(format_str, fmt::make_format_args(args...));
+}
+`
+
+Float overloading is not working.
+Double case is chosen.
+`
+na_format("{}", 4.f);
+`
+

@@ -1,0 +1,245 @@
++ cd /testbed
++ git checkout bd703dd74be7fd2413eb0c01662a491bcebea430 docs/test-cases-and-sections.md docs/test-fixtures.md include/internal/catch_test_registry.h projects/SelfTest/UsageTests/Class.tests.cpp projects/SelfTest/UsageTests/Misc.tests.cpp
+Updated 5 paths from 46659847
++ git apply -v -
+<stdin>:39: trailing whitespace.
+Inside `TEMPLATE_TEST_CASE_SIG` test case you can use the names of template parameters as defined in _signature_. 
+<stdin>:139: trailing whitespace.
+    #endif  
+<stdin>:217: trailing whitespace.
+#endif  
+Checking patch docs/test-cases-and-sections.md...
+Checking patch docs/test-fixtures.md...
+Checking patch include/internal/catch_test_registry.h...
+Checking patch projects/SelfTest/UsageTests/Class.tests.cpp...
+Checking patch projects/SelfTest/UsageTests/Misc.tests.cpp...
+Applied patch docs/test-cases-and-sections.md cleanly.
+Applied patch docs/test-fixtures.md cleanly.
+Applied patch include/internal/catch_test_registry.h cleanly.
+Applied patch projects/SelfTest/UsageTests/Class.tests.cpp cleanly.
+Applied patch projects/SelfTest/UsageTests/Misc.tests.cpp cleanly.
+warning: 3 lines add whitespace errors.
++ cd build
++ ./projects/SelfTest '[class],[classification],[misc]' --success
+Filters: [class],[classification],[misc]
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+SelfTest is a Catch v2.7.2 host application.
+Run with -? for options
+
+-------------------------------------------------------------------------------
+A METHOD_AS_TEST_CASE based test run that succeeds
+-------------------------------------------------------------------------------
+/testbed/projects/SelfTest/UsageTests/Class.tests.cpp:65
+...............................................................................
+
+/testbed/projects/SelfTest/UsageTests/Class.tests.cpp:27: PASSED:
+  REQUIRE( s == "hello" )
+with expansion:
+  "hello" == "hello"
+
+-------------------------------------------------------------------------------
+A METHOD_AS_TEST_CASE based test run that fails
+-------------------------------------------------------------------------------
+/testbed/projects/SelfTest/UsageTests/Class.tests.cpp:66
+...............................................................................
+
+/testbed/projects/SelfTest/UsageTests/Class.tests.cpp:31: FAILED:
+  REQUIRE( s == "world" )
+with expansion:
+  "hello" == "world"
+
+-------------------------------------------------------------------------------
+A TEST_CASE_METHOD based test run that succeeds
+-------------------------------------------------------------------------------
+/testbed/projects/SelfTest/UsageTests/Class.tests.cpp:68
+...............................................................................
+
+/testbed/projects/SelfTest/UsageTests/Class.tests.cpp:70: PASSED:
+  REQUIRE( m_a == 1 )
+with expansion:
+  1 == 1
+
+-------------------------------------------------------------------------------
+A TEMPLATE_TEST_CASE_METHOD based test run that succeeds - int
+-------------------------------------------------------------------------------
+/testbed/projects/SelfTest/UsageTests/Class.tests.cpp:73
+...............................................................................
+
+/testbed/projects/SelfTest/UsageTests/Class.tests.cpp:74: PASSED:
+  REQUIRE( Template_Fixture<TestType>::m_a == 1 )
+with expansion:
+  1 == 1
+
+-------------------------------------------------------------------------------
+A TEMPLATE_TEST_CASE_METHOD based test run that succeeds - float
+-------------------------------------------------------------------------------
+/testbed/projects/SelfTest/UsageTests/Class.tests.cpp:73
+...............................................................................
+
+/testbed/projects/SelfTest/UsageTests/Class.tests.cpp:74: PASSED:
+  REQUIRE( Template_Fixture<TestType>::m_a == 1 )
+with expansion:
+  1.0f == 1
+
+-------------------------------------------------------------------------------
+A TEMPLATE_TEST_CASE_METHOD based test run that succeeds - double
+-------------------------------------------------------------------------------
+/testbed/projects/SelfTest/UsageTests/Class.tests.cpp:73
+...............................................................................
+
+/testbed/projects/SelfTest/UsageTests/Class.tests.cpp:74: PASSED:
+  REQUIRE( Template_Fixture<TestType>::m_a == 1 )
+with expansion:
+  1.0 == 1
+
+-------------------------------------------------------------------------------
+A TEMPLATE_PRODUCT_TEST_CASE_METHOD based test run that succeeds - std::vector
+<int>
+-------------------------------------------------------------------------------
+/testbed/projects/SelfTest/UsageTests/Class.tests.cpp:77
+...............................................................................
+
+/testbed/projects/SelfTest/UsageTests/Class.tests.cpp:79: PASSED:
+  REQUIRE( Template_Fixture_2<TestType>::m_a.size() == 0 )
+with expansion:
+  0 == 0
+
+-------------------------------------------------------------------------------
+A TEMPLATE_PRODUCT_TEST_CASE_METHOD based test run that succeeds - std::vector
+<float>
+-------------------------------------------------------------------------------
+/testbed/projects/SelfTest/UsageTests/Class.tests.cpp:77
+...............................................................................
+
+/testbed/projects/SelfTest/UsageTests/Class.tests.cpp:79: PASSED:
+  REQUIRE( Template_Fixture_2<TestType>::m_a.size() == 0 )
+with expansion:
+  0 == 0
+
+-------------------------------------------------------------------------------
+A TEMPLATE_PRODUCT_TEST_CASE_METHOD based test run that succeeds - Template_Foo
+<int>
+-------------------------------------------------------------------------------
+/testbed/projects/SelfTest/UsageTests/Class.tests.cpp:77
+...............................................................................
+
+/testbed/projects/SelfTest/UsageTests/Class.tests.cpp:79: PASSED:
+  REQUIRE( Template_Fixture_2<TestType>::m_a.size() == 0 )
+with expansion:
+  0 == 0
+
+-------------------------------------------------------------------------------
+A TEMPLATE_PRODUCT_TEST_CASE_METHOD based test run that succeeds - Template_Foo
+<float>
+-------------------------------------------------------------------------------
+/testbed/projects/SelfTest/UsageTests/Class.tests.cpp:77
+...............................................................................
+
+/testbed/projects/SelfTest/UsageTests/Class.tests.cpp:79: PASSED:
+  REQUIRE( Template_Fixture_2<TestType>::m_a.size() == 0 )
+with expansion:
+  0 == 0
+
+-------------------------------------------------------------------------------
+A TEST_CASE_METHOD based test run that fails
+-------------------------------------------------------------------------------
+/testbed/projects/SelfTest/UsageTests/Class.tests.cpp:85
+...............................................................................
+
+/testbed/projects/SelfTest/UsageTests/Class.tests.cpp:87: FAILED:
+  REQUIRE( m_a == 2 )
+with expansion:
+  1 == 2
+
+-------------------------------------------------------------------------------
+A TEMPLATE_TEST_CASE_METHOD based test run that fails - int
+-------------------------------------------------------------------------------
+/testbed/projects/SelfTest/UsageTests/Class.tests.cpp:90
+...............................................................................
+
+/testbed/projects/SelfTest/UsageTests/Class.tests.cpp:92: FAILED:
+  REQUIRE( Template_Fixture<TestType>::m_a == 2 )
+with expansion:
+  1 == 2
+
+-------------------------------------------------------------------------------
+A TEMPLATE_TEST_CASE_METHOD based test run that fails - float
+-------------------------------------------------------------------------------
+/testbed/projects/SelfTest/UsageTests/Class.tests.cpp:90
+...............................................................................
+
+/testbed/projects/SelfTest/UsageTests/Class.tests.cpp:92: FAILED:
+  REQUIRE( Template_Fixture<TestType>::m_a == 2 )
+with expansion:
+  1.0f == 2
+
+-------------------------------------------------------------------------------
+A TEMPLATE_TEST_CASE_METHOD based test run that fails - double
+-------------------------------------------------------------------------------
+/testbed/projects/SelfTest/UsageTests/Class.tests.cpp:90
+...............................................................................
+
+/testbed/projects/SelfTest/UsageTests/Class.tests.cpp:92: FAILED:
+  REQUIRE( Template_Fixture<TestType>::m_a == 2 )
+with expansion:
+  1.0 == 2
+
+-------------------------------------------------------------------------------
+A TEMPLATE_PRODUCT_TEST_CASE_METHOD based test run that fails - std::vector
+<int>
+-------------------------------------------------------------------------------
+/testbed/projects/SelfTest/UsageTests/Class.tests.cpp:95
+...............................................................................
+
+/testbed/projects/SelfTest/UsageTests/Class.tests.cpp:97: FAILED:
+  REQUIRE( Template_Fixture_2<TestType>::m_a.size() == 1 )
+with expansion:
+  0 == 1
+
+-------------------------------------------------------------------------------
+A TEMPLATE_PRODUCT_TEST_CASE_METHOD based test run that fails - std::vector
+<float>
+-------------------------------------------------------------------------------
+/testbed/projects/SelfTest/UsageTests/Class.tests.cpp:95
+...............................................................................
+
+/testbed/projects/SelfTest/UsageTests/Class.tests.cpp:97: FAILED:
+  REQUIRE( Template_Fixture_2<TestType>::m_a.size() == 1 )
+with expansion:
+  0 == 1
+
+-------------------------------------------------------------------------------
+A TEMPLATE_PRODUCT_TEST_CASE_METHOD based test run that fails - Template_Foo
+<int>
+-------------------------------------------------------------------------------
+/testbed/projects/SelfTest/UsageTests/Class.tests.cpp:95
+...............................................................................
+
+/testbed/projects/SelfTest/UsageTests/Class.tests.cpp:97: FAILED:
+  REQUIRE( Template_Fixture_2<TestType>::m_a.size() == 1 )
+with expansion:
+  0 == 1
+
+-------------------------------------------------------------------------------
+A TEMPLATE_PRODUCT_TEST_CASE_METHOD based test run that fails - Template_Foo
+<float>
+-------------------------------------------------------------------------------
+/testbed/projects/SelfTest/UsageTests/Class.tests.cpp:95
+...............................................................................
+
+/testbed/projects/SelfTest/UsageTests/Class.tests.cpp:97: FAILED:
+  REQUIRE( Template_Fixture_2<TestType>::m_a.size() == 1 )
+with expansion:
+  0 == 1
+
+===============================================================================
+test cases: 18 | 9 passed | 9 failed
+assertions: 18 | 9 passed | 9 failed
+
++ rc=9
++ echo OMNIGRIL_EXIT_CODE=9
++ cd /testbed
++ git checkout bd703dd74be7fd2413eb0c01662a491bcebea430 docs/test-cases-and-sections.md docs/test-fixtures.md include/internal/catch_test_registry.h projects/SelfTest/UsageTests/Class.tests.cpp projects/SelfTest/UsageTests/Misc.tests.cpp
+OMNIGRIL_EXIT_CODE=9
+Updated 5 paths from 46659847

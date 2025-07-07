@@ -1,0 +1,12 @@
+diff --git a/src/attr/_make.py b/src/attr/_make.py
+--- a/src/attr/_make.py
++++ b/src/attr/_make.py
+@@ -362,7 +362,7 @@ def wrap(cls):
+             cls_dict.pop("__dict__", None)
+ 
+             qualname = getattr(cls, "__qualname__", None)
+-            cls = type(cls.__name__, cls.__bases__, cls_dict)
++            cls = type(cls)(cls.__name__, cls.__bases__, cls_dict)
+             if qualname is not None:
+                 cls.__qualname__ = qualname
+ 

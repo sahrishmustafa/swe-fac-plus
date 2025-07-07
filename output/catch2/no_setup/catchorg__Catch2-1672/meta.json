@@ -1,0 +1,22 @@
+{
+    "task_id": "catchorg__Catch2-1672",
+    "setup_info": {
+        "repo_path": "testbed/catchorg__Catch2-1672_2025-06-29_23-16-37",
+        "repo_cache_path": "testbed/catchorg/Catch2_cache"
+    },
+    "task_info": {
+        "repo": "catchorg/Catch2",
+        "pull_number": 1672,
+        "instance_id": "catchorg__Catch2-1672",
+        "issue_numbers": [
+            "1671"
+        ],
+        "base_commit": "6f32c67ea763ff189b55eeb24980ddc2522a80fb",
+        "patch": "diff --git a/include/internal/catch_generators_generic.hpp b/include/internal/catch_generators_generic.hpp\n--- a/include/internal/catch_generators_generic.hpp\n+++ b/include/internal/catch_generators_generic.hpp\n@@ -205,12 +205,14 @@ namespace Generators {\n             m_chunk_size(size), m_generator(std::move(generator))\n         {\n             m_chunk.reserve(m_chunk_size);\n-            m_chunk.push_back(m_generator.get());\n-            for (size_t i = 1; i < m_chunk_size; ++i) {\n-                if (!m_generator.next()) {\n-                    Catch::throw_exception(GeneratorException(\"Not enough values to initialize the first chunk\"));\n-                }\n+            if (m_chunk_size != 0) {\n                 m_chunk.push_back(m_generator.get());\n+                for (size_t i = 1; i < m_chunk_size; ++i) {\n+                    if (!m_generator.next()) {\n+                        Catch::throw_exception(GeneratorException(\"Not enough values to initialize the first chunk\"));\n+                    }\n+                    m_chunk.push_back(m_generator.get());\n+                }\n             }\n         }\n         std::vector<T> const& get() const override {\n",
+        "test_patch": "diff --git a/projects/SelfTest/UsageTests/Generators.tests.cpp b/projects/SelfTest/UsageTests/Generators.tests.cpp\n--- a/projects/SelfTest/UsageTests/Generators.tests.cpp\n+++ b/projects/SelfTest/UsageTests/Generators.tests.cpp\n@@ -167,6 +167,10 @@ TEST_CASE(\"Generators -- adapters\", \"[generators][generic]\") {\n             REQUIRE(chunk2.front() == chunk2.back());\n             REQUIRE(chunk2.front() < 3);\n         }\n+        SECTION(\"Chunk size of zero\") {\n+            auto chunk2 = GENERATE(take(3, chunk(0, value(1))));\n+            REQUIRE(chunk2.size() == 0);\n+        }\n         SECTION(\"Throws on too small generators\") {\n             using namespace Catch::Generators;\n             REQUIRE_THROWS_AS(chunk(2, value(1)), Catch::GeneratorException);\n",
+        "problem_statement": "The first vector returned by ChunkGenerator is size 1 when chunk-size is 0\n**Describe the bug**\r\nWhen using `ChunkGenerator` with a chunk-size of 0, the first vector returned is size 1. Following vectors are size 0.\r\n\r\n**Expected behavior**\r\nThe first (and all following) vectors should be size 0.\r\n\r\n**Reproduction steps**\r\n```c++\r\nTEST_CASE(\"chunks\") {\r\n  auto vector = GENERATE(take(5, chunk(0, value(1))));\r\n  REQUIRE(vector.size() == 0);\r\n}\r\n```\r\n\r\n\r\n**Platform information:**\r\n<!-- Fill in any extra information that might be important for your issue. -->\r\n - OS: **Linux 5.1.15-arch1-1-ARCH**\r\n - Compiler+version: **g++ (GCC) 9.1.0**\r\n - Catch version: **Catch v2.7.2** ([it looks like the bug still exists though](https://github.com/catchorg/Catch2/blob/54089c4c8c657ffb13d8f3a1425403335af5ba4d/include/internal/catch_generators_generic.hpp#L208-L209))\r\n\r\n\r\n**Additional context**\r\nMy specific use-case in which I ran into this is a test like this:\r\n\r\n```c++\r\nTEST_CASE(\"my function\") {\r\n  auto size = GENERATE(0, 1, 2, 3);\r\n  auto vector = GENERATE_COPY(take(1, chunk(size, random(-100, 100))));\r\n\r\n  auto list = VectorToList(vector);\r\n  \r\n  REQUIRE(list.size() == size);\r\n}\r\n```\r\n\r\nIt's possible that the intended behaviour was to return a minimum chunk-size of 1 for all chunks, but I think it would make much more sense to return empty vectors, otherwise the use-case above would be more annoying to write.\r\n\n",
+        "hints_text": "",
+        "created_at": "2019-06-29T13:50:00Z",
+        "version": "2.9"
+    }
+}

@@ -1,0 +1,19 @@
+Compile error: partial specialization of struct fmt::v11::formatter
+Printing a `const std::filesystem::path` with `fileystem`, `fmt/ostream.h` and `fmt/std.h` included and later including `fmt/ranges.h` in the same compilation unit causes a strange compile error.
+
+Tested with fmt-11.0.0 and gcc-14.2.
+
+```
+#include <filesystem>
+#include <fmt/ostream.h>
+#include <fmt/std.h>
+
+void f()
+{
+    const auto fn = std::filesystem::path{};
+    fmt::print("{}", fn);
+}
+
+#include <fmt/ranges.h>
+```
+https://godbolt.org/z/G5TPbz7o9

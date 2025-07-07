@@ -1,0 +1,7 @@
+{
+  "is_finish": false,
+  "guidance_for_write_dockerfile_agent": "",
+  "guidance_for_write_eval_script_agent": "The current test execution command `tests/SelfTest \"[ranges]\"` resulted in \"No test cases matched '[ranges]'\" and \"No tests ran\", indicated by OMNIGRIL_EXIT_CODE=2. This means the Catch2 test runner was executed successfully, but it did not find any tests matching the specified filter. The filter `[ranges]` is likely incorrect or too broad for the target test file `tests/SelfTest/UsageTests/MatchersRanges.tests.cpp`. To correctly execute the tests within this file, you will need to determine the precise test case name(s) or tags defined inside `tests/SelfTest/UsageTests/MatchersRanges.tests.cpp`. Once this information is available, revise the test execution command to use an exact test case name or a more specific tag/filter that guarantees finding the tests from this file.",
+  "guidance_for_context_retrieval_agent": "Please retrieve the file content of `tests/SelfTest/UsageTests/MatchersRanges.tests.cpp` from the `catchorg/Catch2` repository at commit `fa43b77429ba76c462b1898d6cd2f2d7a9416b14`. This is necessary to identify the actual test case names and tags defined within the file, which will allow the `write_eval_script_agent` to construct the correct test execution command.",
+  "build_image_status": true
+}

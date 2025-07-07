@@ -1,0 +1,17 @@
+slots=True is incompatible with str=True
+`slots=True` seems to be incompatible with `str=True`. I discovered this using attrs for exceptions, but it seems true in general:
+
+```pycon
+>>> import attr
+>>> @attr.s(str=True, slots=True)
+... class Foo(object):
+...     x = attr.ib()
+...
+>>> f = Foo(1)
+>>> str(f)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: unbound method repr_() must be called with Foo instance as first argument (got nothing instead)
+```
+
+Python 2.7.13, attrs==17.2.0

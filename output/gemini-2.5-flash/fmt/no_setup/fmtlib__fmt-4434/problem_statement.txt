@@ -1,0 +1,59 @@
+Formatter for `std::reference_wrapper<T>` results in an ambiguous template when `T` can be used with `format_as`
+Fmt 11.1.0 added a formatter specialization for `std::reference_wrapper<T>`.
+
+https://github.com/fmtlib/fmt/blob/c7925241c76576dd610915f8120a055eedbe0ad7/include/fmt/std.h#L698-L707
+
+This can result in errors due to ambiguous templates when `T` can be used with `format_as`:
+
+```cpp
+#include <fmt/format.h>
+#include <fmt/std.h>
+
+#include <functional>
+
+struct S {
+    int x;
+};
+
+int format_as(S);
+
+int main() {
+    S s;
+    fmt::format("{}", std::ref(s));
+}
+```
+
+```
+<source>:14:16:   in 'constexpr' expansion of 'fmt::v11::fstring<std::reference_wrapper<S> >("{}")'
+/opt/compiler-explorer/libs/fmt/trunk/include/fmt/base.h:1119:52: error: ambiguous template instantiation for 'struct fmt::v11::formatter<std::reference_wrapper<S>, char, void>'
+ 1119 |     remove_cvref_t<decltype(formatter<T>::format_as(std::declval<const T&>()))>;
+      |                             ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+/opt/compiler-explorer/libs/fmt/trunk/include/fmt/format.h:3810:8: note: candidates are: 'template<class T, class Char> struct fmt::v11::formatter<T, Char, fmt::v11::void_t<typename std::remove_cv<typename std::remove_reference<decltype (format_as(declval<const T&>()))>::type>::type> > [with T = std::reference_wrapper<S>; Char = char]'
+ 3810 | struct formatter<T, Char, void_t<detail::format_as_result<T>>>
+      |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from <source>:2:
+/opt/compiler-explorer/libs/fmt/trunk/include/fmt/std.h:699:8: note:                 'template<class T, class Char> struct fmt::v11::formatter<std::reference_wrapper<_Tp>, Char, typename std::enable_if<std::integral_constant<bool, (! std::is_same<decltype (fmt::v11::detail::type_mapper<Char>::map(declval<typename std::conditional<std::is_void<typename std::remove_cv<typename std::remove_reference<_Tp>::type>::type>::value, int*, typename std::remove_cv<typename std::remove_reference<_Tp>::type>::type>::type&>())), void>::value)>::value, void>::type> [with T = S; Char = char]'
+  699 | struct formatter<std::reference_wrapper<T>, Char,
+      |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  700 |                  enable_if_t<is_formattable<remove_cvref_t<T>, Char>::value>>
+      |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+https://godbolt.org/z/r71vbP4KG
+
+This is an unfortunate consequence of `std::reference_wrapper` having a non-explicit `operator T&` which allows a call like `format_as(std::ref(s))` to be valid.
+
+Repro without `fmt/std.h`, manually providing the specialization: https://godbolt.org/z/TeeP49x95.
+
+I can think of two possible solutions, I'm sure more exist:
+
+One possible solution is to embrace `format_as` instead of specializing `fmt::formatter` for this:
+
+```cpp
+template <typename T>
+T& format_as(std::reference_wrapper<T>);
+```
+
+This solves the problem as naturally `int format_as(S);` is a better match https://godbolt.org/z/h173rEa6q
+
+Another possible solution is to constrain `fmt::formatter<std::reference_wrapper<T>>` to types `T` which are not `format_as`-ible https://godbolt.org/z/j66Ko5Tzq.

@@ -1,0 +1,22 @@
+Test project /testbed/build
+    Start 1: RunTests
+    Start 2: ListTests
+    Start 3: ListTags
+    Start 4: ListReporters
+    Start 5: ListTestNamesOnly
+    Start 6: NoAssertions
+    Start 7: NoTest
+    Start 8: ApprovalTests
+1/8 Test #1: RunTests .........................   Passed    0.01 sec
+2/8 Test #2: ListTests ........................   Passed    0.01 sec
+3/8 Test #3: ListTags .........................   Passed    0.01 sec
+4/8 Test #4: ListReporters ....................   Passed    0.01 sec
+5/8 Test #5: ListTestNamesOnly ................   Passed    0.01 sec
+6/8 Test #7: NoTest ...........................   Passed    0.01 sec
+7/8 Test #6: NoAssertions .....................   Passed    0.01 sec
+8/8 Test #8: ApprovalTests ....................   Passed    0.41 sec
+
+100% tests passed, 0 tests failed out of 8
+
+Total Test time (real) =   0.42 sec
+OMNIGRIL_EXIT_CODE=0

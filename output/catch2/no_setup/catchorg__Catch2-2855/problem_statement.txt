@@ -1,0 +1,18 @@
+virtual void Catch::CumulativeReporterBase::testCaseEnded(const Catch::TestCaseStats&):  Assertion `m_sectionStack.size() == 0' failed
+## Description
+I am getting this error sometimes in CI.
+```
+testd: /build/agent-2/FAL-BS-JOB1/third-party/catch-1.9.3/catch.hpp:9611: 
+virtual void Catch::CumulativeReporterBase::testCaseEnded(const Catch::TestCaseStats&): 
+Assertion `m_sectionStack.size() == 0' failed.
+```
+Rerunning the job fixes the problem.  
+
+This was mentioned in a comment to #663.
+
+### Extra information
+* Catch command line options: **-r junit -o testresults.xml**
+* Catch version: **v1.9.3**
+* Operating System: **RHEL 4.9**
+* Compiler+version: **g++ 5.3**
+

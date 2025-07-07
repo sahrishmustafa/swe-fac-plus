@@ -1,0 +1,2 @@
+Detect if type is formattable in SFINAE-friendly way?
+Is there a way to detect if a type is formattable in a way that is SFINAE-friendly?  I am familiar with the `static_assert` that triggers inside fmt in this case, but is there a SFINAE-friendly way?  Thanks

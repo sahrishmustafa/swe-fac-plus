@@ -1,0 +1,98 @@
+Clang compilation fails when using REQUIRE with custom string classes that overload the << operator
+## Description
+
+We have our own custom string class that overloads the << operator, and it's causing issues when using the REQUIRE macro and compiling under Clang in Linux.
+
+The REQUIRE line looks like this:
+
+REQUIRE(str1 == "Item1");
+
+The error we get is the following:
+
+19>project_path\catch.hpp(810,21): error : use of overloaded operator '<<' is ambiguous (with operand types 'Catch::ReusableStringStream' and 'const MyCustomStringClass<char>')
+19>                rss << value;
+19>                ~~~ ^  ~~~~~
+19>project_path\catch.hpp(829,114): note: in instantiation of function template specialization 'Catch::StringMaker<type, void>::convert<MyCustomStringClass<char> >' requested here
+19>            return ::Catch::StringMaker<typename std::remove_cv<typename std::remove_reference<T>::type>::type>::convert(e);
+19>                                                                                                                 ^
+19>project_path\catch.hpp(1325,42): note: in instantiation of function template specialization 'Catch::Detail::stringify<MyCustomStringClass<char> >' requested here
+19>                    ( os, Catch::Detail::stringify( m_lhs ), m_op, Catch::Detail::stringify( m_rhs ) );
+19>                                         ^
+19>project_path\MyCppFile.cpp(243,75): note: in instantiation of member function 'Catch::BinaryExpr<const MyCustomStringClass<char> &, char const &[6]>::streamReconstructedExpression' requested here
+19>                    REQUIRE(str1 == "Item1");
+
+
+### Extra information
+  Disabling stringification with CATCH_CONFIG_DISABLE_STRINGIFICATION does not help solve this issue.
+
+   Commenting out the following line in catch.hpp fixes the compilation error:
+   This code starts in line 801:
+
+    template <typename T, typename = void>
+    struct StringMaker {
+        template <typename Fake = T>
+        static
+        typename std::enable_if<::Catch::Detail::IsStreamInsertable<Fake>::value, std::string>::type
+            convert(const Fake& value) {
+                ReusableStringStream rss;
+
+                // this line causes the problem
+                // rss << value;
+
+                return rss.str();
+        }
+
+
+* Catch version: **v2.2.2**
+* Operating System: **Linux**
+* Compiler+version: **Clang**
+
+Clang compilation fails when using REQUIRE with custom string classes that overload the << operator
+## Description
+
+We have our own custom string class that overloads the << operator, and it's causing issues when using the REQUIRE macro and compiling under Clang in Linux.
+
+The REQUIRE line looks like this:
+
+REQUIRE(str1 == "Item1");
+
+The error we get is the following:
+
+19>project_path\catch.hpp(810,21): error : use of overloaded operator '<<' is ambiguous (with operand types 'Catch::ReusableStringStream' and 'const MyCustomStringClass<char>')
+19>                rss << value;
+19>                ~~~ ^  ~~~~~
+19>project_path\catch.hpp(829,114): note: in instantiation of function template specialization 'Catch::StringMaker<type, void>::convert<MyCustomStringClass<char> >' requested here
+19>            return ::Catch::StringMaker<typename std::remove_cv<typename std::remove_reference<T>::type>::type>::convert(e);
+19>                                                                                                                 ^
+19>project_path\catch.hpp(1325,42): note: in instantiation of function template specialization 'Catch::Detail::stringify<MyCustomStringClass<char> >' requested here
+19>                    ( os, Catch::Detail::stringify( m_lhs ), m_op, Catch::Detail::stringify( m_rhs ) );
+19>                                         ^
+19>project_path\MyCppFile.cpp(243,75): note: in instantiation of member function 'Catch::BinaryExpr<const MyCustomStringClass<char> &, char const &[6]>::streamReconstructedExpression' requested here
+19>                    REQUIRE(str1 == "Item1");
+
+
+### Extra information
+  Disabling stringification with CATCH_CONFIG_DISABLE_STRINGIFICATION does not help solve this issue.
+
+   Commenting out the following line in catch.hpp fixes the compilation error:
+   This code starts in line 801:
+
+    template <typename T, typename = void>
+    struct StringMaker {
+        template <typename Fake = T>
+        static
+        typename std::enable_if<::Catch::Detail::IsStreamInsertable<Fake>::value, std::string>::type
+            convert(const Fake& value) {
+                ReusableStringStream rss;
+
+                // this line causes the problem
+                // rss << value;
+
+                return rss.str();
+        }
+
+
+* Catch version: **v2.2.2**
+* Operating System: **Linux**
+* Compiler+version: **Clang**
+

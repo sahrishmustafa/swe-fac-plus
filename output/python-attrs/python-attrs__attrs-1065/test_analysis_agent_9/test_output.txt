@@ -1,0 +1,86 @@
++ cd /testbed
++ git checkout 67dc8cc261a5ef64f576ce73f2281cc9021d8fb4 tests/dataclass_transform_example.py tests/test_functional.py tests/typing_example.py
+Updated 0 paths from 20bbdd2
++ git apply -v -
+Checking patch tests/dataclass_transform_example.py...
+Checking patch tests/test_functional.py...
+Checking patch tests/typing_example.py...
+Applied patch tests/dataclass_transform_example.py cleanly.
+Applied patch tests/test_functional.py cleanly.
+Applied patch tests/typing_example.py cleanly.
++ overall_rc=0
++ python -m tox -e py311 -- tests/test_functional.py
+.pkg: install_requires> python -I -m pip install 'setuptools>=40.6.0' wheel
+.pkg: _optional_hooks> python /usr/local/lib/python3.11/site-packages/pyproject_api/_backend.py True setuptools.build_meta
+.pkg: get_requires_for_build_sdist> python /usr/local/lib/python3.11/site-packages/pyproject_api/_backend.py True setuptools.build_meta
+.pkg: get_requires_for_build_wheel> python /usr/local/lib/python3.11/site-packages/pyproject_api/_backend.py True setuptools.build_meta
+.pkg: prepare_metadata_for_build_wheel> python /usr/local/lib/python3.11/site-packages/pyproject_api/_backend.py True setuptools.build_meta
+.pkg: build_sdist> python /usr/local/lib/python3.11/site-packages/pyproject_api/_backend.py True setuptools.build_meta
+py311: install_package_deps> python -m pip install --no-compile 'cloudpickle; platform_python_implementation == "CPython"' coverage-enable-subprocess 'coverage[toml]>=5.3' hypothesis 'mypy<0.990,>=0.971; platform_python_implementation == "CPython"' pympler 'pytest-mypy-plugins; platform_python_implementation == "CPython" and python_version < "3.11"' 'pytest-xdist[psutil]' 'pytest>=4.3.0' zope.interface
+py311: install_package> python -m pip install --no-compile --force-reinstall --no-deps /testbed/.tox/.tmp/package/1/attrs-22.2.0.dev0.tar.gz
+py311: commands[0]> coverage run -m pytest tests/test_functional.py
+============================= test session starts ==============================
+platform linux -- Python 3.11.13, pytest-8.4.1, pluggy-1.6.0
+cachedir: .tox/py311/.pytest_cache
+rootdir: /testbed
+configfile: pyproject.toml
+plugins: hypothesis-6.135.24, xdist-3.8.0
+collected 404 items
+
+tests/test_functional.py ............................................... [ 11%]
+........................................................................ [ 29%]
+........................................................................ [ 47%]
+........................................................................ [ 65%]
+........................................................................ [ 82%]
+.....................................................................    [100%]
+
+============================= 404 passed in 1.46s ==============================
+/testbed/.tox/py311/lib/python3.11/site-packages/coverage/inorout.py:509: CoverageWarning: Module attrs was never imported. (module-not-imported)
+  self.warn(f"Module {pkg} was never imported.", slug="module-not-imported")
+  py311: OK (20.56=setup[17.25]+cmd[3.31] seconds)
+  congratulations :) (20.64 seconds)
++ pytest_rc=0
++ overall_rc=0
++ python -m tox -e mypy
+mypy: install_deps> python -I -m pip install 'mypy>=0.902'
+.pkg: _optional_hooks> python /usr/local/lib/python3.11/site-packages/pyproject_api/_backend.py True setuptools.build_meta
+.pkg: get_requires_for_build_sdist> python /usr/local/lib/python3.11/site-packages/pyproject_api/_backend.py True setuptools.build_meta
+.pkg: get_requires_for_build_wheel> python /usr/local/lib/python3.11/site-packages/pyproject_api/_backend.py True setuptools.build_meta
+.pkg: prepare_metadata_for_build_wheel> python /usr/local/lib/python3.11/site-packages/pyproject_api/_backend.py True setuptools.build_meta
+.pkg: build_sdist> python /usr/local/lib/python3.11/site-packages/pyproject_api/_backend.py True setuptools.build_meta
+mypy: install_package_deps> python -I -m pip install 'cloudpickle; platform_python_implementation == "CPython"' hypothesis 'mypy<0.990,>=0.971; platform_python_implementation == "CPython"' pympler 'pytest-mypy-plugins; platform_python_implementation == "CPython" and python_version < "3.11"' 'pytest-xdist[psutil]' 'pytest>=4.3.0' zope.interface
+mypy: install_package> python -I -m pip install --force-reinstall --no-deps /testbed/.tox/.tmp/package/2/attrs-22.2.0.dev0.tar.gz
+mypy: commands[0]> mypy src/attrs/__init__.pyi src/attr/__init__.pyi src/attr/_typing_compat.pyi src/attr/_version_info.pyi src/attr/converters.pyi src/attr/exceptions.pyi src/attr/filters.pyi src/attr/setters.pyi src/attr/validators.pyi
+Success: no issues found in 9 source files
+mypy: commands[1]> mypy tests/typing_example.py
+tests/typing_example.py:457: error: No overload variant of "define" matches argument type "bool"
+tests/typing_example.py:457: note: Possible overload variants:
+tests/typing_example.py:457: note:     def [_C <: type] define(maybe_cls: _C, *, these: Optional[Dict[str, Any]] = ..., repr: bool = ..., hash: Optional[bool] = ..., init: bool = ..., slots: bool = ..., frozen: bool = ..., weakref_slot: bool = ..., str: bool = ..., auto_attribs: bool = ..., kw_only: bool = ..., cache_hash: bool = ..., auto_exc: bool = ..., eq: Optional[bool] = ..., order: Optional[bool] = ..., auto_detect: bool = ..., getstate_setstate: Optional[bool] = ..., on_setattr: Union[Callable[[Any, Attribute[Any], Any], Any], List[Callable[[Any, Attribute[Any], Any], Any]], _NoOpType, None] = ..., field_transformer: Optional[Callable[[type, List[Attribute[Any]]], List[Attribute[Any]]]] = ..., match_args: bool = ...) -> _C
+tests/typing_example.py:457: note:     def define(maybe_cls: None = ..., *, these: Optional[Dict[str, Any]] = ..., repr: bool = ..., hash: Optional[bool] = ..., init: bool = ..., slots: bool = ..., frozen: bool = ..., weakref_slot: bool = ..., str: bool = ..., auto_attribs: bool = ..., kw_only: bool = ..., cache_hash: bool = ..., auto_exc: bool = ..., eq: Optional[bool] = ..., order: Optional[bool] = ..., auto_detect: bool = ..., getstate_setstate: Optional[bool] = ..., on_setattr: Union[Callable[[Any, Attribute[Any], Any], Any], List[Callable[[Any, Attribute[Any], Any], Any]], _NoOpType, None] = ..., field_transformer: Optional[Callable[[type, List[Attribute[Any]]], List[Attribute[Any]]]] = ..., match_args: bool = ...) -> Callable[[_C], _C]
+Found 1 error in 1 file (checked 1 source file)
+mypy: exit 1 (1.06 seconds) /testbed> mypy tests/typing_example.py pid=588
+  mypy: FAIL code 1 (24.34=setup[20.55]+cmd[2.73,1.06] seconds)
+  evaluation failed :( (24.40 seconds)
++ mypy_rc=1
++ overall_rc=1
++ python -m mypy tests/dataclass_transform_example.py
+tests/dataclass_transform_example.py:13: note: Revealed type is "def (self: tests.dataclass_transform_example.Define, a: builtins.str, b: builtins.int)"
+tests/dataclass_transform_example.py:22: note: Revealed type is "def (self: tests.dataclass_transform_example.DefineConverter, with_converter: Union[builtins.str, builtins.bytes, array.array[Any], mmap.mmap, ctypes._CData, pickle.PickleBuffer, typing.SupportsInt, typing_extensions.SupportsIndex, _typeshed.SupportsTrunc])"
+tests/dataclass_transform_example.py:32: error: Property "a" defined in "Frozen" is read-only
+tests/dataclass_transform_example.py:34: note: Revealed type is "builtins.str"
+tests/dataclass_transform_example.py:44: error: Property "a" defined in "FrozenDefine" is read-only
+tests/dataclass_transform_example.py:46: note: Revealed type is "builtins.str"
+tests/dataclass_transform_example.py:57: error: Accessing "__init__" on an instance is unsound, since instance.__init__ could be from an incompatible subclass
+tests/dataclass_transform_example.py:57: note: Revealed type is "Any"
+tests/dataclass_transform_example.py:61: error: No overload variant of "define" matches argument type "bool"
+tests/dataclass_transform_example.py:61: note: Possible overload variants:
+tests/dataclass_transform_example.py:61: note:     def [_C <: type] define(maybe_cls: _C, *, these: Optional[Dict[str, Any]] = ..., repr: bool = ..., hash: Optional[bool] = ..., init: bool = ..., slots: bool = ..., frozen: bool = ..., weakref_slot: bool = ..., str: bool = ..., auto_attribs: bool = ..., kw_only: bool = ..., cache_hash: bool = ..., auto_exc: bool = ..., eq: Optional[bool] = ..., order: Optional[bool] = ..., auto_detect: bool = ..., getstate_setstate: Optional[bool] = ..., on_setattr: Union[Callable[[Any, Attribute[Any], Any], Any], List[Callable[[Any, Attribute[Any], Any], Any]], _NoOpType, None] = ..., field_transformer: Optional[Callable[[type, List[Attribute[Any]]], List[Attribute[Any]]]] = ..., match_args: bool = ...) -> _C
+tests/dataclass_transform_example.py:61: note:     def define(maybe_cls: None = ..., *, these: Optional[Dict[str, Any]] = ..., repr: bool = ..., hash: Optional[bool] = ..., init: bool = ..., slots: bool = ..., frozen: bool = ..., weakref_slot: bool = ..., str: bool = ..., auto_attribs: bool = ..., kw_only: bool = ..., cache_hash: bool = ..., auto_exc: bool = ..., eq: Optional[bool] = ..., order: Optional[bool] = ..., auto_detect: bool = ..., getstate_setstate: Optional[bool] = ..., on_setattr: Union[Callable[[Any, Attribute[Any], Any], Any], List[Callable[[Any, Attribute[Any], Any], Any]], _NoOpType, None] = ..., field_transformer: Optional[Callable[[type, List[Attribute[Any]]], List[Attribute[Any]]]] = ..., match_args: bool = ...) -> Callable[[_C], _C]
+Found 4 errors in 1 file (checked 1 source file)
++ dataclass_mypy_rc=1
++ overall_rc=1
++ rc=1
++ echo OMNIGRIL_EXIT_CODE=1
++ git checkout 67dc8cc261a5ef64f576ce73f2281cc9021d8fb4 tests/dataclass_transform_example.py tests/test_functional.py tests/typing_example.py
+OMNIGRIL_EXIT_CODE=1
+Updated 3 paths from 20bbdd2

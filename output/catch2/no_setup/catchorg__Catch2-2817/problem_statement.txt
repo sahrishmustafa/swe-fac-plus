@@ -1,0 +1,18 @@
+Wunused-variable in (DYNAMIC_)SECTION when CATCH_CONFIG_EXPERIMENTAL_STATIC_ANALYSIS_SUPPORT is enabled
+**Describe the bug**
+
+In static analysis mode, the argument of `SECTION`/`DYNAMIC_SECTION` is not evaluated. If it contains
+a variable that is used only there, it'll lead to `Wunused-variable` warning.
+
+
+**Expected behavior**
+No warning
+
+**Reproduction steps**
+
+https://compiler-explorer.com/z/K9fxKGaz4
+
+**Platform information:**
+ - Compiler+version: clang (clang-tidy)
+ - Catch version: devel
+

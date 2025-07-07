@@ -1,0 +1,40 @@
+```bash
+<script>
+#!/bin/bash
+set -uxo pipefail
+cd /testbed
+
+# Ensure the target test file is in its original state before applying any patch
+git checkout 87fbc6f7566e4d3266bd3a2cd69f6c90e1aefa5d "test/prepare-test.cc"
+
+# Required: apply test patch to update target tests
+git apply -v - <<'EOF_114329324912'
+[CONTENT OF TEST PATCH]
+EOF_114329324912
+
+# Build system setup
+# 1. Create the build directory
+mkdir build
+
+# 2. Configure CMake with tests enabled
+cmake -S . -B build -DFMT_TEST=ON
+
+# 3. Build the project
+cmake --build build
+
+# Test execution
+# Navigate into the build directory
+cd build
+
+# Run tests: ctest will execute all tests compiled as part of the FMT_TEST target,
+# which includes tests derived from test/prepare-test.cc.
+ctest --output-on-failure
+rc=$? # Capture exit code immediately after running tests
+
+echo "OMNIGRIL_EXIT_CODE=$rc" # Required, echo test status
+
+# Cleanup: Revert changes made by the patch to the target test file
+cd /testbed # Ensure we are in the repository root for git checkout
+git checkout 87fbc6f7566e4d3266bd3a2cd69f6c90e1aefa5d "test/prepare-test.cc"
+</script>
+```

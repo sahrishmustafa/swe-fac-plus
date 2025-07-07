@@ -1,0 +1,4 @@
+Allow using attrs without ctypes
+#226 introduced the use of `ctypes`. I use attrs in a Google App Engine application. The app runs in a sandbox which limits the use of certain modules. `ctypes` is one of those libraries.
+
+I can peg my app to use only attrs 17.2.0, but it would be nice to have a fail-gently approach where, if ctypes is unavailable, attrs keeps working, though the behavior allowed by #226 of course would not work.

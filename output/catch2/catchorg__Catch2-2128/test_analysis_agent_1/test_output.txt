@@ -1,0 +1,33 @@
++ cd /testbed
++ COMMIT_SHA=65c9a1d31a338f28ef93cd61c475efc40f6cc42e
++ TARGET_TEST_FILE=tests/SelfTest/UsageTests/Compilation.tests.cpp
+Resetting tests/SelfTest/UsageTests/Compilation.tests.cpp to its state at commit 65c9a1d31a338f28ef93cd61c475efc40f6cc42e...
++ echo 'Resetting tests/SelfTest/UsageTests/Compilation.tests.cpp to its state at commit 65c9a1d31a338f28ef93cd61c475efc40f6cc42e...'
++ git checkout 65c9a1d31a338f28ef93cd61c475efc40f6cc42e tests/SelfTest/UsageTests/Compilation.tests.cpp
+Updated 1 path from 82bbcf8a
++ echo 'Attempting to apply test patch...'
++ git apply -v -
+Attempting to apply test patch...
+Checking patch tests/SelfTest/UsageTests/Compilation.tests.cpp...
+Applied patch tests/SelfTest/UsageTests/Compilation.tests.cpp cleanly.
++ echo 'Navigating to /testbed/Build directory for test execution...'
++ cd /testbed/Build
+Navigating to /testbed/Build directory for test execution...
++ echo 'Running tests matching regex SelfTest.UsageTests.Compilation...'
+Running tests matching regex SelfTest.UsageTests.Compilation...
+++ nproc
++ CTEST_OUTPUT_ON_FAILURE=1
++ ctest -j 12 -R 'SelfTest\.UsageTests\.Compilation'
+Test project /testbed/Build
+No tests were found!!!
++ rc=0
++ echo OMNIGRIL_EXIT_CODE=0
++ echo 'Navigating back to /testbed for cleanup operations...'
++ cd /testbed
++ echo 'Resetting tests/SelfTest/UsageTests/Compilation.tests.cpp after test run...'
+OMNIGRIL_EXIT_CODE=0
+Navigating back to /testbed for cleanup operations...
+Resetting tests/SelfTest/UsageTests/Compilation.tests.cpp after test run...
++ git checkout 65c9a1d31a338f28ef93cd61c475efc40f6cc42e tests/SelfTest/UsageTests/Compilation.tests.cpp
+Updated 1 path from 82bbcf8a
++ exit 0

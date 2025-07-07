@@ -1,0 +1,24 @@
+Feature Request: Print std::chrono::time_point
+Hello. I love using your library. 
+
+I saw [this](https://github.com/fmtlib/fmt/issues/985) issue but it was closed. Here is my usecase of time_point:
+```
+class record {
+std::chrono::time_point<std::chrono::system_clock> last_modified, ...;
+void init() {
+    last_modified = std::chrono::system_clock::now();
+}
+void expired() {
+    return ((std::chrono::system_clock::now() - last_modified) >  std::chrono::hours(8));
+}
+// Bunch of other operations that add/subtract duration to another time_point member.
+};
+```
+I want to implement a `print()` that displays the time_point members. Here is what I do now:
+```
+void print() {
+    const auto time_c = std::chrono::system_clock::to_time_t(last_modified);
+    std::cout << std::ctime(&time_c);
+}
+```
+I would like to use `fmt::print("{}", last_modified)` and be done with it. Could you please consider my request? 

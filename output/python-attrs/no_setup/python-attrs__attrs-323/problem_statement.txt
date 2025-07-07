@@ -1,0 +1,13 @@
+Don't delete class attributes specified in attrs(these=...)
+In previous versions of `attrs` (verified in 16.3.0), you could get class attributes included in the auto-generated methods (`__repr__`, `__eq__`, et cetera) by setting `these` in the `attrs` decorator to the names of the attributes (with `init=False`).  As of version 17.3.0, the attributes listed in `these` are simply deleted from the class definition, eliminating the whole reason for specifying them via `these` instead of in the class body, or automatically via type annotations.  Attributes should only be deleted from the class definition if the attribute is an instance of whatever `attr.ib` returns, or at the very least, an option to not delete class attributes should be provided.
+
+
+    from attr import s, ib
+
+    @s(these=dict(something=ib(init=False)))
+    class test(object):
+	    something = 'xyzzy'
+
+    print(test())
+
+

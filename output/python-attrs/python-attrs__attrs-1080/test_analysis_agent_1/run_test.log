@@ -1,0 +1,1089 @@
+2025-07-03 18:33:50,192 - INFO - Checking if image python-attrs__attrs-1080-dockerfile1:latest exists locally...
+2025-07-03 18:33:50,211 - INFO - Image python-attrs__attrs-1080-dockerfile1:latest found locally.
+2025-07-03 18:33:50,211 - INFO - Creating container for python-attrs__attrs-1080...
+2025-07-03 18:33:50,623 - INFO - Container for python-attrs__attrs-1080 started: c875c0574ad1e11dfd6846870111297144c93eaa1e2fe87850a7c7ecc452aa23
+2025-07-03 18:33:50,624 - INFO - Intermediate patch for python-attrs__attrs-1080 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/python-attrs/python-attrs__attrs-1080/test_analysis_agent_1/patch.diff, now applying to container...
+2025-07-03 18:33:50,842 - INFO - Failed to apply patch to container, trying again...
+2025-07-03 18:33:50,896 - INFO - Apply patch success:
+patching file src/attr/_cmp.py
+patching file src/attr/_funcs.py
+patching file src/attr/_make.py
+patching file src/attr/_next_gen.py
+patching file src/attr/exceptions.py
+patching file src/attr/validators.py
+
+2025-07-03 18:33:50,964 - INFO - Git diff before:
+diff --git a/src/attr/_cmp.py b/src/attr/_cmp.py
+index ad1e18c..d9cbe22 100644
+--- a/src/attr/_cmp.py
++++ b/src/attr/_cmp.py
+@@ -20,22 +20,22 @@ def cmp_using(
+     class_name="Comparable",
+ ):
+     """
+-    Create a class that can be passed into `attr.ib`'s ``eq``, ``order``, and
+-    ``cmp`` arguments to customize field comparison.
+-
+-    The resulting class will have a full set of ordering methods if
+-    at least one of ``{lt, le, gt, ge}`` and ``eq``  are provided.
+-
+-    :param Optional[callable] eq: `callable` used to evaluate equality
+-        of two objects.
+-    :param Optional[callable] lt: `callable` used to evaluate whether
+-        one object is less than another object.
+-    :param Optional[callable] le: `callable` used to evaluate whether
+-        one object is less than or equal to another object.
+-    :param Optional[callable] gt: `callable` used to evaluate whether
+-        one object is greater than another object.
+-    :param Optional[callable] ge: `callable` used to evaluate whether
+-        one object is greater than or equal to another object.
++    Create a class that can be passed into `attrs.field`'s ``eq``, ``order``,
++    and ``cmp`` arguments to customize field comparison.
++
++    The resulting class will have a full set of ordering methods if at least
++    one of ``{lt, le, gt, ge}`` and ``eq``  are provided.
++
++    :param Optional[callable] eq: `callable` used to evaluate equality of two
++        objects.
++    :param Optional[callable] lt: `callable` used to evaluate whether one
++        object is less than another object.
++    :param Optional[callable] le: `callable` used to evaluate whether one
++        object is less than or equal to another object.
++    :param Optional[callable] gt: `callable` used to evaluate whether one
++        object is greater than another object.
++    :param Optional[callable] ge: `callable` used to evaluate whether one
++        object is greater than or equal to another object.
+ 
+     :param bool require_same_type: When `True`, equality and ordering methods
+         will return `NotImplemented` if objects are not of the same type.
+diff --git a/src/attr/_funcs.py b/src/attr/_funcs.py
+index 1f573c1..518be16 100644
+--- a/src/attr/_funcs.py
++++ b/src/attr/_funcs.py
+@@ -16,13 +16,13 @@ def asdict(
+     value_serializer=None,
+ ):
+     """
+-    Return the ``attrs`` attribute values of *inst* as a dict.
++    Return the *attrs* attribute values of *inst* as a dict.
+ 
+-    Optionally recurse into other ``attrs``-decorated classes.
++    Optionally recurse into other *attrs*-decorated classes.
+ 
+-    :param inst: Instance of an ``attrs``-decorated class.
++    :param inst: Instance of an *attrs*-decorated class.
+     :param bool recurse: Recurse into classes that are also
+-        ``attrs``-decorated.
++        *attrs*-decorated.
+     :param callable filter: A callable whose return code determines whether an
+         attribute or element is included (``True``) or dropped (``False``).  Is
+         called with the `attrs.Attribute` as the first argument and the
+@@ -40,7 +40,7 @@ def asdict(
+ 
+     :rtype: return type of *dict_factory*
+ 
+-    :raise attr.exceptions.NotAnAttrsClassError: If *cls* is not an ``attrs``
++    :raise attrs.exceptions.NotAnAttrsClassError: If *cls* is not an *attrs*
+         class.
+ 
+     ..  versionadded:: 16.0.0 *dict_factory*
+@@ -195,13 +195,13 @@ def astuple(
+     retain_collection_types=False,
+ ):
+     """
+-    Return the ``attrs`` attribute values of *inst* as a tuple.
++    Return the *attrs* attribute values of *inst* as a tuple.
+ 
+-    Optionally recurse into other ``attrs``-decorated classes.
++    Optionally recurse into other *attrs*-decorated classes.
+ 
+-    :param inst: Instance of an ``attrs``-decorated class.
++    :param inst: Instance of an *attrs*-decorated class.
+     :param bool recurse: Recurse into classes that are also
+-        ``attrs``-decorated.
++        *attrs*-decorated.
+     :param callable filter: A callable whose return code determines whether an
+         attribute or element is included (``True``) or dropped (``False``).  Is
+         called with the `attrs.Attribute` as the first argument and the
+@@ -215,7 +215,7 @@ def astuple(
+ 
+     :rtype: return type of *tuple_factory*
+ 
+-    :raise attr.exceptions.NotAnAttrsClassError: If *cls* is not an ``attrs``
++    :raise attrs.exceptions.NotAnAttrsClassError: If *cls* is not an *attrs*
+         class.
+ 
+     ..  versionadded:: 16.2.0
+@@ -289,7 +289,7 @@ def astuple(
+ 
+ def has(cls):
+     """
+-    Check whether *cls* is a class with ``attrs`` attributes.
++    Check whether *cls* is a class with *attrs* attributes.
+ 
+     :param type cls: Class to introspect.
+     :raise TypeError: If *cls* is not a class.
+@@ -303,14 +303,14 @@ def assoc(inst, **changes):
+     """
+     Copy *inst* and apply *changes*.
+ 
+-    :param inst: Instance of a class with ``attrs`` attributes.
++    :param inst: Instance of a class with *attrs* attributes.
+     :param changes: Keyword changes in the new copy.
+ 
+     :return: A copy of inst with *changes* incorporated.
+ 
+-    :raise attr.exceptions.AttrsAttributeNotFoundError: If *attr_name* couldn't
+-        be found on *cls*.
+-    :raise attr.exceptions.NotAnAttrsClassError: If *cls* is not an ``attrs``
++    :raise attrs.exceptions.AttrsAttributeNotFoundError: If *attr_name*
++        couldn't be found on *cls*.
++    :raise attrs.exceptions.NotAnAttrsClassError: If *cls* is not an *attrs*
+         class.
+ 
+     ..  deprecated:: 17.1.0
+@@ -341,14 +341,14 @@ def evolve(inst, **changes):
+     """
+     Create a new instance, based on *inst* with *changes* applied.
+ 
+-    :param inst: Instance of a class with ``attrs`` attributes.
++    :param inst: Instance of a class with *attrs* attributes.
+     :param changes: Keyword changes in the new copy.
+ 
+     :return: A copy of inst with *changes* incorporated.
+ 
+     :raise TypeError: If *attr_name* couldn't be found in the class
+         ``__init__``.
+-    :raise attr.exceptions.NotAnAttrsClassError: If *cls* is not an ``attrs``
++    :raise attrs.exceptions.NotAnAttrsClassError: If *cls* is not an *attrs*
+         class.
+ 
+     ..  versionadded:: 17.1.0
+@@ -385,10 +385,10 @@ def resolve_types(cls, globalns=None, localns=None, attribs=None):
+     :param Optional[dict] localns: Dictionary containing local variables.
+     :param Optional[list] attribs: List of attribs for the given class.
+         This is necessary when calling from inside a ``field_transformer``
+-        since *cls* is not an ``attrs`` class yet.
++        since *cls* is not an *attrs* class yet.
+ 
+     :raise TypeError: If *cls* is not a class.
+-    :raise attr.exceptions.NotAnAttrsClassError: If *cls* is not an ``attrs``
++    :raise attrs.exceptions.NotAnAttrsClassError: If *cls* is not an *attrs*
+         class and you didn't pass any attribs.
+     :raise NameError: If types cannot be resolved because of missing variables.
+ 
+diff --git a/src/attr/_make.py b/src/attr/_make.py
+index 48125a9..1bb0f50 100644
+--- a/src/attr/_make.py
++++ b/src/attr/_make.py
+@@ -109,9 +109,12 @@ def attrib(
+     ..  warning::
+ 
+         Does *not* do anything unless the class is also decorated with
+-        `attr.s`!
++        `attr.s` / `attrs.define` / et cetera!
+ 
+-    :param default: A value that is used if an ``attrs``-generated ``__init__``
++    Please consider using `attrs.field` in new code (``attr.ib`` will *never*
++    go away, though).
++
++    :param default: A value that is used if an *attrs*-generated ``__init__``
+         is used and no value is passed while instantiating or the attribute is
+         excluded using ``init=False``.
+ 
+@@ -130,7 +133,7 @@ def attrib(
+     :param callable factory: Syntactic sugar for
+         ``default=attr.Factory(factory)``.
+ 
+-    :param validator: `callable` that is called by ``attrs``-generated
++    :param validator: `callable` that is called by *attrs*-generated
+         ``__init__`` methods after the instance has been initialized.  They
+         receive the initialized instance, the :func:`~attrs.Attribute`, and the
+         passed value.
+@@ -142,7 +145,7 @@ def attrib(
+         all pass.
+ 
+         Validators can be globally disabled and re-enabled using
+-        `get_run_validators`.
++        `attrs.validators.get_disabled` / `attrs.validators.set_disabled`.
+ 
+         The validator can also be set using decorator notation as shown below.
+ 
+@@ -184,7 +187,7 @@ def attrib(
+         value.  In that case this attributed is unconditionally initialized
+         with the specified default value or factory.
+     :param callable converter: `callable` that is called by
+-        ``attrs``-generated ``__init__`` methods to convert attribute's value
++        *attrs*-generated ``__init__`` methods to convert attribute's value
+         to the desired format.  It is given the passed-in value, and the
+         returned value will be used as the new value of the attribute.  The
+         value is converted before being passed to the validator, if any.
+@@ -197,7 +200,7 @@ def attrib(
+         Regardless of the approach used, the type will be stored on
+         ``Attribute.type``.
+ 
+-        Please note that ``attrs`` doesn't do anything with this metadata by
++        Please note that *attrs* doesn't do anything with this metadata by
+         itself. You can use it as part of your own code or for
+         `static type checking <types>`.
+     :param kw_only: Make this attribute keyword-only in the generated
+@@ -1211,12 +1214,15 @@ def attrs(
+     A class decorator that adds :term:`dunder methods` according to the
+     specified attributes using `attr.ib` or the *these* argument.
+ 
++    Please consider using `attrs.define` / `attrs.frozen` in new code
++    (``attr.s`` will *never* go away, though).
++
+     :param these: A dictionary of name to `attr.ib` mappings.  This is
+         useful to avoid the definition of your attributes within the class body
+         because you can't (e.g. if you want to add ``__repr__`` methods to
+         Django models) or don't want to.
+ 
+-        If *these* is not ``None``, ``attrs`` will *not* search the class body
++        If *these* is not ``None``, *attrs* will *not* search the class body
+         for attributes and will *not* remove any attributes from it.
+ 
+         The order is deduced from the order of the attributes inside *these*.
+@@ -1233,14 +1239,14 @@ def attrs(
+         inherited from some base class).
+ 
+         So for example by implementing ``__eq__`` on a class yourself,
+-        ``attrs`` will deduce ``eq=False`` and will create *neither*
++        *attrs* will deduce ``eq=False`` and will create *neither*
+         ``__eq__`` *nor* ``__ne__`` (but Python classes come with a sensible
+         ``__ne__`` by default, so it *should* be enough to only implement
+         ``__eq__`` in most cases).
+ 
+         .. warning::
+ 
+-           If you prevent ``attrs`` from creating the ordering methods for you
++           If you prevent *attrs* from creating the ordering methods for you
+            (``order=False``, e.g. by implementing ``__le__``), it becomes
+            *your* responsibility to make sure its ordering is sound. The best
+            way is to use the `functools.total_ordering` decorator.
+@@ -1250,14 +1256,14 @@ def attrs(
+         *cmp*, or *hash* overrides whatever *auto_detect* would determine.
+ 
+     :param bool repr: Create a ``__repr__`` method with a human readable
+-        representation of ``attrs`` attributes..
++        representation of *attrs* attributes..
+     :param bool str: Create a ``__str__`` method that is identical to
+         ``__repr__``.  This is usually not necessary except for
+         `Exception`\ s.
+     :param Optional[bool] eq: If ``True`` or ``None`` (default), add ``__eq__``
+         and ``__ne__`` methods that check two instances for equality.
+ 
+-        They compare the instances as if they were tuples of their ``attrs``
++        They compare the instances as if they were tuples of their *attrs*
+         attributes if and only if the types of both classes are *identical*!
+     :param Optional[bool] order: If ``True``, add ``__lt__``, ``__le__``,
+         ``__gt__``, and ``__ge__`` methods that behave like *eq* above and
+@@ -1268,7 +1274,7 @@ def attrs(
+     :param Optional[bool] unsafe_hash: If ``None`` (default), the ``__hash__``
+         method is generated according how *eq* and *frozen* are set.
+ 
+-        1. If *both* are True, ``attrs`` will generate a ``__hash__`` for you.
++        1. If *both* are True, *attrs* will generate a ``__hash__`` for you.
+         2. If *eq* is True and *frozen* is False, ``__hash__`` will be set to
+            None, marking it unhashable (which it is).
+         3. If *eq* is False, ``__hash__`` will be left untouched meaning the
+@@ -1276,7 +1282,7 @@ def attrs(
+            ``object``, this means it will fall back to id-based hashing.).
+ 
+         Although not recommended, you can decide for yourself and force
+-        ``attrs`` to create one (e.g. if the class is immutable even though you
++        *attrs* to create one (e.g. if the class is immutable even though you
+         didn't freeze it programmatically) by passing ``True`` or not.  Both of
+         these cases are rather special and should be used carefully.
+ 
+@@ -1287,7 +1293,7 @@ def attrs(
+     :param Optional[bool] hash: Alias for *unsafe_hash*. *unsafe_hash* takes
+         precedence.
+     :param bool init: Create a ``__init__`` method that initializes the
+-        ``attrs`` attributes. Leading underscores are stripped for the argument
++        *attrs* attributes. Leading underscores are stripped for the argument
+         name. If a ``__attrs_pre_init__`` method exists on the class, it will
+         be called before the class is initialized. If a ``__attrs_post_init__``
+         method exists on the class, it will be called after the class is fully
+@@ -1303,7 +1309,7 @@ def attrs(
+         we encourage you to read the :term:`glossary entry <slotted classes>`.
+     :param bool frozen: Make instances immutable after initialization.  If
+         someone attempts to modify a frozen instance,
+-        `attr.exceptions.FrozenInstanceError` is raised.
++        `attrs.exceptions.FrozenInstanceError` is raised.
+ 
+         .. note::
+ 
+@@ -1328,7 +1334,7 @@ def attrs(
+     :param bool auto_attribs: If ``True``, collect :pep:`526`-annotated
+         attributes from the class body.
+ 
+-        In this case, you **must** annotate every field.  If ``attrs``
++        In this case, you **must** annotate every field.  If *attrs*
+         encounters a field that is set to an `attr.ib` but lacks a type
+         annotation, an `attr.exceptions.UnannotatedAttributeError` is
+         raised.  Use ``field_name: typing.Any = attr.ib(...)`` if you don't
+@@ -1344,9 +1350,9 @@ def attrs(
+ 
+         .. warning::
+            For features that use the attribute name to create decorators (e.g.
+-           `validators <validators>`), you still *must* assign `attr.ib` to
+-           them. Otherwise Python will either not find the name or try to use
+-           the default value to call e.g. ``validator`` on it.
++           :ref:`validators <validators>`), you still *must* assign `attr.ib`
++           to them. Otherwise Python will either not find the name or try to
++           use the default value to call e.g. ``validator`` on it.
+ 
+            These errors can be quite confusing and probably the most common bug
+            report on our bug tracker.
+@@ -1367,14 +1373,14 @@ def attrs(
+         class:
+ 
+         - the values for *eq*, *order*, and *hash* are ignored and the
+-          instances compare and hash by the instance's ids (N.B. ``attrs`` will
++          instances compare and hash by the instance's ids (N.B. *attrs* will
+           *not* remove existing implementations of ``__hash__`` or the equality
+           methods. It just won't add own ones.),
+         - all attributes that are either passed into ``__init__`` or have a
+           default value are additionally available as a tuple in the ``args``
+           attribute,
+         - the value of *str* is ignored leaving ``__str__`` to base classes.
+-    :param bool collect_by_mro: Setting this to `True` fixes the way ``attrs``
++    :param bool collect_by_mro: Setting this to `True` fixes the way *attrs*
+        collects attributes from base classes.  The default behavior is
+        incorrect in certain cases of multiple inheritance.  It should be on by
+        default but is kept off for backward-compatibility.
+@@ -1413,7 +1419,7 @@ def attrs(
+ 
+     :param Optional[callable] field_transformer:
+         A function that is called with the original class object and all
+-        fields right before ``attrs`` finalizes the class.  You can use
++        fields right before *attrs* finalizes the class.  You can use
+         this, e.g., to automatically add converters or validators to
+         fields based on their types.  See `transform-fields` for more details.
+ 
+@@ -1891,7 +1897,7 @@ def _add_repr(cls, ns=None, attrs=None):
+ 
+ def fields(cls):
+     """
+-    Return the tuple of ``attrs`` attributes for a class.
++    Return the tuple of *attrs* attributes for a class.
+ 
+     The tuple also allows accessing the fields by their names (see below for
+     examples).
+@@ -1899,13 +1905,13 @@ def fields(cls):
+     :param type cls: Class to introspect.
+ 
+     :raise TypeError: If *cls* is not a class.
+-    :raise attr.exceptions.NotAnAttrsClassError: If *cls* is not an ``attrs``
++    :raise attrs.exceptions.NotAnAttrsClassError: If *cls* is not an *attrs*
+         class.
+ 
+     :rtype: tuple (with name accessors) of `attrs.Attribute`
+ 
+-    ..  versionchanged:: 16.2.0 Returned tuple allows accessing the fields
+-        by name.
++    .. versionchanged:: 16.2.0 Returned tuple allows accessing the fields
++       by name.
+     """
+     if not isinstance(cls, type):
+         raise TypeError("Passed object must be a class.")
+@@ -1917,13 +1923,13 @@ def fields(cls):
+ 
+ def fields_dict(cls):
+     """
+-    Return an ordered dictionary of ``attrs`` attributes for a class, whose
++    Return an ordered dictionary of *attrs* attributes for a class, whose
+     keys are the attribute names.
+ 
+     :param type cls: Class to introspect.
+ 
+     :raise TypeError: If *cls* is not a class.
+-    :raise attr.exceptions.NotAnAttrsClassError: If *cls* is not an ``attrs``
++    :raise attrs.exceptions.NotAnAttrsClassError: If *cls* is not an *attrs*
+         class.
+ 
+     :rtype: dict
+@@ -1944,7 +1950,7 @@ def validate(inst):
+ 
+     Leaves all exceptions through.
+ 
+-    :param inst: Instance of a class with ``attrs`` attributes.
++    :param inst: Instance of a class with *attrs* attributes.
+     """
+     if _config._run_validators is False:
+         return
+@@ -2382,6 +2388,10 @@ class Attribute:
+     """
+     *Read-only* representation of an attribute.
+ 
++    .. warning::
++
++       You should never instantiate this class yourself.
++
+     The class has *all* arguments of `attr.ib` (except for ``factory``
+     which is only syntactic sugar for ``default=Factory(...)`` plus the
+     following:
+@@ -2527,13 +2537,13 @@ class Attribute:
+             **inst_dict,
+         )
+ 
+-    # Don't use attr.evolve since fields(Attribute) doesn't work
++    # Don't use attrs.evolve since fields(Attribute) doesn't work
+     def evolve(self, **changes):
+         """
+         Copy *self* and apply *changes*.
+ 
+-        This works similarly to `attr.evolve` but that function does not work
+-        with ``Attribute``.
++        This works similarly to `attrs.evolve` but that function does not work
++        with `Attribute`.
+ 
+         It is mainly meant to be used for `transform-fields`.
+ 
+@@ -2768,10 +2778,6 @@ class Factory:
+     __slots__ = ("factory", "takes_self")
+ 
+     def __init__(self, factory, takes_self=False):
+-        """
+-        `Factory` is part of the default machinery so if we want a default
+-        value here, we have to implement it ourselves.
+-        """
+         self.factory = factory
+         self.takes_self = takes_self
+ 
+diff --git a/src/attr/_next_gen.py b/src/attr/_next_gen.py
+index c59d848..1ce7b3d 100644
+--- a/src/attr/_next_gen.py
++++ b/src/attr/_next_gen.py
+@@ -46,7 +46,7 @@ def define(
+     match_args=True,
+ ):
+     r"""
+-    Define an ``attrs`` class.
++    Define an *attrs* class.
+ 
+     Differences to the classic `attr.s` that it uses underneath:
+ 
+diff --git a/src/attr/exceptions.py b/src/attr/exceptions.py
+index 5dc51e0..2883493 100644
+--- a/src/attr/exceptions.py
++++ b/src/attr/exceptions.py
+@@ -34,7 +34,7 @@ class FrozenAttributeError(FrozenError):
+ 
+ class AttrsAttributeNotFoundError(ValueError):
+     """
+-    An ``attrs`` function couldn't find an attribute that the user asked for.
++    An *attrs* function couldn't find an attribute that the user asked for.
+ 
+     .. versionadded:: 16.2.0
+     """
+@@ -42,7 +42,7 @@ class AttrsAttributeNotFoundError(ValueError):
+ 
+ class NotAnAttrsClassError(ValueError):
+     """
+-    A non-``attrs`` class has been passed into an ``attrs`` function.
++    A non-*attrs* class has been passed into an *attrs* function.
+ 
+     .. versionadded:: 16.2.0
+     """
+@@ -50,7 +50,7 @@ class NotAnAttrsClassError(ValueError):
+ 
+ class DefaultAlreadySetError(RuntimeError):
+     """
+-    A default has been set using ``attr.ib()`` and is attempted to be reset
++    A default has been set when defining the field and is attempted to be reset
+     using the decorator.
+ 
+     .. versionadded:: 17.1.0
+@@ -59,8 +59,7 @@ class DefaultAlreadySetError(RuntimeError):
+ 
+ class UnannotatedAttributeError(RuntimeError):
+     """
+-    A class with ``auto_attribs=True`` has an ``attr.ib()`` without a type
+-    annotation.
++    A class with ``auto_attribs=True`` has a field without a type annotation.
+ 
+     .. versionadded:: 17.3.0
+     """
+@@ -68,7 +67,7 @@ class UnannotatedAttributeError(RuntimeError):
+ 
+ class PythonTooOldError(RuntimeError):
+     """
+-    It was attempted to use an ``attrs`` feature that requires a newer Python
++    It was attempted to use an *attrs* feature that requires a newer Python
+     version.
+ 
+     .. versionadded:: 18.2.0
+@@ -77,8 +76,8 @@ class PythonTooOldError(RuntimeError):
+ 
+ class NotCallableError(TypeError):
+     """
+-    A ``attr.ib()`` requiring a callable has been set with a value
+-    that is not callable.
++    A field requiring a callable has been set with a value that is not
++    callable.
+ 
+     .. versionadded:: 19.2.0
+     """
+diff --git a/src/attr/validators.py b/src/attr/validators.py
+index 852ae96..8c8ae0b 100644
+--- a/src/attr/validators.py
++++ b/src/attr/validators.py
+@@ -359,13 +359,13 @@ class _IsCallableValidator:
+ 
+ def is_callable():
+     """
+-    A validator that raises a `attr.exceptions.NotCallableError` if the
++    A validator that raises a `attrs.exceptions.NotCallableError` if the
+     initializer is called with a value for this particular attribute
+     that is not callable.
+ 
+     .. versionadded:: 19.1.0
+ 
+-    :raises `attr.exceptions.NotCallableError`: With a human readable error
++    :raises attrs.exceptions.NotCallableError: With a human readable error
+         message containing the attribute (`attrs.Attribute`) name,
+         and the value it got.
+     """
+2025-07-03 18:33:50,964 - INFO - Eval script for python-attrs__attrs-1080 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/python-attrs/python-attrs__attrs-1080/test_analysis_agent_1/patch.diff, now applying to container...
+2025-07-03 18:34:00,034 - INFO - Test output for python-attrs__attrs-1080 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/python-attrs/python-attrs__attrs-1080/test_analysis_agent_1/test_output.txt
+2025-07-03 18:34:00,084 - INFO - Git diff after:
+diff --git a/src/attr/_cmp.py b/src/attr/_cmp.py
+index ad1e18c..d9cbe22 100644
+--- a/src/attr/_cmp.py
++++ b/src/attr/_cmp.py
+@@ -20,22 +20,22 @@ def cmp_using(
+     class_name="Comparable",
+ ):
+     """
+-    Create a class that can be passed into `attr.ib`'s ``eq``, ``order``, and
+-    ``cmp`` arguments to customize field comparison.
+-
+-    The resulting class will have a full set of ordering methods if
+-    at least one of ``{lt, le, gt, ge}`` and ``eq``  are provided.
+-
+-    :param Optional[callable] eq: `callable` used to evaluate equality
+-        of two objects.
+-    :param Optional[callable] lt: `callable` used to evaluate whether
+-        one object is less than another object.
+-    :param Optional[callable] le: `callable` used to evaluate whether
+-        one object is less than or equal to another object.
+-    :param Optional[callable] gt: `callable` used to evaluate whether
+-        one object is greater than another object.
+-    :param Optional[callable] ge: `callable` used to evaluate whether
+-        one object is greater than or equal to another object.
++    Create a class that can be passed into `attrs.field`'s ``eq``, ``order``,
++    and ``cmp`` arguments to customize field comparison.
++
++    The resulting class will have a full set of ordering methods if at least
++    one of ``{lt, le, gt, ge}`` and ``eq``  are provided.
++
++    :param Optional[callable] eq: `callable` used to evaluate equality of two
++        objects.
++    :param Optional[callable] lt: `callable` used to evaluate whether one
++        object is less than another object.
++    :param Optional[callable] le: `callable` used to evaluate whether one
++        object is less than or equal to another object.
++    :param Optional[callable] gt: `callable` used to evaluate whether one
++        object is greater than another object.
++    :param Optional[callable] ge: `callable` used to evaluate whether one
++        object is greater than or equal to another object.
+ 
+     :param bool require_same_type: When `True`, equality and ordering methods
+         will return `NotImplemented` if objects are not of the same type.
+diff --git a/src/attr/_funcs.py b/src/attr/_funcs.py
+index 1f573c1..518be16 100644
+--- a/src/attr/_funcs.py
++++ b/src/attr/_funcs.py
+@@ -16,13 +16,13 @@ def asdict(
+     value_serializer=None,
+ ):
+     """
+-    Return the ``attrs`` attribute values of *inst* as a dict.
++    Return the *attrs* attribute values of *inst* as a dict.
+ 
+-    Optionally recurse into other ``attrs``-decorated classes.
++    Optionally recurse into other *attrs*-decorated classes.
+ 
+-    :param inst: Instance of an ``attrs``-decorated class.
++    :param inst: Instance of an *attrs*-decorated class.
+     :param bool recurse: Recurse into classes that are also
+-        ``attrs``-decorated.
++        *attrs*-decorated.
+     :param callable filter: A callable whose return code determines whether an
+         attribute or element is included (``True``) or dropped (``False``).  Is
+         called with the `attrs.Attribute` as the first argument and the
+@@ -40,7 +40,7 @@ def asdict(
+ 
+     :rtype: return type of *dict_factory*
+ 
+-    :raise attr.exceptions.NotAnAttrsClassError: If *cls* is not an ``attrs``
++    :raise attrs.exceptions.NotAnAttrsClassError: If *cls* is not an *attrs*
+         class.
+ 
+     ..  versionadded:: 16.0.0 *dict_factory*
+@@ -195,13 +195,13 @@ def astuple(
+     retain_collection_types=False,
+ ):
+     """
+-    Return the ``attrs`` attribute values of *inst* as a tuple.
++    Return the *attrs* attribute values of *inst* as a tuple.
+ 
+-    Optionally recurse into other ``attrs``-decorated classes.
++    Optionally recurse into other *attrs*-decorated classes.
+ 
+-    :param inst: Instance of an ``attrs``-decorated class.
++    :param inst: Instance of an *attrs*-decorated class.
+     :param bool recurse: Recurse into classes that are also
+-        ``attrs``-decorated.
++        *attrs*-decorated.
+     :param callable filter: A callable whose return code determines whether an
+         attribute or element is included (``True``) or dropped (``False``).  Is
+         called with the `attrs.Attribute` as the first argument and the
+@@ -215,7 +215,7 @@ def astuple(
+ 
+     :rtype: return type of *tuple_factory*
+ 
+-    :raise attr.exceptions.NotAnAttrsClassError: If *cls* is not an ``attrs``
++    :raise attrs.exceptions.NotAnAttrsClassError: If *cls* is not an *attrs*
+         class.
+ 
+     ..  versionadded:: 16.2.0
+@@ -289,7 +289,7 @@ def astuple(
+ 
+ def has(cls):
+     """
+-    Check whether *cls* is a class with ``attrs`` attributes.
++    Check whether *cls* is a class with *attrs* attributes.
+ 
+     :param type cls: Class to introspect.
+     :raise TypeError: If *cls* is not a class.
+@@ -303,14 +303,14 @@ def assoc(inst, **changes):
+     """
+     Copy *inst* and apply *changes*.
+ 
+-    :param inst: Instance of a class with ``attrs`` attributes.
++    :param inst: Instance of a class with *attrs* attributes.
+     :param changes: Keyword changes in the new copy.
+ 
+     :return: A copy of inst with *changes* incorporated.
+ 
+-    :raise attr.exceptions.AttrsAttributeNotFoundError: If *attr_name* couldn't
+-        be found on *cls*.
+-    :raise attr.exceptions.NotAnAttrsClassError: If *cls* is not an ``attrs``
++    :raise attrs.exceptions.AttrsAttributeNotFoundError: If *attr_name*
++        couldn't be found on *cls*.
++    :raise attrs.exceptions.NotAnAttrsClassError: If *cls* is not an *attrs*
+         class.
+ 
+     ..  deprecated:: 17.1.0
+@@ -341,14 +341,14 @@ def evolve(inst, **changes):
+     """
+     Create a new instance, based on *inst* with *changes* applied.
+ 
+-    :param inst: Instance of a class with ``attrs`` attributes.
++    :param inst: Instance of a class with *attrs* attributes.
+     :param changes: Keyword changes in the new copy.
+ 
+     :return: A copy of inst with *changes* incorporated.
+ 
+     :raise TypeError: If *attr_name* couldn't be found in the class
+         ``__init__``.
+-    :raise attr.exceptions.NotAnAttrsClassError: If *cls* is not an ``attrs``
++    :raise attrs.exceptions.NotAnAttrsClassError: If *cls* is not an *attrs*
+         class.
+ 
+     ..  versionadded:: 17.1.0
+@@ -385,10 +385,10 @@ def resolve_types(cls, globalns=None, localns=None, attribs=None):
+     :param Optional[dict] localns: Dictionary containing local variables.
+     :param Optional[list] attribs: List of attribs for the given class.
+         This is necessary when calling from inside a ``field_transformer``
+-        since *cls* is not an ``attrs`` class yet.
++        since *cls* is not an *attrs* class yet.
+ 
+     :raise TypeError: If *cls* is not a class.
+-    :raise attr.exceptions.NotAnAttrsClassError: If *cls* is not an ``attrs``
++    :raise attrs.exceptions.NotAnAttrsClassError: If *cls* is not an *attrs*
+         class and you didn't pass any attribs.
+     :raise NameError: If types cannot be resolved because of missing variables.
+ 
+diff --git a/src/attr/_make.py b/src/attr/_make.py
+index 48125a9..1bb0f50 100644
+--- a/src/attr/_make.py
++++ b/src/attr/_make.py
+@@ -109,9 +109,12 @@ def attrib(
+     ..  warning::
+ 
+         Does *not* do anything unless the class is also decorated with
+-        `attr.s`!
++        `attr.s` / `attrs.define` / et cetera!
+ 
+-    :param default: A value that is used if an ``attrs``-generated ``__init__``
++    Please consider using `attrs.field` in new code (``attr.ib`` will *never*
++    go away, though).
++
++    :param default: A value that is used if an *attrs*-generated ``__init__``
+         is used and no value is passed while instantiating or the attribute is
+         excluded using ``init=False``.
+ 
+@@ -130,7 +133,7 @@ def attrib(
+     :param callable factory: Syntactic sugar for
+         ``default=attr.Factory(factory)``.
+ 
+-    :param validator: `callable` that is called by ``attrs``-generated
++    :param validator: `callable` that is called by *attrs*-generated
+         ``__init__`` methods after the instance has been initialized.  They
+         receive the initialized instance, the :func:`~attrs.Attribute`, and the
+         passed value.
+@@ -142,7 +145,7 @@ def attrib(
+         all pass.
+ 
+         Validators can be globally disabled and re-enabled using
+-        `get_run_validators`.
++        `attrs.validators.get_disabled` / `attrs.validators.set_disabled`.
+ 
+         The validator can also be set using decorator notation as shown below.
+ 
+@@ -184,7 +187,7 @@ def attrib(
+         value.  In that case this attributed is unconditionally initialized
+         with the specified default value or factory.
+     :param callable converter: `callable` that is called by
+-        ``attrs``-generated ``__init__`` methods to convert attribute's value
++        *attrs*-generated ``__init__`` methods to convert attribute's value
+         to the desired format.  It is given the passed-in value, and the
+         returned value will be used as the new value of the attribute.  The
+         value is converted before being passed to the validator, if any.
+@@ -197,7 +200,7 @@ def attrib(
+         Regardless of the approach used, the type will be stored on
+         ``Attribute.type``.
+ 
+-        Please note that ``attrs`` doesn't do anything with this metadata by
++        Please note that *attrs* doesn't do anything with this metadata by
+         itself. You can use it as part of your own code or for
+         `static type checking <types>`.
+     :param kw_only: Make this attribute keyword-only in the generated
+@@ -1211,12 +1214,15 @@ def attrs(
+     A class decorator that adds :term:`dunder methods` according to the
+     specified attributes using `attr.ib` or the *these* argument.
+ 
++    Please consider using `attrs.define` / `attrs.frozen` in new code
++    (``attr.s`` will *never* go away, though).
++
+     :param these: A dictionary of name to `attr.ib` mappings.  This is
+         useful to avoid the definition of your attributes within the class body
+         because you can't (e.g. if you want to add ``__repr__`` methods to
+         Django models) or don't want to.
+ 
+-        If *these* is not ``None``, ``attrs`` will *not* search the class body
++        If *these* is not ``None``, *attrs* will *not* search the class body
+         for attributes and will *not* remove any attributes from it.
+ 
+         The order is deduced from the order of the attributes inside *these*.
+@@ -1233,14 +1239,14 @@ def attrs(
+         inherited from some base class).
+ 
+         So for example by implementing ``__eq__`` on a class yourself,
+-        ``attrs`` will deduce ``eq=False`` and will create *neither*
++        *attrs* will deduce ``eq=False`` and will create *neither*
+         ``__eq__`` *nor* ``__ne__`` (but Python classes come with a sensible
+         ``__ne__`` by default, so it *should* be enough to only implement
+         ``__eq__`` in most cases).
+ 
+         .. warning::
+ 
+-           If you prevent ``attrs`` from creating the ordering methods for you
++           If you prevent *attrs* from creating the ordering methods for you
+            (``order=False``, e.g. by implementing ``__le__``), it becomes
+            *your* responsibility to make sure its ordering is sound. The best
+            way is to use the `functools.total_ordering` decorator.
+@@ -1250,14 +1256,14 @@ def attrs(
+         *cmp*, or *hash* overrides whatever *auto_detect* would determine.
+ 
+     :param bool repr: Create a ``__repr__`` method with a human readable
+-        representation of ``attrs`` attributes..
++        representation of *attrs* attributes..
+     :param bool str: Create a ``__str__`` method that is identical to
+         ``__repr__``.  This is usually not necessary except for
+         `Exception`\ s.
+     :param Optional[bool] eq: If ``True`` or ``None`` (default), add ``__eq__``
+         and ``__ne__`` methods that check two instances for equality.
+ 
+-        They compare the instances as if they were tuples of their ``attrs``
++        They compare the instances as if they were tuples of their *attrs*
+         attributes if and only if the types of both classes are *identical*!
+     :param Optional[bool] order: If ``True``, add ``__lt__``, ``__le__``,
+         ``__gt__``, and ``__ge__`` methods that behave like *eq* above and
+@@ -1268,7 +1274,7 @@ def attrs(
+     :param Optional[bool] unsafe_hash: If ``None`` (default), the ``__hash__``
+         method is generated according how *eq* and *frozen* are set.
+ 
+-        1. If *both* are True, ``attrs`` will generate a ``__hash__`` for you.
++        1. If *both* are True, *attrs* will generate a ``__hash__`` for you.
+         2. If *eq* is True and *frozen* is False, ``__hash__`` will be set to
+            None, marking it unhashable (which it is).
+         3. If *eq* is False, ``__hash__`` will be left untouched meaning the
+@@ -1276,7 +1282,7 @@ def attrs(
+            ``object``, this means it will fall back to id-based hashing.).
+ 
+         Although not recommended, you can decide for yourself and force
+-        ``attrs`` to create one (e.g. if the class is immutable even though you
++        *attrs* to create one (e.g. if the class is immutable even though you
+         didn't freeze it programmatically) by passing ``True`` or not.  Both of
+         these cases are rather special and should be used carefully.
+ 
+@@ -1287,7 +1293,7 @@ def attrs(
+     :param Optional[bool] hash: Alias for *unsafe_hash*. *unsafe_hash* takes
+         precedence.
+     :param bool init: Create a ``__init__`` method that initializes the
+-        ``attrs`` attributes. Leading underscores are stripped for the argument
++        *attrs* attributes. Leading underscores are stripped for the argument
+         name. If a ``__attrs_pre_init__`` method exists on the class, it will
+         be called before the class is initialized. If a ``__attrs_post_init__``
+         method exists on the class, it will be called after the class is fully
+@@ -1303,7 +1309,7 @@ def attrs(
+         we encourage you to read the :term:`glossary entry <slotted classes>`.
+     :param bool frozen: Make instances immutable after initialization.  If
+         someone attempts to modify a frozen instance,
+-        `attr.exceptions.FrozenInstanceError` is raised.
++        `attrs.exceptions.FrozenInstanceError` is raised.
+ 
+         .. note::
+ 
+@@ -1328,7 +1334,7 @@ def attrs(
+     :param bool auto_attribs: If ``True``, collect :pep:`526`-annotated
+         attributes from the class body.
+ 
+-        In this case, you **must** annotate every field.  If ``attrs``
++        In this case, you **must** annotate every field.  If *attrs*
+         encounters a field that is set to an `attr.ib` but lacks a type
+         annotation, an `attr.exceptions.UnannotatedAttributeError` is
+         raised.  Use ``field_name: typing.Any = attr.ib(...)`` if you don't
+@@ -1344,9 +1350,9 @@ def attrs(
+ 
+         .. warning::
+            For features that use the attribute name to create decorators (e.g.
+-           `validators <validators>`), you still *must* assign `attr.ib` to
+-           them. Otherwise Python will either not find the name or try to use
+-           the default value to call e.g. ``validator`` on it.
++           :ref:`validators <validators>`), you still *must* assign `attr.ib`
++           to them. Otherwise Python will either not find the name or try to
++           use the default value to call e.g. ``validator`` on it.
+ 
+            These errors can be quite confusing and probably the most common bug
+            report on our bug tracker.
+@@ -1367,14 +1373,14 @@ def attrs(
+         class:
+ 
+         - the values for *eq*, *order*, and *hash* are ignored and the
+-          instances compare and hash by the instance's ids (N.B. ``attrs`` will
++          instances compare and hash by the instance's ids (N.B. *attrs* will
+           *not* remove existing implementations of ``__hash__`` or the equality
+           methods. It just won't add own ones.),
+         - all attributes that are either passed into ``__init__`` or have a
+           default value are additionally available as a tuple in the ``args``
+           attribute,
+         - the value of *str* is ignored leaving ``__str__`` to base classes.
+-    :param bool collect_by_mro: Setting this to `True` fixes the way ``attrs``
++    :param bool collect_by_mro: Setting this to `True` fixes the way *attrs*
+        collects attributes from base classes.  The default behavior is
+        incorrect in certain cases of multiple inheritance.  It should be on by
+        default but is kept off for backward-compatibility.
+@@ -1413,7 +1419,7 @@ def attrs(
+ 
+     :param Optional[callable] field_transformer:
+         A function that is called with the original class object and all
+-        fields right before ``attrs`` finalizes the class.  You can use
++        fields right before *attrs* finalizes the class.  You can use
+         this, e.g., to automatically add converters or validators to
+         fields based on their types.  See `transform-fields` for more details.
+ 
+@@ -1891,7 +1897,7 @@ def _add_repr(cls, ns=None, attrs=None):
+ 
+ def fields(cls):
+     """
+-    Return the tuple of ``attrs`` attributes for a class.
++    Return the tuple of *attrs* attributes for a class.
+ 
+     The tuple also allows accessing the fields by their names (see below for
+     examples).
+@@ -1899,13 +1905,13 @@ def fields(cls):
+     :param type cls: Class to introspect.
+ 
+     :raise TypeError: If *cls* is not a class.
+-    :raise attr.exceptions.NotAnAttrsClassError: If *cls* is not an ``attrs``
++    :raise attrs.exceptions.NotAnAttrsClassError: If *cls* is not an *attrs*
+         class.
+ 
+     :rtype: tuple (with name accessors) of `attrs.Attribute`
+ 
+-    ..  versionchanged:: 16.2.0 Returned tuple allows accessing the fields
+-        by name.
++    .. versionchanged:: 16.2.0 Returned tuple allows accessing the fields
++       by name.
+     """
+     if not isinstance(cls, type):
+         raise TypeError("Passed object must be a class.")
+@@ -1917,13 +1923,13 @@ def fields(cls):
+ 
+ def fields_dict(cls):
+     """
+-    Return an ordered dictionary of ``attrs`` attributes for a class, whose
++    Return an ordered dictionary of *attrs* attributes for a class, whose
+     keys are the attribute names.
+ 
+     :param type cls: Class to introspect.
+ 
+     :raise TypeError: If *cls* is not a class.
+-    :raise attr.exceptions.NotAnAttrsClassError: If *cls* is not an ``attrs``
++    :raise attrs.exceptions.NotAnAttrsClassError: If *cls* is not an *attrs*
+         class.
+ 
+     :rtype: dict
+@@ -1944,7 +1950,7 @@ def validate(inst):
+ 
+     Leaves all exceptions through.
+ 
+-    :param inst: Instance of a class with ``attrs`` attributes.
++    :param inst: Instance of a class with *attrs* attributes.
+     """
+     if _config._run_validators is False:
+         return
+@@ -2382,6 +2388,10 @@ class Attribute:
+     """
+     *Read-only* representation of an attribute.
+ 
++    .. warning::
++
++       You should never instantiate this class yourself.
++
+     The class has *all* arguments of `attr.ib` (except for ``factory``
+     which is only syntactic sugar for ``default=Factory(...)`` plus the
+     following:
+@@ -2527,13 +2537,13 @@ class Attribute:
+             **inst_dict,
+         )
+ 
+-    # Don't use attr.evolve since fields(Attribute) doesn't work
++    # Don't use attrs.evolve since fields(Attribute) doesn't work
+     def evolve(self, **changes):
+         """
+         Copy *self* and apply *changes*.
+ 
+-        This works similarly to `attr.evolve` but that function does not work
+-        with ``Attribute``.
++        This works similarly to `attrs.evolve` but that function does not work
++        with `Attribute`.
+ 
+         It is mainly meant to be used for `transform-fields`.
+ 
+@@ -2768,10 +2778,6 @@ class Factory:
+     __slots__ = ("factory", "takes_self")
+ 
+     def __init__(self, factory, takes_self=False):
+-        """
+-        `Factory` is part of the default machinery so if we want a default
+-        value here, we have to implement it ourselves.
+-        """
+         self.factory = factory
+         self.takes_self = takes_self
+ 
+diff --git a/src/attr/_next_gen.py b/src/attr/_next_gen.py
+index c59d848..1ce7b3d 100644
+--- a/src/attr/_next_gen.py
++++ b/src/attr/_next_gen.py
+@@ -46,7 +46,7 @@ def define(
+     match_args=True,
+ ):
+     r"""
+-    Define an ``attrs`` class.
++    Define an *attrs* class.
+ 
+     Differences to the classic `attr.s` that it uses underneath:
+ 
+diff --git a/src/attr/exceptions.py b/src/attr/exceptions.py
+index 5dc51e0..2883493 100644
+--- a/src/attr/exceptions.py
++++ b/src/attr/exceptions.py
+@@ -34,7 +34,7 @@ class FrozenAttributeError(FrozenError):
+ 
+ class AttrsAttributeNotFoundError(ValueError):
+     """
+-    An ``attrs`` function couldn't find an attribute that the user asked for.
++    An *attrs* function couldn't find an attribute that the user asked for.
+ 
+     .. versionadded:: 16.2.0
+     """
+@@ -42,7 +42,7 @@ class AttrsAttributeNotFoundError(ValueError):
+ 
+ class NotAnAttrsClassError(ValueError):
+     """
+-    A non-``attrs`` class has been passed into an ``attrs`` function.
++    A non-*attrs* class has been passed into an *attrs* function.
+ 
+     .. versionadded:: 16.2.0
+     """
+@@ -50,7 +50,7 @@ class NotAnAttrsClassError(ValueError):
+ 
+ class DefaultAlreadySetError(RuntimeError):
+     """
+-    A default has been set using ``attr.ib()`` and is attempted to be reset
++    A default has been set when defining the field and is attempted to be reset
+     using the decorator.
+ 
+     .. versionadded:: 17.1.0
+@@ -59,8 +59,7 @@ class DefaultAlreadySetError(RuntimeError):
+ 
+ class UnannotatedAttributeError(RuntimeError):
+     """
+-    A class with ``auto_attribs=True`` has an ``attr.ib()`` without a type
+-    annotation.
++    A class with ``auto_attribs=True`` has a field without a type annotation.
+ 
+     .. versionadded:: 17.3.0
+     """
+@@ -68,7 +67,7 @@ class UnannotatedAttributeError(RuntimeError):
+ 
+ class PythonTooOldError(RuntimeError):
+     """
+-    It was attempted to use an ``attrs`` feature that requires a newer Python
++    It was attempted to use an *attrs* feature that requires a newer Python
+     version.
+ 
+     .. versionadded:: 18.2.0
+@@ -77,8 +76,8 @@ class PythonTooOldError(RuntimeError):
+ 
+ class NotCallableError(TypeError):
+     """
+-    A ``attr.ib()`` requiring a callable has been set with a value
+-    that is not callable.
++    A field requiring a callable has been set with a value that is not
++    callable.
+ 
+     .. versionadded:: 19.2.0
+     """
+diff --git a/src/attr/validators.py b/src/attr/validators.py
+index 852ae96..8c8ae0b 100644
+--- a/src/attr/validators.py
++++ b/src/attr/validators.py
+@@ -359,13 +359,13 @@ class _IsCallableValidator:
+ 
+ def is_callable():
+     """
+-    A validator that raises a `attr.exceptions.NotCallableError` if the
++    A validator that raises a `attrs.exceptions.NotCallableError` if the
+     initializer is called with a value for this particular attribute
+     that is not callable.
+ 
+     .. versionadded:: 19.1.0
+ 
+-    :raises `attr.exceptions.NotCallableError`: With a human readable error
++    :raises attrs.exceptions.NotCallableError: With a human readable error
+         message containing the attribute (`attrs.Attribute`) name,
+         and the value it got.
+     """
+2025-07-03 18:34:00,084 - INFO - Attempting to stop container python-attrs__attrs-1080-test1...
+2025-07-03 18:34:15,240 - INFO - Attempting to remove container python-attrs__attrs-1080-test1...
+2025-07-03 18:34:15,267 - INFO - Container python-attrs__attrs-1080-test1 removed.
+2025-07-03 18:34:15,267 - INFO - Attempting to remove image python-attrs__attrs-1080-dockerfile1:latest...
+2025-07-03 18:34:15,673 - INFO - Image python-attrs__attrs-1080-dockerfile1:latest removed.

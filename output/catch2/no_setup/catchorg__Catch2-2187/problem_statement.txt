@@ -1,0 +1,8 @@
+Make CHECKED_IF and CHECKED_ELSE "ok to fail"
+## Description
+Both `CHECKED_IF` and `CHECKED_ELSE` are currently fairly obscure macros that simplify using `if`/`else` in tests.
+
+However, entering the `else` branch fails the test in which it occurs, because they are not marked as being ok to fail (tagged with `Catch::ResultDisposition::SuppressFail` to be exact). This behaviour makes them less than useful, but with a change they should be actually usable.
+
+Milestone 3.0, because it is a theoretically breaking change.
+

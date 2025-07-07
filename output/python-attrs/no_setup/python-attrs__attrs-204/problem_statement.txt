@@ -1,0 +1,11 @@
+filtering.include/exclude throw a TypeError when any class attribute uses a Factory default
+The `hash_` method added by `_add_hash` in `attr._make` throws `TypeError: unhashable type: 'Factory'` if any of the class's attributes uses an `attr.Factory` default. So for example, below no longer works.
+
+```python
+@attr.s
+class C(object):
+    a = attr.ib()
+    b = attr.ib(default=attr.Factory(list))
+
+attr.asdict(C(1), filter=attr.filters.include(attr.fields(C).a))
+```

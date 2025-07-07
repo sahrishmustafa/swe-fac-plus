@@ -1,0 +1,5 @@
+Allow skipping tests at run-time.
+This is another request for a way to skip tests, but it's not quite the same as #355 because in my case the condition determining if the test can be run or should be skipped is dynamic and determined by the program itself (basically it connects to the database specified on the command line and does different things depending on the exact kind of RDBMS).
+
+Currently I just test the condition and use `WARN("Skipped because...")`, but this is not ideal because the test still counts as passing when, in fact, it wasn't run at all.
+

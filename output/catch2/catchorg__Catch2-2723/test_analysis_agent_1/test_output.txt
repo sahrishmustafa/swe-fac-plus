@@ -1,0 +1,29 @@
++ cd /testbed
++ git checkout 4acc51828f7f93f3b2058a63f54d112af4034503 tests/CMakeLists.txt tests/SelfTest/UsageTests/Misc.tests.cpp
+Updated 0 paths from 5c24042a
++ git apply -v -
+Checking patch tests/CMakeLists.txt...
+Checking patch tests/SelfTest/IntrospectiveTests/AssertionHandler.tests.cpp...
+Checking patch tests/SelfTest/UsageTests/Misc.tests.cpp...
+Applied patch tests/CMakeLists.txt cleanly.
+Applied patch tests/SelfTest/IntrospectiveTests/AssertionHandler.tests.cpp cleanly.
+Applied patch tests/SelfTest/UsageTests/Misc.tests.cpp cleanly.
++ cmake -Bbuild -H. -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_STANDARD=17 -DCMAKE_CXX_STANDARD_REQUIRED=ON -DCMAKE_CXX_EXTENSIONS=OFF -DCATCH_DEVELOPMENT_BUILD=ON -G Ninja
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /testbed/build
++ cmake --build build
+[1/5] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/AssertionHandler.tests.cpp.o
+[2/5] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_run_context.cpp.o
+[3/5] Linking CXX static library src/libCatch2.a
+[4/5] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/Misc.tests.cpp.o
+[5/5] Linking CXX executable tests/SelfTest
++ CTEST_OUTPUT_ON_FAILURE=1
++ ctest --test-dir build -C Release -j 2
+Test project /testbed
+No tests were found!!!
+OMNIGRIL_EXIT_CODE=0
++ rc=0
++ echo OMNIGRIL_EXIT_CODE=0
++ git checkout 4acc51828f7f93f3b2058a63f54d112af4034503 tests/CMakeLists.txt tests/SelfTest/UsageTests/Misc.tests.cpp
+Updated 2 paths from 5c24042a

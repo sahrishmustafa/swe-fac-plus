@@ -1,0 +1,9 @@
+Dynamic construction of *named* argument lists?
+Hey, I noticed in the latest release that there is now a `dynamic_format_arg_store`, but it doesn't support named arguments. Is there a plan to add such capability? I'm thinking of something along the lines of:
+```
+fmt::dynamic_format_named_argument_store<fmt::format_context> store;
+store.emplace_back("name", 123);
+store.emplace_back("another_name", 456);
+fmt::vprint("{name} + {another_name}", store);
+```
+Would this be hard to implement? I can take a crack at it given some starting guidance.

@@ -1,0 +1,58 @@
+Most elegant way to avoid None objects in class?
+(continuing from https://github.com/python-attrs/attrs/issues/170 which I don't want to derail)
+
+I have a class like this:
+```python
+@attr.s(frozen=True, auto_attribs=True)
+class Status:
+    weight: int = attr.ib(cmp=True)
+    message: str = attr.ib(
+        cmp=False,
+        converter=lambda value: str() if value is None else value,
+    )
+    code: str = attr.ib(
+        cmp=False,
+        converter=lambda value: str() if value is None else value,
+    )
+
+    @classmethod
+    def Debug(cls, message=None, code=None):
+        return cls(weight=0, message=message, code=code)
+
+    [...]
+
+    @classmethod
+    def Error(cls, message=None, code=None):
+        return cls(weight=6, message=message, code=code)
+```
+It can be instantiated like this: `Status.Error("This and that is wrong etc.", code="mismatched-something")`. However, instantiating it like `Status.Error()` should result in `Status(weight=6, message="", code="")`, i.e. I want to avoid None objects. Python unfortunately makes it more tedious than it should be to give out non-None default arguments.
+
+@hynek noted that I may want to use `default=""` and use `attr.NOTHING` as the default argument in the constructors, however:
+```
+In [1]: import attr
+   ...: @attr.s
+   ...: class Status:
+   ...:     a = attr.ib(default="")
+   ...:     @classmethod
+   ...:     def aaa(cls, a=attr.NOTHING):
+   ...:         return cls(a)
+   ...:
+
+In [2]: Status.aaa()
+Out[2]: Status(a=NOTHING)
+
+In [3]: Status.aaa("")
+Out[3]: Status(a='')
+
+In [4]: import attr
+   ...: @attr.s
+   ...: class Status:
+   ...:     a = attr.ib(default="")
+   ...:     @classmethod
+   ...:     def aaa(cls, a=None):
+   ...:         return cls(a=a or attr.NOTHING)
+
+In [5]: Status.aaa()
+Out[5]: Status(a=NOTHING)
+```
+

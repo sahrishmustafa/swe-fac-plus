@@ -1,0 +1,23 @@
+{
+    "task_id": "python-attrs__attrs-155",
+    "setup_info": {
+        "repo_path": "testbed/python-attrs__attrs-155_2025-07-03_17-42-35",
+        "repo_cache_path": "testbed/python-attrs/attrs_cache"
+    },
+    "task_info": {
+        "repo": "python-attrs/attrs",
+        "pull_number": 155,
+        "instance_id": "python-attrs__attrs-155",
+        "issue_numbers": [
+            "154",
+            "154"
+        ],
+        "base_commit": "2c8bd463399a1439b099d47c73f1f21c8a0bb906",
+        "patch": "diff --git a/src/attr/_make.py b/src/attr/_make.py\n--- a/src/attr/_make.py\n+++ b/src/attr/_make.py\n@@ -362,7 +362,7 @@ def wrap(cls):\n             cls_dict.pop(\"__dict__\", None)\n \n             qualname = getattr(cls, \"__qualname__\", None)\n-            cls = type(cls.__name__, cls.__bases__, cls_dict)\n+            cls = type(cls)(cls.__name__, cls.__bases__, cls_dict)\n             if qualname is not None:\n                 cls.__qualname__ = qualname\n \n",
+        "test_patch": "diff --git a/tests/test_dark_magic.py b/tests/test_dark_magic.py\n--- a/tests/test_dark_magic.py\n+++ b/tests/test_dark_magic.py\n@@ -3,6 +3,7 @@\n import pickle\n \n import pytest\n+import six\n \n from hypothesis import given\n from hypothesis.strategies import booleans\n@@ -82,6 +83,22 @@ class FrozenNoSlots(object):\n     x = attr.ib()\n \n \n+class Meta(type):\n+    pass\n+\n+\n+@attr.s\n+@six.add_metaclass(Meta)\n+class WithMeta(object):\n+    pass\n+\n+\n+@attr.s(slots=True)\n+@six.add_metaclass(Meta)\n+class WithMetaSlots(object):\n+    pass\n+\n+\n class TestDarkMagic(object):\n     \"\"\"\n     Integration tests.\n@@ -231,3 +248,7 @@ def test_subclassing_frozen_gives_frozen(self):\n \n         assert i.x == \"foo\"\n         assert i.y == \"bar\"\n+\n+    @pytest.mark.parametrize(\"cls\", [WithMeta, WithMetaSlots])\n+    def test_metaclass_preserved(self, cls):\n+        assert Meta == type(cls)\n",
+        "problem_statement": "Metaclass lost with slots=True \nHello.\r\n\r\nUsing a metaclass with slots=True, e.g.\r\n```\r\n@attr.s(slots=True)\r\nclass A(metaclass=abc.ABCMeta):\r\n    @abc.abstractmethod\r\n    def f(self):\r\n        pass\r\n```\r\nWill lead to `A` being instantiable and `type(A)` being `<class 'type'>` (unlike the case with slots=False), as for slots to work the new class is generated in [_make.py](https://github.com/python-attrs/attrs/blob/master/src/attr/_make.py#L365) with:\r\n\r\n`cls = type(cls.__name__, cls.__bases__, cls_dict)` [1]\r\n\r\nThis doesn't happen if this line is changed to:\r\n\r\n`cls = type(cls)(cls.__name__, cls.__bases__, cls_dict)` [2]\r\n\r\nWith this change `type(A)` is `<class 'abc.ABCMeta'>` and A is no longer instantiable.\r\nCan the class generation for slots be changed to something like [2] to avoid losing metaclasses or it is intentionally written as it is now and I am missing something?\r\n\nMetaclass lost with slots=True \nHello.\r\n\r\nUsing a metaclass with slots=True, e.g.\r\n```\r\n@attr.s(slots=True)\r\nclass A(metaclass=abc.ABCMeta):\r\n    @abc.abstractmethod\r\n    def f(self):\r\n        pass\r\n```\r\nWill lead to `A` being instantiable and `type(A)` being `<class 'type'>` (unlike the case with slots=False), as for slots to work the new class is generated in [_make.py](https://github.com/python-attrs/attrs/blob/master/src/attr/_make.py#L365) with:\r\n\r\n`cls = type(cls.__name__, cls.__bases__, cls_dict)` [1]\r\n\r\nThis doesn't happen if this line is changed to:\r\n\r\n`cls = type(cls)(cls.__name__, cls.__bases__, cls_dict)` [2]\r\n\r\nWith this change `type(A)` is `<class 'abc.ABCMeta'>` and A is no longer instantiable.\r\nCan the class generation for slots be changed to something like [2] to avoid losing metaclasses or it is intentionally written as it is now and I am missing something?\r\n\n",
+        "hints_text": "It's not intentional, it just hasn't come up until now. :)\r\n\r\nCould you try applying the change, and if the tests pass contribute a PR? It'd be nice to add a test for this as well.\nIt's not intentional, it just hasn't come up until now. :)\r\n\r\nCould you try applying the change, and if the tests pass contribute a PR? It'd be nice to add a test for this as well.",
+        "created_at": "2017-02-27T15:18:16Z",
+        "version": "16.3"
+    }
+}

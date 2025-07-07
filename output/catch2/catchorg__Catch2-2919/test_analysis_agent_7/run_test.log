@@ -1,0 +1,208 @@
+2025-06-30 18:17:52,158 - INFO - Checking if image catchorg__catch2-2919-dockerfile7:latest exists locally...
+2025-06-30 18:17:52,221 - INFO - Image catchorg__catch2-2919-dockerfile7:latest found locally.
+2025-06-30 18:17:52,221 - INFO - Creating container for catchorg__catch2-2919...
+2025-06-30 18:17:52,819 - INFO - Container for catchorg__catch2-2919 started: 1eb94693897616f83252c1852a5b032df834eecadf3c6260b9c9f78dc5102bbe
+2025-06-30 18:17:52,821 - INFO - Intermediate patch for catchorg__catch2-2919 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/catch2/catchorg__Catch2-2919/test_analysis_agent_7/patch.diff, now applying to container...
+2025-06-30 18:17:53,229 - INFO - Failed to apply patch to container, trying again...
+2025-06-30 18:17:53,331 - INFO - Apply patch success:
+patching file src/catch2/matchers/catch_matchers_range_equals.hpp
+
+2025-06-30 18:17:53,644 - INFO - Git diff before:
+diff --git a/src/catch2/matchers/catch_matchers_range_equals.hpp b/src/catch2/matchers/catch_matchers_range_equals.hpp
+index c4feece4..8130f604 100644
+--- a/src/catch2/matchers/catch_matchers_range_equals.hpp
++++ b/src/catch2/matchers/catch_matchers_range_equals.hpp
+@@ -96,55 +96,64 @@ namespace Catch {
+          * Creates a matcher that checks if all elements in a range are equal
+          * to all elements in another range.
+          *
+-         * Uses `std::equal_to` to do the comparison
++         * Uses the provided predicate `predicate` to do the comparisons
++         * (defaulting to `std::equal_to`)
+          */
+-        template <typename RangeLike>
++        template <typename RangeLike,
++                  typename Equality = decltype( std::equal_to<>{} )>
+         constexpr
+-        std::enable_if_t<!Detail::is_matcher<RangeLike>::value,
+-                         RangeEqualsMatcher<RangeLike, std::equal_to<>>>
+-        RangeEquals( RangeLike&& range ) {
+-            return { CATCH_FORWARD( range ), std::equal_to<>{} };
++        RangeEqualsMatcher<RangeLike, Equality>
++        RangeEquals( RangeLike&& range,
++                     Equality&& predicate = std::equal_to<>{} ) {
++            return { CATCH_FORWARD( range ), CATCH_FORWARD( predicate ) };
+         }
+ 
+         /**
+          * Creates a matcher that checks if all elements in a range are equal
+-         * to all elements in another range.
++         * to all elements in an initializer list.
+          *
+-         * Uses to provided predicate `predicate` to do the comparisons
++         * Uses the provided predicate `predicate` to do the comparisons
++         * (defaulting to `std::equal_to`)
+          */
+-        template <typename RangeLike, typename Equality>
++        template <typename T,
++                  typename Equality = decltype( std::equal_to<>{} )>
+         constexpr
+-        RangeEqualsMatcher<RangeLike, Equality>
+-        RangeEquals( RangeLike&& range, Equality&& predicate ) {
+-            return { CATCH_FORWARD( range ), CATCH_FORWARD( predicate ) };
++        RangeEqualsMatcher<std::initializer_list<T>, Equality>
++        RangeEquals( std::initializer_list<T> range,
++                     Equality&& predicate = std::equal_to<>{} ) {
++            return { range, CATCH_FORWARD( predicate ) };
+         }
+ 
+         /**
+          * Creates a matcher that checks if all elements in a range are equal
+-         * to all elements in another range, in some permutation
++         * to all elements in another range, in some permutation.
+          *
+-         * Uses `std::equal_to` to do the comparison
++         * Uses the provided predicate `predicate` to do the comparisons
++         * (defaulting to `std::equal_to`)
+          */
+-        template <typename RangeLike>
++        template <typename RangeLike,
++                  typename Equality = decltype( std::equal_to<>{} )>
+         constexpr
+-        std::enable_if_t<
+-            !Detail::is_matcher<RangeLike>::value,
+-            UnorderedRangeEqualsMatcher<RangeLike, std::equal_to<>>>
+-        UnorderedRangeEquals( RangeLike&& range ) {
+-            return { CATCH_FORWARD( range ), std::equal_to<>{} };
++        UnorderedRangeEqualsMatcher<RangeLike, Equality>
++        UnorderedRangeEquals( RangeLike&& range,
++                              Equality&& predicate = std::equal_to<>{} ) {
++            return { CATCH_FORWARD( range ), CATCH_FORWARD( predicate ) };
+         }
+ 
+         /**
+          * Creates a matcher that checks if all elements in a range are equal
+-         * to all elements in another range, in some permutation.
++         * to all elements in an initializer list, in some permutation.
+          *
+-         * Uses to provided predicate `predicate` to do the comparisons
++         * Uses the provided predicate `predicate` to do the comparisons
++         * (defaulting to `std::equal_to`)
+          */
+-        template <typename RangeLike, typename Equality>
++        template <typename T,
++                  typename Equality = decltype( std::equal_to<>{} )>
+         constexpr
+-        UnorderedRangeEqualsMatcher<RangeLike, Equality>
+-        UnorderedRangeEquals( RangeLike&& range, Equality&& predicate ) {
+-            return { CATCH_FORWARD( range ), CATCH_FORWARD( predicate ) };
++        UnorderedRangeEqualsMatcher<std::initializer_list<T>, Equality>
++        UnorderedRangeEquals( std::initializer_list<T> range,
++                              Equality&& predicate = std::equal_to<>{} ) {
++            return { range, CATCH_FORWARD( predicate ) };
+         }
+     } // namespace Matchers
+ } // namespace Catch
+2025-06-30 18:17:53,645 - INFO - Eval script for catchorg__catch2-2919 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/catch2/catchorg__Catch2-2919/test_analysis_agent_7/patch.diff, now applying to container...
+2025-06-30 18:18:56,420 - INFO - Test output for catchorg__catch2-2919 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/catch2/catchorg__Catch2-2919/test_analysis_agent_7/test_output.txt
+2025-06-30 18:18:56,513 - INFO - Git diff after:
+diff --git a/src/catch2/matchers/catch_matchers_range_equals.hpp b/src/catch2/matchers/catch_matchers_range_equals.hpp
+index c4feece4..8130f604 100644
+--- a/src/catch2/matchers/catch_matchers_range_equals.hpp
++++ b/src/catch2/matchers/catch_matchers_range_equals.hpp
+@@ -96,55 +96,64 @@ namespace Catch {
+          * Creates a matcher that checks if all elements in a range are equal
+          * to all elements in another range.
+          *
+-         * Uses `std::equal_to` to do the comparison
++         * Uses the provided predicate `predicate` to do the comparisons
++         * (defaulting to `std::equal_to`)
+          */
+-        template <typename RangeLike>
++        template <typename RangeLike,
++                  typename Equality = decltype( std::equal_to<>{} )>
+         constexpr
+-        std::enable_if_t<!Detail::is_matcher<RangeLike>::value,
+-                         RangeEqualsMatcher<RangeLike, std::equal_to<>>>
+-        RangeEquals( RangeLike&& range ) {
+-            return { CATCH_FORWARD( range ), std::equal_to<>{} };
++        RangeEqualsMatcher<RangeLike, Equality>
++        RangeEquals( RangeLike&& range,
++                     Equality&& predicate = std::equal_to<>{} ) {
++            return { CATCH_FORWARD( range ), CATCH_FORWARD( predicate ) };
+         }
+ 
+         /**
+          * Creates a matcher that checks if all elements in a range are equal
+-         * to all elements in another range.
++         * to all elements in an initializer list.
+          *
+-         * Uses to provided predicate `predicate` to do the comparisons
++         * Uses the provided predicate `predicate` to do the comparisons
++         * (defaulting to `std::equal_to`)
+          */
+-        template <typename RangeLike, typename Equality>
++        template <typename T,
++                  typename Equality = decltype( std::equal_to<>{} )>
+         constexpr
+-        RangeEqualsMatcher<RangeLike, Equality>
+-        RangeEquals( RangeLike&& range, Equality&& predicate ) {
+-            return { CATCH_FORWARD( range ), CATCH_FORWARD( predicate ) };
++        RangeEqualsMatcher<std::initializer_list<T>, Equality>
++        RangeEquals( std::initializer_list<T> range,
++                     Equality&& predicate = std::equal_to<>{} ) {
++            return { range, CATCH_FORWARD( predicate ) };
+         }
+ 
+         /**
+          * Creates a matcher that checks if all elements in a range are equal
+-         * to all elements in another range, in some permutation
++         * to all elements in another range, in some permutation.
+          *
+-         * Uses `std::equal_to` to do the comparison
++         * Uses the provided predicate `predicate` to do the comparisons
++         * (defaulting to `std::equal_to`)
+          */
+-        template <typename RangeLike>
++        template <typename RangeLike,
++                  typename Equality = decltype( std::equal_to<>{} )>
+         constexpr
+-        std::enable_if_t<
+-            !Detail::is_matcher<RangeLike>::value,
+-            UnorderedRangeEqualsMatcher<RangeLike, std::equal_to<>>>
+-        UnorderedRangeEquals( RangeLike&& range ) {
+-            return { CATCH_FORWARD( range ), std::equal_to<>{} };
++        UnorderedRangeEqualsMatcher<RangeLike, Equality>
++        UnorderedRangeEquals( RangeLike&& range,
++                              Equality&& predicate = std::equal_to<>{} ) {
++            return { CATCH_FORWARD( range ), CATCH_FORWARD( predicate ) };
+         }
+ 
+         /**
+          * Creates a matcher that checks if all elements in a range are equal
+-         * to all elements in another range, in some permutation.
++         * to all elements in an initializer list, in some permutation.
+          *
+-         * Uses to provided predicate `predicate` to do the comparisons
++         * Uses the provided predicate `predicate` to do the comparisons
++         * (defaulting to `std::equal_to`)
+          */
+-        template <typename RangeLike, typename Equality>
++        template <typename T,
++                  typename Equality = decltype( std::equal_to<>{} )>
+         constexpr
+-        UnorderedRangeEqualsMatcher<RangeLike, Equality>
+-        UnorderedRangeEquals( RangeLike&& range, Equality&& predicate ) {
+-            return { CATCH_FORWARD( range ), CATCH_FORWARD( predicate ) };
++        UnorderedRangeEqualsMatcher<std::initializer_list<T>, Equality>
++        UnorderedRangeEquals( std::initializer_list<T> range,
++                              Equality&& predicate = std::equal_to<>{} ) {
++            return { range, CATCH_FORWARD( predicate ) };
+         }
+     } // namespace Matchers
+ } // namespace Catch
+2025-06-30 18:18:56,514 - INFO - Attempting to stop container catchorg__catch2-2919-test7...
+2025-06-30 18:19:11,802 - INFO - Attempting to remove container catchorg__catch2-2919-test7...
+2025-06-30 18:19:12,156 - INFO - Container catchorg__catch2-2919-test7 removed.
+2025-06-30 18:19:12,157 - INFO - Attempting to remove image catchorg__catch2-2919-dockerfile7:latest...
+2025-06-30 18:19:13,720 - INFO - Image catchorg__catch2-2919-dockerfile7:latest removed.

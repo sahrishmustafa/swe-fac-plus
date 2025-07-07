@@ -1,0 +1,718 @@
+2025-07-03 18:31:34.128 | INFO     | Model API request cost info: input_tokens=988, output_tokens=516, cost=0.007630
+2025-07-03 18:31:34.165 | DEBUG    | Trying to select search APIs in json. Try 1 of 5.
+2025-07-03 18:31:36.473 | INFO     | Model API request cost info: input_tokens=1184, output_tokens=254, cost=0.005500
+2025-07-03 18:31:36.477 | DEBUG    | {
+  "API_calls": [
+    "browse_file_for_environment_info(\"pyproject.toml\", \"Identify project dependencies, build system, and Python version requirements.\")",
+    "browse_file_for_environment_info(\"setup.py\", \"Identify installation requirements, test dependencies, and any specific setup commands.\")",
+    "browse_file_for_environment_info(\"tox.ini\", \"Determine how tests are executed (e.g., pytest, tox commands), required Python versions for testing, and test environment dependencies.\")",
+    "browse_file_for_environment_info(\"README.md\", \"Look for general environment setup instructions, how to install the project, and how to run tests.\")"
+  ],
+  "collected_information": "To gather the necessary information for setting up the environment and executing the tests, I will examine the following files: pyproject.toml, setup.py, tox.ini, and README.md. I will use the browse_file_for_environment_info API for each of these files, with a custom_query to focus on relevant information.",
+  "terminate": false
+}
+2025-07-03 18:31:36.477 | DEBUG    | Extracted a valid json
+2025-07-03 18:31:36.487 | INFO     | entering browse
+2025-07-03 18:31:36.487 | INFO     | # SPDX-License-Identifier: MIT
+
+[build-system]
+requires = ["setuptools>=40.6.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+
+[tool.pytest.ini_options]
+addopts = ["-ra", "--strict-markers", "--strict-config"]
+xfail_strict = true
+testpaths = "tests"
+filterwarnings = ["once::Warning", "ignore:::pympler[.*]"]
+
+
+[tool.coverage.run]
+parallel = true
+branch = true
+source_pkgs = ["attr", "attrs"]
+
+[tool.coverage.paths]
+source = ["src", ".tox/py*/**/site-packages"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+exclude_lines = [
+    "pragma: no cover",
+    # PyPy is unacceptably slow under coverage.
+    "if PYPY:",
+]
+
+
+[tool.black]
+line-length = 79
+
+
+[tool.isort]
+profile = "attrs"
+
+
+[tool.interrogate]
+verbose = 2
+fail-under = 100
+whitelist-regex = ["test_.*"]
+
+
+[tool.check-wheel-contents]
+toplevel = ["attr", "attrs"]
+
+
+[tool.towncrier]
+name = "attrs"
+directory = "changelog.d"
+filename = "CHANGELOG.md"
+start_string = "<!-- towncrier release notes start -->\n"
+template = "changelog.d/towncrier_template.md.jinja"
+title_format = ""
+issue_format = "[#{issue}](https://github.com/python-attrs/attrs/issues/{issue})"
+underlines = ["", "", ""]
+
+[[tool.towncrier.section]]
+path = ""
+
+[[tool.towncrier.type]]
+directory = "breaking"
+name = "Backwards-incompatible Changes"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "deprecation"
+name = "Deprecations"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "change"
+name = "Changes"
+showcontent = true
+
+
+[tool.mypy]
+disallow_untyped_defs = true
+check_untyped_defs = true
+
+2025-07-03 18:31:36.487 | DEBUG    | Analyzing file content. Try 1 of 3
+2025-07-03 18:31:39.340 | INFO     | Model API request cost info: input_tokens=901, output_tokens=342, cost=0.005673
+2025-07-03 18:31:39.341 | SUCCESS  | Successfully extracted environment config
+2025-07-03 18:31:39.341 | INFO     | ******
+2025-07-03 18:31:39.341 | INFO     | List of libraries:
+- setuptools>=40.6.0
+- wheel
+- pytest (implied by `[tool.pytest.ini_options]`)
+- coverage (implied by `[tool.coverage.run]`)
+- black (implied by `[tool.black]`)
+- isort (implied by `[tool.isort]`)
+- interrogate (implied by `[tool.interrogate]`)
+- check-wheel-contents (implied by `[tool.check-wheel-contents]`)
+- towncrier (implied by `[[tool.towncrier]]`)
+- mypy (implied by `[tool.mypy]`)
+
+Build System:
+- Backend: setuptools.build_meta
+- Requires:
+    - setuptools>=40.6.0
+    - wheel
+
+Python Version Requirements:
+- Not explicitly defined in this `pyproject.toml`.
+
+Testing:
+- Test framework: pytest
+- Test command: `pytest` (with options set in `addopts` and `filterwarnings`)
+- Test paths: `tests`
+- Test options:
+    - `-ra`
+    - `--strict-markers`
+    - `--strict-config`
+    - `--xfail-strict`
+    - `filterwarnings = ["once::Warning", "ignore:::pympler[.*]"]`
+- Other tools configured for testing/quality:
+    - coverage
+    - black
+    - isort
+    - interrogate
+    - mypy
+2025-07-03 18:31:39.342 | INFO     | ******
+2025-07-03 18:31:39.342 | DEBUG    | Result of dispatch_intent: ('List of libraries:\n- setuptools>=40.6.0\n- wheel\n- pytest (implied by `[tool.pytest.ini_options]`)\n- coverage (implied by `[tool.coverage.run]`)\n- black (implied by `[tool.black]`)\n- isort (implied by `[tool.isort]`)\n- interrogate (implied by `[tool.interrogate]`)\n- check-wheel-contents (implied by `[tool.check-wheel-contents]`)\n- towncrier (implied by `[[tool.towncrier]]`)\n- mypy (implied by `[tool.mypy]`)\n\nBuild System:\n- Backend: setuptools.build_meta\n- Requires:\n    - setuptools>=40.6.0\n    - wheel\n\nPython Version Requirements:\n- Not explicitly defined in this `pyproject.toml`.\n\nTesting:\n- Test framework: pytest\n- Test command: `pytest` (with options set in `addopts` and `filterwarnings`)\n- Test paths: `tests`\n- Test options:\n    - `-ra`\n    - `--strict-markers`\n    - `--strict-config`\n    - `--xfail-strict`\n    - `filterwarnings = ["once::Warning", "ignore:::pympler[.*]"]`\n- Other tools configured for testing/quality:\n    - coverage\n    - black\n    - isort\n    - interrogate\n    - mypy', 'Get File Info', True)
+2025-07-03 18:31:39.342 | INFO     | entering browse
+2025-07-03 18:31:39.342 | INFO     | # SPDX-License-Identifier: MIT
+
+import codecs
+import os
+import re
+
+from setuptools import find_packages, setup
+
+
+###############################################################################
+
+NAME = "attrs"
+PACKAGES = find_packages(where="src")
+META_PATH = os.path.join("src", "attr", "__init__.py")
+KEYWORDS = ["class", "attribute", "boilerplate", "dataclass"]
+PROJECT_URLS = {
+    "Documentation": "https://www.attrs.org/",
+    "Changelog": "https://www.attrs.org/en/stable/changelog.html",
+    "Bug Tracker": "https://github.com/python-attrs/attrs/issues",
+    "Source Code": "https://github.com/python-attrs/attrs",
+    "Funding": "https://github.com/sponsors/hynek",
+    "Tidelift": "https://tidelift.com/subscription/pkg/pypi-attrs?"
+    "utm_source=pypi-attrs&utm_medium=pypi",
+    "Ko-fi": "https://ko-fi.com/the_hynek",
+}
+CLASSIFIERS = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Natural Language :: English",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: Implementation :: PyPy",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+INSTALL_REQUIRES = []
+EXTRAS_REQUIRE = {
+    "docs": [
+        "furo",
+        "sphinx",
+        "myst-parser",
+        "zope.interface",
+        "sphinx-notfound-page",
+        "sphinxcontrib-towncrier",
+        "towncrier",
+    ],
+    "tests-no-zope": [
+        # For regression test to ensure cloudpickle compat doesn't break.
+        'cloudpickle; python_implementation == "CPython"',
+        "hypothesis",
+        "pympler",
+        # 4.3.0 dropped last use of `convert`
+        "pytest>=4.3.0",
+        # psutil extra is needed for correct core count detection.
+        "pytest-xdist[psutil]",
+        # Since the mypy error messages keep changing, we have to keep updating
+        # this pin.
+        "mypy>=0.971,<0.990; python_implementation == 'CPython'",
+        "pytest-mypy-plugins; python_implementation == 'CPython' and "
+        "python_version<'3.11'",
+    ],
+    "tests": [
+        "attrs[tests-no-zope]",
+        "zope.interface",
+    ],
+    "cov": [
+        "attrs[tests]",
+        "coverage-enable-subprocess",
+        # Ensure coverage is new enough for `source_pkgs`.
+        "coverage[toml]>=5.3",
+    ],
+    "dev": ["attrs[tests,docs]"],
+}
+# Don't break Paul unnecessarily just yet. C.f. #685
+EXTRAS_REQUIRE["tests_no_zope"] = EXTRAS_REQUIRE["tests-no-zope"]
+
+
+###############################################################################
+
+HERE = os.path.abspath(os.path.dirname(__file__))
+
+
+def read(*parts):
+    """
+    Build an absolute path from *parts* and return the contents of the
+    resulting file.  Assume UTF-8 encoding.
+    """
+    with codecs.open(os.path.join(HERE, *parts), "rb", "utf-8") as f:
+        return f.read()
+
+
+META_FILE = read(META_PATH)
+
+
+def find_meta(meta):
+    """
+    Extract __*meta*__ from META_FILE.
+    """
+    meta_match = re.search(
+        rf"^__{meta}__ = ['\"]([^'\"]*)['\"]", META_FILE, re.M
+    )
+    if meta_match:
+        return meta_match.group(1)
+    raise RuntimeError(f"Unable to find __{meta}__ string.")
+
+
+VERSION = find_meta("version")
+URL = find_meta("url")
+
+# PyPI doesn't support the <picture> tag.
+LOGO = """<p align="center">
+  <a href="https://www.attrs.org/">
+    <img src="https://raw.githubusercontent.com/python-attrs/attrs/main/docs/_static/attrs_logo.svg" width="35%" alt="attrs" />
+  </a>
+</p>
+"""  # noqa
+
+LONG = (
+    LOGO
+    + read("README.md").split("<!-- logo-end -->", 1)[1]
+    + "\n\n## Changes in This Release\n"
+    + read("CHANGELOG.md")
+    .split("towncrier release notes start -->", 1)[1]
+    .strip()
+    .split("\n## ", 1)[0]
+    .strip()
+    .split("\n", 1)[1]
+    + "\n\n---\n\n[Full changelog]"
+    "(https://www.attrs.org/en/stable/changelog.html)\n"
+)
+
+if __name__ == "__main__":
+    setup(
+        name=NAME,
+        description=find_meta("description"),
+        license=find_meta("license"),
+        url=URL,
+        project_urls=PROJECT_URLS,
+        version=VERSION,
+        author=find_meta("author"),
+        author_email=find_meta("email"),
+        maintainer=find_meta("author"),
+        maintainer_email=find_meta("email"),
+        keywords=KEYWORDS,
+        long_description=LONG,
+        long_description_content_type="text/markdown",
+        packages=PACKAGES,
+        package_dir={"": "src"},
+        python_requires=">=3.6",
+        zip_safe=False,
+        classifiers=CLASSIFIERS,
+        install_requires=INSTALL_REQUIRES,
+        extras_require=EXTRAS_REQUIRE,
+        include_package_data=True,
+    )
+
+2025-07-03 18:31:39.342 | DEBUG    | Analyzing file content. Try 1 of 3
+2025-07-03 18:31:43.984 | INFO     | Model API request cost info: input_tokens=1917, output_tokens=187, cost=0.006663
+2025-07-03 18:31:43.985 | SUCCESS  | Successfully extracted environment config
+2025-07-03 18:31:43.986 | INFO     | ******
+2025-07-03 18:31:43.986 | INFO     | List of libraries (runtime):
+- attrs (The project itself, no external direct runtime dependencies listed in `install_requires`)
+
+List of libraries (test dependencies):
+- cloudpickle (CPython only)
+- hypothesis
+- pympler
+- pytest>=4.3.0
+- pytest-xdist[psutil]
+- mypy>=0.971,<0.990 (CPython only)
+- pytest-mypy-plugins (CPython only and Python < 3.11)
+- zope.interface
+
+Runtime Requirements:
+- Python >=3.6
+- Python Implementation: CPython, PyPy (explicitly mentioned in classifiers)
+
+Setup/Installation:
+- To install the package: `pip install .`
+- To install with full test dependencies: `pip install ".[tests]"`
+2025-07-03 18:31:43.986 | INFO     | ******
+2025-07-03 18:31:43.986 | DEBUG    | Result of dispatch_intent: ('List of libraries (runtime):\n- attrs (The project itself, no external direct runtime dependencies listed in `install_requires`)\n\nList of libraries (test dependencies):\n- cloudpickle (CPython only)\n- hypothesis\n- pympler\n- pytest>=4.3.0\n- pytest-xdist[psutil]\n- mypy>=0.971,<0.990 (CPython only)\n- pytest-mypy-plugins (CPython only and Python < 3.11)\n- zope.interface\n\nRuntime Requirements:\n- Python >=3.6\n- Python Implementation: CPython, PyPy (explicitly mentioned in classifiers)\n\nSetup/Installation:\n- To install the package: `pip install .`\n- To install with full test dependencies: `pip install ".[tests]"`', 'Get File Info', True)
+2025-07-03 18:31:43.986 | INFO     | entering browse
+2025-07-03 18:31:43.987 | INFO     | # Keep docs in sync with docs env and .readthedocs.yml.
+[gh-actions]
+python =
+    3.6: py36, mypy
+    3.7: py37
+    3.8: py38, changelog
+    3.9: py39
+    3.10: py310, mypy
+    3.11: py311
+    3.12: py312
+    pypy-3: pypy3
+
+
+[tox]
+envlist = mypy,pre-commit,py36,py37,py38,py39,py310,py311,py312,pypy3,pyright,manifest,docs,pypi-description,changelog,coverage-report
+isolated_build = True
+
+
+[testenv:docs]
+# Keep basepython in sync with ci.yml/docs and .readthedocs.yml.
+basepython = python3.10
+extras = docs
+commands =
+    sphinx-build -n -T -W -b html -d {envtmpdir}/doctrees docs docs/_build/html
+    sphinx-build -n -T -W -b doctest -d {envtmpdir}/doctrees docs docs/_build/html
+
+[testenv]
+extras = tests
+commands = python -m pytest {posargs:-n auto}
+
+
+[testenv:py36]
+extras = cov
+setenv = COVERAGE_PROCESS_START={toxinidir}/pyproject.toml
+commands = coverage run -m pytest {posargs:-n auto}
+
+
+[testenv:py310]
+extras = cov
+setenv =
+    PYTHONWARNINGS=d
+    {[testenv:py36]setenv}
+commands = {[testenv:py36]commands}
+
+
+[testenv:py31{1,2}]
+extras = cov
+# Python 3.6+ has a number of compile-time warnings on invalid string escapes.
+# PYTHONWARNINGS=d and --no-compile below make them visible during the Tox run.
+install_command = python -m pip install --no-compile {opts} {packages}
+setenv =
+    PYTHONWARNINGS=d
+    {[testenv:py36]setenv}
+# xdist is currently broken on 3.11rc2
+commands = coverage run -m pytest {posargs}
+
+
+[testenv:coverage-report]
+basepython = python3.10
+depends = py36,py310
+skip_install = true
+deps = coverage[toml]>=5.3
+commands =
+    coverage combine
+    coverage report
+
+
+[testenv:pre-commit]
+skip_install = true
+deps = pre-commit
+passenv = HOMEPATH  # needed on Windows
+commands = pre-commit run --all-files --show-diff-on-failure
+
+
+[testenv:manifest]
+basepython = python3.10
+deps = check-manifest
+skip_install = true
+commands = check-manifest
+
+
+[testenv:pypi-description]
+basepython = python3.8
+skip_install = true
+deps =
+    twine
+    pip >= 18.0.0
+commands =
+    pip wheel -w {envtmpdir}/build --no-deps .
+    twine check {envtmpdir}/build/*
+
+
+[testenv:changelog]
+basepython = python3.8
+deps = towncrier
+skip_install = true
+commands = towncrier build --version main --draft
+
+
+[testenv:mypy]
+deps = mypy>=0.902
+commands =
+    mypy src/attrs/__init__.pyi src/attr/__init__.pyi src/attr/_typing_compat.pyi src/attr/_version_info.pyi src/attr/converters.pyi src/attr/exceptions.pyi src/attr/filters.pyi src/attr/setters.pyi src/attr/validators.pyi
+    mypy tests/typing_example.py
+
+
+[testenv:pyright]
+# Install and configure node and pyright
+# This *could* be folded into a custom install_command
+# Use nodeenv to configure node in the running tox virtual environment
+# Seeing errors using "nodeenv -p"
+# Use npm install -g to install "globally" into the virtual environment
+deps = nodeenv
+commands =
+    nodeenv --prebuilt --node=lts --force {envdir}
+    npm install -g --no-package-lock --no-save pyright
+    pytest tests/test_pyright.py -vv
+
+
+[testenv:docset]
+deps = doc2dash
+extras = docs
+allowlist_externals =
+    rm
+    cp
+    tar
+commands =
+    rm -rf attrs.docset attrs.tgz docs/_build
+    sphinx-build -n -T -W -b html -d {envtmpdir}/doctrees docs docs/_build/html
+    doc2dash --index-page index.html --icon docs/_static/docset-icon.png --online-redirect-url https://www.attrs.org/en/latest/ docs/_build/html
+    cp docs/_static/docset-icon@2x.png attrs.docset/icon@2x.png
+    tar --exclude='.DS_Store' -cvzf attrs.tgz attrs.docset
+
+2025-07-03 18:31:43.987 | DEBUG    | Analyzing file content. Try 1 of 3
+2025-07-03 18:31:52.452 | INFO     | Model API request cost info: input_tokens=1604, output_tokens=572, cost=0.009730
+2025-07-03 18:31:52.453 | SUCCESS  | Successfully extracted environment config
+2025-07-03 18:31:52.453 | INFO     | ******
+2025-07-03 18:31:52.454 | INFO     | Testing:
+- **Test environments:** The `tox.ini` defines several test environments: `py36`, `py37`, `py38`, `py39`, `py310`, `py311`, `py312`, `pypy3`, `mypy`, `pyright`.
+- **Test framework:** pytest is used for unit and integration tests.
+- **Python versions for testing:**
+    - Python 3.6
+    - Python 3.7
+    - Python 3.8
+    - Python 3.9
+    - Python 3.10
+    - Python 3.11
+    - Python 3.12
+    - PyPy3
+    - (Additionally, Python 3.10 and 3.8 are used for utility/linting environments like `docs`, `coverage-report`, `manifest`, `pypi-description`, `changelog`).
+- **Test commands:**
+    - Default: `python -m pytest {posargs:-n auto}`
+    - For `py36`, `py310`, `py311`, `py312`: `coverage run -m pytest {posargs}` (or `{posargs:-n auto}`)
+    - For `mypy`: `mypy src/attrs/__init__.pyi ...` (multiple files listed)
+    - For `pyright`: `pytest tests/test_pyright.py -vv` (after setting up nodeenv and pyright)
+    - For `coverage-report`: `coverage combine` and `coverage report`
+- **Test environment dependencies (specific to test execution/analysis):**
+    - `extras = tests` (default testenv)
+    - `extras = cov` (for `py36`, `py310`, `py31{1,2}` which implies `pytest-cov` or `coverage`)
+    - `deps = mypy>=0.902` (for `mypy` environment)
+    - `deps = nodeenv` (for `pyright` environment)
+    - `deps = coverage[toml]>=5.3` (for `coverage-report` environment)
+
+Key Environment Variables during testing:
+- `COVERAGE_PROCESS_START={toxinidir}/pyproject.toml` (for coverage runs in `py36`, `py310`, `py31{1,2}` environments)
+- `PYTHONWARNINGS=d` (for `py310`, `py31{1,2}` environments)
+2025-07-03 18:31:52.454 | INFO     | ******
+2025-07-03 18:31:52.454 | DEBUG    | Result of dispatch_intent: ('Testing:\n- **Test environments:** The `tox.ini` defines several test environments: `py36`, `py37`, `py38`, `py39`, `py310`, `py311`, `py312`, `pypy3`, `mypy`, `pyright`.\n- **Test framework:** pytest is used for unit and integration tests.\n- **Python versions for testing:**\n    - Python 3.6\n    - Python 3.7\n    - Python 3.8\n    - Python 3.9\n    - Python 3.10\n    - Python 3.11\n    - Python 3.12\n    - PyPy3\n    - (Additionally, Python 3.10 and 3.8 are used for utility/linting environments like `docs`, `coverage-report`, `manifest`, `pypi-description`, `changelog`).\n- **Test commands:**\n    - Default: `python -m pytest {posargs:-n auto}`\n    - For `py36`, `py310`, `py311`, `py312`: `coverage run -m pytest {posargs}` (or `{posargs:-n auto}`)\n    - For `mypy`: `mypy src/attrs/__init__.pyi ...` (multiple files listed)\n    - For `pyright`: `pytest tests/test_pyright.py -vv` (after setting up nodeenv and pyright)\n    - For `coverage-report`: `coverage combine` and `coverage report`\n- **Test environment dependencies (specific to test execution/analysis):**\n    - `extras = tests` (default testenv)\n    - `extras = cov` (for `py36`, `py310`, `py31{1,2}` which implies `pytest-cov` or `coverage`)\n    - `deps = mypy>=0.902` (for `mypy` environment)\n    - `deps = nodeenv` (for `pyright` environment)\n    - `deps = coverage[toml]>=5.3` (for `coverage-report` environment)\n\nKey Environment Variables during testing:\n- `COVERAGE_PROCESS_START={toxinidir}/pyproject.toml` (for coverage runs in `py36`, `py310`, `py31{1,2}` environments)\n- `PYTHONWARNINGS=d` (for `py310`, `py31{1,2}` environments)', 'Get File Info', True)
+2025-07-03 18:31:52.454 | INFO     | entering browse
+2025-07-03 18:31:52.454 | INFO     | <p align="center">
+   <a href="https://www.attrs.org/">
+      <picture>
+         <source srcset="https://raw.githubusercontent.com/python-attrs/attrs/main/docs/_static/attrs_logo_white.svg" media="(prefers-color-scheme: dark)">
+         <img src="https://raw.githubusercontent.com/python-attrs/attrs/main/docs/_static/attrs_logo.svg" width="35%" alt="attrs" />
+      </picture>
+   </a>
+</p>
+
+<!-- logo-end -->
+
+<p align="center">
+   <a href="https://www.attrs.org/en/stable/">
+       <img src="https://img.shields.io/badge/Docs-RTD-black" alt="Documentation" />
+   </a>
+   <a href="https://github.com/python-attrs/attrs/blob/main/LICENSE">
+      <img src="https://img.shields.io/badge/license-MIT-C06524" alt="License: MIT" />
+   </a>
+   <a href="https://bestpractices.coreinfrastructure.org/projects/6482"><img src="https://bestpractices.coreinfrastructure.org/projects/6482/badge"></a>
+   <a href="https://pypi.org/project/attrs/">
+      <img src="https://img.shields.io/pypi/v/attrs" />
+   </a>
+   <a href="https://pepy.tech/project/attrs">
+      <img src="https://static.pepy.tech/personalized-badge/attrs?period=month&units=international_system&left_color=grey&right_color=blue&left_text=Downloads%20/%20Month" alt="Downloads per month" />
+   </a>
+   <a href="https://zenodo.org/badge/latestdoi/29918975"><img src="https://zenodo.org/badge/29918975.svg" alt="DOI"></a>
+</p>
+
+<!-- teaser-begin -->
+
+*attrs* is the Python package that will bring back the **joy** of **writing classes** by relieving you from the drudgery of implementing object protocols (aka [dunder methods](https://www.attrs.org/en/latest/glossary.html#term-dunder-methods)).
+[Trusted by NASA](https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-profile/customizing-your-profile/personalizing-your-profile#list-of-qualifying-repositories-for-mars-2020-helicopter-contributor-achievement) for Mars missions since 2020!
+
+Its main goal is to help you to write **concise** and **correct** software without slowing down your code.
+
+
+## Sponsors
+
+*attrs* would not be possible without our [amazing sponsors](https://github.com/sponsors/hynek).
+Especially those generously supporting us at the *The Organization* tier and higher:
+
+<p align="center">
+   <a href="https://www.variomedia.de/">
+      <img src="https://raw.githubusercontent.com/python-attrs/attrs/main/.github/sponsors/Variomedia.svg" width="200" height="60"></img>
+   </a>
+
+   <a href="https://tidelift.com/subscription/pkg/pypi-attrs?utm_source=pypi-attrs&utm_medium=referral&utm_campaign=enterprise&utm_term=repo">
+      <img src="https://raw.githubusercontent.com/python-attrs/attrs/main/.github/sponsors/Tidelift.svg" width="200" height="60"></img>
+   </a>
+
+   <a href="https://sentry.io/">
+      <img src="https://raw.githubusercontent.com/python-attrs/attrs/main/.github/sponsors/Sentry.svg" width="200" height="60"></img>
+   </a>
+
+   <a href="https://filepreviews.io/">
+      <img src="https://raw.githubusercontent.com/python-attrs/attrs/main/.github/sponsors/FilePreviews.svg" width="200" height="60"></img>
+   </a>
+</p>
+
+<p align="center">
+   <strong>Please consider <a href="https://github.com/sponsors/hynek">joining them</a> to help make <em>attrs</em>’s maintenance more sustainable!</strong>
+</p>
+
+<!-- teaser-end -->
+
+## Example
+
+*attrs* gives you a class decorator and a way to declaratively define the attributes on that class:
+
+<!-- code-begin -->
+
+```pycon
+>>> from attrs import asdict, define, make_class, Factory
+
+>>> @define
+... class SomeClass:
+...     a_number: int = 42
+...     list_of_numbers: list[int] = Factory(list)
+...
+...     def hard_math(self, another_number):
+...         return self.a_number + sum(self.list_of_numbers) * another_number
+
+
+>>> sc = SomeClass(1, [1, 2, 3])
+>>> sc
+SomeClass(a_number=1, list_of_numbers=[1, 2, 3])
+
+>>> sc.hard_math(3)
+19
+>>> sc == SomeClass(1, [1, 2, 3])
+True
+>>> sc != SomeClass(2, [3, 2, 1])
+True
+
+>>> asdict(sc)
+{'a_number': 1, 'list_of_numbers': [1, 2, 3]}
+
+>>> SomeClass()
+SomeClass(a_number=42, list_of_numbers=[])
+
+>>> C = make_class("C", ["a", "b"])
+>>> C("foo", "bar")
+C(a='foo', b='bar')
+```
+
+After *declaring* your attributes, *attrs* gives you:
+
+- a concise and explicit overview of the class's attributes,
+- a nice human-readable `__repr__`,
+- equality-checking methods,
+- an initializer,
+- and much more,
+
+*without* writing dull boilerplate code again and again and *without* runtime performance penalties.
+
+**Hate type annotations**!?
+No problem!
+Types are entirely **optional** with *attrs*.
+Simply assign `attrs.field()` to the attributes instead of annotating them with types.
+
+---
+
+This example uses *attrs*'s modern APIs that have been introduced in version 20.1.0, and the *attrs* package import name that has been added in version 21.3.0.
+The classic APIs (`@attr.s`, `attr.ib`, plus their serious-business aliases) and the `attr` package import name will remain **indefinitely**.
+
+Please check out [*On The Core API Names*](https://www.attrs.org/en/latest/names.html) for a more in-depth explanation.
+
+
+## Data Classes
+
+On the tin, *attrs* might remind you of `dataclasses` (and indeed, `dataclasses` [are a descendant](https://hynek.me/articles/import-attrs/) of *attrs*).
+In practice it does a lot more and is more flexible.
+For instance it allows you to define [special handling of NumPy arrays for equality checks](https://www.attrs.org/en/stable/comparison.html#customization), or allows more ways to [plug into the initialization process](https://www.attrs.org/en/stable/init.html#hooking-yourself-into-initialization).
+
+For more details, please refer to our [comparison page](https://www.attrs.org/en/stable/why.html#data-classes).
+
+
+## Project Information
+
+- [**Changelog**](https://www.attrs.org/en/stable/changelog.html)
+- [**Documentation**](https://www.attrs.org/)
+- [**PyPI**](https://pypi.org/project/attrs/)
+- [**Source Code**](https://github.com/python-attrs/attrs)
+- [**Contributing**](https://github.com/python-attrs/attrs/blob/main/.github/CONTRIBUTING.md)
+- [**Third-party Extensions**](https://github.com/python-attrs/attrs/wiki/Extensions-to-attrs)
+- **License**: [MIT](https://www.attrs.org/en/latest/license.html)
+- **Get Help**: please use the `python-attrs` tag on [StackOverflow](https://stackoverflow.com/questions/tagged/python-attrs)
+- **Supported Python Versions**: 3.6 and later
+
+
+### *attrs* for Enterprise
+
+Available as part of the Tidelift Subscription.
+
+The maintainers of *attrs* and thousands of other packages are working with Tidelift to deliver commercial support and maintenance for the open source packages you use to build your applications.
+Save time, reduce risk, and improve code health, while paying the maintainers of the exact packages you use.
+[Learn more.](https://tidelift.com/subscription/pkg/pypi-attrs?utm_source=pypi-attrs&utm_medium=referral&utm_campaign=enterprise&utm_term=repo)
+
+2025-07-03 18:31:52.455 | DEBUG    | Analyzing file content. Try 1 of 3
+2025-07-03 18:31:56.037 | INFO     | Model API request cost info: input_tokens=2515, output_tokens=129, cost=0.007578
+2025-07-03 18:31:56.038 | SUCCESS  | Successfully extracted environment config
+2025-07-03 18:31:56.038 | INFO     | ******
+2025-07-03 18:31:56.038 | INFO     | List of libraries:
+- attrs
+
+Runtime Requirements:
+- Python 3.6 and later
+
+Installation:
+- The project is a Python package named `attrs`, available on PyPI. Typical installation would be `pip install attrs`.
+
+Testing:
+- No specific instructions or commands for running tests were found in this README.md file. Further investigation of other project files (e.g., `pyproject.toml`, `setup.py`, a `CONTRIBUTING.md` file, or a `tox.ini`) would be required to determine the testing setup and commands.
+2025-07-03 18:31:56.039 | INFO     | ******
+2025-07-03 18:31:56.039 | DEBUG    | Result of dispatch_intent: ('List of libraries:\n- attrs\n\nRuntime Requirements:\n- Python 3.6 and later\n\nInstallation:\n- The project is a Python package named `attrs`, available on PyPI. Typical installation would be `pip install attrs`.\n\nTesting:\n- No specific instructions or commands for running tests were found in this README.md file. Further investigation of other project files (e.g., `pyproject.toml`, `setup.py`, a `CONTRIBUTING.md` file, or a `tox.ini`) would be required to determine the testing setup and commands.', 'Get File Info', True)
+2025-07-03 18:32:11.192 | INFO     | Model API request cost info: input_tokens=2863, output_tokens=603, cost=0.013188
+2025-07-03 18:32:15.696 | INFO     | Model API request cost info: input_tokens=3565, output_tokens=406, cost=0.012973
+2025-07-03 18:32:15.703 | DEBUG    | Trying to select search APIs in json. Try 1 of 5.
+2025-07-03 18:32:19.077 | INFO     | Model API request cost info: input_tokens=1074, output_tokens=415, cost=0.006835
+2025-07-03 18:32:19.078 | DEBUG    | {
+    "API_calls": [],
+    "collected_information": "### Summary of Collected Information:\n\n**1. Environment Setup Requirements (for Dockerfile):**\n\n*   **Python Version:** The project requires Python >= 3.6. Python 3.9 is a suitable and commonly used version, also covered by `tox.ini` environments.\n*   **Build System Dependencies:** `setuptools` and `wheel` are required by `pyproject.toml`. `build-essential` is needed to compile potential C extensions for packages like `psutil` (a dependency of `pytest-xdist`, which is part of the `[tests]` extra).\n*   **Project Installation:** The project can be installed using `pip install \".[tests]\"`, which installs the core `attrs` package along with all its declared test-specific dependencies from `setup.py` (e.g., `pytest`, `hypothesis`, `pympler`, `mypy`, `pytest-xdist`, `zope.interface`, `cloudpickle`).\n*   **Working Directory:** The root of the repository should be the working directory.\n\n**2. Test Execution Requirements (for Evaluation Script):**\n\n*   **Test Framework:** `pytest` is the primary test framework used.\n*   **Test Command:** The standard way to run tests is `python -m pytest`. `pyproject.toml` defines default `pytest` options (`-ra --strict-markers --strict-config --xfail-strict` and `filterwarnings`) which `pytest` will automatically apply when run from the root directory.\n*   **Target Test Files:** The specific test file provided is `tests/test_make.py`.\n*   **No Prior Setup:** No explicit database migrations, service startups, or other complex setup steps were identified before running simple unit/integration tests with `pytest`.",
+    "terminate": true
+}
+2025-07-03 18:32:19.079 | DEBUG    | Extracted a valid json
+2025-07-03 18:32:19.085 | INFO     | Trying to extract a dockerfile. Try 1 of 3.
+2025-07-03 18:32:25.875 | INFO     | Model API request cost info: input_tokens=2497, output_tokens=368, cost=0.009923
+2025-07-03 18:32:25.875 | INFO     | Raw dockerfile and produced in try 1. Writing dockerfile into file.
+2025-07-03 18:32:25.898 | INFO     | Trying to extract a eval script. Try 1 of 3.
+2025-07-03 18:32:30.336 | INFO     | Model API request cost info: input_tokens=2404, output_tokens=288, cost=0.008890
+2025-07-03 18:32:30.337 | INFO     | Raw script and produced in try 1. Writing script into file.
+2025-07-03 18:34:15.674 | DEBUG    | Result of dispatch_intent: ('Image built successfully!\nContainer c875c0574ad1e11dfd6846870111297144c93eaa1e2fe87850a7c7ecc452aa23 started.\nPatch applied successfully.\nFind test_output.txt! Waiting for analysis. ', 'Docker image python-attrs__attrs-1080-dockerfile1:latest built successfully.\nContainer started.\nPatch applied.\nObtain test results successfully.', True)
+2025-07-03 18:34:15.676 | DEBUG    | Trying to analyze the test log. Try 1 of 3.
+2025-07-03 18:34:30.867 | INFO     | Model API request cost info: input_tokens=2244, output_tokens=185, cost=0.007460
+2025-07-03 18:34:30.868 | DEBUG    | {
+    "is_finish": false,
+    "guidance_for_write_dockerfile_agent": "The current Dockerfile uses 'python:3.9-slim-buster'. However, the test log indicates that 7 tests were skipped because they require Python 3.10 or later (e.g., 'Structural pattern matching is 3.10+'). To ensure all relevant tests can be executed, please update the base image to a Python version that supports these features, such as 'python:3.11-slim-buster'. This will provide an environment where all tests in `tests/test_make.py` can potentially run without being skipped due to Python version incompatibility.",
+    "guidance_for_write_eval_script_agent": "",
+    "guidance_for_context_retrieval_agent": ""
+}
+2025-07-03 18:34:30.868 | DEBUG    | Extracted a valid json
+2025-07-03 18:34:30.871 | INFO     | Trying to extract a dockerfile. Try 1 of 3.
+2025-07-03 18:34:34.376 | INFO     | Model API request cost info: input_tokens=4018, output_tokens=374, cost=0.013785
+2025-07-03 18:34:34.377 | INFO     | Raw dockerfile and produced in try 1. Writing dockerfile into file.
+2025-07-03 18:36:11.982 | DEBUG    | Result of dispatch_intent: ('Image built successfully!\nContainer 24e02e4e49d734136948903e7bbbd5c8bcc930230c36d51ae48c8e89a7c88868 started.\nPatch applied successfully.\nFind test_output.txt! Waiting for analysis. ', 'Docker image python-attrs__attrs-1080-dockerfile2:latest built successfully.\nContainer started.\nPatch applied.\nObtain test results successfully.', True)
+2025-07-03 18:36:11.984 | DEBUG    | Trying to analyze the test log. Try 1 of 3.
+2025-07-03 18:36:16.342 | INFO     | Model API request cost info: input_tokens=2071, output_tokens=62, cost=0.005798
+2025-07-03 18:36:16.343 | DEBUG    | {
+    "is_finish": true,
+    "guidance_for_write_dockerfile_agent": "",
+    "guidance_for_write_eval_script_agent": "",
+    "guidance_for_context_retrieval_agent": ""
+}
+2025-07-03 18:36:16.343 | DEBUG    | Extracted a valid json
+2025-07-03 18:36:16.361 | INFO     | Removed project repository at testbed/python-attrs__attrs-1080_2025-07-03_17-42-49
+2025-07-03 18:36:16.363 | INFO     | Task python-attrs__attrs-1080 completed successfully.

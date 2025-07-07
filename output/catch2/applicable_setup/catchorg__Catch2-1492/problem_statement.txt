@@ -1,0 +1,39 @@
+If a specific section is specified, actually two test runs are carried out
+## Description
+If I like a test in a specific section to be run, I can do this with this command:
+`./MyExe Test -c sa`
+
+Surprisingly, this causes two test runs:
+1. Test "Test" with section "sa"
+2. Test "Test" without any sections
+
+Is there a reason for the second empty test run? In my application where the initialisation for the test case is lengthy this behaviour is inconvenient.
+
+### Steps to reproduce
+Put some log output in the test case "Test" outside any sections.
+If a specific section is specified, actually two test runs are carried out
+## Description
+If I like a test in a specific section to be run, I can do this with this command:
+`./MyExe Test -c sa`
+
+Surprisingly, this causes two test runs:
+1. Test "Test" with section "sa"
+2. Test "Test" without any sections
+
+Is there a reason for the second empty test run? In my application where the initialisation for the test case is lengthy this behaviour is inconvenient.
+
+### Steps to reproduce
+Put some log output in the test case "Test" outside any sections.
+If a specific section is specified, actually two test runs are carried out
+## Description
+If I like a test in a specific section to be run, I can do this with this command:
+`./MyExe Test -c sa`
+
+Surprisingly, this causes two test runs:
+1. Test "Test" with section "sa"
+2. Test "Test" without any sections
+
+Is there a reason for the second empty test run? In my application where the initialisation for the test case is lengthy this behaviour is inconvenient.
+
+### Steps to reproduce
+Put some log output in the test case "Test" outside any sections.

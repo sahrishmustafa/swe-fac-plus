@@ -1,0 +1,22 @@
+{
+    "task_id": "python-attrs__attrs-586",
+    "setup_info": {
+        "repo_path": "testbed/python-attrs__attrs-586_2025-07-03_17-42-35",
+        "repo_cache_path": "testbed/python-attrs/attrs_cache"
+    },
+    "task_info": {
+        "repo": "python-attrs/attrs",
+        "pull_number": 586,
+        "instance_id": "python-attrs__attrs-586",
+        "issue_numbers": [
+            "585"
+        ],
+        "base_commit": "3432df571117386cd7f58db3222ed1dd7fa35d7b",
+        "patch": "diff --git a/src/attr/_make.py b/src/attr/_make.py\n--- a/src/attr/_make.py\n+++ b/src/attr/_make.py\n@@ -509,7 +509,7 @@ def _patch_original_class(self):\n             for name in self._attr_names:\n                 if (\n                     name not in base_names\n-                    and getattr(cls, name, _sentinel) != _sentinel\n+                    and getattr(cls, name, _sentinel) is not _sentinel\n                 ):\n                     try:\n                         delattr(cls, name)\n",
+        "test_patch": "diff --git a/tests/test_annotations.py b/tests/test_annotations.py\n--- a/tests/test_annotations.py\n+++ b/tests/test_annotations.py\n@@ -282,3 +282,18 @@ class C:\n \n         with pytest.raises(AttributeError):\n             C.y\n+\n+    def test_non_comparable_defaults(self):\n+        \"\"\"\n+        Regression test for #585: objects that are not directly comparable\n+        (for example numpy arrays) would cause a crash when used as\n+        default values of an attrs auto-attrib class.\n+        \"\"\"\n+\n+        class NonComparable:\n+            def __eq__(self, other):\n+                raise ValueError\n+\n+        @attr.s(auto_attribs=True)\n+        class C:\n+            x: typing.Any = NonComparable()\n",
+        "problem_statement": "Couldn't use numpy arrays as defaults on attrs 19.2\nThe following code stops working when upgrading from attrs 19.1 to 19.2:\r\n\r\n```\r\n@attr.s(auto_attribs=True)\r\nclass NumParams:\r\n    N = 3\r\n    alpha = np.zeros((N, Ng))\r\n```\r\n\r\nSeems that change #556 requires that default attributes should implement `__eq__`, which is not the case for numpy arrays.\r\n\r\nTaceback is:\r\n```\r\n    @attr.s(auto_attribs=True)\r\n../../../../miniconda/envs/attests/lib/python3.6/site-packages/attr/_make.py:1010: in wrap\r\n    return builder.build_class()\r\n../../../../miniconda/envs/attests/lib/python3.6/site-packages/attr/_make.py:498: in build_class\r\n    return self._patch_original_class()\r\n../../../../miniconda/envs/attests/lib/python3.6/site-packages/attr/_make.py:512: in _patch_original_class\r\n    and getattr(cls, name, _sentinel) != _sentinel\r\nE   ValueError: The truth value of an array with more than one element is ambiguous. Use a.any() or a.all()\r\n```\n",
+        "hints_text": "the issue can be resolved by switching the sentinel check from equality to is",
+        "created_at": "2019-10-14T19:58:16Z",
+        "version": "19.2"
+    }
+}

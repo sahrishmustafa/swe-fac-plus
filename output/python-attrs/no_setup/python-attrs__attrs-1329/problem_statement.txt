@@ -1,0 +1,2 @@
+Latest release breaks hypothesis tests in CPython main branch
+See https://github.com/python/cpython/issues/122686.  Pinning to "attrs<=23.2.0" - a workaround.

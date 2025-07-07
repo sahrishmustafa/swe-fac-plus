@@ -1,0 +1,7 @@
+{
+  "is_finish": false,
+  "guidance_for_write_dockerfile_agent": "The Dockerfile build failed due to a 'Killed signal terminated program cc1plus' error during the `make` command, which typically indicates an Out-Of-Memory (OOM) error or resource exhaustion. The `make -j$(nproc)` command attempts to use all available CPU cores, which can consume significant memory during compilation, especially for C++ projects. To resolve this, reduce the number of parallel jobs for the `make` command.\n\nModify the last `RUN` command in the Dockerfile from:\n`RUN mkdir build &&     cd build &&     cmake .. -DCMAKE_BUILD_TYPE=Release -DFMT_TEST=ON -DCMAKE_CXX_STANDARD=17 &&     make -j$(nproc)`\nTo something less aggressive, such as using `make -j1` for serial compilation, or `make -j$(($(nproc) > 1 ? $(nproc) / 2 : 1))` to use half the available cores (minimum 1). Starting with `make -j1` is recommended to confirm the OOM issue is resolved, then adjust if performance is too slow.",
+  "guidance_for_write_eval_script_agent": "",
+  "guidance_for_context_retrieval_agent": "",
+  "build_image_status": false
+}

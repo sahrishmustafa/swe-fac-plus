@@ -1,0 +1,36 @@
+#!/bin/bash
+set -uxo pipefail
+
+# Navigate to the repository root directory
+cd /testbed
+
+# Checkout the specific test file to its original state at the commit SHA
+# This ensures a clean state before applying any potential patches.
+git checkout 1eb42eed974f944401091325bbe8e61b38fd0678 "projects/SelfTest/UsageTests/ToStringGeneral.tests.cpp"
+
+# Apply the test patch (if required) to modify the target test file(s).
+# The content of the patch will be programmatically inserted here.
+git apply -v - <<'EOF_114329324912'
+[CONTENT OF TEST PATCH]
+EOF_114329324912
+
+# Navigate to the build directory where the Catch2 'SelfTest' executable is located.
+# The Dockerfile ensures this directory exists and the project is built.
+cd Build
+
+# Execute the specific test cases from ToStringGeneral.tests.cpp using the Catch2 SelfTest executable.
+# Corrected the path to the SelfTest executable based on the error analysis.
+# Catch2's internal filter "[file:path/to/sourc.cpp]" is used to target tests originating from the specified source file.
+# The --success flag ensures a non-zero exit code on test failure, which is critical for automation.
+./SelfTest "[file:projects/SelfTest/UsageTests/ToStringGeneral.tests.cpp]" --success
+rc=$? # Capture the exit code of the test command
+
+# Echo the exit code in the required format for the test judge.
+echo "OMNIGRIL_EXIT_CODE=$rc"
+
+# Navigate back to the repository root for cleanup.
+cd /testbed
+
+# Checkout the specific test file again to revert any changes made by the patch.
+# This ensures that the file system is clean after the test run.
+git checkout 1eb42eed974f944401091325bbe8e61b38fd0678 "projects/SelfTest/UsageTests/ToStringGeneral.tests.cpp"

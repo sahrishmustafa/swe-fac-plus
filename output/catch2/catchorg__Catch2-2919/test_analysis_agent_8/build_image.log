@@ -1,0 +1,158 @@
+2025-06-30 18:22:28,298 - INFO - Building image catchorg__catch2-2919
+Using dockerfile:
+FROM --platform=linux/x86_64 ubuntu:22.04
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Etc/UTC
+
+# Install essential tools and system dependencies
+RUN apt update && \
+    apt install -y \
+    git \
+    build-essential \
+    cmake \
+    ninja-build \
+    python3 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set working directory
+WORKDIR /testbed/
+
+# Clone the repository and checkout the specific commit
+RUN git clone https://github.com/catchorg/Catch2.git /testbed/ && \
+    cd /testbed/ && \
+    git reset --hard fa43b77429ba76c462b1898d6cd2f2d7a9416b14
+
+2025-06-30 18:22:28,345 - INFO - Do not find previous image, images list is clean.
+2025-06-30 18:22:32,972 - INFO - Step 1/6 : FROM --platform=linux/x86_64 ubuntu:22.04
+2025-06-30 18:22:32,999 - INFO -  ---> 01a3ee0b5e41
+2025-06-30 18:22:33,000 - INFO - Step 2/6 : ARG DEBIAN_FRONTEND=noninteractive
+2025-06-30 18:22:33,116 - INFO -  ---> Running in 7046a534ea73
+2025-06-30 18:22:33,981 - INFO -  ---> Removed intermediate container 7046a534ea73
+2025-06-30 18:22:33,985 - INFO -  ---> e1d5fa0f5c03
+2025-06-30 18:22:33,985 - INFO - Step 3/6 : ENV TZ=Etc/UTC
+2025-06-30 18:22:34,150 - INFO -  ---> Running in 7c1ee1550654
+2025-06-30 18:22:34,891 - INFO -  ---> Removed intermediate container 7c1ee1550654
+2025-06-30 18:22:34,892 - INFO -  ---> c6f84e034533
+2025-06-30 18:22:34,892 - INFO - Step 4/6 : RUN apt update &&     apt install -y     git     build-essential     cmake     ninja-build     python3     && rm -rf /var/lib/apt/lists/*
+2025-06-30 18:22:35,038 - INFO -  ---> Running in 51eda4d338d8
+2025-06-30 18:22:35,267 - INFO - WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+2025-06-30 18:22:35,879 - INFO - Get:1 http://security.ubuntu.com/ubuntu jammy-security InRelease [129 kB]
+2025-06-30 18:22:37,126 - INFO - Get:2 http://archive.ubuntu.com/ubuntu jammy InRelease [270 kB]
+2025-06-30 18:22:38,084 - INFO - Get:3 http://security.ubuntu.com/ubuntu jammy-security/multiverse amd64 Packages [47.7 kB]
+2025-06-30 18:22:38,905 - INFO - Get:4 http://security.ubuntu.com/ubuntu jammy-security/universe amd64 Packages [1254 kB]
+2025-06-30 18:22:39,751 - INFO - Get:5 http://archive.ubuntu.com/ubuntu jammy-updates InRelease [128 kB]
+2025-06-30 18:22:40,112 - INFO - Get:6 http://archive.ubuntu.com/ubuntu jammy-backports InRelease [127 kB]
+2025-06-30 18:22:40,539 - INFO - Get:7 http://archive.ubuntu.com/ubuntu jammy/restricted amd64 Packages [164 kB]
+2025-06-30 18:22:40,699 - INFO - Get:8 http://archive.ubuntu.com/ubuntu jammy/multiverse amd64 Packages [266 kB]
+2025-06-30 18:22:41,937 - INFO - Get:9 http://archive.ubuntu.com/ubuntu jammy/main amd64 Packages [1792 kB]
+2025-06-30 18:22:42,780 - INFO - Get:10 http://security.ubuntu.com/ubuntu jammy-security/restricted amd64 Packages [4587 kB]
+2025-06-30 18:23:20,677 - INFO - Get:11 http://archive.ubuntu.com/ubuntu jammy/universe amd64 Packages [17.5 MB]
+2025-06-30 18:23:53,335 - INFO - Get:12 http://security.ubuntu.com/ubuntu jammy-security/main amd64 Packages [3040 kB]
+2025-06-30 18:24:38,370 - INFO - Ign:11 http://archive.ubuntu.com/ubuntu jammy/universe amd64 Packages
+2025-06-30 18:24:39,749 - INFO - Ign:12 http://security.ubuntu.com/ubuntu jammy-security/main amd64 Packages
+2025-06-30 18:24:45,392 - INFO - Ign:12 http://security.ubuntu.com/ubuntu jammy-security/main amd64 Packages
+2025-06-30 18:24:46,292 - INFO - Ign:13 http://archive.ubuntu.com/ubuntu jammy-updates/universe amd64 Packages
+2025-06-30 18:24:46,320 - INFO - Ign:14 http://archive.ubuntu.com/ubuntu jammy-updates/multiverse amd64 Packages
+2025-06-30 18:24:46,320 - INFO - Ign:15 http://archive.ubuntu.com/ubuntu jammy-updates/restricted amd64 Packages
+2025-06-30 18:24:46,320 - INFO - Ign:16 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 Packages
+2025-06-30 18:24:46,320 - INFO - Ign:17 http://archive.ubuntu.com/ubuntu jammy-backports/main amd64 Packages
+2025-06-30 18:24:46,320 - INFO - Ign:18 http://archive.ubuntu.com/ubuntu jammy-backports/universe amd64 Packages
+2025-06-30 18:24:46,324 - INFO - Ign:11 http://archive.ubuntu.com/ubuntu jammy/universe amd64 Packages
+2025-06-30 18:24:46,324 - INFO - Ign:13 http://archive.ubuntu.com/ubuntu jammy-updates/universe amd64 Packages
+2025-06-30 18:24:46,324 - INFO - Ign:14 http://archive.ubuntu.com/ubuntu jammy-updates/multiverse amd64 Packages
+2025-06-30 18:24:46,324 - INFO - Ign:15 http://archive.ubuntu.com/ubuntu jammy-updates/restricted amd64 Packages
+2025-06-30 18:24:46,324 - INFO - Ign:16 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 Packages
+2025-06-30 18:24:46,324 - INFO - Ign:17 http://archive.ubuntu.com/ubuntu jammy-backports/main amd64 Packages
+2025-06-30 18:24:46,324 - INFO - Ign:18 http://archive.ubuntu.com/ubuntu jammy-backports/universe amd64 Packages
+2025-06-30 18:24:46,325 - INFO - Ign:11 http://archive.ubuntu.com/ubuntu jammy/universe amd64 Packages
+2025-06-30 18:24:46,325 - INFO - Ign:12 http://security.ubuntu.com/ubuntu jammy-security/main amd64 Packages
+2025-06-30 18:24:51,553 - INFO - Ign:13 http://archive.ubuntu.com/ubuntu jammy-updates/universe amd64 Packages
+2025-06-30 18:24:57,203 - INFO - Ign:14 http://archive.ubuntu.com/ubuntu jammy-updates/multiverse amd64 Packages
+2025-06-30 18:25:01,364 - INFO - Ign:15 http://archive.ubuntu.com/ubuntu jammy-updates/restricted amd64 Packages
+2025-06-30 18:25:05,319 - INFO - Ign:16 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 Packages
+2025-06-30 18:25:09,951 - INFO - Ign:17 http://archive.ubuntu.com/ubuntu jammy-backports/main amd64 Packages
+2025-06-30 18:25:14,363 - INFO - Ign:18 http://archive.ubuntu.com/ubuntu jammy-backports/universe amd64 Packages
+2025-06-30 18:25:17,554 - INFO - Ign:11 http://archive.ubuntu.com/ubuntu jammy/universe amd64 Packages
+2025-06-30 18:25:17,582 - INFO - Ign:12 http://security.ubuntu.com/ubuntu jammy-security/main amd64 Packages
+2025-06-30 18:25:17,582 - INFO - Ign:11 http://archive.ubuntu.com/ubuntu jammy/universe amd64 Packages
+2025-06-30 18:25:17,582 - INFO - Err:12 http://security.ubuntu.com/ubuntu jammy-security/main amd64 Packages
+2025-06-30 18:25:17,583 - INFO -   Connection timed out [IP: 185.125.190.83 80]
+2025-06-30 18:25:17,583 - INFO - Ign:11 http://archive.ubuntu.com/ubuntu jammy/universe amd64 Packages
+2025-06-30 18:25:17,583 - INFO - Ign:12 http://security.ubuntu.com/ubuntu jammy-security/main amd64 Packages
+2025-06-30 18:25:17,583 - INFO - Ign:11 http://archive.ubuntu.com/ubuntu jammy/universe amd64 Packages
+2025-06-30 18:25:17,583 - INFO - Err:12 http://security.ubuntu.com/ubuntu jammy-security/main amd64 Packages
+2025-06-30 18:25:17,583 - INFO -   Connection timed out [IP: 185.125.190.83 80]
+2025-06-30 18:25:17,583 - INFO - Ign:12 http://security.ubuntu.com/ubuntu jammy-security/main amd64 Packages
+2025-06-30 18:25:17,583 - INFO - Ign:11 http://archive.ubuntu.com/ubuntu jammy/universe amd64 Packages
+2025-06-30 18:25:17,583 - INFO - Err:12 http://security.ubuntu.com/ubuntu jammy-security/main amd64 Packages
+2025-06-30 18:25:17,583 - INFO -   Connection timed out [IP: 185.125.190.83 80]
+2025-06-30 18:25:17,583 - INFO - Err:11 http://archive.ubuntu.com/ubuntu jammy/universe amd64 Packages
+2025-06-30 18:25:17,583 - INFO -   Connection timed out [IP: 91.189.91.81 80]
+2025-06-30 18:25:17,583 - INFO - Ign:13 http://archive.ubuntu.com/ubuntu jammy-updates/universe amd64 Packages
+2025-06-30 18:25:17,583 - INFO - Ign:14 http://archive.ubuntu.com/ubuntu jammy-updates/multiverse amd64 Packages
+2025-06-30 18:25:17,583 - INFO - Ign:15 http://archive.ubuntu.com/ubuntu jammy-updates/restricted amd64 Packages
+2025-06-30 18:25:17,583 - INFO - Ign:16 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 Packages
+2025-06-30 18:25:17,583 - INFO - Ign:17 http://archive.ubuntu.com/ubuntu jammy-backports/main amd64 Packages
+2025-06-30 18:25:17,583 - INFO - Ign:18 http://archive.ubuntu.com/ubuntu jammy-backports/universe amd64 Packages
+2025-06-30 18:25:17,583 - INFO - Ign:13 http://archive.ubuntu.com/ubuntu jammy-updates/universe amd64 Packages
+2025-06-30 18:25:17,583 - INFO - Ign:14 http://archive.ubuntu.com/ubuntu jammy-updates/multiverse amd64 Packages
+2025-06-30 18:25:17,585 - INFO - Ign:15 http://archive.ubuntu.com/ubuntu jammy-updates/restricted amd64 Packages
+2025-06-30 18:25:17,585 - INFO - Ign:16 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 Packages
+2025-06-30 18:25:17,585 - INFO - Ign:17 http://archive.ubuntu.com/ubuntu jammy-backports/main amd64 Packages
+2025-06-30 18:25:17,585 - INFO - Ign:18 http://archive.ubuntu.com/ubuntu jammy-backports/universe amd64 Packages
+2025-06-30 18:25:17,586 - INFO - Ign:13 http://archive.ubuntu.com/ubuntu jammy-updates/universe amd64 Packages
+2025-06-30 18:25:17,586 - INFO - Ign:14 http://archive.ubuntu.com/ubuntu jammy-updates/multiverse amd64 Packages
+2025-06-30 18:25:17,586 - INFO - Ign:15 http://archive.ubuntu.com/ubuntu jammy-updates/restricted amd64 Packages
+2025-06-30 18:25:17,586 - INFO - Ign:16 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 Packages
+2025-06-30 18:25:17,586 - INFO - Ign:17 http://archive.ubuntu.com/ubuntu jammy-backports/main amd64 Packages
+2025-06-30 18:25:17,586 - INFO - Ign:18 http://archive.ubuntu.com/ubuntu jammy-backports/universe amd64 Packages
+2025-06-30 18:25:17,586 - INFO - Ign:13 http://archive.ubuntu.com/ubuntu jammy-updates/universe amd64 Packages
+2025-06-30 18:25:17,586 - INFO - Ign:14 http://archive.ubuntu.com/ubuntu jammy-updates/multiverse amd64 Packages
+2025-06-30 18:25:17,586 - INFO - Ign:15 http://archive.ubuntu.com/ubuntu jammy-updates/restricted amd64 Packages
+2025-06-30 18:25:17,586 - INFO - Ign:16 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 Packages
+2025-06-30 18:25:17,586 - INFO - Ign:17 http://archive.ubuntu.com/ubuntu jammy-backports/main amd64 Packages
+2025-06-30 18:25:21,470 - INFO - Ign:18 http://archive.ubuntu.com/ubuntu jammy-backports/universe amd64 Packages
+2025-06-30 18:25:29,168 - INFO - Ign:13 http://archive.ubuntu.com/ubuntu jammy-updates/universe amd64 Packages
+2025-06-30 18:25:33,266 - INFO - Ign:14 http://archive.ubuntu.com/ubuntu jammy-updates/multiverse amd64 Packages
+2025-06-30 18:25:36,710 - INFO - Ign:15 http://archive.ubuntu.com/ubuntu jammy-updates/restricted amd64 Packages
+2025-06-30 18:25:43,136 - INFO - Ign:16 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 Packages
+2025-06-30 18:25:43,189 - INFO - Ign:17 http://archive.ubuntu.com/ubuntu jammy-backports/main amd64 Packages
+2025-06-30 18:25:43,190 - INFO - Ign:18 http://archive.ubuntu.com/ubuntu jammy-backports/universe amd64 Packages
+2025-06-30 18:25:43,190 - INFO - Err:13 http://archive.ubuntu.com/ubuntu jammy-updates/universe amd64 Packages
+2025-06-30 18:25:43,190 - INFO -   Could not resolve 'archive.ubuntu.com' [IP: 91.189.91.81 80]
+2025-06-30 18:25:43,190 - INFO - Err:14 http://archive.ubuntu.com/ubuntu jammy-updates/multiverse amd64 Packages
+2025-06-30 18:25:43,190 - INFO -   Could not resolve 'archive.ubuntu.com' [IP: 91.189.91.81 80]
+2025-06-30 18:25:43,190 - INFO - Err:15 http://archive.ubuntu.com/ubuntu jammy-updates/restricted amd64 Packages
+2025-06-30 18:25:43,190 - INFO -   Could not resolve 'archive.ubuntu.com' [IP: 91.189.91.81 80]
+2025-06-30 18:25:43,190 - INFO - Err:16 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 Packages
+2025-06-30 18:25:43,190 - INFO -   Could not resolve 'archive.ubuntu.com' [IP: 91.189.91.81 80]
+2025-06-30 18:25:43,194 - INFO - Err:17 http://archive.ubuntu.com/ubuntu jammy-backports/main amd64 Packages
+2025-06-30 18:25:43,194 - INFO -   Could not resolve 'archive.ubuntu.com' [IP: 91.189.91.81 80]
+2025-06-30 18:25:43,194 - INFO - Err:18 http://archive.ubuntu.com/ubuntu jammy-backports/universe amd64 Packages
+2025-06-30 18:25:43,194 - INFO -   Could not resolve 'archive.ubuntu.com' [IP: 91.189.91.81 80]
+2025-06-30 18:25:43,194 - INFO - Fetched 8765 kB in 2min 16s (64.5 kB/s)
+2025-06-30 18:25:43,194 - INFO - Reading package lists...
+2025-06-30 18:25:43,194 - INFO - Building dependency tree...
+2025-06-30 18:25:43,194 - INFO - Reading state information...
+2025-06-30 18:25:43,194 - INFO - All packages are up to date.
+2025-06-30 18:25:43,194 - INFO - W: Failed to fetch http://security.ubuntu.com/ubuntu/dists/jammy-security/main/binary-amd64/Packages  Connection timed out [IP: 185.125.190.83 80]
+2025-06-30 18:25:43,194 - INFO - W: Failed to fetch http://archive.ubuntu.com/ubuntu/dists/jammy/universe/binary-amd64/Packages  Connection timed out [IP: 91.189.91.81 80]
+2025-06-30 18:25:43,194 - INFO - W: Failed to fetch http://archive.ubuntu.com/ubuntu/dists/jammy-updates/universe/binary-amd64/Packages  Could not resolve 'archive.ubuntu.com' [IP: 91.189.91.81 80]
+2025-06-30 18:25:43,194 - INFO - W: Failed to fetch http://archive.ubuntu.com/ubuntu/dists/jammy-updates/multiverse/binary-amd64/Packages  Could not resolve 'archive.ubuntu.com' [IP: 91.189.91.81 80]
+2025-06-30 18:25:43,194 - INFO - W: Failed to fetch http://archive.ubuntu.com/ubuntu/dists/jammy-updates/restricted/binary-amd64/Packages  Could not resolve 'archive.ubuntu.com' [IP: 91.189.91.81 80]
+2025-06-30 18:25:43,195 - INFO - W: Failed to fetch http://archive.ubuntu.com/ubuntu/dists/jammy-updates/main/binary-amd64/Packages  Could not resolve 'archive.ubuntu.com' [IP: 91.189.91.81 80]
+2025-06-30 18:25:43,195 - INFO - W: Failed to fetch http://archive.ubuntu.com/ubuntu/dists/jammy-backports/main/binary-amd64/Packages  Could not resolve 'archive.ubuntu.com' [IP: 91.189.91.81 80]
+2025-06-30 18:25:43,195 - INFO - W: Failed to fetch http://archive.ubuntu.com/ubuntu/dists/jammy-backports/universe/binary-amd64/Packages  Could not resolve 'archive.ubuntu.com' [IP: 91.189.91.81 80]
+2025-06-30 18:25:43,195 - INFO - W: Some index files failed to download. They have been ignored, or old ones used instead.
+2025-06-30 18:25:43,223 - INFO - WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+2025-06-30 18:25:43,235 - INFO - Reading package lists...
+2025-06-30 18:25:43,236 - INFO - Building dependency tree...
+2025-06-30 18:25:43,236 - INFO - Reading state information...
+2025-06-30 18:25:43,236 - INFO - E: Unable to locate package git
+2025-06-30 18:25:43,236 - INFO - E: Unable to locate package build-essential
+2025-06-30 18:25:43,236 - INFO - E: Unable to locate package cmake
+2025-06-30 18:25:43,236 - INFO - E: Unable to locate package ninja-build
+2025-06-30 18:25:43,236 - INFO - E: Unable to locate package python3
+2025-06-30 18:26:44,123 - INFO -  ---> Removed intermediate container 51eda4d338d8
+2025-06-30 18:26:45,185 - ERROR - Error: The command '/bin/sh -c apt update &&     apt install -y     git     build-essential     cmake     ninja-build     python3     && rm -rf /var/lib/apt/lists/*' returned a non-zero code: 100
+2025-06-30 18:26:45,234 - ERROR - The command '/bin/sh -c apt update &&     apt install -y     git     build-essential     cmake     ninja-build     python3     && rm -rf /var/lib/apt/lists/*' returned a non-zero code: 100

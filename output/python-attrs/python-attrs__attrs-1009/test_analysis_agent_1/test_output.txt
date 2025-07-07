@@ -1,0 +1,23 @@
++ cd /testbed
++ git checkout 5ecc39749a98c7ec3fc63b8cbaa82de5eb17c173 tests/test_slots.py
++ git apply -v -
+Checking patch tests/test_slots.py...
+Applied patch tests/test_slots.py cleanly.
++ python -m pytest tests/test_slots.py
+============================= test session starts ==============================
+platform linux -- Python 3.9.17, pytest-8.4.1, pluggy-1.6.0
+rootdir: /testbed
+configfile: pyproject.toml
+plugins: hypothesis-6.91.0, mypy-plugins-3.2.0
+collected 33 items
+
+tests/test_slots.py ............s.s..................                    [100%]
+
+=========================== short test summary info ============================
+SKIPPED [1] tests/test_slots.py:481: can't break CodeType.replace() via monkeypatch
+SKIPPED [1] tests/test_slots.py:528: slots without weakref_slot should only work on PyPy
+======================== 31 passed, 2 skipped in 0.16s =========================
+OMNIGRIL_EXIT_CODE=0
++ rc=0
++ echo OMNIGRIL_EXIT_CODE=0
++ git checkout 5ecc39749a98c7ec3fc63b8cbaa82de5eb17c173 tests/test_slots.py

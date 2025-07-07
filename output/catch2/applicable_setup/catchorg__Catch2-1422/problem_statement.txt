@@ -1,0 +1,28 @@
+unregistered reporter is not considered a command line error
+## Description
+when `session.applyCommandLine()` is called with an unregistered reporter, the function simply returns 0 and the later call to `session.run()` just outputs a text: `No reporter registered with name: 'foo'`
+
+### Steps to reproduce
+    int main()
+    {
+      const char* argv[] = { "runner", "-r foo" };
+
+      Catch::Session session;
+
+      const int command_line_errors = session.applyCommandLine( std::size( argv ), const_cast< char** >( argv ) );
+
+      if ( command_line_errors == 0 )
+      {
+        session.run();
+      }
+      else
+      {
+        Catch::cerr() << "Error parsing following command line: " << *std::prev( std::end( argv ) ) << std::endl;
+      }
+    }
+
+I would expect the parser to recognize this as command line argument error.
+
+* Catch version: v2.3
+* Operating System: No Operation System; bare metal
+* Compiler+version: gcc version 7.3.1 20180622 (release) [ARM/embedded-7-branch revision 261907] (GNU Tools for Arm Embedded Processors 7-2018-q2-update) 

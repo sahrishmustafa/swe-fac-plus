@@ -1,0 +1,4 @@
+Allow cache_hash=True to be used when a custom __setstate__ is present
+This is not currently possible (as of the merge of #489 ) because when `cache_hash=True`, we solve #482 by adding a `__setstate__`  to all classes which clears the cached hash code.
+
+This is a somewhat unusual combination of needs, so I imagine this is very low priority. This issue is just here as a marker for anyone who runs into this problem in the future.

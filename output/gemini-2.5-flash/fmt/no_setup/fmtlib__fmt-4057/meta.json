@@ -1,0 +1,22 @@
+{
+    "task_id": "fmtlib__fmt-4057",
+    "setup_info": {
+        "repo_path": "github/_cache/fmtlib__fmt-4057_2025-07-04_18-38-48",
+        "repo_cache_path": "github/_cache/fmtlib/fmt_cache"
+    },
+    "task_info": {
+        "repo": "fmtlib/fmt",
+        "pull_number": 4057,
+        "instance_id": "fmtlib__fmt-4057",
+        "issue_numbers": [
+            "4053"
+        ],
+        "base_commit": "ccea338070c795fd966a4dc08b19268b6fbad5ef",
+        "patch": "diff --git a/include/fmt/ranges.h b/include/fmt/ranges.h\n--- a/include/fmt/ranges.h\n+++ b/include/fmt/ranges.h\n@@ -490,7 +490,7 @@ struct range_formatter<\n     auto out = ctx.out();\n     auto it = detail::range_begin(range);\n     auto end = detail::range_end(range);\n-    if (is_debug) return write_debug_string(out, it, end);\n+    if (is_debug) return write_debug_string(out, std::move(it), end);\n \n     out = detail::copy<Char>(opening_bracket_, out);\n     int i = 0;\n",
+        "test_patch": "diff --git a/test/ranges-test.cc b/test/ranges-test.cc\n--- a/test/ranges-test.cc\n+++ b/test/ranges-test.cc\n@@ -752,17 +752,17 @@ TEST(ranges_test, std_istream_iterator_join) {\n   EXPECT_EQ(\"1, 2, 3, 4, 5\", fmt::format(\"{}\", fmt::join(first, last, \", \")));\n }\n \n-TEST(ranges_test, movable_only_istream_iter_join) {\n-  // Mirrors C++20 std::ranges::basic_istream_view::iterator.\n-  struct noncopyable_istream_iterator : std::istream_iterator<int> {\n-    explicit noncopyable_istream_iterator(std::istringstream& iss)\n-        : std::istream_iterator<int>{iss} {}\n-    noncopyable_istream_iterator(const noncopyable_istream_iterator&) = delete;\n-    noncopyable_istream_iterator(noncopyable_istream_iterator&&) = default;\n-  };\n-  static_assert(\n-      !std::is_copy_constructible<noncopyable_istream_iterator>::value, \"\");\n+// Mirrors C++20 std::ranges::basic_istream_view::iterator.\n+struct noncopyable_istream_iterator : std::istream_iterator<int> {\n+  using base = std::istream_iterator<int>;\n+  explicit noncopyable_istream_iterator(std::istringstream& iss) : base{iss} {}\n+  noncopyable_istream_iterator(const noncopyable_istream_iterator&) = delete;\n+  noncopyable_istream_iterator(noncopyable_istream_iterator&&) = default;\n+};\n+static_assert(!std::is_copy_constructible<noncopyable_istream_iterator>::value,\n+              \"\");\n \n+TEST(ranges_test, movable_only_istream_iter_join) {\n   auto&& iss = std::istringstream(\"1 2 3 4 5\");\n   auto first = noncopyable_istream_iterator(iss);\n   auto last = std::istream_iterator<int>();\n@@ -770,6 +770,18 @@ TEST(ranges_test, movable_only_istream_iter_join) {\n             fmt::format(\"{}\", fmt::join(std::move(first), last, \", \")));\n }\n \n+struct movable_iter_range {\n+  std::istringstream iss{\"1 2 3 4 5\"};\n+  noncopyable_istream_iterator begin() {\n+    return noncopyable_istream_iterator{iss};\n+  }\n+  std::istream_iterator<int> end() { return {}; }\n+};\n+\n+TEST(ranges_test, movable_only_istream_iter_join2) {\n+  EXPECT_EQ(\"[1, 2, 3, 4, 5]\", fmt::format(\"{}\", movable_iter_range{}));\n+}\n+\n struct not_range {\n   void begin() const {}\n   void end() const {}\n",
+        "problem_statement": "trunk doesn't work with `std::generator`\n```cpp\r\n#include <fmt/ranges.h>\r\n#include <sstream>\r\n#include <generator>\r\n\r\nstd::generator<std::string&> istream_gen() {\r\n  auto words = std::istringstream{\"today is yesterday's tomorrow\"};\r\n  std::string word;\r\n  while (words >> word)\r\n    co_yield word;\r\n}\r\n\r\nint main() {\r\n  fmt::print(\"{}\\n\", istream_gen());\r\n}\r\n```\r\n\r\nhttps://godbolt.org/z/s7sGrGvzd\n",
+        "hints_text": "Looks like move is missing somewhere.",
+        "created_at": "2024-07-07T23:07:29Z",
+        "version": "11.0"
+    }
+}

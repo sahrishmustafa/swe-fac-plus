@@ -1,0 +1,7 @@
+{
+  "is_finish": false,
+  "guidance_for_write_dockerfile_agent": "",
+  "guidance_for_write_eval_script_agent": "The test `TestAssoc::test_unknown` in `tests/test_funcs.py` failed with the message \"Failed: DID NOT WARN. No warnings of type (<class 'DeprecationWarning'>, <class 'PendingDeprecationWarning'>, <class 'FutureWarning'>) were emitted.\" This indicates that `pytest.deprecated_call()` did not capture the expected `DeprecationWarning` from the `assoc` function. Python by default suppresses `DeprecationWarning`s, preventing them from being captured by `pytest.deprecated_call()` unless explicitly enabled. To resolve this, you need to configure pytest to show these warnings.\n\nModify the test execution command in your eval script to pass `-W default` to `pytest` via `tox`. This will set the default warning filter, making deprecation warnings visible.\n\nChange the line:\n`python -Im tox run -r -f py311 -- tests/test_funcs.py`\n\nTo:\n`python -Im tox run -r -f py311 -- -W default tests/test_funcs.py`",
+  "guidance_for_context_retrieval_agent": "",
+  "build_image_status": true
+}

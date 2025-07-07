@@ -1,0 +1,22 @@
+{
+    "task_id": "catchorg__Catch2-1608",
+    "setup_info": {
+        "repo_path": "testbed/catchorg__Catch2-1608_2025-06-26_18-55-36",
+        "repo_cache_path": "testbed/catchorg/Catch2_cache"
+    },
+    "task_info": {
+        "repo": "catchorg/Catch2",
+        "pull_number": 1608,
+        "instance_id": "catchorg__Catch2-1608",
+        "issue_numbers": [
+            "1607"
+        ],
+        "base_commit": "979bbf03bb00bc55ca09783791b5091a2247df68",
+        "patch": "diff --git a/include/internal/catch_message.cpp b/include/internal/catch_message.cpp\n--- a/include/internal/catch_message.cpp\n+++ b/include/internal/catch_message.cpp\n@@ -9,6 +9,7 @@\n #include \"catch_message.h\"\n #include \"catch_interfaces_capture.h\"\n #include \"catch_uncaught_exceptions.h\"\n+#include \"catch_enforce.h\"\n \n #include <cassert>\n #include <stack>\n@@ -76,6 +77,15 @@ namespace Catch {\n             }\n             return names.substr(start, end - start + 1);\n         };\n+        auto skipq = [&] (size_t start, char quote) {\n+            for (auto i = start + 1; i < names.size() ; ++i) {\n+                if (names[i] == quote)\n+                    return i;\n+                if (names[i] == '\\\\')\n+                    ++i;\n+            }\n+            CATCH_INTERNAL_ERROR(\"CAPTURE parsing encountered unmatched parentheses\");\n+        };\n \n         size_t start = 0;\n         std::stack<char> openings;\n@@ -96,6 +106,10 @@ namespace Catch {\n //           case '>':\n                 openings.pop();\n                 break;\n+            case '\"':\n+            case '\\'':\n+                pos = skipq(pos, c);\n+                break;\n             case ',':\n                 if (start != pos && openings.size() == 0) {\n                     m_messages.emplace_back(macroName, lineInfo, resultType);\n",
+        "test_patch": "diff --git a/projects/SelfTest/UsageTests/Message.tests.cpp b/projects/SelfTest/UsageTests/Message.tests.cpp\n--- a/projects/SelfTest/UsageTests/Message.tests.cpp\n+++ b/projects/SelfTest/UsageTests/Message.tests.cpp\n@@ -251,6 +251,13 @@ TEST_CASE(\"CAPTURE can deal with complex expressions involving commas\", \"[messag\n     SUCCEED();\n }\n \n+TEST_CASE(\"CAPTURE parses string and character constants\", \"[messages][capture]\") {\n+    CAPTURE((\"comma, in string\", \"escaped, \\\", \"), \"single quote in string,',\", \"some escapes, \\\\,\\\\\\\\\");\n+    CAPTURE(\"some, ), unmatched, } prenheses {[<\");\n+    CAPTURE('\"', '\\'', ',', '}', ')', '(', '{');\n+    SUCCEED();\n+}\n+\n #ifdef __clang__\n #pragma clang diagnostic pop\n #endif\n",
+        "problem_statement": "CAPTURE(\"text, with comma\") fails\n**Describe the bug**\r\nWhen string containing comma is passed to CAPTURE and test succeeds, the program will fail assertion \r\n`Capturer::~Capturer() : assert( m_captured == m_messages.size() );`\r\n\r\n**Expected behavior**\r\nDocumenting this behavior is probably enough. CAPTURE((\"test, with comma\")) works as expected. \r\n\r\n**Reproduction steps**\r\n```\r\nTEST_CASE(\"catch\") {\r\n  CAPTURE(\"test, with comma\");\r\n  CHECK(false);\r\n  CAPTURE(\"test, with comma\");\r\n  CHECK(true);\r\n}\r\n```\r\nproduces:\r\n```\r\ntest/test_suite.cpp:35: FAILED:\r\n  CHECK( false )\r\nwith message:\r\n  \"test := \"test, with comma\"\r\n\r\ntest_suite: test/catch.hpp:9638: Catch::Capturer::~Capturer(): Assertion `m_captured == m_messages.size()' failed.\r\n```\r\n**Platform information:**\r\n<!-- Fill in any extra information that might be important for your issue. -->\r\n - OS: **Debian stretch**\r\n - Compiler+version: **gcc (Debian 6.3.0-18+deb9u1) 6.3.0 20170516**\r\n - Catch version: **Catch v2.7.0**\r\n\r\n\r\n**Additional context**\r\nCapturer::Capturer() does not expect quotation in names. It should be quite easy to fix (just add `bool isquoted` into parsing algorithm.\r\n\r\nBTW: Capturing string is quite useful when capturing __VA_ARGS__ in macro ... \r\n\n",
+        "hints_text": "",
+        "created_at": "2019-04-24T14:13:38Z",
+        "version": "2.7"
+    }
+}

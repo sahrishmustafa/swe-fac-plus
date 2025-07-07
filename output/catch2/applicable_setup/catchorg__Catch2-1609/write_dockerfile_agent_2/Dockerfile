@@ -1,0 +1,39 @@
+# Base image specification. Defines the foundation OS and architecture for the container
+FROM --platform=linux/x86_64 ubuntu:20.04
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Etc/UTC
+
+# System dependencies installation. Installs essential tools and libraries required for development and runtime
+RUN apt update && apt install -y \
+    git \
+    build-essential \
+    cmake \
+    python3 \
+    python3-pip \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set default workdir to /testbed/ for cloning the repository
+WORKDIR /testbed/
+
+# Target Project setup. Clones source code, checkouts to the target version
+RUN git clone https://github.com/catchorg/Catch2.git . \
+    && git reset --hard bd703dd74be7fd2413eb0c01662a491bcebea430 \
+    && git remote remove origin
+
+# Run the pre-build step: generate the single header file
+RUN python3 scripts/generateSingleHeader.py
+
+# Create a build directory and perform the out-of-source build
+RUN mkdir build
+WORKDIR /testbed/build
+
+# Configure Catch2 with CMake, enabling testing and specifying C++17 standard
+RUN cmake .. \
+    -DCMAKE_BUILD_TYPE=Debug \
+    -DCATCH_BUILD_TESTING=ON \
+    -DBUILD_TESTING=ON \
+    -DCMAKE_CXX_STANDARD=17 \
+    -DCMAKE_CXX_STANDARD_REQUIRED=ON
+
+# Compile the project (this will also build the self-tests)
+RUN make -j$(nproc)

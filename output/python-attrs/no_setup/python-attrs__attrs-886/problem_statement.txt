@@ -1,0 +1,12 @@
+Clarification - Converters vs on_setattr / Convert automatically when setting 
+attrs version: 21.2.0
+
+Using the documentation [on Converters](https://www.attrs.org/en/stable/init.html#converters) it was not immediately clear that converters only work on instantiation of a new attrs-enhanced class. (Or I totally missed something.) 
+
+1. Is this the intended function? That the type conversion only happens on class instantiation and not when setting an attribute? (e.g. ```o.x = "2" ``` in the example in the documentation)
+    * If yes: Perhaps the documentation could be clarified to explain this and also provide a clear example of using ```on_setattr``` to also run the converter
+    * If no: Perhaps there's a bug because setting an attribute when a converter is specified does not work
+
+And further: from a logical design standpoint, it seems that if you're specifying a converter to be run at class instantiation [which means *all* values on *new* instances are run through that converter....] what circumstances would you *not* want that to run when setting attributes? Part of the purpose of converters is to ensure consistent typing and normalization (from the documentation: _"Finally, sometimes you may want to normalize the values coming in. For that attrs comes with converters."_). Given that, it seems strange that you could break that normalization by simply setting an attribute.
+
+TL;DR: Converters only run on class instantiation. Shouldn't they be run when setting an attribute as well?

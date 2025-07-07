@@ -1,0 +1,62 @@
+init=False attributes which depend on keyword-only attributes are impossible
+The initialization of an `init=False` attribute cannot (straightforwardly) depend on a `kw_only=True` attribute because there is no legal ordering of these two attributes.
+
+```python
+from attr import attrs, attrib
+
+
+@attrs
+class BrokenInitFirst:
+    _to_init: str  = attrib(init=False)
+    kwarg: str = attrib(kw_only=True)
+
+    @_to_init.default
+    def _init_to_init(self) -> str:
+        return self.kwarg + "foo"
+
+
+BrokenInitFirst(kwarg="meep")
+```
+
+produces:
+
+```python
+AttributeError: 'BrokenInitFirst' object has no attribute 'kwarg'
+```
+
+while
+
+```python
+from attr import attrs, attrib
+
+
+@attrs
+class BrokenKwArgFirst:
+    kwarg: str = attrib(kw_only=True)
+    _to_init: str = attrib(init=False)
+
+    @_to_init.default
+    def _init_to_init(self) -> str:
+        return self.kwarg + "foo"
+
+
+BrokenKwArgFirst(kwarg="meep")
+```
+
+produces
+
+```
+  File "/Users/gabbard/anaconda3/envs/cwc-event/lib/python3.6/site-packages/attr/_make.py", line 904, in attrs
+    return wrap(maybe_cls)
+  File "/Users/gabbard/anaconda3/envs/cwc-event/lib/python3.6/site-packages/attr/_make.py", line 855, in wrap
+    cache_hash,
+  File "/Users/gabbard/anaconda3/envs/cwc-event/lib/python3.6/site-packages/attr/_make.py", line 471, in __init__
+    cls, these, auto_attribs, kw_only
+  File "/Users/gabbard/anaconda3/envs/cwc-event/lib/python3.6/site-packages/attr/_make.py", line 416, in _transform_attrs
+    a=a
+ValueError: Non keyword-only attributes are not allowed after a keyword-only attribute.  Attribute in question: Attribute(name='_to_init', default=Factory(factory=<function BrokenKwArgFirst._init_to_init at 0x10830df28>, takes_self=True), validator=None, repr=True, cmp=True, hash=None, init=False, metadata=mappingproxy({}), type=<class 'str'>, converter=None, kw_only=False)
+```
+
+These examples can also be found in https://github.com/rgabbard/attrs-kwonly-init-bug
+
+This is related to https://github.com/python-attrs/attrs/issues/448 . Assuming there is some sort of internal ordering of attributes which also controls their initialization order, I think the solution here is to sort `kw_only=True` attributes after `kw_only=False`, and `init=False` last of all.

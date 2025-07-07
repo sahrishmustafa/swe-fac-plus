@@ -1,0 +1,22 @@
+{
+    "task_id": "fmtlib__fmt-2158",
+    "setup_info": {
+        "repo_path": "github/_cache/fmtlib__fmt-2158_2025-07-04_18-45-21",
+        "repo_cache_path": "github/_cache/fmtlib/fmt_cache"
+    },
+    "task_info": {
+        "repo": "fmtlib/fmt",
+        "pull_number": 2158,
+        "instance_id": "fmtlib__fmt-2158",
+        "issue_numbers": [
+            "2156"
+        ],
+        "base_commit": "835b910e7d758efdfdce9f23df1b190deb3373db",
+        "patch": "diff --git a/include/fmt/format.h b/include/fmt/format.h\n--- a/include/fmt/format.h\n+++ b/include/fmt/format.h\n@@ -469,15 +469,17 @@ template <typename OutputIt> class truncating_iterator_base {\n  protected:\n   OutputIt out_;\n   size_t limit_;\n-  size_t count_;\n+  size_t count_ = 0;\n \n+  truncating_iterator_base() : out_(), limit_(0) {}\n+  \n   truncating_iterator_base(OutputIt out, size_t limit)\n-      : out_(out), limit_(limit), count_(0) {}\n+      : out_(out), limit_(limit) {}\n \n  public:\n   using iterator_category = std::output_iterator_tag;\n   using value_type = typename std::iterator_traits<OutputIt>::value_type;\n-  using difference_type = void;\n+  using difference_type = std::ptrdiff_t;\n   using pointer = void;\n   using reference = void;\n   using _Unchecked_type =\n@@ -502,6 +504,8 @@ class truncating_iterator<OutputIt, std::false_type>\n  public:\n   using value_type = typename truncating_iterator_base<OutputIt>::value_type;\n \n+  truncating_iterator() = default;\n+  \n   truncating_iterator(OutputIt out, size_t limit)\n       : truncating_iterator_base<OutputIt>(out, limit) {}\n \n@@ -525,6 +529,8 @@ template <typename OutputIt>\n class truncating_iterator<OutputIt, std::true_type>\n     : public truncating_iterator_base<OutputIt> {\n  public:\n+  truncating_iterator() = default;\n+\n   truncating_iterator(OutputIt out, size_t limit)\n       : truncating_iterator_base<OutputIt>(out, limit) {}\n \n",
+        "test_patch": "diff --git a/test/format-test.cc b/test/format-test.cc\n--- a/test/format-test.cc\n+++ b/test/format-test.cc\n@@ -12,9 +12,11 @@\n #include <climits>\n #include <cmath>\n #include <cstring>\n+#include <iterator>\n #include <list>\n #include <memory>\n #include <string>\n+#include <type_traits>\n \n // Check if fmt/format.h compiles with windows.h included before it.\n #ifdef _WIN32\n@@ -157,6 +159,24 @@ TEST(IteratorTest, TruncatingIterator) {\n   EXPECT_EQ(it.base(), p + 1);\n }\n \n+\n+TEST(IteratorTest, TruncatingIteratorDefaultConstruct) {\n+  static_assert(\n+      std::is_default_constructible<fmt::detail::truncating_iterator<char*>>::value,\n+      \"\");\n+  \n+  fmt::detail::truncating_iterator<char*> it;\n+  EXPECT_EQ(nullptr, it.base());\n+  EXPECT_EQ(std::size_t{0}, it.count());\n+}\n+\n+#ifdef __cpp_lib_ranges\n+TEST(IteratorTest, TruncatingIteratorOutputIterator) {\n+  static_assert(std::output_iterator<fmt::detail::truncating_iterator<char*>,\n+      char>);\n+}\n+#endif\n+\n TEST(IteratorTest, TruncatingBackInserter) {\n   std::string buffer;\n   auto bi = std::back_inserter(buffer);\n",
+        "problem_statement": "truncating_iterator is no std::output_iterator\nMy formatter for a custom type has C++20 delegates to a function that has a requirement `template <std::output_iterator<char> It>`. Unfortunately, that one fails when used within `fmt::format_to_n`, because the iterator found in `ctx.out()` is of type `fmt::v6::internal::truncating_iterator<char*, std::false_type>`. That one fails to be a `std::output_iterator`, apparently because it is missing default construction. Potentially, there are other requirements missing.\r\n\r\nIs there fundamentally preventing that object from being an output iterator, or has the requirement simply not come up before?\n",
+        "hints_text": "> Is there fundamentally preventing that object from being an output iterator, or has the requirement simply not come up before?\r\n\r\nIt hasn't come up before. A PR to make `truncating_iterator` satisfy `output_iterator` requirements is welcome.\r\n\r\n",
+        "created_at": "2021-03-01T02:25:46Z",
+        "version": "7.1"
+    }
+}

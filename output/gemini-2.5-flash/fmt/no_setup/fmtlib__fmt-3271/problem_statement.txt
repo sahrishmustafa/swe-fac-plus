@@ -1,0 +1,32 @@
+Support strftime `-` extension
+<!--
+Please make sure that the problem reproduces on the current master before
+submitting an issue.
+If possible please provide a repro on Compiler Explorer:
+https://godbolt.org/z/fxccbh53W.
+-->
+With `strftime` a single digit 12-hour hour can be formatted to not have a leading zero using `%-I`. This seems to not be possible with `fmt::format`.
+```
+#include <iostream>
+#include <fmt/chrono.h>
+
+int main() {
+    std::cout << "%-I:%M using strftime:" << std::endl;
+    std::time_t t_ = std::time(nullptr);
+    char mbstr[100];
+    if (std::strftime(mbstr, sizeof(mbstr), "%-I:%M", std::localtime(&t_))) {
+        std::cout << mbstr << std::endl;
+    }
+
+    std::cout << "%-I:%M using fmt::format:" << std::endl;
+    const auto t = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
+    const auto time_str = fmt::format("{:%-I:%M}", fmt::localtime(t));
+    // terminate called after throwing an instance of 'fmt::v8::format_error'
+    //   what():  invalid format
+    std::cout << time_str << std::endl;
+
+    return 0;
+}
+```
+
+There are probably more instances where `strftime` parity is not quite met. It would great if it was, or if any user error could be pointed out :)

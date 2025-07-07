@@ -1,0 +1,7 @@
+{
+  "is_finish": false,
+  "guidance_for_write_dockerfile_agent": "",
+  "guidance_for_write_eval_script_agent": "The test execution failed because the project failed to build. The logs show C++ compilation errors related to `constexpr` and array sizing within Catch2's `FatalConditionHandler`, specifically involving `sysconf` and `MINSIGSTKSZ` (`/testbed/single_include/catch2/catch.hpp:8382`, `/testbed/include/internal/catch_fatal_condition.cpp:100`). This is a known compatibility issue between Catch2 v2.5.0 and more modern GCC compilers (like GCC 11.4.0 on Ubuntu 22.04), where `MINSIGSTKSZ` might not be treated as a compile-time constant. To fix this, add the CMake definition `-DCATCH_CONFIG_NO_POSIX_SIGNALS=ON` to disable Catch2's POSIX signal handling, which causes this specific compilation error. This flag should be added to the `cmake` configuration command.",
+  "guidance_for_context_retrieval_agent": "",
+  "build_image_status": true
+}

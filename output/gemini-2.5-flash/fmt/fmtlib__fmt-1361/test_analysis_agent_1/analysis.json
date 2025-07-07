@@ -1,0 +1,7 @@
+{
+  "is_finish": false,
+  "guidance_for_write_dockerfile_agent": "The Dockerfile failed to build because several specified compiler packages (g++-8, g++-6, clang-6.0, clang-4.0) are not available in the default Ubuntu 22.04 repositories. Ubuntu 22.04 typically installs g++-11 and newer clang versions as defaults. \n\nTo fix this:\n1. In the `RUN apt install` command, remove `g++-8`, `g++-6`, `clang-6.0`, and `clang-4.0`.\n2. The `build-essential` package will install the default `g++` (which should be g++-11 on Ubuntu 22.04) and related tools. This is sufficient for compiling.\n3. In the `cmake` command, change `CXX=g++-8` to `CXX=g++` to use the default C++ compiler installed by `build-essential`.\n\nRevised `apt install` line suggestion:\nRUN apt update && apt install -y \\\n    git \\\n    cmake \\\n    build-essential \\\n    curl \\\n    python3 \\\n    && rm -rf /var/lib/apt/lists/*\n\nRevised `cmake` line suggestion:\nCXX=g++ cmake \\\n        -DFMT_TEST=ON \\\n        -DFMT_PEDANTIC=ON \\\n        -DFMT_WERROR=ON \\\n        -DCMAKE_BUILD_TYPE=Release \\\n        -DCMAKE_CXX_STANDARD=17 \\\n        ..",
+  "guidance_for_write_eval_script_agent": "",
+  "guidance_for_context_retrieval_agent": "",
+  "build_image_status": false
+}

@@ -1,0 +1,24 @@
++ cd /testbed
++ git checkout 835b910e7d758efdfdce9f23df1b190deb3373db test/format-test.cc
+Updated 0 paths from e6b8dfa9
++ git apply -v -
+<stdin>:25: trailing whitespace.
+  
+Checking patch test/format-test.cc...
+Applied patch test/format-test.cc cleanly.
+warning: 1 line adds whitespace errors.
++ cd build
++ ctest --output-on-failure -R format-test
+Test project /testbed/build
+    Start 6: format-test
+1/1 Test #6: format-test ......................   Passed    0.01 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   0.01 sec
+OMNIGRIL_EXIT_CODE=0
++ rc=0
++ echo OMNIGRIL_EXIT_CODE=0
++ cd /testbed
++ git checkout 835b910e7d758efdfdce9f23df1b190deb3373db test/format-test.cc
+Updated 1 path from e6b8dfa9

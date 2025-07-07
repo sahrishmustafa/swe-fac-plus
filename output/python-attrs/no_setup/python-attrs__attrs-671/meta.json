@@ -1,0 +1,23 @@
+{
+    "task_id": "python-attrs__attrs-671",
+    "setup_info": {
+        "repo_path": "testbed/python-attrs__attrs-671_2025-07-03_17-42-35",
+        "repo_cache_path": "testbed/python-attrs/attrs_cache"
+    },
+    "task_info": {
+        "repo": "python-attrs/attrs",
+        "pull_number": 671,
+        "instance_id": "python-attrs__attrs-671",
+        "issue_numbers": [
+            "670",
+            "670"
+        ],
+        "base_commit": "1a29941d5cf74ca585780495cb6c17fd013ec861",
+        "patch": "diff --git a/src/attr/_next_gen.py b/src/attr/_next_gen.py\n--- a/src/attr/_next_gen.py\n+++ b/src/attr/_next_gen.py\n@@ -28,7 +28,7 @@ def define(\n     kw_only=False,\n     cache_hash=False,\n     auto_exc=True,\n-    eq=True,\n+    eq=None,\n     order=False,\n     auto_detect=True,\n     getstate_setstate=None,\n",
+        "test_patch": "diff --git a/tests/test_next_gen.py b/tests/test_next_gen.py\n--- a/tests/test_next_gen.py\n+++ b/tests/test_next_gen.py\n@@ -133,3 +133,18 @@ class F:\n \n         with pytest.raises(attr.exceptions.FrozenInstanceError):\n             f.x = 2\n+\n+    def test_auto_detect_eq(self):\n+        \"\"\"\n+        auto_detect=True works for eq.\n+\n+        Regression test for #670.\n+        \"\"\"\n+\n+        @attr.define\n+        class C:\n+            def __eq__(self, o):\n+                raise ValueError()\n+\n+        with pytest.raises(ValueError):\n+            C() == C()\n",
+        "problem_statement": "@attr.define fails to auto-detect __eq__\n`@attr.define` is failing to auto-detect `__eq__`. My understanding from the docs is that this _should_ work, but `ValueError` is not being raised unless I use `@attr.define(eq=False)`.\r\n\r\n```python\r\nimport attr\r\n\r\n@attr.define\r\nclass Treatment:\r\n    treatment: str\r\n\r\n    def __eq__(self, other):\r\n        raise ValueError\r\n\r\n\r\nassert Treatment(\"foo\") == \"foo\"\r\n```\r\n\r\n```console\r\n$ pytest t.py\r\n================================ test session starts ================================\r\nplatform darwin -- Python 3.8.5, pytest-6.0.1, py-1.8.2, pluggy-0.13.1\r\nrootdir: /Users/andy/tmp\r\nplugins: Faker-4.1.1\r\ncollected 0 items / 1 error                                                         \r\n\r\n====================================== ERRORS =======================================\r\n_______________________________ ERROR collecting t.py _______________________________\r\nt.py:11: in <module>\r\n    assert Treatment(\"foo\") == \"foo\"\r\nE   AssertionError: assert Treatment(treatment='foo') == 'foo'\r\nE    +  where Treatment(treatment='foo') = <class 't.Treatment'>('foo')\r\n============================== short test summary info ==============================\r\nERROR t.py - AssertionError: assert Treatment(treatment='foo') == 'foo'\r\n!!!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!!!!\r\n```\n@attr.define fails to auto-detect __eq__\n`@attr.define` is failing to auto-detect `__eq__`. My understanding from the docs is that this _should_ work, but `ValueError` is not being raised unless I use `@attr.define(eq=False)`.\r\n\r\n```python\r\nimport attr\r\n\r\n@attr.define\r\nclass Treatment:\r\n    treatment: str\r\n\r\n    def __eq__(self, other):\r\n        raise ValueError\r\n\r\n\r\nassert Treatment(\"foo\") == \"foo\"\r\n```\r\n\r\n```console\r\n$ pytest t.py\r\n================================ test session starts ================================\r\nplatform darwin -- Python 3.8.5, pytest-6.0.1, py-1.8.2, pluggy-0.13.1\r\nrootdir: /Users/andy/tmp\r\nplugins: Faker-4.1.1\r\ncollected 0 items / 1 error                                                         \r\n\r\n====================================== ERRORS =======================================\r\n_______________________________ ERROR collecting t.py _______________________________\r\nt.py:11: in <module>\r\n    assert Treatment(\"foo\") == \"foo\"\r\nE   AssertionError: assert Treatment(treatment='foo') == 'foo'\r\nE    +  where Treatment(treatment='foo') = <class 't.Treatment'>('foo')\r\n============================== short test summary info ==============================\r\nERROR t.py - AssertionError: assert Treatment(treatment='foo') == 'foo'\r\n!!!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!!!!\r\n```\n",
+        "hints_text": "\n",
+        "created_at": "2020-08-21T03:15:28Z",
+        "version": "20.1"
+    }
+}

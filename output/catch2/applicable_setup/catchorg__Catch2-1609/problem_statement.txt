@@ -1,0 +1,22 @@
+Type parametrised test case: support for non-type template parameters
+Right now, TEMPLATE_TEST_CASE and friends only seem to support type template parameters. Would be nice if we can also do something like this:
+
+    template<std::size_t,typename> struct Type;
+
+    TEMPLATE_TEST_CASE("", "", 1, 2, 3, 4) {
+       Type<TestType, float> test;
+    }
+
+ or even
+
+    TEMPLATE_TEST_CASE("", "", (1, int), (2, float), (3, int), (4, float)) {
+       Type<TestType> test;
+    }
+  
+P.S. Right now I am circumventing it like this:
+
+    TEMPLATE_TEST_CASE("", "", (Type<1, float), (Type<2, float), (Type<3, float), (Type<4, float)) {
+       TestType test;
+    }
+
+which does work

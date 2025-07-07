@@ -1,0 +1,28 @@
+# Base image specification. Defines the foundation OS and architecture for the container
+FROM --platform=linux/x86_64 ubuntu:22.04
+
+# Set environment variables for silent package installations and timezone
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Etc/UTC
+
+# System dependencies installation. Installs essential tools and libraries required for development and runtime
+RUN apt update && apt install -y \
+    git \
+    build-essential \
+    cmake \
+    python3 \
+    python3-pip \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python packages required for the build system (e.g., Conan)
+RUN pip3 install \
+    conan==1.10.2 \
+    conan-package-tools
+
+# Set default workdir to /testbed/ for cloning the repository
+WORKDIR /testbed/
+
+# Target Project setup. Clones source code and checkouts to the target version
+RUN git clone https://github.com/catchorg/Catch2.git . \
+    && git reset --hard 0387fb64ced7c3626b3164207c2d29aadb9ceaf2 \
+    && git remote remove origin

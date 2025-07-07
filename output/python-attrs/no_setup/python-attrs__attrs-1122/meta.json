@@ -1,0 +1,22 @@
+{
+    "task_id": "python-attrs__attrs-1122",
+    "setup_info": {
+        "repo_path": "testbed/python-attrs__attrs-1122_2025-07-03_17-42-35",
+        "repo_cache_path": "testbed/python-attrs/attrs_cache"
+    },
+    "task_info": {
+        "repo": "python-attrs/attrs",
+        "pull_number": 1122,
+        "instance_id": "python-attrs__attrs-1122",
+        "issue_numbers": [
+            "937"
+        ],
+        "base_commit": "5a7d978d8a7050961f62159c63fd2b7ad7b1c7d2",
+        "patch": "diff --git a/src/attr/validators.py b/src/attr/validators.py\n--- a/src/attr/validators.py\n+++ b/src/attr/validators.py\n@@ -270,15 +270,16 @@ def optional(validator):\n     which can be set to ``None`` in addition to satisfying the requirements of\n     the sub-validator.\n \n-    :param validator: A validator (or a list of validators) that is used for\n-        non-``None`` values.\n-    :type validator: callable or `list` of callables.\n+    :param Callable | tuple[Callable] | list[Callable] validator: A validator\n+        (or validators) that is used for non-``None`` values.\n \n     .. versionadded:: 15.1.0\n     .. versionchanged:: 17.1.0 *validator* can be a list of validators.\n+    .. versionchanged:: 23.1.0 *validator* can also be a tuple of validators.\n     \"\"\"\n-    if isinstance(validator, list):\n+    if isinstance(validator, (list, tuple)):\n         return _OptionalValidator(_AndValidator(validator))\n+\n     return _OptionalValidator(validator)\n \n \n",
+        "test_patch": "diff --git a/tests/test_validators.py b/tests/test_validators.py\n--- a/tests/test_validators.py\n+++ b/tests/test_validators.py\n@@ -384,7 +384,12 @@ def test_repr(self, ifoo):\n \n \n @pytest.mark.parametrize(\n-    \"validator\", [instance_of(int), [always_pass, instance_of(int)]]\n+    \"validator\",\n+    [\n+        instance_of(int),\n+        [always_pass, instance_of(int)],\n+        (always_pass, instance_of(int)),\n+    ],\n )\n class TestOptional:\n     \"\"\"\n@@ -437,6 +442,11 @@ def test_repr(self, validator):\n                 \"<optional validator for _AndValidator(_validators=[{func}, \"\n                 \"<instance_of validator for type <class 'int'>>]) or None>\"\n             ).format(func=repr(always_pass))\n+        elif isinstance(validator, tuple):\n+            repr_s = (\n+                \"<optional validator for _AndValidator(_validators=({func}, \"\n+                \"<instance_of validator for type <class 'int'>>)) or None>\"\n+            ).format(func=repr(always_pass))\n         else:\n             repr_s = (\n                 \"<optional validator for <instance_of validator for type \"\ndiff --git a/tests/typing_example.py b/tests/typing_example.py\n--- a/tests/typing_example.py\n+++ b/tests/typing_example.py\n@@ -236,6 +236,15 @@ class Validated:\n     p: Any = attr.ib(\n         validator=attr.validators.not_(attr.validators.in_(\"abc\"), msg=None)\n     )\n+    q: Any = attr.ib(\n+        validator=attrs.validators.optional(attrs.validators.instance_of(C))\n+    )\n+    r: Any = attr.ib(\n+        validator=attrs.validators.optional([attrs.validators.instance_of(C)])\n+    )\n+    s: Any = attr.ib(\n+        validator=attrs.validators.optional((attrs.validators.instance_of(C),))\n+    )\n \n \n @attr.define\n",
+        "problem_statement": "Optional validator should handle a tuple of validators\nSee relevant discussion in this discussion:\r\nhttps://github.com/python-attrs/attrs/pull/925#discussion_r827665676\n",
+        "hints_text": "",
+        "created_at": "2023-04-05T09:13:22Z",
+        "version": "22.2"
+    }
+}

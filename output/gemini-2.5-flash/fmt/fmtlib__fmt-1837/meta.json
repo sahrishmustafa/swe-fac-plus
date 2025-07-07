@@ -1,0 +1,22 @@
+{
+    "task_id": "fmtlib__fmt-1837",
+    "setup_info": {
+        "repo_path": "github/_cache/fmtlib__fmt-1837_2025-07-04_18-45-21",
+        "repo_cache_path": "github/_cache/fmtlib/fmt_cache"
+    },
+    "task_info": {
+        "repo": "fmtlib/fmt",
+        "pull_number": 1837,
+        "instance_id": "fmtlib__fmt-1837",
+        "issue_numbers": [
+            "1819"
+        ],
+        "base_commit": "c7e6d8afb06cec7b8244f963dc081daf7e70f7f6",
+        "patch": "diff --git a/include/fmt/chrono.h b/include/fmt/chrono.h\n--- a/include/fmt/chrono.h\n+++ b/include/fmt/chrono.h\n@@ -351,6 +351,11 @@ inline std::tm localtime(std::time_t time) {\n   return lt.tm_;\n }\n \n+inline std::tm localtime(\n+    std::chrono::time_point<std::chrono::system_clock> time_point) {\n+  return localtime(std::chrono::system_clock::to_time_t(time_point));\n+}\n+\n // Thread-safe replacement for std::gmtime\n inline std::tm gmtime(std::time_t time) {\n   struct dispatcher {\n@@ -387,6 +392,11 @@ inline std::tm gmtime(std::time_t time) {\n   return gt.tm_;\n }\n \n+inline std::tm gmtime(\n+    std::chrono::time_point<std::chrono::system_clock> time_point) {\n+  return gmtime(std::chrono::system_clock::to_time_t(time_point));\n+}\n+\n namespace detail {\n inline size_t strftime(char* str, size_t count, const char* format,\n                        const std::tm* time) {\n@@ -399,6 +409,17 @@ inline size_t strftime(wchar_t* str, size_t count, const wchar_t* format,\n }\n }  // namespace detail\n \n+template <typename Char>\n+struct formatter<std::chrono::time_point<std::chrono::system_clock>, Char>\n+    : formatter<std::tm, Char> {\n+  template <typename FormatContext>\n+  auto format(std::chrono::time_point<std::chrono::system_clock> val,\n+              FormatContext& ctx) -> decltype(ctx.out()) {\n+    std::tm time = localtime(val);\n+    return formatter<std::tm, Char>::format(time, ctx);\n+  }\n+};\n+\n template <typename Char> struct formatter<std::tm, Char> {\n   template <typename ParseContext>\n   auto parse(ParseContext& ctx) -> decltype(ctx.begin()) {\n",
+        "test_patch": "diff --git a/test/chrono-test.cc b/test/chrono-test.cc\n--- a/test/chrono-test.cc\n+++ b/test/chrono-test.cc\n@@ -95,6 +95,17 @@ TEST(TimeTest, GMTime) {\n   EXPECT_TRUE(EqualTime(tm, fmt::gmtime(t)));\n }\n \n+TEST(TimeTest, TimePoint) {\n+  std::chrono::system_clock::time_point point = std::chrono::system_clock::now();\n+\n+  std::time_t t = std::chrono::system_clock::to_time_t(point);\n+  std::tm tm = *std::localtime(&t);\n+  char strftime_output[256];\n+  std::strftime(strftime_output, sizeof(strftime_output), \"It is %Y-%m-%d %H:%M:%S\", &tm);\n+\n+  EXPECT_EQ(strftime_output, fmt::format(\"It is {:%Y-%m-%d %H:%M:%S}\", point));\n+}\n+\n #define EXPECT_TIME(spec, time, duration)                 \\\n   {                                                       \\\n     std::locale loc(\"ja_JP.utf8\");                        \\\n",
+        "problem_statement": "Feature Request: Print std::chrono::time_point\nHello. I love using your library. \r\n\r\nI saw [this](https://github.com/fmtlib/fmt/issues/985) issue but it was closed. Here is my usecase of time_point:\r\n```\r\nclass record {\r\nstd::chrono::time_point<std::chrono::system_clock> last_modified, ...;\r\nvoid init() {\r\n    last_modified = std::chrono::system_clock::now();\r\n}\r\nvoid expired() {\r\n    return ((std::chrono::system_clock::now() - last_modified) >  std::chrono::hours(8));\r\n}\r\n// Bunch of other operations that add/subtract duration to another time_point member.\r\n};\r\n```\r\nI want to implement a `print()` that displays the time_point members. Here is what I do now:\r\n```\r\nvoid print() {\r\n    const auto time_c = std::chrono::system_clock::to_time_t(last_modified);\r\n    std::cout << std::ctime(&time_c);\r\n}\r\n```\r\nI would like to use `fmt::print(\"{}\", last_modified)` and be done with it. Could you please consider my request? \n",
+        "hints_text": "Sure, a PR is welcome.",
+        "created_at": "2020-08-25T19:01:40Z",
+        "version": "7.0"
+    }
+}

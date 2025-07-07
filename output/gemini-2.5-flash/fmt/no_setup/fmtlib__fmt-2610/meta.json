@@ -1,0 +1,22 @@
+{
+    "task_id": "fmtlib__fmt-2610",
+    "setup_info": {
+        "repo_path": "github/_cache/fmtlib__fmt-2610_2025-07-04_18-38-48",
+        "repo_cache_path": "github/_cache/fmtlib/fmt_cache"
+    },
+    "task_info": {
+        "repo": "fmtlib/fmt",
+        "pull_number": 2610,
+        "instance_id": "fmtlib__fmt-2610",
+        "issue_numbers": [
+            "2609"
+        ],
+        "base_commit": "19cac63fe4b4d8fe6a4ced28de16a68659cf9035",
+        "patch": "diff --git a/include/fmt/core.h b/include/fmt/core.h\n--- a/include/fmt/core.h\n+++ b/include/fmt/core.h\n@@ -1372,8 +1372,11 @@ template <typename Context> struct arg_mapper {\n   // the C array overload.\n   template <\n       typename T,\n-      FMT_ENABLE_IF(std::is_convertible<const T&, const void*>::value &&\n-                    !std::is_convertible<const T&, const char_type*>::value)>\n+      FMT_ENABLE_IF(\n+          std::is_member_pointer<T>::value ||\n+          std::is_function<typename std::remove_pointer<T>::type>::value ||\n+          (std::is_convertible<const T&, const void*>::value &&\n+           !std::is_convertible<const T&, const char_type*>::value))>\n   FMT_CONSTEXPR auto map(const T&) -> unformattable_pointer {\n     return {};\n   }\n",
+        "test_patch": "diff --git a/test/compile-error-test/CMakeLists.txt b/test/compile-error-test/CMakeLists.txt\n--- a/test/compile-error-test/CMakeLists.txt\n+++ b/test/compile-error-test/CMakeLists.txt\n@@ -67,6 +67,12 @@ expect_compile_error(\"\n   fmt::format(\\\"{}\\\", S());\n \")\n \n+# Formatting a function\n+expect_compile_error(\"\n+  void (*f)();\n+  fmt::format(\\\"{}\\\", f);\n+\")\n+\n # Make sure that compiler features detected in the header\n # match the features detected in CMake.\n if (SUPPORTS_USER_DEFINED_LITERALS)\ndiff --git a/test/core-test.cc b/test/core-test.cc\n--- a/test/core-test.cc\n+++ b/test/core-test.cc\n@@ -770,6 +770,13 @@ TEST(core_test, is_formattable) {\n   static_assert(!fmt::is_formattable<unsigned char*, wchar_t>::value, \"\");\n   static_assert(!fmt::is_formattable<const signed char*, wchar_t>::value, \"\");\n   static_assert(!fmt::is_formattable<const unsigned char*, wchar_t>::value, \"\");\n+\n+  static_assert(!fmt::is_formattable<void (*)()>::value, \"\");\n+\n+  struct s;\n+\n+  static_assert(!fmt::is_formattable<int(s::*)>::value, \"\");\n+  static_assert(!fmt::is_formattable<int (s::*)()>::value, \"\");\n }\n \n TEST(core_test, format) { EXPECT_EQ(fmt::format(\"{}\", 42), \"42\"); }\n",
+        "problem_statement": "Formatting of function pointers should be disallowed\nExample:\r\n\r\n```c++\r\n#include <fmt/core.h>\r\n\r\nvoid f() {}\r\n\r\nint main() {\r\n    fmt::print(\"float  size is 4 bytes : {}\\n\", f);\r\n} \r\n```\r\n\r\nhttps://stackoverflow.com/questions/70069151/prevent-fmt-from-printing-function-pointers\n",
+        "hints_text": "",
+        "created_at": "2021-11-23T19:12:25Z",
+        "version": "8.0"
+    }
+}

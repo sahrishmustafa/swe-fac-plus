@@ -1,0 +1,15 @@
+It doesn't make sense that cmp and hash are set independently, does it?
+Right now, `cmp=` and `hash=` are treated as independent options, both in `attr.s()` and `attr.ib()`. This does't make much sense to me.
+
+If you do `attr.s(cmp=True, hash=False)` then you get a broken class that violates Python's invariant that objects which compare equal must hash equal (if they are hashable at all).
+
+If you do `attr.s(cmp=False, hash=True)` then you get a class with a really weird `hash` that has lots of collisions (`Foo(x=1)` and `Foo(x=1)` are different objects so they compare non-equal, but their hashes are the same.) Also, it is broken if the object is mutable, because the hash can change over time. ...and now that I think about it, objects that have `cmp=True` also have the same problem with mutability. Actually I guess all of my `attrs` classes are currently illegal, because the defaults are to generate illegal classes. I guess I should go fix that.
+
+Anyway, I think the only plausible configurations are:
+* `cmp=True`, `frozen=True`, `hash=True`
+* `cmp=True`, `frozen=True`, hash undefined (attrs doesn't have a nice way to do this right now I think?)
+* `cmp=False`, `hash=False` (use `object.__hash__`)
+* `cmp=False`, hash undefined
+
+And then for `attr.ib`, why are `cmp` and `hash` separate arguments? Wouldn't it make more sense to drop the `hash` argument, and just use the logic that if `attr.ib(cmp=True)` and we're generating a hash method at all, then we should include this attrib?
+

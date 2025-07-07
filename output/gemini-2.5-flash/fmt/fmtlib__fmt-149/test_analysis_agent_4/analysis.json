@@ -1,0 +1,7 @@
+{
+  "is_finish": false,
+  "guidance_for_write_dockerfile_agent": "Modify the `cmake` command in the Dockerfile from `-DCMAKE_BUILD_TYPE=Release` to `-DCMAKE_BUILD_TYPE=Debug`. This will enable the compilation of debug symbols, which are essential for generating a useful GDB backtrace in case of crashes.",
+  "guidance_for_write_eval_script_agent": "Modify the `cmake` command in the eval script from `-DCMAKE_BUILD_TYPE=Release` to `-DCMAKE_BUILD_TYPE=Debug`. This ensures that the project is recompiled with debug symbols after the patch is applied, allowing GDB to provide more detailed information (function names, line numbers) in the backtrace if a test crashes.",
+  "guidance_for_context_retrieval_agent": "",
+  "build_image_status": true
+}

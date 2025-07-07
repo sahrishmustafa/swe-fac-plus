@@ -1,0 +1,13 @@
++ cd /testbed
++ git checkout c9de7dd12d2971c63f9d32ce5459eb98f2fec13d projects/SelfTest/UsageTests/BDD.tests.cpp
++ git apply -v -
+Checking patch projects/SelfTest/UsageTests/BDD.tests.cpp...
+Applied patch projects/SelfTest/UsageTests/BDD.tests.cpp cleanly.
++ cd build
++ ./projects/SelfTest '[BDD]' --success --verbosity high
+Verbosity level not supported by this reporter
+OMNIGRIL_EXIT_CODE=255
++ rc=255
++ echo OMNIGRIL_EXIT_CODE=255
++ cd /testbed
++ git checkout c9de7dd12d2971c63f9d32ce5459eb98f2fec13d projects/SelfTest/UsageTests/BDD.tests.cpp

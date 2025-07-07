@@ -1,0 +1,22 @@
+{
+    "task_id": "catchorg__Catch2-2288",
+    "setup_info": {
+        "repo_path": "testbed/catchorg__Catch2-2288_2025-06-29_23-16-37",
+        "repo_cache_path": "testbed/catchorg/Catch2_cache"
+    },
+    "task_info": {
+        "repo": "catchorg/Catch2",
+        "pull_number": 2288,
+        "instance_id": "catchorg__Catch2-2288",
+        "issue_numbers": [
+            "2273"
+        ],
+        "base_commit": "85c9544fa4c9625b9656d9bd765e54f8e639287f",
+        "patch": "diff --git a/include/internal/catch_approx.h b/include/internal/catch_approx.h\n--- a/include/internal/catch_approx.h\n+++ b/include/internal/catch_approx.h\n@@ -33,7 +33,7 @@ namespace Detail {\n         Approx operator-() const;\n \n         template <typename T, typename = typename std::enable_if<std::is_constructible<double, T>::value>::type>\n-        Approx operator()( T const& value ) {\n+        Approx operator()( T const& value ) const {\n             Approx approx( static_cast<double>(value) );\n             approx.m_epsilon = m_epsilon;\n             approx.m_margin = m_margin;\n",
+        "test_patch": "diff --git a/projects/SelfTest/UsageTests/Approx.tests.cpp b/projects/SelfTest/UsageTests/Approx.tests.cpp\n--- a/projects/SelfTest/UsageTests/Approx.tests.cpp\n+++ b/projects/SelfTest/UsageTests/Approx.tests.cpp\n@@ -212,4 +212,11 @@ TEST_CASE( \"Comparison with explicitly convertible types\", \"[Approx]\" )\n \n }\n \n+TEST_CASE(\"Approx::operator() is const correct\", \"[Approx][.approvals]\") {\n+  const Approx ap = Approx(0.0).margin(0.01);\n+\n+  // As long as this compiles, the test should be considered passing\n+  REQUIRE(1.0 == ap(1.0));\n+}\n+\n }} // namespace ApproxTests\n",
+        "problem_statement": "Approx::operator() not const-correct\n**Describe the bug**\r\n\r\nThe `Approx` type has an overload of `template <typename T, ...SFINAE...> Approx operator()(T const&)` which (correct me if I'm wrong) is meant to be a factory function for instances that have the same epsilon, margin, and scale, but that use the passed value. \r\n\r\nAFAICT this should be const on the instance, but it's not.\r\n\r\nMinimum failing example:\r\n```C++\r\n#include <catch2/catch.hpp>\r\n\r\nTEST_CASE(\"Approx factory is const-correct\") {\r\n  // Set up a template Approx with problem-specific margin, etc.\r\n  Approx const apprx = Approx(0.0).margin(1e-6);\r\n  double value = 1.0;\r\n  // Use template in assertions\r\n  REQUIRE(value == apprx(1.0));\r\n}\r\n```\r\n\r\n**Expected behavior**\r\nAbove test compiles, runs and passes.\r\n\r\n**Reproduction steps**\r\nSee above.\r\n\r\n**Platform information:**\r\n - OS: RHEL 8\r\n - Compiler+version: GCC 8.2.0\r\n - Catch version: 2.13.6\r\n\r\n\r\n**Additional context**\r\nAdd any other context about the problem here.\r\n\n",
+        "hints_text": "Sorry forgot to add error message:\r\n```\r\n$ g++ -I$Catch2_DIR/include const-approx.cpp \r\nIn file included from const-approx.cpp:1:\r\nconst-approx.cpp: In function \u2018void ____C_A_T_C_H____T_E_S_T____0()\u2019:\r\nconst-approx.cpp:6:29: error: no match for call to \u2018(const Catch::Detail::Approx) (double)\u2019\r\n   REQUIRE(value == apprx(1.0));\r\n                             ^\r\nIn file included from const-approx.cpp:1:\r\n$Catch2_DIR/include/catch2/catch.hpp:3094:16: note: candidate: \u2018Catch::Detail::Approx Catch::Detail::Approx::operator()(const T&) [with T = double; <template-parameter-1-2> = void]\u2019 <near match>\r\n         Approx operator()( T const& value ) {\r\n                ^~~~~~~~\r\n$Catch2_DIR/include/catch2/catch.hpp:3094:16: note:   passing \u2018const Catch::Detail::Approx*\u2019 as \u2018this\u2019 argument discards qualifiers\r\n```\nMakes sense to have it const-qualified.\r\n\r\nIf you want the fix to be in v2, PRs are welcome \ud83d\ude03 ",
+        "created_at": "2021-09-17T10:05:47Z",
+        "version": "2.13"
+    }
+}

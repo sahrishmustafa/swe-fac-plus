@@ -1,0 +1,172 @@
+diff --git a/include/internal/catch_commandline.cpp b/include/internal/catch_commandline.cpp
+--- a/include/internal/catch_commandline.cpp
++++ b/include/internal/catch_commandline.cpp
+@@ -49,9 +49,15 @@ namespace Catch {
+                     if( !line.empty() && !startsWith( line, '#' ) ) {
+                         if( !startsWith( line, '"' ) )
+                             line = '"' + line + '"';
+-                        config.testsOrTags.push_back( line + ',' );
++                        config.testsOrTags.push_back( line );
++                        config.testsOrTags.push_back( "," );
++                        
+                     }
+                 }
++                //Remove comma in the end
++                if(!config.testsOrTags.empty())
++                    config.testsOrTags.erase( config.testsOrTags.end()-1 );
++                
+                 return ParserResult::ok( ParseResultType::Matched );
+             };
+         auto const setTestOrder = [&]( std::string const& order ) {
+diff --git a/include/internal/catch_interfaces_reporter.h b/include/internal/catch_interfaces_reporter.h
+--- a/include/internal/catch_interfaces_reporter.h
++++ b/include/internal/catch_interfaces_reporter.h
+@@ -214,6 +214,8 @@ namespace Catch {
+ 
+         virtual void noMatchingTestCases( std::string const& spec ) = 0;
+ 
++        virtual void reportInvalidArguments(std::string const&) {}
++        
+         virtual void testRunStarting( TestRunInfo const& testRunInfo ) = 0;
+         virtual void testGroupStarting( GroupInfo const& groupInfo ) = 0;
+ 
+diff --git a/include/internal/catch_session.cpp b/include/internal/catch_session.cpp
+--- a/include/internal/catch_session.cpp
++++ b/include/internal/catch_session.cpp
+@@ -68,8 +68,9 @@ namespace Catch {
+             {
+                 auto const& allTestCases = getAllTestCasesSorted(*m_config);
+                 m_matches = m_config->testSpec().matchesByFilter(allTestCases, *m_config);
+-
+-                if (m_matches.empty()) {
++                auto const& invalidArgs = m_config->testSpec().getInvalidArgs();
++                
++                if (m_matches.empty() && invalidArgs.empty()) {
+                     for (auto const& test : allTestCases)
+                         if (!test.isHidden())
+                             m_tests.emplace(&test);
+@@ -80,6 +81,7 @@ namespace Catch {
+             }
+ 
+             Totals execute() {
++                auto const& invalidArgs = m_config->testSpec().getInvalidArgs();
+                 Totals totals;
+                 m_context.testGroupStarting(m_config->name(), 1, 1);
+                 for (auto const& testCase : m_tests) {
+@@ -95,6 +97,12 @@ namespace Catch {
+                         totals.error = -1;
+                     }
+                 }
++                
++                if (!invalidArgs.empty()) {
++                    for (auto const& invalidArg: invalidArgs)                   
++                         m_context.reporter().reportInvalidArguments(invalidArg);
++                }   
++                
+                 m_context.testGroupEnded(m_config->name(), totals, 1, 1);
+                 return totals;
+             }
+diff --git a/include/reporters/catch_reporter_bases.hpp b/include/reporters/catch_reporter_bases.hpp
+--- a/include/reporters/catch_reporter_bases.hpp
++++ b/include/reporters/catch_reporter_bases.hpp
+@@ -51,6 +51,8 @@ namespace Catch {
+ 
+         void noMatchingTestCases(std::string const&) override {}
+ 
++        void reportInvalidArguments(std::string const&) override {}
++        
+         void testRunStarting(TestRunInfo const& _testRunInfo) override {
+             currentTestRunInfo = _testRunInfo;
+         }
+@@ -277,4 +279,4 @@ namespace Catch {
+ 
+ } // end namespace Catch
+ 
+-#endif // TWOBLUECUBES_CATCH_REPORTER_BASES_HPP_INCLUDED
++#endif // TWOBLUECUBES_CATCH_REPORTER_BASES_HPP_INCLUDED
+\ No newline at end of file
+diff --git a/include/reporters/catch_reporter_console.cpp b/include/reporters/catch_reporter_console.cpp
+--- a/include/reporters/catch_reporter_console.cpp
++++ b/include/reporters/catch_reporter_console.cpp
+@@ -383,6 +383,10 @@ void ConsoleReporter::noMatchingTestCases(std::string const& spec) {
+     stream << "No test cases matched '" << spec << '\'' << std::endl;
+ }
+ 
++void ConsoleReporter::reportInvalidArguments(std::string const&arg){
++    stream << "Invalid Filter: " << arg << std::endl;
++}
++
+ void ConsoleReporter::assertionStarting(AssertionInfo const&) {}
+ 
+ bool ConsoleReporter::assertionEnded(AssertionStats const& _assertionStats) {
+@@ -694,4 +698,4 @@ CATCH_REGISTER_REPORTER("console", ConsoleReporter)
+ 
+ #if defined(__clang__)
+ #  pragma clang diagnostic pop
+-#endif
++#endif
+\ No newline at end of file
+diff --git a/include/reporters/catch_reporter_console.h b/include/reporters/catch_reporter_console.h
+--- a/include/reporters/catch_reporter_console.h
++++ b/include/reporters/catch_reporter_console.h
+@@ -32,6 +32,8 @@ namespace Catch {
+ 
+         void noMatchingTestCases(std::string const& spec) override;
+ 
++        void reportInvalidArguments(std::string const&arg) override;
++
+         void assertionStarting(AssertionInfo const&) override;
+ 
+         bool assertionEnded(AssertionStats const& _assertionStats) override;
+@@ -84,4 +86,4 @@ namespace Catch {
+ #pragma warning(pop)
+ #endif
+ 
+-#endif // TWOBLUECUBES_CATCH_REPORTER_CONSOLE_H_INCLUDED
++#endif // TWOBLUECUBES_CATCH_REPORTER_CONSOLE_H_INCLUDED
+\ No newline at end of file
+diff --git a/include/reporters/catch_reporter_listening.cpp b/include/reporters/catch_reporter_listening.cpp
+--- a/include/reporters/catch_reporter_listening.cpp
++++ b/include/reporters/catch_reporter_listening.cpp
+@@ -41,6 +41,13 @@ namespace Catch {
+         }
+         m_reporter->noMatchingTestCases( spec );
+     }
++    
++    void ListeningReporter::reportInvalidArguments(std::string const&arg){
++        for ( auto const& listener : m_listeners ) {
++            listener->reportInvalidArguments( arg );
++        }
++        m_reporter->reportInvalidArguments( arg );
++    }    
+ 
+ #if defined(CATCH_CONFIG_ENABLE_BENCHMARKING)
+     void ListeningReporter::benchmarkPreparing( std::string const& name ) {
+@@ -154,4 +161,4 @@ namespace Catch {
+         return true;
+     }
+ 
+-} // end namespace Catch
++} // end namespace Catch
+\ No newline at end of file
+diff --git a/include/reporters/catch_reporter_listening.h b/include/reporters/catch_reporter_listening.h
+--- a/include/reporters/catch_reporter_listening.h
++++ b/include/reporters/catch_reporter_listening.h
+@@ -28,7 +28,9 @@ namespace Catch {
+         ReporterPreferences getPreferences() const override;
+ 
+         void noMatchingTestCases( std::string const& spec ) override;
+-
++        
++        void reportInvalidArguments(std::string const&arg) override;
++        
+         static std::set<Verbosity> getSupportedVerbosities();
+ 
+ #if defined(CATCH_CONFIG_ENABLE_BENCHMARKING)
+@@ -58,4 +60,4 @@ namespace Catch {
+ 
+ } // end namespace Catch
+ 
+-#endif // TWOBLUECUBES_CATCH_MULTI_REPORTER_H_INCLUDED
++#endif // TWOBLUECUBES_CATCH_MULTI_REPORTER_H_INCLUDED
+\ No newline at end of file

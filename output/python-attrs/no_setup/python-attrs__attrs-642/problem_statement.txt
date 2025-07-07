@@ -1,0 +1,31 @@
+Support custom __getstate__, __setstate__ for slotted classes (or improve docs)?
+The assertion fails in the following example, but is ok with `slots=False`:
+```
+import attr, pickle
+
+@attr.s(slots=True)
+class MyClass(object):
+    a = attr.ib()
+    not_picklable = attr.ib()
+
+    def __getstate__(self):
+        return self.a, "replacement"
+
+    def __setstate__(self, state):
+        self.a, self.not_picklable = state
+
+mc = MyClass("a", "b")
+mc_new = pickle.loads(pickle.dumps(mc))
+assert mc_new.not_picklable == "replacement"
+```
+This is clearly because `attrs` auto creates these methods on the new slots-class: https://github.com/python-attrs/attrs/blob/master/src/attr/_make.py#L601
+
+Is there another prefered way to solve this, or would it be possible to support these methods also for slots-classes? If not, it would be good to clarify this in the documentation for [slotted-classes](http://www.attrs.org/en/stable/glossary.html#term-slotted-classes), it says:
+
+> You can support protocol 0 and 1 by implementing `__getstate__` and `__setstate__` methods yourself. Those methods are created for frozen slotted classes because they won’t pickle otherwise. Think twice before using pickle though.
+
+This is confusing to me, since implementing these methods have no effect for slotted classes?
+
+Somewhat related:
+https://github.com/python-attrs/attrs/issues/139
+https://github.com/python-attrs/attrs/issues/475

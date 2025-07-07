@@ -1,0 +1,32 @@
+Inconsistent behaviour of nested sections
+**Describe the bug**
+Suppose I have a test case with a structure like the following:
+```
+TEST_CASE("Nesting")
+{
+    SECTION("A") {
+        SECTION("1") SUCCEED();
+        SECTION("2") SUCCEED();
+    }
+    SECTION("B") {
+        SECTION("1") SUCCEED();
+        SECTION("2") SUCCEED();
+    }
+}
+```
+
+Upon selecting the test case and section on the command line, I get the following results:
+* `./test Nesting`: All four assertions are executed;
+* `./test Nesting -c A`: *Only A1 is executed*;
+* `./test Nesting -c B`: B1 and B2 are executed.
+
+**Expected behavior**
+`./test Nesting -c A` should execute all subsections of section A.
+
+**Reproduction steps**
+See description.
+
+**Platform information:**
+ - Compiler+version: **GCC v9.1.1**
+ - Catch version: **v2.8.0**, **v2.9.1**
+

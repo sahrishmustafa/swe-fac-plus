@@ -1,0 +1,12 @@
+Add surrogate TUs for header files
+## Description
+
+This PR adds surrogate TUs to test that each header file in the project can be included without depending on other files.
+
+In order for the PR to be complete I have to clean the commit history.
+Also 5 files are commented in the CMakeLists.txt of SurrogateCpps since they need to be fixed.
+
+## GitHub Issues
+
+Closes #2106
+

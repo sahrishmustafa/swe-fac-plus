@@ -1,0 +1,14 @@
+Formatting of function pointers should be disallowed
+Example:
+
+```c++
+#include <fmt/core.h>
+
+void f() {}
+
+int main() {
+    fmt::print("float  size is 4 bytes : {}\n", f);
+} 
+```
+
+https://stackoverflow.com/questions/70069151/prevent-fmt-from-printing-function-pointers

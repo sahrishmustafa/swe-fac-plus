@@ -1,0 +1,80 @@
+2025-07-03 18:38:30,583 - INFO - Checking if image python-attrs__attrs-1107-dockerfile1:latest exists locally...
+2025-07-03 18:38:30,601 - INFO - Image python-attrs__attrs-1107-dockerfile1:latest found locally.
+2025-07-03 18:38:30,601 - INFO - Creating container for python-attrs__attrs-1107...
+2025-07-03 18:38:31,025 - INFO - Container for python-attrs__attrs-1107 started: 48c4ac651f6075b4c7689d42fa5142a879a7ddf52d99a03fcabd318a8dbd30b3
+2025-07-03 18:38:31,026 - INFO - Intermediate patch for python-attrs__attrs-1107 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/python-attrs/python-attrs__attrs-1107/test_analysis_agent_1/patch.diff, now applying to container...
+2025-07-03 18:38:31,220 - INFO - Failed to apply patch to container, trying again...
+2025-07-03 18:38:31,284 - INFO - Apply patch success:
+patching file src/attr/_next_gen.py
+
+2025-07-03 18:38:31,354 - INFO - Git diff before:
+diff --git a/src/attr/_next_gen.py b/src/attr/_next_gen.py
+index 1ce7b3d..7c4d5db 100644
+--- a/src/attr/_next_gen.py
++++ b/src/attr/_next_gen.py
+@@ -167,6 +167,7 @@ def field(
+     hash=None,
+     init=True,
+     metadata=None,
++    type=None,
+     converter=None,
+     factory=None,
+     kw_only=False,
+@@ -179,6 +180,10 @@ def field(
+     Identical to `attr.ib`, except keyword-only and with some arguments
+     removed.
+ 
++    .. versionadded:: 22.3.0
++       The *type* parameter has been re-added; mostly for
++       {func}`attrs.make_class`. Please note that type checkers ignore this
++       metadata.
+     .. versionadded:: 20.1.0
+     """
+     return attrib(
+@@ -188,6 +193,7 @@ def field(
+         hash=hash,
+         init=init,
+         metadata=metadata,
++        type=type,
+         converter=converter,
+         factory=factory,
+         kw_only=kw_only,
+2025-07-03 18:38:31,354 - INFO - Eval script for python-attrs__attrs-1107 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/python-attrs/python-attrs__attrs-1107/test_analysis_agent_1/patch.diff, now applying to container...
+2025-07-03 18:38:33,020 - INFO - Test output for python-attrs__attrs-1107 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/python-attrs/python-attrs__attrs-1107/test_analysis_agent_1/test_output.txt
+2025-07-03 18:38:33,072 - INFO - Git diff after:
+diff --git a/src/attr/_next_gen.py b/src/attr/_next_gen.py
+index 1ce7b3d..7c4d5db 100644
+--- a/src/attr/_next_gen.py
++++ b/src/attr/_next_gen.py
+@@ -167,6 +167,7 @@ def field(
+     hash=None,
+     init=True,
+     metadata=None,
++    type=None,
+     converter=None,
+     factory=None,
+     kw_only=False,
+@@ -179,6 +180,10 @@ def field(
+     Identical to `attr.ib`, except keyword-only and with some arguments
+     removed.
+ 
++    .. versionadded:: 22.3.0
++       The *type* parameter has been re-added; mostly for
++       {func}`attrs.make_class`. Please note that type checkers ignore this
++       metadata.
+     .. versionadded:: 20.1.0
+     """
+     return attrib(
+@@ -188,6 +193,7 @@ def field(
+         hash=hash,
+         init=init,
+         metadata=metadata,
++        type=type,
+         converter=converter,
+         factory=factory,
+         kw_only=kw_only,
+2025-07-03 18:38:33,073 - INFO - Attempting to stop container python-attrs__attrs-1107-test1...
+2025-07-03 18:38:48,226 - INFO - Attempting to remove container python-attrs__attrs-1107-test1...
+2025-07-03 18:38:48,252 - INFO - Container python-attrs__attrs-1107-test1 removed.
+2025-07-03 18:38:48,252 - INFO - Attempting to remove image python-attrs__attrs-1107-dockerfile1:latest...
+2025-07-03 18:38:48,670 - INFO - Image python-attrs__attrs-1107-dockerfile1:latest removed.

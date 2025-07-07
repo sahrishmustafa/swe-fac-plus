@@ -1,0 +1,22 @@
+{
+    "task_id": "fmtlib__fmt-3636",
+    "setup_info": {
+        "repo_path": "github/_cache/fmtlib__fmt-3636_2025-07-04_18-38-48",
+        "repo_cache_path": "github/_cache/fmtlib/fmt_cache"
+    },
+    "task_info": {
+        "repo": "fmtlib/fmt",
+        "pull_number": 3636,
+        "instance_id": "fmtlib__fmt-3636",
+        "issue_numbers": [
+            "3631"
+        ],
+        "base_commit": "aa3c5a41273bc219ef33b2ca9a20c7a477ce3c0c",
+        "patch": "diff --git a/include/fmt/format-inl.h b/include/fmt/format-inl.h\n--- a/include/fmt/format-inl.h\n+++ b/include/fmt/format-inl.h\n@@ -18,7 +18,7 @@\n #  include <locale>\n #endif\n \n-#ifdef _WIN32\n+#if defined(_WIN32) && !defined(FMT_WINDOWS_NO_WCHAR)\n #  include <io.h>  // _isatty\n #endif\n \n@@ -1426,7 +1426,7 @@ FMT_FUNC std::string vformat(string_view fmt, format_args args) {\n }\n \n namespace detail {\n-#ifndef _WIN32\n+#if !defined(_WIN32) || defined(FMT_WINDOWS_NO_WCHAR)\n FMT_FUNC bool write_console(std::FILE*, string_view) { return false; }\n #else\n using dword = conditional_t<sizeof(long) == 4, unsigned long, unsigned>;\n@@ -1441,7 +1441,9 @@ FMT_FUNC bool write_console(std::FILE* f, string_view text) {\n   return WriteConsoleW(reinterpret_cast<void*>(_get_osfhandle(fd)), u16.c_str(),\n                        static_cast<uint32_t>(u16.size()), &written, nullptr) != 0;\n }\n+#endif\n \n+#ifdef _WIN32\n // Print assuming legacy (non-Unicode) encoding.\n FMT_FUNC void vprint_mojibake(std::FILE* f, string_view fmt, format_args args) {\n   auto buffer = memory_buffer();\n",
+        "test_patch": "diff --git a/test/format-impl-test.cc b/test/format-impl-test.cc\n--- a/test/format-impl-test.cc\n+++ b/test/format-impl-test.cc\n@@ -351,7 +351,7 @@ TEST(format_impl_test, write_dragon_even) {\n   if (!FMT_MSC_VERSION) EXPECT_EQ(s, \"33554450\");\n }\n \n-#ifdef _WIN32\n+#if defined(_WIN32) && !defined(FMT_WINDOWS_NO_WCHAR)\n #  include <windows.h>\n \n TEST(format_impl_test, write_console_signature) {\n",
+        "problem_statement": "Windows API systems without UTF-16 APIs\nCurrently the Windows build assumes that `WriteConsoleW` is available.\r\n\r\nNone of the Unicode stuff is actually available on Windows 98 (and similar API level systems such as the original Xbox).\r\n\r\nWould you be OK with adding a build option to disable it? I can send a PR if so.\r\nIs `FMT_WINDOWS_HAS_UNICODE_APIS` a good name for the build option?\r\n\r\nAlternatively, perhaps we could add an option to disable the entire `print` subsystem (something like `set(FMT_PRINT OFF)`)\n",
+        "hints_text": "Windows 98 has been discontinued many years ago. Why should we care about supporting it? Is it for some kind of a retro computing project?\nIt'd be cool to have DevilutionX run on the original platform it launched on.\r\nThis is of course just for fun, it's not meant to be useful.\r\n",
+        "created_at": "2023-09-12T07:04:44Z",
+        "version": "10.1"
+    }
+}

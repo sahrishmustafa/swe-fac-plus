@@ -1,0 +1,22 @@
+{
+    "task_id": "python-attrs__attrs-431",
+    "setup_info": {
+        "repo_path": "testbed/python-attrs__attrs-431_2025-07-03_17-42-35",
+        "repo_cache_path": "testbed/python-attrs/attrs_cache"
+    },
+    "task_info": {
+        "repo": "python-attrs/attrs",
+        "pull_number": 431,
+        "instance_id": "python-attrs__attrs-431",
+        "issue_numbers": [
+            "427"
+        ],
+        "base_commit": "7fe111cbe288603c730d777cb4f28dff4b8b921a",
+        "patch": "diff --git a/src/attr/_make.py b/src/attr/_make.py\n--- a/src/attr/_make.py\n+++ b/src/attr/_make.py\n@@ -522,7 +522,13 @@ def _patch_original_class(self):\n                     name not in super_names\n                     and getattr(cls, name, None) is not None\n                 ):\n-                    delattr(cls, name)\n+                    try:\n+                        delattr(cls, name)\n+                    except AttributeError:\n+                        # This can happen if a superclass defines a class\n+                        # variable and we want to set an attribute with the\n+                        # same name by using only a type annotation.\n+                        pass\n \n         # Attach our dunder methods.\n         for name, value in self._cls_dict.items():\n",
+        "test_patch": "diff --git a/tests/test_annotations.py b/tests/test_annotations.py\n--- a/tests/test_annotations.py\n+++ b/tests/test_annotations.py\n@@ -165,7 +165,7 @@ class C:\n     @pytest.mark.parametrize(\"slots\", [True, False])\n     def test_auto_attribs_subclassing(self, slots):\n         \"\"\"\n-        Attributes from super classes are inherited, it doesn't matter if the\n+        Attributes from superclasses are inherited, it doesn't matter if the\n         subclass has annotations or not.\n \n         Ref #291\n@@ -250,3 +250,18 @@ class C:\n \n         assert c.x == 0\n         assert c.y == 1\n+\n+    def test_super_class_variable(self):\n+        \"\"\"\n+        Superclass class variables can be overridden with an attribute\n+        without resorting to using an explicit `attr.ib()`.\n+        \"\"\"\n+\n+        class Base:\n+            x: int = 42\n+\n+        @attr.s(auto_attribs=True)\n+        class C(Base):\n+            x: int\n+\n+        assert 1 == C(1).x\ndiff --git a/tests/test_dark_magic.py b/tests/test_dark_magic.py\n--- a/tests/test_dark_magic.py\n+++ b/tests/test_dark_magic.py\n@@ -421,7 +421,7 @@ class C(object):\n \n     def test_overwrite_super(self):\n         \"\"\"\n-        Super classes can overwrite each other and the attributes are added\n+        Superclasses can overwrite each other and the attributes are added\n         in the order they are defined.\n         \"\"\"\n \ndiff --git a/tests/test_make.py b/tests/test_make.py\n--- a/tests/test_make.py\n+++ b/tests/test_make.py\n@@ -323,7 +323,7 @@ class C(B):\n \n     def test_these(self):\n         \"\"\"\n-        If these is passed, use it and ignore body and super classes.\n+        If these is passed, use it and ignore body and superclasses.\n         \"\"\"\n \n         class Base(object):\n",
+        "problem_statement": "attr.ib cleanup + auto_attribs + class vars from superclasses\nConsider the following:\r\n\r\n```python\r\nimport attr\r\n\r\nclass Base:\r\n    x = 0\r\n\r\n@attr.s(auto_attribs=True)\r\nclass C(Base):\r\n    x: int\r\n```\r\n\r\nThis raises an:\r\n\r\n```\r\nTraceback (most recent call last):\r\n  File \"t.py\", line 9, in <module>\r\n    class C(Base):\r\n  File \"/Users/hynek/Projects/attrs/src/attr/_make.py\", line 858, in wrap\r\n    return builder.build_class()\r\n  File \"/Users/hynek/Projects/attrs/src/attr/_make.py\", line 496, in build_class\r\n    return self._patch_original_class()\r\n  File \"/Users/hynek/Projects/attrs/src/attr/_make.py\", line 514, in _patch_original_class\r\n    delattr(cls, name)\r\nAttributeError: x\r\n```\r\n\r\n(interestingly `getattr(cls, name)` works but `delattr` does not)\r\n\r\nThis is actually quite common if you implement an ABC. The current code is:\r\n\r\n```python\r\n                if (\r\n                    name not in super_names\r\n                    and getattr(cls, name, None) is not None\r\n                ):\r\n                    delattr(cls, name)\r\n```\r\n\r\nMaybe we should change the check to `isinstance(getattr(cls, name, None), _CountingAttr)`?\n",
+        "hints_text": "(Maybe wrapping in try/except would be better.)",
+        "created_at": "2018-08-21T05:21:27Z",
+        "version": "18.1"
+    }
+}

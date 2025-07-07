@@ -1,0 +1,22 @@
+{
+    "task_id": "fmtlib__fmt-3279",
+    "setup_info": {
+        "repo_path": "github/_cache/fmtlib__fmt-3279_2025-07-04_18-38-48",
+        "repo_cache_path": "github/_cache/fmtlib/fmt_cache"
+    },
+    "task_info": {
+        "repo": "fmtlib/fmt",
+        "pull_number": 3279,
+        "instance_id": "fmtlib__fmt-3279",
+        "issue_numbers": [
+            "3215"
+        ],
+        "base_commit": "f89cd276f7dead38f11cebc73d1e91a1b1b38124",
+        "patch": "diff --git a/include/fmt/ranges.h b/include/fmt/ranges.h\n--- a/include/fmt/ranges.h\n+++ b/include/fmt/ranges.h\n@@ -660,6 +660,34 @@ struct formatter<tuple_join_view<Char, T...>, Char> {\n   }\n };\n \n+namespace detail {\n+// Check if T has an interface like container adapter (e.g. std::stack,\n+// std::queue, std::priority_queue).\n+template <typename T> class is_container_adaptor_like {\n+  template <typename U> static auto check(U* p) -> typename U::container_type;\n+  template <typename> static void check(...);\n+\n+ public:\n+  static constexpr const bool value =\n+      !std::is_void<decltype(check<T>(nullptr))>::value;\n+};\n+}  // namespace detail\n+\n+template <typename T, typename Char>\n+struct formatter<T, Char,\n+                 enable_if_t<detail::is_container_adaptor_like<T>::value>>\n+    : formatter<typename T::container_type, Char> {\n+  template <typename FormatContext>\n+  auto format(const T& t, FormatContext& ctx) const -> decltype(ctx.out()) {\n+    struct getter : T {\n+      static auto get(const T& t) -> const typename T::container_type& {\n+        return t.*(&getter::c);  // Access c through the derived class.\n+      }\n+    };\n+    return formatter<typename T::container_type>::format(getter::get(t), ctx);\n+  }\n+};\n+\n FMT_MODULE_EXPORT_BEGIN\n \n /**\n",
+        "test_patch": "diff --git a/test/ranges-test.cc b/test/ranges-test.cc\n--- a/test/ranges-test.cc\n+++ b/test/ranges-test.cc\n@@ -14,6 +14,8 @@\n #include <map>\n #include <string>\n #include <vector>\n+#include <stack>\n+#include <queue>\n \n #include \"gtest/gtest.h\"\n \n@@ -406,3 +408,64 @@ TEST(ranges_test, range_of_range_of_mixed_const) {\n TEST(ranges_test, vector_char) {\n   EXPECT_EQ(fmt::format(\"{}\", std::vector<char>{'a', 'b'}), \"['a', 'b']\");\n }\n+\n+TEST(ranges_test, container_adaptor) {\n+  {\n+    using fmt::detail::is_container_adaptor_like;\n+    using T = std::nullptr_t;\n+    static_assert(is_container_adaptor_like<std::stack<T>>::value, \"\");\n+    static_assert(is_container_adaptor_like<std::queue<T>>::value, \"\");\n+    static_assert(is_container_adaptor_like<std::priority_queue<T>>::value, \"\");\n+    static_assert(!is_container_adaptor_like<std::vector<T>>::value, \"\");\n+  }\n+\n+  {\n+    std::stack<int> s;\n+    s.push(1);\n+    s.push(2);\n+    EXPECT_EQ(fmt::format(\"{}\", s), \"[1, 2]\");\n+    EXPECT_EQ(fmt::format(\"{}\", const_cast<const decltype(s)&>(s)), \"[1, 2]\");\n+  }\n+\n+  {\n+    std::queue<int> q;\n+    q.push(1);\n+    q.push(2);\n+    EXPECT_EQ(fmt::format(\"{}\", q), \"[1, 2]\");\n+  }\n+\n+  {\n+    std::priority_queue<int> q;\n+    q.push(3);\n+    q.push(1);\n+    q.push(2);\n+    q.push(4);\n+    EXPECT_EQ(fmt::format(\"{}\", q), \"[4, 3, 2, 1]\");\n+  }\n+\n+  {\n+    std::stack<char, std::string> s;\n+    s.push('a');\n+    s.push('b');\n+    // Note: The output is formatted as a string because the underlying\n+    // container is a string. This behavior is conforming to the standard\n+    // [container.adaptors.format].\n+    EXPECT_EQ(fmt::format(\"{}\", s), \"ab\");\n+  }\n+\n+  {\n+    struct my_container_adaptor {\n+      using value_type = int;\n+      using container_type = std::vector<value_type>;\n+      void push(const value_type& v) { c.push_back(v); }\n+\n+     protected:\n+      container_type c;\n+    };\n+\n+    my_container_adaptor m;\n+    m.push(1);\n+    m.push(2);\n+    EXPECT_EQ(fmt::format(\"{}\", m), \"[1, 2]\");\n+  }\n+}\n",
+        "problem_statement": "Add formatters for STL container adapters\n`std::priority_queue`, `std::queue` and `std::stack` should be formattable out of the box, they are part of the standard.\n",
+        "hints_text": "",
+        "created_at": "2023-01-18T02:41:06Z",
+        "version": "9.1"
+    }
+}

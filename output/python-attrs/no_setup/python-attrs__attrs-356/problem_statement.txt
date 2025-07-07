@@ -1,0 +1,50 @@
+attr.Factory is a little wordy
+attrs is a huge net win on an object like this:
+
+```python
+@attr.s
+class Point(object):
+    def __init__(self, x, y, z):
+        self.x = x
+        self.y = y
+        self.z = z
+
+import attr
+@attr.s
+class Point(object):
+    x = attr.ib()
+    y = attr.ib()
+    z = attr.ib()
+```
+
+but it's a lot less clear when you have something like this:
+
+```python
+class Cache(object):
+    def __init__(self):
+        self._stored = []
+        self._by_name = {}
+        self._by_id = {}
+```
+
+which becomes
+
+```python
+@attr.s
+class Cache(object):
+    _stored = attr.ib(default=attr.Factory(list))
+    _by_name = attr.ib(default=attr.Factory(dict))
+    _by_id = attr.ib(default=attr.Factory(dict))
+```
+
+I think an alias for this behavior, like:
+
+```python
+@attr.s
+class Cache(object):
+    _stored = attr.ib(new=list)
+    _by_name = attr.ib(new=dict)
+    _by_id = attr.ib(new=dict)
+```
+
+could make initializing these types of mutable objects a lot less verbose.

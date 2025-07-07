@@ -1,0 +1,15 @@
+formatter simply inheriting from built-in formatter is not recognised
+libfmt 10.2 / gcc 13
+
+I have a string-like class implicitly-convertible to std::string_view. Based on older documentation I'd expect that to Just Work in `fmt::format()`but I see from other issues that matching on implicit conversion has been disabled.  Annoying, but fair enough.
+
+When I create a `fmt::formatter` specialisation for my class that simply inherits `fmt::formatter<string_view>`, this does not work, `fmt::format` still considers S to be an un-formattable type.
+```
+template<>
+class fmt::formatter<S> 
+    : public fmt::formatter<std::string_view> {};
+```
+https://godbolt.org/z/aMqqWaso9
+
+The equivalent code using std::formatter works ok: https://godbolt.org/z/T7zzKzzf3
+

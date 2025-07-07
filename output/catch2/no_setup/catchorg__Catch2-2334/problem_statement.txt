@@ -1,0 +1,16 @@
+[clang] [windows] [address-sanitizer] stack overflow when test is failing
+## Description
+Catch enters infinite recursion trying to print error message when compiled with clang -faddress-sanitize under Windows
+
+### Steps to reproduce
+0. Install VS 2015 and [clang](http://llvm.org/pre-releases/win-snapshots/LLVM-5.0.0-r300231-win64.exe)
+1. Put `catch.hpp` and `test.bat` from [test.zip](https://github.com/philsquared/Catch/files/964783/test.zip) in one directory, start `test.bat`
+2. Resulting executable, instead of reporting an error, will output:
+<pre>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+</pre>
+and then it will crash.
+

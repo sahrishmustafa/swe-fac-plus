@@ -1,0 +1,4 @@
+Annotate __init__ with type hints?
+So I'm not sure this makes 100% sense, but technically we could start adding type hints to the signature of our `__init__`.
+
+I guess there would be some runtime introspection benefits?

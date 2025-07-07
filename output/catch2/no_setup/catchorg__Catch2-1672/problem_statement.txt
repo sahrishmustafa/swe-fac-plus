@@ -1,0 +1,39 @@
+The first vector returned by ChunkGenerator is size 1 when chunk-size is 0
+**Describe the bug**
+When using `ChunkGenerator` with a chunk-size of 0, the first vector returned is size 1. Following vectors are size 0.
+
+**Expected behavior**
+The first (and all following) vectors should be size 0.
+
+**Reproduction steps**
+```c++
+TEST_CASE("chunks") {
+  auto vector = GENERATE(take(5, chunk(0, value(1))));
+  REQUIRE(vector.size() == 0);
+}
+```
+
+
+**Platform information:**
+<!-- Fill in any extra information that might be important for your issue. -->
+ - OS: **Linux 5.1.15-arch1-1-ARCH**
+ - Compiler+version: **g++ (GCC) 9.1.0**
+ - Catch version: **Catch v2.7.2** ([it looks like the bug still exists though](https://github.com/catchorg/Catch2/blob/54089c4c8c657ffb13d8f3a1425403335af5ba4d/include/internal/catch_generators_generic.hpp#L208-L209))
+
+
+**Additional context**
+My specific use-case in which I ran into this is a test like this:
+
+```c++
+TEST_CASE("my function") {
+  auto size = GENERATE(0, 1, 2, 3);
+  auto vector = GENERATE_COPY(take(1, chunk(size, random(-100, 100))));
+
+  auto list = VectorToList(vector);
+  
+  REQUIRE(list.size() == size);
+}
+```
+
+It's possible that the intended behaviour was to return a minimum chunk-size of 1 for all chunks, but I think it would make much more sense to return empty vectors, otherwise the use-case above would be more annoying to write.
+

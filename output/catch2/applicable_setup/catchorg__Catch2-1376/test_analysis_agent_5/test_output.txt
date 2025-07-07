@@ -1,0 +1,18 @@
++ cd /testbed
++ git checkout 1eb42eed974f944401091325bbe8e61b38fd0678 projects/SelfTest/UsageTests/ToStringGeneral.tests.cpp
+Updated 0 paths from 07da3a5c
++ git apply -v -
+Checking patch projects/SelfTest/UsageTests/ToStringGeneral.tests.cpp...
+Applied patch projects/SelfTest/UsageTests/ToStringGeneral.tests.cpp cleanly.
++ cd Build
+++ nproc
++ CTEST_OUTPUT_ON_FAILURE=1
++ ctest -j 12 -R '.*ToStringGeneral.*'
+Test project /testbed/Build
+No tests were found!!!
+OMNIGRIL_EXIT_CODE=0
++ rc=0
++ echo OMNIGRIL_EXIT_CODE=0
++ cd /testbed
++ git checkout 1eb42eed974f944401091325bbe8e61b38fd0678 projects/SelfTest/UsageTests/ToStringGeneral.tests.cpp
+Updated 1 path from 07da3a5c

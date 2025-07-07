@@ -1,0 +1,18 @@
+Restore __setattr__ when subclassing and we didn't write a new __setattr__
+Currently if you do this:
+
+```python
+@attr.s(frozen=True)
+class A:
+    a = attr.ib()
+
+@attr.s
+class B(A):
+    b = attr.ib()
+```
+
+B is frozen too, because we don't write a new `__setattr__` to overwrite the old one. Once #660 is merged, this will become an even bigger problem.
+
+We have to restore `__setattr__` to `object.__setattr__` if we don't have a reason to overwrite the existing one ourselves.
+
+`auto_detect=True` should be considered.

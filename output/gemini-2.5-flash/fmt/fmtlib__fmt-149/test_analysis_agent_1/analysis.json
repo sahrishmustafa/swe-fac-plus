@@ -1,0 +1,7 @@
+{
+  "is_finish": false,
+  "guidance_for_write_dockerfile_agent": "",
+  "guidance_for_write_eval_script_agent": "The test `util-test` applied via the patch `[CONTENT OF TEST PATCH]` failed with a SEGFAULT during execution (Line 12: `***Exception: SegFault`, Line 24: `5 - util-test (SEGFAULT)`). This indicates a critical runtime error in the test code itself, likely introduced or exacerbated by the applied patch. The evaluation script correctly invoked `ctest` and the test executable was found and started. However, it crashed almost immediately. You need to revise the content of the test patch (`[CONTENT OF TEST PATCH]`) for `test/util-test.cc` to fix the underlying segfault. Ensure the patch makes correct changes and doesn't introduce memory errors or undefined behavior. If the patch intends to add a new test, ensure its implementation is robust and correct.",
+  "guidance_for_context_retrieval_agent": "",
+  "build_image_status": true
+}

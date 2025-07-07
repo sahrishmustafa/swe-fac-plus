@@ -1,0 +1,802 @@
+[
+  {
+    "name": "EbookFoundation/free-programming-books",
+    "stars": 361907,
+    "url": "https://github.com/EbookFoundation/free-programming-books",
+    "description": ":books: Freely available programming books",
+    "owner": "EbookFoundation",
+    "language": "Python"
+  },
+  {
+    "name": "public-apis/public-apis",
+    "stars": 354520,
+    "url": "https://github.com/public-apis/public-apis",
+    "description": "A collective list of free APIs",
+    "owner": "public-apis",
+    "language": "Python"
+  },
+  {
+    "name": "donnemartin/system-design-primer",
+    "stars": 309531,
+    "url": "https://github.com/donnemartin/system-design-primer",
+    "description": "Learn how to design large-scale systems. Prep for the system design interview.  Includes Anki flashcards.",
+    "owner": "donnemartin",
+    "language": "Python"
+  },
+  {
+    "name": "vinta/awesome-python",
+    "stars": 248732,
+    "url": "https://github.com/vinta/awesome-python",
+    "description": "An opinionated list of awesome Python frameworks, libraries, software and resources.",
+    "owner": "vinta",
+    "language": "Python"
+  },
+  {
+    "name": "TheAlgorithms/Python",
+    "stars": 202401,
+    "url": "https://github.com/TheAlgorithms/Python",
+    "description": "All Algorithms implemented in Python",
+    "owner": "TheAlgorithms",
+    "language": "Python"
+  },
+  {
+    "name": "Significant-Gravitas/AutoGPT",
+    "stars": 176586,
+    "url": "https://github.com/Significant-Gravitas/AutoGPT",
+    "description": "AutoGPT is the vision of accessible AI for everyone, to use and to build on. Our mission is to provide the tools, so that you can focus on what matters.",
+    "owner": "Significant-Gravitas",
+    "language": "Python"
+  },
+  {
+    "name": "AUTOMATIC1111/stable-diffusion-webui",
+    "stars": 154098,
+    "url": "https://github.com/AUTOMATIC1111/stable-diffusion-webui",
+    "description": "Stable Diffusion web UI",
+    "owner": "AUTOMATIC1111",
+    "language": "Python"
+  },
+  {
+    "name": "huggingface/transformers",
+    "stars": 146355,
+    "url": "https://github.com/huggingface/transformers",
+    "description": "🤗 Transformers: the model-definition framework for state-of-the-art machine learning models in text, vision, audio, and multimodal models, for both inference and training. ",
+    "owner": "huggingface",
+    "language": "Python"
+  },
+  {
+    "name": "ytdl-org/youtube-dl",
+    "stars": 136321,
+    "url": "https://github.com/ytdl-org/youtube-dl",
+    "description": "Command-line program to download videos from YouTube.com and other video sites",
+    "owner": "ytdl-org",
+    "language": "Python"
+  },
+  {
+    "name": "521xueweihan/HelloGitHub",
+    "stars": 120151,
+    "url": "https://github.com/521xueweihan/HelloGitHub",
+    "description": ":octocat: 分享 GitHub 上有趣、入门级的开源项目。Share interesting, entry-level open source projects on GitHub.",
+    "owner": "521xueweihan",
+    "language": "Python"
+  },
+  {
+    "name": "yt-dlp/yt-dlp",
+    "stars": 117487,
+    "url": "https://github.com/yt-dlp/yt-dlp",
+    "description": "A feature-rich command-line audio/video downloader",
+    "owner": "yt-dlp",
+    "language": "Python"
+  },
+  {
+    "name": "deepseek-ai/DeepSeek-V3",
+    "stars": 97969,
+    "url": "https://github.com/deepseek-ai/DeepSeek-V3",
+    "description": null,
+    "owner": "deepseek-ai",
+    "language": "Python"
+  },
+  {
+    "name": "nvbn/thefuck",
+    "stars": 92630,
+    "url": "https://github.com/nvbn/thefuck",
+    "description": "Magnificent app which corrects your previous console command.",
+    "owner": "nvbn",
+    "language": "Python"
+  },
+  {
+    "name": "pytorch/pytorch",
+    "stars": 91193,
+    "url": "https://github.com/pytorch/pytorch",
+    "description": "Tensors and Dynamic neural networks in Python with strong GPU acceleration",
+    "owner": "pytorch",
+    "language": "Python"
+  },
+  {
+    "name": "fastapi/fastapi",
+    "stars": 86846,
+    "url": "https://github.com/fastapi/fastapi",
+    "description": "FastAPI framework, high performance, easy to learn, fast to code, ready for production",
+    "owner": "fastapi",
+    "language": "Python"
+  },
+  {
+    "name": "openai/whisper",
+    "stars": 84272,
+    "url": "https://github.com/openai/whisper",
+    "description": "Robust Speech Recognition via Large-Scale Weak Supervision",
+    "owner": "openai",
+    "language": "Python"
+  },
+  {
+    "name": "django/django",
+    "stars": 84083,
+    "url": "https://github.com/django/django",
+    "description": "The Web framework for perfectionists with deadlines.",
+    "owner": "django",
+    "language": "Python"
+  },
+  {
+    "name": "gothinkster/realworld",
+    "stars": 81807,
+    "url": "https://github.com/gothinkster/realworld",
+    "description": "\"The mother of all demo apps\" — Exemplary fullstack Medium.com clone powered by React, Angular, Node, Django, and many more",
+    "owner": "gothinkster",
+    "language": "Python"
+  },
+  {
+    "name": "comfyanonymous/ComfyUI",
+    "stars": 81407,
+    "url": "https://github.com/comfyanonymous/ComfyUI",
+    "description": "The most powerful and modular diffusion model GUI, api and backend with a graph/nodes interface.",
+    "owner": "comfyanonymous",
+    "language": "Python"
+  },
+  {
+    "name": "langflow-ai/langflow",
+    "stars": 81054,
+    "url": "https://github.com/langflow-ai/langflow",
+    "description": "Langflow is a powerful tool for building and deploying AI-powered agents and workflows.",
+    "owner": "langflow-ai",
+    "language": "Python"
+  },
+  {
+    "name": "home-assistant/core",
+    "stars": 79931,
+    "url": "https://github.com/home-assistant/core",
+    "description": ":house_with_garden: Open source home automation that puts local control and privacy first.",
+    "owner": "home-assistant",
+    "language": "Python"
+  },
+  {
+    "name": "3b1b/manim",
+    "stars": 78639,
+    "url": "https://github.com/3b1b/manim",
+    "description": "Animation engine for explanatory math videos",
+    "owner": "3b1b",
+    "language": "Python"
+  },
+  {
+    "name": "tensorflow/models",
+    "stars": 77603,
+    "url": "https://github.com/tensorflow/models",
+    "description": "Models and examples built with TensorFlow",
+    "owner": "tensorflow",
+    "language": "Python"
+  },
+  {
+    "name": "bregman-arie/devops-exercises",
+    "stars": 77004,
+    "url": "https://github.com/bregman-arie/devops-exercises",
+    "description": "Linux, Jenkins, AWS, SRE, Prometheus, Docker, Python, Ansible, Git, Kubernetes, Terraform, OpenStack, SQL, NoSQL, Azure, GCP, DNS, Elastic, Network, Virtualization. DevOps Interview Questions",
+    "owner": "bregman-arie",
+    "language": "Python"
+  },
+  {
+    "name": "fighting41love/funNLP",
+    "stars": 74519,
+    "url": "https://github.com/fighting41love/funNLP",
+    "description": "中英文敏感词、语言检测、中外手机/电话归属地/运营商查询、名字推断性别、手机号抽取、身份证抽取、邮箱抽取、中日文人名库、中文缩写库、拆字词典、词汇情感值、停用词、反动词表、暴恐词表、繁简体转换、英文模拟中文发音、汪峰歌词生成器、职业名称词库、同义词库、反义词库、否定词库、汽车品牌词库、汽车零件词库、连续英文切割、各种中文词向量、公司名字大全、古诗词库、IT词库、财经词库、成语词库、地名词库、历史名人词库、诗词词库、医学词库、饮食词库、法律词库、汽车词库、动物词库、中文聊天语料、中文谣言数据、百度中文问答数据集、句子相似度匹配算法集合、bert资源、文本生成&摘要相关工具、cocoNLP信息抽取工具、国内电话号码正则匹配、清华大学XLORE:中英文跨语言百科知识图谱、清华大学人工智能技术系列报告、自然语言生成、NLU太难了系列、自动对联数据及机器人、用户名黑名单列表、罪名法务名词及分类模型、微信公众号语料、cs224n深度学习自然语言处理课程、中文手写汉字识别、中文自然语言处理 语料/数据集、变量命名神器、分词语料库+代码、任务型对话英文数据集、ASR 语音数据集 + 基于深度学习的中文语音识别系统、笑声检测器、Microsoft多语言数字/单位/如日期时间识别包、中华新华字典数据库及api(包括常用歇后语、成语、词语和汉字)、文档图谱自动生成、SpaCy 中文模型、Common Voice语音识别数据集新版、神经网络关系抽取、基于bert的命名实体识别、关键词(Keyphrase)抽取包pke、基于医疗领域知识图谱的问答系统、基于依存句法与语义角色标注的事件三元组抽取、依存句法分析4万句高质量标注数据、cnocr：用来做中文OCR的Python3包、中文人物关系知识图谱项目、中文nlp竞赛项目及代码汇总、中文字符数据、speech-aligner: 从“人声语音”及其“语言文本”产生音素级别时间对齐标注的工具、AmpliGraph: 知识图谱表示学习(Python)库：知识图谱概念链接预测、Scattertext 文本可视化(python)、语言/知识表示工具：BERT & ERNIE、中文对比英文自然语言处理NLP的区别综述、Synonyms中文近义词工具包、HarvestText领域自适应文本挖掘工具（新词发现-情感分析-实体链接等）、word2word：(Python)方便易用的多语言词-词对集：62种语言/3,564个多语言对、语音识别语料生成工具：从具有音频/字幕的在线视频创建自动语音识别(ASR)语料库、构建医疗实体识别的模型（包含词典和语料标注）、单文档非监督的关键词抽取、Kashgari中使用gpt-2语言模型、开源的金融投资数据提取工具、文本自动摘要库TextTeaser: 仅支持英文、人民日报语料处理工具集、一些关于自然语言的基本模型、基于14W歌曲知识库的问答尝试--功能包括歌词接龙and已知歌词找歌曲以及歌曲歌手歌词三角关系的问答、基于Siamese bilstm模型的相似句子判定模型并提供训练数据集和测试数据集、用Transformer编解码模型实现的根据Hacker News文章标题自动生成评论、用BERT进行序列标记和文本分类的模板代码、LitBank：NLP数据集——支持自然语言处理和计算人文学科任务的100部带标记英文小说语料、百度开源的基准信息抽取系统、虚假新闻数据集、Facebook: LAMA语言模型分析，提供Transformer-XL/BERT/ELMo/GPT预训练语言模型的统一访问接口、CommonsenseQA：面向常识的英文QA挑战、中文知识图谱资料、数据及工具、各大公司内部里大牛分享的技术文档 PDF 或者 PPT、自然语言生成SQL语句（英文）、中文NLP数据增强（EDA）工具、英文NLP数据增强工具 、基于医药知识图谱的智能问答系统、京东商品知识图谱、基于mongodb存储的军事领域知识图谱问答项目、基于远监督的中文关系抽取、语音情感分析、中文ULMFiT-情感分析-文本分类-语料及模型、一个拍照做题程序、世界各国大规模人名库、一个利用有趣中文语料库 qingyun 训练出来的中文聊天机器人、中文聊天机器人seqGAN、省市区镇行政区划数据带拼音标注、教育行业新闻语料库包含自动文摘功能、开放了对话机器人-知识图谱-语义理解-自然语言处理工具及数据、中文知识图谱：基于百度百科中文页面-抽取三元组信息-构建中文知识图谱、masr: 中文语音识别-提供预训练模型-高识别率、Python音频数据增广库、中文全词覆盖BERT及两份阅读理解数据、ConvLab：开源多域端到端对话系统平台、中文自然语言处理数据集、基于最新版本rasa搭建的对话系统、基于TensorFlow和BERT的管道式实体及关系抽取、一个小型的证券知识图谱/知识库、复盘所有NLP比赛的TOP方案、OpenCLaP：多领域开源中文预训练语言模型仓库、UER：基于不同语料+编码器+目标任务的中文预训练模型仓库、中文自然语言处理向量合集、基于金融-司法领域(兼有闲聊性质)的聊天机器人、g2pC：基于上下文的汉语读音自动标记模块、Zincbase 知识图谱构建工具包、诗歌质量评价/细粒度情感诗歌语料库、快速转化「中文数字」和「阿拉伯数字」、百度知道问答语料库、基于知识图谱的问答系统、jieba_fast 加速版的jieba、正则表达式教程、中文阅读理解数据集、基于BERT等最新语言模型的抽取式摘要提取、Python利用深度学习进行文本摘要的综合指南、知识图谱深度学习相关资料整理、维基大规模平行文本语料、StanfordNLP 0.2.0：纯Python版自然语言处理包、NeuralNLP-NeuralClassifier：腾讯开源深度学习文本分类工具、端到端的封闭域对话系统、中文命名实体识别：NeuroNER vs. BertNER、新闻事件线索抽取、2019年百度的三元组抽取比赛：“科学空间队”源码、基于依存句法的开放域文本知识三元组抽取和知识库构建、中文的GPT2训练代码、ML-NLP - 机器学习(Machine Learning)NLP面试中常考到的知识点和代码实现、nlp4han:中文自然语言处理工具集(断句/分词/词性标注/组块/句法分析/语义分析/NER/N元语法/HMM/代词消解/情感分析/拼写检查、XLM：Facebook的跨语言预训练语言模型、用基于BERT的微调和特征提取方法来进行知识图谱百度百科人物词条属性抽取、中文自然语言处理相关的开放任务-数据集-当前最佳结果、CoupletAI - 基于CNN+Bi-LSTM+Attention 的自动对对联系统、抽象知识图谱、MiningZhiDaoQACorpus - 580万百度知道问答数据挖掘项目、brat rapid annotation tool: 序列标注工具、大规模中文知识图谱数据：1.4亿实体、数据增强在机器翻译及其他nlp任务中的应用及效果、allennlp阅读理解:支持多种数据和模型、PDF表格数据提取工具 、 Graphbrain：AI开源软件库和科研工具，目的是促进自动意义提取和文本理解以及知识的探索和推断、简历自动筛选系统、基于命名实体识别的简历自动摘要、中文语言理解测评基准，包括代表性的数据集&基准模型&语料库&排行榜、树洞 OCR 文字识别 、从包含表格的扫描图片中识别表格和文字、语声迁移、Python口语自然语言处理工具集(英文)、 similarity：相似度计算工具包，java编写、海量中文预训练ALBERT模型 、Transformers 2.0 、基于大规模音频数据集Audioset的音频增强 、Poplar：网页版自然语言标注工具、图片文字去除，可用于漫画翻译 、186种语言的数字叫法库、Amazon发布基于知识的人-人开放领域对话数据集 、中文文本纠错模块代码、繁简体转换 、 Python实现的多种文本可读性评价指标、类似于人名/地名/组织机构名的命名体识别数据集 、东南大学《知识图谱》研究生课程(资料)、. 英文拼写检查库 、 wwsearch是企业微信后台自研的全文检索引擎、CHAMELEON：深度学习新闻推荐系统元架构 、 8篇论文梳理BERT相关模型进展与反思、DocSearch：免费文档搜索引擎、 LIDA：轻量交互式对话标注工具 、aili - the fastest in-memory index in the East 东半球最快并发索引 、知识图谱车音工作项目、自然语言生成资源大全 、中日韩分词库mecab的Python接口库、中文文本摘要/关键词提取、汉字字符特征提取器 (featurizer)，提取汉字的特征（发音特征、字形特征）用做深度学习的特征、中文生成任务基准测评 、中文缩写数据集、中文任务基准测评 - 代表性的数据集-基准(预训练)模型-语料库-baseline-工具包-排行榜、PySS3：面向可解释AI的SS3文本分类器机器可视化工具 、中文NLP数据集列表、COPE - 格律诗编辑程序、doccano：基于网页的开源协同多语言文本标注工具 、PreNLP：自然语言预处理库、简单的简历解析器，用来从简历中提取关键信息、用于中文闲聊的GPT2模型：GPT2-chitchat、基于检索聊天机器人多轮响应选择相关资源列表(Leaderboards、Datasets、Papers)、(Colab)抽象文本摘要实现集锦(教程 、词语拼音数据、高效模糊搜索工具、NLP数据增广资源集、微软对话机器人框架 、 GitHub Typo Corpus：大规模GitHub多语言拼写错误/语法错误数据集、TextCluster：短文本聚类预处理模块 Short text cluster、面向语音识别的中文文本规范化、BLINK：最先进的实体链接库、BertPunc：基于BERT的最先进标点修复模型、Tokenizer：快速、可定制的文本词条化库、中文语言理解测评基准，包括代表性的数据集、基准(预训练)模型、语料库、排行榜、spaCy 医学文本挖掘与信息提取 、 NLP任务示例项目代码集、 python拼写检查库、chatbot-list - 行业内关于智能客服、聊天机器人的应用和架构、算法分享和介绍、语音质量评价指标(MOSNet, BSSEval, STOI, PESQ, SRMR)、 用138GB语料训练的法文RoBERTa预训练语言模型 、BERT-NER-Pytorch：三种不同模式的BERT中文NER实验、无道词典 - 有道词典的命令行版本，支持英汉互查和在线查询、2019年NLP亮点回顾、 Chinese medical dialogue data 中文医疗对话数据集 、最好的汉字数字(中文数字)-阿拉伯数字转换工具、 基于百科知识库的中文词语多词义/义项获取与特定句子词语语义消歧、awesome-nlp-sentiment-analysis - 情感分析、情绪原因识别、评价对象和评价词抽取、LineFlow：面向所有深度学习框架的NLP数据高效加载器、中文医学NLP公开资源整理 、MedQuAD：(英文)医学问答数据集、将自然语言数字串解析转换为整数和浮点数、Transfer Learning in Natural Language Processing (NLP) 、面向语音识别的中文/英文发音辞典、Tokenizers：注重性能与多功能性的最先进分词器、CLUENER 细粒度命名实体识别 Fine Grained Named Entity Recognition、 基于BERT的中文命名实体识别、中文谣言数据库、NLP数据集/基准任务大列表、nlp相关的一些论文及代码, 包括主题模型、词向量(Word Embedding)、命名实体识别(NER)、文本分类(Text Classificatin)、文本生成(Text Generation)、文本相似性(Text Similarity)计算等，涉及到各种与nlp相关的算法，基于keras和tensorflow 、Python文本挖掘/NLP实战示例、 Blackstone：面向非结构化法律文本的spaCy pipeline和NLP模型通过同义词替换实现文本“变脸” 、中文 预训练 ELECTREA 模型: 基于对抗学习 pretrain Chinese Model 、albert-chinese-ner - 用预训练语言模型ALBERT做中文NER 、基于GPT2的特定主题文本生成/文本增广、开源预训练语言模型合集、多语言句向量包、编码、标记和实现：一种可控高效的文本生成方法、 英文脏话大列表 、attnvis：GPT2、BERT等transformer语言模型注意力交互可视化、CoVoST：Facebook发布的多语种语音-文本翻译语料库，包括11种语言(法语、德语、荷兰语、俄语、西班牙语、意大利语、土耳其语、波斯语、瑞典语、蒙古语和中文)的语音、文字转录及英文译文、Jiagu自然语言处理工具 - 以BiLSTM等模型为基础，提供知识图谱关系抽取 中文分词 词性标注 命名实体识别 情感分析 新词发现 关键词 文本摘要 文本聚类等功能、用unet实现对文档表格的自动检测，表格重建、NLP事件提取文献资源列表 、 金融领域自然语言处理研究资源大列表、CLUEDatasetSearch - 中英文NLP数据集：搜索所有中文NLP数据集，附常用英文NLP数据集 、medical_NER - 中文医学知识图谱命名实体识别 、(哈佛)讲因果推理的免费书、知识图谱相关学习资料/数据集/工具资源大列表、Forte：灵活强大的自然语言处理pipeline工具集 、Python字符串相似性算法库、PyLaia：面向手写文档分析的深度学习工具包、TextFooler：针对文本分类/推理的对抗文本生成模块、Haystack：灵活、强大的可扩展问答(QA)框架、中文关键短语抽取工具",
+    "owner": "fighting41love",
+    "language": "Python"
+  },
+  {
+    "name": "hacksider/Deep-Live-Cam",
+    "stars": 71494,
+    "url": "https://github.com/hacksider/Deep-Live-Cam",
+    "description": "real time face swap and one-click video deepfake with only a single image",
+    "owner": "hacksider",
+    "language": "Python"
+  },
+  {
+    "name": "d2l-ai/d2l-zh",
+    "stars": 70353,
+    "url": "https://github.com/d2l-ai/d2l-zh",
+    "description": "《动手学深度学习》：面向中文读者、能运行、可讨论。中英文版被70多个国家的500多所大学用于教学。",
+    "owner": "d2l-ai",
+    "language": "Python"
+  },
+  {
+    "name": "abi/screenshot-to-code",
+    "stars": 70294,
+    "url": "https://github.com/abi/screenshot-to-code",
+    "description": "Drop in a screenshot and convert it to clean code (HTML/Tailwind/React/Vue)",
+    "owner": "abi",
+    "language": "Python"
+  },
+  {
+    "name": "pallets/flask",
+    "stars": 69864,
+    "url": "https://github.com/pallets/flask",
+    "description": "The Python micro framework for building web applications.",
+    "owner": "pallets",
+    "language": "Python"
+  },
+  {
+    "name": "binary-husky/gpt_academic",
+    "stars": 68878,
+    "url": "https://github.com/binary-husky/gpt_academic",
+    "description": "为GPT/GLM等LLM大语言模型提供实用化交互接口，特别优化论文阅读/润色/写作体验，模块化设计，支持自定义快捷按钮&函数插件，支持Python和C++等项目剖析&自译解功能，PDF/LaTex论文翻译&总结功能，支持并行问询多种LLM模型，支持chatglm3等本地模型。接入通义千问, deepseekcoder, 讯飞星火, 文心一言, llama2, rwkv, claude2, moss等。",
+    "owner": "binary-husky",
+    "language": "Python"
+  },
+  {
+    "name": "josephmisiti/awesome-machine-learning",
+    "stars": 68770,
+    "url": "https://github.com/josephmisiti/awesome-machine-learning",
+    "description": "A curated list of awesome Machine Learning frameworks, libraries and software.",
+    "owner": "josephmisiti",
+    "language": "Python"
+  },
+  {
+    "name": "python/cpython",
+    "stars": 67719,
+    "url": "https://github.com/python/cpython",
+    "description": "The Python programming language",
+    "owner": "python",
+    "language": "Python"
+  },
+  {
+    "name": "swisskyrepo/PayloadsAllTheThings",
+    "stars": 67247,
+    "url": "https://github.com/swisskyrepo/PayloadsAllTheThings",
+    "description": "A list of useful payloads and bypass for Web Application Security and Pentest/CTF",
+    "owner": "swisskyrepo",
+    "language": "Python"
+  },
+  {
+    "name": "sherlock-project/sherlock",
+    "stars": 66423,
+    "url": "https://github.com/sherlock-project/sherlock",
+    "description": "Hunt down social media accounts by username across social networks",
+    "owner": "sherlock-project",
+    "language": "Python"
+  },
+  {
+    "name": "ansible/ansible",
+    "stars": 65503,
+    "url": "https://github.com/ansible/ansible",
+    "description": "Ansible is a radically simple IT automation platform that makes your applications and systems easier to deploy and maintain. Automate everything from code deployment to network configuration to cloud management, in a language that approaches plain English, using SSH, with no agents to install on remote systems. https://docs.ansible.com.",
+    "owner": "ansible",
+    "language": "Python"
+  },
+  {
+    "name": "Alvin9999/new-pac",
+    "stars": 64678,
+    "url": "https://github.com/Alvin9999/new-pac",
+    "description": "翻墙-科学上网、自由上网、免费科学上网、免费翻墙、fanqiang、油管youtube/视频下载、软件、VPN、一键翻墙浏览器，vps一键搭建翻墙服务器脚本/教程，免费shadowsocks/ss/ssr/v2ray/goflyway账号/节点，翻墙梯子，电脑、手机、iOS、安卓、windows、Mac、Linux、路由器翻墙、科学上网、youtube视频下载、youtube油管镜像/免翻墙网站、美区apple id共享账号、翻墙-科学上网-梯子",
+    "owner": "Alvin9999",
+    "language": "Python"
+  },
+  {
+    "name": "browser-use/browser-use",
+    "stars": 64549,
+    "url": "https://github.com/browser-use/browser-use",
+    "description": "🌐 Make websites accessible for AI agents. Automate tasks online with ease.",
+    "owner": "browser-use",
+    "language": "Python"
+  },
+  {
+    "name": "xtekky/gpt4free",
+    "stars": 64543,
+    "url": "https://github.com/xtekky/gpt4free",
+    "description": "The official gpt4free repository | various collection of powerful language models | o4, o3 and deepseek r1, gpt-4.1, gemini 2.5",
+    "owner": "xtekky",
+    "language": "Python"
+  },
+  {
+    "name": "keras-team/keras",
+    "stars": 63170,
+    "url": "https://github.com/keras-team/keras",
+    "description": "Deep Learning for humans",
+    "owner": "keras-team",
+    "language": "Python"
+  },
+  {
+    "name": "scikit-learn/scikit-learn",
+    "stars": 62517,
+    "url": "https://github.com/scikit-learn/scikit-learn",
+    "description": "scikit-learn: machine learning in Python",
+    "owner": "scikit-learn",
+    "language": "Python"
+  },
+  {
+    "name": "labmlai/annotated_deep_learning_paper_implementations",
+    "stars": 61603,
+    "url": "https://github.com/labmlai/annotated_deep_learning_paper_implementations",
+    "description": "🧑‍🏫 60+ Implementations/tutorials of deep learning papers with side-by-side notes 📝; including transformers (original, xl, switch, feedback, vit, ...), optimizers (adam, adabelief, sophia, ...), gans(cyclegan, stylegan2, ...), 🎮 reinforcement learning (ppo, dqn), capsnet, distillation, ... 🧠",
+    "owner": "labmlai",
+    "language": "Python"
+  },
+  {
+    "name": "OpenInterpreter/open-interpreter",
+    "stars": 59832,
+    "url": "https://github.com/OpenInterpreter/open-interpreter",
+    "description": "A natural language interface for computers",
+    "owner": "OpenInterpreter",
+    "language": "Python"
+  },
+  {
+    "name": "microsoft/markitdown",
+    "stars": 59770,
+    "url": "https://github.com/microsoft/markitdown",
+    "description": "Python tool for converting files and office documents to Markdown.",
+    "owner": "microsoft",
+    "language": "Python"
+  },
+  {
+    "name": "All-Hands-AI/OpenHands",
+    "stars": 59763,
+    "url": "https://github.com/All-Hands-AI/OpenHands",
+    "description": "🙌 OpenHands: Code Less, Make More",
+    "owner": "All-Hands-AI",
+    "language": "Python"
+  },
+  {
+    "name": "localstack/localstack",
+    "stars": 59458,
+    "url": "https://github.com/localstack/localstack",
+    "description": "💻 A fully functional local AWS cloud stack. Develop and test your cloud & Serverless apps offline",
+    "owner": "localstack",
+    "language": "Python"
+  },
+  {
+    "name": "infiniflow/ragflow",
+    "stars": 58806,
+    "url": "https://github.com/infiniflow/ragflow",
+    "description": "RAGFlow is an open-source RAG (Retrieval-Augmented Generation) engine based on deep document understanding.",
+    "owner": "infiniflow",
+    "language": "Python"
+  },
+  {
+    "name": "meta-llama/llama",
+    "stars": 58450,
+    "url": "https://github.com/meta-llama/llama",
+    "description": "Inference code for Llama models",
+    "owner": "meta-llama",
+    "language": "Python"
+  },
+  {
+    "name": "scrapy/scrapy",
+    "stars": 57418,
+    "url": "https://github.com/scrapy/scrapy",
+    "description": "Scrapy, a fast high-level web crawling & scraping framework for Python.",
+    "owner": "scrapy",
+    "language": "Python"
+  },
+  {
+    "name": "FoundationAgents/MetaGPT",
+    "stars": 56934,
+    "url": "https://github.com/FoundationAgents/MetaGPT",
+    "description": "🌟 The Multi-Agent Framework: First AI Software Company, Towards Natural Language Programming",
+    "owner": "FoundationAgents",
+    "language": "Python"
+  },
+  {
+    "name": "zylon-ai/private-gpt",
+    "stars": 56149,
+    "url": "https://github.com/zylon-ai/private-gpt",
+    "description": "Interact with your documents using the power of GPT, 100% privately, no data leaks",
+    "owner": "zylon-ai",
+    "language": "Python"
+  },
+  {
+    "name": "soimort/you-get",
+    "stars": 55795,
+    "url": "https://github.com/soimort/you-get",
+    "description": ":arrow_double_down: Dumb downloader that scrapes the web",
+    "owner": "soimort",
+    "language": "Python"
+  },
+  {
+    "name": "ageitgey/face_recognition",
+    "stars": 54998,
+    "url": "https://github.com/ageitgey/face_recognition",
+    "description": "The world's simplest facial recognition api for Python and the command line",
+    "owner": "ageitgey",
+    "language": "Python"
+  },
+  {
+    "name": "CorentinJ/Real-Time-Voice-Cloning",
+    "stars": 54616,
+    "url": "https://github.com/CorentinJ/Real-Time-Voice-Cloning",
+    "description": "Clone a voice in 5 seconds to generate arbitrary speech in real-time",
+    "owner": "CorentinJ",
+    "language": "Python"
+  },
+  {
+    "name": "ultralytics/yolov5",
+    "stars": 54448,
+    "url": "https://github.com/ultralytics/yolov5",
+    "description": "YOLOv5 🚀 in PyTorch > ONNX > CoreML > TFLite",
+    "owner": "ultralytics",
+    "language": "Python"
+  },
+  {
+    "name": "AntonOsika/gpt-engineer",
+    "stars": 54406,
+    "url": "https://github.com/AntonOsika/gpt-engineer",
+    "description": "CLI platform to experiment with codegen. Precursor to: https://lovable.dev",
+    "owner": "AntonOsika",
+    "language": "Python"
+  },
+  {
+    "name": "commaai/openpilot",
+    "stars": 54247,
+    "url": "https://github.com/commaai/openpilot",
+    "description": "openpilot is an operating system for robotics. Currently, it upgrades the driver assistance system on 300+ supported cars.",
+    "owner": "commaai",
+    "language": "Python"
+  },
+  {
+    "name": "deepfakes/faceswap",
+    "stars": 54190,
+    "url": "https://github.com/deepfakes/faceswap",
+    "description": "Deepfakes Software For All",
+    "owner": "deepfakes",
+    "language": "Python"
+  },
+  {
+    "name": "hiyouga/LLaMA-Factory",
+    "stars": 53421,
+    "url": "https://github.com/hiyouga/LLaMA-Factory",
+    "description": "Unified Efficient Fine-Tuning of 100+ LLMs & VLMs (ACL 2024)",
+    "owner": "hiyouga",
+    "language": "Python"
+  },
+  {
+    "name": "psf/requests",
+    "stars": 53001,
+    "url": "https://github.com/psf/requests",
+    "description": "A simple, yet elegant, HTTP library.",
+    "owner": "psf",
+    "language": "Python"
+  },
+  {
+    "name": "Z4nzu/hackingtool",
+    "stars": 52903,
+    "url": "https://github.com/Z4nzu/hackingtool",
+    "description": "ALL IN ONE Hacking Tool For Hackers",
+    "owner": "Z4nzu",
+    "language": "Python"
+  },
+  {
+    "name": "Textualize/rich",
+    "stars": 52661,
+    "url": "https://github.com/Textualize/rich",
+    "description": "Rich is a Python library for rich text and beautiful formatting in the terminal.",
+    "owner": "Textualize",
+    "language": "Python"
+  },
+  {
+    "name": "vllm-project/vllm",
+    "stars": 51298,
+    "url": "https://github.com/vllm-project/vllm",
+    "description": "A high-throughput and memory-efficient inference and serving engine for LLMs",
+    "owner": "vllm-project",
+    "language": "Python"
+  },
+  {
+    "name": "PaddlePaddle/PaddleOCR",
+    "stars": 51172,
+    "url": "https://github.com/PaddlePaddle/PaddleOCR",
+    "description": "Awesome multilingual OCR and Document Parsing toolkits based on PaddlePaddle (practical ultra lightweight OCR system, support 80+ languages recognition, provide data annotation and synthesis tools, support training and deployment among server, mobile, embedded and IoT devices)",
+    "owner": "PaddlePaddle",
+    "language": "Python"
+  },
+  {
+    "name": "xai-org/grok-1",
+    "stars": 50297,
+    "url": "https://github.com/xai-org/grok-1",
+    "description": "Grok open release",
+    "owner": "xai-org",
+    "language": "Python"
+  },
+  {
+    "name": "RVC-Boss/GPT-SoVITS",
+    "stars": 48330,
+    "url": "https://github.com/RVC-Boss/GPT-SoVITS",
+    "description": "1 min voice data can also be used to train a good TTS model! (few shot voice cloning)",
+    "owner": "RVC-Boss",
+    "language": "Python"
+  },
+  {
+    "name": "charlax/professional-programming",
+    "stars": 47725,
+    "url": "https://github.com/charlax/professional-programming",
+    "description": "A collection of learning resources for curious software engineers",
+    "owner": "charlax",
+    "language": "Python"
+  },
+  {
+    "name": "Shubhamsaboo/awesome-llm-apps",
+    "stars": 47623,
+    "url": "https://github.com/Shubhamsaboo/awesome-llm-apps",
+    "description": "Collection of awesome LLM apps with AI Agents and RAG using OpenAI, Anthropic, Gemini and opensource models.",
+    "owner": "Shubhamsaboo",
+    "language": "Python"
+  },
+  {
+    "name": "FoundationAgents/OpenManus",
+    "stars": 47521,
+    "url": "https://github.com/FoundationAgents/OpenManus",
+    "description": "No fortress, purely open ground.  OpenManus is Coming.",
+    "owner": "FoundationAgents",
+    "language": "Python"
+  },
+  {
+    "name": "minimaxir/big-list-of-naughty-strings",
+    "stars": 47246,
+    "url": "https://github.com/minimaxir/big-list-of-naughty-strings",
+    "description": "The Big List of Naughty Strings is a list of strings which have a high probability of causing issues when used as user-input data.",
+    "owner": "minimaxir",
+    "language": "Python"
+  },
+  {
+    "name": "Asabeneh/30-Days-Of-Python",
+    "stars": 47210,
+    "url": "https://github.com/Asabeneh/30-Days-Of-Python",
+    "description": "30 days of Python programming challenge is a step-by-step guide to learn the Python programming language in 30 days. This challenge may take more than100 days, follow your own pace.  These videos may help too: https://www.youtube.com/channel/UC7PNRuno1rzYPb1xLa4yktw",
+    "owner": "Asabeneh",
+    "language": "Python"
+  },
+  {
+    "name": "unclecode/crawl4ai",
+    "stars": 47015,
+    "url": "https://github.com/unclecode/crawl4ai",
+    "description": "🚀🤖 Crawl4AI: Open-source LLM Friendly Web Crawler & Scraper. Don't be shy, join here: https://discord.gg/jP8KfhDhyN",
+    "owner": "unclecode",
+    "language": "Python"
+  },
+  {
+    "name": "microsoft/autogen",
+    "stars": 46792,
+    "url": "https://github.com/microsoft/autogen",
+    "description": "A programming framework for agentic AI 🤖 PyPi: autogen-agentchat Discord: https://aka.ms/autogen-discord Office Hour: https://aka.ms/autogen-officehour",
+    "owner": "microsoft",
+    "language": "Python"
+  },
+  {
+    "name": "pandas-dev/pandas",
+    "stars": 45850,
+    "url": "https://github.com/pandas-dev/pandas",
+    "description": "Flexible and powerful data analysis / manipulation library for Python, providing labeled data structures similar to R data.frame objects, statistical functions, and much more",
+    "owner": "pandas-dev",
+    "language": "Python"
+  },
+  {
+    "name": "lllyasviel/Fooocus",
+    "stars": 45589,
+    "url": "https://github.com/lllyasviel/Fooocus",
+    "description": "Focus on prompting and generating",
+    "owner": "lllyasviel",
+    "language": "Python"
+  },
+  {
+    "name": "oobabooga/text-generation-webui",
+    "stars": 44184,
+    "url": "https://github.com/oobabooga/text-generation-webui",
+    "description": "LLM UI with advanced features, easy setup, and multiple backend support.",
+    "owner": "oobabooga",
+    "language": "Python"
+  },
+  {
+    "name": "odoo/odoo",
+    "stars": 43904,
+    "url": "https://github.com/odoo/odoo",
+    "description": "Odoo. Open Source Apps To Grow Your Business.",
+    "owner": "odoo",
+    "language": "Python"
+  },
+  {
+    "name": "run-llama/llama_index",
+    "stars": 42784,
+    "url": "https://github.com/run-llama/llama_index",
+    "description": "LlamaIndex is the leading framework for building LLM-powered agents over your data.",
+    "owner": "run-llama",
+    "language": "Python"
+  },
+  {
+    "name": "ultralytics/ultralytics",
+    "stars": 42635,
+    "url": "https://github.com/ultralytics/ultralytics",
+    "description": "Ultralytics YOLO11 🚀",
+    "owner": "ultralytics",
+    "language": "Python"
+  },
+  {
+    "name": "karpathy/nanoGPT",
+    "stars": 42478,
+    "url": "https://github.com/karpathy/nanoGPT",
+    "description": "The simplest, fastest repository for training/finetuning medium-sized GPTs.",
+    "owner": "karpathy",
+    "language": "Python"
+  },
+  {
+    "name": "OpenBB-finance/OpenBB",
+    "stars": 42176,
+    "url": "https://github.com/OpenBB-finance/OpenBB",
+    "description": "Investment Research for Everyone, Everywhere.",
+    "owner": "OpenBB-finance",
+    "language": "Python"
+  },
+  {
+    "name": "faif/python-patterns",
+    "stars": 41613,
+    "url": "https://github.com/faif/python-patterns",
+    "description": "A collection of design patterns/idioms in Python",
+    "owner": "faif",
+    "language": "Python"
+  },
+  {
+    "name": "unslothai/unsloth",
+    "stars": 41456,
+    "url": "https://github.com/unslothai/unsloth",
+    "description": "Fine-tuning & Reinforcement Learning for LLMs. 🦥 Train Qwen3, Llama 4, DeepSeek-R1, Gemma 3, TTS 2x faster with 70% less VRAM.",
+    "owner": "unslothai",
+    "language": "Python"
+  },
+  {
+    "name": "Stability-AI/stablediffusion",
+    "stars": 41262,
+    "url": "https://github.com/Stability-AI/stablediffusion",
+    "description": "High-Resolution Image Synthesis with Latent Diffusion Models",
+    "owner": "Stability-AI",
+    "language": "Python"
+  },
+  {
+    "name": "getsentry/sentry",
+    "stars": 41242,
+    "url": "https://github.com/getsentry/sentry",
+    "description": "Developer-first error tracking and performance monitoring",
+    "owner": "getsentry",
+    "language": "Python"
+  },
+  {
+    "name": "mingrammer/diagrams",
+    "stars": 41119,
+    "url": "https://github.com/mingrammer/diagrams",
+    "description": ":art: Diagram as Code for prototyping cloud system architectures",
+    "owner": "mingrammer",
+    "language": "Python"
+  },
+  {
+    "name": "coqui-ai/TTS",
+    "stars": 41110,
+    "url": "https://github.com/coqui-ai/TTS",
+    "description": "🐸💬 - a deep learning toolkit for Text-to-Speech, battle-tested in research and production",
+    "owner": "coqui-ai",
+    "language": "Python"
+  },
+  {
+    "name": "THUDM/ChatGLM-6B",
+    "stars": 41081,
+    "url": "https://github.com/THUDM/ChatGLM-6B",
+    "description": "ChatGLM-6B: An Open Bilingual Dialogue Language Model | 开源双语对话语言模型",
+    "owner": "THUDM",
+    "language": "Python"
+  },
+  {
+    "name": "apachecn/ailearning",
+    "stars": 41060,
+    "url": "https://github.com/apachecn/ailearning",
+    "description": "AiLearning：数据分析+机器学习实战+线性代数+PyTorch+NLTK+TF2",
+    "owner": "apachecn",
+    "language": "Python"
+  },
+  {
+    "name": "hpcaitech/ColossalAI",
+    "stars": 41008,
+    "url": "https://github.com/hpcaitech/ColossalAI",
+    "description": "Making large AI models cheaper, faster and more accessible",
+    "owner": "hpcaitech",
+    "language": "Python"
+  },
+  {
+    "name": "apache/airflow",
+    "stars": 40830,
+    "url": "https://github.com/apache/airflow",
+    "description": "Apache Airflow - A platform to programmatically author, schedule, and monitor workflows",
+    "owner": "apache",
+    "language": "Python"
+  },
+  {
+    "name": "psf/black",
+    "stars": 40450,
+    "url": "https://github.com/psf/black",
+    "description": "The uncompromising Python code formatter",
+    "owner": "psf",
+    "language": "Python"
+  },
+  {
+    "name": "streamlit/streamlit",
+    "stars": 40204,
+    "url": "https://github.com/streamlit/streamlit",
+    "description": "Streamlit — A faster way to build and share data apps.",
+    "owner": "streamlit",
+    "language": "Python"
+  },
+  {
+    "name": "freqtrade/freqtrade",
+    "stars": 40091,
+    "url": "https://github.com/freqtrade/freqtrade",
+    "description": "Free, open source crypto trading bot",
+    "owner": "freqtrade",
+    "language": "Python"
+  },
+  {
+    "name": "mitmproxy/mitmproxy",
+    "stars": 39697,
+    "url": "https://github.com/mitmproxy/mitmproxy",
+    "description": "An interactive TLS-capable intercepting HTTP proxy for penetration testers and software developers.",
+    "owner": "mitmproxy",
+    "language": "Python"
+  },
+  {
+    "name": "chubin/cheat.sh",
+    "stars": 39579,
+    "url": "https://github.com/chubin/cheat.sh",
+    "description": "the only cheat sheet you need",
+    "owner": "chubin",
+    "language": "Python"
+  },
+  {
+    "name": "google-research/bert",
+    "stars": 39288,
+    "url": "https://github.com/google-research/bert",
+    "description": "TensorFlow code and pre-trained models for BERT",
+    "owner": "google-research",
+    "language": "Python"
+  },
+  {
+    "name": "deepspeedai/DeepSpeed",
+    "stars": 39183,
+    "url": "https://github.com/deepspeedai/DeepSpeed",
+    "description": "DeepSpeed is a deep learning optimization library that makes distributed training and inference easy, efficient, and effective.",
+    "owner": "deepspeedai",
+    "language": "Python"
+  },
+  {
+    "name": "floodsung/Deep-Learning-Papers-Reading-Roadmap",
+    "stars": 39104,
+    "url": "https://github.com/floodsung/Deep-Learning-Papers-Reading-Roadmap",
+    "description": "Deep Learning papers reading roadmap for anyone who are eager to learn this amazing tech!",
+    "owner": "floodsung",
+    "language": "Python"
+  },
+  {
+    "name": "gradio-app/gradio",
+    "stars": 38848,
+    "url": "https://github.com/gradio-app/gradio",
+    "description": "Build and share delightful machine learning apps, all in Python. 🌟 Star to support our work!",
+    "owner": "gradio-app",
+    "language": "Python"
+  },
+  {
+    "name": "lm-sys/FastChat",
+    "stars": 38804,
+    "url": "https://github.com/lm-sys/FastChat",
+    "description": "An open platform for training, serving, and evaluating large language models. Release repo for Vicuna and Chatbot Arena.",
+    "owner": "lm-sys",
+    "language": "Python"
+  }
+]

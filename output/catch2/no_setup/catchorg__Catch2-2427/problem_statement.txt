@@ -1,0 +1,10 @@
+Unused variable warnings when compiling with nvcc + gcc
+When compiling CUDA files with nvcc (CUDA 11.3 and GCC 9.4), when including catch2 and declaring a simple test case, I'm getting warnings such as `variable "[...]autoRegistrar1" was declared but never referenced`.
+Is there a way to get rid of these warnings?
+
+**Platform information:**
+<!-- Fill in any extra information that might be important for your issue. -->
+ - OS: **Linux x86_64**
+ - Compiler+version: **NVCC 11.3 / GCC 9.4.0**
+ - Catch version: **v2.13.0** [included as part of CMake build, with cmake 3.17.0]
+

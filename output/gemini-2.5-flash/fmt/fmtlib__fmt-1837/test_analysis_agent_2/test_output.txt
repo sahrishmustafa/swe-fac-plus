@@ -1,0 +1,21 @@
++ cd /testbed
++ git checkout c7e6d8afb06cec7b8244f963dc081daf7e70f7f6 test/chrono-test.cc
+Updated 0 paths from e95c42b1
++ git apply -v -
+Checking patch test/chrono-test.cc...
+Applied patch test/chrono-test.cc cleanly.
++ cd build
++ ctest -R chrono-test
+Test project /testbed/build
+    Start 2: chrono-test
+1/1 Test #2: chrono-test ......................   Passed    0.00 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   0.00 sec
++ rc=0
++ echo OMNIGRIL_EXIT_CODE=0
++ cd /testbed
+OMNIGRIL_EXIT_CODE=0
++ git checkout c7e6d8afb06cec7b8244f963dc081daf7e70f7f6 test/chrono-test.cc
+Updated 1 path from e95c42b1

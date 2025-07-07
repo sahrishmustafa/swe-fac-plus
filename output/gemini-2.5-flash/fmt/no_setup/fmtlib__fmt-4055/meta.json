@@ -1,0 +1,22 @@
+{
+    "task_id": "fmtlib__fmt-4055",
+    "setup_info": {
+        "repo_path": "github/_cache/fmtlib__fmt-4055_2025-07-04_18-38-48",
+        "repo_cache_path": "github/_cache/fmtlib/fmt_cache"
+    },
+    "task_info": {
+        "repo": "fmtlib/fmt",
+        "pull_number": 4055,
+        "instance_id": "fmtlib__fmt-4055",
+        "issue_numbers": [
+            "4036"
+        ],
+        "base_commit": "1408f1824d6a23643e178ee6e46478fb550a0963",
+        "patch": "diff --git a/include/fmt/format.h b/include/fmt/format.h\n--- a/include/fmt/format.h\n+++ b/include/fmt/format.h\n@@ -3978,9 +3978,15 @@ struct formatter<T, Char, enable_if_t<detail::has_format_as<T>::value>>\n   }\n };\n \n-#define FMT_FORMAT_AS(Type, Base) \\\n-  template <typename Char>        \\\n-  struct formatter<Type, Char> : formatter<Base, Char> {}\n+#define FMT_FORMAT_AS(Type, Base)                                              \\\n+  template <typename Char>                                                     \\\n+  struct formatter<Type, Char> : formatter<Base, Char> {                       \\\n+    template <typename FormatContext>                                          \\\n+    auto format(Type value, FormatContext& ctx) const -> decltype(ctx.out()) { \\\n+      using base = formatter<Base, Char>;                                      \\\n+      return base::format(value, ctx);                                         \\\n+    }                                                                          \\\n+  }\n \n FMT_FORMAT_AS(signed char, int);\n FMT_FORMAT_AS(unsigned char, unsigned);\n",
+        "test_patch": "diff --git a/test/format-test.cc b/test/format-test.cc\n--- a/test/format-test.cc\n+++ b/test/format-test.cc\n@@ -1650,6 +1650,20 @@ TEST(format_test, format_explicitly_convertible_to_std_string_view) {\n   EXPECT_EQ(\"'foo'\",\n             fmt::format(\"{}\", explicitly_convertible_to_std_string_view()));\n }\n+\n+struct convertible_to_std_string_view {\n+  operator std::string_view() const noexcept { return \"Hi there\"; }\n+};\n+FMT_BEGIN_NAMESPACE\n+template <>\n+class formatter<convertible_to_std_string_view>\n+    : public formatter<std::string_view> {};\n+FMT_END_NAMESPACE\n+\n+TEST(format_test, format_implicitly_convertible_and_inherits_string_view) {\n+  static_assert(fmt::is_formattable<convertible_to_std_string_view>{}, \"\");\n+  EXPECT_EQ(\"Hi there\", fmt::format(\"{}\", convertible_to_std_string_view{}));\n+}\n #endif\n \n class Answer {};\n",
+        "problem_statement": "formatter simply inheriting from built-in formatter is not recognised\nlibfmt 10.2 / gcc 13\r\n\r\nI have a string-like class implicitly-convertible to std::string_view. Based on older documentation I'd expect that to Just Work in `fmt::format()`but I see from other issues that matching on implicit conversion has been disabled.  Annoying, but fair enough.\r\n\r\nWhen I create a `fmt::formatter` specialisation for my class that simply inherits `fmt::formatter<string_view>`, this does not work, `fmt::format` still considers S to be an un-formattable type.\r\n```\r\ntemplate<>\r\nclass fmt::formatter<S> \r\n    : public fmt::formatter<std::string_view> {};\r\n```\r\nhttps://godbolt.org/z/aMqqWaso9\r\n\r\nThe equivalent code using std::formatter works ok: https://godbolt.org/z/T7zzKzzf3\r\n\n",
+        "hints_text": "Right now the `string_view` formatter only accepts `string_view` and not objects convertible to it but I think it's reasonable to relax this.",
+        "created_at": "2024-07-07T16:34:52Z",
+        "version": "11.0"
+    }
+}

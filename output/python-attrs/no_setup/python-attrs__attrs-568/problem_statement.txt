@@ -1,0 +1,18 @@
+Allow repr (+ str?) to take callables
+It would be useful to be able to pass in a callable to do `repr`'ing of attributes.
+
+For me this happens if I want to present a value in the repr differently than just `repr(foo)`, which is sometimes useful, especially if the "different way" is to use e.g. `reprlib.repr` to do auto-truncation of long values.
+
+Being able to pass in callables to the `repr` argument seems at first glance like a reasonably easy way to do that.
+
+E.g.
+
+`attr.ib(repr=reprlib.repr)`
+
+and
+
+`attr.ib(repr=lambda value: repr(value) * 12)`
+
+You could preserve backwards compatibility by having True be equivalent to `repr`, and False be a sentinel (which you need anyways).
+
+I think this could also satisfy #41, if you do the same to `attr.s`, and then provide an `attr.simple_repr`, so you'd do `attr.s(repr=attr.simple_repr)` and get the normal bracket repr instead of the eval one.

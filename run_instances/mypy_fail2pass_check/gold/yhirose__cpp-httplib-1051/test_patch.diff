@@ -1,0 +1,24 @@
+diff --git a/test/test.cc b/test/test.cc
+--- a/test/test.cc
++++ b/test/test.cc
+@@ -8,6 +8,8 @@
+ #include <sstream>
+ #include <stdexcept>
+ #include <thread>
++#include <type_traits>
++#include "../httplib.h"
+ 
+ #define SERVER_CERT_FILE "./cert.pem"
+ #define SERVER_CERT2_FILE "./cert2.pem"
+@@ -40,6 +42,11 @@ MultipartFormData &get_file_value(MultipartFormDataItems &files,
+   throw std::runtime_error("invalid mulitpart form data name error");
+ }
+ 
++TEST(ConstructorTest, MoveConstructible) {
++  EXPECT_FALSE(std::is_copy_constructible<httplib::Client>::value);
++  EXPECT_TRUE(std::is_nothrow_move_constructible<httplib::Client>::value);
++}
++
+ #ifdef _WIN32
+ TEST(StartupTest, WSAStartup) {
+   WSADATA wsaData;

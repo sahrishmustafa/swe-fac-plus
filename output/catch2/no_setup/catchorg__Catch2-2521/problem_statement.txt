@@ -1,0 +1,96 @@
+useless-cast warning from THROW macro family
+**Describe the bug**
+We get the following error message (with -Werror) when using `REQUIRE_NOTHROW` on a void function.
+```
+.../Catch2/src/catch2/internal/catch_test_macro_impl.hpp:79:13: error: useless cast to type 'void' [-Werror=useless-cast]
+   79 |             static_cast<void>(__VA_ARGS__); \
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.../Catch2/src/catch2/catch_test_macros.hpp:128:34: note: in expansion of macro 'INTERNAL_CATCH_NO_THROW'
+  128 |   #define REQUIRE_NOTHROW( ... ) INTERNAL_CATCH_NO_THROW( "REQUIRE_NOTHROW", Catch::ResultDisposition::Normal, __VA_ARGS__ )
+      |                                  ^~~~~~~~~~~~~~~~~~~~~~~
+mycode.cpp:47:41: note: in expansion of macro 'REQUIRE_NOTHROW'
+```
+
+**Expected behavior**
+No Warning.
+
+**Reproduction steps**
+```
+#include <catch2/catch_test_macros.hpp>
+
+void op();
+
+TEST_CASE("") {
+    REQUIRE_NOTHROW(op());
+}
+```
+Although I was not able to reproduce it on godbolt.
+
+
+**Platform information:**
+ - OS: **Windows 10**
+ - Compiler+version: **g++.exe (Rev1, Built by MSYS2 project) 12.2.0**
+ - We have `-Wuseless-cast` in our warning list
+ - Catch version: **v3.1.0**
+
+
+**Additional context**
+We just migrated from Catch 2.13.8 with the single include. Before the Code produced no warning.
+
+I'm also willing to fix this with
+```
+                if constexpr ( std::is_same_v<decltype( __VA_ARGS__ ),      \
+                                              void> ) {                     \
+                    __VA_ARGS__;                                            \
+                } else {                                                    \
+                    static_cast<void>( __VA_ARGS__ );                       \
+                }                                                           \
+```
+useless-cast warning from THROW macro family
+**Describe the bug**
+We get the following error message (with -Werror) when using `REQUIRE_NOTHROW` on a void function.
+```
+.../Catch2/src/catch2/internal/catch_test_macro_impl.hpp:79:13: error: useless cast to type 'void' [-Werror=useless-cast]
+   79 |             static_cast<void>(__VA_ARGS__); \
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.../Catch2/src/catch2/catch_test_macros.hpp:128:34: note: in expansion of macro 'INTERNAL_CATCH_NO_THROW'
+  128 |   #define REQUIRE_NOTHROW( ... ) INTERNAL_CATCH_NO_THROW( "REQUIRE_NOTHROW", Catch::ResultDisposition::Normal, __VA_ARGS__ )
+      |                                  ^~~~~~~~~~~~~~~~~~~~~~~
+mycode.cpp:47:41: note: in expansion of macro 'REQUIRE_NOTHROW'
+```
+
+**Expected behavior**
+No Warning.
+
+**Reproduction steps**
+```
+#include <catch2/catch_test_macros.hpp>
+
+void op();
+
+TEST_CASE("") {
+    REQUIRE_NOTHROW(op());
+}
+```
+Although I was not able to reproduce it on godbolt.
+
+
+**Platform information:**
+ - OS: **Windows 10**
+ - Compiler+version: **g++.exe (Rev1, Built by MSYS2 project) 12.2.0**
+ - We have `-Wuseless-cast` in our warning list
+ - Catch version: **v3.1.0**
+
+
+**Additional context**
+We just migrated from Catch 2.13.8 with the single include. Before the Code produced no warning.
+
+I'm also willing to fix this with
+```
+                if constexpr ( std::is_same_v<decltype( __VA_ARGS__ ),      \
+                                              void> ) {                     \
+                    __VA_ARGS__;                                            \
+                } else {                                                    \
+                    static_cast<void>( __VA_ARGS__ );                       \
+                }                                                           \
+```

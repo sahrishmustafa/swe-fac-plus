@@ -1,0 +1,21 @@
+Cannot import attrs for Python 3.5
+First of all, attrs is great, thanks to all who work on it.
+
+On Python 3.5, the next-gen API (`define`, `field`, etc.) is not defined in `attr/__init__.py`, which causes an ImportError on startup.  Here's a reproducer:
+
+```
+# python3
+Python 3.5.3 (default, Dec  3 2018, 20:11:08) 
+[GCC 7.3.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import attrs
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/usr/lib/python3.5/site-packages/attrs/__init__.py", line 3, in <module>
+    from attr import (
+ImportError: cannot import name 'define'
+```
+
+Looks like it's happening because of these lines in `attr/__init__`: https://github.com/python-attrs/attrs/blob/main/src/attr/__init__.py#L76-L79
+
+along with  https://github.com/python-attrs/attrs/blob/main/src/attrs/__init__.py#L19 (which tries to import those names unconditionally).

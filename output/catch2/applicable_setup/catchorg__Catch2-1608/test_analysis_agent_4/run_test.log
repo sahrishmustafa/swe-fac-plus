@@ -1,0 +1,610 @@
+2025-06-26 20:05:23,775 - INFO - Checking if image catchorg__catch2-1608-dockerfile4:latest exists locally...
+2025-06-26 20:05:23,815 - INFO - Image catchorg__catch2-1608-dockerfile4:latest found locally.
+2025-06-26 20:05:23,816 - INFO - Creating container for catchorg__catch2-1608...
+2025-06-26 20:05:24,183 - INFO - Container for catchorg__catch2-1608 started: 3ddeef19e1b0b5e75de20dd524d32bf0031c3cdf0a2ca2ddbc09502a848066dc
+2025-06-26 20:05:24,184 - INFO - Intermediate patch for catchorg__catch2-1608 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/catch2/catchorg__Catch2-1608/test_analysis_agent_4/patch.diff, now applying to container...
+2025-06-26 20:05:24,415 - INFO - Failed to apply patch to container, trying again...
+2025-06-26 20:05:24,478 - INFO - Apply patch success:
+patching file include/internal/catch_message.cpp
+
+2025-06-26 20:05:24,586 - INFO - Git diff before:
+diff --git a/include/internal/catch_message.cpp b/include/internal/catch_message.cpp
+index fa7e8746..69e48211 100644
+--- a/include/internal/catch_message.cpp
++++ b/include/internal/catch_message.cpp
+@@ -9,6 +9,7 @@
+ #include "catch_message.h"
+ #include "catch_interfaces_capture.h"
+ #include "catch_uncaught_exceptions.h"
++#include "catch_enforce.h"
+ 
+ #include <cassert>
+ #include <stack>
+@@ -76,6 +77,15 @@ namespace Catch {
+             }
+             return names.substr(start, end - start + 1);
+         };
++        auto skipq = [&] (size_t start, char quote) {
++            for (auto i = start + 1; i < names.size() ; ++i) {
++                if (names[i] == quote)
++                    return i;
++                if (names[i] == '\\')
++                    ++i;
++            }
++            CATCH_INTERNAL_ERROR("CAPTURE parsing encountered unmatched parentheses");
++        };
+ 
+         size_t start = 0;
+         std::stack<char> openings;
+@@ -96,6 +106,10 @@ namespace Catch {
+ //           case '>':
+                 openings.pop();
+                 break;
++            case '"':
++            case '\'':
++                pos = skipq(pos, c);
++                break;
+             case ',':
+                 if (start != pos && openings.size() == 0) {
+                     m_messages.emplace_back(macroName, lineInfo, resultType);
+diff --git a/single_include/catch2/catch.hpp b/single_include/catch2/catch.hpp
+index df14c357..7536ecc0 100644
+--- a/single_include/catch2/catch.hpp
++++ b/single_include/catch2/catch.hpp
+@@ -1,9 +1,9 @@
+ /*
+  *  Catch v2.7.2
+- *  Generated: 2019-04-22 23:13:14.687465
++ *  Generated: 2025-06-26 15:04:55.260217
+  *  ----------------------------------------------------------
+  *  This file has been merged from multiple headers. Please don't edit it directly
+- *  Copyright (c) 2019 Two Blue Cubes Ltd. All rights reserved.
++ *  Copyright (c) 2025 Two Blue Cubes Ltd. All rights reserved.
+  *
+  *  Distributed under the Boost Software License, Version 1.0. (See accompanying
+  *  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+@@ -1166,6 +1166,41 @@ namespace Catch {
+ }
+ 
+ // end catch_stream.h
++// start catch_interfaces_enum_values_registry.h
++
++#include <vector>
++
++namespace Catch {
++
++    namespace Detail {
++        struct EnumInfo {
++            StringRef m_name;
++            std::vector<std::pair<int, std::string>> m_values;
++
++            ~EnumInfo();
++
++            StringRef lookup( int value ) const;
++        };
++    } // namespace Detail
++
++    struct IMutableEnumValuesRegistry {
++        virtual ~IMutableEnumValuesRegistry();
++
++        virtual Detail::EnumInfo const& registerEnum( StringRef enumName, StringRef allEnums, std::vector<int> const& values ) = 0;
++
++        template<typename E>
++        Detail::EnumInfo const& registerEnum( StringRef enumName, StringRef allEnums, std::initializer_list<E> values ) {
++            std::vector<int> intValues;
++            intValues.reserve( values.size() );
++            for( auto enumValue : values )
++                intValues.push_back( static_cast<int>( enumValue ) );
++            return registerEnum( enumName, allEnums, intValues );
++        }
++    };
++
++} // Catch
++
++// end catch_interfaces_enum_values_registry.h
+ 
+ #ifdef CATCH_CONFIG_CPP17_STRING_VIEW
+ #include <string_view>
+@@ -1827,6 +1862,18 @@ struct ratio_string<std::milli> {
+ }
+ #endif // CATCH_CONFIG_ENABLE_CHRONO_STRINGMAKER
+ 
++#define INTERNAL_CATCH_REGISTER_ENUM( enumName, ... ) \
++namespace Catch { \
++    template<> struct StringMaker<enumName> { \
++        static std::string convert( enumName value ) { \
++            static const auto& enumInfo = ::Catch::getMutableRegistryHub().getMutableEnumValuesRegistry().registerEnum( #enumName, #__VA_ARGS__, { __VA_ARGS__ } ); \
++            return enumInfo.lookup( static_cast<int>( value ) ); \
++        } \
++    }; \
++}
++
++#define CATCH_REGISTER_ENUM( enumName, ... ) INTERNAL_CATCH_REGISTER_ENUM( enumName, __VA_ARGS__ )
++
+ #ifdef _MSC_VER
+ #pragma warning(pop)
+ #endif
+@@ -2624,6 +2671,8 @@ namespace Catch {
+     struct IReporterRegistry;
+     struct IReporterFactory;
+     struct ITagAliasRegistry;
++    struct IMutableEnumValuesRegistry;
++
+     class StartupExceptionRegistry;
+ 
+     using IReporterFactoryPtr = std::shared_ptr<IReporterFactory>;
+@@ -2634,7 +2683,6 @@ namespace Catch {
+         virtual IReporterRegistry const& getReporterRegistry() const = 0;
+         virtual ITestCaseRegistry const& getTestCaseRegistry() const = 0;
+         virtual ITagAliasRegistry const& getTagAliasRegistry() const = 0;
+-
+         virtual IExceptionTranslatorRegistry const& getExceptionTranslatorRegistry() const = 0;
+ 
+         virtual StartupExceptionRegistry const& getStartupExceptionRegistry() const = 0;
+@@ -2648,6 +2696,7 @@ namespace Catch {
+         virtual void registerTranslator( const IExceptionTranslator* translator ) = 0;
+         virtual void registerTagAlias( std::string const& alias, std::string const& tag, SourceLineInfo const& lineInfo ) = 0;
+         virtual void registerStartupException() noexcept = 0;
++        virtual IMutableEnumValuesRegistry& getMutableEnumValuesRegistry() = 0;
+     };
+ 
+     IRegistryHub const& getRegistryHub();
+@@ -2854,6 +2903,7 @@ struct StringMaker<Catch::Detail::Approx> {
+ 
+ #include <string>
+ #include <iosfwd>
++#include <vector>
+ 
+ namespace Catch {
+ 
+@@ -2865,6 +2915,9 @@ namespace Catch {
+     void toLowerInPlace( std::string& s );
+     std::string toLower( std::string const& s );
+     std::string trim( std::string const& str );
++
++    // !!! Be aware, returns refs into original string - make sure original string outlives them
++    std::vector<StringRef> splitStringRef( StringRef str, char delimiter );
+     bool replaceInPlace( std::string& str, std::string const& replaceThis, std::string const& withThis );
+ 
+     struct pluralise {
+@@ -8552,6 +8605,88 @@ namespace Catch {
+ #endif
+ } // namespace Catch;
+ // end catch_enforce.cpp
++// start catch_enum_values_registry.cpp
++// start catch_enum_values_registry.h
++
++#include <vector>
++#include <memory>
++
++namespace Catch {
++
++    namespace Detail {
++
++        std::unique_ptr<EnumInfo> makeEnumInfo( StringRef enumName, StringRef allValueNames, std::vector<int> const& values );
++
++        class EnumValuesRegistry : public IMutableEnumValuesRegistry {
++
++            std::vector<std::unique_ptr<EnumInfo>> m_enumInfos;
++
++            EnumInfo const& registerEnum( StringRef enumName, StringRef allEnums, std::vector<int> const& values) override;
++        };
++
++        std::vector<std::string> parseEnums( StringRef enums );
++
++    } // Detail
++
++} // Catch
++
++// end catch_enum_values_registry.h
++
++#include <map>
++#include <cassert>
++
++namespace Catch {
++
++    IMutableEnumValuesRegistry::~IMutableEnumValuesRegistry() {}
++
++    namespace Detail {
++
++        std::vector<std::string> parseEnums( StringRef enums ) {
++            auto enumValues = splitStringRef( enums, ',' );
++            std::vector<std::string> parsed;
++            parsed.reserve( enumValues.size() );
++            for( auto const& enumValue : enumValues ) {
++                auto identifiers = splitStringRef( enumValue, ':' );
++                parsed.push_back( Catch::trim( identifiers.back() ) );
++            }
++            return parsed;
++        }
++
++        EnumInfo::~EnumInfo() {}
++
++        StringRef EnumInfo::lookup( int value ) const {
++            for( auto const& valueToName : m_values ) {
++                if( valueToName.first == value )
++                    return valueToName.second;
++            }
++            return "{** unexpected enum value **}";
++        }
++
++        std::unique_ptr<EnumInfo> makeEnumInfo( StringRef enumName, StringRef allValueNames, std::vector<int> const& values ) {
++            std::unique_ptr<EnumInfo> enumInfo( new EnumInfo );
++            enumInfo->m_name = enumName;
++            enumInfo->m_values.reserve( values.size() );
++
++            const auto valueNames = Catch::Detail::parseEnums( allValueNames );
++            assert( valueNames.size() == values.size() );
++            std::size_t i = 0;
++            for( auto value : values )
++                enumInfo->m_values.push_back({ value, valueNames[i++] });
++
++            return enumInfo;
++        }
++
++        EnumInfo const& EnumValuesRegistry::registerEnum( StringRef enumName, StringRef allValueNames, std::vector<int> const& values ) {
++            auto enumInfo = makeEnumInfo( enumName, allValueNames, values );
++            EnumInfo* raw = enumInfo.get();
++            m_enumInfos.push_back( std::move( enumInfo ) );
++            return *raw;
++        }
++
++    } // Detail
++} // Catch
++
++// end catch_enum_values_registry.cpp
+ // start catch_errno_guard.cpp
+ 
+ #include <cerrno>
+@@ -10184,6 +10319,9 @@ namespace Catch {
+             void registerStartupException() noexcept override {
+                 m_exceptionRegistry.add(std::current_exception());
+             }
++            IMutableEnumValuesRegistry& getMutableEnumValuesRegistry() override {
++                return m_enumValuesRegistry;
++            }
+ 
+         private:
+             TestRegistry m_testCaseRegistry;
+@@ -10191,6 +10329,7 @@ namespace Catch {
+             ExceptionTranslatorRegistry m_exceptionTranslatorRegistry;
+             TagAliasRegistry m_tagAliasRegistry;
+             StartupExceptionRegistry m_exceptionRegistry;
++            Detail::EnumValuesRegistry m_enumValuesRegistry;
+         };
+     }
+ 
+@@ -11366,6 +11505,7 @@ namespace Catch {
+ #include <ostream>
+ #include <cstring>
+ #include <cctype>
++#include <vector>
+ 
+ namespace Catch {
+ 
+@@ -11420,6 +11560,21 @@ namespace Catch {
+         return replaced;
+     }
+ 
++    std::vector<StringRef> splitStringRef( StringRef str, char delimiter ) {
++        std::vector<StringRef> subStrings;
++        std::size_t start = 0;
++        for(std::size_t pos = 0; pos < str.size(); ++pos ) {
++            if( str[pos] == delimiter ) {
++                if( pos - start > 1 )
++                    subStrings.push_back( str.substr( start, pos-start ) );
++                start = pos+1;
++            }
++        }
++        if( start < str.size() )
++            subStrings.push_back( str.substr( start, str.size()-start ) );
++        return subStrings;
++    }
++
+     pluralise::pluralise( std::size_t count, std::string const& label )
+     :   m_count( count ),
+         m_label( label )
+2025-06-26 20:05:24,586 - INFO - Eval script for catchorg__catch2-1608 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/catch2/catchorg__Catch2-1608/test_analysis_agent_4/patch.diff, now applying to container...
+2025-06-26 20:05:24,833 - INFO - Test output for catchorg__catch2-1608 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/catch2/catchorg__Catch2-1608/test_analysis_agent_4/test_output.txt
+2025-06-26 20:05:24,895 - INFO - Git diff after:
+diff --git a/include/internal/catch_message.cpp b/include/internal/catch_message.cpp
+index fa7e8746..69e48211 100644
+--- a/include/internal/catch_message.cpp
++++ b/include/internal/catch_message.cpp
+@@ -9,6 +9,7 @@
+ #include "catch_message.h"
+ #include "catch_interfaces_capture.h"
+ #include "catch_uncaught_exceptions.h"
++#include "catch_enforce.h"
+ 
+ #include <cassert>
+ #include <stack>
+@@ -76,6 +77,15 @@ namespace Catch {
+             }
+             return names.substr(start, end - start + 1);
+         };
++        auto skipq = [&] (size_t start, char quote) {
++            for (auto i = start + 1; i < names.size() ; ++i) {
++                if (names[i] == quote)
++                    return i;
++                if (names[i] == '\\')
++                    ++i;
++            }
++            CATCH_INTERNAL_ERROR("CAPTURE parsing encountered unmatched parentheses");
++        };
+ 
+         size_t start = 0;
+         std::stack<char> openings;
+@@ -96,6 +106,10 @@ namespace Catch {
+ //           case '>':
+                 openings.pop();
+                 break;
++            case '"':
++            case '\'':
++                pos = skipq(pos, c);
++                break;
+             case ',':
+                 if (start != pos && openings.size() == 0) {
+                     m_messages.emplace_back(macroName, lineInfo, resultType);
+diff --git a/single_include/catch2/catch.hpp b/single_include/catch2/catch.hpp
+index df14c357..7536ecc0 100644
+--- a/single_include/catch2/catch.hpp
++++ b/single_include/catch2/catch.hpp
+@@ -1,9 +1,9 @@
+ /*
+  *  Catch v2.7.2
+- *  Generated: 2019-04-22 23:13:14.687465
++ *  Generated: 2025-06-26 15:04:55.260217
+  *  ----------------------------------------------------------
+  *  This file has been merged from multiple headers. Please don't edit it directly
+- *  Copyright (c) 2019 Two Blue Cubes Ltd. All rights reserved.
++ *  Copyright (c) 2025 Two Blue Cubes Ltd. All rights reserved.
+  *
+  *  Distributed under the Boost Software License, Version 1.0. (See accompanying
+  *  file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+@@ -1166,6 +1166,41 @@ namespace Catch {
+ }
+ 
+ // end catch_stream.h
++// start catch_interfaces_enum_values_registry.h
++
++#include <vector>
++
++namespace Catch {
++
++    namespace Detail {
++        struct EnumInfo {
++            StringRef m_name;
++            std::vector<std::pair<int, std::string>> m_values;
++
++            ~EnumInfo();
++
++            StringRef lookup( int value ) const;
++        };
++    } // namespace Detail
++
++    struct IMutableEnumValuesRegistry {
++        virtual ~IMutableEnumValuesRegistry();
++
++        virtual Detail::EnumInfo const& registerEnum( StringRef enumName, StringRef allEnums, std::vector<int> const& values ) = 0;
++
++        template<typename E>
++        Detail::EnumInfo const& registerEnum( StringRef enumName, StringRef allEnums, std::initializer_list<E> values ) {
++            std::vector<int> intValues;
++            intValues.reserve( values.size() );
++            for( auto enumValue : values )
++                intValues.push_back( static_cast<int>( enumValue ) );
++            return registerEnum( enumName, allEnums, intValues );
++        }
++    };
++
++} // Catch
++
++// end catch_interfaces_enum_values_registry.h
+ 
+ #ifdef CATCH_CONFIG_CPP17_STRING_VIEW
+ #include <string_view>
+@@ -1827,6 +1862,18 @@ struct ratio_string<std::milli> {
+ }
+ #endif // CATCH_CONFIG_ENABLE_CHRONO_STRINGMAKER
+ 
++#define INTERNAL_CATCH_REGISTER_ENUM( enumName, ... ) \
++namespace Catch { \
++    template<> struct StringMaker<enumName> { \
++        static std::string convert( enumName value ) { \
++            static const auto& enumInfo = ::Catch::getMutableRegistryHub().getMutableEnumValuesRegistry().registerEnum( #enumName, #__VA_ARGS__, { __VA_ARGS__ } ); \
++            return enumInfo.lookup( static_cast<int>( value ) ); \
++        } \
++    }; \
++}
++
++#define CATCH_REGISTER_ENUM( enumName, ... ) INTERNAL_CATCH_REGISTER_ENUM( enumName, __VA_ARGS__ )
++
+ #ifdef _MSC_VER
+ #pragma warning(pop)
+ #endif
+@@ -2624,6 +2671,8 @@ namespace Catch {
+     struct IReporterRegistry;
+     struct IReporterFactory;
+     struct ITagAliasRegistry;
++    struct IMutableEnumValuesRegistry;
++
+     class StartupExceptionRegistry;
+ 
+     using IReporterFactoryPtr = std::shared_ptr<IReporterFactory>;
+@@ -2634,7 +2683,6 @@ namespace Catch {
+         virtual IReporterRegistry const& getReporterRegistry() const = 0;
+         virtual ITestCaseRegistry const& getTestCaseRegistry() const = 0;
+         virtual ITagAliasRegistry const& getTagAliasRegistry() const = 0;
+-
+         virtual IExceptionTranslatorRegistry const& getExceptionTranslatorRegistry() const = 0;
+ 
+         virtual StartupExceptionRegistry const& getStartupExceptionRegistry() const = 0;
+@@ -2648,6 +2696,7 @@ namespace Catch {
+         virtual void registerTranslator( const IExceptionTranslator* translator ) = 0;
+         virtual void registerTagAlias( std::string const& alias, std::string const& tag, SourceLineInfo const& lineInfo ) = 0;
+         virtual void registerStartupException() noexcept = 0;
++        virtual IMutableEnumValuesRegistry& getMutableEnumValuesRegistry() = 0;
+     };
+ 
+     IRegistryHub const& getRegistryHub();
+@@ -2854,6 +2903,7 @@ struct StringMaker<Catch::Detail::Approx> {
+ 
+ #include <string>
+ #include <iosfwd>
++#include <vector>
+ 
+ namespace Catch {
+ 
+@@ -2865,6 +2915,9 @@ namespace Catch {
+     void toLowerInPlace( std::string& s );
+     std::string toLower( std::string const& s );
+     std::string trim( std::string const& str );
++
++    // !!! Be aware, returns refs into original string - make sure original string outlives them
++    std::vector<StringRef> splitStringRef( StringRef str, char delimiter );
+     bool replaceInPlace( std::string& str, std::string const& replaceThis, std::string const& withThis );
+ 
+     struct pluralise {
+@@ -8552,6 +8605,88 @@ namespace Catch {
+ #endif
+ } // namespace Catch;
+ // end catch_enforce.cpp
++// start catch_enum_values_registry.cpp
++// start catch_enum_values_registry.h
++
++#include <vector>
++#include <memory>
++
++namespace Catch {
++
++    namespace Detail {
++
++        std::unique_ptr<EnumInfo> makeEnumInfo( StringRef enumName, StringRef allValueNames, std::vector<int> const& values );
++
++        class EnumValuesRegistry : public IMutableEnumValuesRegistry {
++
++            std::vector<std::unique_ptr<EnumInfo>> m_enumInfos;
++
++            EnumInfo const& registerEnum( StringRef enumName, StringRef allEnums, std::vector<int> const& values) override;
++        };
++
++        std::vector<std::string> parseEnums( StringRef enums );
++
++    } // Detail
++
++} // Catch
++
++// end catch_enum_values_registry.h
++
++#include <map>
++#include <cassert>
++
++namespace Catch {
++
++    IMutableEnumValuesRegistry::~IMutableEnumValuesRegistry() {}
++
++    namespace Detail {
++
++        std::vector<std::string> parseEnums( StringRef enums ) {
++            auto enumValues = splitStringRef( enums, ',' );
++            std::vector<std::string> parsed;
++            parsed.reserve( enumValues.size() );
++            for( auto const& enumValue : enumValues ) {
++                auto identifiers = splitStringRef( enumValue, ':' );
++                parsed.push_back( Catch::trim( identifiers.back() ) );
++            }
++            return parsed;
++        }
++
++        EnumInfo::~EnumInfo() {}
++
++        StringRef EnumInfo::lookup( int value ) const {
++            for( auto const& valueToName : m_values ) {
++                if( valueToName.first == value )
++                    return valueToName.second;
++            }
++            return "{** unexpected enum value **}";
++        }
++
++        std::unique_ptr<EnumInfo> makeEnumInfo( StringRef enumName, StringRef allValueNames, std::vector<int> const& values ) {
++            std::unique_ptr<EnumInfo> enumInfo( new EnumInfo );
++            enumInfo->m_name = enumName;
++            enumInfo->m_values.reserve( values.size() );
++
++            const auto valueNames = Catch::Detail::parseEnums( allValueNames );
++            assert( valueNames.size() == values.size() );
++            std::size_t i = 0;
++            for( auto value : values )
++                enumInfo->m_values.push_back({ value, valueNames[i++] });
++
++            return enumInfo;
++        }
++
++        EnumInfo const& EnumValuesRegistry::registerEnum( StringRef enumName, StringRef allValueNames, std::vector<int> const& values ) {
++            auto enumInfo = makeEnumInfo( enumName, allValueNames, values );
++            EnumInfo* raw = enumInfo.get();
++            m_enumInfos.push_back( std::move( enumInfo ) );
++            return *raw;
++        }
++
++    } // Detail
++} // Catch
++
++// end catch_enum_values_registry.cpp
+ // start catch_errno_guard.cpp
+ 
+ #include <cerrno>
+@@ -10184,6 +10319,9 @@ namespace Catch {
+             void registerStartupException() noexcept override {
+                 m_exceptionRegistry.add(std::current_exception());
+             }
++            IMutableEnumValuesRegistry& getMutableEnumValuesRegistry() override {
++                return m_enumValuesRegistry;
++            }
+ 
+         private:
+             TestRegistry m_testCaseRegistry;
+@@ -10191,6 +10329,7 @@ namespace Catch {
+             ExceptionTranslatorRegistry m_exceptionTranslatorRegistry;
+             TagAliasRegistry m_tagAliasRegistry;
+             StartupExceptionRegistry m_exceptionRegistry;
++            Detail::EnumValuesRegistry m_enumValuesRegistry;
+         };
+     }
+ 
+@@ -11366,6 +11505,7 @@ namespace Catch {
+ #include <ostream>
+ #include <cstring>
+ #include <cctype>
++#include <vector>
+ 
+ namespace Catch {
+ 
+@@ -11420,6 +11560,21 @@ namespace Catch {
+         return replaced;
+     }
+ 
++    std::vector<StringRef> splitStringRef( StringRef str, char delimiter ) {
++        std::vector<StringRef> subStrings;
++        std::size_t start = 0;
++        for(std::size_t pos = 0; pos < str.size(); ++pos ) {
++            if( str[pos] == delimiter ) {
++                if( pos - start > 1 )
++                    subStrings.push_back( str.substr( start, pos-start ) );
++                start = pos+1;
++            }
++        }
++        if( start < str.size() )
++            subStrings.push_back( str.substr( start, str.size()-start ) );
++        return subStrings;
++    }
++
+     pluralise::pluralise( std::size_t count, std::string const& label )
+     :   m_count( count ),
+         m_label( label )
+2025-06-26 20:05:24,895 - INFO - Attempting to stop container catchorg__catch2-1608-test1...
+2025-06-26 20:05:40,041 - INFO - Attempting to remove container catchorg__catch2-1608-test1...
+2025-06-26 20:05:40,071 - INFO - Container catchorg__catch2-1608-test1 removed.
+2025-06-26 20:05:40,071 - INFO - Attempting to remove image catchorg__catch2-1608-dockerfile4:latest...
+2025-06-26 20:05:41,033 - INFO - Image catchorg__catch2-1608-dockerfile4:latest removed.

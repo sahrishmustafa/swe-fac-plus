@@ -1,0 +1,7 @@
+{
+  "is_finish": false,
+  "guidance_for_write_dockerfile_agent": "",
+  "guidance_for_write_eval_script_agent": "The current evaluation script uses the filter '[matchers]' when executing the SelfTest executable. The log shows that this filter caused tests from 'tests/SelfTest/UsageTests/Matchers.tests.cpp' to be executed, and many of them failed. However, there is no explicit indication in the log that tests from the target file 'tests/SelfTest/UsageTests/MatchersRanges.tests.cpp' were specifically executed or even included in the output. The filter used is either too broad or incorrect for precisely targeting the specified test file. After retrieving the necessary context, update the `./tests/SelfTest` command to use a filter that precisely matches only the test cases or sections within 'tests/SelfTest/UsageTests/MatchersRanges.tests.cpp', ensuring only the intended tests are run. This might involve using a more specific tag or a test specification based on the test case names found within the target file.",
+  "guidance_for_context_retrieval_agent": "Retrieve the full content of the target test file 'tests/SelfTest/UsageTests/MatchersRanges.tests.cpp'. This is crucial to identify the exact test case names, section names, or specific Catch2 tags defined within this file. This information is required to formulate a precise filter for the test runner in the evaluation script to ensure only the intended tests are executed.",
+  "build_image_status": true
+}

@@ -1,0 +1,74 @@
+captures with unexpected exceptions
+Is it possible to make CAPTURE print its value when an unexpected exception occurs?
+Currently, for the following code
+
+```c++
+#define CATCH_CONFIG_MAIN
+#include <catch.hpp>
+#include <stdexcept>
+
+void foo()
+{
+    throw std::logic_error("error");
+}
+
+TEST_CASE("test")
+{
+    int i = 2;
+    CAPTURE(i);
+    foo();
+    REQUIRE(false);
+}
+```
+
+I get 
+```cmd
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Test.exe is a Catch v1.1 b3 host application.
+Run with -? for options
+
+-------------------------------------------------------------------------------
+test
+-------------------------------------------------------------------------------
+\giant_nas\dviry\my documents\visual studio 2015\projects\test\test\source.cpp(1
+0)
+...............................................................................
+
+\giant_nas\dviry\my documents\visual studio 2015\projects\test\test\source.cpp(1
+0): FAILED:
+due to unexpected exception with message:
+  error
+
+===============================================================================
+test cases: 1 | 1 failed
+assertions: 1 | 1 failed
+
+Press any key to continue . . .
+```
+
+While without calling `foo()` it's
+```cmd
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Test.exe is a Catch v1.1 b3 host application.
+Run with -? for options
+
+-------------------------------------------------------------------------------
+test
+-------------------------------------------------------------------------------
+\giant_nas\dviry\my documents\visual studio 2015\projects\test\test\source.cpp(1
+0)
+...............................................................................
+
+\giant_nas\dviry\my documents\visual studio 2015\projects\test\test\source.cpp(1
+5): FAILED:
+  REQUIRE( false )
+with message:
+  i := 2
+
+===============================================================================
+test cases: 1 | 1 failed
+assertions: 1 | 1 failed
+
+Press any key to continue . . .
+```

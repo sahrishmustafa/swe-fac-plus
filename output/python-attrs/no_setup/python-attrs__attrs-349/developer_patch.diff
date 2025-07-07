@@ -1,0 +1,68 @@
+diff --git a/src/attr/__init__.py b/src/attr/__init__.py
+--- a/src/attr/__init__.py
++++ b/src/attr/__init__.py
+@@ -6,7 +6,8 @@
+ from ._config import get_run_validators, set_run_validators
+ from ._funcs import asdict, assoc, astuple, evolve, has
+ from ._make import (
+-    NOTHING, Attribute, Factory, attrib, attrs, fields, make_class, validate
++    NOTHING, Attribute, Factory, attrib, attrs, fields, fields_dict,
++    make_class, validate
+ )
+ 
+ 
+@@ -43,6 +44,7 @@
+     "evolve",
+     "exceptions",
+     "fields",
++    "fields_dict",
+     "filters",
+     "get_run_validators",
+     "has",
+diff --git a/src/attr/_make.py b/src/attr/_make.py
+--- a/src/attr/_make.py
++++ b/src/attr/_make.py
+@@ -1042,7 +1042,7 @@ def _add_init(cls, frozen):
+ 
+ def fields(cls):
+     """
+-    Returns the tuple of ``attrs`` attributes for a class.
++    Return the tuple of ``attrs`` attributes for a class.
+ 
+     The tuple also allows accessing the fields by their names (see below for
+     examples).
+@@ -1068,6 +1068,34 @@ def fields(cls):
+     return attrs
+ 
+ 
++def fields_dict(cls):
++    """
++    Return an ordered dictionary of ``attrs`` attributes for a class, whose
++    keys are the attribute names.
++
++    :param type cls: Class to introspect.
++
++    :raise TypeError: If *cls* is not a class.
++    :raise attr.exceptions.NotAnAttrsClassError: If *cls* is not an ``attrs``
++        class.
++
++    :rtype: an ordered dict where keys are attribute names and values are
++        :class:`attr.Attribute`\ s. This will be a :class:`dict` if it's
++        naturally ordered like on Python 3.6+ or an
++        :class:`~collections.OrderedDict` otherwise.
++
++    .. versionadded:: 18.1.0
++    """
++    if not isclass(cls):
++        raise TypeError("Passed object must be a class.")
++    attrs = getattr(cls, "__attrs_attrs__", None)
++    if attrs is None:
++        raise NotAnAttrsClassError(
++            "{cls!r} is not an attrs-decorated class.".format(cls=cls)
++        )
++    return ordered_dict(((a.name, a) for a in attrs))
++
++
+ def validate(inst):
+     """
+     Validate all attributes on *inst* that have a validator.

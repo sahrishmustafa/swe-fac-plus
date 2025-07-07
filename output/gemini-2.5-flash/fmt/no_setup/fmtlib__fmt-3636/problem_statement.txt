@@ -1,0 +1,9 @@
+Windows API systems without UTF-16 APIs
+Currently the Windows build assumes that `WriteConsoleW` is available.
+
+None of the Unicode stuff is actually available on Windows 98 (and similar API level systems such as the original Xbox).
+
+Would you be OK with adding a build option to disable it? I can send a PR if so.
+Is `FMT_WINDOWS_HAS_UNICODE_APIS` a good name for the build option?
+
+Alternatively, perhaps we could add an option to disable the entire `print` subsystem (something like `set(FMT_PRINT OFF)`)

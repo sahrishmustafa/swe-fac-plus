@@ -1,0 +1,8 @@
+tuple-formatter doesn't check that the tuple-elements are formattable.
+tuple-formatter doesn't check that the tuple-elements are formattable:
+https://github.com/fmtlib/fmt/blob/master/include/fmt/ranges.h#L285-L287
+
+which makes `is_formattable<std::tuple<T>>::value` true:
+https://godbolt.org/z/G3zsT4q4W
+
+even when the `T` is not formattable, and trying to format `std::tuple<T>` will lead to a hard error.

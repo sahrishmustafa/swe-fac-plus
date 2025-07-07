@@ -1,0 +1,25 @@
++ cd /testbed
++ git checkout 0de967d6ece1606234ac56d5fe58a800d1b0434f tests/test_make.py
++ git apply -v -
+Checking patch tests/test_make.py...
+Applied patch tests/test_make.py cleanly.
++ python -m pytest tests/test_make.py
+============================= test session starts ==============================
+platform linux -- Python 3.11.4, pytest-8.4.1, pluggy-1.6.0
+rootdir: /testbed
+configfile: pyproject.toml
+plugins: hypothesis-6.135.24, xdist-3.8.0
+collected 249 items
+
+tests/test_make.py ..................................................... [ 21%]
+........................................................................ [ 50%]
+........................................................................ [ 79%]
+............................................s.......                     [100%]
+
+=========================== short test summary info ============================
+SKIPPED [1] tests/test_make.py:2371: Pre-3.10 only.
+======================== 248 passed, 1 skipped in 8.10s ========================
+OMNIGRIL_EXIT_CODE=0
++ rc=0
++ echo OMNIGRIL_EXIT_CODE=0
++ git checkout 0de967d6ece1606234ac56d5fe58a800d1b0434f tests/test_make.py

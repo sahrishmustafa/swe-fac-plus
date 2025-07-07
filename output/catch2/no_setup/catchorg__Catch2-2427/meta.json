@@ -1,0 +1,22 @@
+{
+    "task_id": "catchorg__Catch2-2427",
+    "setup_info": {
+        "repo_path": "testbed/catchorg__Catch2-2427_2025-06-29_23-16-37",
+        "repo_cache_path": "testbed/catchorg/Catch2_cache"
+    },
+    "task_info": {
+        "repo": "catchorg/Catch2",
+        "pull_number": 2427,
+        "instance_id": "catchorg__Catch2-2427",
+        "issue_numbers": [
+            "2306"
+        ],
+        "base_commit": "231c58a048039fc09d399bdccdfb7c65a1a6ed4a",
+        "patch": "diff --git a/src/catch2/internal/catch_compiler_capabilities.hpp b/src/catch2/internal/catch_compiler_capabilities.hpp\n--- a/src/catch2/internal/catch_compiler_capabilities.hpp\n+++ b/src/catch2/internal/catch_compiler_capabilities.hpp\n@@ -57,6 +57,12 @@\n \n #endif\n \n+#if defined(__CUDACC__) && !defined(__clang__)\n+#    define CATCH_INTERNAL_START_WARNINGS_SUPPRESSION _Pragma( \"nv_diagnostic push\" )\n+#    define CATCH_INTERNAL_STOP_WARNINGS_SUPPRESSION  _Pragma( \"nv_diagnostic pop\" )\n+#    define CATCH_INTERNAL_SUPPRESS_UNUSED_VARIABLE_WARNINGS _Pragma( \"nv_diag_suppress 177\" )\n+#endif\n+\n #if defined(__clang__) && !defined(_MSC_VER)\n \n #    define CATCH_INTERNAL_START_WARNINGS_SUPPRESSION _Pragma( \"clang diagnostic push\" )\n",
+        "test_patch": "diff --git a/src/catch2/internal/catch_test_registry.hpp b/src/catch2/internal/catch_test_registry.hpp\n--- a/src/catch2/internal/catch_test_registry.hpp\n+++ b/src/catch2/internal/catch_test_registry.hpp\n@@ -77,6 +77,7 @@ struct AutoReg : Detail::NonCopyable {\n         static void TestName(); \\\n         CATCH_INTERNAL_START_WARNINGS_SUPPRESSION \\\n         CATCH_INTERNAL_SUPPRESS_GLOBALS_WARNINGS \\\n+        CATCH_INTERNAL_SUPPRESS_UNUSED_VARIABLE_WARNINGS \\\n         namespace{ Catch::AutoReg INTERNAL_CATCH_UNIQUE_NAME( autoRegistrar )( Catch::makeTestInvoker( &TestName ), CATCH_INTERNAL_LINEINFO, Catch::StringRef(), Catch::NameAndTags{ __VA_ARGS__ } ); } /* NOLINT */ \\\n         CATCH_INTERNAL_STOP_WARNINGS_SUPPRESSION \\\n         static void TestName()\n@@ -87,6 +88,7 @@ struct AutoReg : Detail::NonCopyable {\n     #define INTERNAL_CATCH_METHOD_AS_TEST_CASE( QualifiedMethod, ... ) \\\n         CATCH_INTERNAL_START_WARNINGS_SUPPRESSION \\\n         CATCH_INTERNAL_SUPPRESS_GLOBALS_WARNINGS \\\n+        CATCH_INTERNAL_SUPPRESS_UNUSED_VARIABLE_WARNINGS \\\n         namespace{ Catch::AutoReg INTERNAL_CATCH_UNIQUE_NAME( autoRegistrar )( Catch::makeTestInvoker( &QualifiedMethod ), CATCH_INTERNAL_LINEINFO, \"&\" #QualifiedMethod, Catch::NameAndTags{ __VA_ARGS__ } ); } /* NOLINT */ \\\n         CATCH_INTERNAL_STOP_WARNINGS_SUPPRESSION\n \n@@ -94,6 +96,7 @@ struct AutoReg : Detail::NonCopyable {\n     #define INTERNAL_CATCH_TEST_CASE_METHOD2( TestName, ClassName, ... )\\\n         CATCH_INTERNAL_START_WARNINGS_SUPPRESSION \\\n         CATCH_INTERNAL_SUPPRESS_GLOBALS_WARNINGS \\\n+        CATCH_INTERNAL_SUPPRESS_UNUSED_VARIABLE_WARNINGS \\\n         namespace{ \\\n             struct TestName : INTERNAL_CATCH_REMOVE_PARENS(ClassName) { \\\n                 void test(); \\\n@@ -110,6 +113,7 @@ struct AutoReg : Detail::NonCopyable {\n         do { \\\n             CATCH_INTERNAL_START_WARNINGS_SUPPRESSION \\\n             CATCH_INTERNAL_SUPPRESS_GLOBALS_WARNINGS \\\n+            CATCH_INTERNAL_SUPPRESS_UNUSED_VARIABLE_WARNINGS \\\n             Catch::AutoReg INTERNAL_CATCH_UNIQUE_NAME( autoRegistrar )( Catch::makeTestInvoker( Function ), CATCH_INTERNAL_LINEINFO, Catch::StringRef(), Catch::NameAndTags{ __VA_ARGS__ } ); /* NOLINT */ \\\n             CATCH_INTERNAL_STOP_WARNINGS_SUPPRESSION \\\n         } while(false)\n",
+        "problem_statement": "Unused variable warnings when compiling with nvcc + gcc\nWhen compiling CUDA files with nvcc (CUDA 11.3 and GCC 9.4), when including catch2 and declaring a simple test case, I'm getting warnings such as `variable \"[...]autoRegistrar1\" was declared but never referenced`.\r\nIs there a way to get rid of these warnings?\r\n\r\n**Platform information:**\r\n<!-- Fill in any extra information that might be important for your issue. -->\r\n - OS: **Linux x86_64**\r\n - Compiler+version: **NVCC 11.3 / GCC 9.4.0**\r\n - Catch version: **v2.13.0** [included as part of CMake build, with cmake 3.17.0]\r\n\n",
+        "hints_text": "Other issues similar to this have been opened (#2132,  #1552) but I believe they're not using a fairly recent GCC.",
+        "created_at": "2022-05-18T13:48:47Z",
+        "version": "3.0"
+    }
+}

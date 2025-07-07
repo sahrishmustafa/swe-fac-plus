@@ -1,0 +1,22 @@
+{
+    "task_id": "fmtlib__fmt-4056",
+    "setup_info": {
+        "repo_path": "github/_cache/fmtlib__fmt-4056_2025-07-04_18-38-48",
+        "repo_cache_path": "github/_cache/fmtlib/fmt_cache"
+    },
+    "task_info": {
+        "repo": "fmtlib/fmt",
+        "pull_number": 4056,
+        "instance_id": "fmtlib__fmt-4056",
+        "issue_numbers": [
+            "4049"
+        ],
+        "base_commit": "e60ff504ea0a4cc663f0172c3db52a23d4f46d10",
+        "patch": "diff --git a/include/fmt/base.h b/include/fmt/base.h\n--- a/include/fmt/base.h\n+++ b/include/fmt/base.h\n@@ -1476,6 +1476,12 @@ template <typename Context> struct arg_mapper {\n \n   FMT_MAP_API auto map(void* val) -> const void* { return val; }\n   FMT_MAP_API auto map(const void* val) -> const void* { return val; }\n+  FMT_MAP_API auto map(volatile void* val) -> const void* {\n+    return const_cast<const void*>(val);\n+  }\n+  FMT_MAP_API auto map(const volatile void* val) -> const void* {\n+    return const_cast<const void*>(val);\n+  }\n   FMT_MAP_API auto map(std::nullptr_t val) -> const void* { return val; }\n \n   // Use SFINAE instead of a const T* parameter to avoid a conflict with the\n",
+        "test_patch": "diff --git a/test/base-test.cc b/test/base-test.cc\n--- a/test/base-test.cc\n+++ b/test/base-test.cc\n@@ -425,6 +425,14 @@ TEST(arg_test, pointer_arg) {\n   CHECK_ARG_SIMPLE(cp);\n }\n \n+TEST(arg_test, volatile_pointer_arg) {\n+  const void* p = nullptr;\n+  volatile int* vip = nullptr;\n+  const volatile int* cvip = nullptr;\n+  CHECK_ARG(char, p, static_cast<volatile void*>(vip));\n+  CHECK_ARG(char, p, static_cast<const volatile void*>(cvip));\n+}\n+\n struct check_custom {\n   auto operator()(fmt::basic_format_arg<fmt::format_context>::handle h) const\n       -> test_result {\n",
+        "problem_statement": "can't print volatile void* \n<!--\r\nPlease make sure that the problem reproduces on the current master before\r\nsubmitting an issue.\r\nIf possible please provide a repro on Compiler Explorer:\r\nhttps://godbolt.org/z/fxccbh53W.\r\n-->\r\n\r\nthis is the same issue with std::ostream operator that will be fixed in C++23\r\n\r\n[godbolt](https://godbolt.org/#g:!((g:!((g:!((h:codeEditor,i:(filename:'1',fontScale:14,fontUsePx:'0',j:1,lang:c%2B%2B,selection:(endColumn:2,endLineNumber:5,positionColumn:2,positionLineNumber:5,selectionStartColumn:1,selectionStartLineNumber:1,startColumn:1,startLineNumber:1),source:'%23include+%3Cfmt/core.h%3E%0A%0Aint+main()+%7B%0A++fmt::print(%22%7B%7D%22,reinterpret_cast%3Cconst+volatile+void*%3E(0))%3B%0A%7D'),l:'5',n:'1',o:'C%2B%2B+source+%231',t:'0')),k:50,l:'4',n:'0',o:'',s:0,t:'0'),(g:!((h:compiler,i:(compiler:g112,filters:(b:'0',binary:'1',binaryObject:'1',commentOnly:'0',debugCalls:'1',demangle:'0',directives:'0',execute:'1',intel:'0',libraryCode:'0',trim:'1',verboseDemangling:'0'),flagsViewOpen:'1',fontScale:14,fontUsePx:'0',j:1,lang:c%2B%2B,libs:!((name:fmt,ver:trunk)),options:'-O2',overrides:!(),selection:(endColumn:1,endLineNumber:1,positionColumn:1,positionLineNumber:1,selectionStartColumn:1,selectionStartLineNumber:1,startColumn:1,startLineNumber:1),source:1),l:'5',n:'0',o:'+x86-64+gcc+11.2+(Editor+%231)',t:'0')),k:50,l:'4',n:'0',o:'',s:0,t:'0')),l:'2',n:'0',o:'',t:'0')),version:4)\r\n\r\n\n",
+        "hints_text": "What the submitter is referring to is the adopted paper [P1147](https://wg21.link/P1147).\nSince {fmt} disallows arbitrary pointers you still need a cast in which case `volatile` can be omitted. Is there a more compelling example?\n> Since {fmt} disallows arbitrary pointers you still need a cast in which case `volatile` can be omitted. Is there a more compelling example?\r\n\r\nI think a more compelling example is that you have actually a `volatile T* p` for formatting, but it doesn't suffice to add apply `static_cast<const void*>`  to `p` in your code, but you also need to add another `const_cast<const T*>` to it first. \n@vitaut \n\nlets say I have a `volatile int*` and want to format it I have to do this\n\n```cpp\nvolatile int* p = (int*)0xdeadbeef;\nfmt::format(\"{}\",const_cast<void*>(static_cast<volatile void*>(p))); // or do static_cast<void*>(const_cast<int*>(p))\n\n```\n\n\n\nif fmt allowed to print `const volatile void*` then I do not need the last const cast.\n\nthe godbolt link was to show that you can't print it\nMakes sense, a PR to avoid `volatile void*` support would be welcome.",
+        "created_at": "2024-07-07T21:16:20Z",
+        "version": "11.0"
+    }
+}

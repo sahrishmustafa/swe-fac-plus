@@ -1,0 +1,24 @@
+attr default based on other attributes
+Hi!
+
+I have unsucessfully tried to define a default value by referencing other attributes. I'm sure the code below doesnt' work for some obvious or fundamental reason, but I would be grateful for comments on how to do something like it:
+
+```python
+import attr
+from attr.validators import instance_of
+import datetime
+
+@attr.s
+class Something:
+    some_date = attr.ib(validator=instance_of(datetime.date))
+    some_number = attr.ib(convert=float)
+    name = attr.ib(validator=instance_of(str),
+                   default="Generic Name {0} - {1}%".format(
+                       some_date.strftime("%d-%b-%Y"),
+                       some_number * 100)
+                   )
+
+s = Something(some_date=datetime.date.today(), some_number=0.375)
+```
+
+I included the `.strftime()` conversion to highlight that `name` doesn't see a float and a date, but a `_CountingAttr` object, hence I get an AttributeError (and a TypeError for `some_number * 100`). Since I can't reference self either, what would be the correct way to do this?

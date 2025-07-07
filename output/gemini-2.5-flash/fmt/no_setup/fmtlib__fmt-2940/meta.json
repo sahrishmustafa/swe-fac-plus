@@ -1,0 +1,22 @@
+{
+    "task_id": "fmtlib__fmt-2940",
+    "setup_info": {
+        "repo_path": "github/_cache/fmtlib__fmt-2940_2025-07-04_18-38-48",
+        "repo_cache_path": "github/_cache/fmtlib/fmt_cache"
+    },
+    "task_info": {
+        "repo": "fmtlib/fmt",
+        "pull_number": 2940,
+        "instance_id": "fmtlib__fmt-2940",
+        "issue_numbers": [
+            "2939"
+        ],
+        "base_commit": "eaa8efb950be5d8f1803a99b06f76cf398c67cb8",
+        "patch": "diff --git a/include/fmt/ranges.h b/include/fmt/ranges.h\n--- a/include/fmt/ranges.h\n+++ b/include/fmt/ranges.h\n@@ -202,6 +202,31 @@ template <size_t N>\n using make_index_sequence = make_integer_sequence<size_t, N>;\n #endif\n \n+template <typename T>\n+using tuple_index_sequence = make_index_sequence<std::tuple_size<T>::value>;\n+\n+template <typename T, typename C, bool = is_tuple_like_<T>::value>\n+class is_tuple_formattable_ {\n+ public:\n+  static constexpr const bool value = false;\n+};\n+template <typename T, typename C> class is_tuple_formattable_<T, C, true> {\n+  template <std::size_t... I>\n+  static std::true_type check2(index_sequence<I...>,\n+                               integer_sequence<bool, (I == I)...>);\n+  static std::false_type check2(...);\n+  template <std::size_t... I>\n+  static decltype(check2(\n+      index_sequence<I...>{},\n+      integer_sequence<\n+          bool, (is_formattable<typename std::tuple_element<I, T>::type,\n+                                C>::value)...>{})) check(index_sequence<I...>);\n+\n+ public:\n+  static constexpr const bool value =\n+      decltype(check(tuple_index_sequence<T>{}))::value;\n+};\n+\n template <class Tuple, class F, size_t... Is>\n void for_each(index_sequence<Is...>, Tuple&& tup, F&& f) noexcept {\n   using std::get;\n@@ -283,8 +308,15 @@ template <typename T> struct is_tuple_like {\n       detail::is_tuple_like_<T>::value && !detail::is_range_<T>::value;\n };\n \n+template <typename T, typename C> struct is_tuple_formattable {\n+  static constexpr const bool value =\n+      detail::is_tuple_formattable_<T, C>::value;\n+};\n+\n template <typename TupleT, typename Char>\n-struct formatter<TupleT, Char, enable_if_t<fmt::is_tuple_like<TupleT>::value>> {\n+struct formatter<TupleT, Char,\n+                 enable_if_t<fmt::is_tuple_like<TupleT>::value &&\n+                             fmt::is_tuple_formattable<TupleT, Char>::value>> {\n  private:\n   // C++11 generic lambda for format().\n   template <typename FormatContext> struct format_each {\n",
+        "test_patch": "diff --git a/test/ranges-test.cc b/test/ranges-test.cc\n--- a/test/ranges-test.cc\n+++ b/test/ranges-test.cc\n@@ -85,11 +85,22 @@ TEST(ranges_test, format_pair) {\n   EXPECT_EQ(fmt::format(\"{}\", p), \"(42, 1.5)\");\n }\n \n+struct unformattable {};\n+\n TEST(ranges_test, format_tuple) {\n   auto t =\n       std::tuple<int, float, std::string, char>(42, 1.5f, \"this is tuple\", 'i');\n   EXPECT_EQ(fmt::format(\"{}\", t), \"(42, 1.5, \\\"this is tuple\\\", 'i')\");\n   EXPECT_EQ(fmt::format(\"{}\", std::tuple<>()), \"()\");\n+\n+  EXPECT_TRUE((fmt::is_formattable<std::tuple<>>::value));\n+  EXPECT_FALSE((fmt::is_formattable<unformattable>::value));\n+  EXPECT_FALSE((fmt::is_formattable<std::tuple<unformattable>>::value));\n+  EXPECT_FALSE((fmt::is_formattable<std::tuple<unformattable, int>>::value));\n+  EXPECT_FALSE((fmt::is_formattable<std::tuple<int, unformattable>>::value));\n+  EXPECT_FALSE(\n+      (fmt::is_formattable<std::tuple<unformattable, unformattable>>::value));\n+  EXPECT_TRUE((fmt::is_formattable<std::tuple<int, float>>::value));\n }\n \n #ifdef FMT_RANGES_TEST_ENABLE_FORMAT_STRUCT\n@@ -220,7 +231,6 @@ TEST(ranges_test, enum_range) {\n }\n \n #if !FMT_MSC_VERSION\n-struct unformattable {};\n \n TEST(ranges_test, unformattable_range) {\n   EXPECT_FALSE((fmt::has_formatter<std::vector<unformattable>,\n",
+        "problem_statement": "tuple-formatter doesn't check that the tuple-elements are formattable.\ntuple-formatter doesn't check that the tuple-elements are formattable:\r\nhttps://github.com/fmtlib/fmt/blob/master/include/fmt/ranges.h#L285-L287\r\n\r\nwhich makes `is_formattable<std::tuple<T>>::value` true:\r\nhttps://godbolt.org/z/G3zsT4q4W\r\n\r\neven when the `T` is not formattable, and trying to format `std::tuple<T>` will lead to a hard error.\n",
+        "hints_text": "Thanks for reporting. A PR to add such check would be welcome!",
+        "created_at": "2022-06-18T15:01:12Z",
+        "version": "8.1"
+    }
+}

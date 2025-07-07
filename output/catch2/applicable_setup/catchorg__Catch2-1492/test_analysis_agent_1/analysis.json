@@ -1,0 +1,7 @@
+{
+  "is_finish": false,
+  "guidance_for_write_dockerfile_agent": "",
+  "guidance_for_write_eval_script_agent": "The test build failed due to C++ compilation errors related to `constexpr` usage of `sysconf` and the size of `altStackMem` array within Catch2's fatal condition handler. These errors (`error: call to non-'constexpr' function 'long int sysconf(int)'` and `error: size of array 'altStackMem' is not an integral constant-expression`) indicate a compatibility issue between Catch2 v2.5, the chosen C++14 standard, and the GCC 11.4.0 compiler provided by Ubuntu 22.04.\n\nTo resolve this, update the CMake configuration in the `eval_script` to use a more recent C++ standard, such as C++17. In C++17 and later, `sysconf` might be allowed in `constexpr` contexts in certain standard library implementations, or the underlying library issues might be mitigated. This is a common solution for such `constexpr` errors with older libraries and newer compilers.\n\n**Action:** Modify the `cmake` command in the `eval_script`:\n\nChange this line:\n`-DCMAKE_CXX_STANDARD=14 \\\n`\nTo this:\n`-DCMAKE_CXX_STANDARD=17 \\\n`",
+  "guidance_for_context_retrieval_agent": "",
+  "build_image_status": true
+}

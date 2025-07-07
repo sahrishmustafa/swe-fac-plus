@@ -1,0 +1,2 @@
+convert should be converter
+We use proper nouns everywhere else too and this is kind of a sore thumb to me.  `attr.ib(convert=int)` should be deprecated and replaced by `attr.ib(converter=int)`.

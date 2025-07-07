@@ -1,0 +1,20 @@
+Catch2 terminates when an invalid test name is passed
+Put the following test name in a file, say tests.in:
+```
+Test with special, characters \"in name
+```
+Run a Catch binary with `-f tests.in`. The program terminates with a runtime error thrown from
+```
+ 	msvcp140d.dll!00007ffc846a4ef9()	Unknown
+>	SelfTest.exe!std::_String_val<std::_Simple_types<char>>::_Xran() Line 2141	C++
+ 	SelfTest.exe!std::_String_val<std::_Simple_types<char>>::_Check_offset(const unsigned __int64 _Off) Line 2131	C++
+ 	SelfTest.exe!std::string::assign(const std::string & _Right, const unsigned __int64 _Roff, unsigned __int64 _Count) Line 2824	C++
+ 	SelfTest.exe!std::string::basic_string<char,std::char_traits<char>,std::allocator<char>>(const std::string & _Right, const unsigned __int64 _Roff, const unsigned __int64 _Count, const std::allocator<char> & _Al) Line 2278	C++
+ 	SelfTest.exe!std::string::substr(const unsigned __int64 _Off, const unsigned __int64 _Count) Line 3949	C++
+ 	SelfTest.exe!Catch::TestSpecParser::addPattern<Catch::TestSpec::NamePattern>() Line 58	C++
+ 	SelfTest.exe!Catch::TestSpecParser::endMode() Line 108	C++
+ 	SelfTest.exe!Catch::TestSpecParser::visitChar(char c) Line 38	C++
+ 	SelfTest.exe!Catch::TestSpecParser::parse(const std::string & arg) Line 22	C++
+ 	SelfTest.exe!Catch::Config::Config(const Catch::ConfigData & data) Line 34	C++
+```
+I'd expect Catch to ignore the invalid test name.

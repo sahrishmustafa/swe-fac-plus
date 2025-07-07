@@ -1,0 +1,319 @@
++ cd /testbed
++ git checkout 4acc51828f7f93f3b2058a63f54d112af4034503 tests/CMakeLists.txt tests/SelfTest/UsageTests/Misc.tests.cpp
+Updated 0 paths from 5c24042a
++ git apply -v -
+Checking patch tests/CMakeLists.txt...
+Checking patch tests/SelfTest/IntrospectiveTests/AssertionHandler.tests.cpp...
+Checking patch tests/SelfTest/UsageTests/Misc.tests.cpp...
+Applied patch tests/CMakeLists.txt cleanly.
+Applied patch tests/SelfTest/IntrospectiveTests/AssertionHandler.tests.cpp cleanly.
+Applied patch tests/SelfTest/UsageTests/Misc.tests.cpp cleanly.
++ cmake -Bbuild -H. -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_STANDARD=17 -DCMAKE_CXX_STANDARD_REQUIRED=ON -DCMAKE_CXX_EXTENSIONS=OFF -DCATCH_DEVELOPMENT_BUILD=ON -G Ninja
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /testbed/build
++ cmake --build build
+[1/5] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/AssertionHandler.tests.cpp.o
+[2/5] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_run_context.cpp.o
+[3/5] Linking CXX static library src/libCatch2.a
+[4/5] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/Misc.tests.cpp.o
+[5/5] Linking CXX executable tests/SelfTest
++ ./build/tests/SelfTest
+Randomness seeded to: 72126529
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+SelfTest is a Catch2 v3.4.0 host application.
+Run with -? for options
+
+-------------------------------------------------------------------------------
+Incomplete AssertionHandler
+-------------------------------------------------------------------------------
+../tests/SelfTest/IntrospectiveTests/AssertionHandler.tests.cpp:11
+...............................................................................
+
+../tests/SelfTest/IntrospectiveTests/AssertionHandler.tests.cpp:14: FAILED:
+  REQUIRE( Dummy )
+due to unexpected exception with message:
+  Exception translation was disabled by CATCH_CONFIG_FAST_COMPILE
+
+-------------------------------------------------------------------------------
+run benchmark
+-------------------------------------------------------------------------------
+../tests/SelfTest/IntrospectiveTests/InternalBenchmark.tests.cpp:410
+...............................................................................
+
+benchmark name                       samples       iterations    estimated
+                                     mean          low mean      high mean
+                                     std dev       low std dev   high std dev
+-------------------------------------------------------------------------------
+Test Benchmark                                 100            10    100.097 ms 
+                                          109.9 us      109.9 us      109.9 us 
+                                              0 ns          0 ns          0 ns 
+                                                                               
+
+-------------------------------------------------------------------------------
+TextFlow::Column respects indentation for empty lines
+-------------------------------------------------------------------------------
+../tests/SelfTest/IntrospectiveTests/TextFlow.tests.cpp:135
+...............................................................................
+
+../tests/SelfTest/IntrospectiveTests/TextFlow.tests.cpp:155: FAILED:
+  REQUIRE( as_written(col) == "  \n  \n  third line" )
+with expansion:
+  "  
+  
+  third line"
+  ==
+  "  
+    
+    third line"
+
+-------------------------------------------------------------------------------
+Mayfail test case with nested sections
+  A
+  1
+-------------------------------------------------------------------------------
+../tests/SelfTest/UsageTests/Condition.tests.cpp:84
+...............................................................................
+
+../tests/SelfTest/UsageTests/Condition.tests.cpp:84: FAILED:
+
+-------------------------------------------------------------------------------
+Mayfail test case with nested sections
+  A
+  2
+-------------------------------------------------------------------------------
+../tests/SelfTest/UsageTests/Condition.tests.cpp:85
+...............................................................................
+
+../tests/SelfTest/UsageTests/Condition.tests.cpp:85: FAILED:
+
+-------------------------------------------------------------------------------
+Mayfail test case with nested sections
+  B
+  1
+-------------------------------------------------------------------------------
+../tests/SelfTest/UsageTests/Condition.tests.cpp:88
+...............................................................................
+
+../tests/SelfTest/UsageTests/Condition.tests.cpp:88: FAILED:
+
+-------------------------------------------------------------------------------
+Mayfail test case with nested sections
+  B
+  2
+-------------------------------------------------------------------------------
+../tests/SelfTest/UsageTests/Condition.tests.cpp:89
+...............................................................................
+
+../tests/SelfTest/UsageTests/Condition.tests.cpp:89: FAILED:
+
+-------------------------------------------------------------------------------
+#2615 - Throwing in constructor generator fails test case but does not abort
+-------------------------------------------------------------------------------
+../tests/SelfTest/UsageTests/Generators.tests.cpp:308
+...............................................................................
+
+../tests/SelfTest/UsageTests/Generators.tests.cpp:310: FAILED:
+due to unexpected exception with message:
+  failure to init
+
+-------------------------------------------------------------------------------
+mix info, unscoped info and warning
+-------------------------------------------------------------------------------
+../tests/SelfTest/UsageTests/Message.tests.cpp:200
+...............................................................................
+
+../tests/SelfTest/UsageTests/Message.tests.cpp:203: warning:
+  and warn may mix
+
+../tests/SelfTest/UsageTests/Message.tests.cpp:204: warning:
+  they are not cleared after warnings
+
+-------------------------------------------------------------------------------
+Testing checked-if 2
+-------------------------------------------------------------------------------
+../tests/SelfTest/UsageTests/Misc.tests.cpp:202
+...............................................................................
+
+../tests/SelfTest/UsageTests/Misc.tests.cpp:204: FAILED:
+
+-------------------------------------------------------------------------------
+Testing checked-if 3
+-------------------------------------------------------------------------------
+../tests/SelfTest/UsageTests/Misc.tests.cpp:211
+...............................................................................
+
+../tests/SelfTest/UsageTests/Misc.tests.cpp:213: FAILED:
+
+-------------------------------------------------------------------------------
+Testing checked-if 4
+-------------------------------------------------------------------------------
+../tests/SelfTest/UsageTests/Misc.tests.cpp:221
+...............................................................................
+
+../tests/SelfTest/UsageTests/Misc.tests.cpp:222: FAILED:
+  {Unknown expression after the reported line}
+due to unexpected exception with message:
+  Uncaught exception should fail!
+
+-------------------------------------------------------------------------------
+Testing checked-if 5
+-------------------------------------------------------------------------------
+../tests/SelfTest/UsageTests/Misc.tests.cpp:227
+...............................................................................
+
+../tests/SelfTest/UsageTests/Misc.tests.cpp:228: FAILED:
+  {Unknown expression after the reported line}
+due to unexpected exception with message:
+  Uncaught exception should fail!
+
+-------------------------------------------------------------------------------
+tests can be skipped dynamically at runtime
+-------------------------------------------------------------------------------
+../tests/SelfTest/UsageTests/Skip.tests.cpp:14
+...............................................................................
+
+../tests/SelfTest/UsageTests/Skip.tests.cpp:15: SKIPPED:
+
+-------------------------------------------------------------------------------
+skipped tests can optionally provide a reason
+-------------------------------------------------------------------------------
+../tests/SelfTest/UsageTests/Skip.tests.cpp:19
+...............................................................................
+
+../tests/SelfTest/UsageTests/Skip.tests.cpp:21: SKIPPED:
+explicitly with message:
+  skipping because answer = 43
+
+-------------------------------------------------------------------------------
+sections can be skipped dynamically at runtime
+  skipped
+-------------------------------------------------------------------------------
+../tests/SelfTest/UsageTests/Skip.tests.cpp:27
+...............................................................................
+
+../tests/SelfTest/UsageTests/Skip.tests.cpp:27: SKIPPED:
+
+a!
+b1!
+-------------------------------------------------------------------------------
+nested sections can be skipped dynamically at runtime
+  B
+  B2
+-------------------------------------------------------------------------------
+../tests/SelfTest/UsageTests/Skip.tests.cpp:36
+...............................................................................
+
+../tests/SelfTest/UsageTests/Skip.tests.cpp:36: SKIPPED:
+
+!
+-------------------------------------------------------------------------------
+dynamic skipping works with generators
+-------------------------------------------------------------------------------
+../tests/SelfTest/UsageTests/Skip.tests.cpp:41
+...............................................................................
+
+../tests/SelfTest/UsageTests/Skip.tests.cpp:43: SKIPPED:
+explicitly with message:
+  skipping because answer = 41
+
+-------------------------------------------------------------------------------
+dynamic skipping works with generators
+-------------------------------------------------------------------------------
+../tests/SelfTest/UsageTests/Skip.tests.cpp:41
+...............................................................................
+
+../tests/SelfTest/UsageTests/Skip.tests.cpp:43: SKIPPED:
+explicitly with message:
+  skipping because answer = 43
+
+-------------------------------------------------------------------------------
+failed assertions before SKIP cause test case to fail
+-------------------------------------------------------------------------------
+../tests/SelfTest/UsageTests/Skip.tests.cpp:47
+...............................................................................
+
+../tests/SelfTest/UsageTests/Skip.tests.cpp:49: FAILED:
+  CHECK( 3 == 4 )
+
+../tests/SelfTest/UsageTests/Skip.tests.cpp:50: SKIPPED:
+
+-------------------------------------------------------------------------------
+a succeeding test can still be skipped
+-------------------------------------------------------------------------------
+../tests/SelfTest/UsageTests/Skip.tests.cpp:53
+...............................................................................
+
+../tests/SelfTest/UsageTests/Skip.tests.cpp:56: SKIPPED:
+
+-------------------------------------------------------------------------------
+failing in some unskipped sections causes entire test case to fail
+  skipped
+-------------------------------------------------------------------------------
+../tests/SelfTest/UsageTests/Skip.tests.cpp:61
+...............................................................................
+
+../tests/SelfTest/UsageTests/Skip.tests.cpp:61: SKIPPED:
+
+-------------------------------------------------------------------------------
+failing in some unskipped sections causes entire test case to fail
+  not skipped
+-------------------------------------------------------------------------------
+../tests/SelfTest/UsageTests/Skip.tests.cpp:62
+...............................................................................
+
+../tests/SelfTest/UsageTests/Skip.tests.cpp:62: FAILED:
+
+-------------------------------------------------------------------------------
+failing for some generator values causes entire test case to fail
+-------------------------------------------------------------------------------
+../tests/SelfTest/UsageTests/Skip.tests.cpp:65
+...............................................................................
+
+../tests/SelfTest/UsageTests/Skip.tests.cpp:71: FAILED:
+
+-------------------------------------------------------------------------------
+failing for some generator values causes entire test case to fail
+-------------------------------------------------------------------------------
+../tests/SelfTest/UsageTests/Skip.tests.cpp:65
+...............................................................................
+
+../tests/SelfTest/UsageTests/Skip.tests.cpp:69: SKIPPED:
+
+-------------------------------------------------------------------------------
+failing for some generator values causes entire test case to fail
+-------------------------------------------------------------------------------
+../tests/SelfTest/UsageTests/Skip.tests.cpp:65
+...............................................................................
+
+../tests/SelfTest/UsageTests/Skip.tests.cpp:71: FAILED:
+
+-------------------------------------------------------------------------------
+failing for some generator values causes entire test case to fail
+-------------------------------------------------------------------------------
+../tests/SelfTest/UsageTests/Skip.tests.cpp:65
+...............................................................................
+
+../tests/SelfTest/UsageTests/Skip.tests.cpp:69: SKIPPED:
+
+-------------------------------------------------------------------------------
+Empty generators can SKIP in constructor
+-------------------------------------------------------------------------------
+../tests/SelfTest/UsageTests/Skip.tests.cpp:95
+...............................................................................
+
+../tests/SelfTest/UsageTests/Skip.tests.cpp:78: SKIPPED:
+explicitly with message:
+  This generator is empty
+
+loose text artifact
+===============================================================================
+test cases:  412 |  394 passed | 7 skipped | 11 failed as expected
+assertions: 2715 | 2700 passed | 15 failed as expected
+
++ rc=0
++ echo OMNIGRIL_EXIT_CODE=0
++ git checkout 4acc51828f7f93f3b2058a63f54d112af4034503 tests/CMakeLists.txt tests/SelfTest/UsageTests/Misc.tests.cpp
+OMNIGRIL_EXIT_CODE=0
+Updated 2 paths from 5c24042a

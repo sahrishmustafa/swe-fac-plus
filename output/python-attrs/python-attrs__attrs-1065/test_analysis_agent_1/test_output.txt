@@ -1,0 +1,118 @@
++ cd /testbed
++ git checkout 67dc8cc261a5ef64f576ce73f2281cc9021d8fb4 tests/dataclass_transform_example.py tests/test_functional.py tests/typing_example.py
+Updated 0 paths from 20bbdd2
++ git apply -v -
+Checking patch tests/dataclass_transform_example.py...
+Checking patch tests/test_functional.py...
+Checking patch tests/typing_example.py...
+Applied patch tests/dataclass_transform_example.py cleanly.
+Applied patch tests/test_functional.py cleanly.
+Applied patch tests/typing_example.py cleanly.
++ overall_rc=0
++ coverage run -m pytest tests/dataclass_transform_example.py tests/test_functional.py -n auto
+============================= test session starts ==============================
+platform linux -- Python 3.11.13, pytest-8.4.1, pluggy-1.6.0
+rootdir: /testbed
+configfile: pyproject.toml
+plugins: xdist-3.8.0, hypothesis-6.91.0
+created: 12/12 workers
+12 workers [404 items]
+
+........................................................................ [ 17%]
+........................................................................ [ 35%]
+........................................................................ [ 53%]
+........................................................................ [ 71%]
+........................................................................ [ 89%]
+............................................                             [100%]
+==================================== ERRORS ====================================
+____________ ERROR collecting tests/dataclass_transform_example.py _____________
+tests/dataclass_transform_example.py:13: in <module>
+    reveal_type(Define.__init__)  # noqa
+    ^^^^^^^^^^^
+E   NameError: name 'reveal_type' is not defined
+____________ ERROR collecting tests/dataclass_transform_example.py _____________
+tests/dataclass_transform_example.py:13: in <module>
+    reveal_type(Define.__init__)  # noqa
+    ^^^^^^^^^^^
+E   NameError: name 'reveal_type' is not defined
+____________ ERROR collecting tests/dataclass_transform_example.py _____________
+tests/dataclass_transform_example.py:13: in <module>
+    reveal_type(Define.__init__)  # noqa
+    ^^^^^^^^^^^
+E   NameError: name 'reveal_type' is not defined
+____________ ERROR collecting tests/dataclass_transform_example.py _____________
+tests/dataclass_transform_example.py:13: in <module>
+    reveal_type(Define.__init__)  # noqa
+    ^^^^^^^^^^^
+E   NameError: name 'reveal_type' is not defined
+____________ ERROR collecting tests/dataclass_transform_example.py _____________
+tests/dataclass_transform_example.py:13: in <module>
+    reveal_type(Define.__init__)  # noqa
+    ^^^^^^^^^^^
+E   NameError: name 'reveal_type' is not defined
+____________ ERROR collecting tests/dataclass_transform_example.py _____________
+tests/dataclass_transform_example.py:13: in <module>
+    reveal_type(Define.__init__)  # noqa
+    ^^^^^^^^^^^
+E   NameError: name 'reveal_type' is not defined
+____________ ERROR collecting tests/dataclass_transform_example.py _____________
+tests/dataclass_transform_example.py:13: in <module>
+    reveal_type(Define.__init__)  # noqa
+    ^^^^^^^^^^^
+E   NameError: name 'reveal_type' is not defined
+____________ ERROR collecting tests/dataclass_transform_example.py _____________
+tests/dataclass_transform_example.py:13: in <module>
+    reveal_type(Define.__init__)  # noqa
+    ^^^^^^^^^^^
+E   NameError: name 'reveal_type' is not defined
+____________ ERROR collecting tests/dataclass_transform_example.py _____________
+tests/dataclass_transform_example.py:13: in <module>
+    reveal_type(Define.__init__)  # noqa
+    ^^^^^^^^^^^
+E   NameError: name 'reveal_type' is not defined
+____________ ERROR collecting tests/dataclass_transform_example.py _____________
+tests/dataclass_transform_example.py:13: in <module>
+    reveal_type(Define.__init__)  # noqa
+    ^^^^^^^^^^^
+E   NameError: name 'reveal_type' is not defined
+____________ ERROR collecting tests/dataclass_transform_example.py _____________
+tests/dataclass_transform_example.py:13: in <module>
+    reveal_type(Define.__init__)  # noqa
+    ^^^^^^^^^^^
+E   NameError: name 'reveal_type' is not defined
+____________ ERROR collecting tests/dataclass_transform_example.py _____________
+tests/dataclass_transform_example.py:13: in <module>
+    reveal_type(Define.__init__)  # noqa
+    ^^^^^^^^^^^
+E   NameError: name 'reveal_type' is not defined
+=========================== short test summary info ============================
+ERROR tests/dataclass_transform_example.py - NameError: name 'reveal_type' is...
+ERROR tests/dataclass_transform_example.py - NameError: name 'reveal_type' is...
+ERROR tests/dataclass_transform_example.py - NameError: name 'reveal_type' is...
+ERROR tests/dataclass_transform_example.py - NameError: name 'reveal_type' is...
+ERROR tests/dataclass_transform_example.py - NameError: name 'reveal_type' is...
+ERROR tests/dataclass_transform_example.py - NameError: name 'reveal_type' is...
+ERROR tests/dataclass_transform_example.py - NameError: name 'reveal_type' is...
+ERROR tests/dataclass_transform_example.py - NameError: name 'reveal_type' is...
+ERROR tests/dataclass_transform_example.py - NameError: name 'reveal_type' is...
+ERROR tests/dataclass_transform_example.py - NameError: name 'reveal_type' is...
+ERROR tests/dataclass_transform_example.py - NameError: name 'reveal_type' is...
+ERROR tests/dataclass_transform_example.py - NameError: name 'reveal_type' is...
+======================== 404 passed, 12 errors in 3.52s ========================
+/usr/local/lib/python3.11/site-packages/coverage/inorout.py:509: CoverageWarning: Module attrs was never imported. (module-not-imported)
+  self.warn(f"Module {pkg} was never imported.", slug="module-not-imported")
++ pytest_rc=1
++ overall_rc=1
++ mypy tests/typing_example.py
+tests/typing_example.py:457: error: No overload variant of "define" matches argument type "bool"
+tests/typing_example.py:457: note: Possible overload variants:
+tests/typing_example.py:457: note:     def [_C <: type] define(maybe_cls: _C, *, these: Optional[Dict[str, Any]] = ..., repr: bool = ..., hash: Optional[bool] = ..., init: bool = ..., slots: bool = ..., frozen: bool = ..., weakref_slot: bool = ..., str: bool = ..., auto_attribs: bool = ..., kw_only: bool = ..., cache_hash: bool = ..., auto_exc: bool = ..., eq: Optional[bool] = ..., order: Optional[bool] = ..., auto_detect: bool = ..., getstate_setstate: Optional[bool] = ..., on_setattr: Union[Callable[[Any, Attribute[Any], Any], Any], List[Callable[[Any, Attribute[Any], Any], Any]], _NoOpType, None] = ..., field_transformer: Optional[Callable[[type, List[Attribute[Any]]], List[Attribute[Any]]]] = ..., match_args: bool = ...) -> _C
+tests/typing_example.py:457: note:     def define(maybe_cls: None = ..., *, these: Optional[Dict[str, Any]] = ..., repr: bool = ..., hash: Optional[bool] = ..., init: bool = ..., slots: bool = ..., frozen: bool = ..., weakref_slot: bool = ..., str: bool = ..., auto_attribs: bool = ..., kw_only: bool = ..., cache_hash: bool = ..., auto_exc: bool = ..., eq: Optional[bool] = ..., order: Optional[bool] = ..., auto_detect: bool = ..., getstate_setstate: Optional[bool] = ..., on_setattr: Union[Callable[[Any, Attribute[Any], Any], Any], List[Callable[[Any, Attribute[Any], Any], Any]], _NoOpType, None] = ..., field_transformer: Optional[Callable[[type, List[Attribute[Any]]], List[Attribute[Any]]]] = ..., match_args: bool = ...) -> Callable[[_C], _C]
+Found 1 error in 1 file (checked 1 source file)
+OMNIGRIL_EXIT_CODE=1
++ mypy_rc=1
++ overall_rc=1
++ rc=1
++ echo OMNIGRIL_EXIT_CODE=1
++ git checkout 67dc8cc261a5ef64f576ce73f2281cc9021d8fb4 tests/dataclass_transform_example.py tests/test_functional.py tests/typing_example.py
+Updated 3 paths from 20bbdd2

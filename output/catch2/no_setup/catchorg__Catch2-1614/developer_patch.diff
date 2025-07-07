@@ -1,0 +1,39 @@
+diff --git a/include/internal/catch_tostring.cpp b/include/internal/catch_tostring.cpp
+--- a/include/internal/catch_tostring.cpp
++++ b/include/internal/catch_tostring.cpp
+@@ -234,11 +234,16 @@ std::string StringMaker<std::nullptr_t>::convert(std::nullptr_t) {
+     return "nullptr";
+ }
+ 
++int StringMaker<float>::precision = 5;
++   
+ std::string StringMaker<float>::convert(float value) {
+-    return fpToString(value, 5) + 'f';
++    return fpToString(value, precision) + 'f';
+ }
++
++int StringMaker<double>::precision = 10;
++    
+ std::string StringMaker<double>::convert(double value) {
+-    return fpToString(value, 10);
++    return fpToString(value, precision);
+ }
+ 
+ std::string ratio_string<std::atto>::symbol() { return "a"; }
+diff --git a/include/internal/catch_tostring.h b/include/internal/catch_tostring.h
+--- a/include/internal/catch_tostring.h
++++ b/include/internal/catch_tostring.h
+@@ -261,10 +261,13 @@ namespace Catch {
+     template<>
+     struct StringMaker<float> {
+         static std::string convert(float value);
++        static int precision;
+     };
++
+     template<>
+     struct StringMaker<double> {
+         static std::string convert(double value);
++        static int precision;
+     };
+ 
+     template <typename T>

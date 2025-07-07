@@ -1,0 +1,22 @@
+{
+    "task_id": "python-attrs__attrs-590",
+    "setup_info": {
+        "repo_path": "testbed/python-attrs__attrs-590_2025-07-03_17-42-35",
+        "repo_cache_path": "testbed/python-attrs/attrs_cache"
+    },
+    "task_info": {
+        "repo": "python-attrs/attrs",
+        "pull_number": 590,
+        "instance_id": "python-attrs__attrs-590",
+        "issue_numbers": [
+            "589"
+        ],
+        "base_commit": "4bd682709134155ec79c5077a748a8bd3ade39d9",
+        "patch": "diff --git a/src/attr/_make.py b/src/attr/_make.py\n--- a/src/attr/_make.py\n+++ b/src/attr/_make.py\n@@ -641,8 +641,13 @@ def slots_setstate(self, state):\n             if not closure_cells:  # Catch None or the empty list.\n                 continue\n             for cell in closure_cells:\n-                if cell.cell_contents is self._cls:\n-                    set_closure_cell(cell, cls)\n+                try:\n+                    match = cell.cell_contents is self._cls\n+                except ValueError:  # ValueError: Cell is empty\n+                    pass\n+                else:\n+                    if match:\n+                        set_closure_cell(cell, cls)\n \n         return cls\n \n",
+        "test_patch": "diff --git a/tests/test_slots.py b/tests/test_slots.py\n--- a/tests/test_slots.py\n+++ b/tests/test_slots.py\n@@ -543,3 +543,28 @@ class C(object):\n     w = weakref.ref(c)\n \n     assert c is w()\n+\n+\n+def test_slots_empty_cell():\n+    \"\"\"\n+    Tests that no `ValueError: Cell is empty` exception is raised when\n+    closure cells are present with no contents in a `slots=True` class.\n+    (issue https://github.com/python-attrs/attrs/issues/589)\n+\n+    On Python 3, if a method mentions `__class__` or uses the no-arg `super()`,\n+    the compiler will bake a reference to the class in the method itself as\n+    `method.__closure__`. Since `attrs` replaces the class with a clone,\n+    `_ClassBuilder._create_slots_class(self)` will rewrite these references so\n+    it keeps working. This method was not properly covering the edge case where\n+    the closure cell was empty, we fixed it and this is the non-regression\n+    test.\n+    \"\"\"\n+\n+    @attr.s(slots=True)\n+    class C(object):\n+        field = attr.ib()\n+\n+        def f(self, a):\n+            super(C, self).__init__()\n+\n+    C(field=1)\n",
+        "problem_statement": "ValueError: Cell is empty with very specific code\nConsider this horrible and useless code:\r\n\r\n```python\r\n@attr.s(slots=True)\r\nclass C(object):\r\n    field = attr.ib()\r\n\r\n    def f(self, a):\r\n        super(C, self).__init__()\r\n```\r\n\r\nYou get a nice error:\r\n\r\n```\r\n        # The following is a fix for\r\n        # https://github.com/python-attrs/attrs/issues/102.  On Python 3,\r\n        # if a method mentions `__class__` or uses the no-arg super(), the\r\n        # compiler will bake a reference to the class in the method itself\r\n        # as `method.__closure__`.  Since we replace the class with a\r\n        # clone, we rewrite these references so it keeps working.\r\n        for item in cls.__dict__.values():\r\n            if isinstance(item, (classmethod, staticmethod)):\r\n                # Class- and staticmethods hide their functions inside.\r\n                # These might need to be rewritten as well.\r\n                closure_cells = getattr(item.__func__, \"__closure__\", None)\r\n            else:\r\n                closure_cells = getattr(item, \"__closure__\", None)\r\n    \r\n            if not closure_cells:  # Catch None or the empty list.\r\n                continue\r\n            for cell in closure_cells:\r\n>               if cell.cell_contents is self._cls:\r\nE               ValueError: Cell is empty\r\n\r\n..\\src\\attr\\_make.py:639: ValueError\r\n```\r\n\r\nI'll push a PR right away\n",
+        "hints_text": "",
+        "created_at": "2019-10-21T15:59:12Z",
+        "version": "19.3"
+    }
+}

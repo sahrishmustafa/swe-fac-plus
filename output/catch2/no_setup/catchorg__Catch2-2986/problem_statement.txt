@@ -1,0 +1,23 @@
+Stop using deprecated FindPythonInterp module
+**Describe the bug**
+CMake 3.27 warns about the FindPythonInterp being deprecated and removed in newer releases. 
+
+```
+CMake Warning (dev) at CMakeLists.txt:86 (find_package):
+  Policy CMP0148 is not set: The FindPythonInterp and FindPythonLibs modules
+  are removed.  Run "cmake --help-policy CMP0148" for policy details.  Use
+  the cmake_policy command to set the policy and suppress this warning.
+
+This warning is for project developers.  Use -Wno-dev to suppress it.
+```
+
+https://github.com/catchorg/Catch2/actions/runs/6679314592/job/18151308282#step:3:26
+
+CI shows this warning as well.
+
+**Expected behavior**
+For there to be no `(dev)` warnings when configuring.
+
+**Additional context**
+I believe the fix is to use the `FindPython` module which has a particular component for the Python interpreter. This was added in CMake 3.12 yet the trunk branch currently only requires CMake 3.10. Raising the minimum CMake version would be reasonable and is unlikely to affect any users other than those still on Ubuntu 18 which by default ships 3.10.
+

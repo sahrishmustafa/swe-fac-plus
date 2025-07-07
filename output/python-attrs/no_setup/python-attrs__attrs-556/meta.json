@@ -1,0 +1,22 @@
+{
+    "task_id": "python-attrs__attrs-556",
+    "setup_info": {
+        "repo_path": "testbed/python-attrs__attrs-556_2025-07-03_17-42-35",
+        "repo_cache_path": "testbed/python-attrs/attrs_cache"
+    },
+    "task_info": {
+        "repo": "python-attrs/attrs",
+        "pull_number": 556,
+        "instance_id": "python-attrs__attrs-556",
+        "issue_numbers": [
+            "523"
+        ],
+        "base_commit": "4a1b3a1436c375c72f80866c6ca145ff0e69086f",
+        "patch": "diff --git a/src/attr/_make.py b/src/attr/_make.py\n--- a/src/attr/_make.py\n+++ b/src/attr/_make.py\n@@ -42,6 +42,9 @@\n \n _empty_metadata_singleton = metadata_proxy({})\n \n+# Unique object for unequivocal getattr() defaults.\n+_sentinel = object()\n+\n \n class _Nothing(object):\n     \"\"\"\n@@ -504,7 +507,7 @@ def _patch_original_class(self):\n             for name in self._attr_names:\n                 if (\n                     name not in base_names\n-                    and getattr(cls, name, None) is not None\n+                    and getattr(cls, name, _sentinel) != _sentinel\n                 ):\n                     try:\n                         delattr(cls, name)\n",
+        "test_patch": "diff --git a/tests/test_annotations.py b/tests/test_annotations.py\n--- a/tests/test_annotations.py\n+++ b/tests/test_annotations.py\n@@ -265,3 +265,20 @@ class C(Base):\n             x: int\n \n         assert 1 == C(1).x\n+\n+    def test_removes_none_too(self):\n+        \"\"\"\n+        Regression test for #523: make sure defaults that are set to None are\n+        removed too.\n+        \"\"\"\n+\n+        @attr.s(auto_attribs=True)\n+        class C:\n+            x: int = 42\n+            y: typing.Any = None\n+\n+        with pytest.raises(AttributeError):\n+            C.x\n+\n+        with pytest.raises(AttributeError):\n+            C.y\n",
+        "problem_statement": "Attrs deletes any non-None class attributes\nCurrently, `attrs` will delete any non-`None` class attributes when `_ClassBuilder._delete_attribs` is `True` (i.e. when attributes are specified via class attributes, not directly via `these` field).\r\nAccording to comment on [_make.py:502](https://github.com/python-attrs/attrs/blob/master/src/attr/_make.py#L502), this is intended to remove `attr.ib` instances from the class.\r\nBut it does not play well with attributes declared using PEP 484 type annotations and `auto_attribs=True` argument to `attr.s`, because any attribute with non-`None` default value specified will be pruned from the class, while attributes with `None` value are retained.\r\nThis leads to unexpected behaviour in many cases, in particular when generating documentation using `Sphinx` `autosummary` extension which relies on class introspection.\r\nI think we should remove only `attr.ib` instances, not any not-None fields. At least in `auto_attribs` mode. Or at least fix the comment.\r\n\r\nAttrs version checked: 19.1.0\r\nCode to reproduce:\r\n```\r\nimport attr\r\nimport typing\r\n\r\n@attr.s(auto_attribs=True)\r\nclass Foo:\r\n    bar: int = 42\r\n    baz: typing.Any = None\r\n\r\nprint([f for f in dir(Foo) if not f.startswith('_')])  # ['baz']\r\nprint(Foo.baz)  # 42\r\nprint(Foo.bar)  # AttributeError\r\n```\n",
+        "hints_text": "Gosh I'm traveling but isn't the problem just that we need to use a proper/unique sentinel value instead of None here?!\nThere is totally a bug here, because None and non-None fields should obviously be treated differently.\r\n\r\nRemoving only `attr.ib`s would work, however the values those fields have are semantically supposed to be default values that get assigned on instantiation, not class variables. It gets even more complicated when we introduce default factories. We'd have to remove them too\u2026but that'd be highly inconsistent?\r\n\r\nSo the fix here is to remove `None` too.",
+        "created_at": "2019-07-21T06:23:16Z",
+        "version": "19.1"
+    }
+}

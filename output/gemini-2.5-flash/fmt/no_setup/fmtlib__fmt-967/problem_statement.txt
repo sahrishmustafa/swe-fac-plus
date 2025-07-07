@@ -1,0 +1,7 @@
+Colored print improvements
+There are two things lacking which would be great:
+
+* colored print to `stderr` as well as `stdout`
+* text style, i.e. print bold
+
+I might be able to do a PR eventually but not at the moment.

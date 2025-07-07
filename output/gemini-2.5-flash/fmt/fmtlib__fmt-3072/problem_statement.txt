@@ -1,0 +1,29 @@
+Compile error when formatting volatile values before gcc11
+```
+In file included from /opt/compiler-explorer/libs/fmt/trunk/include/fmt/std.h:26:0,
+                 from <source>:1:
+/opt/compiler-explorer/gcc-7.5.0/include/c++/7.5.0/variant: In instantiation of 'struct std::variant_size<volatile bool>':
+/opt/compiler-explorer/libs/fmt/trunk/include/fmt/std.h:135:31:   required from 'constexpr const bool fmt::v9::is_variant_like<volatile bool>::value'
+/opt/compiler-explorer/gcc-7.5.0/include/c++/7.5.0/type_traits:143:12:   required from 'struct std::__and_<fmt::v9::is_variant_like<volatile bool>, fmt::v9::is_variant_formattable<volatile bool, char> >'
+/opt/compiler-explorer/gcc-7.5.0/include/c++/7.5.0/type_traits:162:12:   required from 'struct std::conjunction<fmt::v9::is_variant_like<volatile bool>, fmt::v9::is_variant_formattable<volatile bool, char> >'
+/opt/compiler-explorer/gcc-7.5.0/include/c++/7.5.0/type_traits:177:27:   required from 'constexpr const bool std::conjunction_v<fmt::v9::is_variant_like<volatile bool>, fmt::v9::is_variant_formattable<volatile bool, char> >'
+/opt/compiler-explorer/libs/fmt/trunk/include/fmt/std.h:146:22:   [ skipping 9 instantiation contexts, use -ftemplate-backtrace-limit=0 to disable ]
+/opt/compiler-explorer/libs/fmt/trunk/include/fmt/core.h:1476:25:   required by substitution of 'template<class T, typename std::enable_if<(fmt::v9::detail::has_format_as<T>::value && (! std::is_constructible<fmt::v9::formatter<T> >::value)), int>::type <anonymous> > constexpr decltype (declval<fmt::v9::detail::arg_mapper<fmt::v9::basic_format_context<fmt::v9::appender, char> > >().fmt::v9::detail::arg_mapper<fmt::v9::basic_format_context<fmt::v9::appender, char> >::map(fmt::v9::detail::format_as(T()))) fmt::v9::detail::arg_mapper<fmt::v9::basic_format_context<fmt::v9::appender, char> >::map<T, <enumerator> >(const T&) [with T = volatile bool; typename std::enable_if<(fmt::v9::detail::has_format_as<T>::value && (! std::is_constructible<fmt::v9::formatter<T> >::value)), int>::type <anonymous> = <missing>]'
+/opt/compiler-explorer/libs/fmt/trunk/include/fmt/core.h:1735:15:   required from 'constexpr fmt::v9::detail::value<Context> fmt::v9::detail::make_value(T&&) [with Context = fmt::v9::basic_format_context<fmt::v9::appender, char>; T = volatile bool&]'
+/opt/compiler-explorer/libs/fmt/trunk/include/fmt/core.h:1777:29:   required from 'constexpr fmt::v9::detail::value<Context> fmt::v9::detail::make_arg(T&&) [with bool IS_PACKED = true; Context = fmt::v9::basic_format_context<fmt::v9::appender, char>; fmt::v9::detail::type <anonymous> = (fmt::v9::detail::type)7; T = volatile bool&; typename std::enable_if<IS_PACKED, int>::type <anonymous> = 0]'
+/opt/compiler-explorer/libs/fmt/trunk/include/fmt/core.h:1901:77:   required from 'constexpr fmt::v9::format_arg_store<Context, Args>::format_arg_store(T&& ...) [with T = {volatile bool&}; Context = fmt::v9::basic_format_context<fmt::v9::appender, char>; Args = {bool}]'
+/opt/compiler-explorer/libs/fmt/trunk/include/fmt/core.h:1918:31:   required from 'constexpr fmt::v9::format_arg_store<Context, fmt::v9::remove_cvref_t<Args>...> fmt::v9::make_format_args(Args&& ...) [with Context = fmt::v9::basic_format_context<fmt::v9::appender, char>; Args = {volatile bool&}]'
+/opt/compiler-explorer/libs/fmt/trunk/include/fmt/core.h:3203:44:   required from 'std::__cxx11::string fmt::v9::format(fmt::v9::format_string<T ...>, T&& ...) [with T = {volatile bool&}; std::__cxx11::string = std::__cxx11::basic_string<char>; fmt::v9::format_string<T ...> = fmt::v9::basic_format_string<char, volatile bool&>]'
+<source>:5:35:   required from here
+/opt/compiler-explorer/gcc-7.5.0/include/c++/7.5.0/variant:87:12: error: invalid use of incomplete type 'struct std::variant_size<bool>'
+     struct variant_size<volatile _Variant> : variant_size<_Variant> {};
+            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/opt/compiler-explorer/gcc-7.5.0/include/c++/7.5.0/variant:81:12: note: declaration of 'struct std::variant_size<bool>'
+     struct variant_size;
+            ^~~~~~~~~~~~
+Compiler returned: 1
+```
+
+https://godbolt.org/z/Eq678Tv5M
+
+This failed to compile before gcc11 (gcc7-gcc10); probably introduced in #2941.

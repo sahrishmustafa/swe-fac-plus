@@ -1,0 +1,39 @@
+diff --git a/src/attr/__init__.py b/src/attr/__init__.py
+--- a/src/attr/__init__.py
++++ b/src/attr/__init__.py
+@@ -9,6 +9,7 @@
+ 
+ from . import converters, exceptions, filters, setters, validators
+ from ._cmp import cmp_using
++from ._compat import Protocol
+ from ._config import get_run_validators, set_run_validators
+ from ._funcs import asdict, assoc, astuple, evolve, has, resolve_types
+ from ._make import (
+@@ -31,7 +32,7 @@
+ dataclass = partial(attrs, auto_attribs=True)  # happy Easter ;)
+ 
+ 
+-class AttrsInstance:
++class AttrsInstance(Protocol):
+     pass
+ 
+ 
+diff --git a/src/attr/_compat.py b/src/attr/_compat.py
+--- a/src/attr/_compat.py
++++ b/src/attr/_compat.py
+@@ -18,6 +18,15 @@
+ PY_3_12_PLUS = sys.version_info[:2] >= (3, 12)
+ 
+ 
++if sys.version_info < (3, 8):
++    try:
++        from typing_extensions import Protocol
++    except ImportError:  # pragma: no cover
++        Protocol = object
++else:
++    from typing import Protocol  # noqa: F401
++
++
+ def just_warn(*args, **kw):
+     warnings.warn(
+         "Running interpreter doesn't sufficiently support code object "

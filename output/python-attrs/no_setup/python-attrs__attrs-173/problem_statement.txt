@@ -1,0 +1,26 @@
+documentation errors when describing `these`
+Following on in the vein of #171:
+
+The "these" argument is documented as having [something to do with properties](https://github.com/python-attrs/attrs/blame/96fc8cb815e5d544e03f13a966ed54ac9c67645e/docs/examples.rst#L101) in [multiple places](https://github.com/python-attrs/attrs/blob/a48124b9049ab4102b18f2216d690a0d3319e704/src/attr/_make.py#L239).  But, does it?  In what way does `@property` not work with `@attr.s` already?  This program works exactly as I expect it would:
+
+```python
+import attr
+
+@attr.s
+class propertized(object):
+    _x = attr.ib()
+    @property
+    def x(self):
+        return self.x ** 2
+
+p3 = propertized(3)
+p3prime = propertized(x=3)
+print(p3 == p3prime)
+print(p3)
+```
+
+It also describes the class body as being "ignored".  This is accurate in the extremely narrow sense of the implementation of what exactly `@attr.s` does - either reading the `attr.ib` objects out of the class namespace or not, which were presumably defined during the class body - but it is somewhat unclear for users who want to know what attr.s's interface is rather than the mechanics of its internals.
+
+The passive voice of "will be ignored" also suggests that _everything_ will ignore the class body - attrs, python, random passers-by - whereas the docs mean to rather specifically say "`@attr.s` will ignore the class body".  I think it should be even more specific: `attr.s` will not transform any `attr.ib` declarations into arguments or parts of the `repr`, leaving them instead as private `_CountingAttr` objects.  I'd even go so far as to say that `attr.s` should emit a warning if any such objects are found, but that's probably a more complex discussion.
+
+Also, `properties` is not an identifier and should not be typeset as such; "`property` objects" or somesuch would be a better way to express that (if it needs to be expressed).

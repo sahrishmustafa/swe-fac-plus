@@ -1,0 +1,2 @@
+`copy.replace` support
+Python 3.13 introduced the `__replace__` dunder, exposed via [`copy.replace`](https://docs.python.org/3.13/library/copy.html#copy.replace), as a [generalised method](https://discuss.python.org/t/generalize-replace-function/28511) through which to replace fields in immutable dataclass-likes.  Would you be interested in supporting it in addition to attrs' own `evolve`?

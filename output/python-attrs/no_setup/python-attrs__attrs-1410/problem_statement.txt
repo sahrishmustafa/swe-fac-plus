@@ -1,0 +1,31 @@
+unhelpful message "ValueError: Type annotation and type argument cannot both be present"
+Getting this message because I both have the type annotation and type defined on a custom attribute class which is reasonable considering the ambiguity.
+
+However I think the message itself could be more helpful by displaying the name of the attribute to eliminate the variable hunt.
+
+My suggested change is:
+
+https://github.com/python-attrs/attrs/blob/2afd663bf40e4a8209986accdfb1e2d53afc15e2/src/attr/_make.py#L2354
+```python
+    @classmethod
+    def from_counting_attr(cls, name, ca, type=None):
+        # type holds the annotated value. deal with conflicts:
+        if type is None:
+            type = ca.type
+        elif ca.type is not None:
+            raise ValueError(
+                f"Type annotation and type argument for {name} cannot both be present"
+            )
+        inst_dict = {
+            k: getattr(ca, k)
+            for k
+            in Attribute.__slots__
+            if k not in (
+                "name", "validator", "default", "type", "convert",
+            )  # exclude methods and deprecated alias
+        }
+        return cls(
+            name=name, validator=ca._validator, default=ca._default, type=type,
+            **inst_dict
+        )
+ ```

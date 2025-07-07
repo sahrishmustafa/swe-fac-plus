@@ -1,0 +1,39 @@
+MRO vs. inherited attributes
+The way how attributes are collected from super classes is different comparing to how attributes and methods are searched by `getattr` (based on MRO for new-style classes).
+
+Example:
+```python
+@attr.s
+class A(object):
+
+    x = attr.ib(10)
+
+    def xx(self):
+        return 10
+
+
+@attr.s
+class B(A):
+    y = attr.ib(20)
+
+
+@attr.s
+class C(A):
+    x = attr.ib(50)
+
+    def xx(self):
+        return 50
+
+
+class D(B, C):
+    pass
+
+
+d = D()
+print(d.x)  # prints 10
+print(d.xx())  # prints 50
+```
+
+I think it would be great to the use the same approach for collecting attributes as used for searching methods and attributes. 
+
+The difference is caused by the fact that the function `_transform_attrs` in `attrs/_make.py` considers all attributes (own+inherited stored in `__attrs_attrs__`) and not only own attributes of super classes: https://github.com/python-attrs/attrs/blob/6a07b035b77ea8756408d65a36160f8670c66933/src/attr/_make.py#L367-L368

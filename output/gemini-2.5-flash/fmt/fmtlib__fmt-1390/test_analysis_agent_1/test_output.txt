@@ -1,0 +1,21 @@
++ cd /testbed
++ git checkout d6eede9e085f0b36edcf0a2f6dff5f7875181019 test/format-test.cc
+Updated 0 paths from 7452cbbd
++ git apply -v -
+Checking patch test/format-test.cc...
+Applied patch test/format-test.cc cleanly.
++ cd build
++ ctest --output-on-failure -R format-test
+Test project /testbed/build
+    Start 7: format-test
+1/1 Test #7: format-test ......................   Passed    0.01 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   0.01 sec
+OMNIGRIL_EXIT_CODE=0
++ rc=0
++ echo OMNIGRIL_EXIT_CODE=0
++ cd /testbed
++ git checkout d6eede9e085f0b36edcf0a2f6dff5f7875181019 test/format-test.cc
+Updated 1 path from 7452cbbd

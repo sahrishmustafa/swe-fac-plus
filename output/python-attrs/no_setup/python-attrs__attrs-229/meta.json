@@ -1,0 +1,22 @@
+{
+    "task_id": "python-attrs__attrs-229",
+    "setup_info": {
+        "repo_path": "testbed/python-attrs__attrs-229_2025-07-03_17-42-35",
+        "repo_cache_path": "testbed/python-attrs/attrs_cache"
+    },
+    "task_info": {
+        "repo": "python-attrs/attrs",
+        "pull_number": 229,
+        "instance_id": "python-attrs__attrs-229",
+        "issue_numbers": [
+            "221"
+        ],
+        "base_commit": "37a421e559a6330b7ace242698b06b258b979e91",
+        "patch": "diff --git a/src/attr/_make.py b/src/attr/_make.py\n--- a/src/attr/_make.py\n+++ b/src/attr/_make.py\n@@ -181,11 +181,6 @@ def _transform_attrs(cls, these):\n \n     If *these* is passed, use that and don't look for them on the class.\n     \"\"\"\n-    super_cls = []\n-    for c in reversed(cls.__mro__[1:-1]):\n-        sub_attrs = getattr(c, \"__attrs_attrs__\", None)\n-        if sub_attrs is not None:\n-            super_cls.extend(a for a in sub_attrs if a not in super_cls)\n     if these is None:\n         ca_list = [(name, attr)\n                    for name, attr\n@@ -201,6 +196,17 @@ def _transform_attrs(cls, these):\n         for attr_name, ca\n         in sorted(ca_list, key=lambda e: e[1].counter)\n     ]\n+\n+    super_cls = []\n+    non_super_names = set(a.name for a in non_super_attrs)\n+    for c in reversed(cls.__mro__[1:-1]):\n+        sub_attrs = getattr(c, \"__attrs_attrs__\", None)\n+        if sub_attrs is not None:\n+            super_cls.extend(\n+                a for a in sub_attrs\n+                if a not in super_cls and a.name not in non_super_names\n+            )\n+\n     attr_names = [a.name for a in super_cls + non_super_attrs]\n \n     AttrsClass = _make_attr_tuple_class(cls.__name__, attr_names)\n",
+        "test_patch": "diff --git a/tests/test_dark_magic.py b/tests/test_dark_magic.py\n--- a/tests/test_dark_magic.py\n+++ b/tests/test_dark_magic.py\n@@ -271,3 +271,15 @@ def compute(self):\n                 return self.x + 1\n \n         assert C(1, 2) == C()\n+\n+    @pytest.mark.parametrize(\"slots\", [True, False])\n+    @pytest.mark.parametrize(\"frozen\", [True, False])\n+    def test_attrib_overwrite(self, slots, frozen):\n+        \"\"\"\n+        Subclasses can overwrite attributes of their superclass.\n+        \"\"\"\n+        @attr.s(slots=slots, frozen=frozen)\n+        class SubOverwrite(Super):\n+            x = attr.ib(default=attr.Factory(list))\n+\n+        assert SubOverwrite([]) == SubOverwrite()\n",
+        "problem_statement": "Can't overide a __super__'s attrib.\nHi.\r\n\r\nIs it not possible to do this? Let's say I want to change the default for arg 'p' in the inherited Class, B:\r\n```\r\n@attr.s\r\nclass A(object):\r\n    p=attr.ib(default='old')\r\n\r\n@attr.s\r\nclass B(A):\r\n    p=attr.ib(default='new')\r\n\r\nB().p\r\n```\r\n\r\nI get farts:\r\n\r\n```\r\nTraceback (most recent call last):\r\n  File \"E:/D/OneDrive/PyCharm/attrs_test/01.py\", line 44, in <module>\r\n    class B(A):\r\n  File \"E:\\D\\OneDrive\\Miniconda3\\envs\\dev\\lib\\site-packages\\attr\\_make.py\", line 391, in attributes\r\n    return wrap(maybe_cls)\r\n  File \"E:\\D\\OneDrive\\Miniconda3\\envs\\dev\\lib\\site-packages\\attr\\_make.py\", line 364, in wrap\r\n    cls = _add_init(cls, effectively_frozen)\r\n  File \"E:\\D\\OneDrive\\Miniconda3\\envs\\dev\\lib\\site-packages\\attr\\_make.py\", line 569, in _add_init\r\n    bytecode = compile(script, unique_filename, \"exec\")\r\n  File \"<attrs generated init 6e95dcc9478c7a8b8784f6244afbff55f563f7c6>\", line 1\r\nSyntaxError: duplicate argument 'p' in function definition\r\n```\r\n\r\nThanks.\n",
+        "hints_text": "Yes that\u2019s a bug that got mentioned in a different ticket and asked the reporter to file a new bug but he didn\u2019t get around to it so it got lost.",
+        "created_at": "2017-08-12T07:31:40Z",
+        "version": "17.2"
+    }
+}

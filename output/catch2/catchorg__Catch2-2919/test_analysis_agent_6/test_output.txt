@@ -1,0 +1,667 @@
++ cd /testbed
++ git checkout fa43b77429ba76c462b1898d6cd2f2d7a9416b14 tests/SelfTest/UsageTests/MatchersRanges.tests.cpp
+Updated 0 paths from fa9c5c76
++ git apply -v -
+Checking patch tests/SelfTest/UsageTests/MatchersRanges.tests.cpp...
+Applied patch tests/SelfTest/UsageTests/MatchersRanges.tests.cpp cleanly.
++ cmake -Bbuild -H. -DCATCH_DEVELOPMENT_BUILD=ON -DCATCH_BUILD_EXTRA_TESTS=ON -G Ninja
+-- The CXX compiler identification is GNU 11.4.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Performing Test HAVE_FLAG__ffile_prefix_map__testbed__
+-- Performing Test HAVE_FLAG__ffile_prefix_map__testbed__ - Success
+-- Found PythonInterp: /usr/bin/python3 (found suitable version "3.10.12", minimum required is "3") 
+-- Extra tests included
+-- Performing Test HAVE_FLAG__Wabsolute_value
+-- Performing Test HAVE_FLAG__Wabsolute_value - Failed
+-- Performing Test HAVE_FLAG__Wall
+-- Performing Test HAVE_FLAG__Wall - Success
+-- Performing Test HAVE_FLAG__Wcall_to_pure_virtual_from_ctor_dtor
+-- Performing Test HAVE_FLAG__Wcall_to_pure_virtual_from_ctor_dtor - Failed
+-- Performing Test HAVE_FLAG__Wcast_align
+-- Performing Test HAVE_FLAG__Wcast_align - Success
+-- Performing Test HAVE_FLAG__Wcatch_value
+-- Performing Test HAVE_FLAG__Wcatch_value - Success
+-- Performing Test HAVE_FLAG__Wdangling
+-- Performing Test HAVE_FLAG__Wdangling - Failed
+-- Performing Test HAVE_FLAG__Wdeprecated
+-- Performing Test HAVE_FLAG__Wdeprecated - Success
+-- Performing Test HAVE_FLAG__Wdeprecated_register
+-- Performing Test HAVE_FLAG__Wdeprecated_register - Failed
+-- Performing Test HAVE_FLAG__Wexceptions
+-- Performing Test HAVE_FLAG__Wexceptions - Success
+-- Performing Test HAVE_FLAG__Wexit_time_destructors
+-- Performing Test HAVE_FLAG__Wexit_time_destructors - Failed
+-- Performing Test HAVE_FLAG__Wextra
+-- Performing Test HAVE_FLAG__Wextra - Success
+-- Performing Test HAVE_FLAG__Wextra_semi
+-- Performing Test HAVE_FLAG__Wextra_semi - Success
+-- Performing Test HAVE_FLAG__Wfloat_equal
+-- Performing Test HAVE_FLAG__Wfloat_equal - Success
+-- Performing Test HAVE_FLAG__Wglobal_constructors
+-- Performing Test HAVE_FLAG__Wglobal_constructors - Failed
+-- Performing Test HAVE_FLAG__Winit_self
+-- Performing Test HAVE_FLAG__Winit_self - Success
+-- Performing Test HAVE_FLAG__Wmisleading_indentation
+-- Performing Test HAVE_FLAG__Wmisleading_indentation - Success
+-- Performing Test HAVE_FLAG__Wmismatched_new_delete
+-- Performing Test HAVE_FLAG__Wmismatched_new_delete - Success
+-- Performing Test HAVE_FLAG__Wmismatched_return_types
+-- Performing Test HAVE_FLAG__Wmismatched_return_types - Failed
+-- Performing Test HAVE_FLAG__Wmismatched_tags
+-- Performing Test HAVE_FLAG__Wmismatched_tags - Success
+-- Performing Test HAVE_FLAG__Wmissing_braces
+-- Performing Test HAVE_FLAG__Wmissing_braces - Success
+-- Performing Test HAVE_FLAG__Wmissing_declarations
+-- Performing Test HAVE_FLAG__Wmissing_declarations - Success
+-- Performing Test HAVE_FLAG__Wmissing_noreturn
+-- Performing Test HAVE_FLAG__Wmissing_noreturn - Success
+-- Performing Test HAVE_FLAG__Wmissing_prototypes
+-- Performing Test HAVE_FLAG__Wmissing_prototypes - Failed
+-- Performing Test HAVE_FLAG__Wmissing_variable_declarations
+-- Performing Test HAVE_FLAG__Wmissing_variable_declarations - Failed
+-- Performing Test HAVE_FLAG__Wnon_virtual_dtor
+-- Performing Test HAVE_FLAG__Wnon_virtual_dtor - Success
+-- Performing Test HAVE_FLAG__Wnull_dereference
+-- Performing Test HAVE_FLAG__Wnull_dereference - Success
+-- Performing Test HAVE_FLAG__Wold_style_cast
+-- Performing Test HAVE_FLAG__Wold_style_cast - Success
+-- Performing Test HAVE_FLAG__Woverloaded_virtual
+-- Performing Test HAVE_FLAG__Woverloaded_virtual - Success
+-- Performing Test HAVE_FLAG__Wparentheses
+-- Performing Test HAVE_FLAG__Wparentheses - Success
+-- Performing Test HAVE_FLAG__Wpedantic
+-- Performing Test HAVE_FLAG__Wpedantic - Success
+-- Performing Test HAVE_FLAG__Wredundant_decls
+-- Performing Test HAVE_FLAG__Wredundant_decls - Success
+-- Performing Test HAVE_FLAG__Wreorder
+-- Performing Test HAVE_FLAG__Wreorder - Success
+-- Performing Test HAVE_FLAG__Wreturn_std_move
+-- Performing Test HAVE_FLAG__Wreturn_std_move - Failed
+-- Performing Test HAVE_FLAG__Wshadow
+-- Performing Test HAVE_FLAG__Wshadow - Success
+-- Performing Test HAVE_FLAG__Wstrict_aliasing
+-- Performing Test HAVE_FLAG__Wstrict_aliasing - Success
+-- Performing Test HAVE_FLAG__Wsubobject_linkage
+-- Performing Test HAVE_FLAG__Wsubobject_linkage - Success
+-- Performing Test HAVE_FLAG__Wsuggest_destructor_override
+-- Performing Test HAVE_FLAG__Wsuggest_destructor_override - Failed
+-- Performing Test HAVE_FLAG__Wsuggest_override
+-- Performing Test HAVE_FLAG__Wsuggest_override - Success
+-- Performing Test HAVE_FLAG__Wundef
+-- Performing Test HAVE_FLAG__Wundef - Success
+-- Performing Test HAVE_FLAG__Wuninitialized
+-- Performing Test HAVE_FLAG__Wuninitialized - Success
+-- Performing Test HAVE_FLAG__Wunneeded_internal_declaration
+-- Performing Test HAVE_FLAG__Wunneeded_internal_declaration - Failed
+-- Performing Test HAVE_FLAG__Wunreachable_code_aggressive
+-- Performing Test HAVE_FLAG__Wunreachable_code_aggressive - Failed
+-- Performing Test HAVE_FLAG__Wunused
+-- Performing Test HAVE_FLAG__Wunused - Success
+-- Performing Test HAVE_FLAG__Wunused_function
+-- Performing Test HAVE_FLAG__Wunused_function - Success
+-- Performing Test HAVE_FLAG__Wunused_parameter
+-- Performing Test HAVE_FLAG__Wunused_parameter - Success
+-- Performing Test HAVE_FLAG__Wvla
+-- Performing Test HAVE_FLAG__Wvla - Success
+-- Performing Test HAVE_FLAG__Wweak_vtables
+-- Performing Test HAVE_FLAG__Wweak_vtables - Failed
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /testbed/build
++ ninja -C build
+ninja: Entering directory `build'
+[1/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/generators/catch_generator_exception.cpp.o
+[2/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/benchmark/catch_chronometer.cpp.o
+[3/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/benchmark/detail/catch_benchmark_function.cpp.o
+[4/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/benchmark/detail/catch_run_for_at_least.cpp.o
+[5/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/generators/catch_generators.cpp.o
+[6/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_event_listener.cpp.o
+[7/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/benchmark/detail/catch_analyse.cpp.o
+[8/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_common_base.cpp.o
+[9/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_automake.cpp.o
+[10/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_registrars.cpp.o
+[11/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/generators/catch_generators_random.cpp.o
+[12/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_compact.cpp.o
+[13/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_console.cpp.o
+[14/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/benchmark/detail/catch_stats.cpp.o
+[15/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_capture.cpp.o
+[16/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_streaming_base.cpp.o
+[17/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_multi.cpp.o
+[18/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_exception.cpp.o
+[19/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_config.cpp.o
+[20/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_testcase.cpp.o
+[21/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_helpers.cpp.o
+[22/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_registry_hub.cpp.o
+[23/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_sonarqube.cpp.o
+[24/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_teamcity.cpp.o
+[25/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_junit.cpp.o
+[26/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_generatortracker.cpp.o
+[27/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_reporter_factory.cpp.o
+[28/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_cumulative_base.cpp.o
+[29/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_xml.cpp.o
+[30/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_tap.cpp.o
+[31/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/catch_timer.cpp.o
+[32/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_json.cpp.o
+[33/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/catch_assertion_result.cpp.o
+[34/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/catch_totals.cpp.o
+[35/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_reporter.cpp.o
+[36/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/catch_get_random_seed.cpp.o
+[37/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/catch_tag_alias_autoregistrar.cpp.o
+[38/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/catch_approx.cpp.o
+[39/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/catch_message.cpp.o
+[40/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_context.cpp.o
+[41/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/catch_registry_hub.cpp.o
+[42/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/catch_version.cpp.o
+[43/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/catch_translate_exception.cpp.o
+[44/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_assertion_handler.cpp.o
+[45/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/catch_test_case_info.cpp.o
+[46/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_errno_guard.cpp.o
+[47/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/catch_test_spec.cpp.o
+[48/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_debug_console.cpp.o
+[49/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/catch_config.cpp.o
+[50/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_console_colour.cpp.o
+[51/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_case_insensitive_comparisons.cpp.o
+[52/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_decomposer.cpp.o
+[53/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_getenv.cpp.o
+[54/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_enforce.cpp.o
+[55/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_debugger.cpp.o
+[56/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/catch_tostring.cpp.o
+[57/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_floating_point_helpers.cpp.o
+[58/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_leak_detector.cpp.o
+[59/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_exception_translator_registry.cpp.o
+[60/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_random_number_generator.cpp.o
+[61/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_message_info.cpp.o
+[62/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_jsonwriter.cpp.o
+[63/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_enum_values_registry.cpp.o
+[64/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_lazy_expr.cpp.o
+[65/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_istream.cpp.o
+[66/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_parse_numbers.cpp.o
+[67/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_errno_guard.cpp.o
+[68/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_output_redirect.cpp.o
+[69/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_polyfills.cpp.o
+[70/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_singletons.cpp.o
+[71/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_list.cpp.o
+[72/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_startup_exception_registry.cpp.o
+[73/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_fatal_condition_handler.cpp.o
+[74/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_enum_values_registry.cpp.o
+[75/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_reusable_string_stream.cpp.o
+[76/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_random_seed_generation.cpp.o
+[77/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_section.cpp.o
+[78/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_source_line_info.cpp.o
+[79/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/catch_session.cpp.o
+[80/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_clara.cpp.o
+[81/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_test_case_info_hasher.cpp.o
+[82/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_stdstreams.cpp.o
+[83/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_reporter_spec_parser.cpp.o
+[84/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_uncaught_exceptions.cpp.o
+[85/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_string_manip.cpp.o
+[86/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_test_failure_exception.cpp.o
+[87/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_reporter_registry.cpp.o
+[88/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_stringref.cpp.o
+[89/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_tag_alias_registry.cpp.o
+[90/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_commandline.cpp.o
+[91/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_wildcard_pattern.cpp.o
+[92/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_run_context.cpp.o
+[93/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers.cpp.o
+[94/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_test_case_tracker.cpp.o
+[95/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_test_spec_parser.cpp.o
+[96/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_xmlwriter.cpp.o
+[97/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_exception.cpp.o
+[98/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_container_properties.cpp.o
+[99/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_test_registry.cpp.o
+[100/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_predicate.cpp.o
+[101/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_textflow.cpp.o
+[102/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/matchers/internal/catch_matchers_impl.cpp.o
+[103/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_templated.cpp.o
+[104/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/AssertionHandler.tests.cpp.o
+[105/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_quantifiers.cpp.o
+[106/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_floating_point.cpp.o
+[107/542] Building CXX object src/CMakeFiles/Catch2WithMain.dir/catch2/internal/catch_main.cpp.o
+[108/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/TestRegistrations.cpp.o
+[109/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/ColourImpl.tests.cpp.o
+[110/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_test_case_registry_impl.cpp.o
+[111/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/Algorithms.tests.cpp.o
+[112/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/Details.tests.cpp.o
+[113/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/Parse.tests.cpp.o
+[114/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/Integer.tests.cpp.o
+[115/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/Json.tests.cpp.o
+[116/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/CmdLineHelpers.tests.cpp.o
+[117/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/FloatingPoint.tests.cpp.o
+[118/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/Clara.tests.cpp.o
+[119/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/TestCaseInfoHasher.tests.cpp.o
+[120/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/PartTracker.tests.cpp.o
+[121/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/Stream.tests.cpp.o
+[122/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/TestSpecParser.tests.cpp.o
+[123/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/Tag.tests.cpp.o
+[124/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/CmdLine.tests.cpp.o
+[125/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/TextFlow.tests.cpp.o
+[126/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/Sharding.tests.cpp.o
+[127/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/InternalBenchmark.tests.cpp.o
+[128/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/Traits.tests.cpp.o
+[129/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/String.tests.cpp.o
+[130/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/Reporters.tests.cpp.o
+[131/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/helpers/parse_test_spec.cpp.o
+[132/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/RandomNumberGeneration.tests.cpp.o
+[133/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/StringManip.tests.cpp.o
+[134/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/Xml.tests.cpp.o
+[135/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/TestSpec.tests.cpp.o
+[136/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/TimingTests/Sleep.tests.cpp.o
+[137/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/ToString.tests.cpp.o
+[138/542] Building CXX object src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_string.cpp.o
+[139/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/BDD.tests.cpp.o
+[140/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/GeneratorsImpl.tests.cpp.o
+[141/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/IntrospectiveTests/UniquePtr.tests.cpp.o
+[142/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/Approx.tests.cpp.o
+[143/542] Linking CXX static library src/libCatch2.a
+[144/542] Linking CXX static library src/libCatch2Main.a
+[145/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/Decomposition.tests.cpp.o
+[146/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/EnumToString.tests.cpp.o
+[147/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/Compilation.tests.cpp.o
+[148/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/Exception.tests.cpp.o
+[149/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/Class.tests.cpp.o
+[150/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/Skip.tests.cpp.o
+[151/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/Message.tests.cpp.o
+[152/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/Condition.tests.cpp.o
+[153/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/ToStringChrono.tests.cpp.o
+[154/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/ToStringByte.tests.cpp.o
+[155/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/ToStringPair.tests.cpp.o
+[156/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/ToStringOptional.tests.cpp.o
+[157/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/Benchmark.tests.cpp.o
+[158/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/ToStringTuple.tests.cpp.o
+[159/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/reporters/catch_reporter_event_listener.cpp.o
+[160/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/ToStringWhich.tests.cpp.o
+[161/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/ToStringGeneral.tests.cpp.o
+[162/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/VariadicMacros.tests.cpp.o
+[163/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/benchmark/catch_chronometer.cpp.o
+[164/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/ToStringVector.tests.cpp.o
+[165/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/benchmark/detail/catch_benchmark_function.cpp.o
+[166/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/ToStringVariant.tests.cpp.o
+[167/542] Building CXX object tests/ExtraTests/CMakeFiles/PrefixedMacros.dir/X01-PrefixedMacros.cpp.o
+[168/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/Misc.tests.cpp.o
+[169/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/generators/catch_generator_exception.cpp.o
+[170/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/reporters/catch_reporter_cumulative_base.cpp.o
+[171/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/benchmark/detail/catch_analyse.cpp.o
+[172/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/benchmark/detail/catch_run_for_at_least.cpp.o
+[173/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/Tricky.tests.cpp.o
+[174/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/reporters/catch_reporter_helpers.cpp.o
+[175/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledMacros.dir/X02-DisabledMacros.cpp.o
+[176/542] Linking CXX executable tests/ExtraTests/PrefixedMacros
+[177/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/generators/catch_generators.cpp.o
+[178/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/reporters/catch_reporter_automake.cpp.o
+[179/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/X03-DisabledExceptions-DefaultHandler.cpp.o
+[180/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/reporters/catch_reporter_common_base.cpp.o
+[181/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/benchmark/detail/catch_stats.cpp.o
+[182/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/Generators.tests.cpp.o
+[183/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/generators/catch_generators_random.cpp.o
+[184/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/reporters/catch_reporter_event_listener.cpp.o
+[185/542] Linking CXX executable tests/ExtraTests/DisabledMacros
+[186/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/reporters/catch_reporter_console.cpp.o
+[187/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/reporters/catch_reporter_compact.cpp.o
+[188/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/reporters/catch_reporter_registrars.cpp.o
+[189/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/interfaces/catch_interfaces_capture.cpp.o
+[190/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/reporters/catch_reporter_multi.cpp.o
+[191/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/reporters/catch_reporter_streaming_base.cpp.o
+[192/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/reporters/catch_reporter_cumulative_base.cpp.o
+[193/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/reporters/catch_reporter_helpers.cpp.o
+[194/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/interfaces/catch_interfaces_config.cpp.o
+[195/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/reporters/catch_reporter_teamcity.cpp.o
+[196/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/interfaces/catch_interfaces_exception.cpp.o
+[197/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/interfaces/catch_interfaces_generatortracker.cpp.o
+[198/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/interfaces/catch_interfaces_registry_hub.cpp.o
+[199/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/reporters/catch_reporter_tap.cpp.o
+[200/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/reporters/catch_reporter_json.cpp.o
+[201/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/interfaces/catch_interfaces_reporter_factory.cpp.o
+[202/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/interfaces/catch_interfaces_testcase.cpp.o
+[203/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/reporters/catch_reporter_junit.cpp.o
+[204/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/reporters/catch_reporter_xml.cpp.o
+[205/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/reporters/catch_reporter_sonarqube.cpp.o
+[206/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/catch_assertion_result.cpp.o
+[207/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/catch_tag_alias_autoregistrar.cpp.o
+[208/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/catch_get_random_seed.cpp.o
+[209/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/catch_timer.cpp.o
+[210/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/interfaces/catch_interfaces_reporter.cpp.o
+[211/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/catch_totals.cpp.o
+[212/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/catch_approx.cpp.o
+[213/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/catch_message.cpp.o
+[214/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/catch_registry_hub.cpp.o
+[215/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/catch_translate_exception.cpp.o
+[216/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_context.cpp.o
+[217/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/catch_version.cpp.o
+[218/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/catch_test_case_info.cpp.o
+[219/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/catch_config.cpp.o
+[220/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_assertion_handler.cpp.o
+[221/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_console_colour.cpp.o
+[222/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_case_insensitive_comparisons.cpp.o
+[223/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/catch_tostring.cpp.o
+[224/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/catch_test_spec.cpp.o
+[225/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_debug_console.cpp.o
+[226/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_getenv.cpp.o
+[227/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_enforce.cpp.o
+[228/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_floating_point_helpers.cpp.o
+[229/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_decomposer.cpp.o
+[230/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_exception_translator_registry.cpp.o
+[231/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_leak_detector.cpp.o
+[232/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_debugger.cpp.o
+[233/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_istream.cpp.o
+[234/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_jsonwriter.cpp.o
+[235/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_random_number_generator.cpp.o
+[236/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_lazy_expr.cpp.o
+[237/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_polyfills.cpp.o
+[238/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_message_info.cpp.o
+[239/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/MatchersRanges.tests.cpp.o
+[240/542] Building CXX object tests/CMakeFiles/SelfTest.dir/SelfTest/UsageTests/Matchers.tests.cpp.o
+[241/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_fatal_condition_handler.cpp.o
+[242/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_parse_numbers.cpp.o
+[243/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_output_redirect.cpp.o
+[244/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_singletons.cpp.o
+[245/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_section.cpp.o
+[246/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_clara.cpp.o
+[247/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/catch_session.cpp.o
+[248/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_startup_exception_registry.cpp.o
+[249/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_random_seed_generation.cpp.o
+[250/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_source_line_info.cpp.o
+[251/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_list.cpp.o
+[252/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_reusable_string_stream.cpp.o
+[253/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_test_case_info_hasher.cpp.o
+[254/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_reporter_spec_parser.cpp.o
+[255/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_stdstreams.cpp.o
+[256/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_string_manip.cpp.o
+[257/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_uncaught_exceptions.cpp.o
+[258/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_test_failure_exception.cpp.o
+[259/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_stringref.cpp.o
+[260/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_reporter_registry.cpp.o
+[261/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_tag_alias_registry.cpp.o
+[262/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_wildcard_pattern.cpp.o
+[263/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_test_registry.cpp.o
+[264/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/matchers/catch_matchers.cpp.o
+[265/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_test_spec_parser.cpp.o
+[266/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_test_case_tracker.cpp.o
+[267/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_commandline.cpp.o
+[268/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/matchers/catch_matchers_exception.cpp.o
+[269/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_xmlwriter.cpp.o
+[270/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/matchers/catch_matchers_predicate.cpp.o
+[271/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/matchers/catch_matchers_container_properties.cpp.o
+[272/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_run_context.cpp.o
+[273/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/benchmark/detail/catch_benchmark_function.cpp.o
+[274/542] Linking CXX executable tests/SelfTest
+[275/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/benchmark/catch_chronometer.cpp.o
+[276/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_textflow.cpp.o
+[277/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/generators/catch_generator_exception.cpp.o
+[278/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/matchers/catch_matchers_quantifiers.cpp.o
+[279/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_test_case_registry_impl.cpp.o
+[280/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/matchers/internal/catch_matchers_impl.cpp.o
+[281/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/X04-DisabledExceptions-CustomHandler.cpp.o
+[282/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/matchers/catch_matchers_templated.cpp.o
+[283/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/internal/catch_main.cpp.o
+[284/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/matchers/catch_matchers_floating_point.cpp.o
+[285/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/benchmark/detail/catch_run_for_at_least.cpp.o
+[286/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/benchmark/detail/catch_analyse.cpp.o
+[287/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/generators/catch_generators.cpp.o
+[288/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/reporters/catch_reporter_automake.cpp.o
+[289/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/benchmark/detail/catch_stats.cpp.o
+[290/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/reporters/catch_reporter_event_listener.cpp.o
+[291/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/reporters/catch_reporter_registrars.cpp.o
+[292/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/reporters/catch_reporter_compact.cpp.o
+[293/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/reporters/catch_reporter_console.cpp.o
+[294/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/generators/catch_generators_random.cpp.o
+[295/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/reporters/catch_reporter_multi.cpp.o
+[296/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/reporters/catch_reporter_common_base.cpp.o
+[297/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/reporters/catch_reporter_cumulative_base.cpp.o
+[298/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/reporters/catch_reporter_streaming_base.cpp.o
+[299/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/interfaces/catch_interfaces_capture.cpp.o
+[300/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/reporters/catch_reporter_json.cpp.o
+[301/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/reporters/catch_reporter_helpers.cpp.o
+[302/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/interfaces/catch_interfaces_config.cpp.o
+[303/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/interfaces/catch_interfaces_exception.cpp.o
+[304/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/interfaces/catch_interfaces_registry_hub.cpp.o
+[305/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/interfaces/catch_interfaces_testcase.cpp.o
+[306/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/interfaces/catch_interfaces_generatortracker.cpp.o
+[307/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/reporters/catch_reporter_sonarqube.cpp.o
+[308/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/reporters/catch_reporter_teamcity.cpp.o
+[309/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/reporters/catch_reporter_xml.cpp.o
+[310/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/interfaces/catch_interfaces_reporter_factory.cpp.o
+[311/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/reporters/catch_reporter_junit.cpp.o
+[312/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/reporters/catch_reporter_tap.cpp.o
+[313/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/catch_timer.cpp.o
+[314/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/catch_assertion_result.cpp.o
+[315/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/catch_totals.cpp.o
+[316/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/catch_get_random_seed.cpp.o
+[317/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/interfaces/catch_interfaces_reporter.cpp.o
+[318/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/catch_tag_alias_autoregistrar.cpp.o
+[319/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/catch_approx.cpp.o
+[320/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/catch_translate_exception.cpp.o
+[321/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/catch_message.cpp.o
+[322/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/catch_version.cpp.o
+[323/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_context.cpp.o
+[324/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/catch_registry_hub.cpp.o
+[325/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_assertion_handler.cpp.o
+[326/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/catch_test_case_info.cpp.o
+[327/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_case_insensitive_comparisons.cpp.o
+[328/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/catch_test_spec.cpp.o
+[329/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_errno_guard.cpp.o
+[330/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/catch_config.cpp.o
+[331/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_debug_console.cpp.o
+[332/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/catch_tostring.cpp.o
+[333/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_getenv.cpp.o
+[334/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_console_colour.cpp.o
+[335/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_debugger.cpp.o
+[336/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-DefaultHandler.dir/__/__/src/catch2/matchers/catch_matchers_string.cpp.o
+[337/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_enforce.cpp.o
+[338/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_floating_point_helpers.cpp.o
+[339/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_decomposer.cpp.o
+[340/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_leak_detector.cpp.o
+[341/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_jsonwriter.cpp.o
+[342/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_exception_translator_registry.cpp.o
+[343/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_random_number_generator.cpp.o
+[344/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_message_info.cpp.o
+[345/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_enum_values_registry.cpp.o
+[346/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_istream.cpp.o
+[347/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_lazy_expr.cpp.o
+[348/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_output_redirect.cpp.o
+[349/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_fatal_condition_handler.cpp.o
+[350/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_parse_numbers.cpp.o
+[351/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_polyfills.cpp.o
+[352/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_singletons.cpp.o
+[353/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_startup_exception_registry.cpp.o
+[354/542] Linking CXX executable tests/ExtraTests/DisabledExceptions-DefaultHandler
+[355/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_section.cpp.o
+[356/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_random_seed_generation.cpp.o
+[357/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_list.cpp.o
+[358/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_source_line_info.cpp.o
+[359/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/catch_session.cpp.o
+[360/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_clara.cpp.o
+[361/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_reporter_spec_parser.cpp.o
+[362/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_test_case_info_hasher.cpp.o
+[363/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_string_manip.cpp.o
+[364/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_stdstreams.cpp.o
+[365/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_reusable_string_stream.cpp.o
+[366/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_uncaught_exceptions.cpp.o
+[367/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_reporter_registry.cpp.o
+[368/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_stringref.cpp.o
+[369/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_tag_alias_registry.cpp.o
+[370/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_test_failure_exception.cpp.o
+[371/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_run_context.cpp.o
+[372/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_wildcard_pattern.cpp.o
+[373/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_test_registry.cpp.o
+[374/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_commandline.cpp.o
+[375/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_test_spec_parser.cpp.o
+[376/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/matchers/catch_matchers.cpp.o
+[377/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/matchers/catch_matchers_exception.cpp.o
+[378/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_xmlwriter.cpp.o
+[379/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/matchers/catch_matchers_predicate.cpp.o
+[380/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_test_case_tracker.cpp.o
+[381/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/benchmark/detail/catch_benchmark_function.cpp.o
+[382/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_textflow.cpp.o
+[383/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/matchers/catch_matchers_container_properties.cpp.o
+[384/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/benchmark/catch_chronometer.cpp.o
+[385/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/matchers/internal/catch_matchers_impl.cpp.o
+[386/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/generators/catch_generator_exception.cpp.o
+[387/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/matchers/catch_matchers_quantifiers.cpp.o
+[388/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/matchers/catch_matchers_templated.cpp.o
+[389/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/benchmark/detail/catch_run_for_at_least.cpp.o
+[390/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/X30-BazelReporter.cpp.o
+[391/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_test_case_registry_impl.cpp.o
+[392/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/benchmark/detail/catch_analyse.cpp.o
+[393/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/internal/catch_main.cpp.o
+[394/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/matchers/catch_matchers_floating_point.cpp.o
+[395/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/generators/catch_generators.cpp.o
+[396/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/reporters/catch_reporter_compact.cpp.o
+[397/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/reporters/catch_reporter_automake.cpp.o
+[398/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/reporters/catch_reporter_registrars.cpp.o
+[399/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/reporters/catch_reporter_console.cpp.o
+[400/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/generators/catch_generators_random.cpp.o
+[401/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/reporters/catch_reporter_common_base.cpp.o
+[402/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/reporters/catch_reporter_multi.cpp.o
+[403/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/reporters/catch_reporter_streaming_base.cpp.o
+[404/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/interfaces/catch_interfaces_capture.cpp.o
+[405/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/interfaces/catch_interfaces_exception.cpp.o
+[406/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/interfaces/catch_interfaces_config.cpp.o
+[407/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/benchmark/detail/catch_stats.cpp.o
+[408/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/interfaces/catch_interfaces_generatortracker.cpp.o
+[409/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/reporters/catch_reporter_junit.cpp.o
+[410/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/interfaces/catch_interfaces_testcase.cpp.o
+[411/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/interfaces/catch_interfaces_reporter_factory.cpp.o
+[412/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/reporters/catch_reporter_sonarqube.cpp.o
+[413/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/reporters/catch_reporter_teamcity.cpp.o
+[414/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/reporters/catch_reporter_json.cpp.o
+[415/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/reporters/catch_reporter_xml.cpp.o
+[416/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/interfaces/catch_interfaces_registry_hub.cpp.o
+[417/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/catch_assertion_result.cpp.o
+[418/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/interfaces/catch_interfaces_reporter.cpp.o
+[419/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/catch_timer.cpp.o
+[420/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/catch_tag_alias_autoregistrar.cpp.o
+[421/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/catch_totals.cpp.o
+[422/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/catch_get_random_seed.cpp.o
+[423/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/catch_approx.cpp.o
+[424/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/reporters/catch_reporter_tap.cpp.o
+[425/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/catch_translate_exception.cpp.o
+[426/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/catch_message.cpp.o
+[427/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_context.cpp.o
+[428/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/catch_registry_hub.cpp.o
+[429/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/catch_version.cpp.o
+[430/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_assertion_handler.cpp.o
+[431/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/catch_config.cpp.o
+[432/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_debug_console.cpp.o
+[433/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_errno_guard.cpp.o
+[434/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/catch_test_spec.cpp.o
+[435/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_case_insensitive_comparisons.cpp.o
+[436/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/catch_tostring.cpp.o
+[437/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_decomposer.cpp.o
+[438/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_console_colour.cpp.o
+[439/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_getenv.cpp.o
+[440/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_debugger.cpp.o
+[441/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_enforce.cpp.o
+[442/542] Building CXX object tests/ExtraTests/CMakeFiles/DisabledExceptions-CustomHandler.dir/__/__/src/catch2/matchers/catch_matchers_string.cpp.o
+[443/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_leak_detector.cpp.o
+[444/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/catch_test_case_info.cpp.o
+[445/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_floating_point_helpers.cpp.o
+[446/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_jsonwriter.cpp.o
+[447/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_exception_translator_registry.cpp.o
+[448/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_random_number_generator.cpp.o
+[449/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_polyfills.cpp.o
+[450/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_enum_values_registry.cpp.o
+[451/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_lazy_expr.cpp.o
+[452/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_message_info.cpp.o
+[453/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_istream.cpp.o
+[454/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_parse_numbers.cpp.o
+[455/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_fatal_condition_handler.cpp.o
+[456/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_output_redirect.cpp.o
+[457/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_singletons.cpp.o
+[458/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_startup_exception_registry.cpp.o
+[459/542] Linking CXX executable tests/ExtraTests/DisabledExceptions-CustomHandler
+[460/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_section.cpp.o
+[461/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_reusable_string_stream.cpp.o
+[462/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_random_seed_generation.cpp.o
+[463/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_source_line_info.cpp.o
+[464/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_list.cpp.o
+[465/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_stdstreams.cpp.o
+[466/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/catch_session.cpp.o
+[467/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_reporter_spec_parser.cpp.o
+[468/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_string_manip.cpp.o
+[469/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_test_failure_exception.cpp.o
+[470/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_test_case_info_hasher.cpp.o
+[471/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_clara.cpp.o
+[472/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_uncaught_exceptions.cpp.o
+[473/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_stringref.cpp.o
+[474/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_tag_alias_registry.cpp.o
+[475/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_run_context.cpp.o
+[476/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_test_spec_parser.cpp.o
+[477/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_test_registry.cpp.o
+[478/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_wildcard_pattern.cpp.o
+[479/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_reporter_registry.cpp.o
+[480/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/matchers/catch_matchers_exception.cpp.o
+[481/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/matchers/catch_matchers.cpp.o
+[482/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_xmlwriter.cpp.o
+[483/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_test_case_tracker.cpp.o
+[484/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_commandline.cpp.o
+[485/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/matchers/catch_matchers_predicate.cpp.o
+[486/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/matchers/catch_matchers_container_properties.cpp.o
+[487/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_textflow.cpp.o
+[488/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_test_case_registry_impl.cpp.o
+[489/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/matchers/catch_matchers_templated.cpp.o
+[490/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/matchers/internal/catch_matchers_impl.cpp.o
+[491/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/matchers/catch_matchers_quantifiers.cpp.o
+[492/542] Building CXX object tests/ExtraTests/CMakeFiles/DisableStringification.dir/X11-DisableStringification.cpp.o
+[493/542] Building CXX object tests/ExtraTests/CMakeFiles/DeferredStaticChecks.dir/X05-DeferredStaticChecks.cpp.o
+[494/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/internal/catch_main.cpp.o
+[495/542] Building CXX object tests/ExtraTests/CMakeFiles/FallbackStringifier.dir/X10-FallbackStringifier.cpp.o
+[496/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporterNoCatchConfig.dir/X30-BazelReporter.cpp.o
+[497/542] Building CXX object tests/ExtraTests/CMakeFiles/CasingInReporterNames.dir/X23-CasingInReporterNames.cpp.o
+[498/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/matchers/catch_matchers_floating_point.cpp.o
+[499/542] Building CXX object tests/ExtraTests/CMakeFiles/ListenerStdoutCaptureInMultireporter.dir/X24-ListenerStdoutCaptureInMultireporter.cpp.o
+[500/542] Building CXX object tests/ExtraTests/CMakeFiles/CapturedStdoutInTestCaseEvents.dir/X27-CapturedStdoutInTestCaseEvents.cpp.o
+[501/542] Building CXX object tests/ExtraTests/CMakeFiles/ReporterPreferencesForPassingAssertionsIsRespected.dir/X26-ReporterPreferencesForPassingAssertionsIsRespected.cpp.o
+[502/542] Building CXX object tests/ExtraTests/CMakeFiles/PartialTestCaseEvents.dir/X21-PartialTestCaseEvents.cpp.o
+[503/542] Linking CXX executable tests/ExtraTests/DeferredStaticChecks
+[504/542] Linking CXX executable tests/ExtraTests/BazelReporterNoCatchConfig
+[505/542] Building CXX object tests/ExtraTests/CMakeFiles/ListenerCanAskForCapturedStdout.dir/X25-ListenerCanAskForCapturedStdout.cpp.o
+[506/542] Linking CXX executable tests/ExtraTests/CasingInReporterNames
+[507/542] Linking CXX executable tests/ExtraTests/DisableStringification
+[508/542] Linking CXX executable tests/ExtraTests/FallbackStringifier
+[509/542] Building CXX object tests/ExtraTests/CMakeFiles/ListenersGetEventsBeforeReporters.dir/X28-ListenersGetEventsBeforeReporters.cpp.o
+[510/542] Building CXX object tests/ExtraTests/CMakeFiles/BenchmarksInCumulativeReporter.dir/X22-BenchmarksInCumulativeReporter.cpp.o
+[511/542] Building CXX object tests/ExtraTests/CMakeFiles/DuplicatedTestCases-SameNameDifferentTags.dir/X32-DuplicatedTestCasesDifferentTags.cpp.o
+[512/542] Linking CXX executable tests/ExtraTests/ListenerStdoutCaptureInMultireporter
+[513/542] Building CXX object tests/ExtraTests/CMakeFiles/DuplicatedTestCases-SameNameAndTags.dir/X31-DuplicatedTestCases.cpp.o
+[514/542] Building CXX object tests/ExtraTests/CMakeFiles/DuplicatedTestCases-DifferentFixtures.dir/X34-DuplicatedTestCaseMethodsDifferentFixtures.cpp.o
+[515/542] Linking CXX executable tests/ExtraTests/PartialTestCaseEvents
+[516/542] Linking CXX executable tests/ExtraTests/CapturedStdoutInTestCaseEvents
+[517/542] Building CXX object tests/ExtraTests/CMakeFiles/DuplicatedTestCases-DuplicatedTestCaseMethods.dir/X33-DuplicatedTestCaseMethods.cpp.o
+[518/542] Building CXX object tests/ExtraTests/CMakeFiles/NoTests.dir/X92-NoTests.cpp.o
+[519/542] Linking CXX executable tests/ExtraTests/ReporterPreferencesForPassingAssertionsIsRespected
+[520/542] Linking CXX executable tests/ExtraTests/ListenerCanAskForCapturedStdout
+[521/542] Building CXX object tests/ExtraTests/CMakeFiles/CustomArgumentsForReporters.dir/X29-CustomArgumentsForReporters.cpp.o
+[522/542] Building CXX object tests/ExtraTests/CMakeFiles/DuplicatedReporters.dir/X35-DuplicatedReporterNames.cpp.o
+[523/542] Linking CXX executable tests/ExtraTests/ListenersGetEventsBeforeReporters
+[524/542] Building CXX object tests/ExtraTests/CMakeFiles/ReportingCrashWithJunitReporter.dir/X36-ReportingCrashWithJunitReporter.cpp.o
+[525/542] Linking CXX executable tests/ExtraTests/BenchmarksInCumulativeReporter
+[526/542] Linking CXX executable tests/ExtraTests/DuplicatedTestCases-DifferentFixtures
+[527/542] Linking CXX executable tests/ExtraTests/NoTests
+[528/542] Building CXX object tests/ExtraTests/CMakeFiles/AllSkipped.dir/X93-AllSkipped.cpp.o
+[529/542] Linking CXX executable tests/ExtraTests/DuplicatedTestCases-DuplicatedTestCaseMethods
+[530/542] Linking CXX executable tests/ExtraTests/DuplicatedTestCases-SameNameDifferentTags
+[531/542] Linking CXX executable tests/ExtraTests/DuplicatedTestCases-SameNameAndTags
+[532/542] Building CXX object tests/ExtraTests/CMakeFiles/AssertionStartingEventGoesBeforeAssertionIsEvaluated.dir/X20-AssertionStartingEventGoesBeforeAssertionIsEvaluated.cpp.o
+[533/542] Linking CXX executable tests/ExtraTests/CustomArgumentsForReporters
+[534/542] Linking CXX executable tests/ExtraTests/DuplicatedReporters
+[535/542] Linking CXX executable tests/ExtraTests/ReportingCrashWithJunitReporter
+[536/542] Linking CXX executable tests/ExtraTests/AllSkipped
+[537/542] Linking CXX executable tests/ExtraTests/AssertionStartingEventGoesBeforeAssertionIsEvaluated
+[538/542] Building CXX object tests/ExtraTests/CMakeFiles/BazelReporter.dir/__/__/src/catch2/matchers/catch_matchers_string.cpp.o
+[539/542] Building CXX object tests/ExtraTests/CMakeFiles/AmalgamatedTestCompilation.dir/X91-AmalgamatedCatch.cpp.o
+[540/542] Linking CXX executable tests/ExtraTests/BazelReporter
+[541/542] Building CXX object tests/ExtraTests/CMakeFiles/AmalgamatedTestCompilation.dir/__/__/extras/catch_amalgamated.cpp.o
+[542/542] Linking CXX executable tests/ExtraTests/AmalgamatedTestCompilation
++ cd build
++ ./SelfTest '[matchers]'
+/eval.sh: line 73: ./SelfTest: No such file or directory
++ rc=127
++ cd /testbed
++ echo OMNIGRIL_EXIT_CODE=127
++ git checkout fa43b77429ba76c462b1898d6cd2f2d7a9416b14 tests/SelfTest/UsageTests/MatchersRanges.tests.cpp
+OMNIGRIL_EXIT_CODE=127
+Updated 1 path from fa9c5c76

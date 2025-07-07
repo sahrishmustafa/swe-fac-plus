@@ -1,0 +1,189 @@
++ cd /testbed
++ git checkout 88f4be3d19364a484431309f750535386c7d0d5c test/util-test.cc
+Updated 0 paths from f2f7ba6b
++ git apply -v -
+Checking patch test/util-test.cc...
+Applied patch test/util-test.cc cleanly.
++ cd /testbed
++ rm -rf build
++ mkdir build
++ cd build
++ cmake -DCMAKE_BUILD_TYPE=Release -DFMT_EXTRA_TESTS=ON ..
+-- CMake version: 3.22.1
+CMake Deprecation Warning at CMakeLists.txt:3 (cmake_minimum_required):
+  Compatibility with CMake < 2.8.12 will be removed from a future version of
+  CMake.
+
+  Update the VERSION argument <min> value or use a ...<max> suffix to tell
+  CMake that the project does not need compatibility with older versions.
+
+
+-- The C compiler identification is GNU 11.4.0
+-- The CXX compiler identification is GNU 11.4.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Build type: Release
+-- Performing Test HAVE_STD_CPP11_FLAG
+-- Performing Test HAVE_STD_CPP11_FLAG - Success
+-- Performing Test FMT_CPP11_CMATH
+-- Performing Test FMT_CPP11_CMATH - Success
+-- Looking for open
+-- Looking for open - found
+-- Target 'doc' disabled (requires doxygen)
+-- Looking for pthread.h
+-- Looking for pthread.h - found
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE  
+-- Performing Test FMT_VARIADIC_TEMPLATES
+-- Performing Test FMT_VARIADIC_TEMPLATES - Success
+-- Performing Test FMT_INITIALIZER_LIST
+-- Performing Test FMT_INITIALIZER_LIST - Success
+-- Performing Test HAVE_ENUM_BASE
+-- Performing Test HAVE_ENUM_BASE - Success
+-- Performing Test HAVE_TYPE_TRAITS
+-- Performing Test HAVE_TYPE_TRAITS - Success
+-- Performing Test HAVE_FNO_EXCEPTIONS_FLAG
+-- Performing Test HAVE_FNO_EXCEPTIONS_FLAG - Success
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /testbed/build
+++ nproc
++ make -j12
+[ 15%] Building CXX object CMakeFiles/testformat.dir/test/gtest-extra-test.cc.o
+[ 15%] Building CXX object CMakeFiles/gmock.dir/gmock/gmock-gtest-all.cc.o
+[ 15%] Building CXX object CMakeFiles/testformat.dir/test/header-only-test2.cc.o
+[ 15%] Building CXX object CMakeFiles/testformat.dir/test/header-only-test.cc.o
+[ 15%] Building CXX object CMakeFiles/testformat.dir/test/format-impl-test.cc.o
+[ 15%] Building CXX object CMakeFiles/testformat.dir/test/format-test.cc.o
+[ 15%] Building CXX object CMakeFiles/testformat.dir/test/gtest-extra.cc.o
+[ 15%] Building CXX object test/CMakeFiles/noexception-test.dir/__/format.cc.o
+[ 17%] Building CXX object CMakeFiles/format.dir/format.cc.o
+[ 19%] Building CXX object CMakeFiles/testformat.dir/test/macro-test.cc.o
+[ 21%] Building CXX object CMakeFiles/format.dir/posix.cc.o
+[ 23%] Building CXX object CMakeFiles/testformat.dir/test/posix-test.cc.o
+[ 25%] Building CXX object CMakeFiles/testformat.dir/test/printf-test.cc.o
+[ 26%] Building CXX object CMakeFiles/testformat.dir/test/util-test.cc.o
+[ 28%] Building CXX object CMakeFiles/testformat.dir/test/test-main.cc.o
+[ 30%] Building CXX object CMakeFiles/testformat.dir/test/util.cc.o
+[ 32%] Linking CXX static library libformat.a
+[ 32%] Built target format
+[ 34%] Linking CXX static library libnoexception-test.a
+[ 34%] Built target noexception-test
+[ 36%] Linking CXX static library libgmock.a
+[ 36%] Built target gmock
+[ 55%] Building CXX object test/CMakeFiles/header-only-test.dir/header-only-test.cc.o
+[ 55%] Building CXX object test/CMakeFiles/posix-test.dir/__/posix.cc.o
+[ 55%] Building CXX object test/CMakeFiles/posix-test.dir/posix-test.cc.o
+[ 55%] Building CXX object test/CMakeFiles/posix-test.dir/__/format.cc.o
+[ 55%] Building CXX object test/CMakeFiles/macro-test.dir/__/format.cc.o
+[ 55%] Building CXX object test/CMakeFiles/test-main.dir/util.cc.o
+[ 55%] Building CXX object test/CMakeFiles/macro-test.dir/__/posix.cc.o
+[ 55%] Building CXX object test/CMakeFiles/macro-test.dir/macro-test.cc.o
+[ 55%] Building CXX object test/CMakeFiles/test-main.dir/gtest-extra.cc.o
+[ 55%] Building CXX object test/CMakeFiles/test-main.dir/test-main.cc.o
+[ 57%] Building CXX object test/CMakeFiles/posix-test.dir/test-main.cc.o
+[ 59%] Building CXX object test/CMakeFiles/header-only-test.dir/header-only-test2.cc.o
+[ 61%] Building CXX object test/CMakeFiles/header-only-test.dir/test-main.cc.o
+[ 63%] Building CXX object test/CMakeFiles/posix-test.dir/gtest-extra.cc.o
+[ 65%] Building CXX object test/CMakeFiles/macro-test.dir/test-main.cc.o
+[ 67%] Building CXX object test/CMakeFiles/macro-test.dir/gtest-extra.cc.o
+[ 69%] Building CXX object test/CMakeFiles/posix-test.dir/util.cc.o
+[ 71%] Linking CXX static library libtest-main.a
+[ 73%] Building CXX object test/CMakeFiles/macro-test.dir/util.cc.o
+[ 75%] Linking CXX executable ../bin/header-only-test
+[ 75%] Built target test-main
+[ 76%] Building CXX object test/CMakeFiles/gtest-extra-test.dir/gtest-extra-test.cc.o
+[ 76%] Built target header-only-test
+[ 78%] Building CXX object test/CMakeFiles/format-test.dir/format-test.cc.o
+[ 80%] Building CXX object test/CMakeFiles/format-impl-test.dir/format-impl-test.cc.o
+[ 82%] Building CXX object test/CMakeFiles/printf-test.dir/printf-test.cc.o
+[ 84%] Building CXX object test/CMakeFiles/util-test.dir/util-test.cc.o
+[ 86%] Linking CXX executable ../bin/macro-test
+[ 88%] Linking CXX executable ../bin/posix-test
+[ 88%] Built target macro-test
+[ 88%] Built target posix-test
+[ 90%] Linking CXX executable ../bin/format-impl-test
+[ 90%] Built target format-impl-test
+[ 92%] Linking CXX executable ../bin/gtest-extra-test
+[ 92%] Built target gtest-extra-test
+[ 94%] Linking CXX executable ../bin/util-test
+[ 94%] Built target util-test
+[ 96%] Linking CXX executable ../bin/format-test
+[ 96%] Built target format-test
+[ 98%] Linking CXX static library libtestformat.a
+[ 98%] Built target testformat
+[100%] Linking CXX executable ../bin/printf-test
+[100%] Built target printf-test
++ CTEST_OUTPUT_ON_FAILURE=1
++ ctest -R util-test
+Test project /testbed/build
+    Start 5: util-test
+1/1 Test #5: util-test ........................***Exception: SegFault  0.00 sec
+[==========] Running 34 tests from 6 test cases.
+[----------] Global test environment set-up.
+[----------] 1 test from AllocatorTest
+[ RUN      ] AllocatorTest.AllocatorRef
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   0.01 sec
+
+The following tests FAILED:
+	  5 - util-test (SEGFAULT)
+Errors while running CTest
++ rc=8
++ '[' 8 -ne 0 ']'
++ echo '--- Test failed (8), attempting to get GDB backtrace for util-test ---'
++ set +e
++ /usr/bin/gdb -ex 'set pagination off' -ex run -ex 'thread apply all bt full' -ex quit --batch --args /testbed/build/bin/util-test
+--- Test failed (8), attempting to get GDB backtrace for util-test ---
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+[==========] Running 34 tests from 6 test cases.
+[----------] Global test environment set-up.
+[----------] 1 test from AllocatorTest
+[ RUN      ] AllocatorTest.AllocatorRef
+
+Program received signal SIGSEGV, Segmentation fault.
+0x00005555555ad254 in CheckForwarding(MockAllocator<int>&, AllocatorRef<MockAllocator<int> >&) ()
+
+Thread 1 (Thread 0x7ffff7eb03c0 (LWP 653) "util-test"):
+#0  0x00005555555ad254 in CheckForwarding(MockAllocator<int>&, AllocatorRef<MockAllocator<int> >&) ()
+No symbol table info available.
+#1  0x00005555555ad489 in AllocatorTest_AllocatorRef_Test::TestBody() ()
+No symbol table info available.
+#2  0x0000555555616b21 in void testing::internal::HandleExceptionsInMethodIfSupported<testing::Test, void>(testing::Test*, void (testing::Test::*)(), char const*) ()
+No symbol table info available.
+#3  0x000055555560a921 in testing::Test::Run() [clone .part.0] ()
+No symbol table info available.
+#4  0x000055555560aff5 in testing::TestInfo::Run() [clone .part.0] ()
+No symbol table info available.
+#5  0x000055555560b272 in testing::TestCase::Run() [clone .part.0] ()
+No symbol table info available.
+#6  0x000055555560c284 in testing::internal::UnitTestImpl::RunAllTests() ()
+No symbol table info available.
+#7  0x000055555560c73e in testing::UnitTest::Run() ()
+No symbol table info available.
+#8  0x000055555559cc13 in main ()
+No symbol table info available.
+A debugging session is active.
+
+	Inferior 1 [process 653] will be killed.
+
+Quit anyway? (y or n) [answered Y; input not from terminal]
++ set -e
++ echo OMNIGRIL_EXIT_CODE=8
++ cd /testbed
++ git checkout 88f4be3d19364a484431309f750535386c7d0d5c test/util-test.cc
+OMNIGRIL_EXIT_CODE=8
+Updated 1 path from f2f7ba6b

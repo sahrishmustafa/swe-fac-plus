@@ -1,0 +1,42 @@
+[
+  {
+    "func_name": "browse_file_for_environment_info",
+    "arguments": {
+      "file_path": "CMakeLists.txt",
+      "custom_query": "Identify CMake version requirements, C++ standard, build steps, and how tests are added and run."
+    },
+    "call_ok": true,
+    "result": "Runtime Requirements:\n- CMake >= 3.1\n- C++11 (default for SelfTest executable, C++14 if `USE_CPP14` is enabled)\n- Python 2.7 (for approvalTests.py, specifically noting AppVeyor's environment)\n\nKey environment variables:\n- `USE_WMAIN`: (Implicitly, if set, adds `/ENTRY:wmainCRTStartup` to linker flags)\n- `CATCH_USE_VALGRIND`: `OFF` by default, if `ON` enables Valgrind tests.\n- `CATCH_BUILD_EXAMPLES`: `OFF` by default, if `ON` builds documentation examples.\n- `CATCH_ENABLE_COVERAGE`: `OFF` by default, if `ON` enables coverage generation via `codecov`.\n- `CATCH_ENABLE_WERROR`: `ON` by default, if `ON` enables \"warnings as errors\" for compilers.\n- `NO_SELFTEST`: Deprecated, use `BUILD_TESTING` instead.\n\nBuild Steps:\n- The project is configured and built using CMake.\n- The main executable for testing is `SelfTest`, built from `TEST_SOURCES`, `IMPL_SOURCES`, `REPORTER_SOURCES`, `SURROGATE_SOURCES`, and `HEADERS`.\n- `target_include_directories(SelfTest PRIVATE ${HEADER_DIR})` adds include paths.\n- `set_property(TARGET SelfTest PROPERTY CXX_STANDARD 11)` (or `14` if `USE_CPP14` is enabled).\n- Compiler-specific options (e.g., GCC/Clang: `-Wall -Wextra -Wunreachable-code -Wpedantic`; MSVC: `/w44265 /w44061 /w44062`, `/utf-8`) are applied.\n- The `Catch` library is built as an `INTERFACE` library.\n\nTesting:\n- Test framework: Catch2's internal SelfTest suite integrated with CTest.\n- Tests are enabled if `BUILD_TESTING` is `ON` and it's not a sub-project (`NOT_SUBPROJECT` is `ON`).\n- Test commands (added via `add_test`):\n    - `RunTests`: `$<TARGET_FILE:SelfTest>`\n    - `ListTests`: `$<TARGET_FILE:SelfTest> --list-tests --verbosity high`\n    - `ListTags`: `$<TARGET_FILE:SelfTest> --list-tags`\n    - `ListReporters`: `$<TARGET_FILE:SelfTest> --list-reporters`\n    - `ListTestNamesOnly`: `$<TARGET_FILE:SelfTest> --list-test-names-only`\n    - `NoAssertions`: `$<TARGET_FILE:SelfTest> -w NoAssertions`\n    - `NoTest`: `$<TARGET_FILE:SelfTest> -w NoTests \"___nonexistent_test___\"`\n    - `ApprovalTests`: `python ${CMAKE_CURRENT_SOURCE_DIR}/scripts/approvalTests.py $<TARGET_FILE:SelfTest>`\n- Conditional Valgrind tests (if `CATCH_USE_VALGRIND` is `ON`):\n    - `ValgrindRunTests`: `valgrind --leak-check=full --error-exitcode=1 $<TARGET_FILE:SelfTest>`\n    - `ValgrindListTests`: `valgrind --leak-check=full --error-exitcode=1 $<TARGET_FILE:SelfTest> --list-tests --verbosity high`\n    - `ValgrindListTags`: `valgrind --leak-check=full --error-exitcode=1 $<TARGET_FILE:SelfTest> --list-tags`\n- Tests are run using `ctest`.",
+    "agent_id": "ContextRetrievalAgent"
+  },
+  {
+    "func_name": "browse_file_for_environment_info",
+    "arguments": {
+      "file_path": ".travis.yml",
+      "custom_query": "Extract environment setup, required tools, build commands, and test execution commands."
+    },
+    "call_ok": true,
+    "result": "Runtime Requirements:\n- C++ (various standards, implicitly C++11, C++14)\n- Specific compilers:\n    - Clang (3.5, 3.6, 3.8, 3.9, 4.0, 5.0, 6.0) on Linux\n    - GCC (4.8, 4.9, 5, 6, 7, 8) on Linux\n    - Clang (default versions from Xcode 7.3, 8, 9, 9.1) on OSX\n- Operating Systems: Linux, macOS (OSX)\n\nRequired Tools/Packages:\n- `cmake` (version 3.3.2 specifically fetched for Linux, or via Homebrew on OSX)\n- Linux apt packages:\n    - `clang-3.5`, `clang-3.6`, `clang-3.8`, `clang-3.9`, `clang-4.0`, `clang-5.0`, `clang-6.0`\n    - `g++-4.8`, `g++-4.9`, `g++-5`, `g++-6`, `g++-7`, `g++-8`\n    - `lcov` (for coverage)\n    - `libstdc++-6-dev` (for C++14 support with Clang)\n    - `valgrind` (for memory checking)\n- OSX brew packages: `cmake` (if not present)\n- `python` (for `scripts/generateSingleHeader.py`)\n- `curl` (for codecov.io bash script)\n\nKey Environment Variables:\n- `COMPILER`: (e.g., `clang++-3.5`, `g++-6`, `clang++`) - specifies the C++ compiler to use.\n- `CPP14`: `1` (indicates C++14 compilation)\n- `VALGRIND`: `1` (enables Valgrind checks)\n- `EXAMPLES`: `1` (enables building examples)\n- `COVERAGE`: `1` (enables code coverage collection)\n- `DEPS_DIR`: `${TRAVIS_BUILD_DIR}/deps`\n- `PATH`: Modified to include `${DEPS_DIR}/cmake/bin` on Linux.\n- `CXX`: Set to the value of `COMPILER`.\n- `CTEST_OUTPUT_ON_FAILURE`: `1` (ensures ctest output is shown on failure)\n\nBuild Commands:\n1.  **CMake setup**:\n    - `DEPS_DIR=\"${TRAVIS_BUILD_DIR}/deps\"`\n    - `mkdir -p ${DEPS_DIR} && cd ${DEPS_DIR}`\n    - On Linux: `CMAKE_URL=\"http://www.cmake.org/files/v3.3/cmake-3.3.2-Linux-x86_64.tar.gz\" && mkdir cmake && travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake && export PATH=${DEPS_DIR}/cmake/bin:${PATH}`\n    - On OSX: `which cmake || brew install cmake;`\n2.  **Pre-build setup**:\n    - `export CXX=${COMPILER}`\n    - `cd ${TRAVIS_BUILD_DIR}`\n    - `python scripts/generateSingleHeader.py`\n3.  **CMake configuration**:\n    - `cmake -H. -BBuild-Debug -DCMAKE_BUILD_TYPE=Debug -Wdev -DUSE_CPP14=${CPP14} -DCATCH_USE_VALGRIND=${VALGRIND} -DCATCH_BUILD_EXAMPLES=${EXAMPLES} -DCATCH_ENABLE_COVERAGE=${COVERAGE}` (for debug build, used for Valgrind and examples)\n    - `cmake -H. -BBuild-Release -DCMAKE_BUILD_TYPE=Release -Wdev -DUSE_CPP14=${CPP14}` (for release build)\n\nTest Execution Commands:\n1.  **Debug Build Tests**:\n    - `cd Build-Debug`\n    - `make -j 2` (builds the project with 2 parallel jobs)\n    - `CTEST_OUTPUT_ON_FAILURE=1 ctest -j 2` (runs tests with 2 parallel jobs, showing output on failure)\n2.  **Coverage Collection (Linux only, when COVERAGE=1)**:\n    - `make gcov`\n    - `make lcov`\n    - `bash <(curl -s https://codecov.io/bash) -X gcov || echo \"Codecov did not collect coverage reports\"`\n3.  **Release Build Tests**:\n    - `cd ../Build-Release`\n    - `make -j 2`\n    - `CTEST_OUTPUT_ON_FAILURE=1 ctest -j 2`",
+    "agent_id": "ContextRetrievalAgent"
+  },
+  {
+    "func_name": "browse_file_for_environment_info",
+    "arguments": {
+      "file_path": "README.md",
+      "custom_query": "Look for build instructions and how to run tests."
+    },
+    "call_ok": true,
+    "result": "List of libraries:\n- Catch2 (C++ Automated Test Cases in a Header)\n\nRuntime Requirements:\n- C++ compiler (for building and using Catch2)\n\nTesting:\n- Test framework: Catch2\n- Test command: Not explicitly provided in this `README.md`. The document directs users to `docs/tutorial.md` and `docs/Readme.md` for detailed usage, which would likely include build instructions and how to run tests.",
+    "agent_id": "ContextRetrievalAgent"
+  },
+  {
+    "func_name": "browse_file_for_environment_info",
+    "arguments": {
+      "file_path": "conanfile.py",
+      "custom_query": "Identify any package dependencies and their versions."
+    },
+    "call_ok": true,
+    "result": "List of libraries:\n- Catch (version defined in this file): 2.2.2\n\nPackage dependencies:\n- No explicit package dependencies (e.g., `requires`) are defined in this `conanfile.py`. It defines the \"Catch\" package itself.",
+    "agent_id": "ContextRetrievalAgent"
+  }
+]

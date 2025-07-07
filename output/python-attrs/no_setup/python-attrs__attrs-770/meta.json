@@ -1,0 +1,22 @@
+{
+    "task_id": "python-attrs__attrs-770",
+    "setup_info": {
+        "repo_path": "testbed/python-attrs__attrs-770_2025-07-03_17-42-35",
+        "repo_cache_path": "testbed/python-attrs/attrs_cache"
+    },
+    "task_info": {
+        "repo": "python-attrs/attrs",
+        "pull_number": 770,
+        "instance_id": "python-attrs__attrs-770",
+        "issue_numbers": [
+            "756"
+        ],
+        "base_commit": "58d2adce57f2c4e447eb12b892ebbb09cccbdcc3",
+        "patch": "diff --git a/src/attr/_compat.py b/src/attr/_compat.py\n--- a/src/attr/_compat.py\n+++ b/src/attr/_compat.py\n@@ -28,6 +28,15 @@\n     def isclass(klass):\n         return isinstance(klass, (type, types.ClassType))\n \n+    def new_class(name, bases, kwds, exec_body):\n+        \"\"\"\n+        A minimal stub of types.new_class that we need for make_class.\n+        \"\"\"\n+        ns = {}\n+        exec_body(ns)\n+\n+        return type(name, bases, ns)\n+\n     # TYPE is used in exceptions, repr(int) is different on Python 2 and 3.\n     TYPE = \"type\"\n \n@@ -122,6 +131,8 @@ def isclass(klass):\n     def iteritems(d):\n         return d.items()\n \n+    new_class = types.new_class\n+\n     def metadata_proxy(d):\n         return types.MappingProxyType(dict(d))\n \ndiff --git a/src/attr/_make.py b/src/attr/_make.py\n--- a/src/attr/_make.py\n+++ b/src/attr/_make.py\n@@ -17,6 +17,7 @@\n     isclass,\n     iteritems,\n     metadata_proxy,\n+    new_class,\n     ordered_dict,\n     set_closure_cell,\n )\n@@ -2928,7 +2929,8 @@ def make_class(name, attrs, bases=(object,), **attributes_arguments):\n     if user_init is not None:\n         body[\"__init__\"] = user_init\n \n-    type_ = type(name, bases, body)\n+    type_ = new_class(name, bases, {}, lambda ns: ns.update(body))\n+\n     # For pickling to work, the __module__ variable needs to be set to the\n     # frame where the class is created.  Bypass this step in environments where\n     # sys._getframe is not defined (Jython for example) or sys._getframe is not\n",
+        "test_patch": "diff --git a/tests/test_make.py b/tests/test_make.py\n--- a/tests/test_make.py\n+++ b/tests/test_make.py\n@@ -1118,6 +1118,22 @@ def test_make_class_ordered(self):\n \n         assert \"C(a=1, b=2)\" == repr(C())\n \n+    @pytest.mark.skipif(PY2, reason=\"Python 3-only\")\n+    def test_generic_dynamic_class(self):\n+        \"\"\"\n+        make_class can create generic dynamic classes.\n+\n+        https://github.com/python-attrs/attrs/issues/756\n+        https://bugs.python.org/issue33188\n+        \"\"\"\n+        from types import new_class\n+        from typing import Generic, TypeVar\n+\n+        MyTypeVar = TypeVar(\"MyTypeVar\")\n+        MyParent = new_class(\"MyParent\", (Generic[MyTypeVar],), {})\n+\n+        attr.make_class(\"test\", {\"id\": attr.ib(type=str)}, (MyParent[int],))\n+\n \n class TestFields(object):\n     \"\"\"\n",
+        "problem_statement": "attr.make_class does not work with Python>=3.7\nIn attr.make_class function line 2818: `type_ = type(name, bases, body)` cannot be used for dynamic generic class creation beyond python 3.7 and leads to an error `TypeError: type() doesn't support MRO entry resolution; use types.new_class()`.\r\n\r\nThe error can be recreated with:\r\n```\r\nfrom typing import TypeVar, Generic\r\nfrom types import new_class\r\nimport attr\r\n\r\nMyTypeVar = TypeVar(\"MyTypeVar\")\r\nMyParent = new_class(\"MyParent\", (Generic[MyTypeVar],), {})\r\n\r\n\r\nattr.make_class('test', {'id': attr.ib(type=str)}, (MyParent[int],))\r\n```\r\n\r\nAs mentioned in the error it can be fixed by replacing `type_ = type(name, bases, body)` with `types.new_class(name, bases, body)`. \r\n\r\nThis issue has been discussed here in detail: [https://bugs.python.org/issue33188](https://bugs.python.org/issue33188).\n",
+        "hints_text": "",
+        "created_at": "2021-02-25T13:06:10Z",
+        "version": "20.3"
+    }
+}

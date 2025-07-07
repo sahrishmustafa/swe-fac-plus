@@ -1,0 +1,22 @@
+{
+    "task_id": "fmtlib__fmt-902",
+    "setup_info": {
+        "repo_path": "github/_cache/fmtlib__fmt-902_2025-07-04_18-38-48",
+        "repo_cache_path": "github/_cache/fmtlib/fmt_cache"
+    },
+    "task_info": {
+        "repo": "fmtlib/fmt",
+        "pull_number": 902,
+        "instance_id": "fmtlib__fmt-902",
+        "issue_numbers": [
+            "873"
+        ],
+        "base_commit": "61f81a071966fac324a7c10ea2310aea1371ac7a",
+        "patch": "diff --git a/include/fmt/format-inl.h b/include/fmt/format-inl.h\n--- a/include/fmt/format-inl.h\n+++ b/include/fmt/format-inl.h\n@@ -822,11 +822,6 @@ FMT_FUNC void format_system_error(\n   format_error_code(out, error_code, message);\n }\n \n-template <typename Char>\n-void basic_fixed_buffer<Char>::grow(std::size_t) {\n-  FMT_THROW(std::runtime_error(\"buffer overflow\"));\n-}\n-\n FMT_FUNC void internal::error_handler::on_error(const char *message) {\n   FMT_THROW(format_error(message));\n }\ndiff --git a/include/fmt/format.h b/include/fmt/format.h\n--- a/include/fmt/format.h\n+++ b/include/fmt/format.h\n@@ -592,43 +592,6 @@ void basic_memory_buffer<T, SIZE, Allocator>::grow(std::size_t size) {\n typedef basic_memory_buffer<char> memory_buffer;\n typedef basic_memory_buffer<wchar_t> wmemory_buffer;\n \n-/**\n-  \\rst\n-  A fixed-size memory buffer. For a dynamically growing buffer use\n-  :class:`fmt::basic_memory_buffer`.\n-\n-  Trying to increase the buffer size past the initial capacity will throw\n-  ``std::runtime_error``.\n-  \\endrst\n- */\n-template <typename Char>\n-class basic_fixed_buffer : public internal::basic_buffer<Char> {\n- public:\n-  /**\n-   \\rst\n-   Constructs a :class:`fmt::basic_fixed_buffer` object for *array* of the\n-   given size.\n-   \\endrst\n-   */\n-  basic_fixed_buffer(Char *array, std::size_t size) {\n-    this->set(array, size);\n-  }\n-\n-  /**\n-   \\rst\n-   Constructs a :class:`fmt::basic_fixed_buffer` object for *array* of the\n-   size known at compile time.\n-   \\endrst\n-   */\n-  template <std::size_t SIZE>\n-  explicit basic_fixed_buffer(Char (&array)[SIZE]) {\n-    this->set(array, SIZE);\n-  }\n-\n- protected:\n-  FMT_API void grow(std::size_t size) FMT_OVERRIDE;\n-};\n-\n namespace internal {\n \n template <typename Char>\ndiff --git a/src/format.cc b/src/format.cc\n--- a/src/format.cc\n+++ b/src/format.cc\n@@ -16,8 +16,6 @@ template FMT_API char internal::thousands_sep(locale_provider *lp);\n \n template void internal::basic_buffer<char>::append(const char *, const char *);\n \n-template void basic_fixed_buffer<char>::grow(std::size_t);\n-\n template void internal::arg_map<format_context>::init(\n     const basic_format_args<format_context> &args);\n \n@@ -37,8 +35,6 @@ template FMT_API wchar_t internal::thousands_sep(locale_provider *);\n template void internal::basic_buffer<wchar_t>::append(\n     const wchar_t *, const wchar_t *);\n \n-template void basic_fixed_buffer<wchar_t>::grow(std::size_t);\n-\n template void internal::arg_map<wformat_context>::init(\n     const basic_format_args<wformat_context> &);\n \n",
+        "test_patch": "diff --git a/test/format-test.cc b/test/format-test.cc\n--- a/test/format-test.cc\n+++ b/test/format-test.cc\n@@ -351,29 +351,6 @@ TEST(MemoryBufferTest, ExceptionInDeallocate) {\n   EXPECT_CALL(alloc, deallocate(&mem2[0], 2 * size));\n }\n \n-TEST(FixedBufferTest, Ctor) {\n-  char array[10] = \"garbage\";\n-  fmt::basic_fixed_buffer<char> buffer(array, sizeof(array));\n-  EXPECT_EQ(static_cast<size_t>(0), buffer.size());\n-  EXPECT_EQ(10u, buffer.capacity());\n-  EXPECT_EQ(array, buffer.data());\n-}\n-\n-TEST(FixedBufferTest, CompileTimeSizeCtor) {\n-  char array[10] = \"garbage\";\n-  fmt::basic_fixed_buffer<char> buffer(array);\n-  EXPECT_EQ(static_cast<size_t>(0), buffer.size());\n-  EXPECT_EQ(10u, buffer.capacity());\n-  EXPECT_EQ(array, buffer.data());\n-}\n-\n-TEST(FixedBufferTest, BufferOverflow) {\n-  char array[10];\n-  fmt::basic_fixed_buffer<char> buffer(array);\n-  buffer.resize(10);\n-  EXPECT_THROW_MSG(buffer.resize(11), std::runtime_error, \"buffer overflow\");\n-}\n-\n #ifdef _WIN32\n TEST(UtilTest, UTF16ToUTF8) {\n   std::string s = \"\u0451\u0436\u0438\u043a\";\n",
+        "problem_statement": "Remove basic_fixed_buffer\nThe undocumented `basic_fixed_buffer` class should be removed because it was superseded by the iterator-based API.\n",
+        "hints_text": "",
+        "created_at": "2018-10-08T16:32:47Z",
+        "version": "5.2"
+    }
+}

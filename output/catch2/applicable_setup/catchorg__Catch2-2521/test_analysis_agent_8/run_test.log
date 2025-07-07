@@ -1,0 +1,66 @@
+2025-06-30 16:55:00,767 - INFO - Checking if image catchorg__catch2-2521-dockerfile8:latest exists locally...
+2025-06-30 16:55:00,827 - INFO - Image catchorg__catch2-2521-dockerfile8:latest found locally.
+2025-06-30 16:55:00,827 - INFO - Creating container for catchorg__catch2-2521...
+2025-06-30 16:55:01,106 - INFO - Container for catchorg__catch2-2521 started: 0019d3af1c1fb11683186a329f0f526774749ca469ba8a411414006662c0a093
+2025-06-30 16:55:01,106 - INFO - Intermediate patch for catchorg__catch2-2521 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/catch2/catchorg__Catch2-2521/test_analysis_agent_8/patch.diff, now applying to container...
+2025-06-30 16:55:01,407 - INFO - Failed to apply patch to container, trying again...
+2025-06-30 16:55:01,478 - INFO - Apply patch success:
+patching file src/catch2/internal/catch_compiler_capabilities.hpp
+
+2025-06-30 16:55:01,630 - INFO - Git diff before:
+diff --git a/src/catch2/internal/catch_compiler_capabilities.hpp b/src/catch2/internal/catch_compiler_capabilities.hpp
+index 85477ec2..9ffae596 100644
+--- a/src/catch2/internal/catch_compiler_capabilities.hpp
++++ b/src/catch2/internal/catch_compiler_capabilities.hpp
+@@ -53,6 +53,9 @@
+ #    define CATCH_INTERNAL_SUPPRESS_UNUSED_VARIABLE_WARNINGS \
+          _Pragma( "GCC diagnostic ignored \"-Wunused-variable\"" )
+ 
++#    define CATCH_INTERNAL_SUPPRESS_USELESS_CAST_WARNINGS \
++         _Pragma( "GCC diagnostic ignored \"-Wuseless-cast\"" )
++
+ #    define CATCH_INTERNAL_IGNORE_BUT_WARN(...) (void)__builtin_constant_p(__VA_ARGS__)
+ 
+ #endif
+@@ -335,6 +338,9 @@
+ #if !defined(CATCH_INTERNAL_SUPPRESS_UNUSED_VARIABLE_WARNINGS)
+ #   define CATCH_INTERNAL_SUPPRESS_UNUSED_VARIABLE_WARNINGS
+ #endif
++#if !defined(CATCH_INTERNAL_SUPPRESS_USELESS_CAST_WARNINGS)
++#   define CATCH_INTERNAL_SUPPRESS_USELESS_CAST_WARNINGS
++#endif
+ #if !defined(CATCH_INTERNAL_SUPPRESS_ZERO_VARIADIC_WARNINGS)
+ #   define CATCH_INTERNAL_SUPPRESS_ZERO_VARIADIC_WARNINGS
+ #endif
+2025-06-30 16:55:01,630 - INFO - Eval script for catchorg__catch2-2521 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/catch2/catchorg__Catch2-2521/test_analysis_agent_8/patch.diff, now applying to container...
+2025-06-30 16:55:07,512 - INFO - Test output for catchorg__catch2-2521 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/catch2/catchorg__Catch2-2521/test_analysis_agent_8/test_output.txt
+2025-06-30 16:55:07,560 - INFO - Git diff after:
+diff --git a/src/catch2/internal/catch_compiler_capabilities.hpp b/src/catch2/internal/catch_compiler_capabilities.hpp
+index 85477ec2..9ffae596 100644
+--- a/src/catch2/internal/catch_compiler_capabilities.hpp
++++ b/src/catch2/internal/catch_compiler_capabilities.hpp
+@@ -53,6 +53,9 @@
+ #    define CATCH_INTERNAL_SUPPRESS_UNUSED_VARIABLE_WARNINGS \
+          _Pragma( "GCC diagnostic ignored \"-Wunused-variable\"" )
+ 
++#    define CATCH_INTERNAL_SUPPRESS_USELESS_CAST_WARNINGS \
++         _Pragma( "GCC diagnostic ignored \"-Wuseless-cast\"" )
++
+ #    define CATCH_INTERNAL_IGNORE_BUT_WARN(...) (void)__builtin_constant_p(__VA_ARGS__)
+ 
+ #endif
+@@ -335,6 +338,9 @@
+ #if !defined(CATCH_INTERNAL_SUPPRESS_UNUSED_VARIABLE_WARNINGS)
+ #   define CATCH_INTERNAL_SUPPRESS_UNUSED_VARIABLE_WARNINGS
+ #endif
++#if !defined(CATCH_INTERNAL_SUPPRESS_USELESS_CAST_WARNINGS)
++#   define CATCH_INTERNAL_SUPPRESS_USELESS_CAST_WARNINGS
++#endif
+ #if !defined(CATCH_INTERNAL_SUPPRESS_ZERO_VARIADIC_WARNINGS)
+ #   define CATCH_INTERNAL_SUPPRESS_ZERO_VARIADIC_WARNINGS
+ #endif
+2025-06-30 16:55:07,560 - INFO - Attempting to stop container catchorg__catch2-2521-test6...
+2025-06-30 16:55:22,723 - INFO - Attempting to remove container catchorg__catch2-2521-test6...
+2025-06-30 16:55:22,767 - INFO - Container catchorg__catch2-2521-test6 removed.
+2025-06-30 16:55:22,768 - INFO - Attempting to remove image catchorg__catch2-2521-dockerfile8:latest...
+2025-06-30 16:55:23,584 - INFO - Image catchorg__catch2-2521-dockerfile8:latest removed.

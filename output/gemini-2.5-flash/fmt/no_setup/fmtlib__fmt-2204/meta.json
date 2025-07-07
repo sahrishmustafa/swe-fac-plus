@@ -1,0 +1,22 @@
+{
+    "task_id": "fmtlib__fmt-2204",
+    "setup_info": {
+        "repo_path": "github/_cache/fmtlib__fmt-2204_2025-07-04_18-38-48",
+        "repo_cache_path": "github/_cache/fmtlib/fmt_cache"
+    },
+    "task_info": {
+        "repo": "fmtlib/fmt",
+        "pull_number": 2204,
+        "instance_id": "fmtlib__fmt-2204",
+        "issue_numbers": [
+            "2195"
+        ],
+        "base_commit": "308510eb4fad9b112ebdd2867b0b96338b0a9a36",
+        "patch": "diff --git a/include/fmt/core.h b/include/fmt/core.h\n--- a/include/fmt/core.h\n+++ b/include/fmt/core.h\n@@ -877,7 +877,7 @@ class buffer_appender : public std::back_insert_iterator<buffer<T>> {\n   using base = std::back_insert_iterator<buffer<T>>;\n \n  public:\n-  explicit buffer_appender(buffer<T>& buf) : base(buf) {}\n+  using std::back_insert_iterator<buffer<T>>::back_insert_iterator;\n   buffer_appender(base it) : base(it) {}\n \n   buffer_appender& operator++() {\n",
+        "test_patch": "diff --git a/test/format-test.cc b/test/format-test.cc\n--- a/test/format-test.cc\n+++ b/test/format-test.cc\n@@ -217,6 +217,23 @@ static void check_move_buffer(\n   EXPECT_EQ(alloc, buffer2.get_allocator().get());\n }\n \n+TEST(BufferAppenderTest, BufferAppenderDefaultConstruct) {\n+  // back_insert_iterator is not default-constructible before C++20, so\n+  // buffer_appender can only be default-constructible when back_insert_iterator\n+  // is.\n+  static_assert(\n+      std::is_default_constructible<\n+          std::back_insert_iterator<fmt::detail::buffer<char>>>::value ==\n+      std::is_default_constructible<fmt::detail::buffer_appender<char>>::value,\n+      \"\");\n+}\n+\n+#ifdef __cpp_lib_ranges\n+TEST(BufferAppenderTest, BufferAppenderOutputIterator) {\n+  static_assert(std::output_iterator<fmt::detail::buffer_appender<char>, char>);\n+}\n+#endif\n+\n TEST(MemoryBufferTest, MoveCtorInlineBuffer) {\n   std::allocator<char> alloc;\n   basic_memory_buffer<char, 5, std_allocator> buffer((std_allocator(&alloc)));\n",
+        "problem_statement": "`buffer_appender` does not conform to `std::output_iterator`\nI've run into this before with `truncating_iterator` (see #2156), apparently, the same applies for `buffer_appender`.\r\n\r\nCC @randomnetcat :-)\n",
+        "hints_text": "Note that there is a [proposal](http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2021/p2325r0.html) that removes the default constructor requirement from output iterator.\nShould be easy to do similarly to #2158. PR is welcome =).",
+        "created_at": "2021-03-31T18:10:50Z",
+        "version": "7.1"
+    }
+}

@@ -1,0 +1,33 @@
+Can't overide a __super__'s attrib.
+Hi.
+
+Is it not possible to do this? Let's say I want to change the default for arg 'p' in the inherited Class, B:
+```
+@attr.s
+class A(object):
+    p=attr.ib(default='old')
+
+@attr.s
+class B(A):
+    p=attr.ib(default='new')
+
+B().p
+```
+
+I get farts:
+
+```
+Traceback (most recent call last):
+  File "E:/D/OneDrive/PyCharm/attrs_test/01.py", line 44, in <module>
+    class B(A):
+  File "E:\D\OneDrive\Miniconda3\envs\dev\lib\site-packages\attr\_make.py", line 391, in attributes
+    return wrap(maybe_cls)
+  File "E:\D\OneDrive\Miniconda3\envs\dev\lib\site-packages\attr\_make.py", line 364, in wrap
+    cls = _add_init(cls, effectively_frozen)
+  File "E:\D\OneDrive\Miniconda3\envs\dev\lib\site-packages\attr\_make.py", line 569, in _add_init
+    bytecode = compile(script, unique_filename, "exec")
+  File "<attrs generated init 6e95dcc9478c7a8b8784f6244afbff55f563f7c6>", line 1
+SyntaxError: duplicate argument 'p' in function definition
+```
+
+Thanks.

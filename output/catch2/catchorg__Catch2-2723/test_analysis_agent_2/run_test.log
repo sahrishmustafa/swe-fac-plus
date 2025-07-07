@@ -1,0 +1,168 @@
+2025-06-30 17:43:47,259 - INFO - Checking if image catchorg__catch2-2723-dockerfile2:latest exists locally...
+2025-06-30 17:43:47,377 - INFO - Image catchorg__catch2-2723-dockerfile2:latest found locally.
+2025-06-30 17:43:47,377 - INFO - Creating container for catchorg__catch2-2723...
+2025-06-30 17:43:47,809 - INFO - Container for catchorg__catch2-2723 started: 1483739c9e96ac34450c84efc1206c99694c3e3d70524103763ea0338618fbf6
+2025-06-30 17:43:47,810 - INFO - Intermediate patch for catchorg__catch2-2723 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/catch2/catchorg__Catch2-2723/test_analysis_agent_2/patch.diff, now applying to container...
+2025-06-30 17:43:48,198 - INFO - Failed to apply patch to container, trying again...
+2025-06-30 17:43:48,301 - INFO - Apply patch success:
+patching file src/catch2/internal/catch_run_context.cpp
+
+2025-06-30 17:43:48,564 - INFO - Git diff before:
+diff --git a/src/catch2/internal/catch_run_context.cpp b/src/catch2/internal/catch_run_context.cpp
+index 6f15cfb1..e568100d 100644
+--- a/src/catch2/internal/catch_run_context.cpp
++++ b/src/catch2/internal/catch_run_context.cpp
+@@ -20,6 +20,7 @@
+ #include <catch2/internal/catch_output_redirect.hpp>
+ #include <catch2/internal/catch_assertion_handler.hpp>
+ #include <catch2/internal/catch_test_failure_exception.hpp>
++#include <catch2/internal/catch_result_type.hpp>
+ 
+ #include <cassert>
+ #include <algorithm>
+@@ -293,13 +294,14 @@ namespace Catch {
+             m_messageScopes.clear();
+         }
+ 
+-        // Reset working state
+-        resetAssertionInfo();
++        // Reset working state. assertion info will be reset after
++        // populateReaction is run if it is needed
+         m_lastResult = CATCH_MOVE( result );
+     }
+     void RunContext::resetAssertionInfo() {
+         m_lastAssertionInfo.macroName = StringRef();
+         m_lastAssertionInfo.capturedExpression = "{Unknown expression after the reported line}"_sr;
++        m_lastAssertionInfo.resultDisposition = ResultDisposition::Normal;
+     }
+ 
+     void RunContext::notifyAssertionStarted( AssertionInfo const& info ) {
+@@ -447,6 +449,7 @@ namespace Catch {
+         AssertionResult result(m_lastAssertionInfo, CATCH_MOVE(tempResult));
+ 
+         assertionEnded(CATCH_MOVE(result) );
++        resetAssertionInfo();
+ 
+         handleUnfinishedSections();
+ 
+@@ -583,6 +586,7 @@ namespace Catch {
+             reportExpr(info, ResultWas::ExpressionFailed, &expr, negated );
+             populateReaction( reaction );
+         }
++        resetAssertionInfo();
+     }
+     void RunContext::reportExpr(
+             AssertionInfo const &info,
+@@ -621,6 +625,7 @@ namespace Catch {
+             // considered "OK"
+             reaction.shouldSkip = true;
+         }
++        resetAssertionInfo();
+     }
+     void RunContext::handleUnexpectedExceptionNotThrown(
+             AssertionInfo const& info,
+@@ -641,6 +646,7 @@ namespace Catch {
+         AssertionResult assertionResult{ info, CATCH_MOVE(data) };
+         assertionEnded( CATCH_MOVE(assertionResult) );
+         populateReaction( reaction );
++        resetAssertionInfo();
+     }
+ 
+     void RunContext::populateReaction( AssertionReaction& reaction ) {
+@@ -658,6 +664,7 @@ namespace Catch {
+         data.message = "Exception translation was disabled by CATCH_CONFIG_FAST_COMPILE"s;
+         AssertionResult assertionResult{ info, CATCH_MOVE( data ) };
+         assertionEnded( CATCH_MOVE(assertionResult) );
++        resetAssertionInfo();
+     }
+     void RunContext::handleNonExpr(
+             AssertionInfo const &info,
+@@ -672,6 +679,7 @@ namespace Catch {
+         const auto isOk = assertionResult.isOk();
+         assertionEnded( CATCH_MOVE(assertionResult) );
+         if ( !isOk ) { populateReaction( reaction ); }
++        resetAssertionInfo();
+     }
+2025-06-30 17:43:48,565 - INFO - Eval script for catchorg__catch2-2723 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/catch2/catchorg__Catch2-2723/test_analysis_agent_2/patch.diff, now applying to container...
+2025-06-30 17:43:53,572 - INFO - Test output for catchorg__catch2-2723 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/catch2/catchorg__Catch2-2723/test_analysis_agent_2/test_output.txt
+2025-06-30 17:43:53,629 - INFO - Git diff after:
+diff --git a/src/catch2/internal/catch_run_context.cpp b/src/catch2/internal/catch_run_context.cpp
+index 6f15cfb1..e568100d 100644
+--- a/src/catch2/internal/catch_run_context.cpp
++++ b/src/catch2/internal/catch_run_context.cpp
+@@ -20,6 +20,7 @@
+ #include <catch2/internal/catch_output_redirect.hpp>
+ #include <catch2/internal/catch_assertion_handler.hpp>
+ #include <catch2/internal/catch_test_failure_exception.hpp>
++#include <catch2/internal/catch_result_type.hpp>
+ 
+ #include <cassert>
+ #include <algorithm>
+@@ -293,13 +294,14 @@ namespace Catch {
+             m_messageScopes.clear();
+         }
+ 
+-        // Reset working state
+-        resetAssertionInfo();
++        // Reset working state. assertion info will be reset after
++        // populateReaction is run if it is needed
+         m_lastResult = CATCH_MOVE( result );
+     }
+     void RunContext::resetAssertionInfo() {
+         m_lastAssertionInfo.macroName = StringRef();
+         m_lastAssertionInfo.capturedExpression = "{Unknown expression after the reported line}"_sr;
++        m_lastAssertionInfo.resultDisposition = ResultDisposition::Normal;
+     }
+ 
+     void RunContext::notifyAssertionStarted( AssertionInfo const& info ) {
+@@ -447,6 +449,7 @@ namespace Catch {
+         AssertionResult result(m_lastAssertionInfo, CATCH_MOVE(tempResult));
+ 
+         assertionEnded(CATCH_MOVE(result) );
++        resetAssertionInfo();
+ 
+         handleUnfinishedSections();
+ 
+@@ -583,6 +586,7 @@ namespace Catch {
+             reportExpr(info, ResultWas::ExpressionFailed, &expr, negated );
+             populateReaction( reaction );
+         }
++        resetAssertionInfo();
+     }
+     void RunContext::reportExpr(
+             AssertionInfo const &info,
+@@ -621,6 +625,7 @@ namespace Catch {
+             // considered "OK"
+             reaction.shouldSkip = true;
+         }
++        resetAssertionInfo();
+     }
+     void RunContext::handleUnexpectedExceptionNotThrown(
+             AssertionInfo const& info,
+@@ -641,6 +646,7 @@ namespace Catch {
+         AssertionResult assertionResult{ info, CATCH_MOVE(data) };
+         assertionEnded( CATCH_MOVE(assertionResult) );
+         populateReaction( reaction );
++        resetAssertionInfo();
+     }
+ 
+     void RunContext::populateReaction( AssertionReaction& reaction ) {
+@@ -658,6 +664,7 @@ namespace Catch {
+         data.message = "Exception translation was disabled by CATCH_CONFIG_FAST_COMPILE"s;
+         AssertionResult assertionResult{ info, CATCH_MOVE( data ) };
+         assertionEnded( CATCH_MOVE(assertionResult) );
++        resetAssertionInfo();
+     }
+     void RunContext::handleNonExpr(
+             AssertionInfo const &info,
+@@ -672,6 +679,7 @@ namespace Catch {
+         const auto isOk = assertionResult.isOk();
+         assertionEnded( CATCH_MOVE(assertionResult) );
+         if ( !isOk ) { populateReaction( reaction ); }
++        resetAssertionInfo();
+     }
+2025-06-30 17:43:53,630 - INFO - Attempting to stop container catchorg__catch2-2723-test2...
+2025-06-30 17:44:08,886 - INFO - Attempting to remove container catchorg__catch2-2723-test2...
+2025-06-30 17:44:08,963 - INFO - Container catchorg__catch2-2723-test2 removed.
+2025-06-30 17:44:08,963 - INFO - Attempting to remove image catchorg__catch2-2723-dockerfile2:latest...
+2025-06-30 17:44:10,870 - INFO - Image catchorg__catch2-2723-dockerfile2:latest removed.

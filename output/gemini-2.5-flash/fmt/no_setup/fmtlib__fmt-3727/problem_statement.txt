@@ -1,0 +1,156 @@
+Date overflow with std::chrono::time_point
+`std::chrono::system_clock::time_point` on linux platforms uses nanosecond resolution and a 64 bit signed counter, hence is unable to represent dates beyond year 2262. This can be circumvented by using a custom `time_point` with a lower time resolution when doing time calculations, such as
+```c++
+using my_time_point = std::chrono::time_point<std::chrono::system_clock, std::chrono::milliseconds>;
+```
+
+Unfortunately, it seems that fmtlib is unable to correctly format such time points despite the lower time resolution. Here is an example that reproduces the problem:
+
+```c++
+#include <chrono>
+#include <iostream>
+#include <fmt/chrono.h>
+
+#if defined(__cpp_lib_format) && __cpp_lib_format >= 202106L
+#define HAS_STD_FORMAT
+#endif
+
+#if defined(HAS_STD_FORMAT)
+#include <format>
+#endif
+
+int main() {
+    std::cout << "fmt version: " << FMT_VERSION << "\n";
+
+    using TimePointBad = std::chrono::system_clock::time_point;
+    auto timeBad = TimePointBad{} + std::chrono::years{1030};
+    std::cout << "bad time_point years:  " <<
+        1970 + std::chrono::duration_cast<std::chrono::years>(timeBad.time_since_epoch()).count() << "\n";
+    std::cout << "fmt::format:           " << fmt::format("{:%F %T}", timeBad) << "\n";
+    #if defined(HAS_STD_FORMAT)
+    std::cout << "std::format:           " << std::format("{:%F %T}", timeBad) << "\n";
+    #else
+    std::cout << "std::format:           not available\n";
+    #endif
+
+    using TimePointGood = std::chrono::time_point<std::chrono::system_clock, std::chrono::milliseconds>;
+    auto timeGood = TimePointGood{} + std::chrono::years{1030};
+    std::cout << "good time_point years: " <<
+        1970 + std::chrono::duration_cast<std::chrono::years>(timeGood.time_since_epoch()).count() << "\n";
+    std::cout << "fmt::format:           " << fmt::format("{:%F %T}", timeGood) << "\n";
+    #if defined(HAS_STD_FORMAT)
+    std::cout << "std::format:           " << std::format("{:%F %T}", timeGood) << "\n";
+    #else
+    std::cout << "std::format:           not available\n";
+    #endif
+
+    return 0;
+}
+```
+
+Output from latest master commit on my system (Ubuntu GCC 11.4; doesn't have `<format>`):
+```
+fmt version: 100101
+bad time_point years:  1831
+fmt::format:           1830-11-22 19:26:52.580896768
+std::format:           not available
+good time_point years: 3000
+fmt::format:           1830-11-22 19:26:53.000
+std::format:           not available
+```
+
+Output lines 2 and 3 show the problem of the standard `std::chrono::system_clock::time_point`; this is the output I expect.
+
+Output line 5 shows that, using `TimePointGood` with millisecond resolution, the time point itself is able to represent dates far in the future.
+
+Output line 6 shows that fmtlib still overflows.
+
+[Godbolt link](https://godbolt.org/z/4MYETo4qo); this is running an older version of fmtlib but it also affected. Using gcc trunk with `std::format` shows that the standard `format` doesn't have the issue and outputs what one would expect:
+```
+fmt version: 90100
+bad time_point years:  1831
+fmt::format:           1830-11-22 19:26:53
+std::format:           1830-11-22 19:26:52.580896768
+good time_point years: 3000
+fmt::format:           1830-11-22 19:26:53
+std::format:           2999-12-31 18:36:00.000
+```
+
+Date overflow with std::chrono::time_point
+`std::chrono::system_clock::time_point` on linux platforms uses nanosecond resolution and a 64 bit signed counter, hence is unable to represent dates beyond year 2262. This can be circumvented by using a custom `time_point` with a lower time resolution when doing time calculations, such as
+```c++
+using my_time_point = std::chrono::time_point<std::chrono::system_clock, std::chrono::milliseconds>;
+```
+
+Unfortunately, it seems that fmtlib is unable to correctly format such time points despite the lower time resolution. Here is an example that reproduces the problem:
+
+```c++
+#include <chrono>
+#include <iostream>
+#include <fmt/chrono.h>
+
+#if defined(__cpp_lib_format) && __cpp_lib_format >= 202106L
+#define HAS_STD_FORMAT
+#endif
+
+#if defined(HAS_STD_FORMAT)
+#include <format>
+#endif
+
+int main() {
+    std::cout << "fmt version: " << FMT_VERSION << "\n";
+
+    using TimePointBad = std::chrono::system_clock::time_point;
+    auto timeBad = TimePointBad{} + std::chrono::years{1030};
+    std::cout << "bad time_point years:  " <<
+        1970 + std::chrono::duration_cast<std::chrono::years>(timeBad.time_since_epoch()).count() << "\n";
+    std::cout << "fmt::format:           " << fmt::format("{:%F %T}", timeBad) << "\n";
+    #if defined(HAS_STD_FORMAT)
+    std::cout << "std::format:           " << std::format("{:%F %T}", timeBad) << "\n";
+    #else
+    std::cout << "std::format:           not available\n";
+    #endif
+
+    using TimePointGood = std::chrono::time_point<std::chrono::system_clock, std::chrono::milliseconds>;
+    auto timeGood = TimePointGood{} + std::chrono::years{1030};
+    std::cout << "good time_point years: " <<
+        1970 + std::chrono::duration_cast<std::chrono::years>(timeGood.time_since_epoch()).count() << "\n";
+    std::cout << "fmt::format:           " << fmt::format("{:%F %T}", timeGood) << "\n";
+    #if defined(HAS_STD_FORMAT)
+    std::cout << "std::format:           " << std::format("{:%F %T}", timeGood) << "\n";
+    #else
+    std::cout << "std::format:           not available\n";
+    #endif
+
+    return 0;
+}
+```
+
+Output from latest master commit on my system (Ubuntu GCC 11.4; doesn't have `<format>`):
+```
+fmt version: 100101
+bad time_point years:  1831
+fmt::format:           1830-11-22 19:26:52.580896768
+std::format:           not available
+good time_point years: 3000
+fmt::format:           1830-11-22 19:26:53.000
+std::format:           not available
+```
+
+Output lines 2 and 3 show the problem of the standard `std::chrono::system_clock::time_point`; this is the output I expect.
+
+Output line 5 shows that, using `TimePointGood` with millisecond resolution, the time point itself is able to represent dates far in the future.
+
+Output line 6 shows that fmtlib still overflows.
+
+[Godbolt link](https://godbolt.org/z/4MYETo4qo); this is running an older version of fmtlib but it also affected. Using gcc trunk with `std::format` shows that the standard `format` doesn't have the issue and outputs what one would expect:
+```
+fmt version: 90100
+bad time_point years:  1831
+fmt::format:           1830-11-22 19:26:53
+std::format:           1830-11-22 19:26:52.580896768
+good time_point years: 3000
+fmt::format:           1830-11-22 19:26:53
+std::format:           2999-12-31 18:36:00.000
+```
+

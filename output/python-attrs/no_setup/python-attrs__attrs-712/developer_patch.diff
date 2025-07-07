@@ -1,0 +1,67 @@
+diff --git a/src/attr/_compat.py b/src/attr/_compat.py
+--- a/src/attr/_compat.py
++++ b/src/attr/_compat.py
+@@ -91,7 +91,7 @@ def metadata_proxy(d):
+         res.data.update(d)  # We blocked update, so we have to do it like this.
+         return res
+ 
+-    def just_warn(*args, **kw):  # pragma: nocover
++    def just_warn(*args, **kw):  # pragma: no cover
+         """
+         We only warn on Python 3 because we are not aware of any concrete
+         consequences of not setting the cell on Python 2.
+@@ -132,7 +132,7 @@ def make_set_closure_cell():
+     """
+     # pypy makes this easy. (It also supports the logic below, but
+     # why not do the easy/fast thing?)
+-    if PYPY:  # pragma: no cover
++    if PYPY:
+ 
+         def set_closure_cell(cell, value):
+             cell.__setstate__((value,))
+diff --git a/src/attr/_make.py b/src/attr/_make.py
+--- a/src/attr/_make.py
++++ b/src/attr/_make.py
+@@ -12,6 +12,7 @@
+ from . import _config, setters
+ from ._compat import (
+     PY2,
++    PYPY,
+     isclass,
+     iteritems,
+     metadata_proxy,
+@@ -527,11 +528,29 @@ def _transform_attrs(
+     return _Attributes((attrs, base_attrs, base_attr_map))
+ 
+ 
+-def _frozen_setattrs(self, name, value):
+-    """
+-    Attached to frozen classes as __setattr__.
+-    """
+-    raise FrozenInstanceError()
++if PYPY:
++
++    def _frozen_setattrs(self, name, value):
++        """
++        Attached to frozen classes as __setattr__.
++        """
++        if isinstance(self, BaseException) and name in (
++            "__cause__",
++            "__context__",
++        ):
++            BaseException.__setattr__(self, name, value)
++            return
++
++        raise FrozenInstanceError()
++
++
++else:
++
++    def _frozen_setattrs(self, name, value):
++        """
++        Attached to frozen classes as __setattr__.
++        """
++        raise FrozenInstanceError()
+ 
+ 
+ def _frozen_delattrs(self, name):

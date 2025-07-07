@@ -1,0 +1,22 @@
+{
+    "task_id": "python-attrs__attrs-843",
+    "setup_info": {
+        "repo_path": "testbed/python-attrs__attrs-843_2025-07-03_17-42-35",
+        "repo_cache_path": "testbed/python-attrs/attrs_cache"
+    },
+    "task_info": {
+        "repo": "python-attrs/attrs",
+        "pull_number": 843,
+        "instance_id": "python-attrs__attrs-843",
+        "issue_numbers": [
+            "842"
+        ],
+        "base_commit": "7c99a4953085186790a28dd441a93dc665f61269",
+        "patch": "diff --git a/src/attr/_funcs.py b/src/attr/_funcs.py\n--- a/src/attr/_funcs.py\n+++ b/src/attr/_funcs.py\n@@ -377,11 +377,9 @@ class and you didn't pass any attribs.\n     ..  versionadded:: 21.1.0 *attribs*\n \n     \"\"\"\n-    try:\n-        # Since calling get_type_hints is expensive we cache whether we've\n-        # done it already.\n-        cls.__attrs_types_resolved__\n-    except AttributeError:\n+    # Since calling get_type_hints is expensive we cache whether we've\n+    # done it already.\n+    if getattr(cls, \"__attrs_types_resolved__\", None) != cls:\n         import typing\n \n         hints = typing.get_type_hints(cls, globalns=globalns, localns=localns)\n@@ -389,7 +387,9 @@ class and you didn't pass any attribs.\n             if field.name in hints:\n                 # Since fields have been frozen we must work around it.\n                 _obj_setattr(field, \"type\", hints[field.name])\n-        cls.__attrs_types_resolved__ = True\n+        # We store the class we resolved so that subclasses know they haven't\n+        # been resolved.\n+        cls.__attrs_types_resolved__ = cls\n \n     # Return the class so you can use it as a decorator too.\n     return cls\n",
+        "test_patch": "diff --git a/tests/test_annotations.py b/tests/test_annotations.py\n--- a/tests/test_annotations.py\n+++ b/tests/test_annotations.py\n@@ -618,6 +618,40 @@ class C:\n         with pytest.raises(NameError):\n             typing.get_type_hints(C.__init__)\n \n+    def test_inheritance(self):\n+        \"\"\"\n+        Subclasses can be resolved after the parent is resolved.\n+        \"\"\"\n+\n+        @attr.define()\n+        class A:\n+            n: \"int\"\n+\n+        @attr.define()\n+        class B(A):\n+            pass\n+\n+        attr.resolve_types(A)\n+        attr.resolve_types(B)\n+\n+        assert int == attr.fields(A).n.type\n+        assert int == attr.fields(B).n.type\n+\n+    def test_resolve_twice(self):\n+        \"\"\"\n+        You can call resolve_types as many times as you like.\n+        This test is here mostly for coverage.\n+        \"\"\"\n+\n+        @attr.define()\n+        class A:\n+            n: \"int\"\n+\n+        attr.resolve_types(A)\n+        assert int == attr.fields(A).n.type\n+        attr.resolve_types(A)\n+        assert int == attr.fields(A).n.type\n+\n \n @pytest.mark.parametrize(\n     \"annot\",\n",
+        "problem_statement": "`attr.resolve_types` caches badly with inheritence\nReproduction case:\r\n\r\n```py\r\nfrom __future__ import annotations\r\n\r\nimport attr\r\n\r\n@attr.define()\r\nclass A:\r\n  n: int\r\n\r\n@attr.define()\r\nclass B(A):\r\n  pass\r\n\r\nattr.resolve_types(A)\r\nattr.resolve_types(B)\r\n\r\nprint(attr.fields(B))\r\n```\r\n\r\nI believe this is because `B` is somehow inheriting `A`'s `__attrs_types_resolved__`, even though it gets set later -- which means that it never had its types resolved, but it thinks it has.\r\n\r\nThis came up when I was using cattrs (I raised an issue there about a trouble I had debugging too :^), which means I do not control the resolution order of types without applying a `attr.resolve_types` decorator to every class (which might not work -- I'm not sure all my class declarations are in order either...)\n",
+        "hints_text": "Oh.  This is a good one. Thanks for the report.  I'll get a fix in soon.  \r\n\r\n",
+        "created_at": "2021-09-19T14:39:56Z",
+        "version": "21.2"
+    }
+}

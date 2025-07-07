@@ -1,0 +1,25 @@
++ cd /testbed
++ git checkout 96f91428c6ad2d19f1ce87ae160b78f52ed989fb test/core-test.cc test/locale-test.cc
+Updated 0 paths from 41f2ed4d
++ git apply -v -
+Checking patch test/core-test.cc...
+Checking patch test/locale-test.cc...
+Applied patch test/core-test.cc cleanly.
+Applied patch test/locale-test.cc cleanly.
++ cd build
++ ctest --output-on-failure -R 'core-test|locale-test'
+Test project /testbed/build
+    Start 4: core-test
+1/2 Test #4: core-test ........................   Passed    0.00 sec
+    Start 9: locale-test
+2/2 Test #9: locale-test ......................   Passed    0.00 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =   0.01 sec
+OMNIGRIL_EXIT_CODE=0
++ rc=0
++ echo OMNIGRIL_EXIT_CODE=0
++ cd /testbed
++ git checkout 96f91428c6ad2d19f1ce87ae160b78f52ed989fb test/core-test.cc test/locale-test.cc
+Updated 2 paths from 41f2ed4d

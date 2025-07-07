@@ -1,0 +1,4 @@
+Allow fmt::format and friends to use colors
+Would it be possible to add a color specifier to `fmt::format`, `fmt::vformat` just like it is possible with `fmt::print` and `fmt::vprint`? I'm having an issue where I only want part of a string to be colored, so I'd like to wrap it in `fmt::format` and pass the colored result to a `fmt::print`, but currently that is not possible. I thought about changing it myself but it required more changes than expected and I don't fully know how the code works.
+
+Great library, by the way!

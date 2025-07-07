@@ -1,0 +1,50 @@
+std::bitset formatting (nested_formatter) does not work with wchar_t
+I tried to test the formatting of `std::bitset` using `fmt/std.h`, but with `wchar_t` (and `char16_t`) instead of `char`, using this test:
+
+```c++
+TEST(std_test, format_bitset_Wide) {
+  auto bs = std::bitset<6>(42);
+  EXPECT_EQ(fmt::format(L"{}", bs), L"101010");
+  EXPECT_EQ(fmt::format(L"{:0>8}", bs), L"00101010");
+  EXPECT_EQ(fmt::format(L"{:-^12}", bs), L"---101010---");
+}
+```
+
+It didn't compile until I applied the following changes to `std.h`:
+
+```diff
+--- a/include/fmt/std.h
++++ b/include/fmt/std.h
+@@ -184,7 +184,7 @@ FMT_END_NAMESPACE
+ FMT_BEGIN_NAMESPACE
+ FMT_EXPORT
+ template <std::size_t N, typename Char>
+-struct formatter<std::bitset<N>, Char> : nested_formatter<string_view> {
++struct formatter<std::bitset<N>, Char> : nested_formatter<basic_string_view<Char>, Char> {
+  private:
+   // Functor because C++11 doesn't support generic lambdas.
+   struct writer {
+@@ -204,7 +204,7 @@ struct formatter<std::bitset<N>, Char> : nested_formatter<string_view> {
+   template <typename FormatContext>
+   auto format(const std::bitset<N>& bs, FormatContext& ctx) const
+       -> decltype(ctx.out()) {
+-    return write_padded(ctx, writer{bs});
++    return this->write_padded(ctx, writer{bs});
+   }
+ };
+```
+
+Now it runs into a segfault, which appears to be caused by the `set_fill` call in `nested_formatter::write_padded`:
+```c++
+    specs.set_fill(
+        basic_string_view<Char>(specs_.fill<Char>(), specs_.fill_size()));
+```
+in combination with the implementation of `fill()` for non-`char` types returning a nullpointer:
+```c++
+  template <typename Char, FMT_ENABLE_IF(!std::is_same<Char, char>::value)>
+  constexpr auto fill() const -> const Char* {
+    return nullptr;
+  }
+```
+
+How is this supposed to work (or rather, can it be made to work)?

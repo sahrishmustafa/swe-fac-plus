@@ -1,0 +1,30 @@
+Current default implementation of __getstate__ and __setstate__ could be made safer
+This is a known "sharp edge" of pickle, but attrs could make this a bit safer by slightly modifying the default implementation of `__getstate__` and `__setstate__`. The problem is that due to returning a tuple in the default implementation of `__getstate__`, removing a member, and then unpickling from a previous version can be __very__ unsafe. This is not a hypothetical situation - it commonly happens when an object is pickled, and then stored in a data-store of some sort, and unpickled some time later by a changed version of the code. 
+
+Here's a simple reproducer that demonstrates it (python 3.10, attrs 22.1.0):
+
+```python
+import pickle
+
+import attr
+
+@attr.s(slots=True, hash=False, auto_attribs=True)
+class Test:
+    count: int
+    enable_minor_feature: bool
+    should_launch_missiles: bool
+
+t = Test(count=1, should_launch_missiles=False, enable_minor_feature=True)
+print(t)  # Test(count=1, enable_minor_feature=True, should_launch_missiles=False)
+tp = pickle.dumps(t)
+
+@attr.s(slots=True, hash=False, auto_attribs=True)
+class Test:
+    count: int
+    should_launch_missiles: bool
+
+tl = pickle.loads(tp)
+print(tl)  # Test(count=1, should_launch_missiles=True)  <== an attribute is assigned a dangerously wrong value
+```
+
+While there's certainly an argument to be made that pickle should not be used for such things (and I'd agree) - the default implementation could, I believe, be made safer. Raise if things don't match, or even ignore unknown attributes in __setstate__,  by potentially returning a dictionary instead of a tuple [here](https://github.com/python-attrs/attrs/blob/c58ffd4e4cba5d5e58356722b985fc362358c48e/src/attr/_make.py#L925) would help.

@@ -1,0 +1,24 @@
+deepcopy stopped working with slots=True and __weakref__ after updating to 17.3.0
+```Python 2.7.12 (default, Nov 20 2017, 18:23:56) 
+[GCC 5.4.0 20160609] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+>>> import attr
+>>> attr.__version__
+'17.3.0'
+>>> from copy import deepcopy
+>>> @attr.s(slots=True)
+... class Han(object):
+...     __weakref__ = attr.ib(init=False, hash=False, repr=False, cmp=False)
+... 
+>>> h = Han()
+>>> o = deepcopy(h)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/usr/lib/python2.7/copy.py", line 190, in deepcopy
+    y = _reconstruct(x, rv, 1, memo)
+  File "/usr/lib/python2.7/copy.py", line 336, in _reconstruct
+    y.__setstate__(state)
+  File "/usr/local/lib/python2.7/dist-packages/attr/_make.py", line 432, in slots_setstate
+    __bound_setattr(name, value)
+AttributeError: attribute '__weakref__' of 'Han' objects is not writable
+```

@@ -1,0 +1,22 @@
+{
+    "task_id": "fmtlib__fmt-3713",
+    "setup_info": {
+        "repo_path": "github/_cache/fmtlib__fmt-3713_2025-07-04_18-38-48",
+        "repo_cache_path": "github/_cache/fmtlib/fmt_cache"
+    },
+    "task_info": {
+        "repo": "fmtlib/fmt",
+        "pull_number": 3713,
+        "instance_id": "fmtlib__fmt-3713",
+        "issue_numbers": [
+            "3712"
+        ],
+        "base_commit": "649fe0fc8b9366375eab67639cab404617c527cd",
+        "patch": "diff --git a/include/fmt/format.h b/include/fmt/format.h\n--- a/include/fmt/format.h\n+++ b/include/fmt/format.h\n@@ -4053,6 +4053,7 @@ struct formatter<T, Char, enable_if_t<detail::has_format_as<T>::value>>\n     : private formatter<detail::format_as_t<T>, Char> {\n   using base = formatter<detail::format_as_t<T>, Char>;\n   using base::parse;\n+  using base::set_debug_format;\n \n   template <typename FormatContext>\n   auto format(const T& value, FormatContext& ctx) const -> decltype(ctx.out()) {\n",
+        "test_patch": "diff --git a/test/std-test.cc b/test/std-test.cc\n--- a/test/std-test.cc\n+++ b/test/std-test.cc\n@@ -90,6 +90,36 @@ TEST(std_test, optional) {\n #endif\n }\n \n+namespace my_nso {\n+enum class my_number {\n+  one,\n+  two,\n+};\n+auto format_as(my_number number) -> fmt::string_view {\n+  return number == my_number::one ? \"first\" : \"second\";\n+}\n+\n+class my_class {\n+ public:\n+  int av;\n+\n+ private:\n+  friend auto format_as(const my_class& elm) -> std::string {\n+    return fmt::to_string(elm.av);\n+  }\n+};\n+}  // namespace my_nso\n+TEST(std_test, optional_format_as) {\n+#ifdef __cpp_lib_optional\n+  EXPECT_EQ(fmt::format(\"{}\", std::optional<my_nso::my_number>{}), \"none\");\n+  EXPECT_EQ(fmt::format(\"{}\", std::optional{my_nso::my_number::one}),\n+            \"optional(\\\"first\\\")\");\n+  EXPECT_EQ(fmt::format(\"{}\", std::optional<my_nso::my_class>{}), \"none\");\n+  EXPECT_EQ(fmt::format(\"{}\", std::optional{my_nso::my_class{7}}),\n+            \"optional(\\\"7\\\")\");\n+#endif\n+}\n+\n struct throws_on_move {\n   throws_on_move() = default;\n \n",
+        "problem_statement": "formatting a std::optional with format_as function fails to compile using clang\nclang reports compiler error for code that formats a variable of type std::optional<T>, where T is an enum with a `format_as` custom formatter. The same code compiles fine with gcc or msvc.\r\n[gobolt example](https://godbolt.org/z/h6jE463jP)\r\n\r\nThe compiler error is due to the optional formatter (in fmt/std.h) calling `u.set_debug_format(set);` on line 170, and this function being private due to private inheritance (fmt/format.h - line 4055.\r\n\r\nAdding the following line to fmt/format line 4058 solves the problem:   ` using base::set_debug_format;`. Alternatively, changing from private to public inheritance on line 4055 fixes it too.\n",
+        "hints_text": "",
+        "created_at": "2023-11-13T13:13:46Z",
+        "version": "10.1"
+    }
+}

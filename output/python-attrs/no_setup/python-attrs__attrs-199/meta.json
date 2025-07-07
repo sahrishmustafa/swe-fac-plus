@@ -1,0 +1,22 @@
+{
+    "task_id": "python-attrs__attrs-199",
+    "setup_info": {
+        "repo_path": "testbed/python-attrs__attrs-199_2025-07-03_17-42-35",
+        "repo_cache_path": "testbed/python-attrs/attrs_cache"
+    },
+    "task_info": {
+        "repo": "python-attrs/attrs",
+        "pull_number": 199,
+        "instance_id": "python-attrs__attrs-199",
+        "issue_numbers": [
+            "198"
+        ],
+        "base_commit": "f8dab9b7ac9306169aee2b740c2e42c96b51c228",
+        "patch": "diff --git a/src/attr/_make.py b/src/attr/_make.py\n--- a/src/attr/_make.py\n+++ b/src/attr/_make.py\n@@ -343,9 +343,7 @@ def wrap(cls):\n         # Can't compare function objects because Python 2 is terrible. :(\n         effectively_frozen = _has_frozen_superclass(cls) or frozen\n         if repr is True:\n-            cls = _add_repr(cls, ns=repr_ns)\n-        if str is True:\n-            cls.__str__ = cls.__repr__\n+            cls = _add_repr(cls, ns=repr_ns, str=str)\n         if cmp is True:\n             cls = _add_cmp(cls)\n \n@@ -516,9 +514,9 @@ def ge(self, other):\n     return cls\n \n \n-def _add_repr(cls, ns=None, attrs=None):\n+def _add_repr(cls, ns=None, attrs=None, str=False):\n     \"\"\"\n-    Add a repr method to *cls*.\n+    Add a repr method to *cls*. If *str* is True, also add __str__.\n     \"\"\"\n     if attrs is None:\n         attrs = [a for a in cls.__attrs_attrs__ if a.repr]\n@@ -543,6 +541,8 @@ def repr_(self):\n                       for a in attrs)\n         )\n     cls.__repr__ = repr_\n+    if str is True:\n+        cls.__str__ = repr_\n     return cls\n \n \n",
+        "test_patch": "diff --git a/tests/test_dunders.py b/tests/test_dunders.py\n--- a/tests/test_dunders.py\n+++ b/tests/test_dunders.py\n@@ -198,15 +198,15 @@ class C(object):\n \n         assert \"C(_x=42)\" == repr(i)\n \n-    @pytest.mark.parametrize(\"add_str\", [True, False])\n-    def test_str(self, add_str):\n+    @given(add_str=booleans(), slots=booleans())\n+    def test_str(self, add_str, slots):\n         \"\"\"\n         If str is True, it returns the same as repr.\n \n         This only makes sense when subclassing a class with an poor __str__\n         (like Exceptions).\n         \"\"\"\n-        @attributes(str=add_str)\n+        @attributes(str=add_str, slots=slots)\n         class Error(Exception):\n             x = attr()\n \n",
+        "problem_statement": "slots=True is incompatible with str=True\n`slots=True` seems to be incompatible with `str=True`. I discovered this using attrs for exceptions, but it seems true in general:\r\n\r\n```pycon\r\n>>> import attr\r\n>>> @attr.s(str=True, slots=True)\r\n... class Foo(object):\r\n...     x = attr.ib()\r\n...\r\n>>> f = Foo(1)\r\n>>> str(f)\r\nTraceback (most recent call last):\r\n  File \"<stdin>\", line 1, in <module>\r\nTypeError: unbound method repr_() must be called with Foo instance as first argument (got nothing instead)\r\n```\r\n\r\nPython 2.7.13, attrs==17.2.0\n",
+        "hints_text": "FTR this is a Python 2-bug only:\r\n\r\n```pycon\r\nPython 3.6.1 (default, May  4 2017, 15:25:00)\r\nType 'copyright', 'credits' or 'license' for more information\r\nIPython 6.0.0 -- An enhanced Interactive Python. Type '?' for help.\r\n\r\nIn [1]: import attr\r\n\r\nIn [2]: @attr.s(str=True, slots=True)\r\n   ...: class C:\r\n   ...:     x = attr.ib()\r\n   ...:\r\nIn [4]: str(C(1))\r\nOut[4]: 'C(x=1)'\r\n```\r\n\r\n(I was surprised about this bug repost because I use it all the time :))",
+        "created_at": "2017-06-01T06:10:57Z",
+        "version": "17.2"
+    }
+}

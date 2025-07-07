@@ -1,0 +1,44 @@
+order of attributes is 'backwards' in case of multiple inheritance
+consider following code.  I also added a dummy method `m` to show that precedence is "correct"ly follows for a basic method
+
+```python
+from attr import attributes, attr
+
+@attributes
+class A(object):
+    a = attr()
+    def m(self):
+        print("A.m")
+
+@attributes
+class B(object):
+    b = attr()
+    def m(self):
+        print("B.m")
+
+@attributes
+class C(A, B):
+    c = attr()
+
+    def m(self):
+        super(C, self).m()
+
+    @classmethod
+    def supers(cls):
+        return cls.__bases__
+
+c = C(1, 2, 3)
+
+print(c)
+c.m()
+print("supers=%s" % str(c.supers()))
+```
+running it results in 
+```
+C(b=1, a=2, c=3)
+A.m
+supers=(<class '__main__.A'>, <class '__main__.B'>)
+```
+so the first argument is (IMHO) incorrectly assigned to attribute b not a, and then 2nd one to a...
+
+Before recent 3040bdabbc627fc6a4d151a9cb2e6f9d4177b6f2  quick and dirty (and possibly incomplete) fix was to remove `reversed` around mro within src/attr/_make.py  but neither I have looked yet into how logic should be adjusted in the current state of affairs, nor I analyzed for why reversed was needed to start with

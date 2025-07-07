@@ -1,0 +1,20 @@
+clean division between "value" and "object"
+Objects, as in object-oriented programming, are side-effecty, mutable state, whose methods ought to represent I/O.
+
+Values, as in functional programming, are immutable data, whose methods ought to represent computation.
+
+Python does not have as good a division between these very different sorts of beasts as it should, but it does have one critical distinction: the `__hash__` method.
+
+`characteristic` has this issue which crops up occasionally where you end up with objects that you can't put into a dictionary as a key, because one of its attributes is a dictionary.  Sometimes people expect to be able to do this because `characteristic` makes so many other things easy, and just expect dictionaries to suddenly be immutable; sometimes people expect hash-by-identity.
+
+I propose that attr provide a way to specifically create two types of objects with a distinct interface; one that creates a "value" and one that creates an "object", so that users can see issues around mutability far earlier in the process.
+
+So, for example, the "object" type would:
+- not provide `__hash__` by default, provide an `__eq__` that does structural equality, and `__gt__`/`__lt__` that just raise exceptions
+- if asked, provide an identity-based `__hash__`, but then also switch to an identity-based `__eq__`
+
+and the 'value" type would
+- call `hash()` on all of its arguments at construction time so it would fail immediately if it contained a mutable type
+- fail immediately at class-definition time if any validator is mutable
+- provide immutable descriptors for all its attributes
+

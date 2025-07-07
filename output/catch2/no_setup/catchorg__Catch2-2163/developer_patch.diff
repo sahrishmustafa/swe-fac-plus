@@ -1,0 +1,711 @@
+diff --git a/src/catch2/catch_session.cpp b/src/catch2/catch_session.cpp
+--- a/src/catch2/catch_session.cpp
++++ b/src/catch2/catch_session.cpp
+@@ -48,7 +48,7 @@ namespace Catch {
+             // doesn't compile without a std::move call. However, this causes
+             // a warning on newer platforms. Thus, we have to work around
+             // it a bit and downcast the pointer manually.
+-            auto ret = Detail::unique_ptr<IStreamingReporter>(new ListeningReporter);
++            auto ret = Detail::unique_ptr<IStreamingReporter>(new ListeningReporter(config));
+             auto& multi = static_cast<ListeningReporter&>(*ret);
+             auto const& listeners = Catch::getRegistryHub().getReporterRegistry().getListeners();
+             for (auto const& listener : listeners) {
+diff --git a/src/catch2/interfaces/catch_interfaces_reporter.cpp b/src/catch2/interfaces/catch_interfaces_reporter.cpp
+--- a/src/catch2/interfaces/catch_interfaces_reporter.cpp
++++ b/src/catch2/interfaces/catch_interfaces_reporter.cpp
+@@ -11,34 +11,15 @@
+ #include <catch2/internal/catch_console_width.hpp>
+ #include <catch2/catch_message.hpp>
+ #include <catch2/internal/catch_list.hpp>
+-#include <catch2/internal/catch_textflow.hpp>
+ #include <catch2/internal/catch_string_manip.hpp>
+ #include <catch2/catch_test_case_info.hpp>
+-#include <catch2/internal/catch_textflow.hpp>
++#include <catch2/reporters/catch_reporter_helpers.hpp>
+ 
+ #include <algorithm>
+ #include <iomanip>
+ 
+ namespace Catch {
+ 
+-    namespace {
+-        void listTestNamesOnly( std::vector<TestCaseHandle> const& tests ) {
+-            for ( auto const& test : tests ) {
+-                auto const& testCaseInfo = test.getTestCaseInfo();
+-
+-                if ( startsWith( testCaseInfo.name, '#' ) ) {
+-                    Catch::cout() << '"' << testCaseInfo.name << '"';
+-                } else {
+-                    Catch::cout() << testCaseInfo.name;
+-                }
+-
+-                Catch::cout() << '\n';
+-            }
+-            Catch::cout() << std::flush;
+-        }
+-    } // end unnamed namespace
+-
+-
+     ReporterConfig::ReporterConfig( IConfig const* _fullConfig )
+     :   m_stream( &_fullConfig->stream() ), m_fullConfig( _fullConfig ) {}
+ 
+@@ -127,89 +108,4 @@ namespace Catch {
+ 
+     void IStreamingReporter::fatalErrorEncountered( StringRef ) {}
+ 
+-    void IStreamingReporter::listReporters(std::vector<ReporterDescription> const& descriptions, IConfig const& config) {
+-        Catch::cout() << "Available reporters:\n";
+-        const auto maxNameLen = std::max_element(descriptions.begin(), descriptions.end(),
+-            [](ReporterDescription const& lhs, ReporterDescription const& rhs) { return lhs.name.size() < rhs.name.size(); })
+-            ->name.size();
+-
+-        for (auto const& desc : descriptions) {
+-            if (config.verbosity() == Verbosity::Quiet) {
+-                Catch::cout()
+-                    << TextFlow::Column(desc.name)
+-                    .indent(2)
+-                    .width(5 + maxNameLen) << '\n';
+-            } else {
+-                Catch::cout()
+-                    << TextFlow::Column(desc.name + ":")
+-                    .indent(2)
+-                    .width(5 + maxNameLen)
+-                    + TextFlow::Column(desc.description)
+-                    .initialIndent(0)
+-                    .indent(2)
+-                    .width(CATCH_CONFIG_CONSOLE_WIDTH - maxNameLen - 8)
+-                    << '\n';
+-            }
+-        }
+-        Catch::cout() << std::endl;
+-    }
+-
+-    void IStreamingReporter::listTests(std::vector<TestCaseHandle> const& tests, IConfig const& config) {
+-        // We special case this to provide the equivalent of old
+-        // `--list-test-names-only`, which could then be used by the
+-        // `--input-file` option.
+-        if (config.verbosity() == Verbosity::Quiet) {
+-            listTestNamesOnly(tests);
+-            return;
+-        }
+-
+-        if (config.hasTestFilters()) {
+-            Catch::cout() << "Matching test cases:\n";
+-        } else {
+-            Catch::cout() << "All available test cases:\n";
+-        }
+-
+-        for (auto const& test : tests) {
+-            auto const& testCaseInfo = test.getTestCaseInfo();
+-            Colour::Code colour = testCaseInfo.isHidden()
+-                ? Colour::SecondaryText
+-                : Colour::None;
+-            Colour colourGuard(colour);
+-
+-            Catch::cout() << TextFlow::Column(testCaseInfo.name).initialIndent(2).indent(4) << '\n';
+-            if (config.verbosity() >= Verbosity::High) {
+-                Catch::cout() << TextFlow::Column(Catch::Detail::stringify(testCaseInfo.lineInfo)).indent(4) << std::endl;
+-            }
+-            if (!testCaseInfo.tags.empty() && config.verbosity() > Verbosity::Quiet) {
+-                Catch::cout() << TextFlow::Column(testCaseInfo.tagsAsString()).indent(6) << '\n';
+-            }
+-        }
+-
+-        if (!config.hasTestFilters()) {
+-            Catch::cout() << pluralise(tests.size(), "test case") << '\n' << std::endl;
+-        } else {
+-            Catch::cout() << pluralise(tests.size(), "matching test case") << '\n' << std::endl;
+-        }
+-    }
+-
+-    void IStreamingReporter::listTags(std::vector<TagInfo> const& tags, IConfig const& config) {
+-        if (config.hasTestFilters()) {
+-            Catch::cout() << "Tags for matching test cases:\n";
+-        } else {
+-            Catch::cout() << "All available tags:\n";
+-        }
+-
+-        for (auto const& tagCount : tags) {
+-            ReusableStringStream rss;
+-            rss << "  " << std::setw(2) << tagCount.count << "  ";
+-            auto str = rss.str();
+-            auto wrapper = TextFlow::Column(tagCount.all())
+-                .initialIndent(0)
+-                .indent(str.size())
+-                .width(CATCH_CONFIG_CONSOLE_WIDTH - 10);
+-            Catch::cout() << str << wrapper << '\n';
+-        }
+-        Catch::cout() << pluralise(tags.size(), "tag") << '\n' << std::endl;
+-    }
+-
+ } // end namespace Catch
+diff --git a/src/catch2/interfaces/catch_interfaces_reporter.hpp b/src/catch2/interfaces/catch_interfaces_reporter.hpp
+--- a/src/catch2/interfaces/catch_interfaces_reporter.hpp
++++ b/src/catch2/interfaces/catch_interfaces_reporter.hpp
+@@ -176,7 +176,12 @@ namespace Catch {
+     protected:
+         //! Derived classes can set up their preferences here
+         ReporterPreferences m_preferences;
++        //! The test run's config as filled in from CLI and defaults
++        IConfig const* m_config;
++
+     public:
++        IStreamingReporter( IConfig const* config ): m_config( config ) {}
++
+         virtual ~IStreamingReporter() = default;
+ 
+         // Implementing class must also provide the following static methods:
+@@ -217,11 +222,11 @@ namespace Catch {
+         virtual void fatalErrorEncountered( StringRef name );
+ 
+         //! Writes out information about provided reporters using reporter-specific format
+-        virtual void listReporters(std::vector<ReporterDescription> const& descriptions, IConfig const& config);
++        virtual void listReporters(std::vector<ReporterDescription> const& descriptions) = 0;
+         //! Writes out information about provided tests using reporter-specific format
+-        virtual void listTests(std::vector<TestCaseHandle> const& tests, IConfig const& config);
++        virtual void listTests(std::vector<TestCaseHandle> const& tests) = 0;
+         //! Writes out information about the provided tags using reporter-specific format
+-        virtual void listTags(std::vector<TagInfo> const& tags, IConfig const& config);
++        virtual void listTags(std::vector<TagInfo> const& tags) = 0;
+ 
+     };
+     using IStreamingReporterPtr = Detail::unique_ptr<IStreamingReporter>;
+diff --git a/src/catch2/internal/catch_list.cpp b/src/catch2/internal/catch_list.cpp
+--- a/src/catch2/internal/catch_list.cpp
++++ b/src/catch2/internal/catch_list.cpp
+@@ -24,7 +24,7 @@ namespace Catch {
+         void listTests(IStreamingReporter& reporter, IConfig const& config) {
+             auto const& testSpec = config.testSpec();
+             auto matchedTestCases = filterTests(getAllTestCasesSorted(config), testSpec, config);
+-            reporter.listTests(matchedTestCases, config);
++            reporter.listTests(matchedTestCases);
+         }
+ 
+         void listTags(IStreamingReporter& reporter, IConfig const& config) {
+@@ -46,10 +46,10 @@ namespace Catch {
+                 infos.push_back(std::move(tagc.second));
+             }
+ 
+-            reporter.listTags(infos, config);
++            reporter.listTags(infos);
+         }
+ 
+-        void listReporters(IStreamingReporter& reporter, IConfig const& config) {
++        void listReporters(IStreamingReporter& reporter) {
+             std::vector<ReporterDescription> descriptions;
+ 
+             IReporterRegistry::FactoryMap const& factories = getRegistryHub().getReporterRegistry().getFactories();
+@@ -58,7 +58,7 @@ namespace Catch {
+                 descriptions.push_back({ fac.first, fac.second->getDescription() });
+             }
+ 
+-            reporter.listReporters(descriptions, config);
++            reporter.listReporters(descriptions);
+         }
+ 
+     } // end anonymous namespace
+@@ -96,7 +96,7 @@ namespace Catch {
+         }
+         if (config.listReporters()) {
+             listed = true;
+-            listReporters(reporter, config);
++            listReporters(reporter);
+         }
+         return listed;
+     }
+diff --git a/src/catch2/reporters/catch_reporter_combined_tu.cpp b/src/catch2/reporters/catch_reporter_combined_tu.cpp
+--- a/src/catch2/reporters/catch_reporter_combined_tu.cpp
++++ b/src/catch2/reporters/catch_reporter_combined_tu.cpp
+@@ -21,13 +21,40 @@
+ #include <catch2/interfaces/catch_interfaces_config.hpp>
+ #include <catch2/internal/catch_console_width.hpp>
+ #include <catch2/internal/catch_errno_guard.hpp>
+-
++#include <catch2/internal/catch_textflow.hpp>
++#include <catch2/internal/catch_stream.hpp>
++#include <catch2/internal/catch_string_manip.hpp>
++#include <catch2/internal/catch_console_colour.hpp>
++#include <catch2/catch_tostring.hpp>
++#include <catch2/catch_test_case_info.hpp>
++
++#include <algorithm>
+ #include <cfloat>
+ #include <cstdio>
+ #include <ostream>
++#include <iomanip>
+ 
+ namespace Catch {
+ 
++    namespace {
++        void listTestNamesOnly(std::ostream& out,
++                               std::vector<TestCaseHandle> const& tests) {
++            for (auto const& test : tests) {
++                auto const& testCaseInfo = test.getTestCaseInfo();
++
++                if (startsWith(testCaseInfo.name, '#')) {
++                    out << '"' << testCaseInfo.name << '"';
++                } else {
++                    out << testCaseInfo.name;
++                }
++
++                out << '\n';
++            }
++            out << std::flush;
++        }
++    } // end unnamed namespace
++
++
+     // Because formatting using c++ streams is stateful, drop down to C is
+     // required Alternatively we could use stringstream, but its performance
+     // is... not good.
+@@ -89,6 +116,101 @@ namespace Catch {
+         return out;
+     }
+ 
++    void
++    defaultListReporters( std::ostream& out,
++                          std::vector<ReporterDescription> const& descriptions,
++                          Verbosity verbosity ) {
++        out << "Available reporters:\n";
++        const auto maxNameLen =
++            std::max_element( descriptions.begin(),
++                              descriptions.end(),
++                              []( ReporterDescription const& lhs,
++                                  ReporterDescription const& rhs ) {
++                                  return lhs.name.size() < rhs.name.size();
++                              } )
++                ->name.size();
++
++        for ( auto const& desc : descriptions ) {
++            if ( verbosity == Verbosity::Quiet ) {
++                out << TextFlow::Column( desc.name )
++                           .indent( 2 )
++                           .width( 5 + maxNameLen )
++                    << '\n';
++            } else {
++                out << TextFlow::Column( desc.name + ":" )
++                               .indent( 2 )
++                               .width( 5 + maxNameLen ) +
++                           TextFlow::Column( desc.description )
++                               .initialIndent( 0 )
++                               .indent( 2 )
++                               .width( CATCH_CONFIG_CONSOLE_WIDTH - maxNameLen - 8 )
++                    << '\n';
++            }
++        }
++        out << '\n' << std::flush;
++    }
++
++    void defaultListTags( std::ostream& out,
++                          std::vector<TagInfo> const& tags,
++                          bool isFiltered ) {
++        if ( isFiltered ) {
++            out << "Tags for matching test cases:\n";
++        } else {
++            out << "All available tags:\n";
++        }
++
++        for ( auto const& tagCount : tags ) {
++            ReusableStringStream rss;
++            rss << "  " << std::setw( 2 ) << tagCount.count << "  ";
++            auto str = rss.str();
++            auto wrapper = TextFlow::Column( tagCount.all() )
++                               .initialIndent( 0 )
++                               .indent( str.size() )
++                               .width( CATCH_CONFIG_CONSOLE_WIDTH - 10 );
++            out << str << wrapper << '\n';
++        }
++        out << pluralise( tags.size(), "tag" ) << '\n' << std::endl;
++    }
++
++    void defaultListTests(std::ostream& out, std::vector<TestCaseHandle> const& tests, bool isFiltered, Verbosity verbosity) {
++        // We special case this to provide the equivalent of old
++        // `--list-test-names-only`, which could then be used by the
++        // `--input-file` option.
++        if (verbosity == Verbosity::Quiet) {
++            listTestNamesOnly(out, tests);
++            return;
++        }
++
++        if (isFiltered) {
++            out << "Matching test cases:\n";
++        } else {
++            out << "All available test cases:\n";
++        }
++
++        for (auto const& test : tests) {
++            auto const& testCaseInfo = test.getTestCaseInfo();
++            Colour::Code colour = testCaseInfo.isHidden()
++                ? Colour::SecondaryText
++                : Colour::None;
++            Colour colourGuard(colour);
++
++            out << TextFlow::Column(testCaseInfo.name).initialIndent(2).indent(4) << '\n';
++            if (verbosity >= Verbosity::High) {
++                out << TextFlow::Column(Catch::Detail::stringify(testCaseInfo.lineInfo)).indent(4) << std::endl;
++            }
++            if (!testCaseInfo.tags.empty() &&
++                verbosity > Verbosity::Quiet) {
++                out << TextFlow::Column(testCaseInfo.tagsAsString()).indent(6) << '\n';
++            }
++        }
++
++        if (isFiltered) {
++            out << pluralise(tests.size(), "matching test case") << '\n' << std::endl;
++        } else {
++            out << pluralise(tests.size(), "test case") << '\n' << std::endl;
++        }
++    }
++
+ } // namespace Catch
+ 
+ 
+@@ -100,13 +222,10 @@ namespace Catch {
+     bool EventListenerBase::assertionEnded( AssertionStats const& ) {
+         return false;
+     }
+-    void
+-    EventListenerBase::listReporters( std::vector<ReporterDescription> const&,
+-                                      IConfig const& ) {}
+-    void EventListenerBase::listTests( std::vector<TestCaseHandle> const&,
+-                                       IConfig const& ) {}
+-    void EventListenerBase::listTags( std::vector<TagInfo> const&,
+-                                      IConfig const& ) {}
++    void EventListenerBase::listReporters(
++        std::vector<ReporterDescription> const& ) {}
++    void EventListenerBase::listTests( std::vector<TestCaseHandle> const& ) {}
++    void EventListenerBase::listTags( std::vector<TagInfo> const& ) {}
+     void EventListenerBase::noMatchingTestCases( std::string const& ) {}
+     void EventListenerBase::testRunStarting( TestRunInfo const& ) {}
+     void EventListenerBase::testGroupStarting( GroupInfo const& ) {}
+diff --git a/src/catch2/reporters/catch_reporter_cumulative_base.cpp b/src/catch2/reporters/catch_reporter_cumulative_base.cpp
+--- a/src/catch2/reporters/catch_reporter_cumulative_base.cpp
++++ b/src/catch2/reporters/catch_reporter_cumulative_base.cpp
+@@ -6,6 +6,7 @@
+ 
+ // SPDX-License-Identifier: BSL-1.0
+ #include <catch2/reporters/catch_reporter_cumulative_base.hpp>
++#include <catch2/reporters/catch_reporter_helpers.hpp>
+ 
+ #include <algorithm>
+ #include <cassert>
+@@ -110,4 +111,19 @@ namespace Catch {
+         testRunEndedCumulative();
+     }
+ 
++    void CumulativeReporterBase::listReporters(std::vector<ReporterDescription> const& descriptions) {
++        defaultListReporters(stream, descriptions, m_config->verbosity());
++    }
++
++    void CumulativeReporterBase::listTests(std::vector<TestCaseHandle> const& tests) {
++        defaultListTests(stream,
++                         tests,
++                         m_config->hasTestFilters(),
++                         m_config->verbosity());
++    }
++
++    void CumulativeReporterBase::listTags(std::vector<TagInfo> const& tags) {
++        defaultListTags( stream, tags, m_config->hasTestFilters() );
++    }
++
+ } // end namespace Catch
+diff --git a/src/catch2/reporters/catch_reporter_cumulative_base.hpp b/src/catch2/reporters/catch_reporter_cumulative_base.hpp
+--- a/src/catch2/reporters/catch_reporter_cumulative_base.hpp
++++ b/src/catch2/reporters/catch_reporter_cumulative_base.hpp
+@@ -46,7 +46,8 @@ namespace Catch {
+         using TestRunNode = Node<TestRunStats, TestGroupNode>;
+ 
+         CumulativeReporterBase( ReporterConfig const& _config ):
+-            m_config( _config.fullConfig() ), stream( _config.stream() ) {}
++            IStreamingReporter( _config.fullConfig() ),
++            stream( _config.stream() ) {}
+         ~CumulativeReporterBase() override;
+ 
+         void testRunStarting( TestRunInfo const& ) override {}
+@@ -68,7 +69,11 @@ namespace Catch {
+ 
+         void skipTest(TestCaseInfo const&) override {}
+ 
+-        IConfig const* m_config;
++        void listReporters( std::vector<ReporterDescription> const& descriptions ) override;
++        void listTests( std::vector<TestCaseHandle> const& tests ) override;
++        void listTags( std::vector<TagInfo> const& tags ) override;
++
++
+         std::ostream& stream;
+         // Note: We rely on pointer identity being stable, which is why
+         //       which is why we store around pointers rather than values.
+diff --git a/src/catch2/reporters/catch_reporter_event_listener.hpp b/src/catch2/reporters/catch_reporter_event_listener.hpp
+--- a/src/catch2/reporters/catch_reporter_event_listener.hpp
++++ b/src/catch2/reporters/catch_reporter_event_listener.hpp
+@@ -20,22 +20,17 @@ namespace Catch {
+      * member functions it actually cares about.
+      */
+     class EventListenerBase : public IStreamingReporter {
+-        IConfig const* m_config;
+-
+     public:
+         EventListenerBase( ReporterConfig const& config ):
+-            m_config( config.fullConfig() ) {}
++            IStreamingReporter( config.fullConfig() ) {}
+ 
+         void assertionStarting( AssertionInfo const& assertionInfo ) override;
+         bool assertionEnded( AssertionStats const& assertionStats ) override;
+ 
+-        void
+-        listReporters( std::vector<ReporterDescription> const& descriptions,
+-                       IConfig const& config ) override;
+-        void listTests( std::vector<TestCaseHandle> const& tests,
+-                        IConfig const& config ) override;
+-        void listTags( std::vector<TagInfo> const& tagInfos,
+-                       IConfig const& config ) override;
++        void listReporters(
++            std::vector<ReporterDescription> const& descriptions ) override;
++        void listTests( std::vector<TestCaseHandle> const& tests ) override;
++        void listTags( std::vector<TagInfo> const& tagInfos ) override;
+ 
+         void noMatchingTestCases( std::string const& spec ) override;
+         void testRunStarting( TestRunInfo const& testRunInfo ) override;
+diff --git a/src/catch2/reporters/catch_reporter_helpers.hpp b/src/catch2/reporters/catch_reporter_helpers.hpp
+--- a/src/catch2/reporters/catch_reporter_helpers.hpp
++++ b/src/catch2/reporters/catch_reporter_helpers.hpp
+@@ -12,9 +12,13 @@
+ #include <string>
+ #include <vector>
+ 
++#include <catch2/internal/catch_list.hpp>
++#include <catch2/interfaces/catch_interfaces_config.hpp>
++
+ namespace Catch {
+ 
+     struct IConfig;
++    class TestCaseHandle;
+ 
+     // Returns double formatted as %.3f (format expected on output)
+     std::string getFormattedDuration( double duration );
+@@ -31,6 +35,42 @@ namespace Catch {
+         friend std::ostream& operator<<( std::ostream& out, lineOfChars value );
+     };
+ 
++    /**
++     * Lists reporter descriptions to the provided stream in user-friendly
++     * format
++     *
++     * Used as the default listing implementation by the first party reporter
++     * bases. The output should be backwards compatible with the output of
++     * Catch2 v2 binaries.
++     */
++    void
++    defaultListReporters( std::ostream& out,
++                          std::vector<ReporterDescription> const& descriptions,
++                          Verbosity verbosity );
++
++    /**
++     * Lists tag information to the provided stream in user-friendly format
++     *
++     * Used as the default listing implementation by the first party reporter
++     * bases. The output should be backwards compatible with the output of
++     * Catch2 v2 binaries.
++     */
++    void defaultListTags( std::ostream& out, std::vector<TagInfo> const& tags, bool isFiltered );
++
++    /**
++     * Lists test case information to the provided stream in user-friendly
++     * format
++     *
++     * Used as the default listing implementation by the first party reporter
++     * bases. The output is backwards compatible with the output of Catch2
++     * v2 binaries, and also supports the format specific to the old
++     * `--list-test-names-only` option, for people who used it in integrations.
++     */
++    void defaultListTests( std::ostream& out,
++                           std::vector<TestCaseHandle> const& tests,
++                           bool isFiltered,
++                           Verbosity verbosity );
++
+ } // end namespace Catch
+ 
+ #endif // CATCH_REPORTER_HELPERS_HPP_INCLUDED
+diff --git a/src/catch2/reporters/catch_reporter_listening.cpp b/src/catch2/reporters/catch_reporter_listening.cpp
+--- a/src/catch2/reporters/catch_reporter_listening.cpp
++++ b/src/catch2/reporters/catch_reporter_listening.cpp
+@@ -11,11 +11,6 @@
+ 
+ namespace Catch {
+ 
+-    ListeningReporter::ListeningReporter() {
+-        // We will assume that listeners will always want all assertions
+-        m_preferences.shouldReportAllAssertions = true;
+-    }
+-
+     void ListeningReporter::addListener( IStreamingReporterPtr&& listener ) {
+         m_listeners.push_back( std::move( listener ) );
+     }
+@@ -146,25 +141,25 @@ namespace Catch {
+         m_reporter->skipTest( testInfo );
+     }
+ 
+-    void ListeningReporter::listReporters(std::vector<ReporterDescription> const& descriptions, IConfig const& config) {
++    void ListeningReporter::listReporters(std::vector<ReporterDescription> const& descriptions) {
+         for (auto const& listener : m_listeners) {
+-            listener->listReporters(descriptions, config);
++            listener->listReporters(descriptions);
+         }
+-        m_reporter->listReporters(descriptions, config);
++        m_reporter->listReporters(descriptions);
+     }
+ 
+-    void ListeningReporter::listTests(std::vector<TestCaseHandle> const& tests, IConfig const& config) {
++    void ListeningReporter::listTests(std::vector<TestCaseHandle> const& tests) {
+         for (auto const& listener : m_listeners) {
+-            listener->listTests(tests, config);
++            listener->listTests(tests);
+         }
+-        m_reporter->listTests(tests, config);
++        m_reporter->listTests(tests);
+     }
+ 
+-    void ListeningReporter::listTags(std::vector<TagInfo> const& tags, IConfig const& config) {
++    void ListeningReporter::listTags(std::vector<TagInfo> const& tags) {
+         for (auto const& listener : m_listeners) {
+-            listener->listTags(tags, config);
++            listener->listTags(tags);
+         }
+-        m_reporter->listTags(tags, config);
++        m_reporter->listTags(tags);
+     }
+ 
+ } // end namespace Catch
+diff --git a/src/catch2/reporters/catch_reporter_listening.hpp b/src/catch2/reporters/catch_reporter_listening.hpp
+--- a/src/catch2/reporters/catch_reporter_listening.hpp
++++ b/src/catch2/reporters/catch_reporter_listening.hpp
+@@ -18,7 +18,12 @@ namespace Catch {
+         IStreamingReporterPtr m_reporter = nullptr;
+ 
+     public:
+-        ListeningReporter();
++        ListeningReporter( IConfig const* config ):
++            IStreamingReporter( config ) {
++            // We will assume that listeners will always want all assertions
++            m_preferences.shouldReportAllAssertions = true;
++        }
++
+ 
+         void addListener( IStreamingReporterPtr&& listener );
+         void addReporter( IStreamingReporterPtr&& reporter );
+@@ -49,9 +54,9 @@ namespace Catch {
+ 
+         void skipTest( TestCaseInfo const& testInfo ) override;
+ 
+-        void listReporters(std::vector<ReporterDescription> const& descriptions, IConfig const& config) override;
+-        void listTests(std::vector<TestCaseHandle> const& tests, IConfig const& config) override;
+-        void listTags(std::vector<TagInfo> const& tags, IConfig const& config) override;
++        void listReporters(std::vector<ReporterDescription> const& descriptions) override;
++        void listTests(std::vector<TestCaseHandle> const& tests) override;
++        void listTags(std::vector<TagInfo> const& tags) override;
+ 
+ 
+     };
+diff --git a/src/catch2/reporters/catch_reporter_streaming_base.cpp b/src/catch2/reporters/catch_reporter_streaming_base.cpp
+--- a/src/catch2/reporters/catch_reporter_streaming_base.cpp
++++ b/src/catch2/reporters/catch_reporter_streaming_base.cpp
+@@ -6,6 +6,7 @@
+ 
+ // SPDX-License-Identifier: BSL-1.0
+ #include <catch2/reporters/catch_reporter_streaming_base.hpp>
++#include <catch2/reporters/catch_reporter_helpers.hpp>
+ 
+ namespace Catch {
+ 
+@@ -31,4 +32,19 @@ namespace Catch {
+         currentTestRunInfo.reset();
+     }
+ 
++    void StreamingReporterBase::listReporters(std::vector<ReporterDescription> const& descriptions) {
++        defaultListReporters( stream, descriptions, m_config->verbosity() );
++    }
++
++    void StreamingReporterBase::listTests(std::vector<TestCaseHandle> const& tests) {
++        defaultListTests(stream,
++                         tests,
++                         m_config->hasTestFilters(),
++                         m_config->verbosity());
++    }
++
++    void StreamingReporterBase::listTags(std::vector<TagInfo> const& tags) {
++        defaultListTags( stream, tags, m_config->hasTestFilters() );
++    }
++
+ } // end namespace Catch
+diff --git a/src/catch2/reporters/catch_reporter_streaming_base.hpp b/src/catch2/reporters/catch_reporter_streaming_base.hpp
+--- a/src/catch2/reporters/catch_reporter_streaming_base.hpp
++++ b/src/catch2/reporters/catch_reporter_streaming_base.hpp
+@@ -36,8 +36,8 @@ namespace Catch {
+     struct StreamingReporterBase : IStreamingReporter {
+ 
+         StreamingReporterBase( ReporterConfig const& _config ):
+-            m_config( _config.fullConfig() ), stream( _config.stream() ) {
+-        }
++            IStreamingReporter( _config.fullConfig() ),
++            stream( _config.stream() ) {}
+ 
+ 
+         ~StreamingReporterBase() override;
+@@ -71,7 +71,10 @@ namespace Catch {
+             // It can optionally be overridden in the derived class.
+         }
+ 
+-        IConfig const* m_config;
++        void listReporters( std::vector<ReporterDescription> const& descriptions ) override;
++        void listTests( std::vector<TestCaseHandle> const& tests ) override;
++        void listTags( std::vector<TagInfo> const& tags ) override;
++
+         std::ostream& stream;
+ 
+         LazyStat<TestRunInfo> currentTestRunInfo;
+diff --git a/src/catch2/reporters/catch_reporter_xml.cpp b/src/catch2/reporters/catch_reporter_xml.cpp
+--- a/src/catch2/reporters/catch_reporter_xml.cpp
++++ b/src/catch2/reporters/catch_reporter_xml.cpp
+@@ -272,7 +272,7 @@ namespace Catch {
+         m_xml.endElement();
+     }
+ 
+-    void XmlReporter::listReporters(std::vector<ReporterDescription> const& descriptions, IConfig const&) {
++    void XmlReporter::listReporters(std::vector<ReporterDescription> const& descriptions) {
+         auto outerTag = m_xml.scopedElement("AvailableReporters");
+         for (auto const& reporter : descriptions) {
+             auto inner = m_xml.scopedElement("Reporter");
+@@ -285,7 +285,7 @@ namespace Catch {
+         }
+     }
+ 
+-    void XmlReporter::listTests(std::vector<TestCaseHandle> const& tests, IConfig const&) {
++    void XmlReporter::listTests(std::vector<TestCaseHandle> const& tests) {
+         auto outerTag = m_xml.scopedElement("MatchingTests");
+         for (auto const& test : tests) {
+             auto innerTag = m_xml.scopedElement("TestCase");
+@@ -310,7 +310,7 @@ namespace Catch {
+         }
+     }
+ 
+-    void XmlReporter::listTags(std::vector<TagInfo> const& tags, IConfig const&) {
++    void XmlReporter::listTags(std::vector<TagInfo> const& tags) {
+         auto outerTag = m_xml.scopedElement("TagsFromMatchingTests");
+         for (auto const& tag : tags) {
+             auto innerTag = m_xml.scopedElement("Tag");
+diff --git a/src/catch2/reporters/catch_reporter_xml.hpp b/src/catch2/reporters/catch_reporter_xml.hpp
+--- a/src/catch2/reporters/catch_reporter_xml.hpp
++++ b/src/catch2/reporters/catch_reporter_xml.hpp
+@@ -56,9 +56,9 @@ namespace Catch {
+         void benchmarkEnded(BenchmarkStats<> const&) override;
+         void benchmarkFailed(std::string const&) override;
+ 
+-        void listReporters(std::vector<ReporterDescription> const& descriptions, IConfig const& config) override;
+-        void listTests(std::vector<TestCaseHandle> const& tests, IConfig const& config) override;
+-        void listTags(std::vector<TagInfo> const& tags, IConfig const& config) override;
++        void listReporters(std::vector<ReporterDescription> const& descriptions) override;
++        void listTests(std::vector<TestCaseHandle> const& tests) override;
++        void listTags(std::vector<TagInfo> const& tags) override;
+ 
+     private:
+         Timer m_testCaseTimer;

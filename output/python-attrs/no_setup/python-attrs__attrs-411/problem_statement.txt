@@ -1,0 +1,46 @@
+Add support for keyword only arguments
+There was a suggestion in #38 that there be an option to make arguments keyword only. The suggested API was to have something like:
+
+``` python
+    @attr.s
+    class A:
+        a = attr.ib()
+        b = attr.ib(init='kwonly')
+
+        # __init__ signature is:
+        # def __init__(self, a, *, b):
+        #    pass
+```
+
+Would support for this be accepted? What about
+
+``` python
+    @attr.s(kwonly=True)
+    class A:
+        a = attr.ib()
+        b = attr.ib()
+
+        # __init__ signature is:
+        # def __init__(self, *, a, b):
+        #    pass
+```
+
+which may be nicer when subclassing?
+
+subclass with mandatory attribute cannot be created when the base class has a factory based one
+failing example
+
+```
+import attr
+
+def test_example():
+
+    @attr.s
+    class Base(object):
+        attr = attr.ib(default=False)
+
+    @attr.s
+    class Sub(Base):
+        needed = attr.ib()
+```
+

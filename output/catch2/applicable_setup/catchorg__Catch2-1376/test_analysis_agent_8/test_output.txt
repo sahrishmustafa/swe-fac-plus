@@ -1,0 +1,15 @@
++ cd /testbed
++ git checkout 1eb42eed974f944401091325bbe8e61b38fd0678 projects/SelfTest/UsageTests/ToStringGeneral.tests.cpp
+Updated 0 paths from 07da3a5c
++ git apply -v -
+Checking patch projects/SelfTest/UsageTests/ToStringGeneral.tests.cpp...
+Applied patch projects/SelfTest/UsageTests/ToStringGeneral.tests.cpp cleanly.
++ cd Build
++ ./projects/SelfTest/SelfTest '[file:projects/SelfTest/UsageTests/ToStringGeneral.tests.cpp]' --success
+/eval.sh: line 45: ./projects/SelfTest/SelfTest: Not a directory
++ rc=126
++ echo OMNIGRIL_EXIT_CODE=126
++ cd /testbed
++ git checkout 1eb42eed974f944401091325bbe8e61b38fd0678 projects/SelfTest/UsageTests/ToStringGeneral.tests.cpp
+OMNIGRIL_EXIT_CODE=126
+Updated 1 path from 07da3a5c

@@ -1,0 +1,70 @@
+Formatting std::chrono::time_point with double Rep or before Epoch
+Hi,
+
+I have two questions concerning formatting the `time_point` object with `fmt`:
+
+1. It seems that it cannot format `time_point` with `Rep` set to `double`, could this be improved?
+2. It seems that it incorrectly formats timepoint before Epoch, you can see negative sub-seconds number in the output.
+
+Compiler Explorer: https://godbolt.org/z/qd4Y3b7P9
+
+Code:
+
+```c++
+#include <fmt/format.h>
+#include <fmt/chrono.h>
+#include <fmt/ostream.h>
+
+template <typename Dur>
+std::string getTimestamp(const std::chrono::time_point<std::chrono::system_clock, Dur>& tp)
+{
+    using namespace std::chrono;
+    const auto tp_ms = time_point_cast<milliseconds>(tp);
+    const auto milli_count = (tp_ms.time_since_epoch()).count() % 1000;
+    return fmt::format("{:%Y-%m-%d_%H:%M:%S}.{:03d}", tp_ms, milli_count);
+}
+
+template <typename Dur>
+std::string getTimestamp2(const std::chrono::time_point<std::chrono::system_clock, Dur>& tp)
+{
+    using namespace std::chrono;
+    const auto milli_count = duration_cast<milliseconds>(tp.time_since_epoch()).count() % 1000;
+    return fmt::format("{:%Y-%m-%d_%H:%M:%S}.{:03d}", tp, milli_count); // Passing tp to format directly
+}
+
+std::chrono::system_clock::time_point makeTimePoint(const std::tm& tm1, double fraction)
+{
+    struct std::tm tm2 = tm1;
+    const auto t = std::mktime(&tm2);
+
+    using namespace std::chrono;
+    constexpr auto DEN = system_clock::duration::period::den;
+    const auto count_subsecs = static_cast<system_clock::rep>(t) * DEN +
+                               static_cast<system_clock::rep>(fraction * DEN);
+    system_clock::time_point tp(system_clock::duration{count_subsecs});
+    return tp;
+}
+
+int main()
+{
+    const auto tp = std::chrono::system_clock::now();
+    const auto tp2 = std::chrono::time_point_cast<std::chrono::duration<double>>(tp);
+
+    fmt::print("timepoint: {}\n", getTimestamp(tp));
+    fmt::print("timepoint: {}\n", getTimestamp(tp2));
+
+    // Issue 1:
+    // fmt::print("timepoint: {}\n", getTimestamp2(tp2)); // This causes build error at line 19 above.
+
+    // Issue 2:
+    std::tm tm{};
+    tm.tm_year = 1969 - 1900;
+    tm.tm_mon = 12 - 1;
+    tm.tm_mday = 31;
+    tm.tm_hour = 23;
+    tm.tm_min = 59;
+    tm.tm_sec = 59;
+    const auto tp3 = makeTimePoint(tm, 0.123456);
+    fmt::print("timepoint: {}\n", getTimestamp(tp3)); // timepoint: 1970-01-01_00:00:00.-876
+}
+```

@@ -1,0 +1,81 @@
++ cd /testbed
++ git checkout 359542d53ec142514da8a606ada8d9efd13b9678 src/catch2/internal/catch_test_macro_impl.hpp
+Updated 0 paths from 56c2d65a
++ git apply -v -
+Checking patch src/catch2/internal/catch_test_macro_impl.hpp...
+Applied patch src/catch2/internal/catch_test_macro_impl.hpp cleanly.
+++ nproc
++ cmake --build build -j12
+Consolidate compiler generated dependencies of target Catch2
+[  4%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_helpers.cpp.o
+[  4%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_teamcity.cpp.o
+[  4%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_registrars.cpp.o
+[  4%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/reporters/catch_reporter_junit.cpp.o
+[  6%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/catch_approx.cpp.o
+[  6%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_assertion_handler.cpp.o
+[  8%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_console_colour.cpp.o
+[  8%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_commandline.cpp.o
+[  9%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_enforce.cpp.o
+[ 10%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/catch_config.cpp.o
+[ 11%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_exception_translator_registry.cpp.o
+[ 12%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_fatal_condition_handler.cpp.o
+[ 13%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_istream.cpp.o
+[ 13%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/interfaces/catch_interfaces_reporter.cpp.o
+[ 14%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_floating_point.cpp.o
+[ 15%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_quantifiers.cpp.o
+[ 16%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_string.cpp.o
+[ 17%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_templated.cpp.o
+[ 18%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/catch_message.cpp.o
+[ 19%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_output_redirect.cpp.o
+[ 20%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/catch_registry_hub.cpp.o
+[ 21%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_random_seed_generation.cpp.o
+[ 22%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_reporter_registry.cpp.o
+[ 23%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_run_context.cpp.o
+[ 24%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_section.cpp.o
+[ 25%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/catch_session.cpp.o
+[ 26%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_tag_alias_registry.cpp.o
+[ 27%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/catch_test_case_info.cpp.o
+[ 28%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_test_case_registry_impl.cpp.o
+[ 29%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_test_case_tracker.cpp.o
+[ 30%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_test_registry.cpp.o
+[ 31%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/catch_tostring.cpp.o
+[ 31%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_wildcard_pattern.cpp.o
+[ 32%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_xmlwriter.cpp.o
+[ 33%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/generators/catch_generators_random.cpp.o
+[ 34%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/generators/catch_generators.cpp.o
+[ 35%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers.cpp.o
+[ 37%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_exception.cpp.o
+[ 37%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_container_properties.cpp.o
+[ 38%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/matchers/catch_matchers_predicate.cpp.o
+[ 39%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/matchers/internal/catch_matchers_impl.cpp.o
+[ 40%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/catch_tag_alias_autoregistrar.cpp.o
+[ 41%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_decomposer.cpp.o
+[ 42%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_lazy_expr.cpp.o
+[ 43%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_polyfills.cpp.o
+[ 44%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_startup_exception_registry.cpp.o
+[ 45%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/internal/catch_uncaught_exceptions.cpp.o
+[ 46%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/benchmark/detail/catch_run_for_at_least.cpp.o
+[ 47%] Building CXX object src/CMakeFiles/Catch2.dir/catch2/benchmark/detail/catch_stats.cpp.o
+[ 48%] Linking CXX static library libCatch2.a
+[ 98%] Built target Catch2
+Consolidate compiler generated dependencies of target Catch2WithMain
+[ 99%] Building CXX object src/CMakeFiles/Catch2WithMain.dir/catch2/internal/catch_main.cpp.o
+[100%] Linking CXX static library libCatch2Main.a
+[100%] Built target Catch2WithMain
++ cd build
++ ctest -VV
+UpdateCTestConfiguration  from :/testbed/build/DartConfiguration.tcl
+UpdateCTestConfiguration  from :/testbed/build/DartConfiguration.tcl
+Test project /testbed/build
+Constructing a list of tests
+Updating test list for fixtures
+Added 0 tests to meet fixture requirements
+Checking test dependency graph...
+Checking test dependency graph end
+No tests were found!!!
+OMNIGRIL_EXIT_CODE=0
++ rc=0
++ cd ..
++ echo OMNIGRIL_EXIT_CODE=0
++ git checkout 359542d53ec142514da8a606ada8d9efd13b9678 src/catch2/internal/catch_test_macro_impl.hpp
+Updated 1 path from 56c2d65a

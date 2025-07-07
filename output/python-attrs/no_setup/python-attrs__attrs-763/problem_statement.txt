@@ -1,0 +1,30 @@
+Python 3.10 compatibility
+Hello.
+
+We have already started testing RPM packages in Fedora with Python 3.10a2 and attrs is currently not compatible.
+
+The problem is caused by the implementation of [PEP 563](https://www.python.org/dev/peps/pep-0563/#abstract) — type annotations are now stored as strings which cause asserts like this one to fail:
+
+```python
+class TestAnnotations:
+    """
+    Tests for types derived from variable annotations (PEP-526).
+    """
+
+    def test_basic_annotations(self):
+        """
+        Sets the `Attribute.type` attr from basic type annotations.
+        """
+
+        @attr.s
+        class C:
+            x: int = attr.ib()
+            y = attr.ib(type=str)
+            z = attr.ib()
+
+        assert int is attr.fields(C).x.type
+```
+
+The value stored in `attr.fields(C).x.type` is a string "int" instead of a class int.
+
+It seems it was discussed before in https://github.com/python-attrs/attrs/issues/424

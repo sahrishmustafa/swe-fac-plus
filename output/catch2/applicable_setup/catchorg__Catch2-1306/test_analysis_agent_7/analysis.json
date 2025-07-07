@@ -1,0 +1,7 @@
+{
+  "is_finish": false,
+  "guidance_for_write_dockerfile_agent": "The Dockerfile build failed at step 'RUN python3 scripts/generateSingleHeader.py' with a UnicodeEncodeError. This typically happens when Python tries to handle non-ASCII characters in an environment where the default encoding is 'ascii'. To fix this, set the locale environment variables to a UTF-8 locale before running the Python script. Add the following lines after the `ENV TZ=\"Etc/UTC\"` line:\n\nENV LANG C.UTF-8\nENV LC_ALL C.UTF-8\n\nThis will ensure that Python uses UTF-8 for encoding/decoding, resolving the Unicode error.",
+  "guidance_for_write_eval_script_agent": "",
+  "guidance_for_context_retrieval_agent": "",
+  "build_image_status": false
+}

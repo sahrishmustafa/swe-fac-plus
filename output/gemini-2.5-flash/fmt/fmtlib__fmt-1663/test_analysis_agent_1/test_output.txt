@@ -1,0 +1,21 @@
++ cd /testbed
++ git checkout 8d9d528bf52c60864802844e8acf16db09dae19a test/core-test.cc
+Updated 0 paths from 0c83681e
++ git apply -v -
+Checking patch test/core-test.cc...
+Applied patch test/core-test.cc cleanly.
++ cd build
++ ctest --output-on-failure -R '(core-test)'
+Test project /testbed/build
+    Start 4: core-test
+1/1 Test #4: core-test ........................   Passed    0.00 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   0.01 sec
++ rc=0
++ echo OMNIGRIL_EXIT_CODE=0
++ cd /testbed
++ git checkout 8d9d528bf52c60864802844e8acf16db09dae19a test/core-test.cc
+OMNIGRIL_EXIT_CODE=0
+Updated 1 path from 0c83681e

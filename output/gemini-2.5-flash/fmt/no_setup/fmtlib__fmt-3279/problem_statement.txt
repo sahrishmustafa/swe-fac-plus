@@ -1,0 +1,2 @@
+Add formatters for STL container adapters
+`std::priority_queue`, `std::queue` and `std::stack` should be formattable out of the box, they are part of the standard.

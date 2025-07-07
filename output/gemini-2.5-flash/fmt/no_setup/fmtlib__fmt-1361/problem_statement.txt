@@ -1,0 +1,4 @@
+Support single precision floats in grisu formatting
+Currently `fmt::format("{}", 0.1f)` with grisu produces `0.10000000149011612` (as would have been expected from `double(0.1f)`) rather than `0.1`.
+
+Single precision formatting differs from double precision only in the calculation of the boundaries: https://github.com/google/double-conversion/blob/v3.1.5/double-conversion/fast-dtoa.cc#L525-L536

@@ -1,0 +1,22 @@
+{
+    "task_id": "catchorg__Catch2-715",
+    "setup_info": {
+        "repo_path": "testbed/catchorg__Catch2-715_2025-06-29_23-16-37",
+        "repo_cache_path": "testbed/catchorg/Catch2_cache"
+    },
+    "task_info": {
+        "repo": "catchorg/Catch2",
+        "pull_number": 715,
+        "instance_id": "catchorg__Catch2-715",
+        "issue_numbers": [
+            "651"
+        ],
+        "base_commit": "88732e85b2ac0233bba6fec5c032d02f9c5c230b",
+        "patch": "diff --git a/include/internal/catch_approx.hpp b/include/internal/catch_approx.hpp\n--- a/include/internal/catch_approx.hpp\n+++ b/include/internal/catch_approx.hpp\n@@ -58,6 +58,26 @@ namespace Detail {\n             return !operator==( rhs, lhs );\n         }\n \n+        friend bool operator <= ( double lhs, Approx const& rhs )\n+        {\n+          return lhs < rhs.m_value || lhs == rhs;\n+        }\n+\n+        friend bool operator <= ( Approx const& lhs, double rhs )\n+        {\n+          return lhs.m_value < rhs || lhs == rhs;\n+        }\n+\n+        friend bool operator >= ( double lhs, Approx const& rhs )\n+        {\n+          return lhs > rhs.m_value || lhs == rhs;\n+        }\n+\n+        friend bool operator >= ( Approx const& lhs, double rhs )\n+        {\n+          return lhs.m_value > rhs || lhs == rhs;\n+        }\n+\n         Approx& epsilon( double newEpsilon ) {\n             m_epsilon = newEpsilon;\n             return *this;\n",
+        "test_patch": "diff --git a/projects/SelfTest/ApproxTests.cpp b/projects/SelfTest/ApproxTests.cpp\n--- a/projects/SelfTest/ApproxTests.cpp\n+++ b/projects/SelfTest/ApproxTests.cpp\n@@ -39,6 +39,36 @@ TEST_CASE\n     REQUIRE( d == Approx( 1.231 ).epsilon( 0.1 ) );\n }\n \n+///////////////////////////////////////////////////////////////////////////////\n+TEST_CASE\n+(\n+ \"Less-than inequalities with different epsilons\",\n+ \"[Approx]\"\n+)\n+{\n+  double d = 1.23;\n+\n+  REQUIRE( d <= Approx( 1.24 ) );\n+  REQUIRE( d <= Approx( 1.23 ) );\n+  REQUIRE_FALSE( d <= Approx( 1.22 ) );\n+  REQUIRE( d <= Approx( 1.22 ).epsilon(0.1) );\n+}\n+\n+///////////////////////////////////////////////////////////////////////////////\n+TEST_CASE\n+(\n+ \"Greater-than inequalities with different epsilons\",\n+ \"[Approx]\"\n+)\n+{\n+  double d = 1.23;\n+\n+  REQUIRE( d >= Approx( 1.22 ) );\n+  REQUIRE( d >= Approx( 1.23 ) );\n+  REQUIRE_FALSE( d >= Approx( 1.24 ) );\n+  REQUIRE( d >= Approx( 1.24 ).epsilon(0.1) );\n+}\n+\n ///////////////////////////////////////////////////////////////////////////////\n TEST_CASE\n (\n",
+        "problem_statement": "Add support for <=, >= to Approx\nApprox is very useful and I'd make further use of it if support for <=, >= could be added.\n\nI'll be happy to do this work.\n\n",
+        "hints_text": "Updated issue following face-to-face discussion (small world):\n\nI agree that having < and > both true is daft. All the LP and QP libraries I've seen expose <= and >= instead. If Catch did the same and Approx supported <= and >= would that be ok?\n",
+        "created_at": "2016-09-24T17:01:12Z",
+        "version": "1.5"
+    }
+}

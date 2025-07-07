@@ -1,0 +1,2 @@
+validators.optional should take lists like validator=
+We’ve added the support for taking a list of validators to validator=, optional() should be able to take lists too otherwise users have to wrap all validators in the list with optional().

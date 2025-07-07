@@ -1,0 +1,7 @@
+{
+  "is_finish": false,
+  "guidance_for_write_dockerfile_agent": "",
+  "guidance_for_write_eval_script_agent": "The test executables (`build/tests/SelfTest` and those in `build/tests/ExtraTests/`) are failing to launch correctly because they do not recognize the `--exclude-tag` command-line argument. This is causing all test runs to fail with the error \"Unrecognised token: --exclude-tag\".\n\nTo fix this:\n1. Remove the `--exclude-tag \"[.ApprovalTests]\"` argument from both `\"$test_binary\" --exclude-tag \"[.ApprovalTests]\"` commands in the `eval_script`.\n2. The `python3 tools/scripts/approve.py` step is already present to handle ApprovalTests baselines. By removing the exclusion, we will allow all tests to run to see their actual pass/fail status, and `approve.py` should reconcile any approval test issues. If ApprovalTests still cause failures after this change, and are indeed meant to be excluded, the correct Catch2 v3 syntax for excluding tags (e.g., `~[ApprovalTests]`) should be investigated and applied.",
+  "guidance_for_context_retrieval_agent": "",
+  "build_image_status": true
+}

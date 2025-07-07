@@ -1,0 +1,22 @@
+{
+    "task_id": "fmtlib__fmt-1390",
+    "setup_info": {
+        "repo_path": "github/_cache/fmtlib__fmt-1390_2025-07-04_18-45-21",
+        "repo_cache_path": "github/_cache/fmtlib/fmt_cache"
+    },
+    "task_info": {
+        "repo": "fmtlib/fmt",
+        "pull_number": 1390,
+        "instance_id": "fmtlib__fmt-1390",
+        "issue_numbers": [
+            "1389"
+        ],
+        "base_commit": "d6eede9e085f0b36edcf0a2f6dff5f7875181019",
+        "patch": "diff --git a/include/fmt/format.h b/include/fmt/format.h\n--- a/include/fmt/format.h\n+++ b/include/fmt/format.h\n@@ -436,6 +436,24 @@ inline size_t count_code_points(basic_string_view<char8_t> s) {\n   return num_code_points;\n }\n \n+template <typename Char>\n+inline size_t code_point_index(basic_string_view<Char> s, size_t n) {\n+  size_t size = s.size();\n+  return n < size ? n : size;\n+}\n+\n+// Calculates the index of the nth code point in a UTF-8 string.\n+inline size_t code_point_index(basic_string_view<char8_t> s, size_t n) {\n+  const char8_t* data = s.data();\n+  size_t num_code_points = 0;\n+  for (size_t i = 0, size = s.size(); i != size; ++i) {\n+    if ((data[i] & 0xc0) != 0x80 && ++num_code_points > n) {\n+      return i;\n+    }\n+  }\n+  return s.size();\n+}\n+\n inline char8_t to_char8_t(char c) { return static_cast<char8_t>(c); }\n \n template <typename InputIt, typename OutChar>\n@@ -1729,7 +1747,8 @@ template <typename Range> class basic_writer {\n     const Char* data = s.data();\n     std::size_t size = s.size();\n     if (specs.precision >= 0 && internal::to_unsigned(specs.precision) < size)\n-      size = internal::to_unsigned(specs.precision);\n+      size = internal::code_point_index(s,\n+                                        internal::to_unsigned(specs.precision));\n     write(data, size, specs);\n   }\n \n",
+        "test_patch": "diff --git a/test/format-test.cc b/test/format-test.cc\n--- a/test/format-test.cc\n+++ b/test/format-test.cc\n@@ -2621,3 +2621,13 @@ TEST(FormatTest, FormatCustomChar) {\n   EXPECT_EQ(result.size(), 1);\n   EXPECT_EQ(result[0], mychar('x'));\n }\n+\n+TEST(FormatTest, FormatUTF8Precision) {\n+  using str_type = std::basic_string<char8_t>;\n+  str_type format(reinterpret_cast<const char8_t*>(u8\"{:.4}\"));\n+  str_type str(reinterpret_cast<const char8_t*>(u8\"caf\\u00e9s\")); // caf\u00e9s\n+  auto result = fmt::format(format, str);\n+  EXPECT_EQ(fmt::internal::count_code_points(result), 4);\n+  EXPECT_EQ(result.size(), 5);\n+  EXPECT_EQ(result, str.substr(0, 5));\n+}\n",
+        "problem_statement": "UTF-8 truncation\nI've done some tests with UTF-8 strings, and think string formatting with precision doesn't work as expected.\r\n\r\nfmt::format(u8\"{:.4}\", u8\"caf\u00e9s\");\r\n\r\nThe format call above, even if done properly with char8_t based strings returns \"caf\\xc3\" instead of \"caf\u00e9\", where \"\\xc3\" is the first byte of the UTF-8 sequence \"\\xc3\\xa9\" for \"\u00e9\".  \n",
+        "hints_text": "",
+        "created_at": "2019-11-02T09:47:00Z",
+        "version": "6.0"
+    }
+}

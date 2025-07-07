@@ -1,0 +1,25 @@
++ cd /testbed
++ git checkout a5abe5d95cb8a8015913be9748a9661f3e1fbda8 test/format-impl-test.cc test/grisu-test.cc
+Updated 0 paths from 89bd45be
++ git apply -v -
+Checking patch test/format-impl-test.cc...
+Checking patch test/grisu-test.cc...
+Applied patch test/format-impl-test.cc cleanly.
+Applied patch test/grisu-test.cc cleanly.
++ cd build
++ ctest --output-on-failure -R 'format-impl-test|grisu-test'
+Test project /testbed/build
+    Start 5: grisu-test
+1/2 Test #5: grisu-test .......................   Passed    0.00 sec
+    Start 8: format-impl-test
+2/2 Test #8: format-impl-test .................   Passed    0.00 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =   0.01 sec
+OMNIGRIL_EXIT_CODE=0
++ rc=0
++ echo OMNIGRIL_EXIT_CODE=0
++ cd /testbed
++ git checkout a5abe5d95cb8a8015913be9748a9661f3e1fbda8 test/format-impl-test.cc test/grisu-test.cc
+Updated 2 paths from 89bd45be

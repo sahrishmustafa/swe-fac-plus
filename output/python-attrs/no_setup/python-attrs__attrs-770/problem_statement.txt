@@ -1,0 +1,19 @@
+attr.make_class does not work with Python>=3.7
+In attr.make_class function line 2818: `type_ = type(name, bases, body)` cannot be used for dynamic generic class creation beyond python 3.7 and leads to an error `TypeError: type() doesn't support MRO entry resolution; use types.new_class()`.
+
+The error can be recreated with:
+```
+from typing import TypeVar, Generic
+from types import new_class
+import attr
+
+MyTypeVar = TypeVar("MyTypeVar")
+MyParent = new_class("MyParent", (Generic[MyTypeVar],), {})
+
+
+attr.make_class('test', {'id': attr.ib(type=str)}, (MyParent[int],))
+```
+
+As mentioned in the error it can be fixed by replacing `type_ = type(name, bases, body)` with `types.new_class(name, bases, body)`. 
+
+This issue has been discussed here in detail: [https://bugs.python.org/issue33188](https://bugs.python.org/issue33188).

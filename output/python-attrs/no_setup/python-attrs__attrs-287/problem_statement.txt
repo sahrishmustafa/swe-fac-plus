@@ -1,0 +1,29 @@
+17.3.0 changes the order how inherited class attributes are defined if they have the same base class
+Minimal working example:
+```
+import attr
+
+@attr.s()
+class A:
+    name = attr.ib()
+    cookie = attr.ib(default="Cookie")
+
+@attr.s()
+class B:
+    cake = attr.ib(default="Cake")
+    cereal = attr.ib(default="Cereal")
+
+@attr.s()
+class C(B, A):
+    breakfast = attr.ib(default="All")
+
+@attr.s()
+class D(A):
+    food = attr.ib(default="food")
+    melon = attr.ib(default="melon")
+
+@attr.s()
+class E(D, C):
+    apple = attr.ib(default="apple")
+```
+This works with attrs==17.2.0 and breaks with attrs==17.3.0. In 17.3.0 the list of non_super_names in base.py: `['cake', 'cereal', 'breakfast', 'name', 'cookie', 'food', 'melon', 'apple']` breaks because attr is trying to create a non-default attribute in between default attributes. 

@@ -1,0 +1,275 @@
+2025-06-30 18:55:11.242 | INFO     | Removed project repository at testbed/catchorg__Catch2-2986_2025-06-30_16-30-35
+2025-06-30 18:55:11.379 | ERROR    | RetryError[<Future at 0x7c9ae9ce8e00 state=finished raised APIConnectionError>]
+Traceback (most recent call last):
+
+  File "/home/sahrish/Desktop/swe-bench/swe-factory-local/.venv/lib/python3.12/site-packages/httpx/_transports/default.py", line 69, in map_httpcore_exceptions
+    yield
+  File "/home/sahrish/Desktop/swe-bench/swe-factory-local/.venv/lib/python3.12/site-packages/httpx/_transports/default.py", line 233, in handle_request
+    resp = self._pool.handle_request(req)
+           │    │     │              └ <Request [b'POST']>
+           │    │     └ <function ConnectionPool.handle_request at 0x7c9aef4353a0>
+           │    └ <ConnectionPool [Requests: 0 active, 0 queued | Connections: 0 active, 0 idle]>
+           └ <httpx.HTTPTransport object at 0x7c9ae9e51310>
+  File "/home/sahrish/Desktop/swe-bench/swe-factory-local/.venv/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py", line 216, in handle_request
+    raise exc from None
+  File "/home/sahrish/Desktop/swe-bench/swe-factory-local/.venv/lib/python3.12/site-packages/httpcore/_sync/connection_pool.py", line 196, in handle_request
+    response = connection.handle_request(
+               │          └ <function HTTPConnection.handle_request at 0x7c9aef434680>
+               └ <HTTPConnection [CONNECTION FAILED]>
+  File "/home/sahrish/Desktop/swe-bench/swe-factory-local/.venv/lib/python3.12/site-packages/httpcore/_sync/connection.py", line 99, in handle_request
+    raise exc
+  File "/home/sahrish/Desktop/swe-bench/swe-factory-local/.venv/lib/python3.12/site-packages/httpcore/_sync/connection.py", line 76, in handle_request
+    stream = self._connect(request)
+             │    │        └ <Request [b'POST']>
+             │    └ <function HTTPConnection._connect at 0x7c9aef434720>
+             └ <HTTPConnection [CONNECTION FAILED]>
+  File "/home/sahrish/Desktop/swe-bench/swe-factory-local/.venv/lib/python3.12/site-packages/httpcore/_sync/connection.py", line 122, in _connect
+    stream = self._network_backend.connect_tcp(**kwargs)
+             │    │                │             └ {'host': 'generativelanguage.googleapis.com', 'port': 443, 'local_address': None, 'timeout': 300, 'socket_options': None}
+             │    │                └ <function SyncBackend.connect_tcp at 0x7c9aef521620>
+             │    └ <httpcore.SyncBackend object at 0x7c9ae9e51160>
+             └ <HTTPConnection [CONNECTION FAILED]>
+  File "/home/sahrish/Desktop/swe-bench/swe-factory-local/.venv/lib/python3.12/site-packages/httpcore/_backends/sync.py", line 205, in connect_tcp
+    with map_exceptions(exc_map):
+         │              └ {<class 'TimeoutError'>: <class 'httpcore.ConnectTimeout'>, <class 'OSError'>: <class 'httpcore.ConnectError'>}
+         └ <function map_exceptions at 0x7c9aef4ffce0>
+  File "/usr/lib/python3.12/contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+    │    │   │     └ gaierror(-3, 'Temporary failure in name resolution')
+    │    │   └ <method 'throw' of 'generator' objects>
+    │    └ <generator object map_exceptions at 0x7c9ae9c8f2e0>
+    └ <contextlib._GeneratorContextManager object at 0x7c9ae9ce94c0>
+  File "/home/sahrish/Desktop/swe-bench/swe-factory-local/.venv/lib/python3.12/site-packages/httpcore/_exceptions.py", line 14, in map_exceptions
+    raise to_exc(exc) from exc
+          └ <class 'httpcore.ConnectError'>
+
+httpcore.ConnectError: [Errno -3] Temporary failure in name resolution
+
+
+The above exception was the direct cause of the following exception:
+
+
+Traceback (most recent call last):
+
+  File "/home/sahrish/Desktop/swe-bench/swe-factory-local/.venv/lib/python3.12/site-packages/openai/_base_client.py", line 983, in _request
+    response = self._client.send(
+               │    │       └ <function Client.send at 0x7c9aef35eac0>
+               │    └ <openai._base_client.SyncHttpxClientWrapper object at 0x7c9ae9e2a510>
+               └ <openai.OpenAI object at 0x7c9ae9e2a630>
+  File "/home/sahrish/Desktop/swe-bench/swe-factory-local/.venv/lib/python3.12/site-packages/httpx/_client.py", line 914, in send
+    response = self._send_handling_auth(
+               │    └ <function Client._send_handling_auth at 0x7c9aef35eb60>
+               └ <openai._base_client.SyncHttpxClientWrapper object at 0x7c9ae9e2a510>
+  File "/home/sahrish/Desktop/swe-bench/swe-factory-local/.venv/lib/python3.12/site-packages/httpx/_client.py", line 942, in _send_handling_auth
+    response = self._send_handling_redirects(
+               │    └ <function Client._send_handling_redirects at 0x7c9aef35ec00>
+               └ <openai._base_client.SyncHttpxClientWrapper object at 0x7c9ae9e2a510>
+  File "/home/sahrish/Desktop/swe-bench/swe-factory-local/.venv/lib/python3.12/site-packages/httpx/_client.py", line 979, in _send_handling_redirects
+    response = self._send_single_request(request)
+               │    │                    └ <Request('POST', 'https://generativelanguage.googleapis.com/v1beta/chat/completions')>
+               │    └ <function Client._send_single_request at 0x7c9aef35eca0>
+               └ <openai._base_client.SyncHttpxClientWrapper object at 0x7c9ae9e2a510>
+  File "/home/sahrish/Desktop/swe-bench/swe-factory-local/.venv/lib/python3.12/site-packages/httpx/_client.py", line 1015, in _send_single_request
+    response = transport.handle_request(request)
+               │         │              └ <Request('POST', 'https://generativelanguage.googleapis.com/v1beta/chat/completions')>
+               │         └ <function HTTPTransport.handle_request at 0x7c9aef35c400>
+               └ <httpx.HTTPTransport object at 0x7c9ae9e51310>
+  File "/home/sahrish/Desktop/swe-bench/swe-factory-local/.venv/lib/python3.12/site-packages/httpx/_transports/default.py", line 232, in handle_request
+    with map_httpcore_exceptions():
+         └ <function map_httpcore_exceptions at 0x7c9aef337d80>
+  File "/usr/lib/python3.12/contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+    │    │   │     └ ConnectError(gaierror(-3, 'Temporary failure in name resolution'))
+    │    │   └ <method 'throw' of 'generator' objects>
+    │    └ <generator object map_httpcore_exceptions at 0x7c9ae9e4e840>
+    └ <contextlib._GeneratorContextManager object at 0x7c9ae9ce8f50>
+  File "/home/sahrish/Desktop/swe-bench/swe-factory-local/.venv/lib/python3.12/site-packages/httpx/_transports/default.py", line 86, in map_httpcore_exceptions
+    raise mapped_exc(message) from exc
+          │          └ '[Errno -3] Temporary failure in name resolution'
+          └ <class 'httpx.ConnectError'>
+
+httpx.ConnectError: [Errno -3] Temporary failure in name resolution
+
+
+The above exception was the direct cause of the following exception:
+
+
+Traceback (most recent call last):
+
+  File "/home/sahrish/Desktop/swe-bench/swe-factory-local/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 382, in __call__
+    result = fn(*args, **kwargs)
+             │   │       └ {}
+             │   └ (<app.model.gpt.testgpt object at 0x7c9aefae7f20>, [{'role': 'system', 'content': "You are a repository maintainer responsibl...
+             └ <function OpenaiModel.call at 0x7c9ae9d9ad40>
+
+  File "/home/sahrish/Desktop/swe-bench/swe-factory-local/app/model/gpt.py", line 202, in call
+    response: ChatCompletion = self.client.chat.completions.create(
+                               │    │      │    │           └ <function Completions.create at 0x7c9aee4bb240>
+                               │    │      │    └ <openai.resources.chat.completions.Completions object at 0x7c9ae9dfee70>
+                               │    │      └ <openai.resources.chat.chat.Chat object at 0x7c9ae9e510a0>
+                               │    └ <openai.OpenAI object at 0x7c9ae9e2a630>
+                               └ <app.model.gpt.testgpt object at 0x7c9aefae7f20>
+
+  File "/home/sahrish/Desktop/swe-bench/swe-factory-local/.venv/lib/python3.12/site-packages/openai/_utils/_utils.py", line 274, in wrapper
+    return func(*args, **kwargs)
+           │     │       └ {'model': 'gemini-2.5-flash', 'messages': [{'role': 'system', 'content': "You are a repository maintainer responsible for ens...
+           │     └ (<openai.resources.chat.completions.Completions object at 0x7c9ae9dfee70>,)
+           └ <function Completions.create at 0x7c9aee4bb100>
+  File "/home/sahrish/Desktop/swe-bench/swe-factory-local/.venv/lib/python3.12/site-packages/openai/resources/chat/completions.py", line 704, in create
+    return self._post(
+           │    └ <bound method SyncAPIClient.post of <openai.OpenAI object at 0x7c9ae9e2a630>>
+           └ <openai.resources.chat.completions.Completions object at 0x7c9ae9dfee70>
+  File "/home/sahrish/Desktop/swe-bench/swe-factory-local/.venv/lib/python3.12/site-packages/openai/_base_client.py", line 1270, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+           │    │          │    │       │        │            │                  └ openai.Stream[openai.types.chat.chat_completion_chunk.ChatCompletionChunk]
+           │    │          │    │       │        │            └ False
+           │    │          │    │       │        └ FinalRequestOptions(method='post', url='/chat/completions', files=None, json_data={'messages': [{'role': 'system', 'content':...
+           │    │          │    │       └ <class 'openai.types.chat.chat_completion.ChatCompletion'>
+           │    │          │    └ <function SyncAPIClient.request at 0x7c9aee6c0d60>
+           │    │          └ <openai.OpenAI object at 0x7c9ae9e2a630>
+           │    └ ~ResponseT
+           └ <function cast at 0x7c9af0cb0220>
+  File "/home/sahrish/Desktop/swe-bench/swe-factory-local/.venv/lib/python3.12/site-packages/openai/_base_client.py", line 947, in request
+    return self._request(
+           │    └ <function SyncAPIClient._request at 0x7c9aee6c0e00>
+           └ <openai.OpenAI object at 0x7c9ae9e2a630>
+  File "/home/sahrish/Desktop/swe-bench/swe-factory-local/.venv/lib/python3.12/site-packages/openai/_base_client.py", line 1007, in _request
+    return self._retry_request(
+           │    └ <function SyncAPIClient._retry_request at 0x7c9aee6c0ea0>
+           └ <openai.OpenAI object at 0x7c9ae9e2a630>
+  File "/home/sahrish/Desktop/swe-bench/swe-factory-local/.venv/lib/python3.12/site-packages/openai/_base_client.py", line 1085, in _retry_request
+    return self._request(
+           │    └ <function SyncAPIClient._request at 0x7c9aee6c0e00>
+           └ <openai.OpenAI object at 0x7c9ae9e2a630>
+  File "/home/sahrish/Desktop/swe-bench/swe-factory-local/.venv/lib/python3.12/site-packages/openai/_base_client.py", line 1007, in _request
+    return self._retry_request(
+           │    └ <function SyncAPIClient._retry_request at 0x7c9aee6c0ea0>
+           └ <openai.OpenAI object at 0x7c9ae9e2a630>
+  File "/home/sahrish/Desktop/swe-bench/swe-factory-local/.venv/lib/python3.12/site-packages/openai/_base_client.py", line 1085, in _retry_request
+    return self._request(
+           │    └ <function SyncAPIClient._request at 0x7c9aee6c0e00>
+           └ <openai.OpenAI object at 0x7c9ae9e2a630>
+  File "/home/sahrish/Desktop/swe-bench/swe-factory-local/.venv/lib/python3.12/site-packages/openai/_base_client.py", line 1017, in _request
+    raise APIConnectionError(request=request) from err
+          │                          └ <Request('POST', 'https://generativelanguage.googleapis.com/v1beta/chat/completions')>
+          └ <class 'openai.APIConnectionError'>
+
+openai.APIConnectionError: Connection error.
+
+
+The above exception was the direct cause of the following exception:
+
+
+Traceback (most recent call last):
+
+  File "/home/sahrish/Desktop/swe-bench/swe-factory-local/app/main.py", line 766, in <module>
+    main(args)
+    │    └ Namespace(command='swe-bench', output_dir='output/catch2', no_print=False, model='gemini-2.5-flash', model_temperature=0.2, c...
+    └ <function main at 0x7c9ae9e1f4c0>
+
+  File "/home/sahrish/Desktop/swe-bench/swe-factory-local/app/main.py", line 123, in main
+    run_task_groups(groups, num_processes, organize_output=True)
+    │               │       └ 1
+    │               └ {0: [<app.raw_tasks.RawSweTask object at 0x7c9ae9c74f20>], 1: [<app.raw_tasks.RawSweTask object at 0x7c9ae9c74ef0>], 2: [<app...
+    └ <function run_task_groups at 0x7c9ae9e30860>
+
+  File "/home/sahrish/Desktop/swe-bench/swe-factory-local/app/main.py", line 518, in run_task_groups
+    run_tasks_serial(all_tasks)
+    │                └ [<app.raw_tasks.RawSweTask object at 0x7c9ae9c74f20>, <app.raw_tasks.RawSweTask object at 0x7c9ae9c74ef0>, <app.raw_tasks.Raw...
+    └ <function run_tasks_serial at 0x7c9ae9e30900>
+
+  File "/home/sahrish/Desktop/swe-bench/swe-factory-local/app/main.py", line 538, in run_tasks_serial
+    run_task_in_subprocess(task)
+    │                      └ <app.raw_tasks.RawSweTask object at 0x7c9ae9c74fb0>
+    └ <function run_task_in_subprocess at 0x7c9ae9e30b80>
+
+  File "/home/sahrish/Desktop/swe-bench/swe-factory-local/app/main.py", line 637, in run_task_in_subprocess
+    p.start()
+    │ └ <function BaseProcess.start at 0x7c9aefd2b7e0>
+    └ <Process name='Process-5' parent=50981 started>
+
+  File "/usr/lib/python3.12/multiprocessing/process.py", line 121, in start
+    self._popen = self._Popen(self)
+    │    │        │    │      └ <Process name='Process-5' parent=50981 started>
+    │    │        │    └ <staticmethod(<function Process._Popen at 0x7c9aefd800e0>)>
+    │    │        └ <Process name='Process-5' parent=50981 started>
+    │    └ None
+    └ <Process name='Process-5' parent=50981 started>
+  File "/usr/lib/python3.12/multiprocessing/context.py", line 224, in _Popen
+    return _default_context.get_context().Process._Popen(process_obj)
+           │                │                            └ <Process name='Process-5' parent=50981 started>
+           │                └ <function DefaultContext.get_context at 0x7c9aefd802c0>
+           └ <multiprocessing.context.DefaultContext object at 0x7c9aefd504a0>
+  File "/usr/lib/python3.12/multiprocessing/context.py", line 282, in _Popen
+    return Popen(process_obj)
+           │     └ <Process name='Process-5' parent=50981 started>
+           └ <class 'multiprocessing.popen_fork.Popen'>
+  File "/usr/lib/python3.12/multiprocessing/popen_fork.py", line 19, in __init__
+    self._launch(process_obj)
+    │    │       └ <Process name='Process-5' parent=50981 started>
+    │    └ <function Popen._launch at 0x7c9ae9c844a0>
+    └ <multiprocessing.popen_fork.Popen object at 0x7c9ae9e2a3c0>
+  File "/usr/lib/python3.12/multiprocessing/popen_fork.py", line 71, in _launch
+    code = process_obj._bootstrap(parent_sentinel=child_r)
+           │           │                          └ 7
+           │           └ <function BaseProcess._bootstrap at 0x7c9aefd4c220>
+           └ <Process name='Process-5' parent=50981 started>
+  File "/usr/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+    │    └ <function BaseProcess.run at 0x7c9aefd2b740>
+    └ <Process name='Process-5' parent=50981 started>
+  File "/usr/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+    │    │        │    │        │    └ {}
+    │    │        │    │        └ <Process name='Process-5' parent=50981 started>
+    │    │        │    └ (<app.raw_tasks.RawSweTask object at 0x7c9ae9c74fb0>,)
+    │    │        └ <Process name='Process-5' parent=50981 started>
+    │    └ <function run_raw_task at 0x7c9ae9e30c20>
+    └ <Process name='Process-5' parent=50981 started>
+
+> File "/home/sahrish/Desktop/swe-bench/swe-factory-local/app/main.py", line 682, in run_raw_task
+    run_ok = do_inference(task.to_task(), task_output_dir, print_callback)
+             │            │    │          │                └ None
+             │            │    │          └ '/home/sahrish/Desktop/swe-bench/swe-factory-local/output/catch2/catchorg__Catch2-2986'
+             │            │    └ <function RawSweTask.to_task at 0x7c9ae9e1f920>
+             │            └ <app.raw_tasks.RawSweTask object at 0x7c9ae9c74fb0>
+             └ <function do_inference at 0x7c9ae9e30cc0>
+
+  File "/home/sahrish/Desktop/swe-bench/swe-factory-local/app/main.py", line 730, in do_inference
+    agents_manager.run_workflow()
+    │              └ <function AgentsManager.run_workflow at 0x7c9ae9e1f380>
+    └ <app.agents.agents_manager.AgentsManager object at 0x7c9ae9e53020>
+
+  File "/home/sahrish/Desktop/swe-bench/swe-factory-local/app/agents/agents_manager.py", line 178, in run_workflow
+    collected_information, summary, success =  self.agents_dict['context_retrieval_agent'].run_task()
+                                               │    └ {'write_docker_agent': <app.agents.write_dockerfile_agent.write_dockerfile_agent.WriteDockerfileAgent object at 0x7c9ae9e2b77...
+                                               └ <app.agents.agents_manager.AgentsManager object at 0x7c9ae9e53020>
+
+  File "/home/sahrish/Desktop/swe-bench/swe-factory-local/app/agents/context_retrieval_agent/context_retrieval_agent.py", line 153, in run_task
+    res_text, *_ = common.SELECTED_MODEL.call(self.msg_thread.to_msg())
+                   │      │              │    │    │          └ <function MessageThread.to_msg at 0x7c9ae9d980e0>
+                   │      │              │    │    └ <app.data_structures.MessageThread object at 0x7c9ae9c75820>
+                   │      │              │    └ <app.agents.context_retrieval_agent.context_retrieval_agent.ContextRetrievalAgent object at 0x7c9ae9c75430>
+                   │      │              └ <function OpenaiModel.call at 0x7c9ae9d9ae80>
+                   │      └ <app.model.gpt.testgpt object at 0x7c9aefae7f20>
+                   └ <module 'app.model.common' from '/home/sahrish/Desktop/swe-bench/swe-factory-local/app/model/common.py'>
+
+  File "/home/sahrish/Desktop/swe-bench/swe-factory-local/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 289, in wrapped_f
+    return self(f, *args, **kw)
+           │    │   │       └ {}
+           │    │   └ (<app.model.gpt.testgpt object at 0x7c9aefae7f20>, [{'role': 'system', 'content': "You are a repository maintainer responsibl...
+           │    └ <function OpenaiModel.call at 0x7c9ae9d9ad40>
+           └ <Retrying object at 0x7c9ae9dacb90 (stop=<tenacity.stop.stop_after_attempt object at 0x7c9ae9dac9e0>, wait=<tenacity.wait.wai...
+  File "/home/sahrish/Desktop/swe-bench/swe-factory-local/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 379, in __call__
+    do = self.iter(retry_state=retry_state)
+         │    │                └ <RetryCallState 137004792422640: attempt #10; slept for 519.03; last result: failed (APIConnectionError Connection error.)>
+         │    └ <function BaseRetrying.iter at 0x7c9ae9d67ba0>
+         └ <Retrying object at 0x7c9ae9dacb90 (stop=<tenacity.stop.stop_after_attempt object at 0x7c9ae9dac9e0>, wait=<tenacity.wait.wai...
+  File "/home/sahrish/Desktop/swe-bench/swe-factory-local/.venv/lib/python3.12/site-packages/tenacity/__init__.py", line 326, in iter
+    raise retry_exc from fut.exception()
+          │              │   └ <function Future.exception at 0x7c9aefd2a160>
+          │              └ <Future at 0x7c9ae9ce8e00 state=finished raised APIConnectionError>
+          └ RetryError(<Future at 0x7c9ae9ce8e00 state=finished raised APIConnectionError>)
+
+tenacity.RetryError: RetryError[<Future at 0x7c9ae9ce8e00 state=finished raised APIConnectionError>]
+2025-06-30 18:55:12.067 | INFO     | Task catchorg__Catch2-2986 failed with exception: RetryError[<Future at 0x7c9ae9ce8e00 state=finished raised APIConnectionError>].

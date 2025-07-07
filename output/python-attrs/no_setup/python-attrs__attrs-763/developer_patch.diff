@@ -1,0 +1,43 @@
+diff --git a/conftest.py b/conftest.py
+--- a/conftest.py
++++ b/conftest.py
+@@ -23,3 +23,10 @@ def pytest_configure(config):
+             "tests/test_next_gen.py",
+         ]
+     )
++if sys.version_info[:2] >= (3, 10):
++    collect_ignore.extend(
++        [
++            "tests/test_mypy.yml",
++            "tests/test_hooks.py",
++        ]
++    )
+diff --git a/setup.py b/setup.py
+--- a/setup.py
++++ b/setup.py
+@@ -36,6 +36,7 @@
+     "Programming Language :: Python :: 3.7",
+     "Programming Language :: Python :: 3.8",
+     "Programming Language :: Python :: 3.9",
++    "Programming Language :: Python :: 3.10",
+     "Programming Language :: Python :: Implementation :: CPython",
+     "Programming Language :: Python :: Implementation :: PyPy",
+     "Topic :: Software Development :: Libraries :: Python Modules",
+diff --git a/src/attr/_make.py b/src/attr/_make.py
+--- a/src/attr/_make.py
++++ b/src/attr/_make.py
+@@ -384,7 +384,13 @@ def _is_class_var(annot):
+     annotations which would put attrs-based classes at a performance
+     disadvantage compared to plain old classes.
+     """
+-    return str(annot).startswith(_classvar_prefixes)
++    annot = str(annot)
++
++    # Annotation can be quoted.
++    if annot.startswith(("'", '"')) and annot.endswith(("'", '"')):
++        annot = annot[1:-1]
++
++    return annot.startswith(_classvar_prefixes)
+ 
+ 
+ def _has_own_attribute(cls, attrib_name):

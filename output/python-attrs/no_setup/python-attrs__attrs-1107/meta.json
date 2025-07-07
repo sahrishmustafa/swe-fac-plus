@@ -1,0 +1,22 @@
+{
+    "task_id": "python-attrs__attrs-1107",
+    "setup_info": {
+        "repo_path": "testbed/python-attrs__attrs-1107_2025-07-03_17-42-35",
+        "repo_cache_path": "testbed/python-attrs/attrs_cache"
+    },
+    "task_info": {
+        "repo": "python-attrs/attrs",
+        "pull_number": 1107,
+        "instance_id": "python-attrs__attrs-1107",
+        "issue_numbers": [
+            "1082"
+        ],
+        "base_commit": "359c2db460f4410e86782a99eef06dabbfd96d34",
+        "patch": "diff --git a/src/attr/_next_gen.py b/src/attr/_next_gen.py\n--- a/src/attr/_next_gen.py\n+++ b/src/attr/_next_gen.py\n@@ -167,6 +167,7 @@ def field(\n     hash=None,\n     init=True,\n     metadata=None,\n+    type=None,\n     converter=None,\n     factory=None,\n     kw_only=False,\n@@ -179,6 +180,10 @@ def field(\n     Identical to `attr.ib`, except keyword-only and with some arguments\n     removed.\n \n+    .. versionadded:: 22.3.0\n+       The *type* parameter has been re-added; mostly for\n+       {func}`attrs.make_class`. Please note that type checkers ignore this\n+       metadata.\n     .. versionadded:: 20.1.0\n     \"\"\"\n     return attrib(\n@@ -188,6 +193,7 @@ def field(\n         hash=hash,\n         init=init,\n         metadata=metadata,\n+        type=type,\n         converter=converter,\n         factory=factory,\n         kw_only=kw_only,\n",
+        "test_patch": "diff --git a/tests/test_next_gen.py b/tests/test_next_gen.py\n--- a/tests/test_next_gen.py\n+++ b/tests/test_next_gen.py\n@@ -28,6 +28,16 @@ def test_simple(self):\n         \"\"\"\n         C(\"1\", 2)\n \n+    def test_field_type(self):\n+        \"\"\"\n+        Make class with attrs.field and type parameter.\n+        \"\"\"\n+        classFields = {\"testint\": attrs.field(type=int)}\n+\n+        A = attrs.make_class(\"A\", classFields)\n+\n+        assert int == attrs.fields(A).testint.type\n+\n     def test_no_slots(self):\n         \"\"\"\n         slots can be deactivated.\n",
+        "problem_statement": "Add `type` back to `attrs.field()` for use in `attrs.make_class()`\nI'm using `attrs.make_class()` to dynamically construct a class based on other attrs classes, and it would be nice to be able to specify the `type` of the fields on the generated class using `attrs.field()` instead of `attr.ib()`. In other words, this works:\r\n\r\n```python\r\nfields = {\r\n    field.name: attr.ib(type=field.type)\r\n    for field in itertools.chain.from_iterable(\r\n        attrs.fields(t) for t in SOME_ATTRS_CLASSES\r\n    )\r\n    if not field.name.startswith(\"_\")\r\n}\r\n\r\nMyClass = attrs.make_class(\"MyClass\", fields)\r\n```\r\n\r\nbut this does not:\r\n\r\n```python\r\nfields = {\r\n    field.name: attrs.field(type=field.type)\r\n    for field in itertools.chain.from_iterable(\r\n        attrs.fields(t) for t in SOME_ATTRS_CLASSES\r\n    )\r\n    if not field.name.startswith(\"_\")\r\n}\r\n\r\nMyClass = attrs.make_class(\"MyClass\", fields)\r\n```\n",
+        "hints_text": "Aw man yeah when I celebrated to get rid of that, I forgot about `make_class`. \ud83d\ude48\nI'm working on the implementation. ",
+        "created_at": "2023-02-28T09:41:01Z",
+        "version": "22.2"
+    }
+}

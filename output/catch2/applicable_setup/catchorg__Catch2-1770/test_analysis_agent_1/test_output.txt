@@ -1,0 +1,53 @@
++ cd /testbed
++ git checkout 01ef7076f50f5f2b481ddf082e1afca3c926983f include/internal/catch_test_spec.cpp include/internal/catch_test_spec.h include/internal/catch_test_spec_parser.cpp include/internal/catch_test_spec_parser.h
+Updated 4 paths from 15ceea6b
++ git apply -v -
+<stdin>:8: trailing whitespace.
+    
+<stdin>:42: trailing whitespace.
+        
+<stdin>:46: trailing whitespace.
+           if( !visitChar( m_arg[m_pos] ) ){ 
+<stdin>:112: trailing whitespace.
+    bool TestSpecParser::separate() {  
+<stdin>:125: trailing whitespace.
+    
+Checking patch include/internal/catch_test_spec.cpp...
+Checking patch include/internal/catch_test_spec.h...
+Checking patch include/internal/catch_test_spec_parser.cpp...
+Checking patch include/internal/catch_test_spec_parser.h...
+Applied patch include/internal/catch_test_spec.cpp cleanly.
+Applied patch include/internal/catch_test_spec.h cleanly.
+Applied patch include/internal/catch_test_spec_parser.cpp cleanly.
+Applied patch include/internal/catch_test_spec_parser.h cleanly.
+warning: squelched 2 whitespace errors
+warning: 7 lines add whitespace errors.
+Running generateSingleHeader.py...
++ echo 'Running generateSingleHeader.py...'
++ python3 scripts/generateSingleHeader.py
+Generated single include for Catch v2.10.0
+
++ echo 'Creating and entering build directory...'
++ mkdir -p Build-Debug
+Creating and entering build directory...
+Configuring CMake...
++ cd Build-Debug
++ echo 'Configuring CMake...'
++ cmake .. -DCMAKE_BUILD_TYPE=Debug -DCATCH_BUILD_EXAMPLES=ON -DCATCH_BUILD_EXTRA_TESTS=ON -DCMAKE_CXX_STANDARD=11 -DCMAKE_CXX_STANDARD_REQUIRED=On -DCMAKE_CXX_EXTENSIONS=OFF
+-- The CXX compiler identification is GNU 8.4.0
+-- Check for working CXX compiler: /usr/bin/g++-8
+-- Check for working CXX compiler: /usr/bin/g++-8 -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+CMake Error at CMakeLists.txt:51 (message):
+  Python not found, but required for tests
+
+
+-- Could NOT find PythonInterp (missing:  PYTHON_EXECUTABLE) 
+-- Configuring incomplete, errors occurred!
+See also "/testbed/Build-Debug/CMakeFiles/CMakeOutput.log".
++ echo 'CMake configuration failed.'
++ exit 1
+CMake configuration failed.

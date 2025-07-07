@@ -1,0 +1,18 @@
+RangeEquals doesn't support literal std::initializer_list
+It would often be useful to write something like this:
+```c++
+  const auto v = calculateSomeVectorOfInts();
+  CHECK_THAT(v, RangeEquals({1, 2, 3}));
+```
+This doesn't compile. It can be made to compile by adding an overload to RangeEquals that takes a std::initializer_list. Would a PR adding such an overload have a chance of being accepted?
+
+It's not a huge issue since there are workarounds, including any of these:
+```c++
+  const auto expected = {1, 2, 3};
+  CHECK_THAT(v, RangeEquals(expected));
+
+  CHECK_THAT(v, RangeEquals(std::vector{1, 2, 3}));
+
+  CHECK_THAT(v, RangeEquals(std::initializer_list<int>{1, 2, 3}));
+```
+Still, the convenience of writing the initializer_list inline without extra qualification would be nice.

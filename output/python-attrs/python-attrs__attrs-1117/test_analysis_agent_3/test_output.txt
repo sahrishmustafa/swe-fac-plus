@@ -1,0 +1,132 @@
++ cd /testbed
++ git checkout 22ae8473fb88d6e585b05c709e81e1a46398a649 tests/test_funcs.py
++ git apply -v -
+Checking patch tests/test_funcs.py...
+Applied patch tests/test_funcs.py cleanly.
++ python -Im tox run -r -f py311 -- tests/test_funcs.py
+[1m[35m.pkg:[0m[36m remove tox env folder /testbed/.tox/.pkg[0m
+[1m[35m.pkg:[0m[36m install_requires[22m[2m>[0m python -I -m pip install hatch-fancy-pypi-readme hatch-vcs hatchling[0m
+[1m[35m.pkg:[0m[36m _optional_hooks[22m[2m>[0m python /usr/local/lib/python3.11/site-packages/pyproject_api/_backend.py True hatchling.build[0m
+[1m[35m.pkg:[0m[36m get_requires_for_build_sdist[22m[2m>[0m python /usr/local/lib/python3.11/site-packages/pyproject_api/_backend.py True hatchling.build[0m
+[1m[35m.pkg:[0m[36m build_sdist[22m[2m>[0m python /usr/local/lib/python3.11/site-packages/pyproject_api/_backend.py True hatchling.build[0m
+[1m[35mpy311:[0m[36m install_package_deps[22m[2m>[0m python -Im pip install --no-compile 'cloudpickle; platform_python_implementation == "CPython"' 'coverage[toml]>=5.3' hypothesis 'importlib_metadata; python_version < "3.8"' 'mypy>=1.1.1; platform_python_implementation == "CPython"' pympler 'pytest-mypy-plugins; platform_python_implementation == "CPython" and python_version < "3.11"' 'pytest-xdist[psutil]' 'pytest>=4.3.0' zope.interface[0m
+[1m[35mpy311:[0m[36m install_package[22m[2m>[0m python -Im pip install --no-compile --force-reinstall --no-deps /testbed/.tox/.tmp/package/1/attrs-22.2.1.dev45.tar.gz[0m
+[1m[35mpy311:[0m[36m commands[0][22m[2m>[0m coverage run -m pytest tests/test_funcs.py[0m
+[1m============================= test session starts ==============================[0m
+platform linux -- Python 3.11.4, pytest-8.4.1, pluggy-1.6.0
+cachedir: .tox/py311/.pytest_cache
+rootdir: /testbed
+configfile: pyproject.toml
+plugins: hypothesis-6.135.24, xdist-3.8.0
+collected 48 items
+
+tests/test_funcs.py [32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[31mF[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[32m.[0m[31m     [100%][0m
+
+=================================== FAILURES ===================================
+[31m[1m____________________________ TestAssoc.test_unknown ____________________________[0m
+
+self = <tests.test_funcs.TestAssoc object at 0x7f6d1132f710>
+C = <class 'tests.strategies.HypClass'>
+
+    [0m[37m@given[39;49;00m(simple_classes())[90m[39;49;00m
+    [94mdef[39;49;00m[90m [39;49;00m[92mtest_unknown[39;49;00m([96mself[39;49;00m, C):[90m[39;49;00m
+    [90m    [39;49;00m[33m"""[39;49;00m
+    [33m    Wanting to change an unknown attribute raises an[39;49;00m
+    [33m    AttrsAttributeNotFoundError.[39;49;00m
+    [33m    """[39;49;00m[90m[39;49;00m
+        [90m# No generated class will have a four letter attribute.[39;49;00m[90m[39;49;00m
+        [94mwith[39;49;00m pytest.raises([90m[39;49;00m
+            AttrsAttributeNotFoundError[90m[39;49;00m
+        ) [94mas[39;49;00m e, pytest.deprecated_call():[90m[39;49;00m
+>           assoc(C(), aaaa=[94m2[39;49;00m)[90m[39;49;00m
+
+[1m[31mtests/test_funcs.py[0m:513: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+inst = HypClass(), changes = {'aaaa': 2}, new = HypClass(), attrs = ()
+k = 'aaaa', v = 2, a = NOTHING
+
+    [0m[94mdef[39;49;00m[90m [39;49;00m[92massoc[39;49;00m(inst, **changes):[90m[39;49;00m
+    [90m    [39;49;00m[33m"""[39;49;00m
+    [33m    Copy *inst* and apply *changes*.[39;49;00m
+    [33m[39;49;00m
+    [33m    This is different from `evolve` that applies the changes to the arguments[39;49;00m
+    [33m    that create the new instance.[39;49;00m
+    [33m[39;49;00m
+    [33m    `evolve`'s behavior is preferable, but there are `edge cases`_ where it[39;49;00m
+    [33m    doesn't work. Therefore `assoc` is deprecated, but will not be removed.[39;49;00m
+    [33m[39;49;00m
+    [33m    .. _`edge cases`: https://github.com/python-attrs/attrs/issues/251[39;49;00m
+    [33m[39;49;00m
+    [33m    :param inst: Instance of a class with *attrs* attributes.[39;49;00m
+    [33m    :param changes: Keyword changes in the new copy.[39;49;00m
+    [33m[39;49;00m
+    [33m    :return: A copy of inst with *changes* incorporated.[39;49;00m
+    [33m[39;49;00m
+    [33m    :raise attrs.exceptions.AttrsAttributeNotFoundError: If *attr_name*[39;49;00m
+    [33m        couldn't be found on *cls*.[39;49;00m
+    [33m    :raise attrs.exceptions.NotAnAttrsClassError: If *cls* is not an *attrs*[39;49;00m
+    [33m        class.[39;49;00m
+    [33m[39;49;00m
+    [33m    ..  deprecated:: 17.1.0[39;49;00m
+    [33m        Use `attrs.evolve` instead if you can.[39;49;00m
+    [33m        This function will not be removed du to the slightly different approach[39;49;00m
+    [33m        compared to `attrs.evolve`.[39;49;00m
+    [33m    """[39;49;00m[90m[39;49;00m
+        new = copy.copy(inst)[90m[39;49;00m
+        attrs = fields(inst.[91m__class__[39;49;00m)[90m[39;49;00m
+        [94mfor[39;49;00m k, v [95min[39;49;00m changes.items():[90m[39;49;00m
+            a = [96mgetattr[39;49;00m(attrs, k, NOTHING)[90m[39;49;00m
+            [94mif[39;49;00m a [95mis[39;49;00m NOTHING:[90m[39;49;00m
+>               [94mraise[39;49;00m AttrsAttributeNotFoundError([90m[39;49;00m
+                    [33mf[39;49;00m[33m"[39;49;00m[33m{[39;49;00mk[33m}[39;49;00m[33m is not an attrs attribute on [39;49;00m[33m{[39;49;00mnew.[91m__class__[39;49;00m[33m}[39;49;00m[33m.[39;49;00m[33m"[39;49;00m[90m[39;49;00m
+                )[90m[39;49;00m
+[1m[31mE               attr.exceptions.AttrsAttributeNotFoundError: aaaa is not an attrs attribute on <class 'tests.strategies.HypClass'>.[0m
+
+[1m[31m.tox/py311/lib/python3.11/site-packages/attr/_funcs.py[0m:347: AttrsAttributeNotFoundError
+
+[33mDuring handling of the above exception, another exception occurred:[0m
+
+self = <tests.test_funcs.TestAssoc object at 0x7f6d1132f710>
+
+    [0m[37m@given[39;49;00m(simple_classes())[90m[39;49;00m
+>   [94mdef[39;49;00m[90m [39;49;00m[92mtest_unknown[39;49;00m([96mself[39;49;00m, C):[90m[39;49;00m
+               ^^^^^^^[90m[39;49;00m
+
+[1m[31mtests/test_funcs.py[0m:504: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <tests.test_funcs.TestAssoc object at 0x7f6d1132f710>
+C = <class 'tests.strategies.HypClass'>
+
+    [0m[37m@given[39;49;00m(simple_classes())[90m[39;49;00m
+    [94mdef[39;49;00m[90m [39;49;00m[92mtest_unknown[39;49;00m([96mself[39;49;00m, C):[90m[39;49;00m
+    [90m    [39;49;00m[33m"""[39;49;00m
+    [33m    Wanting to change an unknown attribute raises an[39;49;00m
+    [33m    AttrsAttributeNotFoundError.[39;49;00m
+    [33m    """[39;49;00m[90m[39;49;00m
+        [90m# No generated class will have a four letter attribute.[39;49;00m[90m[39;49;00m
+>       [94mwith[39;49;00m pytest.raises([90m[39;49;00m
+            AttrsAttributeNotFoundError[90m[39;49;00m
+        ) [94mas[39;49;00m e, pytest.deprecated_call():[90m[39;49;00m
+[1m[31mE       Failed: DID NOT WARN. No warnings of type (<class 'DeprecationWarning'>, <class 'PendingDeprecationWarning'>, <class 'FutureWarning'>) were emitted.[0m
+[1m[31mE        Emitted warnings: [].[0m
+[1m[31mE       Falsifying example: test_unknown([0m
+[1m[31mE           self=<tests.test_funcs.TestAssoc object at 0x7f6d1132f710>,[0m
+[1m[31mE           C=tests.strategies.HypClass,  # or any other generated value[0m
+[1m[31mE       )[0m
+
+[1m[31mtests/test_funcs.py[0m:510: Failed
+[36m[1m=========================== short test summary info ============================[0m
+[31mFAILED[0m tests/test_funcs.py::[1mTestAssoc::test_unknown[0m - Failed: DID NOT WARN. No warnings of type (<class 'DeprecationWarning'>, <c...
+[31m======================== [31m[1m1 failed[0m, [32m47 passed[0m[31m in 17.53s[0m[31m =========================[0m
+[31m/testbed/.tox/py311/lib/python3.11/site-packages/coverage/inorout.py:509: CoverageWarning: Module attrs was never imported. (module-not-imported)
+  self.warn(f"Module {pkg} was never imported.", slug="module-not-imported")
+[39m[1m[35mpy311:[0m[31m exit 1 (19.67 seconds) /testbed> coverage run -m pytest tests/test_funcs.py pid=122[0m
+[1m[35m.pkg:[0m[36m _exit[22m[2m>[0m python /usr/local/lib/python3.11/site-packages/pyproject_api/_backend.py True hatchling.build[0m
+  py311: FAIL code 1 (42.45=setup[22.77]+cmd[19.67] seconds)
+  evaluation failed :( (42.58 seconds)
+OMNIGRIL_EXIT_CODE=1
++ rc=1
++ echo OMNIGRIL_EXIT_CODE=1
++ git checkout 22ae8473fb88d6e585b05c709e81e1a46398a649 tests/test_funcs.py

@@ -1,0 +1,19 @@
+frozen=True incompatible with cache_hash=True as of 19.1.0
+Prior to #489, this used to work:
+
+```python
+import attr
+import copy
+
+@attr.s(frozen=True, cache_hash=True)
+class FrozenWithCache:
+    pass
+
+
+if __name__ == "__main__":
+    copy.deepcopy(FrozenWithCache())
+```
+
+The issue is that `frozen` is implemented by throwing an error in `__setattr__`, and clearing the hash cache calls `setattr`. I think this can be solved by using [the same mechanism that `_make_hash` uses for frozen classes](https://github.com/python-attrs/attrs/blob/b6bd8c8d2bb0c53bbad0f11377df6083313d26c2/src/attr/_make.py#L1119), but I have not tried implementing this before.
+
+Another option is to not clear the hash cache on serialization for frozen classes.

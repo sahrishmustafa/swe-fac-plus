@@ -1,0 +1,4 @@
+Fix set_closure_cell on 3.11
+The fix for 3.11 compatibility (https://github.com/python-attrs/attrs/issues/907).
+
+Maybe hold off on merging until a discussion on BPO.

@@ -1,0 +1,40 @@
+Compact reporter does not handle [!shouldfail] properly
+## Description
+Compact reporter does not handle the `[!shouldfail]` tag properly. Given this code (from #876):
+```cpp
+bool thisThrows() {
+    throw std::runtime_error("Boom");
+}
+
+TEST_CASE("#748 - captures with unexpected exceptions", "[!shouldfail]") {
+    int answer = 42;
+    CAPTURE(answer);
+    // the message should be printed on the first two sections but not on the third
+    SECTION("outside assertions") {
+        thisThrows();
+    }
+    SECTION("inside REQUIRE_NOTHROW") {
+        REQUIRE_NOTHROW(thisThrows());
+    }
+    SECTION("inside REQUIRE_THROWS") {
+        REQUIRE_THROWS(thisThrows());
+    }
+}
+```
+compact reporter's output is
+```
+<snip>
+Passed all 0 test cases with 1 assertion.
+```
+which, while kind-of correct, is surprising. Standard console reporter's output looks like this:
+```
+<snip>
+test cases: 1 | 1 failed as expected
+assertions: 3 | 1 passed | 2 failed as expected
+```
+which is much clearer about what happened and should be in some way replicated by the compact reporter.
+
+
+### Extra information
+* Catch version: **v1.8.2**
+

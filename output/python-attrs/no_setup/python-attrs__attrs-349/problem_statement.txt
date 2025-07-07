@@ -1,0 +1,6 @@
+Possible to add a "field_names" helper function?
+In a specific use case, I need to get all field names that are defined in an attrs class, which is as simple as
+```
+[f.name for f in attr.fields(MyClass)]
+```
+Do you think it's OK to add a public API for this?

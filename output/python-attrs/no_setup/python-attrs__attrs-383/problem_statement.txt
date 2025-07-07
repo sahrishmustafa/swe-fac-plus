@@ -1,0 +1,16 @@
+Poor error message/type for validators.in_ with a string
+```python
+import attr
+
+@attr.s
+class C:
+   s = attr.ib(validator=attr.validators.in_('abc'))
+
+C(s=1)  # TypeError: 'in <string>' requires string as left operand, not int
+```
+
+`__contains__` behaves a little weirdly for strings, but I still think this error could be improved.
+
+Obvious options would be to catch exceptions and re-raise something with a clearer error message, and/or to deprecate use of strings as the collection here.
+
+Found in attrs=18.1.0 while working on HypothesisWorks/hypothesis#954.

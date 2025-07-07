@@ -1,0 +1,13 @@
+{
+    "commit": "4902cd721586822ded795afe0c418c553137306a",
+    "start_epoch": 1750947088.383982,
+    "end_epoch": 1750948581.194258,
+    "elapsed_seconds": 1492.810276,
+    "model": "gemini-2.5-flash",
+    "input_cost_per_token": 2.5e-06,
+    "output_cost_per_token": 1e-05,
+    "total_input_tokens": 148748,
+    "total_output_tokens": 11488,
+    "total_tokens": 160236,
+    "total_cost": 0.4867500000000002
+}

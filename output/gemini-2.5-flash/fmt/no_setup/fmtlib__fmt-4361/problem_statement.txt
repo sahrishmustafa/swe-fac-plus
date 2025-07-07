@@ -1,0 +1,48 @@
+Named arguments failing to compile with "unmatched '}' in format string"
+Consider the following format call.
+
+```cpp
+fmt::format("{enum:<{size}d}", fmt::arg("enum", 1), fmt::arg("size", 10));
+```
+This results in a compile time failure reporting an "unmatched '}' in format string". This is happening in VS17.14 Preview 1 and with GCC 14.2. I've reproduced the issue over on godbolt using {fmt} from trunk [0]. The above string compiled with 11.0.2 and fails with 11.1.3. I was unable to reproduce this compile failure within the {fmt} test code, so I was wondering if it was somehow fixed. However, checking out the tag for 11.1.3 locally, I was also unable to repro in the test code. Not sure what that's about.
+
+If you wrap the above example into an `fmt::runtime()`, compilation is successful and output is what is expected. The godbolt link includes this example. Additionally, other format variations appear to work both with auto-indexed values as well as when not providing any explicit reference. The following example does compile. It also appears to be related to the dynamic width field as an explicit value there will compile.
+
+```cpp
+std::cout << fmt::format(fmt::runtime("'{enum:<{size}d}'\n"), fmt::arg("enum", 1),
+        fmt::arg("size", 10));
+std::cout << fmt::format("'{enum:<10d}'\n", fmt::arg("enum", 2),
+        fmt::arg("size", 10));
+std::cout << fmt::format("'{:<{}d}'\n", fmt::arg("enum", 2),
+        fmt::arg("size", 10));
+std::cout << fmt::format("'{0:<{1}d}'\n", fmt::arg("enum", 3),
+        fmt::arg("size", 10));
+```
+
+Full error output from GCC 14.2:
+```
+<source>: In function 'int main()':
+<source>:7:29: error: call to consteval function 'fmt::v11::fstring<fmt::v11::detail::named_arg<char, int>, fmt::v11::detail::named_arg<char, int> >("\'{enum:<{size}d}\'\012")' is not a constant expression
+    7 |     std::cout << fmt::format("'{enum:<{size}d}'\n", fmt::arg("enum", 1),
+      |                  ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    8 |         fmt::arg("size", 10));
+      |         ~~~~~~~~~~~~~~~~~~~~~
+In file included from /opt/compiler-explorer/libs/fmt/trunk/include/fmt/format.h:41,
+                 from <source>:1:
+<source>:7:29:   in 'constexpr' expansion of 'fmt::v11::fstring<fmt::v11::detail::named_arg<char, int>, fmt::v11::detail::named_arg<char, int> >("\'{enum:<{size}d}\'\012")'
+/opt/compiler-explorer/libs/fmt/trunk/include/fmt/base.h:2708:53:   in 'constexpr' expansion of 'fmt::v11::detail::parse_format_string<char, format_string_checker<char, 2, 0, true> >(fmt::v11::basic_string_view<char>(((const char*)s)), fmt::v11::detail::format_string_checker<char, 2, 0, true>(fmt::v11::basic_string_view<char>(((const char*)s)), (fmt::v11::fstring<fmt::v11::detail::named_arg<char, int>, fmt::v11::detail::named_arg<char, int> >::arg_pack(), fmt::v11::fstring<fmt::v11::detail::named_arg<char, int>, fmt::v11::detail::named_arg<char, int> >::arg_pack())))'
+/opt/compiler-explorer/libs/fmt/trunk/include/fmt/base.h:1624:32: error: 'constexpr void fmt::v11::detail::format_string_checker<Char, NUM_ARGS, NUM_NAMED_ARGS, DYNAMIC_NAMES>::on_error(const char*) [with Char = char; int NUM_ARGS = 2; int NUM_NAMED_ARGS = 0; bool DYNAMIC_NAMES = true]' called in a constant expression
+ 1624 |         return handler.on_error("unmatched '}' in format string");
+      |                ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/opt/compiler-explorer/libs/fmt/trunk/include/fmt/base.h:1713:35: note: 'constexpr void fmt::v11::detail::format_string_checker<Char, NUM_ARGS, NUM_NAMED_ARGS, DYNAMIC_NAMES>::on_error(const char*) [with Char = char; int NUM_ARGS = 2; int NUM_NAMED_ARGS = 0; bool DYNAMIC_NAMES = true]' is not usable as a 'constexpr' function because:
+ 1713 |   FMT_NORETURN FMT_CONSTEXPR void on_error(const char* message) {
+      |                                   ^~~~~~~~
+/opt/compiler-explorer/libs/fmt/trunk/include/fmt/base.h:1714:17: error: call to non-'constexpr' function 'void fmt::v11::report_error(const char*)'
+ 1714 |     report_error(message);
+      |     ~~~~~~~~~~~~^~~~~~~~~
+/opt/compiler-explorer/libs/fmt/trunk/include/fmt/base.h:673:27: note: 'void fmt::v11::report_error(const char*)' declared here
+  673 | FMT_NORETURN FMT_API void report_error(const char* message);
+      |                           ^~~~~~~~~~~~
+```
+
+[0] https://godbolt.org/z/qvxo5qrTf

@@ -1,0 +1,11 @@
+matches_re() should accept re.Pattern in addition to str
+`attr.validators.matches_re()` does not accept precompiled regular expressions, and instead requires a `str` pattern (and optional flags).
+
+this is not ideal when using existing compiled regular expressions, which already can have flags etc.
+
+it would be a nice addition if the same helper accepts `re.Pattern` (py37+) or `typing.Pattern` for those living in the past.
+
+open questions:
+
+- would `flags=` be allowed if a `re.Pattern` is passed? compiled patterns cannot be ‘reinterpreted’ safely with different flags (e.g. `re.VERBOSE` changes many semantics). that means options are a) reject by raising an exception or b) ignore. my preference is raising.
+- in general any reason not to do this?

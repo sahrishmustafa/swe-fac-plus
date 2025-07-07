@@ -1,0 +1,5 @@
+Allow overwriting order inferred from _CountingAttr.counter when passing ordered `these`
+attrs classes can be constructed dynamically using `attr.s(maybe_cls=A, these=some_dict)`.
+Usually `some_dict` will be a standard (unordered) python dictionary and the order of attributes has to be inferred from `_CountingAttr.counter`.
+
+What about allowing the user to overwrite the `_CountingAttr.counter` by passing an `OrderedDict` as argument to `these`?

@@ -1,0 +1,31 @@
++ cd /testbed
++ git checkout 88f4be3d19364a484431309f750535386c7d0d5c test/util-test.cc
+Updated 0 paths from f2f7ba6b
++ git apply -v -
+Checking patch test/util-test.cc...
+Applied patch test/util-test.cc cleanly.
++ cd build
++ CTEST_OUTPUT_ON_FAILURE=1
++ ctest -R util-test
+Test project /testbed/build
+    Start 5: util-test
+1/1 Test #5: util-test ........................***Exception: SegFault  0.00 sec
+[==========] Running 32 tests from 6 test cases.
+[----------] Global test environment set-up.
+[----------] 1 test from AllocatorTest
+[ RUN      ] AllocatorTest.AllocatorRef
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   0.00 sec
+
+The following tests FAILED:
+	  5 - util-test (SEGFAULT)
+Errors while running CTest
++ rc=8
++ echo OMNIGRIL_EXIT_CODE=8
++ cd /testbed
++ git checkout 88f4be3d19364a484431309f750535386c7d0d5c test/util-test.cc
+OMNIGRIL_EXIT_CODE=8
+Updated 1 path from f2f7ba6b

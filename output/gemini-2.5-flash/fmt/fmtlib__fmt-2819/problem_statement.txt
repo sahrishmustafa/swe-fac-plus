@@ -1,0 +1,13 @@
+unpacked make_arg should also assert on unformattable arguments
+```cpp
+#include <fmt/format.h>
+
+struct E {};
+
+int main() {
+    fmt::print(fmt::runtime(""), 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, E());
+}
+```
+
+This compiles and produces a linker error from the undefined reference to `value(unformattable)` constructor. The static_asserts are only engaged when there are 15 or fewer format arguments.
+

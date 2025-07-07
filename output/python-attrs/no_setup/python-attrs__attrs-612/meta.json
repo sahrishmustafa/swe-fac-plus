@@ -1,0 +1,22 @@
+{
+    "task_id": "python-attrs__attrs-612",
+    "setup_info": {
+        "repo_path": "testbed/python-attrs__attrs-612_2025-07-03_17-42-35",
+        "repo_cache_path": "testbed/python-attrs/attrs_cache"
+    },
+    "task_info": {
+        "repo": "python-attrs/attrs",
+        "pull_number": 612,
+        "instance_id": "python-attrs__attrs-612",
+        "issue_numbers": [
+            "611"
+        ],
+        "base_commit": "ac541fbe556eb8c085a9cea26616f0ebad6ef632",
+        "patch": "diff --git a/src/attr/_make.py b/src/attr/_make.py\n--- a/src/attr/_make.py\n+++ b/src/attr/_make.py\n@@ -537,9 +537,17 @@ def _patch_original_class(self):\n                     \"See https://github.com/python-attrs/attrs/issues/494 .\"\n                 )\n \n-            def cache_hash_set_state(chss_self, _):\n-                # clear hash code cache\n-                setattr(chss_self, _hash_cache_field, None)\n+            # Clears the cached hash state on serialization; for frozen\n+            # classes we need to bypass the class's setattr method.\n+            if self._frozen:\n+\n+                def cache_hash_set_state(chss_self, _):\n+                    object.__setattr__(chss_self, _hash_cache_field, None)\n+\n+            else:\n+\n+                def cache_hash_set_state(chss_self, _):\n+                    setattr(chss_self, _hash_cache_field, None)\n \n             cls.__setstate__ = cache_hash_set_state\n \n",
+        "test_patch": "diff --git a/tests/test_make.py b/tests/test_make.py\n--- a/tests/test_make.py\n+++ b/tests/test_make.py\n@@ -1466,6 +1466,17 @@ class C2(C):\n \n         assert [C2] == C.__subclasses__()\n \n+    def test_cache_hash_with_frozen_serializes(self):\n+        \"\"\"\n+        Frozen classes with cache_hash should be serializable.\n+        \"\"\"\n+\n+        @attr.s(cache_hash=True, frozen=True)\n+        class C(object):\n+            pass\n+\n+        copy.deepcopy(C())\n+\n \n class TestMakeOrder:\n     \"\"\"\n",
+        "problem_statement": "frozen=True incompatible with cache_hash=True as of 19.1.0\nPrior to #489, this used to work:\r\n\r\n```python\r\nimport attr\r\nimport copy\r\n\r\n@attr.s(frozen=True, cache_hash=True)\r\nclass FrozenWithCache:\r\n    pass\r\n\r\n\r\nif __name__ == \"__main__\":\r\n    copy.deepcopy(FrozenWithCache())\r\n```\r\n\r\nThe issue is that `frozen` is implemented by throwing an error in `__setattr__`, and clearing the hash cache calls `setattr`. I think this can be solved by using [the same mechanism that `_make_hash` uses for frozen classes](https://github.com/python-attrs/attrs/blob/b6bd8c8d2bb0c53bbad0f11377df6083313d26c2/src/attr/_make.py#L1119), but I have not tried implementing this before.\r\n\r\nAnother option is to not clear the hash cache on serialization for frozen classes.\n",
+        "hints_text": "",
+        "created_at": "2020-01-07T23:15:37Z",
+        "version": "19.3"
+    }
+}

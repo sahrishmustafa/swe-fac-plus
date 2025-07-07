@@ -1,0 +1,23 @@
+diff --git a/projects/SelfTest/UsageTests/BDD.tests.cpp b/projects/SelfTest/UsageTests/BDD.tests.cpp
+--- a/projects/SelfTest/UsageTests/BDD.tests.cpp
++++ b/projects/SelfTest/UsageTests/BDD.tests.cpp
+@@ -38,11 +38,14 @@ namespace { namespace BDDTests {
+     SCENARIO("Do that thing with the thing", "[BDD][Tags]") {
+         GIVEN("This stuff exists") {
+             // make stuff exist
+-            WHEN("I do this") {
+-                // do this
+-                THEN("it should do this") {
+-                    REQUIRE(itDoesThis());
+-                    AND_THEN("do that")REQUIRE(itDoesThat());
++            AND_GIVEN("And some assumption") {
++                // Validate assumption
++                WHEN("I do this") {
++                    // do this
++                    THEN("it should do this") {
++                        REQUIRE(itDoesThis());
++                        AND_THEN("do that")REQUIRE(itDoesThat());
++                    }
+                 }
+             }
+         }

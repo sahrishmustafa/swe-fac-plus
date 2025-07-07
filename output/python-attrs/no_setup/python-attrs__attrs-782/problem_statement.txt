@@ -1,0 +1,28 @@
+python3.10 interacts badly with typing_extensions.ClassVar
+```python
+from typing import Callable, Optional, ClassVar
+
+import typing_extensions
+import attr
+
+
+@attr.s(auto_attribs=True)
+class Ham:
+    ham: typing_extensions.ClassVar[int] = 0
+    spam: int
+    eggs: Optional[int] = attr.ib(init=False, default=None)
+```
+
+```pytb
+python3.10 foo.py
+Traceback (most recent call last):
+  File "/home/graingert/projects/twisted/foo.py", line 8, in <module>
+    class Ham:
+  File "/home/graingert/projects/twisted/.tox/py310-alldeps-nocov/lib/python3.10/site-packages/attr/_make.py", line 1292, in wrap
+    builder = _ClassBuilder(
+  File "/home/graingert/projects/twisted/.tox/py310-alldeps-nocov/lib/python3.10/site-packages/attr/_make.py", line 604, in __init__
+    attrs, base_attrs, base_map = _transform_attrs(
+  File "/home/graingert/projects/twisted/.tox/py310-alldeps-nocov/lib/python3.10/site-packages/attr/_make.py", line 518, in _transform_attrs
+    raise ValueError(
+ValueError: No mandatory attributes allowed after an attribute with a default value or factory.  Attribute in question: Attribute(name='spam', default=NOTHING, validator=None, repr=True, eq=True, order=True, hash=None, init=True, metadata=mappingproxy({}), type='int', converter=None, kw_only=False, inherited=False, on_setattr=None)
+```

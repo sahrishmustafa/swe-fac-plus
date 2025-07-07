@@ -1,0 +1,16 @@
+diff --git a/src/attr/_make.py b/src/attr/_make.py
+--- a/src/attr/_make.py
++++ b/src/attr/_make.py
+@@ -69,6 +69,12 @@ def __new__(cls):
+     def __repr__(self):
+         return "NOTHING"
+ 
++    def __bool__(self):
++        return False
++
++    def __len__(self):
++        return 0  # __bool__ for Python 2
++
+ 
+ NOTHING = _Nothing()
+ """

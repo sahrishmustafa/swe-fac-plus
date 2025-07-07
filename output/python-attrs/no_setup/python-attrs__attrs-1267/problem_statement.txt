@@ -1,0 +1,8 @@
+Allow three-argument converters (like validators/on_setattr)
+I'd like to move the discussion from [converter decorator PR](https://github.com/python-attrs/attrs/pull/404) to this issue.
+
+I think converters are semantically closer to `on_setattr` and `validator` than `default`. E.g. `attr.ib(converter=...)` allows you to pass a list of callables and pipes them automatically - exactly like `attr.ib(validator=...)` and `attr.ib(on_setattr=...)` and there is `attr.converters` module, like `attr.setters` and `attr.validators`. 
+
+If we allow passing half-initialized self to converter, why don't allow full-form converters, `converter(self, attr, value)` to make them the same as `on_setattr`, but for initialization? 
+
+To support one, two and three-argument converters there should be either inspect-magic (in py2 - getargspec, in py3 - signature) or mandatory `Converter` wrapper for two and three-argument converters. 

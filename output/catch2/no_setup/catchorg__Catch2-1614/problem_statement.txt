@@ -1,0 +1,41 @@
+Allow custom precision in error reports for floating-point numbers
+**Description**
+As in [this SO Q&A](https://stackoverflow.com/q/55867570/201787), it would be nice to allow customization of the precision of floating-point values that fail. At present, the precision for float and double are hard-coded within Catch2 to 5 and 10, respectively:
+```cpp
+std::string StringMaker<float>::convert(float value) {
+    return fpToString(value, 5) + 'f';
+}
+std::string StringMaker<double>::convert(double value) {
+    return fpToString(value, 10);
+}
+```
+Sometimes things will fail (even with `Approx()`), but the precision of the failure message doesn't show enough precision to be meaningful.
+```
+prog.cc:22: FAILED:
+  REQUIRE( TestType(0) == std::numeric_limits<TestType>::epsilon() )
+with expansion:
+  0.0f == 0.0f
+```
+The proposal here is to add a `setPrecision()` function to allow the user to control this. I have prototyped this, which you can see running [live on Wandbox](https://wandbox.org/permlink/mZXPLEuET5ZeTg1t). Here's the test:
+```cpp
+TEMPLATE_TEST_CASE( "Double, double, toil and trouble", "[double]", float, double ) 
+{
+    const auto precision = GENERATE( -1, 0, 3, std::numeric_limits<TestType>::max_digits10 );
+
+    if( precision >= 0 )
+    {
+        Catch::StringMaker<TestType>::setPrecision( precision );
+    }
+    
+    // Expected to fail to demonstrate the problem
+    REQUIRE( TestType(0) == std::numeric_limits<TestType>::epsilon() ); 
+}
+```
+The output shows as expected for floats and doubles. For instance:
+```
+prog.cc:15: FAILED:
+  REQUIRE( TestType(0) == std::numeric_limits<TestType>::epsilon() )
+with expansion:
+  0.0f == 0.000000119f
+```
+Making a unit test for this is a little iffy since the actual string values are dependent on the usual floating-point fuzziness. I guess it could compare string length without looking too closely at the value.
