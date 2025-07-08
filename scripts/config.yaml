@@ -1,0 +1,55 @@
+active_model:
+  provider: google
+  model: gemini-2.5-flash
+memory_categories:
+  - Syntax and Compilation Errors
+  - Memory Management Issues
+  - Logic and Semantic Errors
+  - Concurrency and Threading Issues
+  - Undefined Behavior
+  - Build and Dependency Issues
+  - Security Vulnerabilities
+  - Testing and Validation Failures
+  - Code Quality and Maintainability Problems
+  - Documentation and Style Violations
+provider_base_urls:
+  openai: https://api.openai.com/v1
+  google: https://generativelanguage.googleapis.com/v1beta/openai/
+  groq: https://api.groq.com/openai/v1
+  ollama: http://localhost:11434/v1
+  huggingface: https://api-inference.huggingface.co/v1/
+  anthropic: https://openrouter.ai/api/v1
+  cohere: https://api.fireworks.ai/inference/v1
+models:
+  openai:
+    - gpt-4
+    - gpt-4o
+    - gpt-4o-mini
+  google:
+    - gemini-2.0-flash-exp
+    - gemini-2.5-flash
+    - gemini-1.5-flash
+  anthropic:
+    - claude-3-5-sonnet-20241022
+    - claude-3-5-haiku-20241022
+    - claude-3-opus-20240229
+  ollama:
+    - llama3.2:latest
+    - llama3.1:latest
+    - qwen2.5:latest
+    - mistral:latest
+    - codellama:latest
+  groq:
+    - llama-3.1-70b-versatile
+    - llama-3.1-8b-instant
+    - mixtral-8x7b-32768
+    - gemma2-9b-it
+  cohere:
+    - command-r-plus
+    - command-r
+    - command
+    - command-light
+  huggingface:
+    - microsoft/DialoGPT-medium
+    - microsoft/DialoGPT-large
+    - EleutherAI/gpt-neo-2.7B

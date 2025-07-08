@@ -1,0 +1,105 @@
+{"instance_id": "nlohmann__json-1089", "issue_numbers": ["1079"], "pull_number": 1089, "category": "Syntax and Compilation Errors"}
+{"instance_id": "nlohmann__json-4537", "issue_numbers": ["3915"], "pull_number": 4537, "category": "Logic and Semantic Errors"}
+{"instance_id": "nlohmann__json-4536", "issue_numbers": ["4134"], "pull_number": 4536, "category": "Syntax and Compilation Errors"}
+{"instance_id": "nlohmann__json-4744", "issue_numbers": ["4703"], "pull_number": 4744, "category": "Syntax and Compilation Errors"}
+{"instance_id": "nlohmann__json-4802", "issue_numbers": ["4798"], "pull_number": 4802, "category": "Logic and Semantic Errors"}
+{"instance_id": "nlohmann__json-4786", "issue_numbers": ["4762"], "pull_number": 4786, "category": "Logic and Semantic Errors"}
+{"instance_id": "nlohmann__json-4760", "issue_numbers": ["4756", "4756"], "pull_number": 4760, "category": "Syntax and Compilation Errors"}
+{"instance_id": "nlohmann__json-4805", "issue_numbers": ["4804"], "pull_number": 4805, "category": "Syntax and Compilation Errors"}
+{"instance_id": "nlohmann__json-4736", "issue_numbers": ["4733"], "pull_number": 4736, "category": "Syntax and Compilation Errors"}
+{"instance_id": "nlohmann__json-4742", "issue_numbers": ["4740"], "pull_number": 4742, "category": "Syntax and Compilation Errors"}
+{"instance_id": "nlohmann__json-4764", "issue_numbers": ["4759"], "pull_number": 4764, "category": "Syntax and Compilation Errors"}
+{"instance_id": "nlohmann__json-4525", "issue_numbers": ["4475"], "pull_number": 4525, "category": "Undefined Behavior"}
+{"instance_id": "nlohmann__json-3663", "issue_numbers": ["3655"], "pull_number": 3663, "category": "Syntax and Compilation Errors"}
+{"instance_id": "nlohmann__json-4500", "issue_numbers": ["4087"], "pull_number": 4500, "category": "Syntax and Compilation Errors"}
+{"instance_id": "nlohmann__json-4505", "issue_numbers": ["4084"], "pull_number": 4505, "category": "Logic and Semantic Errors"}
+{"instance_id": "nlohmann__json-3678", "issue_numbers": ["3677"], "pull_number": 3678, "category": "Syntax and Compilation Errors"}
+{"instance_id": "nlohmann__json-3685", "issue_numbers": ["3680"], "pull_number": 3685, "category": "Code Quality and Maintainability Problems"}
+{"instance_id": "nlohmann__json-4504", "issue_numbers": ["4384"], "pull_number": 4504, "category": "Build and Dependency Issues"}
+{"instance_id": "nlohmann__json-4512", "issue_numbers": ["4493"], "pull_number": 4512, "category": "Logic and Semantic Errors"}
+{"instance_id": "nlohmann__json-3664", "issue_numbers": ["3654"], "pull_number": 3664, "category": "Syntax and Compilation Errors"}
+{"instance_id": "nlohmann__json-3628", "issue_numbers": ["3134", "3199"], "pull_number": 3628, "category": "Logic and Semantic Errors"}
+{"instance_id": "nlohmann__json-3646", "issue_numbers": ["3645"], "pull_number": 3646, "category": "Syntax and Compilation Errors"}
+{"instance_id": "nlohmann__json-3605", "issue_numbers": ["1682"], "pull_number": 3605, "category": "Build and Dependency Issues"}
+{"instance_id": "nlohmann__json-3601", "issue_numbers": ["3600"], "pull_number": 3601, "category": "Syntax and Compilation Errors"}
+{"instance_id": "nlohmann__json-3590", "issue_numbers": ["3360"], "pull_number": 3590, "category": "Undefined Behavior"}
+{"instance_id": "nlohmann__json-3564", "issue_numbers": ["3558"], "pull_number": 3564, "category": "Logic and Semantic Errors"}
+{"instance_id": "nlohmann__json-3543", "issue_numbers": ["3541"], "pull_number": 3543, "category": "Logic and Semantic Errors"}
+{"instance_id": "nlohmann__json-3514", "issue_numbers": ["3513"], "pull_number": 3514, "category": "Logic and Semantic Errors"}
+{"instance_id": "nlohmann__json-3523", "issue_numbers": ["3519", "3519"], "pull_number": 3523, "category": "Logic and Semantic Errors"}
+{"instance_id": "nlohmann__json-3463", "issue_numbers": ["3461"], "pull_number": 3463, "category": "Logic and Semantic Errors"}
+{"instance_id": "nlohmann__json-3437", "issue_numbers": ["3428", "3428"], "pull_number": 3437, "category": "Logic and Semantic Errors"}
+{"instance_id": "nlohmann__json-3446", "issue_numbers": ["3130"], "pull_number": 3446, "category": "Syntax and Compilation Errors"}
+{"instance_id": "nlohmann__json-3427", "issue_numbers": ["3171", "3384"], "pull_number": 3427, "category": "Syntax and Compilation Errors"}
+{"instance_id": "nlohmann__json-3423", "issue_numbers": ["3237"], "pull_number": 3423, "category": "Testing and Validation Failures"}
+{"instance_id": "nlohmann__json-3101", "issue_numbers": ["3090"], "pull_number": 3101, "category": "Build and Dependency Issues"}
+{"instance_id": "nlohmann__json-3073", "issue_numbers": ["3070"], "pull_number": 3073, "category": "Syntax and Compilation Errors"}
+{"instance_id": "nlohmann__json-3421", "issue_numbers": ["3377"], "pull_number": 3421, "category": "Syntax and Compilation Errors"}
+{"instance_id": "nlohmann__json-3370", "issue_numbers": ["3343", "3343"], "pull_number": 3370, "category": "Syntax and Compilation Errors"}
+{"instance_id": "nlohmann__json-3415", "issue_numbers": ["3388"], "pull_number": 3415, "category": "Syntax and Compilation Errors"}
+{"instance_id": "nlohmann__json-3379", "issue_numbers": ["3138", "3226"], "pull_number": 3379, "category": "Syntax and Compilation Errors"}
+{"instance_id": "nlohmann__json-3332", "issue_numbers": ["3331"], "pull_number": 3332, "category": "Syntax and Compilation Errors"}
+{"instance_id": "nlohmann__json-3109", "issue_numbers": ["3108"], "pull_number": 3109, "category": "Syntax and Compilation Errors"}
+{"instance_id": "nlohmann__json-3037", "issue_numbers": ["3032"], "pull_number": 3037, "category": "Logic and Semantic Errors"}
+{"instance_id": "nlohmann__json-2989", "issue_numbers": ["2982"], "pull_number": 2989, "category": "Memory Management Issues"}
+{"instance_id": "nlohmann__json-2911", "issue_numbers": ["2909"], "pull_number": 2911, "category": "Syntax and Compilation Errors"}
+{"instance_id": "nlohmann__json-3008", "issue_numbers": ["3007"], "pull_number": 3008, "category": "Logic and Semantic Errors"}
+{"instance_id": "nlohmann__json-2963", "issue_numbers": ["2962"], "pull_number": 2963, "category": "Logic and Semantic Errors"}
+{"instance_id": "nlohmann__json-2902", "issue_numbers": ["2893"], "pull_number": 2902, "category": "Code Quality and Maintainability Problems"}
+{"instance_id": "nlohmann__json-2825", "issue_numbers": ["2491"], "pull_number": 2825, "category": "Syntax and Compilation Errors"}
+{"instance_id": "nlohmann__json-2872", "issue_numbers": ["2865"], "pull_number": 2872, "category": "Memory Management Issues"}
+{"instance_id": "nlohmann__json-2866", "issue_numbers": ["2838"], "pull_number": 2866, "category": "Logic and Semantic Errors"}
+{"instance_id": "nlohmann__json-2576", "issue_numbers": ["2574"], "pull_number": 2576, "category": "Syntax and Compilation Errors"}
+{"instance_id": "nlohmann__json-2352", "issue_numbers": ["43"], "pull_number": 2352, "category": "Syntax and Compilation Errors"}
+{"instance_id": "nlohmann__json-2561", "issue_numbers": ["1798"], "pull_number": 2561, "category": "Build and Dependency Issues"}
+{"instance_id": "nlohmann__json-2259", "issue_numbers": ["1898"], "pull_number": 2259, "category": "Build and Dependency Issues"}
+{"instance_id": "nlohmann__json-2258", "issue_numbers": ["106"], "pull_number": 2258, "category": "Logic and Semantic Errors"}
+{"instance_id": "nlohmann__json-2319", "issue_numbers": ["2315"], "pull_number": 2319, "category": "Syntax and Compilation Errors"}
+{"instance_id": "nlohmann__json-2297", "issue_numbers": ["2286"], "pull_number": 2297, "category": "Logic and Semantic Errors"}
+{"instance_id": "nlohmann__json-2201", "issue_numbers": ["2196"], "pull_number": 2201, "category": "Logic and Semantic Errors"}
+{"instance_id": "nlohmann__json-2332", "issue_numbers": ["2330"], "pull_number": 2332, "category": "Logic and Semantic Errors"}
+{"instance_id": "nlohmann__json-2212", "issue_numbers": ["294"], "pull_number": 2212, "category": "Code Quality and Maintainability Problems"}
+{"instance_id": "nlohmann__json-2273", "issue_numbers": ["1968"], "pull_number": 2273, "category": "Logic and Semantic Errors"}
+{"instance_id": "nlohmann__json-2225", "issue_numbers": ["2175"], "pull_number": 2225, "category": "Code Quality and Maintainability Problems"}
+{"instance_id": "nlohmann__json-2116", "issue_numbers": ["2113"], "pull_number": 2116, "category": "Code Quality and Maintainability Problems"}
+{"instance_id": "nlohmann__json-2140", "issue_numbers": ["1715"], "pull_number": 2140, "category": "Logic and Semantic Errors"}
+{"instance_id": "nlohmann__json-2099", "issue_numbers": ["2082"], "pull_number": 2099, "category": "Testing and Validation Failures"}
+{"instance_id": "nlohmann__json-2053", "issue_numbers": ["2052"], "pull_number": 2053, "category": "Code Quality and Maintainability Problems"}
+{"instance_id": "nlohmann__json-2025", "issue_numbers": ["1971"], "pull_number": 2025, "category": "Memory Management Issues"}
+{"instance_id": "nlohmann__json-2054", "issue_numbers": ["1983"], "pull_number": 2054, "category": "Logic and Semantic Errors"}
+{"instance_id": "nlohmann__json-1769", "issue_numbers": ["1764"], "pull_number": 1769, "category": "Syntax and Compilation Errors"}
+{"instance_id": "nlohmann__json-1303", "issue_numbers": ["1288"], "pull_number": 1303, "category": "Memory Management Issues"}
+{"instance_id": "nlohmann__json-1391", "issue_numbers": ["1388"], "pull_number": 1391, "category": "Code Quality and Maintainability Problems"}
+{"instance_id": "nlohmann__json-2051", "issue_numbers": ["2049"], "pull_number": 2051, "category": "Code Quality and Maintainability Problems"}
+{"instance_id": "nlohmann__json-1343", "issue_numbers": ["1340"], "pull_number": 1343, "category": "Logic and Semantic Errors"}
+{"instance_id": "nlohmann__json-1320", "issue_numbers": ["1244"], "pull_number": 1320, "category": "Logic and Semantic Errors"}
+{"instance_id": "nlohmann__json-2019", "issue_numbers": ["1982"], "pull_number": 2019, "category": "Logic and Semantic Errors"}
+{"instance_id": "nlohmann__json-2069", "issue_numbers": ["2064"], "pull_number": 2069, "category": "Memory Management Issues"}
+{"instance_id": "nlohmann__json-1314", "issue_numbers": ["1198"], "pull_number": 1314, "category": "Logic and Semantic Errors"}
+{"instance_id": "nlohmann__json-1821", "issue_numbers": ["1822", "1647"], "pull_number": 1821, "category": "Syntax and Compilation Errors"}
+{"instance_id": "nlohmann__json-1643", "issue_numbers": ["1642", "1642"], "pull_number": 1643, "category": "Syntax and Compilation Errors"}
+{"instance_id": "nlohmann__json-1323", "issue_numbers": ["1208"], "pull_number": 1323, "category": "Code Quality and Maintainability Problems"}
+{"instance_id": "nlohmann__json-1570", "issue_numbers": ["1608"], "pull_number": 1570, "category": "Build and Dependency Issues"}
+{"instance_id": "nlohmann__json-1555", "issue_numbers": ["1511"], "pull_number": 1555, "category": "Logic and Semantic Errors"}
+{"instance_id": "nlohmann__json-1446", "issue_numbers": ["1445"], "pull_number": 1446, "category": "Memory Management Issues"}
+{"instance_id": "nlohmann__json-1728", "issue_numbers": ["1716"], "pull_number": 1728, "category": "Undefined Behavior"}
+{"instance_id": "nlohmann__json-1301", "issue_numbers": ["1299"], "pull_number": 1301, "category": "Syntax and Compilation Errors"}
+{"instance_id": "nlohmann__json-1722", "issue_numbers": ["1708"], "pull_number": 1722, "category": "Undefined Behavior"}
+{"instance_id": "nlohmann__json-1221", "issue_numbers": ["1220"], "pull_number": 1221, "category": "Code Quality and Maintainability Problems"}
+{"instance_id": "nlohmann__json-1231", "issue_numbers": ["1227", "958"], "pull_number": 1231, "category": "Syntax and Compilation Errors"}
+{"instance_id": "nlohmann__json-1238", "issue_numbers": ["1237"], "pull_number": 1238, "category": "Syntax and Compilation Errors"}
+{"instance_id": "nlohmann__json-1294", "issue_numbers": ["1292"], "pull_number": 1294, "category": "Memory Management Issues"}
+{"instance_id": "nlohmann__json-1138", "issue_numbers": ["1133"], "pull_number": 1138, "category": "Syntax and Compilation Errors"}
+{"instance_id": "nlohmann__json-189", "issue_numbers": ["171"], "pull_number": 189, "category": "Syntax and Compilation Errors"}
+{"instance_id": "nlohmann__json-969", "issue_numbers": ["924"], "pull_number": 969, "category": "Syntax and Compilation Errors"}
+{"instance_id": "nlohmann__json-944", "issue_numbers": ["928"], "pull_number": 944, "category": "Build and Dependency Issues"}
+{"instance_id": "nlohmann__json-242", "issue_numbers": ["241"], "pull_number": 242, "category": "Build and Dependency Issues"}
+{"instance_id": "nlohmann__json-915", "issue_numbers": ["360"], "pull_number": 915, "category": "Logic and Semantic Errors"}
+{"instance_id": "nlohmann__json-986", "issue_numbers": ["977"], "pull_number": 986, "category": "Memory Management Issues"}
+{"instance_id": "nlohmann__json-609", "issue_numbers": ["600", "600"], "pull_number": 609, "category": "Syntax and Compilation Errors"}
+{"instance_id": "nlohmann__json-807", "issue_numbers": ["805"], "pull_number": 807, "category": "Syntax and Compilation Errors"}
+{"instance_id": "nlohmann__json-410", "issue_numbers": ["394"], "pull_number": 410, "category": "Undefined Behavior"}
+{"instance_id": "nlohmann__json-508", "issue_numbers": ["502"], "pull_number": 508, "category": "Logic and Semantic Errors"}
+{"instance_id": "nlohmann__json-415", "issue_numbers": ["414"], "pull_number": 415, "category": "Logic and Semantic Errors"}
+{"instance_id": "nlohmann__json-708", "issue_numbers": ["707"], "pull_number": 708, "category": "Logic and Semantic Errors"}
+{"instance_id": "nlohmann__json-545", "issue_numbers": ["513"], "pull_number": 545, "category": "Logic and Semantic Errors"}

@@ -1,0 +1,41 @@
+{"instance_id": "yhirose__cpp-httplib-2039", "issue_numbers": ["2033"], "pull_number": 2039, "memory_category": "Not Memory Related", "is_memory_related": false}
+{"instance_id": "yhirose__cpp-httplib-2158", "issue_numbers": ["2157"], "pull_number": 2158, "memory_category": "Denial of Service (DoS)", "is_memory_related": true}
+{"instance_id": "yhirose__cpp-httplib-2160", "issue_numbers": ["1777"], "pull_number": 2160, "memory_category": "Not Memory Related", "is_memory_related": false}
+{"instance_id": "yhirose__cpp-httplib-1821", "issue_numbers": ["1330"], "pull_number": 1821, "memory_category": "Not Memory Related", "is_memory_related": false}
+{"instance_id": "yhirose__cpp-httplib-1513", "issue_numbers": ["1481"], "pull_number": 1513, "memory_category": "Not Memory Related", "is_memory_related": false}
+{"instance_id": "yhirose__cpp-httplib-2048", "issue_numbers": ["2034"], "pull_number": 2048, "memory_category": "Not Memory Related", "is_memory_related": false}
+{"instance_id": "yhirose__cpp-httplib-1765", "issue_numbers": ["1763"], "pull_number": 1765, "memory_category": "Improper Input Validation (Leading to Vulnerabilities)", "is_memory_related": true}
+{"instance_id": "yhirose__cpp-httplib-1483", "issue_numbers": ["1478", "1478"], "pull_number": 1483, "memory_category": "Not Memory Related", "is_memory_related": false}
+{"instance_id": "yhirose__cpp-httplib-1523", "issue_numbers": ["1459"], "pull_number": 1523, "memory_category": "Not Memory Related", "is_memory_related": false}
+{"instance_id": "yhirose__cpp-httplib-1579", "issue_numbers": ["1471"], "pull_number": 1579, "memory_category": "Not Memory Related", "is_memory_related": false}
+{"instance_id": "yhirose__cpp-httplib-1830", "issue_numbers": ["1800"], "pull_number": 1830, "memory_category": "Not Memory Related", "is_memory_related": false}
+{"instance_id": "yhirose__cpp-httplib-2080", "issue_numbers": ["2068"], "pull_number": 2080, "memory_category": "Not Memory Related", "is_memory_related": false}
+{"instance_id": "yhirose__cpp-httplib-1911", "issue_numbers": ["1808"], "pull_number": 1911, "memory_category": "Not Memory Related", "is_memory_related": false}
+{"instance_id": "yhirose__cpp-httplib-2163", "issue_numbers": ["2162"], "pull_number": 2163, "memory_category": "Not Memory Related", "is_memory_related": false}
+{"instance_id": "yhirose__cpp-httplib-1745", "issue_numbers": ["1628"], "pull_number": 1745, "memory_category": "Not Memory Related", "is_memory_related": false}
+{"instance_id": "yhirose__cpp-httplib-1910", "issue_numbers": ["1908"], "pull_number": 1910, "memory_category": "Improper Input Validation (Leading to Vulnerabilities)", "is_memory_related": true}
+{"instance_id": "yhirose__cpp-httplib-1527", "issue_numbers": ["1481"], "pull_number": 1527, "memory_category": "Not Memory Related", "is_memory_related": false}
+{"instance_id": "yhirose__cpp-httplib-1132", "issue_numbers": ["1041"], "pull_number": 1132, "memory_category": "Not Memory Related", "is_memory_related": false}
+{"instance_id": "yhirose__cpp-httplib-2167", "issue_numbers": ["1601"], "pull_number": 2167, "memory_category": "Not Memory Related", "is_memory_related": false}
+{"instance_id": "yhirose__cpp-httplib-1976", "issue_numbers": ["1973", "1973"], "pull_number": 1976, "memory_category": "Not Memory Related", "is_memory_related": false}
+{"instance_id": "yhirose__cpp-httplib-1989", "issue_numbers": ["1985"], "pull_number": 1989, "memory_category": "Not Memory Related", "is_memory_related": false}
+{"instance_id": "yhirose__cpp-httplib-1243", "issue_numbers": ["1235"], "pull_number": 1243, "memory_category": "Not Memory Related", "is_memory_related": false}
+{"instance_id": "yhirose__cpp-httplib-1326", "issue_numbers": ["1325"], "pull_number": 1326, "memory_category": "Not Memory Related", "is_memory_related": false}
+{"instance_id": "yhirose__cpp-httplib-1296", "issue_numbers": ["1292"], "pull_number": 1296, "memory_category": "Not Memory Related", "is_memory_related": false}
+{"instance_id": "yhirose__cpp-httplib-1122", "issue_numbers": ["1121"], "pull_number": 1122, "memory_category": "Not Memory Related", "is_memory_related": false}
+{"instance_id": "yhirose__cpp-httplib-1051", "issue_numbers": ["1050"], "pull_number": 1051, "memory_category": "Not Memory Related", "is_memory_related": false}
+{"instance_id": "yhirose__cpp-httplib-1320", "issue_numbers": ["1317"], "pull_number": 1320, "memory_category": "Not Memory Related", "is_memory_related": false}
+{"instance_id": "yhirose__cpp-httplib-342", "issue_numbers": ["341"], "pull_number": 342, "memory_category": "Not Memory Related", "is_memory_related": false}
+{"instance_id": "yhirose__cpp-httplib-1046", "issue_numbers": ["1023"], "pull_number": 1046, "memory_category": "Not Memory Related", "is_memory_related": false}
+{"instance_id": "yhirose__cpp-httplib-546", "issue_numbers": ["534"], "pull_number": 546, "memory_category": "Not Memory Related", "is_memory_related": false}
+{"instance_id": "yhirose__cpp-httplib-835", "issue_numbers": ["831"], "pull_number": 835, "memory_category": "Not Memory Related", "is_memory_related": false}
+{"instance_id": "yhirose__cpp-httplib-295", "issue_numbers": ["294"], "pull_number": 295, "memory_category": "Not Memory Related", "is_memory_related": false}
+{"instance_id": "yhirose__cpp-httplib-755", "issue_numbers": ["754"], "pull_number": 755, "memory_category": "Buffer Overflows / Out-of-Bounds Writes", "is_memory_related": true}
+{"instance_id": "yhirose__cpp-httplib-1294", "issue_numbers": ["1290"], "pull_number": 1294, "memory_category": "Integer Overflow/Underflow", "is_memory_related": true}
+{"instance_id": "yhirose__cpp-httplib-671", "issue_numbers": ["674"], "pull_number": 671, "memory_category": "Not Memory Related", "is_memory_related": false}
+{"instance_id": "yhirose__cpp-httplib-907", "issue_numbers": ["873", "900"], "pull_number": 907, "memory_category": "Not Memory Related", "is_memory_related": false}
+{"instance_id": "yhirose__cpp-httplib-374", "issue_numbers": ["372"], "pull_number": 374, "memory_category": "Integer Overflow/Underflow", "is_memory_related": true}
+{"instance_id": "yhirose__cpp-httplib-290", "issue_numbers": ["285"], "pull_number": 290, "memory_category": "Not Memory Related", "is_memory_related": false}
+{"instance_id": "yhirose__cpp-httplib-601", "issue_numbers": ["498"], "pull_number": 601, "memory_category": "Not Memory Related", "is_memory_related": false}
+{"instance_id": "yhirose__cpp-httplib-304", "issue_numbers": ["306"], "pull_number": 304, "memory_category": "Not Memory Related", "is_memory_related": false}
+{"instance_id": "yhirose__cpp-httplib-279", "issue_numbers": ["241"], "pull_number": 279, "memory_category": "Denial of Service (DoS)", "is_memory_related": true}

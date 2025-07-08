@@ -1,0 +1,64 @@
+{"instance_id": "fmtlib__fmt-4286", "issue_numbers": ["4285"], "pull_number": 4286, "category": "Undefined Behavior"}
+{"instance_id": "fmtlib__fmt-4429", "issue_numbers": ["4423"], "pull_number": 4429, "category": "Syntax and Compilation Errors"}
+{"instance_id": "fmtlib__fmt-4361", "issue_numbers": ["4360"], "pull_number": 4361, "category": "Syntax and Compilation Errors"}
+{"instance_id": "fmtlib__fmt-4325", "issue_numbers": ["4303"], "pull_number": 4325, "category": "Syntax and Compilation Errors"}
+{"instance_id": "fmtlib__fmt-4310", "issue_numbers": ["4307"], "pull_number": 4310, "category": "Code Quality and Maintainability Problems"}
+{"instance_id": "fmtlib__fmt-4056", "issue_numbers": ["4049"], "pull_number": 4056, "category": "Syntax and Compilation Errors"}
+{"instance_id": "fmtlib__fmt-4443", "issue_numbers": ["4272"], "pull_number": 4443, "category": "Logic and Semantic Errors"}
+{"instance_id": "fmtlib__fmt-3754", "issue_numbers": ["3745"], "pull_number": 3754, "category": "Syntax and Compilation Errors"}
+{"instance_id": "fmtlib__fmt-3863", "issue_numbers": ["3857"], "pull_number": 3863, "category": "Syntax and Compilation Errors"}
+{"instance_id": "fmtlib__fmt-4057", "issue_numbers": ["4053"], "pull_number": 4057, "category": "Syntax and Compilation Errors"}
+{"instance_id": "fmtlib__fmt-3824", "issue_numbers": ["3813"], "pull_number": 3824, "category": "Logic and Semantic Errors"}
+{"instance_id": "fmtlib__fmt-3906", "issue_numbers": ["3758"], "pull_number": 3906, "category": "Syntax and Compilation Errors"}
+{"instance_id": "fmtlib__fmt-4434", "issue_numbers": ["4424"], "pull_number": 4434, "category": "Syntax and Compilation Errors"}
+{"instance_id": "fmtlib__fmt-4474", "issue_numbers": ["4470"], "pull_number": 4474, "category": "Syntax and Compilation Errors"}
+{"instance_id": "fmtlib__fmt-4342", "issue_numbers": ["4335"], "pull_number": 4342, "category": "Code Quality and Maintainability Problems"}
+{"instance_id": "fmtlib__fmt-3913", "issue_numbers": ["3772"], "pull_number": 3913, "category": "Logic and Semantic Errors"}
+{"instance_id": "fmtlib__fmt-4055", "issue_numbers": ["4036"], "pull_number": 4055, "category": "Logic and Semantic Errors"}
+{"instance_id": "fmtlib__fmt-3943", "issue_numbers": ["3938"], "pull_number": 3943, "category": "Syntax and Compilation Errors"}
+{"instance_id": "fmtlib__fmt-3814", "issue_numbers": ["3794"], "pull_number": 3814, "category": "Logic and Semantic Errors"}
+{"instance_id": "fmtlib__fmt-3750", "issue_numbers": ["3693"], "pull_number": 3750, "category": "Logic and Semantic Errors"}
+{"instance_id": "fmtlib__fmt-3951", "issue_numbers": ["3948"], "pull_number": 3951, "category": "Logic and Semantic Errors"}
+{"instance_id": "fmtlib__fmt-3610", "issue_numbers": ["3607"], "pull_number": 3610, "category": "Syntax and Compilation Errors"}
+{"instance_id": "fmtlib__fmt-3734", "issue_numbers": ["3726"], "pull_number": 3734, "category": "Syntax and Compilation Errors"}
+{"instance_id": "fmtlib__fmt-3158", "issue_numbers": ["2634"], "pull_number": 3158, "category": "Syntax and Compilation Errors"}
+{"instance_id": "fmtlib__fmt-2940", "issue_numbers": ["2939"], "pull_number": 2940, "category": "Logic and Semantic Errors"}
+{"instance_id": "fmtlib__fmt-3072", "issue_numbers": ["3068"], "pull_number": 3072, "category": "Syntax and Compilation Errors"}
+{"instance_id": "fmtlib__fmt-3732", "issue_numbers": ["3643"], "pull_number": 3732, "category": "Syntax and Compilation Errors"}
+{"instance_id": "fmtlib__fmt-3290", "issue_numbers": ["3286"], "pull_number": 3290, "category": "Syntax and Compilation Errors"}
+{"instance_id": "fmtlib__fmt-2394", "issue_numbers": ["2302"], "pull_number": 2394, "category": "Logic and Semantic Errors"}
+{"instance_id": "fmtlib__fmt-2610", "issue_numbers": ["2609"], "pull_number": 2610, "category": "Code Quality and Maintainability Problems"}
+{"instance_id": "fmtlib__fmt-3214", "issue_numbers": ["3105", "3105"], "pull_number": 3214, "category": "Syntax and Compilation Errors"}
+{"instance_id": "fmtlib__fmt-3729", "issue_numbers": ["3715"], "pull_number": 3729, "category": "Code Quality and Maintainability Problems"}
+{"instance_id": "fmtlib__fmt-3261", "issue_numbers": ["3117"], "pull_number": 3261, "category": "Logic and Semantic Errors"}
+{"instance_id": "fmtlib__fmt-3271", "issue_numbers": ["2959"], "pull_number": 3271, "category": "Logic and Semantic Errors"}
+{"instance_id": "fmtlib__fmt-3279", "issue_numbers": ["3215"], "pull_number": 3279, "category": "Logic and Semantic Errors"}
+{"instance_id": "fmtlib__fmt-2819", "issue_numbers": ["2818"], "pull_number": 2819, "category": "Logic and Semantic Errors"}
+{"instance_id": "fmtlib__fmt-3260", "issue_numbers": ["3237"], "pull_number": 3260, "category": "Logic and Semantic Errors"}
+{"instance_id": "fmtlib__fmt-3248", "issue_numbers": ["3236"], "pull_number": 3248, "category": "Logic and Semantic Errors"}
+{"instance_id": "fmtlib__fmt-3205", "issue_numbers": ["3189"], "pull_number": 3205, "category": "Build and Dependency Issues"}
+{"instance_id": "fmtlib__fmt-2317", "issue_numbers": ["2308"], "pull_number": 2317, "category": "Logic and Semantic Errors"}
+{"instance_id": "fmtlib__fmt-2797", "issue_numbers": ["2796"], "pull_number": 2797, "category": "Build and Dependency Issues"}
+{"instance_id": "fmtlib__fmt-2310", "issue_numbers": ["2305"], "pull_number": 2310, "category": "Logic and Semantic Errors"}
+{"instance_id": "fmtlib__fmt-2204", "issue_numbers": ["2195"], "pull_number": 2204, "category": "Logic and Semantic Errors"}
+{"instance_id": "fmtlib__fmt-2158", "issue_numbers": ["2156"], "pull_number": 2158, "category": "Syntax and Compilation Errors"}
+{"instance_id": "fmtlib__fmt-3272", "issue_numbers": ["3263"], "pull_number": 3272, "category": "Logic and Semantic Errors"}
+{"instance_id": "fmtlib__fmt-1837", "issue_numbers": ["1819"], "pull_number": 1837, "category": "Code Quality and Maintainability Problems"}
+{"instance_id": "fmtlib__fmt-3636", "issue_numbers": ["3631"], "pull_number": 3636, "category": "Build and Dependency Issues"}
+{"instance_id": "fmtlib__fmt-3561", "issue_numbers": ["3556"], "pull_number": 3561, "category": "Syntax and Compilation Errors"}
+{"instance_id": "fmtlib__fmt-1663", "issue_numbers": ["1655"], "pull_number": 1663, "category": "Code Quality and Maintainability Problems"}
+{"instance_id": "fmtlib__fmt-3293", "issue_numbers": ["3234"], "pull_number": 3293, "category": "Code Quality and Maintainability Problems"}
+{"instance_id": "fmtlib__fmt-3713", "issue_numbers": ["3712"], "pull_number": 3713, "category": "Syntax and Compilation Errors"}
+{"instance_id": "fmtlib__fmt-1361", "issue_numbers": ["1336"], "pull_number": 1361, "category": "Logic and Semantic Errors"}
+{"instance_id": "fmtlib__fmt-1360", "issue_numbers": ["1353"], "pull_number": 1360, "category": "Logic and Semantic Errors"}
+{"instance_id": "fmtlib__fmt-3727", "issue_numbers": ["3725", "3725"], "pull_number": 3727, "category": "Logic and Semantic Errors"}
+{"instance_id": "fmtlib__fmt-149", "issue_numbers": ["143"], "pull_number": 149, "category": "Code Quality and Maintainability Problems"}
+{"instance_id": "fmtlib__fmt-1390", "issue_numbers": ["1389"], "pull_number": 1390, "category": "Logic and Semantic Errors"}
+{"instance_id": "fmtlib__fmt-994", "issue_numbers": ["993"], "pull_number": 994, "category": "Code Quality and Maintainability Problems"}
+{"instance_id": "fmtlib__fmt-974", "issue_numbers": ["968"], "pull_number": 974, "category": "Code Quality and Maintainability Problems"}
+{"instance_id": "fmtlib__fmt-1171", "issue_numbers": ["1169"], "pull_number": 1171, "category": "Syntax and Compilation Errors"}
+{"instance_id": "fmtlib__fmt-264", "issue_numbers": ["257"], "pull_number": 264, "category": "Build and Dependency Issues"}
+{"instance_id": "fmtlib__fmt-967", "issue_numbers": ["944"], "pull_number": 967, "category": "Code Quality and Maintainability Problems"}
+{"instance_id": "fmtlib__fmt-902", "issue_numbers": ["873"], "pull_number": 902, "category": "Code Quality and Maintainability Problems"}
+{"instance_id": "fmtlib__fmt-1407", "issue_numbers": ["1369"], "pull_number": 1407, "category": "Code Quality and Maintainability Problems"}
+{"instance_id": "fmtlib__fmt-312", "issue_numbers": ["311"], "pull_number": 312, "category": "Build and Dependency Issues"}
