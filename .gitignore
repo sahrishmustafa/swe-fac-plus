@@ -1,2 +1,13 @@
+__pycache__/
+
 .venv
 testbed
+versions
+
+evaluation/reports/
+versions
+output/
+# *data_collection/collect/*.sh
+*data_collection/collect/temp
+*evaluation/temp
+temp/
