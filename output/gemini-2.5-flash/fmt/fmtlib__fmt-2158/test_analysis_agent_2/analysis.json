@@ -1,0 +1,7 @@
+{
+  "is_finish": false,
+  "guidance_for_write_dockerfile_agent": "",
+  "guidance_for_write_eval_script_agent": "The test execution failed during the initial project build due to a 'Killed signal' (c++: fatal error: Killed signal terminated program cc1plus), which typically indicates an out-of-memory error during compilation. This often happens when compiling large C++ projects with many parallel jobs on systems with limited memory.\n\nTo resolve this, modify the `cmake --build build -j$(nproc)` commands in the evaluation script to limit the number of parallel compilation jobs. Instead of using `$(nproc)` (which might be too high for the available memory), use a fixed, smaller number, such as `-j2` or `-j4`. For example, change:\n`cmake --build build -j$(nproc)`\nto:\n`cmake --build build -j2` (or -j4, to balance speed and memory use).\n\nApply this change to both instances of `cmake --build` in the script (initial build and rebuild after patch).",
+  "guidance_for_context_retrieval_agent": "",
+  "build_image_status": true
+}

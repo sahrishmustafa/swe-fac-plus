@@ -1,0 +1,22 @@
+{
+    "task_id": "fmtlib__fmt-3561",
+    "setup_info": {
+        "repo_path": "github/_cache/fmtlib__fmt-3561_2025-07-08_07-01-21",
+        "repo_cache_path": "github/_cache/fmtlib/fmt_cache"
+    },
+    "task_info": {
+        "repo": "fmtlib/fmt",
+        "pull_number": 3561,
+        "instance_id": "fmtlib__fmt-3561",
+        "issue_numbers": [
+            "3556"
+        ],
+        "base_commit": "757564f5cd2fa78b634dd698c63dbf069818e6fd",
+        "patch": "diff --git a/include/fmt/ranges.h b/include/fmt/ranges.h\n--- a/include/fmt/ranges.h\n+++ b/include/fmt/ranges.h\n@@ -668,8 +668,11 @@ template <typename Container> struct all {\n }  // namespace detail\n \n template <typename T, typename Char>\n-struct formatter<T, Char,\n-                 enable_if_t<detail::is_container_adaptor_like<T>::value>>\n+struct formatter<\n+    T, Char,\n+    enable_if_t<conjunction<detail::is_container_adaptor_like<T>,\n+                            bool_constant<range_format_kind<T, Char>::value ==\n+                                          range_format::disabled>>::value>>\n     : formatter<detail::all<typename T::container_type>, Char> {\n   using all = detail::all<typename T::container_type>;\n   template <typename FormatContext>\n",
+        "test_patch": "diff --git a/test/ranges-test.cc b/test/ranges-test.cc\n--- a/test/ranges-test.cc\n+++ b/test/ranges-test.cc\n@@ -15,6 +15,7 @@\n #include <queue>\n #include <stack>\n #include <string>\n+#include <utility>\n #include <vector>\n \n #include \"gtest/gtest.h\"\n@@ -80,6 +81,35 @@ TEST(ranges_test, format_set) {\n             \"{\\\"one\\\", \\\"two\\\"}\");\n }\n \n+// Models std::flat_set close enough to test if no ambiguous lookup of a\n+// formatter happens due to the flat_set type matching is_set and\n+// is_container_adaptor_like\n+template <typename T> class flat_set {\n+ public:\n+  using key_type = T;\n+  using container_type = std::vector<T>;\n+\n+  using iterator = typename std::vector<T>::iterator;\n+  using const_iterator = typename std::vector<T>::const_iterator;\n+\n+  template <typename... Ts>\n+  explicit flat_set(Ts&&... args) : c{std::forward<Ts>(args)...} {}\n+\n+  iterator begin() { return c.begin(); }\n+  const_iterator begin() const { return c.begin(); }\n+\n+  iterator end() { return c.end(); }\n+  const_iterator end() const { return c.end(); }\n+\n+ private:\n+  std::vector<T> c;\n+};\n+\n+TEST(ranges_test, format_flat_set) {\n+  EXPECT_EQ(fmt::format(\"{}\", flat_set<std::string>{\"one\", \"two\"}),\n+            \"{\\\"one\\\", \\\"two\\\"}\");\n+}\n+\n namespace adl {\n struct box {\n   int value;\n",
+        "problem_statement": "Ambiguous partial specialization when formatting boost `flat_set` since fmt v10.0.0\nWhen trying to format a `flat_set` from boost, an ambiguous lookup for `formatter` happens.\r\n\r\nReproducer:\r\nhttps://godbolt.org/z/dhqnMf755\r\nboost version 1.82.0 (changing it to some random previous versions did not change something) \r\nClang 16.0.0 with fmt trunk\r\ngcc 13.2 with fmt trunk\r\ngcc 13.2 with fmt 9.1.0 as a proof it worked with fmt 9.1.0\r\n\r\nThe ambiguous formatters are in lines\r\nhttps://github.com/fmtlib/fmt/blob/757564f5cd2fa78b634dd698c63dbf069818e6fd/include/fmt/ranges.h#L560\r\nand\r\nhttps://github.com/fmtlib/fmt/blob/757564f5cd2fa78b634dd698c63dbf069818e6fd/include/fmt/ranges.h#L671\n",
+        "hints_text": "I think we should add `range_format_kind<R, Char>::value == range_format::disabled` in the second specialization. A PR is welcome.",
+        "created_at": "2023-07-30T23:10:56Z",
+        "version": "10.0"
+    }
+}

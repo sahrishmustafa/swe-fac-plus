@@ -4,27 +4,33 @@ ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Etc/UTC
 
 # System dependencies installation. Installs essential tools and libraries required for development and runtime
+# build-essential provides g++ and make. cmake is for the build system.
+# git is for cloning the repository. curl for general purpose.
+# python3 is listed as a required tool for build scripts.
+# clang for alternative compiler testing.
+# ninja-build for faster build times, as seen in project configurations.
 RUN apt update && apt install -y \
     build-essential \
     cmake \
     git \
-    ninja-build \
     curl \
+    python3 \
+    clang \
+    ninja-build \
     && rm -rf /var/lib/apt/lists/*
 
-# set default workdir to testbed.
+# Set default workdir to /testbed.
 WORKDIR /testbed/
 
-# Target Project setup. Clones source code, checkouts to the target version, configures it, and builds the project
+# Target Project setup. Clones source code and checkouts to the target version.
 RUN git clone https://github.com/fmtlib/fmt /testbed && \
     cd /testbed && \
     git reset --hard 8d9d528bf52c60864802844e8acf16db09dae19a && \
-    mkdir build && \
-    cmake -S . -B build \
-    -DFMT_DOC=OFF \
-    -DFMT_PEDANTIC=ON \
-    -DFMT_WERROR=ON \
-    -DFMT_TEST=ON \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_CXX_STANDARD=14 && \
-    cmake --build build -j$(nproc)
+    git remote remove origin
+
+# Build the project. For C++ projects, building the project is equivalent to "installing in development mode"
+# as it compiles the library and test executables. This step does not run tests.
+RUN mkdir -p /testbed/build && \
+    cd /testbed/build && \
+    cmake .. -DCMAKE_BUILD_TYPE=Release && \
+    make -j$(nproc)

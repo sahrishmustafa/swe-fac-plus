@@ -68,7 +68,7 @@ def run_instance_fail_to_pass(
     ):
 
     run_instance_setup(test_spec,pred,False,force_rebuild,client,run_id,output_path,"not_apply_patch",timeout)
-    run_instance_setup(test_spec,pred,rm_image,True,client,run_id,output_path,"apply_patch",timeout)
+    run_instance_setup(test_spec,pred,rm_image,False,client,run_id,output_path,"apply_patch",timeout)
 
 def get_pred_report(
     test_spec: TestSpec,

@@ -1,0 +1,59 @@
+#!/bin/bash
+set -uxo pipefail
+
+# Navigate to the testbed directory where the repository is cloned
+cd /testbed
+
+# Checkout the specific target test file to its original state before applying any patch.
+# This ensures a clean base for the patch application.
+# The commit SHA and file path are directly from the provided info and skeleton.
+git checkout 1c01fc35ebce2d50ea6c279002ca949784d71ad4 "tests/ondemand/ondemand_readme_examples.cpp"
+
+# Apply the test patch to modify/add tests.
+# The content of the patch will be programmatically inserted here.
+git apply -v - <<'EOF_114329324912'
+[CONTENT OF TEST PATCH]
+EOF_114329324912
+
+# Navigate to the build directory.
+# The Dockerfile has already run `cmake ..` and `cmake --build .` from /testbed,
+# so the `build` directory should already exist and contain the compiled project.
+cd build
+
+# Set the SIMDJSON_DEVELOPER_MODE environment variable.
+# While CMake might have already configured with this, ensuring it's set before
+# a rebuild is a good practice, especially if the patch modified CMake files.
+export SIMDJSON_DEVELOPER_MODE=ON
+
+# Rebuild the project after applying the patch.
+# This step is critical to ensure that any new or modified tests from the patch
+# are compiled and included in the test executable.
+# Changed from -j$(nproc) to -j4 to prevent potential Out-Of-Memory errors during compilation,
+# matching the Dockerfile's build command.
+cmake --build . -j4
+
+# Check the exit code of the build command. If the build fails, exit early.
+if [ $? -ne 0 ]; then
+    echo "Build failed after patch application. Exiting."
+    rc=1
+    echo "OMNIGRIL_EXIT_CODE=$rc"
+    exit $rc
+fi
+
+# Execute only the specified target tests.
+# The target file is tests/ondemand/ondemand_readme_examples.cpp.
+# CTest runs tests discovered by CMake within the build directory.
+# We use -R "ondemand_readme_examples" to specifically target tests generated from this file,
+# as per the collected context information.
+ctest --output-on-failure -R "ondemand_readme_examples"
+rc=$?
+
+# Capture the exit code immediately after running the tests.
+echo "OMNIGRIL_EXIT_CODE=$rc"
+
+# Navigate back to the testbed root directory for cleanup.
+cd /testbed
+
+# Clean up: Undo any changes made to the target test file.
+# This ensures that the repository remains in its original state after the test run.
+git checkout 1c01fc35ebce2d50ea6c279002ca949784d71ad4 "tests/ondemand/ondemand_readme_examples.cpp"

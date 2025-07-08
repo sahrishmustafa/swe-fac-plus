@@ -1,0 +1,24 @@
+`fmt::isnan` triggers floating-point exception for NaN values
+Note: floating-point exceptions are not the same as C++ exceptions! See: https://www.gnu.org/savannah-checkouts/gnu/libc/manual/html_node/Control-Functions.html
+
+Commit ef54f9aa3858d7d10591719615bce337fbe49c40 changed the implementation of `fmt::isnan` from:
+
+```cpp
+template <typename T> constexpr bool isnan(T value) {
+  return value != value;  // std::isnan doesn't support __float128.
+}
+```
+
+To:
+
+```cpp
+template <typename T> constexpr bool isnan(T value) {
+  return !(value >= value);  // std::isnan doesn't support __float128.
+}
+```
+
+The commit description says that this was done to suppress `-Wfloat-equal` warnings. The problem is that these two implementations are subtly different: while they both return the same value, the newer implementation also sets a floating-point exception flag. The reason is that while for IEEE-754 floating-point numbers the operation `NaN != NaN` is well defined and will always return true, `NaN >= NaN` is technically an invalid operation, hence why the exception flag is set (at least this is my non-expert understanding).
+
+This has been causing headaches for a project I'm working on because I wanted to trace where floating-point exceptions were emanating from in my program (using the [GNU-specific `feenableexcept` function](https://www.gnu.org/savannah-checkouts/gnu/libc/manual/html_node/Control-Functions.html)), but `fmt::isnan` will raise a spurious exception every time a NaN is passed in. Changing the code to use `value != value` instead fixes things.
+
+I guess there are different ways to fix this, but maybe you could just return to using `value != value` and find another way to suppress the warning (e.g. with a comment or a compiler argument)?

@@ -1,0 +1,16 @@
+Provide the ability to decode strings as values (double/uint64 etc)
+**Is your feature request related to a problem? Please describe.**
+For most crypto exchanges, they have some values (doubles) that are enclosed in quotes. The type of those values are therefore defined as strings with a value in it and I would have to extract the string and run a method on the value outside of the API.
+
+**Describe the solution you'd like**
+Either add a way to tell the api that it should remove the quotes when applying the decoder or add a wrapper function that removes the quotes for the string which can then be decoded by the get_double().
+By allowing this within the API, I don't have to resort to copying the string around for decoding in other libraries.
+
+**Describe alternatives you've considered**
+I can always use std::stof or the likes, but that is not as elegant. Ie there are tons of methods to convert strings to doubles or ints, but ideally I don't have to use something outside of the library for this.
+
+**Additional context**
+I don't think this is needed, the problem is pretty self explanatory.
+
+** Are you willing to contribute code or documentation toward this new feature? **
+Yes but you probably wouldn't find my code good enough.:) But for sure I could make a wrapper method that shrinks the stringview on either side of the view by a character which is then passed to the get_double method.

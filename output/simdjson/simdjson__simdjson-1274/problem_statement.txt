@@ -1,0 +1,66 @@
+generic/numberparsing.h compute_float_64() invoked with out of range power
+The CI fuzzer found a crash (segfault, out of bound read), which I reduced to compute_float_64() being invoked with power outside of the stated legal range, eventually leading to the out of bounds read.
+
+The following reproduces the problem (the asserts will trigger):
+```diff
+diff --git a/include/simdjson/generic/numberparsing.h b/include/simdjson/generic/numberparsing.h
+index 934e57e3..9490f1c1 100644
+--- a/include/simdjson/generic/numberparsing.h
++++ b/include/simdjson/generic/numberparsing.h
+@@ -42,6 +42,8 @@ simdjson_really_inline double to_double(uint64_t mantissa, uint64_t real_exponen
+ // We assume that power is in the [smallest_power,
+ // largest_power] interval: the caller is responsible for this check.
+ simdjson_really_inline bool compute_float_64(int64_t power, uint64_t i, bool negative, double &d) {
++  assert(power>=simdjson::internal::smallest_power);
++  assert(power<=simdjson::internal::largest_power);
+   // we start with a fast path
+   // It was described in
+   // Clinger WD. How to read floating point numbers accurately.
+diff --git a/tests/ondemand/ondemand_basictests.cpp b/tests/ondemand/ondemand_basictests.cpp
+index 58766088..5e669f33 100644
+--- a/tests/ondemand/ondemand_basictests.cpp
++++ b/tests/ondemand/ondemand_basictests.cpp
+@@ -326,8 +326,19 @@ namespace number_tests {
+     printf("Powers of 10 can be parsed.\n");
+     return true;
+   }
++
++  bool weird_case() {
++    padded_string bad(std::string_view("0.0300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000024000000000000000000000000000000000000000000000000000000000000122978293824"));
++    simdjson::builtin::ondemand::parser parser;
++    simdjson_unused auto blah=parser.iterate(bad);
++    double x;
++    simdjson_unused auto blah2=blah.get(x);
++    return true;
++  }
++
+   bool run() {
+-    return small_integers() &&
++    return weird_case() &&
++           small_integers() &&
+            powers_of_two() &&
+            powers_of_ten();
+   }
+```
+
+The proposed fix solves the problem:
+```diff
+diff --git a/include/simdjson/generic/numberparsing.h b/include/simdjson/generic/numberparsing.h
+index 9490f1c1..098a90b0 100644
+--- a/include/simdjson/generic/numberparsing.h
++++ b/include/simdjson/generic/numberparsing.h
+@@ -736,11 +736,12 @@ simdjson_unused simdjson_really_inline simdjson_result<double> parse_double(cons
+     if (p-start_exp_digits == 0 || p-start_exp_digits > 19) { return NUMBER_ERROR; }
+ 
+     exponent += exp_neg ? 0-exp : exp;
+-    overflow = overflow || exponent < simdjson::internal::smallest_power || exponent > simdjson::internal::largest_power;
+   }
+ 
+   if (jsoncharutils::is_not_structural_or_whitespace(*p)) { return NUMBER_ERROR; }
+ 
++  overflow = overflow || exponent < simdjson::internal::smallest_power || exponent > simdjson::internal::largest_power;
++
+   //
+   // Assemble (or slow-parse) the float
+   //
+```

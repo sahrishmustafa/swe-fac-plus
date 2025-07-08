@@ -1,0 +1,85 @@
++ cd /testbed
++ git checkout c7e6d8afb06cec7b8244f963dc081daf7e70f7f6 test/chrono-test.cc
+Updated 1 path from e95c42b1
++ git apply -v -
+Checking patch test/chrono-test.cc...
+Applied patch test/chrono-test.cc cleanly.
++ mkdir -p build
++ cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DFMT_TEST=ON -DCMAKE_CXX_STANDARD=17
+-- CMake version: 3.22.1
+-- The CXX compiler identification is GNU 11.4.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Version: 7.0.3
+-- Build type: Release
+-- CXX_STANDARD: 17
+-- Performing Test has_std_17_flag
+-- Performing Test has_std_17_flag - Success
+-- Performing Test has_std_1z_flag
+-- Performing Test has_std_1z_flag - Success
+-- Performing Test SUPPORTS_USER_DEFINED_LITERALS
+-- Performing Test SUPPORTS_USER_DEFINED_LITERALS - Success
+-- Performing Test FMT_HAS_VARIANT
+-- Performing Test FMT_HAS_VARIANT - Success
+-- Required features: cxx_variadic_templates
+-- Looking for strtod_l
+-- Looking for strtod_l - found
+-- Target 'doc' disabled (requires doxygen)
+-- Looking for C++ include pthread.h
+-- Looking for C++ include pthread.h - found
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE  
+-- Performing Test HAVE_FNO_DELETE_NULL_POINTER_CHECKS
+-- Performing Test HAVE_FNO_DELETE_NULL_POINTER_CHECKS - Success
+-- FMT_PEDANTIC: OFF
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /testbed/build
++ '[' 0 -ne 0 ']'
++ cmake --build build
+[  1%] Building CXX object CMakeFiles/fmt.dir/src/format.cc.o
+[  3%] Building CXX object CMakeFiles/fmt.dir/src/os.cc.o
+[  5%] Linking CXX static library libfmt.a
+[  5%] Built target fmt
+[  7%] Building CXX object test/CMakeFiles/gmock.dir/gmock-gtest-all.cc.o
+[  9%] Linking CXX static library libgmock.a
+[  9%] Built target gmock
+[ 11%] Building CXX object test/CMakeFiles/test-main.dir/test-main.cc.o
+[ 13%] Building CXX object test/CMakeFiles/test-main.dir/gtest-extra.cc.o
+[ 15%] Building CXX object test/CMakeFiles/test-main.dir/util.cc.o
+[ 17%] Linking CXX static library libtest-main.a
+[ 17%] Built target test-main
+[ 19%] Building CXX object test/CMakeFiles/assert-test.dir/assert-test.cc.o
+[ 21%] Linking CXX executable ../bin/assert-test
+[ 21%] Built target assert-test
+[ 23%] Building CXX object test/CMakeFiles/chrono-test.dir/chrono-test.cc.o
+In file included from /testbed/include/fmt/format.h:44,
+                 from /testbed/include/fmt/chrono.h:16,
+                 from /testbed/test/chrono-test.cc:12:
+/testbed/include/fmt/core.h: In instantiation of 'int fmt::v7::detail::check(fmt::v7::detail::unformattable) [with T = std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long int, std::ratio<1, 1000000000> > >]':
+/testbed/include/fmt/core.h:1452:18:   required from 'fmt::v7::detail::value<Context> fmt::v7::detail::make_arg(const T&) [with bool IS_PACKED = true; Context = fmt::v7::basic_format_context<fmt::v7::detail::buffer_appender<char>, char>; fmt::v7::detail::type <anonymous> = fmt::v7::detail::type::custom_type; T = std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long int, std::ratio<1, 1000000000> > >; typename std::enable_if<IS_PACKED, int>::type <anonymous> = 0]'
+/testbed/include/fmt/core.h:1603:64:   required from 'fmt::v7::format_arg_store<Context, Args>::format_arg_store(const Args& ...) [with Context = fmt::v7::basic_format_context<fmt::v7::detail::buffer_appender<char>, char>; Args = {std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long int, std::ratio<1, 1000000000> > >}]'
+/testbed/include/fmt/core.h:1640:18:   required from 'fmt::v7::format_arg_store<fmt::v7::basic_format_context<fmt::v7::detail::buffer_appender<Char>, Char>, typename std::remove_reference<Args>::type ...> fmt::v7::make_args_checked(const S&, fmt::v7::remove_reference_t<Args>& ...) [with Args = {std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long int, std::ratio<1, 1000000000> > >&}; S = char [27]; Char = char]'
+/testbed/include/fmt/core.h:2080:54:   required from 'std::__cxx11::basic_string<Char> fmt::v7::format(const S&, Args&& ...) [with S = char [27]; Args = {std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long int, std::ratio<1, 1000000000> > >&}; Char = char]'
+/testbed/test/chrono-test.cc:106:3:   required from here
+/testbed/include/fmt/core.h:1437:7: error: static assertion failed: Cannot format an argument. To make type T formattable provide a formatter<T> specialization: https://fmt.dev/dev/api.html#udt
+ 1437 |       formattable<T>(),
+      |       ^~~~~~~~~~~~~~~~
+/testbed/include/fmt/core.h:1437:7: note: 'fmt::v7::formattable<std::chrono::time_point<std::chrono::_V2::system_clock, std::chrono::duration<long int, std::ratio<1, 1000000000> > > >{std::integral_constant<bool, false>()}' evaluates to false
+gmake[2]: *** [test/CMakeFiles/chrono-test.dir/build.make:76: test/CMakeFiles/chrono-test.dir/chrono-test.cc.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:265: test/CMakeFiles/chrono-test.dir/all] Error 2
+gmake: *** [Makefile:166: all] Error 2
++ '[' 2 -ne 0 ']'
++ echo 'CMake build failed.'
++ rc=1
++ cd /testbed
++ git checkout c7e6d8afb06cec7b8244f963dc081daf7e70f7f6 test/chrono-test.cc
+CMake build failed.
+Updated 1 path from e95c42b1
+OMNIGRIL_EXIT_CODE=1
++ echo OMNIGRIL_EXIT_CODE=1
++ exit 1

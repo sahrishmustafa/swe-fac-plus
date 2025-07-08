@@ -1,0 +1,33 @@
+2025-07-08 14:30:16,883 - INFO - Building instance image setup.simdjson__simdjson-1615:latest for simdjson__simdjson-1615
+2025-07-08 14:30:16,918 - INFO - Image setup.simdjson__simdjson-1615:latest already exists, skipping build.
+2025-07-08 14:30:16,918 - INFO - Creating container for simdjson__simdjson-1615...
+2025-07-08 14:30:17,024 - INFO - Container for simdjson__simdjson-1615 created: c57cb5ae90b5ebec49905a33c0b76d50a6652d4913dff8170b359b2e77069980
+2025-07-08 14:30:17,234 - INFO - Container for simdjson__simdjson-1615 started: c57cb5ae90b5ebec49905a33c0b76d50a6652d4913dff8170b359b2e77069980
+2025-07-08 14:30:17,235 - INFO - Test patch for simdjson__simdjson-1615 written to run_instances/mypy_fail2pass_check/gold/simdjson__simdjson-1615/test_patch.diff, now applying to container...
+2025-07-08 14:30:17,508 - INFO - Failed to apply test patch to container, trying again...
+2025-07-08 14:30:17,601 - INFO - >>>>> Patch Apply Passed:
+patching file tests/ondemand/CMakeLists.txt
+patching file tests/ondemand/ondemand_json_pointer_tests.cpp
+
+2025-07-08 14:30:17,601 - INFO - Fix patch for simdjson__simdjson-1615 written to run_instances/mypy_fail2pass_check/gold/simdjson__simdjson-1615/patch.diff, now applying to container...
+2025-07-08 14:30:17,832 - INFO - Failed to apply fix patch to container, trying again...
+2025-07-08 14:30:17,931 - INFO - >>>>> Patch Apply Passed:
+patching file include/simdjson/generic/ondemand/array-inl.h
+patching file include/simdjson/generic/ondemand/array.h
+patching file include/simdjson/generic/ondemand/document-inl.h
+patching file include/simdjson/generic/ondemand/document.h
+patching file include/simdjson/generic/ondemand/object-inl.h
+patching file include/simdjson/generic/ondemand/object.h
+patching file include/simdjson/generic/ondemand/value-inl.h
+patching file include/simdjson/generic/ondemand/value.h
+
+2025-07-08 14:30:17,931 - INFO - Eval script for simdjson__simdjson-1615 written to run_instances/mypy_fail2pass_check/gold/simdjson__simdjson-1615/eval.sh, now applying to container...
+2025-07-08 14:34:45,705 - INFO - Test output for simdjson__simdjson-1615 written to run_instances/mypy_fail2pass_check/gold/simdjson__simdjson-1615/test_output_after_apply.txt
+2025-07-08 14:34:45,706 - INFO - Grading answer for simdjson__simdjson-1615...
+2025-07-08 14:34:45,707 - INFO - report: {'simdjson__simdjson-1615': {'patch_is_None': False, 'patch_exists': True, 'patch_successfully_applied': True, 'resolved': True}}
+Result for simdjson__simdjson-1615: resolved: True
+2025-07-08 14:34:45,707 - INFO - Attempting to stop container setup.simdjson__simdjson-1615.mypy_fail2pass_check...
+2025-07-08 14:35:00,952 - INFO - Attempting to remove container setup.simdjson__simdjson-1615.mypy_fail2pass_check...
+2025-07-08 14:35:01,117 - INFO - Container setup.simdjson__simdjson-1615.mypy_fail2pass_check removed.
+2025-07-08 14:35:01,117 - INFO - Attempting to remove image setup.simdjson__simdjson-1615:latest...
+2025-07-08 14:35:03,937 - INFO - Image setup.simdjson__simdjson-1615:latest removed.

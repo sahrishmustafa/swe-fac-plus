@@ -1,0 +1,33 @@
++ cd /testbed
++ TARGET_COMMIT_SHA=1f918159edded99c9c0cf005c96ecc12e4cc92b1
++ TEST_FILES='test/core-test.cc test/format-test.cc'
++ git checkout 1f918159edded99c9c0cf005c96ecc12e4cc92b1 test/core-test.cc test/format-test.cc
+Updated 2 paths from a82842b1
++ git apply -v -
+Checking patch test/core-test.cc...
+Checking patch test/format-test.cc...
+Applied patch test/core-test.cc cleanly.
+Applied patch test/format-test.cc cleanly.
++ cd build
++ cmake --build . -j2
+[1/57] Building CXX object CMakeFiles/fmt.dir/src/posix.cc.o
+[2/57] Building CXX object CMakeFiles/fmt.dir/src/format.cc.o
+[3/57] Linking CXX static library libfmt.a
+[4/57] Building CXX object test/CMakeFiles/color-test.dir/color-test.cc.o
+[5/57] Building CXX object test/CMakeFiles/ostream-test.dir/ostream-test.cc.o
+[6/57] Building CXX object test/CMakeFiles/locale-test.dir/locale-test.cc.o
+[7/57] Building CXX object test/CMakeFiles/compile-test.dir/compile-test.cc.o
+FAILED: test/CMakeFiles/compile-test.dir/compile-test.cc.o 
+/usr/bin/c++  -DFMT_LOCALE -DFMT_USE_FILE_DESCRIPTORS=1 -DGTEST_HAS_STD_WSTRING=1 -D_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING=1 -I../include -isystem ../test/gtest -isystem ../test/gmock -isystem ../test/. -O3 -DNDEBUG   -pedantic-errors -Wall -Wextra -pedantic -Wold-style-cast -Wundef -Wredundant-decls -Wwrite-strings -Wpointer-arith -Wcast-qual -Wformat=2 -Wmissing-include-dirs -Wcast-align -Wnon-virtual-dtor -Wctor-dtor-privacy -Wdisabled-optimization -Winvalid-pch -Woverloaded-virtual -Wconversion -Wno-ctor-dtor-privacy -Wno-format-nonliteral -Wno-shadow -Wnoexcept -Wno-dangling-else -Wno-unused-local-typedefs -Wdouble-promotion -Wtrampolines -Wzero-as-null-pointer-constant -Wuseless-cast -Wvector-operation-performance -Wsized-deallocation -Wshift-overflow=2 -Wnull-dereference -Wduplicated-cond -Werror -fno-delete-null-pointer-checks -std=gnu++14 -MD -MT test/CMakeFiles/compile-test.dir/compile-test.cc.o -MF test/CMakeFiles/compile-test.dir/compile-test.cc.o.d -o test/CMakeFiles/compile-test.dir/compile-test.cc.o -c ../test/compile-test.cc
+c++: fatal error: Killed signal terminated program cc1plus
+compilation terminated.
+[8/57] Building CXX object test/CMakeFiles/gmock.dir/gmock-gtest-all.cc.o
+ninja: build stopped: subcommand failed.
++ build_rc=1
++ '[' 1 -ne 0 ']'
++ echo 'Build failed with exit code 1. Setting OMNIGRIL_EXIT_CODE to 1 and exiting.'
++ rc=1
++ echo OMNIGRIL_EXIT_CODE=1
++ exit 1
+Build failed with exit code 1. Setting OMNIGRIL_EXIT_CODE to 1 and exiting.
+OMNIGRIL_EXIT_CODE=1

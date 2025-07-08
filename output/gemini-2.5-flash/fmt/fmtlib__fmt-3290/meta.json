@@ -1,0 +1,22 @@
+{
+    "task_id": "fmtlib__fmt-3290",
+    "setup_info": {
+        "repo_path": "github/_cache/fmtlib__fmt-3290_2025-07-08_07-01-21",
+        "repo_cache_path": "github/_cache/fmtlib/fmt_cache"
+    },
+    "task_info": {
+        "repo": "fmtlib/fmt",
+        "pull_number": 3290,
+        "instance_id": "fmtlib__fmt-3290",
+        "issue_numbers": [
+            "3286"
+        ],
+        "base_commit": "a2c05a10ec875712bfee739a05ed99fc3915f4e9",
+        "patch": "diff --git a/include/fmt/ranges.h b/include/fmt/ranges.h\n--- a/include/fmt/ranges.h\n+++ b/include/fmt/ranges.h\n@@ -155,7 +155,9 @@ template <typename T>\n struct has_mutable_begin_end<\n     T, void_t<decltype(detail::range_begin(std::declval<T>())),\n               decltype(detail::range_end(std::declval<T>())),\n-              enable_if_t<std::is_copy_constructible<T>::value>>>\n+              // the extra int here is because older versions of MSVC don't\n+              // SFINAE properly unless there are distinct types\n+              int>>\n     : std::true_type {};\n \n template <typename T>\n",
+        "test_patch": "diff --git a/test/ranges-test.cc b/test/ranges-test.cc\n--- a/test/ranges-test.cc\n+++ b/test/ranges-test.cc\n@@ -193,7 +193,7 @@ template <typename T> class noncopyable_range {\n   std::vector<T> vec;\n \n  public:\n-  using const_iterator = typename ::std::vector<T>::const_iterator;\n+  using iterator = typename ::std::vector<T>::iterator;\n \n   template <typename... Args>\n   explicit noncopyable_range(Args&&... args)\n@@ -202,8 +202,8 @@ template <typename T> class noncopyable_range {\n   noncopyable_range(noncopyable_range const&) = delete;\n   noncopyable_range(noncopyable_range&) = delete;\n \n-  const_iterator begin() const { return vec.begin(); }\n-  const_iterator end() const { return vec.end(); }\n+  iterator begin() { return vec.begin(); }\n+  iterator end() { return vec.end(); }\n };\n \n TEST(ranges_test, range) {\n",
+        "problem_statement": "Can't format move-only ranges\n[Example](https://godbolt.org/z/cE1P9YdG6):\r\n\r\n```cpp\r\n#include <concepts>\r\n#include <vector>\r\n#include <fmt/ranges.h>\r\n\r\ntemplate <bool Copyable>\r\nstruct Vector {\r\n    std::vector<int> v;\r\n\r\n    Vector(std::initializer_list<int> elems) : v(elems) { }\r\n\r\n    Vector(Vector&&) = default;\r\n    Vector& operator=(Vector&&) = default;\r\n\r\n    Vector(Vector const&) requires Copyable = default;\r\n    Vector& operator=(Vector const&) requires Copyable = default;\r\n\r\n    auto begin() { return v.begin(); }\r\n    auto end() { return v.end(); }\r\n};\r\n\r\nstatic_assert(std::movable<Vector<false>>);\r\nstatic_assert(std::movable<Vector<true>>);\r\nstatic_assert(!std::copyable<Vector<false>>);\r\nstatic_assert(std::copyable<Vector<true>>);\r\n\r\nint main() {\r\n    fmt::print(\"{}\\n\", Vector<true>{1, 2, 3});  // ok [1, 2, 3]\r\n    fmt::print(\"{}\\n\", Vector<false>{1, 2, 3}); // error\r\n}\r\n```\r\n\r\nThis is because the range check for non-const ranges requires copyability and should probably just be removed (h/t @timsong-cpp):\r\n\r\nhttps://github.com/fmtlib/fmt/blob/a2c05a10ec875712bfee739a05ed99fc3915f4e9/include/fmt/ranges.h#L154-L159\n",
+        "hints_text": "",
+        "created_at": "2023-01-26T03:57:00Z",
+        "version": "9.1"
+    }
+}

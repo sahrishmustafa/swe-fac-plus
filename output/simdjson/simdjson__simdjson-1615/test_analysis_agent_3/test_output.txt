@@ -1,0 +1,228 @@
++ cd /testbed
++ git checkout 40cba172ed66584cf670c98202ed474a316667e3 tests/ondemand/CMakeLists.txt
+Updated 1 path from 36880e8a
++ git apply -v -
+Checking patch tests/ondemand/CMakeLists.txt...
+Checking patch tests/ondemand/ondemand_json_pointer_tests.cpp...
+Applied patch tests/ondemand/CMakeLists.txt cleanly.
+Applied patch tests/ondemand/ondemand_json_pointer_tests.cpp cleanly.
++ cd build
++ export SIMDJSON_DEVELOPER_MODE=ON
++ SIMDJSON_DEVELOPER_MODE=ON
+++ nproc
++ cmake --build . -j12
+-- Importing google_benchmarks (google/benchmark@8982e1e)
+-- Failed to find LLVM FileCheck
+-- git Version: v0.2.1-40cba172-dirty
+-- Version: 0.2.1
+-- Performing Test HAVE_STD_REGEX -- success
+-- Performing Test HAVE_GNU_POSIX_REGEX -- failed to compile
+-- Performing Test HAVE_POSIX_REGEX -- success
+-- Performing Test HAVE_STEADY_CLOCK -- success
+-- Importing simdjson-data (simdjson/simdjson-data@a5b13babe65c1bba7186b41b43d4cbdc20a5c470)
+-- Importing cjson (DaveGamble/cJSON@c69134d)
+-- Importing fastjson (mikeando/fastjson@485f994)
+-- Importing gason (vivkin/gason@7aee524)
+-- Importing jsmn (zserge/jsmn@18e9fe4)
+-- Importing json (nlohmann/json@v3.9.1)
+-- Importing json11 (dropbox/json11@ec4e452)
+-- Importing rapidjson (Tencent/rapidjson@b32cd94)
+-- Importing sajson (chadaustin/sajson@2dcfd35)
+-- Importing ujson4c (esnme/ujson4c@e14f3fd)
+-- Importing yyjson (ibireme/yyjson@aa33ec5)
+-- Importing cxxopts (jarro2783/cxxopts@794c975)
+-- cxxopts version 2.2.0
+-- We have cxxopts as a dependency and we are building the tools (e.g., json2json).
+-- Including amalgamate_demo test. 
+-- Including simdjson-singleheader test.
+-- Including amalgamate_demo_direct_from_repository test.
+-- Either git is unavailable or else it is too old. We are disabling checkperf targets.
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /testbed/build
+[  3%] Built target jsoncpp
+[  7%] Built target amalgamate_demo_direct_from_repository
+[  8%] Built target gason
+[  8%] Built target fastjson
+[  8%] Built target yyjson
+[  8%] Built target ujson4c
+[  8%] Built target cjson
+[ 10%] Built target jsmn
+[ 11%] Built target json11
+[ 11%] Built target generated-data
+[ 21%] Built target benchmark
+Scanning dependencies of target simdjson
+[ 22%] Building CXX object CMakeFiles/simdjson.dir/src/simdjson.cpp.o
+[ 24%] Built target benchmark_main
+[ 24%] Linking CXX static library libsimdjson.a
+[ 24%] Built target simdjson
+Scanning dependencies of target unicode_tests
+Scanning dependencies of target jsonpointer
+Scanning dependencies of target json2json
+Scanning dependencies of target jsonstats
+Scanning dependencies of target padded_string_tests
+Scanning dependencies of target minify
+Scanning dependencies of target minify_tests
+[ 25%] Generating simdjson.cpp, simdjson.h, amalgamate_demo.cpp, README.md
+Scanning dependencies of target checkimplementation
+Scanning dependencies of target numberparsingcheck
+Scanning dependencies of target pointercheck
+Scanning dependencies of target document_tests
+[ 29%] Building CXX object tools/CMakeFiles/jsonstats.dir/jsonstats.cpp.o
+[ 29%] Building CXX object tests/CMakeFiles/unicode_tests.dir/unicode_tests.cpp.o
+[ 30%] Building CXX object tests/CMakeFiles/padded_string_tests.dir/padded_string_tests.cpp.o
+[ 30%] Building CXX object tools/CMakeFiles/jsonpointer.dir/jsonpointer.cpp.o
+[ 30%] Building CXX object tools/CMakeFiles/minify.dir/minify.cpp.o
+[ 30%] Building CXX object tests/CMakeFiles/minify_tests.dir/minify_tests.cpp.o
+[ 30%] Building CXX object tools/CMakeFiles/json2json.dir/json2json.cpp.o
+[ 30%] Building CXX object tests/CMakeFiles/checkimplementation.dir/checkimplementation.cpp.o
+[ 31%] Building CXX object tests/dom/CMakeFiles/pointercheck.dir/pointercheck.cpp.o
+[ 31%] Building CXX object tests/dom/CMakeFiles/numberparsingcheck.dir/numberparsingcheck.cpp.o
+[ 31%] Building CXX object tests/dom/CMakeFiles/document_tests.dir/document_tests.cpp.o
+SCRIPTPATH=/testbed/singleheader PROJECTPATH=/testbed
+We are about to amalgamate all simdjson files into one source file.
+See https://www.sqlite.org/amalgamation.html and https://en.wikipedia.org/wiki/Single_Compilation_Unit for rationale.
+timestamp is 2021-06-09 16:42:37 -0400
+Creating /testbed/build/singleheader/simdjson.h
+// #undef SIMDJSON_IMPLEMENTATION
+// #undef SIMDJSON_IMPLEMENTATION
+// #undef SIMDJSON_IMPLEMENTATION
+// #undef SIMDJSON_IMPLEMENTATION
+// #undef SIMDJSON_IMPLEMENTATION
+// #undef SIMDJSON_IMPLEMENTATION
+Creating /testbed/build/singleheader/simdjson.cpp
+// #undef SIMDJSON_IMPLEMENTATION
+// #undef SIMDJSON_IMPLEMENTATION
+// #undef SIMDJSON_IMPLEMENTATION
+// #undef SIMDJSON_IMPLEMENTATION
+// #undef SIMDJSON_IMPLEMENTATION
+// #undef SIMDJSON_IMPLEMENTATION
+// #undef SIMDJSON_IMPLEMENTATION
+// #undef SIMDJSON_IMPLEMENTATION
+// #undef SIMDJSON_IMPLEMENTATION
+// #undef SIMDJSON_IMPLEMENTATION
+Done with all files generation.
+Files have been written to directory: /testbed/build/singleheader/
+-rwxrwxrwx 1 root root    165 Jul  8 00:52 /testbed/build/singleheader/README.md
+-rwxrwxrwx 1 root root   1188 Jul  8 00:52 /testbed/build/singleheader/amalgamate_demo.cpp
+-rwxrwxrwx 1 root root 527262 Jul  8 00:54 /testbed/build/singleheader/simdjson.cpp
+-rwxrwxrwx 1 root root 977276 Jul  8 00:54 /testbed/build/singleheader/simdjson.h
+Done with all files generation.
+
+Giving final instructions:
+Try :
+
+c++ -O3 -std=c++17 -pthread -o amalgamate_demo amalgamate_demo.cpp  && ./amalgamate_demo ../jsonexamples/twitter.json ../jsonexamples/amazon_cellphones.ndjson
+
+[ 31%] Built target singleheader-files
+Scanning dependencies of target basictests
+[ 32%] Building CXX object tests/dom/CMakeFiles/basictests.dir/basictests.cpp.o
+[ 32%] Linking CXX executable padded_string_tests
+[ 32%] Linking CXX executable checkimplementation
+[ 32%] Linking CXX executable numberparsingcheck
+[ 32%] Built target checkimplementation
+[ 32%] Built target padded_string_tests
+[ 32%] Built target numberparsingcheck
+Scanning dependencies of target jsoncheck
+Scanning dependencies of target integer_tests
+[ 32%] Building CXX object tests/dom/CMakeFiles/integer_tests.dir/integer_tests.cpp.o
+[ 32%] Building CXX object tests/dom/CMakeFiles/jsoncheck.dir/jsoncheck.cpp.o
+Scanning dependencies of target document_stream_tests
+[ 34%] Building CXX object tests/dom/CMakeFiles/document_stream_tests.dir/document_stream_tests.cpp.o
+[ 34%] Linking CXX executable jsonpointer
+[ 34%] Linking CXX executable unicode_tests
+[ 34%] Built target jsonpointer
+Scanning dependencies of target minefieldcheck
+[ 34%] Building CXX object tests/dom/CMakeFiles/minefieldcheck.dir/minefieldcheck.cpp.o
+[ 34%] Built target unicode_tests
+Scanning dependencies of target parse_many_test
+[ 34%] Building CXX object tests/dom/CMakeFiles/parse_many_test.dir/parse_many_test.cpp.o
+[ 34%] Linking CXX executable minify_tests
+[ 34%] Built target minify_tests
+Scanning dependencies of target random_string_number_tests
+[ 34%] Building CXX object tests/dom/CMakeFiles/random_string_number_tests.dir/random_string_number_tests.cpp.o
+[ 35%] Linking CXX executable pointercheck
+[ 36%] Linking CXX executable document_tests
+[ 36%] Built target document_tests
+[ 36%] Built target pointercheck
+[ 36%] Linking CXX executable trivially_copyable_test
+Scanning dependencies of target extracting_values_example
+[ 37%] Building CXX object tests/dom/CMakeFiles/extracting_values_example.dir/extracting_values_example.cpp.o
+[ 39%] Linking CXX executable jsoncheck
+[ 40%] Built target trivially_copyable_test
+Scanning dependencies of target stringparsingcheck
+[ 40%] Building CXX object tests/dom/CMakeFiles/stringparsingcheck.dir/stringparsingcheck.cpp.o
+[ 41%] Linking CXX executable integer_tests
+[ 43%] Linking CXX executable minefieldcheck
+[ 43%] Built target jsoncheck
+Scanning dependencies of target errortests
+[ 43%] Building CXX object tests/dom/CMakeFiles/errortests.dir/errortests.cpp.o
+[ 43%] Built target integer_tests
+[ 43%] Built target minefieldcheck
+Scanning dependencies of target ondemand_object_tests
+[ 43%] Building CXX object tests/ondemand/CMakeFiles/ondemand_object_tests.dir/ondemand_object_tests.cpp.o
+Scanning dependencies of target ondemand_object_error_tests
+[ 44%] Building CXX object tests/ondemand/CMakeFiles/ondemand_object_error_tests.dir/ondemand_object_error_tests.cpp.o
+[ 45%] Linking CXX executable parse_many_test
+[ 45%] Built target parse_many_test
+Scanning dependencies of target ondemand_misc_tests
+[ 45%] Building CXX object tests/ondemand/CMakeFiles/ondemand_misc_tests.dir/ondemand_misc_tests.cpp.o
+[ 45%] Linking CXX executable extracting_values_example
+[ 45%] Linking CXX executable random_string_number_tests
+[ 45%] Built target random_string_number_tests
+[ 45%] Built target extracting_values_example
+Scanning dependencies of target ondemand_error_tests
+Scanning dependencies of target ondemand_compilation_tests
+[ 46%] Building CXX object tests/ondemand/CMakeFiles/ondemand_compilation_tests.dir/ondemand_compilation_tests.cpp.o
+[ 48%] Building CXX object tests/ondemand/CMakeFiles/ondemand_error_tests.dir/ondemand_error_tests.cpp.o
+[ 48%] Linking CXX executable stringparsingcheck
+[ 48%] Built target stringparsingcheck
+Scanning dependencies of target ondemand_array_error_tests
+[ 48%] Building CXX object tests/ondemand/CMakeFiles/ondemand_array_error_tests.dir/ondemand_array_error_tests.cpp.o
+[ 48%] Linking CXX executable document_stream_tests
+[ 48%] Built target document_stream_tests
+Scanning dependencies of target ondemand_key_string_tests
+[ 48%] Building CXX object tests/ondemand/CMakeFiles/ondemand_key_string_tests.dir/ondemand_key_string_tests.cpp.o
+[ 49%] Linking CXX executable errortests
+[ 49%] Built target errortests
+Scanning dependencies of target ondemand_json_pointer_tests
+[ 49%] Building CXX object tests/ondemand/CMakeFiles/ondemand_json_pointer_tests.dir/ondemand_json_pointer_tests.cpp.o
+[ 49%] Linking CXX executable ondemand_misc_tests
+[ 49%] Built target ondemand_misc_tests
+Scanning dependencies of target ondemand_array_tests
+[ 49%] Building CXX object tests/ondemand/CMakeFiles/ondemand_array_tests.dir/ondemand_array_tests.cpp.o
+[ 50%] Linking CXX executable ondemand_key_string_tests
+[ 50%] Linking CXX executable ondemand_compilation_tests
+c++: fatal error: Killed signal terminated program cc1plus
+compilation terminated.
+make[2]: *** [tests/dom/CMakeFiles/basictests.dir/build.make:63: tests/dom/CMakeFiles/basictests.dir/basictests.cpp.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:1667: tests/dom/CMakeFiles/basictests.dir/all] Error 2
+make[1]: *** Waiting for unfinished jobs....
+[ 50%] Built target ondemand_key_string_tests
+[ 50%] Built target ondemand_compilation_tests
+[ 51%] Linking CXX executable ondemand_array_error_tests
+[ 51%] Built target ondemand_array_error_tests
+[ 51%] Linking CXX executable ondemand_object_error_tests
+[ 51%] Built target ondemand_object_error_tests
+[ 53%] Linking CXX executable ondemand_json_pointer_tests
+[ 53%] Built target ondemand_json_pointer_tests
+[ 53%] Linking CXX executable ondemand_error_tests
+[ 53%] Built target ondemand_error_tests
+[ 54%] Linking CXX executable ondemand_array_tests
+[ 54%] Built target ondemand_array_tests
+[ 54%] Linking CXX executable jsonstats
+[ 54%] Built target jsonstats
+[ 55%] Linking CXX executable minify
+[ 55%] Built target minify
+[ 56%] Linking CXX executable json2json
+[ 56%] Built target json2json
+[ 58%] Linking CXX executable ondemand_object_tests
+[ 58%] Built target ondemand_object_tests
+make: *** [Makefile:163: all] Error 2
++ '[' 2 -ne 0 ']'
++ echo 'Build failed after patch application. Exiting.'
++ rc=1
++ echo OMNIGRIL_EXIT_CODE=1
++ exit 1
+Build failed after patch application. Exiting.
+OMNIGRIL_EXIT_CODE=1

@@ -1,0 +1,22 @@
+{
+    "task_id": "simdjson__simdjson-1618",
+    "setup_info": {
+        "repo_path": "testbed/simdjson__simdjson-1618_2025-07-08_04-24-15",
+        "repo_cache_path": "testbed/simdjson/simdjson_cache"
+    },
+    "task_info": {
+        "repo": "simdjson/simdjson",
+        "pull_number": 1618,
+        "instance_id": "simdjson__simdjson-1618",
+        "issue_numbers": [
+            "1616"
+        ],
+        "base_commit": "1c01fc35ebce2d50ea6c279002ca949784d71ad4",
+        "patch": "diff --git a/include/simdjson/generic/ondemand/document.h b/include/simdjson/generic/ondemand/document.h\n--- a/include/simdjson/generic/ondemand/document.h\n+++ b/include/simdjson/generic/ondemand/document.h\n@@ -341,6 +341,7 @@ class document {\n    * are invalidated. After calling at_pointer, you need to consume the result: string values\n    * should be stored in your own variables, arrays should be decoded and stored in your own array-like\n    * structures and so forth.\n+   *\n    * Also note that at_pointer() relies on find_field() which implies that we do not unescape keys when matching\n    *\n    * @return The value associated with the given JSON pointer, or:\n",
+        "test_patch": "diff --git a/tests/ondemand/ondemand_readme_examples.cpp b/tests/ondemand/ondemand_readme_examples.cpp\n--- a/tests/ondemand/ondemand_readme_examples.cpp\n+++ b/tests/ondemand/ondemand_readme_examples.cpp\n@@ -292,6 +292,63 @@ bool using_the_parsed_json_6() {\n   TEST_SUCCEED();\n }\n \n+const padded_string cars_json = R\"( [\n+  { \"make\": \"Toyota\", \"model\": \"Camry\",  \"year\": 2018, \"tire_pressure\": [ 40.1, 39.9, 37.7, 40.4 ] },\n+  { \"make\": \"Kia\",    \"model\": \"Soul\",   \"year\": 2012, \"tire_pressure\": [ 30.1, 31.0, 28.6, 28.7 ] },\n+  { \"make\": \"Toyota\", \"model\": \"Tercel\", \"year\": 1999, \"tire_pressure\": [ 29.8, 30.0, 30.2, 30.5 ] }\n+] )\"_padded;\n+\n+bool json_pointer_simple() {\n+    TEST_START();\n+    ondemand::parser parser;\n+    ondemand::document cars;\n+    double x;\n+    ASSERT_SUCCESS(parser.iterate(cars_json).get(cars));\n+    ASSERT_SUCCESS(cars.at_pointer(\"/0/tire_pressure/1\").get(x));\n+    ASSERT_EQUAL(x,39.9);\n+    TEST_SUCCEED();\n+}\n+\n+bool json_pointer_multiple() {\n+\tTEST_START();\n+\tondemand::parser parser;\n+\tondemand::document cars;\n+\tsize_t size;\n+\tASSERT_SUCCESS(parser.iterate(cars_json).get(cars));\n+\tASSERT_SUCCESS(cars.count_elements().get(size));\n+\tdouble expected[] = {39.9, 31, 30};\n+\tfor (size_t i = 0; i < size; i++) {\n+\t\tstd::string json_pointer = \"/\" + std::to_string(i) + \"/tire_pressure/1\";\n+\t\tdouble x;\n+\t\tASSERT_SUCCESS(cars.at_pointer(json_pointer).get(x));\n+\t\tASSERT_EQUAL(x,expected[i]);\n+\t}\n+\tTEST_SUCCEED();\n+}\n+\n+bool json_pointer_rewind() {\n+  TEST_START();\n+  auto json = R\"( {\n+  \"k0\": 27,\n+  \"k1\": [13,26],\n+  \"k2\": true\n+  } )\"_padded;\n+\n+  ondemand::parser parser;\n+  ondemand::document doc;\n+  uint64_t i;\n+  bool b;\n+  ASSERT_SUCCESS(parser.iterate(json).get(doc));\n+  ASSERT_SUCCESS(doc.at_pointer(\"/k1/1\").get(i));\n+  ASSERT_EQUAL(i,26);\n+  ASSERT_SUCCESS(doc.at_pointer(\"/k2\").get(b));\n+  ASSERT_EQUAL(b,true);\n+  doc.rewind();\t// Need to manually rewind to be able to use find_field properly from start of document\n+  ASSERT_SUCCESS(doc.find_field(\"k0\").get(i));\n+  ASSERT_EQUAL(i,27);\n+  TEST_SUCCEED();\n+}\n+\n int main() {\n   if (\n     true\n@@ -312,6 +369,9 @@ int main() {\n     && using_the_parsed_json_5()\n #endif\n     && using_the_parsed_json_6()\n+    && json_pointer_simple()\n+    && json_pointer_multiple()\n+    && json_pointer_rewind()\n   ) {\n     return 0;\n   } else {\n",
+        "problem_statement": "Document new On Demand JSON Pointer\nWe have a JSON Pointer API on top of OnDemand.  See https://github.com/simdjson/simdjson/pull/1615\r\n\r\nWe now need to updated our documentation. Currently, it relies on the DOM backend:\r\n\r\nhttps://github.com/simdjson/simdjson/blob/master/doc/basics.md#json-pointer\r\n\r\nThis should get updated with tested examples that are relying on your new work. This new documentation should state that our json pointer implementation relies on `find_field`. Importantly, we need to document how one can issue multiple JSON Pointer queries on the same document.\n",
+        "hints_text": "cc @NicolasJiaxin ",
+        "created_at": "2021-06-11T20:02:56Z",
+        "version": "0.9"
+    }
+}

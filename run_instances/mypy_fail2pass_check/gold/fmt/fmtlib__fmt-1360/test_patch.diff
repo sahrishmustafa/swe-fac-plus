@@ -1,0 +1,24 @@
+diff --git a/test/core-test.cc b/test/core-test.cc
+--- a/test/core-test.cc
++++ b/test/core-test.cc
+@@ -290,8 +290,6 @@ VISIT_TYPE(long, long long);
+ VISIT_TYPE(unsigned long, unsigned long long);
+ #endif
+ 
+-VISIT_TYPE(float, double);
+-
+ #define CHECK_ARG_(Char, expected, value)                                     \
+   {                                                                           \
+     testing::StrictMock<mock_visitor<decltype(expected)>> visitor;            \
+diff --git a/test/locale-test.cc b/test/locale-test.cc
+--- a/test/locale-test.cc
++++ b/test/locale-test.cc
+@@ -23,7 +23,7 @@ TEST(LocaleTest, DoubleDecimalPoint) {
+   fmt::internal::writer w(buf, fmt::internal::locale_ref(loc));
+   auto specs = fmt::format_specs();
+   specs.type = 'n';
+-  w.write_double<double, false>(1.23, specs);
++  w.write_fp<double, false>(1.23, specs);
+   EXPECT_EQ(fmt::to_string(buf), "1?23");
+ }
+ 

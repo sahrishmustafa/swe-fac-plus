@@ -1,0 +1,88 @@
++ cd /testbed
++ git checkout 88f4be3d19364a484431309f750535386c7d0d5c test/util-test.cc
+Updated 1 path from f2f7ba6b
++ git apply -v -
+Checking patch test/util-test.cc...
+Applied patch test/util-test.cc cleanly.
++ cd build
+++ nproc
++ make -j 12
+Consolidate compiler generated dependencies of target gmock
+Consolidate compiler generated dependencies of target format
+Consolidate compiler generated dependencies of target noexception-test
+Consolidate compiler generated dependencies of target testformat
+[  9%] Built target noexception-test
+[  9%] Built target format
+[ 13%] Built target gmock
+[ 15%] Building CXX object CMakeFiles/testformat.dir/test/util-test.cc.o
+Consolidate compiler generated dependencies of target test-main
+Consolidate compiler generated dependencies of target header-only-test
+[ 23%] Built target test-main
+Consolidate compiler generated dependencies of target posix-test
+Consolidate compiler generated dependencies of target macro-test
+[ 30%] Built target header-only-test
+[ 44%] Built target macro-test
+Consolidate compiler generated dependencies of target format-test
+[ 57%] Built target posix-test
+[ 61%] Built target format-test
+Consolidate compiler generated dependencies of target util-test
+Consolidate compiler generated dependencies of target format-impl-test
+[ 63%] Building CXX object test/CMakeFiles/util-test.dir/util-test.cc.o
+Consolidate compiler generated dependencies of target gtest-extra-test
+Consolidate compiler generated dependencies of target printf-test
+[ 67%] Built target format-impl-test
+[ 71%] Built target gtest-extra-test
+[ 75%] Built target printf-test
+/testbed/test/util-test.cc: In member function 'virtual void UtilTest_Conditional_Test::TestBody()':
+/testbed/test/util-test.cc:866:18: error: 'Conditional' is not a member of 'fmt::internal'
+  866 |   fmt::internal::Conditional<true, int, char>::type *pi = &i;
+      |                  ^~~~~~~~~~~
+/testbed/test/util-test.cc:866:36: error: expected primary-expression before 'int'
+  866 |   fmt::internal::Conditional<true, int, char>::type *pi = &i;
+      |                                    ^~~
+/testbed/test/util-test.cc:867:9: error: 'pi' was not declared in this scope; did you mean 'i'?
+  867 |   (void)pi;
+      |         ^~
+      |         i
+/testbed/test/util-test.cc:869:18: error: 'Conditional' is not a member of 'fmt::internal'
+  869 |   fmt::internal::Conditional<false, int, char>::type *pc = &c;
+      |                  ^~~~~~~~~~~
+/testbed/test/util-test.cc:869:37: error: expected primary-expression before 'int'
+  869 |   fmt::internal::Conditional<false, int, char>::type *pc = &c;
+      |                                     ^~~
+/testbed/test/util-test.cc:870:9: error: 'pc' was not declared in this scope; did you mean 'c'?
+  870 |   (void)pc;
+      |         ^~
+      |         c
+/testbed/test/util-test.cc: In member function 'virtual void UtilTest_Conditional_Test::TestBody()':
+/testbed/test/util-test.cc:866:18: error: 'Conditional' is not a member of 'fmt::internal'
+  866 |   fmt::internal::Conditional<true, int, char>::type *pi = &i;
+      |                  ^~~~~~~~~~~
+/testbed/test/util-test.cc:866:36: error: expected primary-expression before 'int'
+  866 |   fmt::internal::Conditional<true, int, char>::type *pi = &i;
+      |                                    ^~~
+/testbed/test/util-test.cc:867:9: error: 'pi' was not declared in this scope; did you mean 'i'?
+  867 |   (void)pi;
+      |         ^~
+      |         i
+/testbed/test/util-test.cc:869:18: error: 'Conditional' is not a member of 'fmt::internal'
+  869 |   fmt::internal::Conditional<false, int, char>::type *pc = &c;
+      |                  ^~~~~~~~~~~
+/testbed/test/util-test.cc:869:37: error: expected primary-expression before 'int'
+  869 |   fmt::internal::Conditional<false, int, char>::type *pc = &c;
+      |                                     ^~~
+/testbed/test/util-test.cc:870:9: error: 'pc' was not declared in this scope; did you mean 'c'?
+  870 |   (void)pc;
+      |         ^~
+      |         c
+make[2]: *** [test/CMakeFiles/util-test.dir/build.make:76: test/CMakeFiles/util-test.dir/util-test.cc.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:359: test/CMakeFiles/util-test.dir/all] Error 2
+make[1]: *** Waiting for unfinished jobs....
+make[2]: *** [CMakeFiles/testformat.dir/build.make:216: CMakeFiles/testformat.dir/test/util-test.cc.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:166: CMakeFiles/testformat.dir/all] Error 2
+make: *** [Makefile:146: all] Error 2
++ '[' 2 -ne 0 ']'
++ rc=1
++ echo OMNIGRIL_EXIT_CODE=1
++ exit 1
+OMNIGRIL_EXIT_CODE=1

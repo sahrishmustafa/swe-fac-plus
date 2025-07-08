@@ -1,0 +1,73 @@
++ cd /testbed
++ git checkout 87fbc6f7566e4d3266bd3a2cd69f6c90e1aefa5d test/prepare-test.cc
+Updated 0 paths from a314e37e
++ git apply -v -
+Checking patch test/prepare-test.cc...
+Applied patch test/prepare-test.cc cleanly.
+Attempting to rebuild the project after applying the patch...
++ cd /testbed/build
++ echo 'Attempting to rebuild the project after applying the patch...'
+++ nproc
++ make -j12
+Consolidate compiler generated dependencies of target fmt
+Consolidate compiler generated dependencies of target gmock
+[  5%] Built target fmt
+[  9%] Built target gmock
+Consolidate compiler generated dependencies of target header-only-test
+Consolidate compiler generated dependencies of target test-main
+Consolidate compiler generated dependencies of target posix-mock-test
+[ 17%] Built target header-only-test
+[ 25%] Built target test-main
+[ 37%] Built target posix-mock-test
+Consolidate compiler generated dependencies of target grisu-test
+Consolidate compiler generated dependencies of target format-test
+Consolidate compiler generated dependencies of target gtest-extra-test
+Consolidate compiler generated dependencies of target assert-test
+Consolidate compiler generated dependencies of target locale-test
+Consolidate compiler generated dependencies of target core-test
+[ 41%] Built target grisu-test
+[ 45%] Built target format-test
+[ 49%] Built target gtest-extra-test
+Consolidate compiler generated dependencies of target color-test
+[ 52%] Built target assert-test
+Consolidate compiler generated dependencies of target chrono-test
+[ 56%] Built target locale-test
+[ 60%] Built target core-test
+Consolidate compiler generated dependencies of target format-impl-test
+Consolidate compiler generated dependencies of target ostream-test
+[ 64%] Built target color-test
+Consolidate compiler generated dependencies of target prepare-test
+Consolidate compiler generated dependencies of target printf-test
+Consolidate compiler generated dependencies of target ranges-test
+[ 72%] Built target format-impl-test
+[ 72%] Built target chrono-test
+Consolidate compiler generated dependencies of target custom-formatter-test
+[ 76%] Built target ostream-test
+Consolidate compiler generated dependencies of target scan-test
+[ 78%] Building CXX object test/CMakeFiles/prepare-test.dir/prepare-test.cc.o
+Consolidate compiler generated dependencies of target posix-test
+[ 86%] Built target printf-test
+[ 86%] Built target ranges-test
+[ 90%] Built target custom-formatter-test
+[ 94%] Built target scan-test
+[ 98%] Built target posix-test
+[100%] Linking CXX executable ../bin/prepare-test
+[100%] Built target prepare-test
++ build_rc=0
++ '[' 0 -ne 0 ']'
++ echo 'Project rebuilt successfully. Proceeding with test execution.'
++ ctest -R prepare-test --output-on-failure
+Project rebuilt successfully. Proceeding with test execution.
+Test project /testbed/build
+    Start 11: prepare-test
+1/1 Test #11: prepare-test .....................   Passed    0.00 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   0.00 sec
+OMNIGRIL_EXIT_CODE=0
++ rc=0
++ echo OMNIGRIL_EXIT_CODE=0
++ cd /testbed
++ git checkout 87fbc6f7566e4d3266bd3a2cd69f6c90e1aefa5d test/prepare-test.cc
+Updated 1 path from a314e37e

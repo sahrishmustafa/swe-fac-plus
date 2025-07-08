@@ -1,0 +1,19 @@
+trunk doesn't work with `std::generator`
+```cpp
+#include <fmt/ranges.h>
+#include <sstream>
+#include <generator>
+
+std::generator<std::string&> istream_gen() {
+  auto words = std::istringstream{"today is yesterday's tomorrow"};
+  std::string word;
+  while (words >> word)
+    co_yield word;
+}
+
+int main() {
+  fmt::print("{}\n", istream_gen());
+}
+```
+
+https://godbolt.org/z/s7sGrGvzd

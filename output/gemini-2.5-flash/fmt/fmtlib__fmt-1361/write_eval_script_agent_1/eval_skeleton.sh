@@ -1,31 +1,65 @@
 #!/bin/bash
 set -uxo pipefail
 
-# Navigate to the repository root
+# Navigate to the repository root as all operations are relative to it.
 cd /testbed
 
-# Ensure the target test files are in their original state before applying any patch
-# Use the specific commit SHA and target files
+# Ensure the target test files are in their original state before applying any patch.
+# This resets them to the state at the target commit SHA, undoing any previous changes.
 git checkout a5abe5d95cb8a8015913be9748a9661f3e1fbda8 "test/format-impl-test.cc" "test/grisu-test.cc"
 
-# Required: apply test patch to update target tests (if any)
-# The content of the patch will be inserted here programmatically
+# Required: apply test patch to update target tests (if any).
+# The actual content of the patch will be inserted here by the system.
 git apply -v - <<'EOF_114329324912'
 [CONTENT OF TEST PATCH]
 EOF_114329324912
 
-# Navigate into the pre-existing build directory created by the Dockerfile
+# Create and navigate into the build directory.
+# The project will be configured and built here.
+mkdir -p build
 cd build
 
-# Execute target tests using ctest, filtering by the specified test names.
-# The context indicates test names correspond to file names.
-# Ensure CTEST_OUTPUT_ON_FAILURE is set for detailed output.
-ctest --output-on-failure -R "format-impl-test|grisu-test"
-rc=$? # Capture exit code immediately after running tests
+# Configure CMake for the project.
+# -S .. specifies the source directory (repository root).
+# -DFMT_TEST=ON enables test compilation.
+# -DCMAKE_BUILD_TYPE=Release for optimized build.
+# -DCMAKE_CXX_STANDARD=14 sets the C++ standard to C++14.
+echo "Configuring CMake..."
+cmake -S .. -DFMT_TEST=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_STANDARD=14
+cmake_config_rc=$?
 
-echo "OMNIGRIL_EXIT_CODE=$rc" # Required, echo test status
+if [ $cmake_config_rc -ne 0 ]; then
+    echo "CMake configuration failed with exit code $cmake_config_rc. Setting OMNIGRIL_EXIT_CODE to 1 and exiting."
+    rc=1
+    echo "OMNIGRIL_EXIT_CODE=$rc"
+    exit $rc
+fi
 
-# Cleanup: Revert changes made by the patch to the target test files
-# Navigate back to the repository root first
+# Required: rebuild the project to include any changes from the patch in the test executables.
+# CRITICAL: If the build/compilation step fails, the script must immediately set rc=1 and exit.
+# Do not continue to run tests if the build fails, as this may run outdated binaries and produce false positive results.
+echo "Building the project..."
+cmake --build .
+build_rc=$?
+
+if [ $build_rc -ne 0 ]; then
+    echo "Build failed with exit code $build_rc. Setting OMNIGRIL_EXIT_CODE to 1 and exiting."
+    rc=1
+    echo "OMNIGRIL_EXIT_CODE=$rc"
+    exit $rc
+fi
+
+# Execute target tests using ctest.
+# Set CTEST_OUTPUT_ON_FAILURE=1 for detailed test output on failure.
+# Use ctest -R to run only the specified test files by matching their CTest names.
+echo "Running target tests: format-impl-test, grisu-test"
+export CTEST_OUTPUT_ON_FAILURE=1
+ctest -R "(format-impl-test|grisu-test)"
+rc=$? # Capture the exit code of the test command immediately.
+
+echo "OMNIGRIL_EXIT_CODE=$rc" # Required: Echo the captured exit code for result parsing.
+
+# Cleanup: Revert changes made by the patch to the target test files.
+# Navigate back to the repository root first to ensure `git checkout` operates correctly on paths relative to the root.
 cd /testbed
 git checkout a5abe5d95cb8a8015913be9748a9661f3e1fbda8 "test/format-impl-test.cc" "test/grisu-test.cc"

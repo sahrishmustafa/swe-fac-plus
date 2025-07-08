@@ -5,26 +5,29 @@ ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Etc/UTC
 
 # System dependencies installation. Installs essential tools and libraries required for development and runtime
-# Installs build-essential for g++ and make, cmake for project configuration, git for cloning the repository,
-# and ninja-build as an optional but often faster build system for CMake.
-RUN apt update && apt install -y \
+# build-essential provides gcc, g++, and make, which are necessary for compiling C++ projects.
+# cmake is the required build system.
+# git is for cloning the repository.
+# ca-certificates is added to fix SSL certificate verification issues during git clone.
+# python3 and curl are included as per the reference Dockerfile, suggesting their use in supporting scripts.
+RUN apt update && apt install -y --no-install-recommends \
     build-essential \
     cmake \
     git \
-    ninja-build \
+    ca-certificates \
+    python3 \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
-# set default workdir to /testbed/. This is where the repository will be cloned and built.
+# Set default workdir to /testbed.
 WORKDIR /testbed/
 
-# Target Project setup. Clones source code, checkouts to the target version, configures it, and builds the project.
-# The `git remote remove origin` step is included for a cleaner, self-contained container.
+# Target Project setup. Clones source code and checkouts to the target version.
+# The repository is cloned into /testbed.
+# The specified commit SHA for version 7.1 is checked out to ensure reproducibility.
+# 'git remote remove origin' is good practice for isolated environments.
 RUN git clone https://github.com/fmtlib/fmt /testbed && \
     cd /testbed && \
     git reset --hard 308510eb4fad9b112ebdd2867b0b96338b0a9a36 && \
-    git remote remove origin && \
-    mkdir build && \
-    cd build && \
-    cmake -DFMT_TEST=ON -DCMAKE_BUILD_TYPE=Release .. && \
-    cmake --build .
+    git remote remove origin
 </dockerfile>

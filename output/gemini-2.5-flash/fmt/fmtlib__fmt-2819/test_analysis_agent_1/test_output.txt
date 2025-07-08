@@ -1,0 +1,141 @@
+Checking out target files to a clean state...
++ cd /testbed
++ TARGET_COMMIT_SHA=69396347af67b0307866a24283fcaaad02f98a59
++ TARGET_TEST_FILES=("test/compile-error-test/CMakeLists.txt" "test/format-test.cc")
++ echo 'Checking out target files to a clean state...'
++ for FILE in "${TARGET_TEST_FILES[@]}"
++ git checkout 69396347af67b0307866a24283fcaaad02f98a59 test/compile-error-test/CMakeLists.txt
+Updated 0 paths from 0f83b672
++ for FILE in "${TARGET_TEST_FILES[@]}"
++ git checkout 69396347af67b0307866a24283fcaaad02f98a59 test/format-test.cc
+Updated 0 paths from 0f83b672
++ echo 'Applying test patch...'
++ git apply -v -
+Applying test patch...
+Checking patch test/compile-error-test/CMakeLists.txt...
+Checking patch test/format-test.cc...
+Applied patch test/compile-error-test/CMakeLists.txt cleanly.
+Applied patch test/format-test.cc cleanly.
+Reconfiguring CMake...
++ cd build
++ echo 'Reconfiguring CMake...'
++ cmake .. -DCMAKE_BUILD_TYPE=Release -DFMT_TEST=ON
+-- CMake version: 3.22.1
+-- Module support is disabled.
+-- Version: 8.1.2
+-- Build type: Release
+-- CXX_STANDARD: 11
+-- Required features: cxx_variadic_templates
+-- Target 'doc' disabled (requires doxygen)
+-- FMT_PEDANTIC: OFF
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /testbed/build
+Building the project...
++ cmake_config_rc=0
++ '[' 0 -ne 0 ']'
++ echo 'Building the project...'
+++ nproc
++ cmake --build . -j12
+Consolidate compiler generated dependencies of target gtest
+Consolidate compiler generated dependencies of target fmt
+[  1%] Building CXX object CMakeFiles/fmt.dir/src/format.cc.o
+[  4%] Building CXX object CMakeFiles/fmt.dir/src/os.cc.o
+[  6%] Built target gtest
+Consolidate compiler generated dependencies of target compile-fp-test
+Consolidate compiler generated dependencies of target format-impl-test
+Consolidate compiler generated dependencies of target posix-mock-test
+Consolidate compiler generated dependencies of target unicode-test
+[ 15%] Building CXX object test/CMakeFiles/posix-mock-test.dir/posix-mock-test.cc.o
+[ 15%] Building CXX object test/CMakeFiles/compile-fp-test.dir/util.cc.o
+[ 15%] Building CXX object test/CMakeFiles/unicode-test.dir/unicode-test.cc.o
+[ 15%] Building CXX object test/CMakeFiles/compile-fp-test.dir/compile-fp-test.cc.o
+[ 15%] Building CXX object test/CMakeFiles/format-impl-test.dir/header-only-test.cc.o
+[ 15%] Building CXX object test/CMakeFiles/format-impl-test.dir/format-impl-test.cc.o
+[ 18%] Building CXX object test/CMakeFiles/compile-fp-test.dir/__/src/os.cc.o
+[ 20%] Building CXX object test/CMakeFiles/compile-fp-test.dir/gtest-extra.cc.o
+[ 20%] Building CXX object test/CMakeFiles/posix-mock-test.dir/__/src/format.cc.o
+[ 21%] Building CXX object test/CMakeFiles/unicode-test.dir/gtest-extra.cc.o
+[ 23%] Building CXX object test/CMakeFiles/unicode-test.dir/util.cc.o
+[ 24%] Building CXX object test/CMakeFiles/unicode-test.dir/__/src/os.cc.o
+[ 26%] Building CXX object test/CMakeFiles/format-impl-test.dir/gtest-extra.cc.o
+[ 27%] Building CXX object test/CMakeFiles/format-impl-test.dir/util.cc.o
+[ 29%] Building CXX object test/CMakeFiles/format-impl-test.dir/__/src/os.cc.o
+[ 30%] Building CXX object test/CMakeFiles/posix-mock-test.dir/gtest-extra.cc.o
+[ 32%] Building CXX object test/CMakeFiles/posix-mock-test.dir/util.cc.o
+[ 33%] Linking CXX static library libfmt.a
+[ 33%] Built target fmt
+Consolidate compiler generated dependencies of target test-main
+[ 35%] Building CXX object test/CMakeFiles/test-main.dir/gtest-extra.cc.o
+[ 36%] Linking CXX executable ../bin/compile-fp-test
+[ 38%] Building CXX object test/CMakeFiles/test-main.dir/util.cc.o
+[ 40%] Built target compile-fp-test
+[ 41%] Linking CXX executable ../bin/posix-mock-test
+[ 43%] Built target posix-mock-test
+[ 44%] Linking CXX static library libtest-main.a
+[ 46%] Built target test-main
+Consolidate compiler generated dependencies of target assert-test
+Consolidate compiler generated dependencies of target gtest-extra-test
+Consolidate compiler generated dependencies of target format-test
+Consolidate compiler generated dependencies of target core-test
+Consolidate compiler generated dependencies of target color-test
+Consolidate compiler generated dependencies of target args-test
+Consolidate compiler generated dependencies of target chrono-test
+[ 49%] Building CXX object test/CMakeFiles/assert-test.dir/assert-test.cc.o
+[ 49%] Building CXX object test/CMakeFiles/core-test.dir/core-test.cc.o
+[ 50%] Building CXX object test/CMakeFiles/format-test.dir/format-test.cc.o
+[ 52%] Building CXX object test/CMakeFiles/gtest-extra-test.dir/gtest-extra-test.cc.o
+[ 55%] Building CXX object test/CMakeFiles/args-test.dir/args-test.cc.o
+[ 55%] Building CXX object test/CMakeFiles/color-test.dir/color-test.cc.o
+[ 56%] Building CXX object test/CMakeFiles/chrono-test.dir/chrono-test.cc.o
+[ 58%] Linking CXX executable ../bin/unicode-test
+[ 60%] Built target unicode-test
+Consolidate compiler generated dependencies of target ostream-test
+[ 61%] Building CXX object test/CMakeFiles/ostream-test.dir/ostream-test.cc.o
+[ 63%] Linking CXX executable ../bin/assert-test
+[ 63%] Built target assert-test
+Consolidate compiler generated dependencies of target compile-test
+[ 64%] Building CXX object test/CMakeFiles/compile-test.dir/compile-test.cc.o
+[ 66%] Linking CXX executable ../bin/args-test
+Consolidate compiler generated dependencies of target printf-test
+[ 67%] Building CXX object test/CMakeFiles/printf-test.dir/printf-test.cc.o
+[ 67%] Built target args-test
+Consolidate compiler generated dependencies of target ranges-test
+[ 69%] Building CXX object test/CMakeFiles/ranges-test.dir/ranges-test.cc.o
+Consolidate compiler generated dependencies of target scan-test
+[ 70%] Building CXX object test/CMakeFiles/scan-test.dir/scan-test.cc.o
+c++: fatal error: Killed signal terminated program cc1plus
+compilation terminated.
+gmake[2]: *** [test/CMakeFiles/format-test.dir/build.make:76: test/CMakeFiles/format-test.dir/format-test.cc.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:396: test/CMakeFiles/format-test.dir/all] Error 2
+gmake[1]: *** Waiting for unfinished jobs....
+[ 72%] Building CXX object test/CMakeFiles/ranges-test.dir/ranges-odr-test.cc.o
+[ 73%] Linking CXX executable ../bin/color-test
+[ 75%] Linking CXX executable ../bin/gtest-extra-test
+[ 75%] Built target color-test
+[ 75%] Built target gtest-extra-test
+[ 76%] Linking CXX executable ../bin/compile-test
+[ 78%] Linking CXX executable ../bin/scan-test
+[ 78%] Built target compile-test
+[ 78%] Built target scan-test
+[ 80%] Linking CXX executable ../bin/format-impl-test
+[ 81%] Built target format-impl-test
+[ 83%] Linking CXX executable ../bin/ostream-test
+[ 83%] Built target ostream-test
+[ 84%] Linking CXX executable ../bin/ranges-test
+[ 84%] Built target ranges-test
+[ 86%] Linking CXX executable ../bin/core-test
+[ 86%] Built target core-test
+[ 87%] Linking CXX executable ../bin/chrono-test
+[ 87%] Built target chrono-test
+[ 89%] Linking CXX executable ../bin/printf-test
+[ 89%] Built target printf-test
+gmake: *** [Makefile:166: all] Error 2
++ build_rc=2
++ '[' 2 -ne 0 ']'
++ echo 'Build failed with exit code 2. Setting OMNIGRIL_EXIT_CODE to 1 and exiting.'
++ rc=1
++ echo OMNIGRIL_EXIT_CODE=1
++ exit 1
+Build failed with exit code 2. Setting OMNIGRIL_EXIT_CODE to 1 and exiting.
+OMNIGRIL_EXIT_CODE=1

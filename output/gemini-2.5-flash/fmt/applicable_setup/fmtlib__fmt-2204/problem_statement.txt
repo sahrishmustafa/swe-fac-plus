@@ -1,0 +1,4 @@
+`buffer_appender` does not conform to `std::output_iterator`
+I've run into this before with `truncating_iterator` (see #2156), apparently, the same applies for `buffer_appender`.
+
+CC @randomnetcat :-)

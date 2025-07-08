@@ -1,0 +1,55 @@
+`isfinite` declared `constexpr` for c++20
+`std::isfinite` is not declared `constexpr` before `c++23`, but `fmt::isfinite` is declared `constexpr` for `c++20`
+(https://en.cppreference.com/w/cpp/numeric/math/isfinite).
+
+https://github.com/fmtlib/fmt/blob/master/include/fmt/core.h#L108:
+```
+#if ((FMT_CPLUSPLUS >= 202002L) &&                            \
+     (!defined(_GLIBCXX_RELEASE) || _GLIBCXX_RELEASE > 9)) || \
+    (FMT_CPLUSPLUS >= 201709L && FMT_GCC_VERSION >= 1002)
+#  define FMT_CONSTEXPR20 constexpr
+#else
+#  define FMT_CONSTEXPR20
+#endif
+```
+
+https://github.com/fmtlib/fmt/blob/master/include/fmt/format.h#L2753:
+```
+template <typename T, FMT_ENABLE_IF(std::is_floating_point<T>::value&&
+                                        has_isfinite<T>::value)>
+FMT_CONSTEXPR20 bool isfinite(T value) {
+  constexpr T inf = T(std::numeric_limits<double>::infinity());
+  if (is_constant_evaluated())
+    return !detail::isnan(value) && value < inf && value > -inf;
+  return std::isfinite(value);
+}
+```
+
+Resulting compilation error:
+```
+external/fmtlib/test/format-test.cc:94:24: error: constexpr variable 'result' must be initialized by a constant expression
+  FMT_CONSTEXPR20 auto result = isfinite(Float(limits::infinity()));
+                       ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+external/fmtlib/test/format-test.cc:103:3: note: in instantiation of function template specialization 'check_isfinite<double>' requested here
+  check_isfinite<double>();
+  ^
+external/fmtlib/include/fmt/format.h:2751:10: note: non-constexpr function 'isfinite<double>' cannot be used in a constant expression
+  return std::isfinite(value);
+         ^
+external/fmtlib/test/format-test.cc:94:33: note: in call to 'isfinite(INF)'
+  FMT_CONSTEXPR20 auto result = isfinite(Float(limits::infinity()));
+                                ^
+external/libcxx/include/math.h:439:1: note: declared here
+isfinite(_A1 __lcpp_x) _NOEXCEPT
+^
+1 error generated.
+22:46:14 ninja failed with: exit status 1
+```
+
+Compiler version (Android :shrug: )
+```
+Android (11039501, +pgo, +bolt, +lto, +mlgo, based on r498229b) clang version 17.0.4 (https://android.googlesource.com/toolchain/llvm-project e34ed7d63863b45858e74126edaa738e75887800)
+Target: x86_64-unknown-linux-gnu
+Thread model: posix
+InstalledDir: /usr/local/google/home/henrichataing/Projects/android/aosp-master/prebuilts/clang/host/linux-x86/clang-r498229b/bin
+```

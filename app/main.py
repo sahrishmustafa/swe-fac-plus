@@ -110,33 +110,40 @@ def main(args, subparser_dest_attr_name: str = "command"):
     if subcommand == "swe-bench":
         if globals.organize_output_only:
             organize_and_form_input(globals.output_dir)
-            # with docker.DockerClient() as client:
-            # client = docker.from_env()
         else:
             client = None
-            # try:
             tasks = make_swe_tasks(
-                args.task, args.task_list_file,args.tasks_map, args.setup_dir,client
+                args.task, args.task_list_file, args.tasks_map, args.setup_dir, client, args.pull_number
             )
-       
             groups = group_swe_tasks_by_env(tasks)
             run_task_groups(groups, num_processes, organize_output=True)
-        # finally:
-        #     client.close()
     elif subcommand == "github-issue":
         setup_dir = args.setup_dir
         if setup_dir is not None:
             setup_dir = abspath(setup_dir)
-
-        task = RawGithubTask(
-            args.task_id,
-            args.clone_link,
-            args.commit_hash,
-            args.issue_link,
-            setup_dir,
-            args.use_comments,
-        )
-    
+        # Only run the task if pull_number matches (if provided)
+        if args.pull_number is not None:
+            pull_numbers = set(x.strip() for x in args.pull_number.split(",") if x.strip())
+            task = RawGithubTask(
+                args.task_id,
+                args.clone_link,
+                args.commit_hash,
+                args.issue_link,
+                setup_dir,
+                args.use_comments,
+            )
+            if not hasattr(task, "pull_number") or str(getattr(task, "pull_number", None)) not in pull_numbers:
+                log.print_with_time(f"Skipping task {args.task_id} due to pull_number mismatch.")
+                return
+        else:
+            task = RawGithubTask(
+                args.task_id,
+                args.clone_link,
+                args.commit_hash,
+                args.issue_link,
+                setup_dir,
+                args.use_comments,
+            )
         groups = {"github": [task]}
         run_task_groups(groups, num_processes)
     elif subcommand == "local-issue":
@@ -146,7 +153,15 @@ def main(args, subparser_dest_attr_name: str = "command"):
         issue_file = args.issue_file
         if issue_file is not None:
             issue_file = abspath(issue_file)
-        task = RawLocalTask(args.task_id, local_repo, issue_file)
+        # Only run the task if pull_number matches (if provided)
+        if args.pull_number is not None:
+            pull_numbers = set(x.strip() for x in args.pull_number.split(",") if x.strip())
+            task = RawLocalTask(args.task_id, local_repo, issue_file)
+            if not hasattr(task, "pull_number") or str(getattr(task, "pull_number", None)) not in pull_numbers:
+                log.print_with_time(f"Skipping task {args.task_id} due to pull_number mismatch.")
+                return
+        else:
+            task = RawLocalTask(args.task_id, local_repo, issue_file)
         groups = {"local": [task]}
         run_task_groups(groups, num_processes)
     elif subcommand == "extract-patches":
@@ -184,6 +199,12 @@ def set_swe_parser_args(parser: ArgumentParser) -> None:
         help="The directory where repositories should be cloned to.",
     )
     parser.add_argument("--task", type=str, help="Task id to be run.")
+    parser.add_argument(
+        "--pull-number",
+        type=str,
+        default=None,
+        help="Only process tasks/instances with these pull_number(s), comma-separated.",
+    )
 
 
 def set_github_parser_args(parser: ArgumentParser) -> None:
@@ -214,6 +235,12 @@ def set_github_parser_args(parser: ArgumentParser) -> None:
         # default="/home/azureuser/glh/RepoSetupAgent/testbed",
         help="The directory where repositories should be cloned to.",
     )
+    parser.add_argument(
+        "--pull-number",
+        type=str,
+        default=None,
+        help="Only process tasks/instances with these pull_number(s), comma-separated.",
+    )
 
 
 def set_local_parser_args(parser: ArgumentParser) -> None:
@@ -225,6 +252,12 @@ def set_local_parser_args(parser: ArgumentParser) -> None:
         "--local-repo", type=str, help="Path to a local copy of the target repo."
     )
     parser.add_argument("--issue-file", type=str, help="Path to a local issue file.")
+    parser.add_argument(
+        "--pull-number",
+        type=str,
+        default=None,
+        help="Only process tasks/instances with these pull_number(s), comma-separated.",
+    )
 
 
 def add_task_related_args(parser: ArgumentParser) -> None:
@@ -376,33 +409,34 @@ def load_tasks_map(tasks_map_file: str):
 def make_swe_tasks(
     task_id: str | None,
     task_list_file: str | None,
-    # setup_map_file: str,
     tasks_map_file: str,
     setup_dir: str,
     client: docker.DockerClient,
+    pull_number: str | None = None,
 ) -> list[RawSweTask]:
     if task_id is not None and task_list_file is not None:
         raise ValueError("Cannot specify both task and task-list.")
-
-
-
-
-
-    # with open(setup_map_file) as f:
-    #     setup_map = json.load(f)
     tasks_map = load_tasks_map(tasks_map_file)
     all_task_ids = []
     if task_list_file is not None:
         all_task_ids = parse_task_list_file(task_list_file)
     if task_id is not None:
         all_task_ids = [task_id]
-    if task_list_file is  None:
+    if task_list_file is  None and task_id is None:
         all_task_ids = list(tasks_map.keys())
     if len(all_task_ids) == 0:
         raise ValueError("No task ids to run.")
-    # with open(tasks_map_file) as f:
-    #     tasks_map = json.load(f)
-
+    # Filter by pull_number(s) if provided
+    if pull_number is not None:
+        pull_numbers = set(x.strip() for x in pull_number.split(",") if x.strip())
+        filtered_task_ids = []
+        for tid in all_task_ids:
+            task_info = tasks_map[tid]
+            if str(task_info.get("pull_number")) in pull_numbers:
+                filtered_task_ids.append(tid)
+        all_task_ids = filtered_task_ids
+        if len(all_task_ids) == 0:
+            raise ValueError(f"No tasks found with pull_number(s)={pull_number}.")
     # Check if all task ids are in the setup and tasks map
     # This allows failing safely if some tasks are not set up properly
     missing_task_ids = [

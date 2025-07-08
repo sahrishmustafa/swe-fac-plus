@@ -1,0 +1,184 @@
++ cd /testbed
++ TARGET_COMMIT_SHA=0cef1f819e9811209a6b110ae37fe65e70aa79b0
++ TARGET_TEST_FILES=("test/CMakeLists.txt")
++ echo 'Checking out target files to a clean state...'
++ for FILE in "${TARGET_TEST_FILES[@]}"
++ git checkout 0cef1f819e9811209a6b110ae37fe65e70aa79b0 test/CMakeLists.txt
+Checking out target files to a clean state...
+Updated 0 paths from f5332467
++ echo 'Applying test patch...'
++ git apply -v -
+Applying test patch...
+Checking patch test/CMakeLists.txt...
+Applied patch test/CMakeLists.txt cleanly.
++ cd build
++ echo 'Reconfiguring CMake...'
++ cmake .. -DCMAKE_BUILD_TYPE=Release -DFMT_TEST=ON
+Reconfiguring CMake...
+-- CMake version: 3.22.1
+-- Module support is disabled.
+-- Version: 8.1.2
+-- Build type: Release
+-- CXX_STANDARD: 11
+-- Required features: cxx_variadic_templates
+-- Target 'doc' disabled (requires doxygen)
+-- FMT_PEDANTIC: OFF
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /testbed/build
+Building the project...
++ cmake_config_rc=0
++ '[' 0 -ne 0 ']'
++ echo 'Building the project...'
++ cmake --build . -j2
+Consolidate compiler generated dependencies of target gtest
+Consolidate compiler generated dependencies of target fmt
+[  3%] Building CXX object CMakeFiles/fmt.dir/src/os.cc.o
+[  4%] Built target gtest
+Consolidate compiler generated dependencies of target format-impl-test
+[  6%] Building CXX object test/CMakeFiles/format-impl-test.dir/format-impl-test.cc.o
+[  7%] Linking CXX static library libfmt.a
+[  9%] Built target fmt
+Consolidate compiler generated dependencies of target compile-fp-test
+[ 10%] Building CXX object test/CMakeFiles/compile-fp-test.dir/gtest-extra.cc.o
+[ 12%] Building CXX object test/CMakeFiles/compile-fp-test.dir/util.cc.o
+[ 13%] Building CXX object test/CMakeFiles/format-impl-test.dir/gtest-extra.cc.o
+[ 15%] Building CXX object test/CMakeFiles/compile-fp-test.dir/__/src/os.cc.o
+[ 16%] Building CXX object test/CMakeFiles/format-impl-test.dir/util.cc.o
+[ 18%] Linking CXX executable ../bin/compile-fp-test
+[ 21%] Built target compile-fp-test
+Consolidate compiler generated dependencies of target unicode-test
+[ 23%] Building CXX object test/CMakeFiles/unicode-test.dir/unicode-test.cc.o
+[ 24%] Building CXX object test/CMakeFiles/format-impl-test.dir/__/src/os.cc.o
+[ 26%] Building CXX object test/CMakeFiles/unicode-test.dir/gtest-extra.cc.o
+[ 27%] Linking CXX executable ../bin/format-impl-test
+[ 30%] Built target format-impl-test
+Consolidate compiler generated dependencies of target posix-mock-test
+[ 32%] Building CXX object test/CMakeFiles/posix-mock-test.dir/posix-mock-test.cc.o
+[ 33%] Building CXX object test/CMakeFiles/posix-mock-test.dir/gtest-extra.cc.o
+[ 35%] Building CXX object test/CMakeFiles/unicode-test.dir/util.cc.o
+[ 36%] Building CXX object test/CMakeFiles/posix-mock-test.dir/util.cc.o
+[ 38%] Linking CXX executable ../bin/posix-mock-test
+[ 41%] Built target posix-mock-test
+Consolidate compiler generated dependencies of target test-main
+[ 43%] Building CXX object test/CMakeFiles/test-main.dir/gtest-extra.cc.o
+[ 44%] Building CXX object test/CMakeFiles/test-main.dir/util.cc.o
+[ 46%] Linking CXX static library libtest-main.a
+[ 47%] Built target test-main
+[ 49%] Building CXX object test/CMakeFiles/unicode-test.dir/__/src/os.cc.o
+Consolidate compiler generated dependencies of target args-test
+[ 50%] Linking CXX executable ../bin/args-test
+[ 52%] Built target args-test
+Consolidate compiler generated dependencies of target assert-test
+[ 53%] Linking CXX executable ../bin/assert-test
+[ 55%] Built target assert-test
+Consolidate compiler generated dependencies of target chrono-test
+[ 56%] Building CXX object test/CMakeFiles/chrono-test.dir/chrono-test.cc.o
+[ 58%] Linking CXX executable ../bin/unicode-test
+[ 60%] Built target unicode-test
+Consolidate compiler generated dependencies of target color-test
+[ 61%] Building CXX object test/CMakeFiles/color-test.dir/color-test.cc.o
+[ 63%] Linking CXX executable ../bin/color-test
+[ 63%] Built target color-test
+Consolidate compiler generated dependencies of target core-test
+[ 64%] Linking CXX executable ../bin/core-test
+[ 66%] Built target core-test
+Consolidate compiler generated dependencies of target gtest-extra-test
+[ 67%] Building CXX object test/CMakeFiles/gtest-extra-test.dir/gtest-extra-test.cc.o
+[ 69%] Linking CXX executable ../bin/gtest-extra-test
+[ 69%] Built target gtest-extra-test
+Consolidate compiler generated dependencies of target format-test
+[ 70%] Building CXX object test/CMakeFiles/format-test.dir/format-test.cc.o
+[ 72%] Linking CXX executable ../bin/chrono-test
+[ 72%] Built target chrono-test
+Consolidate compiler generated dependencies of target ostream-test
+[ 73%] Building CXX object test/CMakeFiles/ostream-test.dir/ostream-test.cc.o
+[ 75%] Linking CXX executable ../bin/ostream-test
+[ 75%] Built target ostream-test
+Consolidate compiler generated dependencies of target compile-test
+[ 76%] Building CXX object test/CMakeFiles/compile-test.dir/compile-test.cc.o
+[ 78%] Linking CXX executable ../bin/compile-test
+[ 78%] Built target compile-test
+Consolidate compiler generated dependencies of target printf-test
+[ 80%] Building CXX object test/CMakeFiles/printf-test.dir/printf-test.cc.o
+[ 81%] Linking CXX executable ../bin/format-test
+[ 81%] Built target format-test
+Consolidate compiler generated dependencies of target ranges-test
+[ 83%] Linking CXX executable ../bin/ranges-test
+[ 86%] Built target ranges-test
+Consolidate compiler generated dependencies of target scan-test
+[ 87%] Building CXX object test/CMakeFiles/scan-test.dir/scan-test.cc.o
+[ 89%] Linking CXX executable ../bin/scan-test
+[ 89%] Built target scan-test
+Consolidate compiler generated dependencies of target xchar-test
+[ 90%] Building CXX object test/CMakeFiles/xchar-test.dir/xchar-test.cc.o
+[ 92%] Linking CXX executable ../bin/xchar-test
+[ 92%] Built target xchar-test
+Consolidate compiler generated dependencies of target enforce-checks-test
+[ 93%] Linking CXX executable ../bin/enforce-checks-test
+[ 95%] Built target enforce-checks-test
+Consolidate compiler generated dependencies of target os-test
+[ 96%] Building CXX object test/CMakeFiles/os-test.dir/os-test.cc.o
+[ 98%] Linking CXX executable ../bin/os-test
+[ 98%] Built target os-test
+[100%] Linking CXX executable ../bin/printf-test
+[100%] Built target printf-test
++ build_rc=0
++ '[' 0 -ne 0 ']'
++ echo 'Running tests defined in test/CMakeLists.txt using ctest...'
++ export CTEST_OUTPUT_ON_FAILURE=True
++ CTEST_OUTPUT_ON_FAILURE=True
++ ctest -C Release
+Running tests defined in test/CMakeLists.txt using ctest...
+Test project /testbed/build
+      Start  1: args-test
+ 1/19 Test  #1: args-test ........................   Passed    0.00 sec
+      Start  2: assert-test
+ 2/19 Test  #2: assert-test ......................   Passed    0.00 sec
+      Start  3: chrono-test
+ 3/19 Test  #3: chrono-test ......................   Passed    0.03 sec
+      Start  4: color-test
+ 4/19 Test  #4: color-test .......................   Passed    0.00 sec
+      Start  5: core-test
+ 5/19 Test  #5: core-test ........................   Passed    0.00 sec
+      Start  6: gtest-extra-test
+ 6/19 Test  #6: gtest-extra-test .................   Passed    0.00 sec
+      Start  7: format-test
+ 7/19 Test  #7: format-test ......................   Passed    0.01 sec
+      Start  8: format-impl-test
+ 8/19 Test  #8: format-impl-test .................   Passed    0.01 sec
+      Start  9: ostream-test
+ 9/19 Test  #9: ostream-test .....................   Passed    0.00 sec
+      Start 10: compile-test
+10/19 Test #10: compile-test .....................   Passed    0.00 sec
+      Start 11: compile-fp-test
+11/19 Test #11: compile-fp-test ..................   Passed    0.00 sec
+      Start 12: printf-test
+12/19 Test #12: printf-test ......................   Passed    0.00 sec
+      Start 13: ranges-test
+13/19 Test #13: ranges-test ......................   Passed    0.00 sec
+      Start 14: scan-test
+14/19 Test #14: scan-test ........................   Passed    0.00 sec
+      Start 15: unicode-test
+15/19 Test #15: unicode-test .....................   Passed    0.00 sec
+      Start 16: xchar-test
+16/19 Test #16: xchar-test .......................   Passed    0.00 sec
+      Start 17: enforce-checks-test
+17/19 Test #17: enforce-checks-test ..............   Passed    0.00 sec
+      Start 18: posix-mock-test
+18/19 Test #18: posix-mock-test ..................   Passed    0.00 sec
+      Start 19: os-test
+19/19 Test #19: os-test ..........................   Passed    0.01 sec
+
+100% tests passed, 0 tests failed out of 19
+
+Total Test time (real) =   0.11 sec
++ rc=0
++ echo OMNIGRIL_EXIT_CODE=0
++ cd /testbed
++ echo 'Cleaning up: Reverting test file changes...'
++ for FILE in "${TARGET_TEST_FILES[@]}"
++ git checkout 0cef1f819e9811209a6b110ae37fe65e70aa79b0 test/CMakeLists.txt
+OMNIGRIL_EXIT_CODE=0
+Cleaning up: Reverting test file changes...
+Updated 1 path from f5332467

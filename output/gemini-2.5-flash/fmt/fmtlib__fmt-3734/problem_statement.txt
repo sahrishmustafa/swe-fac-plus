@@ -1,0 +1,26 @@
+presentation_type `c` accepted in combination with `bool`
+While applying massive random tests with generated format-specs, it turned out that the `c` presentation-type is allowed for `bool`. 
+
+```cpp
+    std::string_view constexpr formatString{"{:X<#9c}"}; // invalid format string
+    std::cout << fmt::format(formatString, false) << std::endl; // accepted, compile error expected
+    std::cout << std::format(formatString, false) << std::endl; // rejected, compiler error as expected
+```
+
+[godbolt](https://www.godbolt.org/z/xzbsdq49o)
+
+While writing for `false` the value is missing
+```cpp
+    std::string_view constexpr formatString{"{:X<#2c}"};
+    auto const s1{fmt::format(formatString, false)};
+    std::cout << s1 << std::endl; // prints "X"
+```
+[godbolt](https://www.godbolt.org/z/ccz388zMr)
+
+for `true` the output seems to include uninitialized memory (unprintable chars)
+```cpp
+    std::string_view constexpr formatString{"{:X<#2c}"};
+    auto const s1{fmt::format(formatString, false)};
+    std::cout << s1 << std::endl; // prints "?X", where ? is an unprintable char
+```
+[godbolt](https://www.godbolt.org/z/W5dGjK5h9)

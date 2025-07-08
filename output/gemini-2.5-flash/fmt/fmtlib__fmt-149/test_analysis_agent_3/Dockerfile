@@ -1,36 +1,29 @@
-# Base image specification. Defines the foundation OS and architecture for the container
 FROM --platform=linux/x86_64 ubuntu:22.04
-
-# Set environment variables for non-interactive apt operations and timezone
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Etc/UTC
 
-# System dependencies installation. Installs essential tools and libraries required for development and runtime
-# build-essential: Provides GNU compiler collection (GCC/g++), make, and other development utilities.
-# cmake: Build system generator.
-# git: Version control system for cloning the repository and managing submodules.
+# Install essential system dependencies: build-essential for C++ compiler and make, cmake for build system, and git for cloning.
 RUN apt update && apt install -y \
     build-essential \
     cmake \
     git \
     && rm -rf /var/lib/apt/lists/*
 
-# Set the working directory inside the container
+# Set the working directory inside the container.
 WORKDIR /testbed/
 
-# Target Project setup. Clones source code, checkouts to the target version, and configures it.
-# 1. Clone the fmtlib/fmt repository into the /testbed directory.
-# 2. Checkout the specific commit SHA to ensure reproducibility.
-# 3. Update Git submodules, which fetch necessary dependencies like Google Test/Mock.
-# 4. Create a 'build' directory, navigate into it, configure the project with CMake,
-#    and then build the project and its tests using 'make'.
-#    -DCMAKE_BUILD_TYPE=Release configures a release build.
-#    -DFMT_EXTRA_TESTS=ON enables the building of tests.
-#    make -j$(nproc) compiles the project using all available CPU cores.
-RUN git clone https://github.com/fmtlib/fmt . && \
-    git reset --hard 88f4be3d19364a484431309f750535386c7d0d5c && \
-    git submodule update --init && \
-    mkdir build && \
-    cd build && \
-    cmake -DCMAKE_BUILD_TYPE=Release -DFMT_EXTRA_TESTS=ON .. && \
-    make -j$(nproc)
+# Clone the target repository and checkout the specific commit SHA.
+RUN git clone https://github.com/fmtlib/fmt . \
+    && git reset --hard 88f4be3d19364a484431309f750535386c7d0d5c
+
+# Initialize and update Git submodules, which are required for dependencies like gmock.
+RUN git submodule update --init
+
+# Create a build directory, configure the project with CMake, and compile it.
+# FMT_EXTRA_TESTS=ON ensures test executables are built.
+# Changed CMAKE_BUILD_TYPE to RelWithDebInfo to include debug symbols for better debugging of segfaults.
+# make -j "$(nproc)" compiles using all available processor cores.
+RUN mkdir build \
+    && cd build \
+    && cmake -DCMAKE_BUILD_TYPE=RelWithDebInfo -DFMT_EXTRA_TESTS=ON .. \
+    && make -j "$(nproc)"

@@ -4,149 +4,268 @@ Updated 0 paths from f2f7ba6b
 + git apply -v -
 Checking patch test/util-test.cc...
 Applied patch test/util-test.cc cleanly.
-+ cd /testbed
-+ rm -rf build
-+ mkdir build
 + cd build
-+ cmake -DCMAKE_BUILD_TYPE=Release -DFMT_EXTRA_TESTS=ON ..
--- CMake version: 3.22.1
-CMake Deprecation Warning at CMakeLists.txt:3 (cmake_minimum_required):
-  Compatibility with CMake < 2.8.12 will be removed from a future version of
-  CMake.
-
-  Update the VERSION argument <min> value or use a ...<max> suffix to tell
-  CMake that the project does not need compatibility with older versions.
-
-
--- The C compiler identification is GNU 11.4.0
--- The CXX compiler identification is GNU 11.4.0
--- Detecting C compiler ABI info
--- Detecting C compiler ABI info - done
--- Check for working C compiler: /usr/bin/cc - skipped
--- Detecting C compile features
--- Detecting C compile features - done
--- Detecting CXX compiler ABI info
--- Detecting CXX compiler ABI info - done
--- Check for working CXX compiler: /usr/bin/c++ - skipped
--- Detecting CXX compile features
--- Detecting CXX compile features - done
--- Build type: Release
--- Performing Test HAVE_STD_CPP11_FLAG
--- Performing Test HAVE_STD_CPP11_FLAG - Success
--- Performing Test FMT_CPP11_CMATH
--- Performing Test FMT_CPP11_CMATH - Success
--- Looking for open
--- Looking for open - found
--- Target 'doc' disabled (requires doxygen)
--- Looking for pthread.h
--- Looking for pthread.h - found
--- Performing Test CMAKE_HAVE_LIBC_PTHREAD
--- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
--- Found Threads: TRUE  
--- Performing Test FMT_VARIADIC_TEMPLATES
--- Performing Test FMT_VARIADIC_TEMPLATES - Success
--- Performing Test FMT_INITIALIZER_LIST
--- Performing Test FMT_INITIALIZER_LIST - Success
--- Performing Test HAVE_ENUM_BASE
--- Performing Test HAVE_ENUM_BASE - Success
--- Performing Test HAVE_TYPE_TRAITS
--- Performing Test HAVE_TYPE_TRAITS - Success
--- Performing Test HAVE_FNO_EXCEPTIONS_FLAG
--- Performing Test HAVE_FNO_EXCEPTIONS_FLAG - Success
--- Configuring done
--- Generating done
--- Build files have been written to: /testbed/build
 ++ nproc
-+ make -j12
-[ 15%] Building CXX object CMakeFiles/testformat.dir/test/gtest-extra-test.cc.o
-[ 15%] Building CXX object CMakeFiles/gmock.dir/gmock/gmock-gtest-all.cc.o
-[ 15%] Building CXX object CMakeFiles/testformat.dir/test/header-only-test2.cc.o
-[ 15%] Building CXX object CMakeFiles/testformat.dir/test/header-only-test.cc.o
-[ 15%] Building CXX object CMakeFiles/testformat.dir/test/format-impl-test.cc.o
-[ 15%] Building CXX object CMakeFiles/testformat.dir/test/format-test.cc.o
-[ 15%] Building CXX object CMakeFiles/testformat.dir/test/gtest-extra.cc.o
-[ 15%] Building CXX object test/CMakeFiles/noexception-test.dir/__/format.cc.o
-[ 17%] Building CXX object CMakeFiles/format.dir/format.cc.o
-[ 19%] Building CXX object CMakeFiles/testformat.dir/test/macro-test.cc.o
-[ 21%] Building CXX object CMakeFiles/format.dir/posix.cc.o
-[ 23%] Building CXX object CMakeFiles/testformat.dir/test/posix-test.cc.o
-[ 25%] Building CXX object CMakeFiles/testformat.dir/test/printf-test.cc.o
-[ 26%] Building CXX object CMakeFiles/testformat.dir/test/util-test.cc.o
-[ 28%] Building CXX object CMakeFiles/testformat.dir/test/test-main.cc.o
-[ 30%] Building CXX object CMakeFiles/testformat.dir/test/util.cc.o
-[ 32%] Linking CXX static library libformat.a
-[ 32%] Built target format
-[ 34%] Linking CXX static library libnoexception-test.a
-[ 34%] Built target noexception-test
-[ 36%] Linking CXX static library libgmock.a
-[ 36%] Built target gmock
-[ 55%] Building CXX object test/CMakeFiles/header-only-test.dir/header-only-test.cc.o
-[ 55%] Building CXX object test/CMakeFiles/posix-test.dir/__/posix.cc.o
-[ 55%] Building CXX object test/CMakeFiles/posix-test.dir/posix-test.cc.o
-[ 55%] Building CXX object test/CMakeFiles/posix-test.dir/__/format.cc.o
-[ 55%] Building CXX object test/CMakeFiles/macro-test.dir/__/format.cc.o
-[ 55%] Building CXX object test/CMakeFiles/test-main.dir/util.cc.o
-[ 55%] Building CXX object test/CMakeFiles/macro-test.dir/__/posix.cc.o
-[ 55%] Building CXX object test/CMakeFiles/macro-test.dir/macro-test.cc.o
++ make -j 12
+Consolidate compiler generated dependencies of target gmock
+Consolidate compiler generated dependencies of target format
+Consolidate compiler generated dependencies of target noexception-test
+Consolidate compiler generated dependencies of target testformat
+[  5%] Built target gmock
+[  5%] Building CXX object CMakeFiles/format.dir/format.cc.o
+[  7%] Building CXX object CMakeFiles/format.dir/posix.cc.o
+[  9%] Building CXX object test/CMakeFiles/noexception-test.dir/__/format.cc.o
+[ 13%] Building CXX object CMakeFiles/testformat.dir/test/format-test.cc.o
+[ 13%] Building CXX object CMakeFiles/testformat.dir/test/format-impl-test.cc.o
+[ 17%] Building CXX object CMakeFiles/testformat.dir/test/gtest-extra.cc.o
+[ 17%] Building CXX object CMakeFiles/testformat.dir/test/header-only-test.cc.o
+[ 21%] Building CXX object CMakeFiles/testformat.dir/test/header-only-test2.cc.o
+[ 21%] Building CXX object CMakeFiles/testformat.dir/test/gtest-extra-test.cc.o
+Consolidate compiler generated dependencies of target header-only-test
+Consolidate compiler generated dependencies of target posix-test
+Consolidate compiler generated dependencies of target macro-test
+[ 23%] Building CXX object test/CMakeFiles/header-only-test.dir/header-only-test.cc.o
+[ 25%] Building CXX object test/CMakeFiles/posix-test.dir/posix-test.cc.o
+[ 26%] Building CXX object test/CMakeFiles/macro-test.dir/macro-test.cc.o
+[ 28%] Building CXX object test/CMakeFiles/macro-test.dir/__/format.cc.o
+[ 30%] Building CXX object CMakeFiles/testformat.dir/test/macro-test.cc.o
+[ 32%] Building CXX object test/CMakeFiles/posix-test.dir/__/format.cc.o
+[ 34%] Building CXX object test/CMakeFiles/header-only-test.dir/header-only-test2.cc.o
+[ 36%] Linking CXX executable ../bin/header-only-test
+[ 38%] Building CXX object test/CMakeFiles/macro-test.dir/__/posix.cc.o
+[ 40%] Built target header-only-test
+[ 42%] Building CXX object CMakeFiles/testformat.dir/test/posix-test.cc.o
+[ 44%] Building CXX object test/CMakeFiles/posix-test.dir/__/posix.cc.o
+[ 46%] Linking CXX static library libformat.a
+[ 46%] Built target format
+[ 48%] Building CXX object CMakeFiles/testformat.dir/test/printf-test.cc.o
+[ 50%] Linking CXX static library libnoexception-test.a
+[ 50%] Built target noexception-test
+[ 51%] Building CXX object test/CMakeFiles/macro-test.dir/gtest-extra.cc.o
+[ 53%] Building CXX object test/CMakeFiles/posix-test.dir/gtest-extra.cc.o
+Consolidate compiler generated dependencies of target test-main
 [ 55%] Building CXX object test/CMakeFiles/test-main.dir/gtest-extra.cc.o
-[ 55%] Building CXX object test/CMakeFiles/test-main.dir/test-main.cc.o
-[ 57%] Building CXX object test/CMakeFiles/posix-test.dir/test-main.cc.o
-[ 59%] Building CXX object test/CMakeFiles/header-only-test.dir/header-only-test2.cc.o
-[ 61%] Building CXX object test/CMakeFiles/header-only-test.dir/test-main.cc.o
-[ 63%] Building CXX object test/CMakeFiles/posix-test.dir/gtest-extra.cc.o
-[ 65%] Building CXX object test/CMakeFiles/macro-test.dir/test-main.cc.o
-[ 67%] Building CXX object test/CMakeFiles/macro-test.dir/gtest-extra.cc.o
-[ 69%] Building CXX object test/CMakeFiles/posix-test.dir/util.cc.o
-[ 71%] Linking CXX static library libtest-main.a
-[ 73%] Building CXX object test/CMakeFiles/macro-test.dir/util.cc.o
-[ 75%] Linking CXX executable ../bin/header-only-test
-[ 75%] Built target test-main
-[ 76%] Building CXX object test/CMakeFiles/gtest-extra-test.dir/gtest-extra-test.cc.o
-[ 76%] Built target header-only-test
-[ 78%] Building CXX object test/CMakeFiles/format-test.dir/format-test.cc.o
-[ 80%] Building CXX object test/CMakeFiles/format-impl-test.dir/format-impl-test.cc.o
-[ 82%] Building CXX object test/CMakeFiles/printf-test.dir/printf-test.cc.o
-[ 84%] Building CXX object test/CMakeFiles/util-test.dir/util-test.cc.o
-[ 86%] Linking CXX executable ../bin/macro-test
-[ 88%] Linking CXX executable ../bin/posix-test
-[ 88%] Built target macro-test
-[ 88%] Built target posix-test
-[ 90%] Linking CXX executable ../bin/format-impl-test
-[ 90%] Built target format-impl-test
-[ 92%] Linking CXX executable ../bin/gtest-extra-test
-[ 92%] Built target gtest-extra-test
-[ 94%] Linking CXX executable ../bin/util-test
-[ 94%] Built target util-test
-[ 96%] Linking CXX executable ../bin/format-test
-[ 96%] Built target format-test
-[ 98%] Linking CXX static library libtestformat.a
+[ 57%] Building CXX object CMakeFiles/testformat.dir/test/util-test.cc.o
+[ 59%] Linking CXX static library libtest-main.a
+[ 61%] Linking CXX executable ../bin/macro-test
+[ 65%] Built target test-main
+Consolidate compiler generated dependencies of target format-test
+Consolidate compiler generated dependencies of target gtest-extra-test
+Consolidate compiler generated dependencies of target format-impl-test
+Consolidate compiler generated dependencies of target printf-test
+Consolidate compiler generated dependencies of target util-test
+[ 67%] Building CXX object test/CMakeFiles/format-test.dir/format-test.cc.o
+[ 69%] Building CXX object test/CMakeFiles/gtest-extra-test.dir/gtest-extra-test.cc.o
+[ 71%] Building CXX object test/CMakeFiles/format-impl-test.dir/format-impl-test.cc.o
+[ 73%] Building CXX object test/CMakeFiles/printf-test.dir/printf-test.cc.o
+[ 75%] Building CXX object test/CMakeFiles/util-test.dir/util-test.cc.o
+[ 76%] Linking CXX executable ../bin/posix-test
+[ 80%] Built target macro-test
+[ 84%] Built target posix-test
+[ 86%] Linking CXX executable ../bin/format-impl-test
+[ 86%] Built target format-impl-test
+[ 88%] Linking CXX executable ../bin/util-test
+[ 90%] Linking CXX executable ../bin/gtest-extra-test
+[ 90%] Built target util-test
+[ 90%] Built target gtest-extra-test
+[ 92%] Linking CXX executable ../bin/format-test
+[ 92%] Built target format-test
+[ 94%] Linking CXX static library libtestformat.a
 [ 98%] Built target testformat
 [100%] Linking CXX executable ../bin/printf-test
 [100%] Built target printf-test
++ '[' 0 -ne 0 ']'
 + CTEST_OUTPUT_ON_FAILURE=1
-+ ctest -R util-test
++ make test
+Running tests...
 Test project /testbed/build
+    Start 1: gtest-extra-test
+1/7 Test #1: gtest-extra-test .................   Passed    0.01 sec
+    Start 2: format-test
+2/7 Test #2: format-test ......................***Exception: SegFault  0.00 sec
+[==========] Running 92 tests from 7 test cases.
+[----------] Global test environment set-up.
+[----------] 29 tests from WriterTest
+[ RUN      ] WriterTest.NotCopyConstructible
+[       OK ] WriterTest.NotCopyConstructible (0 ms)
+[ RUN      ] WriterTest.NotCopyAssignable
+[       OK ] WriterTest.NotCopyAssignable (0 ms)
+[ RUN      ] WriterTest.Ctor
+[       OK ] WriterTest.Ctor (0 ms)
+[ RUN      ] WriterTest.MoveCtor
+[       OK ] WriterTest.MoveCtor (0 ms)
+[ RUN      ] WriterTest.MoveAssignment
+[       OK ] WriterTest.MoveAssignment (0 ms)
+[ RUN      ] WriterTest.Allocator
+
+    Start 3: format-impl-test
+3/7 Test #3: format-impl-test .................   Passed    0.00 sec
+    Start 4: printf-test
+4/7 Test #4: printf-test ......................   Passed    0.00 sec
     Start 5: util-test
-1/1 Test #5: util-test ........................***Exception: SegFault  0.00 sec
+5/7 Test #5: util-test ........................***Exception: SegFault  0.00 sec
 [==========] Running 34 tests from 6 test cases.
 [----------] Global test environment set-up.
 [----------] 1 test from AllocatorTest
 [ RUN      ] AllocatorTest.AllocatorRef
 
+    Start 6: posix-test
+6/7 Test #6: posix-test .......................   Passed    0.01 sec
+    Start 7: compile-test
+7/7 Test #7: compile-test .....................   Passed    5.22 sec
 
-0% tests passed, 1 tests failed out of 1
+71% tests passed, 2 tests failed out of 7
 
-Total Test time (real) =   0.01 sec
+Total Test time (real) =   5.25 sec
 
 The following tests FAILED:
+	  2 - format-test (SEGFAULT)
 	  5 - util-test (SEGFAULT)
 Errors while running CTest
-+ rc=8
-+ '[' 8 -ne 0 ']'
-+ echo '--- Test failed (8), attempting to get GDB backtrace for util-test ---'
-+ set +e
-+ /usr/bin/gdb -ex 'set pagination off' -ex run -ex 'thread apply all bt full' -ex quit --batch --args /testbed/build/bin/util-test
---- Test failed (8), attempting to get GDB backtrace for util-test ---
+make: *** [Makefile:71: test] Error 8
++ rc=2
++ '[' 2 -ne 0 ']'
++ echo 'Tests failed. Attempting to get GDB stack traces for specific failing executables.'
+Tests failed. Attempting to get GDB stack traces for specific failing executables.
++ FAITH_FAILING_TEST_EXECUTABLES=("/testbed/build/bin/format-test" "/testbed/build/bin/util-test")
++ for test_exe in "${FAITH_FAILING_TEST_EXECUTABLES[@]}"
++ '[' -f /testbed/build/bin/format-test ']'
++ echo '--- Running /testbed/build/bin/format-test under GDB to capture stack trace ---'
++ gdb -batch -ex run -ex 'thread apply all bt full' -ex quit /testbed/build/bin/format-test
+--- Running /testbed/build/bin/format-test under GDB to capture stack trace ---
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+[==========] Running 92 tests from 7 test cases.
+[----------] Global test environment set-up.
+[----------] 29 tests from WriterTest
+[ RUN      ] WriterTest.NotCopyConstructible
+[       OK ] WriterTest.NotCopyConstructible (0 ms)
+[ RUN      ] WriterTest.NotCopyAssignable
+[       OK ] WriterTest.NotCopyAssignable (0 ms)
+[ RUN      ] WriterTest.Ctor
+[       OK ] WriterTest.Ctor (0 ms)
+[ RUN      ] WriterTest.MoveCtor
+[       OK ] WriterTest.MoveCtor (0 ms)
+[ RUN      ] WriterTest.MoveAssignment
+[       OK ] WriterTest.MoveAssignment (0 ms)
+[ RUN      ] WriterTest.Allocator
+
+Program received signal SIGSEGV, Segmentation fault.
+testing::internal::FunctionMockerBase<void (char*, unsigned long)>::InvokeWith(std::tuple<char*, unsigned long> const&) (args=std::tuple containing = {...}, this=0x7fffffffe690) at /testbed/gmock/gmock/gmock.h:10090
+10090	        this->UntypedInvokeWith(&args))->GetValueAndDelete();
+
+Thread 1 (Thread 0x7ffff7eb03c0 (LWP 527) "format-test"):
+#0  testing::internal::FunctionMockerBase<void (char*, unsigned long)>::InvokeWith(std::tuple<char*, unsigned long> const&) (args=std::tuple containing = {...}, this=0x7fffffffe690) at /testbed/gmock/gmock/gmock.h:10090
+No locals.
+#1  testing::internal::FunctionMocker<void (char*, unsigned long)>::Invoke(char*, unsigned long) (a2=750, a1=0x5555556b73d0 "\267VUU\005", this=0x7fffffffe690) at /testbed/gmock/gmock/gmock.h:10425
+No locals.
+#2  MockAllocator<char>::deallocate (gmock_a2=750, gmock_a1=0x5555556b73d0 "\267VUU\005", this=0x7fffffffe628) at /testbed/test/mock-allocator.h:40
+No locals.
+#3  AllocatorRef<testing::StrictMock<MockAllocator<char> > >::deallocate (n=750, p=0x5555556b73d0 "\267VUU\005", this=0x7fffffffe740) at /testbed/test/mock-allocator.h:82
+No locals.
+#4  fmt::internal::MemoryBuffer<char, 500ul, AllocatorRef<testing::StrictMock<MockAllocator<char> > > >::free (this=0x7fffffffe720) at /testbed/./format.h:381
+No locals.
+#5  fmt::internal::MemoryBuffer<char, 500ul, AllocatorRef<testing::StrictMock<MockAllocator<char> > > >::~MemoryBuffer (this=0x7fffffffe720, __in_chrg=<optimized out>) at /testbed/./format.h:390
+No locals.
+#6  fmt::BasicMemoryWriter<char, AllocatorRef<testing::StrictMock<MockAllocator<char> > > >::~BasicMemoryWriter (this=0x7fffffffe710, __in_chrg=<optimized out>) at /testbed/./format.h:2252
+No locals.
+#7  WriterTest_Allocator_Test::TestBody (this=<optimized out>) at /testbed/test/format-test.cc:222
+        alloc = {<MockAllocator<char>> = {gmock1_allocate_39 = {<testing::internal::FunctionMockerBase<char*(long unsigned int)>> = {<testing::internal::UntypedFunctionMockerBase> = {_vptr.UntypedFunctionMockerBase = 0x5555556957e8 <vtable for testing::internal::FunctionMocker<char* (unsigned long)>+16>, mock_obj_ = 0x7fffffffe628, name_ = 0x555555660c15 "allocate", untyped_on_call_specs_ = std::vector of length 0, capacity 0, untyped_expectations_ = std::vector of length 1, capacity 1 = {{value_ = 0x5555556b7ed0, link_ = {next_ = 0x5555556b8058}}}}, current_spec_ = {function_mocker_ = 0x7fffffffe628, matchers_ = std::tuple containing = {[1] = {<testing::internal::MatcherBase<unsigned long>> = {_vptr.MatcherBase = 0x555555695778 <vtable for testing::Matcher<unsigned long>+16>, impl_ = {value_ = 0x5555556b7cd0, link_ = {next_ = 0x5555556b7fd0}}}, <No data fields>}}}}, <No data fields>}, gmock2_deallocate_40 = {<testing::internal::FunctionMockerBase<void(char*, long unsigned int)>> = {<testing::internal::UntypedFunctionMockerBase> = {_vptr.UntypedFunctionMockerBase = 0x5555556958c8 <vtable for testing::internal::FunctionMocker<void (char*, unsigned long)>+16>, mock_obj_ = 0x7fffffffe628, name_ = 0x555555660c13 "deallocate", untyped_on_call_specs_ = std::vector of length 0, capacity 0, untyped_expectations_ = std::vector of length 1, capacity 1 = {{value_ = 0x5555556b8310, link_ = {next_ = 0x5555556b84a8}}}}, current_spec_ = {function_mocker_ = 0x7fffffffe690, matchers_ = std::tuple containing = {[1] = {<testing::internal::MatcherBase<char*>> = {_vptr.MatcherBase = 0x555555695858 <vtable for testing::Matcher<char*>+16>, impl_ = {value_ = 0x5555556b8220, link_ = {next_ = 0x5555556b8428}}}, <No data fields>}, [2] = {<testing::internal::MatcherBase<unsigned long>> = {_vptr.MatcherBase = 0x555555695778 <vtable for testing::Matcher<unsigned long>+16>, impl_ = {value_ = 0x5555556b8010, link_ = {next_ = 0x5555556b8410}}}, <No data fields>}}}}, <No data fields>}}, _vptr.StrictMock = 0x555555695918 <vtable for testing::StrictMock<MockAllocator<char> >+16>}
+        w = {<fmt::BasicWriter<char>> = {_vptr.BasicWriter = 0x555555695960 <vtable for fmt::BasicMemoryWriter<char, AllocatorRef<testing::StrictMock<MockAllocator<char> > > >+16>, buffer_ = warning: RTTI symbol not found for class 'fmt::internal::MemoryBuffer<char, 500ul, AllocatorRef<testing::StrictMock<MockAllocator<char> > > >'
+@0x7fffffffe720}, buffer_ = {<AllocatorRef<testing::StrictMock<MockAllocator<char> > >> = {alloc_ = 0x7fffffffe620}, <fmt::Buffer<char>> = {_vptr.Buffer = 0x555555695938 <vtable for fmt::internal::MemoryBuffer<char, 500ul, AllocatorRef<testing::StrictMock<MockAllocator<char> > > >+16>, ptr_ = 0x5555556b73d0 "\267VUU\005", size_ = 501, capacity_ = 750}, data_ = '*' <repeats 500 times>}}
+        size = 750
+        mem = <optimized out>
+#8  0x0000555555655f0f in testing::internal::HandleSehExceptionsInMethodIfSupported<testing::Test, void> (location=0x55555566b06a "the test body", method=<optimized out>, object=0x5555556b4e10) at /testbed/gmock/gmock-gtest-all.cc:3562
+No locals.
+#9  testing::internal::HandleExceptionsInMethodIfSupported<testing::Test, void> (object=object@entry=0x5555556b4e10, method=<optimized out>, location=location@entry=0x55555566b06a "the test body") at /testbed/gmock/gmock-gtest-all.cc:3598
+No locals.
+#10 0x000055555564b30d in testing::Test::Run (this=0x5555556b4e10) at /testbed/gmock/gmock-gtest-all.cc:3634
+        impl = 0x5555556ae000
+        impl = <optimized out>
+#11 testing::Test::Run (this=0x5555556b4e10) at /testbed/gmock/gmock-gtest-all.cc:3625
+        impl = <optimized out>
+#12 0x000055555564b538 in testing::TestInfo::Run (this=0x5555556ae8c0) at /testbed/gmock/gmock-gtest-all.cc:3810
+        impl = 0x5555556ae000
+        repeater = 0x5555556ae210
+        start = 1751919155239
+        test = 0x5555556b4e10
+#13 0x000055555564b6d3 in testing::TestInfo::Run (this=<optimized out>) at /testbed/gmock/gmock-gtest-all.cc:3785
+        impl = <optimized out>
+        repeater = <optimized out>
+        start = <optimized out>
+        test = <optimized out>
+        impl = <optimized out>
+        repeater = <optimized out>
+        start = <optimized out>
+        test = <optimized out>
+#14 testing::TestCase::Run (this=0x5555556ae2a0) at /testbed/gmock/gmock-gtest-all.cc:3928
+        i = 5
+        impl = 0x5555556ae000
+        repeater = 0x5555556ae210
+        start = 1751919155239
+#15 0x000055555564bd9c in testing::TestCase::Run (this=<optimized out>) at /testbed/gmock/gmock-gtest-all.cc:3914
+        impl = <optimized out>
+        repeater = <optimized out>
+        start = <optimized out>
+        impl = <optimized out>
+        repeater = <optimized out>
+        start = <optimized out>
+        i = <optimized out>
+#16 testing::internal::UnitTestImpl::RunAllTests (this=0x5555556ae000) at /testbed/gmock/gmock-gtest-all.cc:5799
+        test_index = 0
+        start = 1751919155239
+        i = 0
+        should_shard = <optimized out>
+        has_tests_to_run = true
+        repeater = <optimized out>
+        forever = <optimized out>
+        in_subprocess_for_death_test = <optimized out>
+        failed = false
+        repeat = <optimized out>
+        in_subprocess_for_death_test = <optimized out>
+        should_shard = <optimized out>
+        has_tests_to_run = <optimized out>
+        failed = <optimized out>
+        repeater = <optimized out>
+        repeat = <optimized out>
+        forever = <optimized out>
+        i = <optimized out>
+        start = <optimized out>
+        test_index = <optimized out>
+#17 testing::internal::UnitTestImpl::RunAllTests (this=0x5555556ae000) at /testbed/gmock/gmock-gtest-all.cc:5706
+        in_subprocess_for_death_test = <optimized out>
+        should_shard = <optimized out>
+        has_tests_to_run = <optimized out>
+        failed = <optimized out>
+        repeater = <optimized out>
+        repeat = <optimized out>
+        forever = <optimized out>
+        i = <optimized out>
+        start = <optimized out>
+        test_index = <optimized out>
+#18 0x00005555556564a7 in testing::internal::HandleSehExceptionsInMethodIfSupported<testing::internal::UnitTestImpl, bool> (location=0x55555566a3e8 "auxiliary test code (environments or event listeners)", method=<optimized out>, object=0x5555556ae000) at /testbed/gmock/gmock-gtest-all.cc:3562
+No locals.
+#19 testing::internal::HandleExceptionsInMethodIfSupported<testing::internal::UnitTestImpl, bool> (object=0x5555556ae000, method=<optimized out>, location=location@entry=0x55555566a3e8 "auxiliary test code (environments or event listeners)") at /testbed/gmock/gmock-gtest-all.cc:3598
+No locals.
+#20 0x000055555564bebf in testing::UnitTest::Run (this=0x55555569bb20 <testing::UnitTest::GetInstance()::instance>) at /testbed/gmock/gmock-gtest-all.cc:5410
+        in_death_test_child_process = <optimized out>
+        premature_exit_file = <optimized out>
+#21 0x00005555555bdd43 in RUN_ALL_TESTS () at /testbed/gmock/gtest/gtest.h:20058
+No locals.
+#22 main (argc=<optimized out>, argv=<optimized out>) at /testbed/test/test-main.cc:55
+No locals.
+A debugging session is active.
+
+	Inferior 1 [process 527] will be killed.
+
+Quit anyway? (y or n) [answered Y; input not from terminal]
++ echo '--- End of GDB output for /testbed/build/bin/format-test ---'
++ for test_exe in "${FAITH_FAILING_TEST_EXECUTABLES[@]}"
++ '[' -f /testbed/build/bin/util-test ']'
++ echo '--- Running /testbed/build/bin/util-test under GDB to capture stack trace ---'
++ gdb -batch -ex run -ex 'thread apply all bt full' -ex quit /testbed/build/bin/util-test
+--- End of GDB output for /testbed/build/bin/format-test ---
+--- Running /testbed/build/bin/util-test under GDB to capture stack trace ---
 [Thread debugging using libthread_db enabled]
 Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
 [==========] Running 34 tests from 6 test cases.
@@ -155,35 +274,114 @@ Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
 [ RUN      ] AllocatorTest.AllocatorRef
 
 Program received signal SIGSEGV, Segmentation fault.
-0x00005555555ad254 in CheckForwarding(MockAllocator<int>&, AllocatorRef<MockAllocator<int> >&) ()
+testing::internal::FunctionMockerBase<void (int*, unsigned long)>::InvokeWith(std::tuple<int*, unsigned long> const&) (args=std::tuple containing = {...}, this=0x7fffffffe8d0) at /testbed/gmock/gmock/gmock.h:10090
+10090	        this->UntypedInvokeWith(&args))->GetValueAndDelete();
 
-Thread 1 (Thread 0x7ffff7eb03c0 (LWP 653) "util-test"):
-#0  0x00005555555ad254 in CheckForwarding(MockAllocator<int>&, AllocatorRef<MockAllocator<int> >&) ()
-No symbol table info available.
-#1  0x00005555555ad489 in AllocatorTest_AllocatorRef_Test::TestBody() ()
-No symbol table info available.
-#2  0x0000555555616b21 in void testing::internal::HandleExceptionsInMethodIfSupported<testing::Test, void>(testing::Test*, void (testing::Test::*)(), char const*) ()
-No symbol table info available.
-#3  0x000055555560a921 in testing::Test::Run() [clone .part.0] ()
-No symbol table info available.
-#4  0x000055555560aff5 in testing::TestInfo::Run() [clone .part.0] ()
-No symbol table info available.
-#5  0x000055555560b272 in testing::TestCase::Run() [clone .part.0] ()
-No symbol table info available.
-#6  0x000055555560c284 in testing::internal::UnitTestImpl::RunAllTests() ()
-No symbol table info available.
-#7  0x000055555560c73e in testing::UnitTest::Run() ()
-No symbol table info available.
-#8  0x000055555559cc13 in main ()
-No symbol table info available.
+Thread 1 (Thread 0x7ffff7eb03c0 (LWP 544) "util-test"):
+#0  testing::internal::FunctionMockerBase<void (int*, unsigned long)>::InvokeWith(std::tuple<int*, unsigned long> const&) (args=std::tuple containing = {...}, this=0x7fffffffe8d0) at /testbed/gmock/gmock/gmock.h:10090
+No locals.
+#1  testing::internal::FunctionMocker<void (int*, unsigned long)>::Invoke(int*, unsigned long) (a2=42, a1=0x7fffffffe75c, this=0x7fffffffe8d0) at /testbed/gmock/gmock/gmock.h:10425
+No locals.
+#2  MockAllocator<int>::deallocate (gmock_a2=42, gmock_a1=0x7fffffffe75c, this=0x7fffffffe868) at /testbed/test/mock-allocator.h:40
+No locals.
+#3  AllocatorRef<MockAllocator<int> >::deallocate (n=42, p=0x7fffffffe75c, this=0x7fffffffe828) at /testbed/test/mock-allocator.h:82
+No locals.
+#4  CheckForwarding (alloc=..., ref=...) at /testbed/test/util-test.cc:85
+        mem = 0
+        ptr = 0x7fffffffe75c
+#5  0x00005555555a6aa0 in AllocatorTest_AllocatorRef_Test::TestBody (this=<optimized out>) at /testbed/test/util-test.cc:93
+        alloc = {<MockAllocator<int>> = {gmock1_allocate_39 = {<testing::internal::FunctionMockerBase<int*(long unsigned int)>> = {<testing::internal::UntypedFunctionMockerBase> = {_vptr.UntypedFunctionMockerBase = 0x555555626030 <vtable for testing::internal::FunctionMocker<int* (unsigned long)>+16>, mock_obj_ = 0x7fffffffe868, name_ = 0x555555600d02 "allocate", untyped_on_call_specs_ = std::vector of length 0, capacity 0, untyped_expectations_ = std::vector of length 1, capacity 1 = {{value_ = 0x555555641a10, link_ = {next_ = 0x555555641b78}}}}, current_spec_ = {function_mocker_ = 0x7fffffffe868, matchers_ = std::tuple containing = {[1] = {<testing::internal::MatcherBase<unsigned long>> = {_vptr.MatcherBase = 0x555555625fc0 <vtable for testing::Matcher<unsigned long>+16>, impl_ = {value_ = 0x555555640640, link_ = {next_ = 0x555555641b10}}}, <No data fields>}}}}, <No data fields>}, gmock2_deallocate_40 = {<testing::internal::FunctionMockerBase<void(int*, long unsigned int)>> = {<testing::internal::UntypedFunctionMockerBase> = {_vptr.UntypedFunctionMockerBase = 0x555555626110 <vtable for testing::internal::FunctionMocker<void (int*, unsigned long)>+16>, mock_obj_ = 0x7fffffffe868, name_ = 0x55555560076d "deallocate", untyped_on_call_specs_ = std::vector of length 0, capacity 0, untyped_expectations_ = std::vector of length 1, capacity 1 = {{value_ = 0x555555641e20, link_ = {next_ = 0x555555641fb8}}}}, current_spec_ = {function_mocker_ = 0x7fffffffe8d0, matchers_ = std::tuple containing = {[1] = {<testing::internal::MatcherBase<int*>> = {_vptr.MatcherBase = 0x5555556260a0 <vtable for testing::Matcher<int*>+16>, impl_ = {value_ = 0x555555641d40, link_ = {next_ = 0x555555641f38}}}, <No data fields>}, [2] = {<testing::internal::MatcherBase<unsigned long>> = {_vptr.MatcherBase = 0x555555625fc0 <vtable for testing::Matcher<unsigned long>+16>, impl_ = {value_ = 0x555555640660, link_ = {next_ = 0x555555641f20}}}, <No data fields>}}}}, <No data fields>}}, _vptr.StrictMock = 0x555555626268 <vtable for testing::StrictMock<MockAllocator<int> >+16>}
+        ref = {alloc_ = 0x7fffffffe868}
+        ref2 = {alloc_ = 0x0}
+        ref3 = {alloc_ = 0x7ffff7d2eaf8 <std::ostreambuf_iterator<char, std::char_traits<char> > std::num_put<char, std::ostreambuf_iterator<char, std::char_traits<char> > >::_M_insert_int<long>(std::ostreambuf_iterator<char, std::char_traits<char> >, std::ios_base&, char, long) const+328>}
+#6  0x00005555555feadf in testing::internal::HandleSehExceptionsInMethodIfSupported<testing::Test, void> (location=0x5555556069b7 "the test body", method=<optimized out>, object=0x555555640620) at /testbed/gmock/gmock-gtest-all.cc:3562
+No locals.
+#7  testing::internal::HandleExceptionsInMethodIfSupported<testing::Test, void> (object=object@entry=0x555555640620, method=<optimized out>, location=location@entry=0x5555556069b7 "the test body") at /testbed/gmock/gmock-gtest-all.cc:3598
+No locals.
+#8  0x00005555555f3d6d in testing::Test::Run (this=0x555555640620) at /testbed/gmock/gmock-gtest-all.cc:3634
+        impl = 0x55555563cfc0
+        impl = <optimized out>
+#9  testing::Test::Run (this=0x555555640620) at /testbed/gmock/gmock-gtest-all.cc:3625
+        impl = <optimized out>
+#10 0x00005555555f3f98 in testing::TestInfo::Run (this=0x55555563ced0) at /testbed/gmock/gmock-gtest-all.cc:3810
+        impl = 0x55555563cfc0
+        repeater = 0x55555563d1d0
+        start = 1751919156200
+        test = 0x555555640620
+#11 0x00005555555f4133 in testing::TestInfo::Run (this=<optimized out>) at /testbed/gmock/gmock-gtest-all.cc:3785
+        impl = <optimized out>
+        repeater = <optimized out>
+        start = <optimized out>
+        test = <optimized out>
+        impl = <optimized out>
+        repeater = <optimized out>
+        start = <optimized out>
+        test = <optimized out>
+#12 testing::TestCase::Run (this=0x55555563d280) at /testbed/gmock/gmock-gtest-all.cc:3928
+        i = 0
+        impl = 0x55555563cfc0
+        repeater = 0x55555563d1d0
+        start = 1751919156200
+#13 0x00005555555f47fc in testing::TestCase::Run (this=<optimized out>) at /testbed/gmock/gmock-gtest-all.cc:3914
+        impl = <optimized out>
+        repeater = <optimized out>
+        start = <optimized out>
+        impl = <optimized out>
+        repeater = <optimized out>
+        start = <optimized out>
+        i = <optimized out>
+#14 testing::internal::UnitTestImpl::RunAllTests (this=0x55555563cfc0) at /testbed/gmock/gmock-gtest-all.cc:5799
+        test_index = 0
+        start = 1751919156200
+        i = 0
+        should_shard = <optimized out>
+        has_tests_to_run = true
+        repeater = <optimized out>
+        forever = <optimized out>
+        in_subprocess_for_death_test = <optimized out>
+        failed = false
+        repeat = <optimized out>
+        in_subprocess_for_death_test = <optimized out>
+        should_shard = <optimized out>
+        has_tests_to_run = <optimized out>
+        failed = <optimized out>
+        repeater = <optimized out>
+        repeat = <optimized out>
+        forever = <optimized out>
+        i = <optimized out>
+        start = <optimized out>
+        test_index = <optimized out>
+#15 testing::internal::UnitTestImpl::RunAllTests (this=0x55555563cfc0) at /testbed/gmock/gmock-gtest-all.cc:5706
+        in_subprocess_for_death_test = <optimized out>
+        should_shard = <optimized out>
+        has_tests_to_run = <optimized out>
+        failed = <optimized out>
+        repeater = <optimized out>
+        repeat = <optimized out>
+        forever = <optimized out>
+        i = <optimized out>
+        start = <optimized out>
+        test_index = <optimized out>
+#16 0x00005555555ff077 in testing::internal::HandleSehExceptionsInMethodIfSupported<testing::internal::UnitTestImpl, bool> (location=0x555555605d40 "auxiliary test code (environments or event listeners)", method=<optimized out>, object=0x55555563cfc0) at /testbed/gmock/gmock-gtest-all.cc:3562
+No locals.
+#17 testing::internal::HandleExceptionsInMethodIfSupported<testing::internal::UnitTestImpl, bool> (object=0x55555563cfc0, method=<optimized out>, location=location@entry=0x555555605d40 "auxiliary test code (environments or event listeners)") at /testbed/gmock/gmock-gtest-all.cc:3598
+No locals.
+#18 0x00005555555f491f in testing::UnitTest::Run (this=0x55555562a960 <testing::UnitTest::GetInstance()::instance>) at /testbed/gmock/gmock-gtest-all.cc:5410
+        in_death_test_child_process = <optimized out>
+        premature_exit_file = <optimized out>
+#19 0x0000555555599223 in RUN_ALL_TESTS () at /testbed/gmock/gtest/gtest.h:20058
+No locals.
+#20 main (argc=<optimized out>, argv=<optimized out>) at /testbed/test/test-main.cc:55
+No locals.
 A debugging session is active.
 
-	Inferior 1 [process 653] will be killed.
+	Inferior 1 [process 544] will be killed.
 
 Quit anyway? (y or n) [answered Y; input not from terminal]
-+ set -e
-+ echo OMNIGRIL_EXIT_CODE=8
-+ cd /testbed
+--- End of GDB output for /testbed/build/bin/util-test ---
+OMNIGRIL_EXIT_CODE=2
++ echo '--- End of GDB output for /testbed/build/bin/util-test ---'
++ cd ..
++ echo OMNIGRIL_EXIT_CODE=2
 + git checkout 88f4be3d19364a484431309f750535386c7d0d5c test/util-test.cc
-OMNIGRIL_EXIT_CODE=8
 Updated 1 path from f2f7ba6b

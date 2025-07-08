@@ -9,7 +9,7 @@
     },
     {
         "role": "user",
-        "content": "Structure of root directory: You are browsing the path: /home/sahrish/Desktop/swe-bench/swe-factory-local/github/_cache/fmtlib__fmt-2610_2025-07-04_18-39-02. The browsing Depth is 1.\nStructure of this path:\n\nCMakeLists.txt\n\n.gitignore\n\nCONTRIBUTING.md\n\nREADME.rst\n\nLICENSE.rst\n\n.clang-format\n\nChangeLog.rst\n\ninclude/\n\nsrc/\n\n.git/\n\ndoc/\n\n.github/\n\nsupport/\n\ntest/\n\n\n\n"
+        "content": "Structure of root directory: You are browsing the path: /home/sahrish/Desktop/swe-bench/swe-factory-local/github/_cache/fmtlib__fmt-2610_2025-07-08_07-01-21. The browsing Depth is 1.\nStructure of this path:\n\nCMakeLists.txt\n\n.gitignore\n\nCONTRIBUTING.md\n\nREADME.rst\n\nLICENSE.rst\n\n.clang-format\n\nChangeLog.rst\n\ninclude/\n\nsrc/\n\n.git/\n\ndoc/\n\n.github/\n\nsupport/\n\ntest/\n\n\n\n"
     },
     {
         "role": "user",

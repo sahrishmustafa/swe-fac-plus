@@ -1,6 +1,6 @@
 {
   "is_finish": false,
-  "guidance_for_write_dockerfile_agent": "The Dockerfile failed to build because it attempted to run tests during the build process (`cmake --build build --target test`). Building and running tests should be separate steps: building occurs in the Dockerfile, and running occurs in the evaluation script. Remove `--target test` from the `cmake --build` command. The updated command should be `cmake --build build`. This will compile all necessary executables, including tests, but will not attempt to run them during the Dockerfile build, resolving the 'Could not find executable' errors.",
+  "guidance_for_write_dockerfile_agent": "The Dockerfile build failed due to a 'Killed signal terminated program cc1plus' error during the `cmake --build .` step, which strongly indicates an Out-Of-Memory (OOM) issue during compilation. To resolve this, the computationally intensive build step should be moved out of the Dockerfile `RUN` instruction and into the evaluation script. The Dockerfile should only configure the build system. Modify the last `RUN` instruction in the Dockerfile to remove `&& cmake --build .`. The updated instruction should look like this:\n`RUN mkdir build && \\\n    cd build && \\\n    cmake -G Ninja -DFMT_DOC=OFF -DFMT_PEDANTIC=ON -DFMT_WERROR=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_STANDARD=14 ..`",
   "guidance_for_write_eval_script_agent": "",
   "guidance_for_context_retrieval_agent": "",
   "build_image_status": false

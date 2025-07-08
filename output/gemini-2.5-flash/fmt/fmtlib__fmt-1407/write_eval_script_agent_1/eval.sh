@@ -1,12 +1,16 @@
 #!/bin/bash
 set -uxo pipefail
 
-# Navigate to the repository root as operations like git checkout from a specific path require it.
+# Navigate to the repository root for git operations.
 cd /testbed
 
+# Define target commit SHA and test files for clarity and reusability.
+TARGET_COMMIT_SHA="1f918159edded99c9c0cf005c96ecc12e4cc92b1"
+TEST_FILES="test/core-test.cc test/format-test.cc"
+
 # Ensure the target test files are in their original state before applying any patch.
-# This resets them to the state at the target commit SHA, undoing any previous changes (e.g., from prior patch applications).
-git checkout 1f918159edded99c9c0cf005c96ecc12e4cc92b1 "test/core-test.cc" "test/format-test.cc"
+# This resets them to the state at the target commit SHA, undoing any previous changes.
+git checkout "${TARGET_COMMIT_SHA}" ${TEST_FILES}
 
 # Required: apply test patch to update target tests (if any).
 # The actual content of the patch will be inserted here by the system.
@@ -46,20 +50,35 @@ diff --git a/test/format-test.cc b/test/format-test.cc
  #if FMT_HAS_FEATURE(cxx_strong_enums)
 EOF_114329324912
 
-# Navigate into the pre-existing build directory created by the Dockerfile.
-# Tests are typically executed from this directory after compilation.
+# Navigate into the pre-existing build directory.
+# The Dockerfile has already created and configured the 'build' directory.
 cd build
 
-# Execute target tests using ctest.
-# We use the -R (regex) option to run only the tests corresponding to the specified files.
-# "test/core-test.cc" and "test/format-test.cc" usually compile into test executables named "core-test" and "format-test" respectively.
-# --output-on-failure ensures that test output is only shown if a test fails, keeping the log clean for successful runs.
-ctest --output-on-failure -R "(core-test|format-test)"
+# Required: Rebuild the project to include any changes from the patch in the test executables.
+# Using -j2 as suggested in the provided skeleton to prevent potential Out-Of-Memory errors during compilation.
+# CRITICAL: If the build/compilation step fails, the script must immediately set rc=1 and exit.
+# Do not continue to run tests if the build fails, as this may run outdated binaries and produce false positive results.
+cmake --build . -j2
+build_rc=$? # Capture exit code for CMake build
+
+if [ $build_rc -ne 0 ]; then
+    echo "Build failed with exit code $build_rc. Setting OMNIGRIL_EXIT_CODE to 1 and exiting."
+    rc=1
+    echo "OMNIGRIL_EXIT_CODE=$rc"
+    exit $rc
+fi
+
+# Execute only the target tests (core-test.cc and format-test.cc) using CTest's regex feature.
+# The CTest executable names are typically derived from their source file names (core-test, format-test).
+# CTEST_OUTPUT_ON_FAILURE=1 ensures detailed test output on failure.
+echo "Running specific ctest for core-test and format-test."
+CTEST_OUTPUT_ON_FAILURE=1 ctest --output-on-failure -R "(core-test|format-test)"
 rc=$? # Capture the exit code of the test command immediately.
 
-echo "OMNIGRIL_EXIT_CODE=$rc" # Required: Echo the captured exit code for result parsing.
+# Navigate back to the repository root for cleanup.
+cd /testbed
 
 # Cleanup: Revert changes made by the patch to the target test files.
-# Navigate back to the repository root first to ensure `git checkout` operates correctly on paths relative to the root.
-cd /testbed
-git checkout 1f918159edded99c9c0cf005c96ecc12e4cc92b1 "test/core-test.cc" "test/format-test.cc"
+git checkout "${TARGET_COMMIT_SHA}" ${TEST_FILES}
+
+echo "OMNIGRIL_EXIT_CODE=$rc" # Required: Echo the captured exit code for result parsing.

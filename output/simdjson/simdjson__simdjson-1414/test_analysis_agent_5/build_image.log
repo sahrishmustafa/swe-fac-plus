@@ -1,0 +1,1119 @@
+2025-07-08 05:33:15,846 - INFO - Building image simdjson__simdjson-1414
+Using dockerfile:
+# Base image specification based on the collected information.
+# Changed to ubuntu:22.04 as ubuntu:20.10 is End of Life (EOL).
+FROM ubuntu:22.04
+
+# Set environment variables for non-interactive apt operations and timezone
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Etc/UTC
+
+# Install system dependencies required for building and testing the project
+# This includes cmake for the build system, g++ for C++ compilation,
+# git for cloning the repository, and tzdata for timezone configuration.
+RUN apt update && \
+    apt install -y \
+    cmake \
+    g++ \
+    git \
+    tzdata \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set the working directory inside the container to /testbed
+WORKDIR /testbed/
+
+# Clone the target repository into the /testbed directory
+RUN git clone https://github.com/simdjson/simdjson .
+
+# Checkout the specific commit SHA for reproducibility
+RUN git reset --hard c96ff018fedc7fe087b6f898442458a31a240a28 && \
+    # Remove the remote origin to prevent accidental pushes or fetches to the original repo
+    git remote remove origin
+
+# Create a build directory and configure/build the project using CMake.
+# Corrected CMake flag to disable benchmarks to SIMDJSON_BUILD_BENCHMARKS=OFF,
+# as the previously used flags (BUILD_BENCHMARKS and SIMDJSON_DEVELOPER_MODE)
+# were not recognized for this specific simdjson version (0.8 / commit c96ff018fedc7fe087b6f898442458a31a240a28).
+# This ensures that benchmark components, which were causing compilation errors, are skipped.
+RUN mkdir build && \
+    cmake -S . -B build -DSIMDJSON_BUILD_BENCHMARKS=OFF && \
+    cmake --build build
+
+2025-07-08 05:33:15,858 - INFO - Do not find previous image, images list is clean.
+2025-07-08 05:33:16,373 - INFO - Step 1/8 : FROM ubuntu:22.04
+2025-07-08 05:33:16,382 - INFO -  ---> 3c61d3759c26
+2025-07-08 05:33:16,382 - INFO - Step 2/8 : ARG DEBIAN_FRONTEND=noninteractive
+2025-07-08 05:33:16,448 - INFO -  ---> Running in 60997e6e78de
+2025-07-08 05:33:16,869 - INFO -  ---> Removed intermediate container 60997e6e78de
+2025-07-08 05:33:16,869 - INFO -  ---> 7299d3e634a6
+2025-07-08 05:33:16,869 - INFO - Step 3/8 : ENV TZ=Etc/UTC
+2025-07-08 05:33:16,973 - INFO -  ---> Running in a5780891ca15
+2025-07-08 05:33:17,327 - INFO -  ---> Removed intermediate container a5780891ca15
+2025-07-08 05:33:17,327 - INFO -  ---> 0f46be0bf20d
+2025-07-08 05:33:17,327 - INFO - Step 4/8 : RUN apt update &&     apt install -y     cmake     g++     git     tzdata     && rm -rf /var/lib/apt/lists/*
+2025-07-08 05:33:17,413 - INFO -  ---> Running in ed175b7eaf2f
+2025-07-08 05:33:17,548 - INFO - WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+2025-07-08 05:33:18,361 - INFO - Get:1 http://archive.ubuntu.com/ubuntu jammy InRelease [270 kB]
+2025-07-08 05:33:18,570 - INFO - Get:2 http://security.ubuntu.com/ubuntu jammy-security InRelease [129 kB]
+2025-07-08 05:33:19,570 - INFO - Get:3 http://archive.ubuntu.com/ubuntu jammy-updates InRelease [128 kB]
+2025-07-08 05:33:19,794 - INFO - Get:4 http://archive.ubuntu.com/ubuntu jammy-backports InRelease [127 kB]
+2025-07-08 05:33:20,020 - INFO - Get:5 http://archive.ubuntu.com/ubuntu jammy/universe amd64 Packages [17.5 MB]
+2025-07-08 05:33:20,068 - INFO - Get:6 http://security.ubuntu.com/ubuntu jammy-security/main amd64 Packages [3092 kB]
+2025-07-08 05:33:22,072 - INFO - Get:7 http://security.ubuntu.com/ubuntu jammy-security/multiverse amd64 Packages [48.5 kB]
+2025-07-08 05:33:22,080 - INFO - Get:8 http://security.ubuntu.com/ubuntu jammy-security/restricted amd64 Packages [4763 kB]
+2025-07-08 05:33:23,700 - INFO - Get:9 http://archive.ubuntu.com/ubuntu jammy/multiverse amd64 Packages [266 kB]
+2025-07-08 05:33:23,703 - INFO - Get:10 http://archive.ubuntu.com/ubuntu jammy/restricted amd64 Packages [164 kB]
+2025-07-08 05:33:23,705 - INFO - Get:11 http://archive.ubuntu.com/ubuntu jammy/main amd64 Packages [1792 kB]
+2025-07-08 05:33:23,734 - INFO - Get:12 http://archive.ubuntu.com/ubuntu jammy-updates/universe amd64 Packages [1566 kB]
+2025-07-08 05:33:23,814 - INFO - Get:13 http://security.ubuntu.com/ubuntu jammy-security/universe amd64 Packages [1262 kB]
+2025-07-08 05:33:24,073 - INFO - Get:14 http://archive.ubuntu.com/ubuntu jammy-updates/multiverse amd64 Packages [56.4 kB]
+2025-07-08 05:33:24,078 - INFO - Get:15 http://archive.ubuntu.com/ubuntu jammy-updates/restricted amd64 Packages [4917 kB]
+2025-07-08 05:33:24,913 - INFO - Get:16 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 Packages [3404 kB]
+2025-07-08 05:33:25,479 - INFO - Get:17 http://archive.ubuntu.com/ubuntu jammy-backports/main amd64 Packages [83.2 kB]
+2025-07-08 05:33:25,494 - INFO - Get:18 http://archive.ubuntu.com/ubuntu jammy-backports/universe amd64 Packages [35.2 kB]
+2025-07-08 05:33:25,600 - INFO - Fetched 39.6 MB in 8s (4949 kB/s)
+2025-07-08 05:33:26,494 - INFO - Reading package lists...
+2025-07-08 05:33:26,750 - INFO - Building dependency tree...
+2025-07-08 05:33:26,751 - INFO - Reading state information...
+2025-07-08 05:33:26,779 - INFO - 1 package can be upgraded. Run 'apt list --upgradable' to see it.
+2025-07-08 05:33:26,786 - INFO - WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+2025-07-08 05:33:27,718 - INFO - Reading package lists...
+2025-07-08 05:33:27,978 - INFO - Building dependency tree...
+2025-07-08 05:33:27,978 - INFO - Reading state information...
+2025-07-08 05:33:28,326 - INFO - The following additional packages will be installed:
+2025-07-08 05:33:28,326 - INFO -   binutils binutils-common binutils-x86-64-linux-gnu ca-certificates
+2025-07-08 05:33:28,326 - INFO -   cmake-data cpp cpp-11 dh-elpa-helper emacsen-common fontconfig-config
+2025-07-08 05:33:28,326 - INFO -   fonts-dejavu-core g++-11 gcc gcc-11 gcc-11-base git-man less libarchive13
+2025-07-08 05:33:28,326 - INFO -   libasan6 libatomic1 libbinutils libbrotli1 libbsd0 libc-dev-bin
+2025-07-08 05:33:28,326 - INFO -   libc-devtools libc6-dev libcbor0.8 libcc1-0 libcrypt-dev libctf-nobfd0
+2025-07-08 05:33:28,326 - INFO -   libctf0 libcurl3-gnutls libcurl4 libdeflate0 libedit2 liberror-perl
+2025-07-08 05:33:28,326 - INFO -   libexpat1 libfido2-1 libfontconfig1 libfreetype6 libgcc-11-dev libgd3
+2025-07-08 05:33:28,326 - INFO -   libgdbm-compat4 libgdbm6 libgomp1 libicu70 libisl23 libitm1 libjbig0
+2025-07-08 05:33:28,326 - INFO -   libjpeg-turbo8 libjpeg8 libjsoncpp25 libldap-2.5-0 libldap-common liblsan0
+2025-07-08 05:33:28,326 - INFO -   libmd0 libmpc3 libmpfr6 libnghttp2-14 libnsl-dev libperl5.34 libpng16-16
+2025-07-08 05:33:28,326 - INFO -   libpsl5 libquadmath0 librhash0 librtmp1 libsasl2-2 libsasl2-modules
+2025-07-08 05:33:28,326 - INFO -   libsasl2-modules-db libssh-4 libstdc++-11-dev libtiff5 libtirpc-dev libtsan0
+2025-07-08 05:33:28,326 - INFO -   libubsan1 libuv1 libwebp7 libx11-6 libx11-data libxau6 libxcb1 libxdmcp6
+2025-07-08 05:33:28,327 - INFO -   libxext6 libxml2 libxmuu1 libxpm4 linux-libc-dev make manpages manpages-dev
+2025-07-08 05:33:28,327 - INFO -   netbase openssh-client openssl patch perl perl-modules-5.34 publicsuffix
+2025-07-08 05:33:28,327 - INFO -   rpcsvc-proto ucf xauth
+2025-07-08 05:33:28,330 - INFO - Suggested packages:
+2025-07-08 05:33:28,330 - INFO -   binutils-doc cmake-doc ninja-build cmake-format cpp-doc gcc-11-locales
+2025-07-08 05:33:28,330 - INFO -   g++-multilib g++-11-multilib gcc-11-doc gcc-multilib autoconf automake
+2025-07-08 05:33:28,330 - INFO -   libtool flex bison gdb gcc-doc gcc-11-multilib gettext-base git-daemon-run
+2025-07-08 05:33:28,330 - INFO -   | git-daemon-sysvinit git-doc git-email git-gui gitk gitweb git-cvs
+2025-07-08 05:33:28,330 - INFO -   git-mediawiki git-svn lrzip glibc-doc libgd-tools gdbm-l10n
+2025-07-08 05:33:28,330 - INFO -   libsasl2-modules-gssapi-mit | libsasl2-modules-gssapi-heimdal
+2025-07-08 05:33:28,330 - INFO -   libsasl2-modules-ldap libsasl2-modules-otp libsasl2-modules-sql
+2025-07-08 05:33:28,330 - INFO -   libstdc++-11-doc make-doc man-browser keychain libpam-ssh monkeysphere
+2025-07-08 05:33:28,330 - INFO -   ssh-askpass ed diffutils-doc perl-doc libterm-readline-gnu-perl
+2025-07-08 05:33:28,330 - INFO -   | libterm-readline-perl-perl libtap-harness-archive-perl
+2025-07-08 05:33:28,507 - INFO - The following NEW packages will be installed:
+2025-07-08 05:33:28,507 - INFO -   binutils binutils-common binutils-x86-64-linux-gnu ca-certificates cmake
+2025-07-08 05:33:28,507 - INFO -   cmake-data cpp cpp-11 dh-elpa-helper emacsen-common fontconfig-config
+2025-07-08 05:33:28,507 - INFO -   fonts-dejavu-core g++ g++-11 gcc gcc-11 gcc-11-base git git-man less
+2025-07-08 05:33:28,507 - INFO -   libarchive13 libasan6 libatomic1 libbinutils libbrotli1 libbsd0 libc-dev-bin
+2025-07-08 05:33:28,507 - INFO -   libc-devtools libc6-dev libcbor0.8 libcc1-0 libcrypt-dev libctf-nobfd0
+2025-07-08 05:33:28,507 - INFO -   libctf0 libcurl3-gnutls libcurl4 libdeflate0 libedit2 liberror-perl
+2025-07-08 05:33:28,507 - INFO -   libexpat1 libfido2-1 libfontconfig1 libfreetype6 libgcc-11-dev libgd3
+2025-07-08 05:33:28,507 - INFO -   libgdbm-compat4 libgdbm6 libgomp1 libicu70 libisl23 libitm1 libjbig0
+2025-07-08 05:33:28,507 - INFO -   libjpeg-turbo8 libjpeg8 libjsoncpp25 libldap-2.5-0 libldap-common liblsan0
+2025-07-08 05:33:28,508 - INFO -   libmd0 libmpc3 libmpfr6 libnghttp2-14 libnsl-dev libperl5.34 libpng16-16
+2025-07-08 05:33:28,508 - INFO -   libpsl5 libquadmath0 librhash0 librtmp1 libsasl2-2 libsasl2-modules
+2025-07-08 05:33:28,508 - INFO -   libsasl2-modules-db libssh-4 libstdc++-11-dev libtiff5 libtirpc-dev libtsan0
+2025-07-08 05:33:28,508 - INFO -   libubsan1 libuv1 libwebp7 libx11-6 libx11-data libxau6 libxcb1 libxdmcp6
+2025-07-08 05:33:28,508 - INFO -   libxext6 libxml2 libxmuu1 libxpm4 linux-libc-dev make manpages manpages-dev
+2025-07-08 05:33:28,508 - INFO -   netbase openssh-client openssl patch perl perl-modules-5.34 publicsuffix
+2025-07-08 05:33:28,509 - INFO -   rpcsvc-proto tzdata ucf xauth
+2025-07-08 05:33:29,094 - INFO - 0 upgraded, 104 newly installed, 0 to remove and 1 not upgraded.
+2025-07-08 05:33:29,094 - INFO - Need to get 106 MB of archives.
+2025-07-08 05:33:29,094 - INFO - After this operation, 383 MB of additional disk space will be used.
+2025-07-08 05:33:29,094 - INFO - Get:1 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 perl-modules-5.34 all 5.34.0-3ubuntu1.4 [2977 kB]
+2025-07-08 05:33:32,080 - INFO - Get:2 http://archive.ubuntu.com/ubuntu jammy/main amd64 libgdbm6 amd64 1.23-1 [33.9 kB]
+2025-07-08 05:33:32,094 - INFO - Get:3 http://archive.ubuntu.com/ubuntu jammy/main amd64 libgdbm-compat4 amd64 1.23-1 [6606 B]
+2025-07-08 05:33:32,094 - INFO - Get:4 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libperl5.34 amd64 5.34.0-3ubuntu1.4 [4820 kB]
+2025-07-08 05:33:32,719 - INFO - Get:5 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 perl amd64 5.34.0-3ubuntu1.4 [232 kB]
+2025-07-08 05:33:32,838 - INFO - Get:6 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 openssl amd64 3.0.2-0ubuntu1.19 [1186 kB]
+2025-07-08 05:33:33,215 - INFO - Get:7 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 ca-certificates all 20240203~22.04.1 [162 kB]
+2025-07-08 05:33:33,223 - INFO - Get:8 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 less amd64 590-1ubuntu0.22.04.3 [142 kB]
+2025-07-08 05:33:33,231 - INFO - Get:9 http://archive.ubuntu.com/ubuntu jammy/main amd64 libmd0 amd64 1.0.4-1build1 [23.0 kB]
+2025-07-08 05:33:33,232 - INFO - Get:10 http://archive.ubuntu.com/ubuntu jammy/main amd64 libbsd0 amd64 0.11.5-1 [44.8 kB]
+2025-07-08 05:33:33,232 - INFO - Get:11 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libexpat1 amd64 2.4.7-1ubuntu0.6 [92.1 kB]
+2025-07-08 05:33:33,236 - INFO - Get:12 http://archive.ubuntu.com/ubuntu jammy/main amd64 libicu70 amd64 70.1-2 [10.6 MB]
+2025-07-08 05:33:34,788 - INFO - Get:13 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libxml2 amd64 2.9.13+dfsg-1ubuntu0.7 [763 kB]
+2025-07-08 05:33:34,879 - INFO - Get:14 http://archive.ubuntu.com/ubuntu jammy/main amd64 netbase all 6.3 [12.9 kB]
+2025-07-08 05:33:34,881 - INFO - Get:15 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 tzdata all 2025b-0ubuntu0.22.04.1 [347 kB]
+2025-07-08 05:33:34,931 - INFO - Get:16 http://archive.ubuntu.com/ubuntu jammy/main amd64 ucf all 3.0043 [56.1 kB]
+2025-07-08 05:33:34,936 - INFO - Get:17 http://archive.ubuntu.com/ubuntu jammy/main amd64 libcbor0.8 amd64 0.8.0-2ubuntu1 [24.6 kB]
+2025-07-08 05:33:34,950 - INFO - Get:18 http://archive.ubuntu.com/ubuntu jammy/main amd64 libedit2 amd64 3.1-20210910-1build1 [96.8 kB]
+2025-07-08 05:33:34,965 - INFO - Get:19 http://archive.ubuntu.com/ubuntu jammy/main amd64 libfido2-1 amd64 1.10.0-1 [82.8 kB]
+2025-07-08 05:33:34,971 - INFO - Get:20 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libnghttp2-14 amd64 1.43.0-1ubuntu0.2 [76.9 kB]
+2025-07-08 05:33:34,981 - INFO - Get:21 http://archive.ubuntu.com/ubuntu jammy/main amd64 libpng16-16 amd64 1.6.37-3build5 [191 kB]
+2025-07-08 05:33:35,058 - INFO - Get:22 http://archive.ubuntu.com/ubuntu jammy/main amd64 libpsl5 amd64 0.21.0-1.2build2 [58.4 kB]
+2025-07-08 05:33:35,109 - INFO - Get:23 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libuv1 amd64 1.43.0-1ubuntu0.1 [92.7 kB]
+2025-07-08 05:33:35,119 - INFO - Get:24 http://archive.ubuntu.com/ubuntu jammy/main amd64 libxau6 amd64 1:1.0.9-1build5 [7634 B]
+2025-07-08 05:33:35,236 - INFO - Get:25 http://archive.ubuntu.com/ubuntu jammy/main amd64 libxdmcp6 amd64 1:1.1.3-0ubuntu5 [10.9 kB]
+2025-07-08 05:33:35,238 - INFO - Get:26 http://archive.ubuntu.com/ubuntu jammy/main amd64 libxcb1 amd64 1.14-3ubuntu3 [49.0 kB]
+2025-07-08 05:33:35,262 - INFO - Get:27 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libx11-data all 2:1.7.5-1ubuntu0.3 [120 kB]
+2025-07-08 05:33:35,279 - INFO - Get:28 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libx11-6 amd64 2:1.7.5-1ubuntu0.3 [667 kB]
+2025-07-08 05:33:35,345 - INFO - Get:29 http://archive.ubuntu.com/ubuntu jammy/main amd64 libxext6 amd64 2:1.3.4-1build1 [31.8 kB]
+2025-07-08 05:33:35,346 - INFO - Get:30 http://archive.ubuntu.com/ubuntu jammy/main amd64 libxmuu1 amd64 2:1.1.3-3 [10.2 kB]
+2025-07-08 05:33:35,357 - INFO - Get:31 http://archive.ubuntu.com/ubuntu jammy/main amd64 manpages all 5.10-1ubuntu1 [1375 kB]
+2025-07-08 05:33:35,506 - INFO - Get:32 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 openssh-client amd64 1:8.9p1-3ubuntu0.13 [903 kB]
+2025-07-08 05:33:35,604 - INFO - Get:33 http://archive.ubuntu.com/ubuntu jammy/main amd64 publicsuffix all 20211207.1025-1 [129 kB]
+2025-07-08 05:33:35,616 - INFO - Get:34 http://archive.ubuntu.com/ubuntu jammy/main amd64 xauth amd64 1:1.1-1build2 [27.5 kB]
+2025-07-08 05:33:35,616 - INFO - Get:35 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 binutils-common amd64 2.38-4ubuntu2.8 [223 kB]
+2025-07-08 05:33:35,635 - INFO - Get:36 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libbinutils amd64 2.38-4ubuntu2.8 [661 kB]
+2025-07-08 05:33:36,053 - INFO - Get:37 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libctf-nobfd0 amd64 2.38-4ubuntu2.8 [108 kB]
+2025-07-08 05:33:36,055 - INFO - Get:38 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libctf0 amd64 2.38-4ubuntu2.8 [103 kB]
+2025-07-08 05:33:36,057 - INFO - Get:39 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 binutils-x86-64-linux-gnu amd64 2.38-4ubuntu2.8 [2324 kB]
+2025-07-08 05:33:36,301 - INFO - Get:40 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 binutils amd64 2.38-4ubuntu2.8 [3196 B]
+2025-07-08 05:33:36,301 - INFO - Get:41 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libarchive13 amd64 3.6.0-1ubuntu1.5 [368 kB]
+2025-07-08 05:33:36,306 - INFO - Get:42 http://archive.ubuntu.com/ubuntu jammy/main amd64 libbrotli1 amd64 1.0.9-2build6 [315 kB]
+2025-07-08 05:33:36,316 - INFO - Get:43 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libsasl2-modules-db amd64 2.1.27+dfsg2-3ubuntu1.2 [20.5 kB]
+2025-07-08 05:33:36,316 - INFO - Get:44 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libsasl2-2 amd64 2.1.27+dfsg2-3ubuntu1.2 [53.8 kB]
+2025-07-08 05:33:36,319 - INFO - Get:45 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libldap-2.5-0 amd64 2.5.19+dfsg-0ubuntu0.22.04.1 [184 kB]
+2025-07-08 05:33:36,323 - INFO - Get:46 http://archive.ubuntu.com/ubuntu jammy/main amd64 librtmp1 amd64 2.4+20151223.gitfa8646d.1-2build4 [58.2 kB]
+2025-07-08 05:33:36,323 - INFO - Get:47 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libssh-4 amd64 0.9.6-2ubuntu0.22.04.4 [187 kB]
+2025-07-08 05:33:36,333 - INFO - Get:48 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libcurl4 amd64 7.81.0-1ubuntu1.20 [289 kB]
+2025-07-08 05:33:36,525 - INFO - Get:49 http://archive.ubuntu.com/ubuntu jammy/main amd64 libjsoncpp25 amd64 1.9.5-3 [80.0 kB]
+2025-07-08 05:33:36,533 - INFO - Get:50 http://archive.ubuntu.com/ubuntu jammy/main amd64 librhash0 amd64 1.4.2-1ubuntu1 [125 kB]
+2025-07-08 05:33:36,542 - INFO - Get:51 http://archive.ubuntu.com/ubuntu jammy/main amd64 dh-elpa-helper all 2.0.9ubuntu1 [7610 B]
+2025-07-08 05:33:36,559 - INFO - Get:52 http://archive.ubuntu.com/ubuntu jammy/main amd64 emacsen-common all 3.0.4 [14.9 kB]
+2025-07-08 05:33:36,559 - INFO - Get:53 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 cmake-data all 3.22.1-1ubuntu1.22.04.2 [1913 kB]
+2025-07-08 05:33:37,137 - INFO - Get:54 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 cmake amd64 3.22.1-1ubuntu1.22.04.2 [5010 kB]
+2025-07-08 05:33:37,576 - INFO - Get:55 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 gcc-11-base amd64 11.4.0-1ubuntu1~22.04 [20.2 kB]
+2025-07-08 05:33:37,577 - INFO - Get:56 http://archive.ubuntu.com/ubuntu jammy/main amd64 libisl23 amd64 0.24-2build1 [727 kB]
+2025-07-08 05:33:37,673 - INFO - Get:57 http://archive.ubuntu.com/ubuntu jammy/main amd64 libmpfr6 amd64 4.1.0-3build3 [1425 kB]
+2025-07-08 05:33:37,830 - INFO - Get:58 http://archive.ubuntu.com/ubuntu jammy/main amd64 libmpc3 amd64 1.2.1-2build1 [46.9 kB]
+2025-07-08 05:33:37,835 - INFO - Get:59 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 cpp-11 amd64 11.4.0-1ubuntu1~22.04 [10.0 MB]
+2025-07-08 05:33:39,132 - INFO - Get:60 http://archive.ubuntu.com/ubuntu jammy/main amd64 cpp amd64 4:11.2.0-1ubuntu1 [27.7 kB]
+2025-07-08 05:33:39,132 - INFO - Get:61 http://archive.ubuntu.com/ubuntu jammy/main amd64 fonts-dejavu-core all 2.37-2build1 [1041 kB]
+2025-07-08 05:33:39,390 - INFO - Get:62 http://archive.ubuntu.com/ubuntu jammy/main amd64 fontconfig-config all 2.13.1-4.2ubuntu5 [29.1 kB]
+2025-07-08 05:33:39,390 - INFO - Get:63 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libcc1-0 amd64 12.3.0-1ubuntu1~22.04 [48.3 kB]
+2025-07-08 05:33:39,390 - INFO - Get:64 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libgomp1 amd64 12.3.0-1ubuntu1~22.04 [126 kB]
+2025-07-08 05:33:39,402 - INFO - Get:65 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libitm1 amd64 12.3.0-1ubuntu1~22.04 [30.2 kB]
+2025-07-08 05:33:39,404 - INFO - Get:66 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libatomic1 amd64 12.3.0-1ubuntu1~22.04 [10.4 kB]
+2025-07-08 05:33:39,404 - INFO - Get:67 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libasan6 amd64 11.4.0-1ubuntu1~22.04 [2282 kB]
+2025-07-08 05:33:39,638 - INFO - Get:68 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 liblsan0 amd64 12.3.0-1ubuntu1~22.04 [1069 kB]
+2025-07-08 05:33:39,751 - INFO - Get:69 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libtsan0 amd64 11.4.0-1ubuntu1~22.04 [2260 kB]
+2025-07-08 05:33:39,977 - INFO - Get:70 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libubsan1 amd64 12.3.0-1ubuntu1~22.04 [976 kB]
+2025-07-08 05:33:40,077 - INFO - Get:71 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libquadmath0 amd64 12.3.0-1ubuntu1~22.04 [154 kB]
+2025-07-08 05:33:40,087 - INFO - Get:72 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libgcc-11-dev amd64 11.4.0-1ubuntu1~22.04 [2517 kB]
+2025-07-08 05:33:40,351 - INFO - Get:73 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 gcc-11 amd64 11.4.0-1ubuntu1~22.04 [20.1 MB]
+2025-07-08 05:33:43,352 - INFO - Get:74 http://archive.ubuntu.com/ubuntu jammy/main amd64 gcc amd64 4:11.2.0-1ubuntu1 [5112 B]
+2025-07-08 05:33:43,353 - INFO - Get:75 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libc-dev-bin amd64 2.35-0ubuntu3.10 [20.3 kB]
+2025-07-08 05:33:43,353 - INFO - Get:76 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 linux-libc-dev amd64 5.15.0-143.153 [1305 kB]
+2025-07-08 05:33:43,388 - INFO - Get:77 http://archive.ubuntu.com/ubuntu jammy/main amd64 libcrypt-dev amd64 1:4.4.27-1 [112 kB]
+2025-07-08 05:33:43,389 - INFO - Get:78 http://archive.ubuntu.com/ubuntu jammy/main amd64 rpcsvc-proto amd64 1.4.2-0ubuntu6 [68.5 kB]
+2025-07-08 05:33:43,390 - INFO - Get:79 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libtirpc-dev amd64 1.3.2-2ubuntu0.1 [192 kB]
+2025-07-08 05:33:43,393 - INFO - Get:80 http://archive.ubuntu.com/ubuntu jammy/main amd64 libnsl-dev amd64 1.3.0-2build2 [71.3 kB]
+2025-07-08 05:33:43,445 - INFO - Get:81 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libc6-dev amd64 2.35-0ubuntu3.10 [2100 kB]
+2025-07-08 05:33:43,990 - INFO - Get:82 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libstdc++-11-dev amd64 11.4.0-1ubuntu1~22.04 [2101 kB]
+2025-07-08 05:33:44,071 - INFO - Get:83 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 g++-11 amd64 11.4.0-1ubuntu1~22.04 [11.4 MB]
+2025-07-08 05:33:45,396 - INFO - Get:84 http://archive.ubuntu.com/ubuntu jammy/main amd64 g++ amd64 4:11.2.0-1ubuntu1 [1412 B]
+2025-07-08 05:33:45,398 - INFO - Get:85 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libcurl3-gnutls amd64 7.81.0-1ubuntu1.20 [284 kB]
+2025-07-08 05:33:45,415 - INFO - Get:86 http://archive.ubuntu.com/ubuntu jammy/main amd64 liberror-perl all 0.17029-1 [26.5 kB]
+2025-07-08 05:33:45,417 - INFO - Get:87 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 git-man all 1:2.34.1-1ubuntu1.12 [955 kB]
+2025-07-08 05:33:45,521 - INFO - Get:88 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 git amd64 1:2.34.1-1ubuntu1.12 [3165 kB]
+2025-07-08 05:33:46,031 - INFO - Get:89 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libfreetype6 amd64 2.11.1+dfsg-1ubuntu0.3 [388 kB]
+2025-07-08 05:33:46,089 - INFO - Get:90 http://archive.ubuntu.com/ubuntu jammy/main amd64 libfontconfig1 amd64 2.13.1-4.2ubuntu5 [131 kB]
+2025-07-08 05:33:46,092 - INFO - Get:91 http://archive.ubuntu.com/ubuntu jammy/main amd64 libjpeg-turbo8 amd64 2.1.2-0ubuntu1 [134 kB]
+2025-07-08 05:33:46,094 - INFO - Get:92 http://archive.ubuntu.com/ubuntu jammy/main amd64 libjpeg8 amd64 8c-2ubuntu10 [2264 B]
+2025-07-08 05:33:46,095 - INFO - Get:93 http://archive.ubuntu.com/ubuntu jammy/main amd64 libdeflate0 amd64 1.10-2 [70.9 kB]
+2025-07-08 05:33:46,097 - INFO - Get:94 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libjbig0 amd64 2.1-3.1ubuntu0.22.04.1 [29.2 kB]
+2025-07-08 05:33:46,098 - INFO - Get:95 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libwebp7 amd64 1.2.2-2ubuntu0.22.04.2 [206 kB]
+2025-07-08 05:33:46,101 - INFO - Get:96 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libtiff5 amd64 4.3.0-6ubuntu0.10 [185 kB]
+2025-07-08 05:33:46,103 - INFO - Get:97 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libxpm4 amd64 1:3.5.12-1ubuntu0.22.04.2 [36.7 kB]
+2025-07-08 05:33:46,259 - INFO - Get:98 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libgd3 amd64 2.3.0-2ubuntu2.3 [129 kB]
+2025-07-08 05:33:46,316 - INFO - Get:99 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libc-devtools amd64 2.35-0ubuntu3.10 [29.0 kB]
+2025-07-08 05:33:46,317 - INFO - Get:100 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libldap-common all 2.5.19+dfsg-0ubuntu0.22.04.1 [16.1 kB]
+2025-07-08 05:33:46,318 - INFO - Get:101 http://archive.ubuntu.com/ubuntu jammy-updates/main amd64 libsasl2-modules amd64 2.1.27+dfsg2-3ubuntu1.2 [68.8 kB]
+2025-07-08 05:33:46,807 - INFO - Get:102 http://archive.ubuntu.com/ubuntu jammy/main amd64 make amd64 4.3-4.1build1 [180 kB]
+2025-07-08 05:33:47,953 - INFO - Get:103 http://archive.ubuntu.com/ubuntu jammy/main amd64 manpages-dev all 5.10-1ubuntu1 [2309 kB]
+2025-07-08 05:33:48,927 - INFO - Get:104 http://archive.ubuntu.com/ubuntu jammy/main amd64 patch amd64 2.7.6-7build2 [109 kB]
+2025-07-08 05:33:49,084 - INFO - debconf: delaying package configuration, since apt-utils is not installed
+2025-07-08 05:33:49,159 - INFO - Fetched 106 MB in 20s (5208 kB/s)
+2025-07-08 05:33:49,192 - INFO - Selecting previously unselected package perl-modules-5.34.
+2025-07-08 05:33:49,197 - INFO - (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 4393 files and directories currently installed.)
+2025-07-08 05:33:49,198 - INFO - Preparing to unpack .../000-perl-modules-5.34_5.34.0-3ubuntu1.4_all.deb ...
+2025-07-08 05:33:49,202 - INFO - Unpacking perl-modules-5.34 (5.34.0-3ubuntu1.4) ...
+2025-07-08 05:33:49,552 - INFO - Selecting previously unselected package libgdbm6:amd64.
+2025-07-08 05:33:49,553 - INFO - Preparing to unpack .../001-libgdbm6_1.23-1_amd64.deb ...
+2025-07-08 05:33:49,564 - INFO - Unpacking libgdbm6:amd64 (1.23-1) ...
+2025-07-08 05:33:49,612 - INFO - Selecting previously unselected package libgdbm-compat4:amd64.
+2025-07-08 05:33:49,614 - INFO - Preparing to unpack .../002-libgdbm-compat4_1.23-1_amd64.deb ...
+2025-07-08 05:33:49,618 - INFO - Unpacking libgdbm-compat4:amd64 (1.23-1) ...
+2025-07-08 05:33:49,653 - INFO - Selecting previously unselected package libperl5.34:amd64.
+2025-07-08 05:33:49,654 - INFO - Preparing to unpack .../003-libperl5.34_5.34.0-3ubuntu1.4_amd64.deb ...
+2025-07-08 05:33:49,658 - INFO - Unpacking libperl5.34:amd64 (5.34.0-3ubuntu1.4) ...
+2025-07-08 05:33:49,910 - INFO - Selecting previously unselected package perl.
+2025-07-08 05:33:49,911 - INFO - Preparing to unpack .../004-perl_5.34.0-3ubuntu1.4_amd64.deb ...
+2025-07-08 05:33:49,921 - INFO - Unpacking perl (5.34.0-3ubuntu1.4) ...
+2025-07-08 05:33:49,972 - INFO - Selecting previously unselected package openssl.
+2025-07-08 05:33:49,973 - INFO - Preparing to unpack .../005-openssl_3.0.2-0ubuntu1.19_amd64.deb ...
+2025-07-08 05:33:49,978 - INFO - Unpacking openssl (3.0.2-0ubuntu1.19) ...
+2025-07-08 05:33:50,036 - INFO - Selecting previously unselected package ca-certificates.
+2025-07-08 05:33:50,038 - INFO - Preparing to unpack .../006-ca-certificates_20240203~22.04.1_all.deb ...
+2025-07-08 05:33:50,041 - INFO - Unpacking ca-certificates (20240203~22.04.1) ...
+2025-07-08 05:33:50,117 - INFO - Selecting previously unselected package less.
+2025-07-08 05:33:50,118 - INFO - Preparing to unpack .../007-less_590-1ubuntu0.22.04.3_amd64.deb ...
+2025-07-08 05:33:50,124 - INFO - Unpacking less (590-1ubuntu0.22.04.3) ...
+2025-07-08 05:33:50,169 - INFO - Selecting previously unselected package libmd0:amd64.
+2025-07-08 05:33:50,171 - INFO - Preparing to unpack .../008-libmd0_1.0.4-1build1_amd64.deb ...
+2025-07-08 05:33:50,175 - INFO - Unpacking libmd0:amd64 (1.0.4-1build1) ...
+2025-07-08 05:33:50,212 - INFO - Selecting previously unselected package libbsd0:amd64.
+2025-07-08 05:33:50,213 - INFO - Preparing to unpack .../009-libbsd0_0.11.5-1_amd64.deb ...
+2025-07-08 05:33:50,216 - INFO - Unpacking libbsd0:amd64 (0.11.5-1) ...
+2025-07-08 05:33:50,251 - INFO - Selecting previously unselected package libexpat1:amd64.
+2025-07-08 05:33:50,253 - INFO - Preparing to unpack .../010-libexpat1_2.4.7-1ubuntu0.6_amd64.deb ...
+2025-07-08 05:33:50,257 - INFO - Unpacking libexpat1:amd64 (2.4.7-1ubuntu0.6) ...
+2025-07-08 05:33:50,290 - INFO - Selecting previously unselected package libicu70:amd64.
+2025-07-08 05:33:50,291 - INFO - Preparing to unpack .../011-libicu70_70.1-2_amd64.deb ...
+2025-07-08 05:33:50,295 - INFO - Unpacking libicu70:amd64 (70.1-2) ...
+2025-07-08 05:33:50,454 - INFO - Selecting previously unselected package libxml2:amd64.
+2025-07-08 05:33:50,455 - INFO - Preparing to unpack .../012-libxml2_2.9.13+dfsg-1ubuntu0.7_amd64.deb ...
+2025-07-08 05:33:50,460 - INFO - Unpacking libxml2:amd64 (2.9.13+dfsg-1ubuntu0.7) ...
+2025-07-08 05:33:50,505 - INFO - Selecting previously unselected package netbase.
+2025-07-08 05:33:50,507 - INFO - Preparing to unpack .../013-netbase_6.3_all.deb ...
+2025-07-08 05:33:50,512 - INFO - Unpacking netbase (6.3) ...
+2025-07-08 05:33:50,557 - INFO - Selecting previously unselected package tzdata.
+2025-07-08 05:33:50,558 - INFO - Preparing to unpack .../014-tzdata_2025b-0ubuntu0.22.04.1_all.deb ...
+2025-07-08 05:33:50,562 - INFO - Unpacking tzdata (2025b-0ubuntu0.22.04.1) ...
+2025-07-08 05:33:50,851 - INFO - Selecting previously unselected package ucf.
+2025-07-08 05:33:50,852 - INFO - Preparing to unpack .../015-ucf_3.0043_all.deb ...
+2025-07-08 05:33:50,859 - INFO - Moving old data out of the way
+2025-07-08 05:33:50,861 - INFO - Unpacking ucf (3.0043) ...
+2025-07-08 05:33:50,906 - INFO - Selecting previously unselected package libcbor0.8:amd64.
+2025-07-08 05:33:50,908 - INFO - Preparing to unpack .../016-libcbor0.8_0.8.0-2ubuntu1_amd64.deb ...
+2025-07-08 05:33:50,912 - INFO - Unpacking libcbor0.8:amd64 (0.8.0-2ubuntu1) ...
+2025-07-08 05:33:50,957 - INFO - Selecting previously unselected package libedit2:amd64.
+2025-07-08 05:33:50,958 - INFO - Preparing to unpack .../017-libedit2_3.1-20210910-1build1_amd64.deb ...
+2025-07-08 05:33:50,962 - INFO - Unpacking libedit2:amd64 (3.1-20210910-1build1) ...
+2025-07-08 05:33:51,002 - INFO - Selecting previously unselected package libfido2-1:amd64.
+2025-07-08 05:33:51,004 - INFO - Preparing to unpack .../018-libfido2-1_1.10.0-1_amd64.deb ...
+2025-07-08 05:33:51,008 - INFO - Unpacking libfido2-1:amd64 (1.10.0-1) ...
+2025-07-08 05:33:51,049 - INFO - Selecting previously unselected package libnghttp2-14:amd64.
+2025-07-08 05:33:51,050 - INFO - Preparing to unpack .../019-libnghttp2-14_1.43.0-1ubuntu0.2_amd64.deb ...
+2025-07-08 05:33:51,055 - INFO - Unpacking libnghttp2-14:amd64 (1.43.0-1ubuntu0.2) ...
+2025-07-08 05:33:51,090 - INFO - Selecting previously unselected package libpng16-16:amd64.
+2025-07-08 05:33:51,092 - INFO - Preparing to unpack .../020-libpng16-16_1.6.37-3build5_amd64.deb ...
+2025-07-08 05:33:51,096 - INFO - Unpacking libpng16-16:amd64 (1.6.37-3build5) ...
+2025-07-08 05:33:51,137 - INFO - Selecting previously unselected package libpsl5:amd64.
+2025-07-08 05:33:51,139 - INFO - Preparing to unpack .../021-libpsl5_0.21.0-1.2build2_amd64.deb ...
+2025-07-08 05:33:51,143 - INFO - Unpacking libpsl5:amd64 (0.21.0-1.2build2) ...
+2025-07-08 05:33:51,184 - INFO - Selecting previously unselected package libuv1:amd64.
+2025-07-08 05:33:51,185 - INFO - Preparing to unpack .../022-libuv1_1.43.0-1ubuntu0.1_amd64.deb ...
+2025-07-08 05:33:51,189 - INFO - Unpacking libuv1:amd64 (1.43.0-1ubuntu0.1) ...
+2025-07-08 05:33:51,228 - INFO - Selecting previously unselected package libxau6:amd64.
+2025-07-08 05:33:51,230 - INFO - Preparing to unpack .../023-libxau6_1%3a1.0.9-1build5_amd64.deb ...
+2025-07-08 05:33:51,235 - INFO - Unpacking libxau6:amd64 (1:1.0.9-1build5) ...
+2025-07-08 05:33:51,270 - INFO - Selecting previously unselected package libxdmcp6:amd64.
+2025-07-08 05:33:51,271 - INFO - Preparing to unpack .../024-libxdmcp6_1%3a1.1.3-0ubuntu5_amd64.deb ...
+2025-07-08 05:33:51,276 - INFO - Unpacking libxdmcp6:amd64 (1:1.1.3-0ubuntu5) ...
+2025-07-08 05:33:51,311 - INFO - Selecting previously unselected package libxcb1:amd64.
+2025-07-08 05:33:51,312 - INFO - Preparing to unpack .../025-libxcb1_1.14-3ubuntu3_amd64.deb ...
+2025-07-08 05:33:51,316 - INFO - Unpacking libxcb1:amd64 (1.14-3ubuntu3) ...
+2025-07-08 05:33:51,347 - INFO - Selecting previously unselected package libx11-data.
+2025-07-08 05:33:51,349 - INFO - Preparing to unpack .../026-libx11-data_2%3a1.7.5-1ubuntu0.3_all.deb ...
+2025-07-08 05:33:51,354 - INFO - Unpacking libx11-data (2:1.7.5-1ubuntu0.3) ...
+2025-07-08 05:33:51,457 - INFO - Selecting previously unselected package libx11-6:amd64.
+2025-07-08 05:33:51,458 - INFO - Preparing to unpack .../027-libx11-6_2%3a1.7.5-1ubuntu0.3_amd64.deb ...
+2025-07-08 05:33:51,463 - INFO - Unpacking libx11-6:amd64 (2:1.7.5-1ubuntu0.3) ...
+2025-07-08 05:33:51,504 - INFO - Selecting previously unselected package libxext6:amd64.
+2025-07-08 05:33:51,505 - INFO - Preparing to unpack .../028-libxext6_2%3a1.3.4-1build1_amd64.deb ...
+2025-07-08 05:33:51,510 - INFO - Unpacking libxext6:amd64 (2:1.3.4-1build1) ...
+2025-07-08 05:33:51,543 - INFO - Selecting previously unselected package libxmuu1:amd64.
+2025-07-08 05:33:51,545 - INFO - Preparing to unpack .../029-libxmuu1_2%3a1.1.3-3_amd64.deb ...
+2025-07-08 05:33:51,548 - INFO - Unpacking libxmuu1:amd64 (2:1.1.3-3) ...
+2025-07-08 05:33:51,579 - INFO - Selecting previously unselected package manpages.
+2025-07-08 05:33:51,580 - INFO - Preparing to unpack .../030-manpages_5.10-1ubuntu1_all.deb ...
+2025-07-08 05:33:51,584 - INFO - Unpacking manpages (5.10-1ubuntu1) ...
+2025-07-08 05:33:51,694 - INFO - Selecting previously unselected package openssh-client.
+2025-07-08 05:33:51,695 - INFO - Preparing to unpack .../031-openssh-client_1%3a8.9p1-3ubuntu0.13_amd64.deb ...
+2025-07-08 05:33:51,708 - INFO - Unpacking openssh-client (1:8.9p1-3ubuntu0.13) ...
+2025-07-08 05:33:51,762 - INFO - Selecting previously unselected package publicsuffix.
+2025-07-08 05:33:51,763 - INFO - Preparing to unpack .../032-publicsuffix_20211207.1025-1_all.deb ...
+2025-07-08 05:33:51,767 - INFO - Unpacking publicsuffix (20211207.1025-1) ...
+2025-07-08 05:33:51,802 - INFO - Selecting previously unselected package xauth.
+2025-07-08 05:33:51,804 - INFO - Preparing to unpack .../033-xauth_1%3a1.1-1build2_amd64.deb ...
+2025-07-08 05:33:51,808 - INFO - Unpacking xauth (1:1.1-1build2) ...
+2025-07-08 05:33:51,840 - INFO - Selecting previously unselected package binutils-common:amd64.
+2025-07-08 05:33:51,841 - INFO - Preparing to unpack .../034-binutils-common_2.38-4ubuntu2.8_amd64.deb ...
+2025-07-08 05:33:51,846 - INFO - Unpacking binutils-common:amd64 (2.38-4ubuntu2.8) ...
+2025-07-08 05:33:51,889 - INFO - Selecting previously unselected package libbinutils:amd64.
+2025-07-08 05:33:51,890 - INFO - Preparing to unpack .../035-libbinutils_2.38-4ubuntu2.8_amd64.deb ...
+2025-07-08 05:33:51,894 - INFO - Unpacking libbinutils:amd64 (2.38-4ubuntu2.8) ...
+2025-07-08 05:33:51,947 - INFO - Selecting previously unselected package libctf-nobfd0:amd64.
+2025-07-08 05:33:51,949 - INFO - Preparing to unpack .../036-libctf-nobfd0_2.38-4ubuntu2.8_amd64.deb ...
+2025-07-08 05:33:51,955 - INFO - Unpacking libctf-nobfd0:amd64 (2.38-4ubuntu2.8) ...
+2025-07-08 05:33:51,993 - INFO - Selecting previously unselected package libctf0:amd64.
+2025-07-08 05:33:51,994 - INFO - Preparing to unpack .../037-libctf0_2.38-4ubuntu2.8_amd64.deb ...
+2025-07-08 05:33:51,998 - INFO - Unpacking libctf0:amd64 (2.38-4ubuntu2.8) ...
+2025-07-08 05:33:52,027 - INFO - Selecting previously unselected package binutils-x86-64-linux-gnu.
+2025-07-08 05:33:52,029 - INFO - Preparing to unpack .../038-binutils-x86-64-linux-gnu_2.38-4ubuntu2.8_amd64.deb ...
+2025-07-08 05:33:52,033 - INFO - Unpacking binutils-x86-64-linux-gnu (2.38-4ubuntu2.8) ...
+2025-07-08 05:33:52,225 - INFO - Selecting previously unselected package binutils.
+2025-07-08 05:33:52,227 - INFO - Preparing to unpack .../039-binutils_2.38-4ubuntu2.8_amd64.deb ...
+2025-07-08 05:33:52,231 - INFO - Unpacking binutils (2.38-4ubuntu2.8) ...
+2025-07-08 05:33:52,281 - INFO - Selecting previously unselected package libarchive13:amd64.
+2025-07-08 05:33:52,283 - INFO - Preparing to unpack .../040-libarchive13_3.6.0-1ubuntu1.5_amd64.deb ...
+2025-07-08 05:33:52,287 - INFO - Unpacking libarchive13:amd64 (3.6.0-1ubuntu1.5) ...
+2025-07-08 05:33:52,329 - INFO - Selecting previously unselected package libbrotli1:amd64.
+2025-07-08 05:33:52,331 - INFO - Preparing to unpack .../041-libbrotli1_1.0.9-2build6_amd64.deb ...
+2025-07-08 05:33:52,335 - INFO - Unpacking libbrotli1:amd64 (1.0.9-2build6) ...
+2025-07-08 05:33:52,370 - INFO - Selecting previously unselected package libsasl2-modules-db:amd64.
+2025-07-08 05:33:52,372 - INFO - Preparing to unpack .../042-libsasl2-modules-db_2.1.27+dfsg2-3ubuntu1.2_amd64.deb ...
+2025-07-08 05:33:52,375 - INFO - Unpacking libsasl2-modules-db:amd64 (2.1.27+dfsg2-3ubuntu1.2) ...
+2025-07-08 05:33:52,418 - INFO - Selecting previously unselected package libsasl2-2:amd64.
+2025-07-08 05:33:52,420 - INFO - Preparing to unpack .../043-libsasl2-2_2.1.27+dfsg2-3ubuntu1.2_amd64.deb ...
+2025-07-08 05:33:52,426 - INFO - Unpacking libsasl2-2:amd64 (2.1.27+dfsg2-3ubuntu1.2) ...
+2025-07-08 05:33:52,469 - INFO - Selecting previously unselected package libldap-2.5-0:amd64.
+2025-07-08 05:33:52,471 - INFO - Preparing to unpack .../044-libldap-2.5-0_2.5.19+dfsg-0ubuntu0.22.04.1_amd64.deb ...
+2025-07-08 05:33:52,475 - INFO - Unpacking libldap-2.5-0:amd64 (2.5.19+dfsg-0ubuntu0.22.04.1) ...
+2025-07-08 05:33:52,523 - INFO - Selecting previously unselected package librtmp1:amd64.
+2025-07-08 05:33:52,524 - INFO - Preparing to unpack .../045-librtmp1_2.4+20151223.gitfa8646d.1-2build4_amd64.deb ...
+2025-07-08 05:33:52,529 - INFO - Unpacking librtmp1:amd64 (2.4+20151223.gitfa8646d.1-2build4) ...
+2025-07-08 05:33:52,572 - INFO - Selecting previously unselected package libssh-4:amd64.
+2025-07-08 05:33:52,573 - INFO - Preparing to unpack .../046-libssh-4_0.9.6-2ubuntu0.22.04.4_amd64.deb ...
+2025-07-08 05:33:52,577 - INFO - Unpacking libssh-4:amd64 (0.9.6-2ubuntu0.22.04.4) ...
+2025-07-08 05:33:52,617 - INFO - Selecting previously unselected package libcurl4:amd64.
+2025-07-08 05:33:52,619 - INFO - Preparing to unpack .../047-libcurl4_7.81.0-1ubuntu1.20_amd64.deb ...
+2025-07-08 05:33:52,623 - INFO - Unpacking libcurl4:amd64 (7.81.0-1ubuntu1.20) ...
+2025-07-08 05:33:52,668 - INFO - Selecting previously unselected package libjsoncpp25:amd64.
+2025-07-08 05:33:52,670 - INFO - Preparing to unpack .../048-libjsoncpp25_1.9.5-3_amd64.deb ...
+2025-07-08 05:33:52,675 - INFO - Unpacking libjsoncpp25:amd64 (1.9.5-3) ...
+2025-07-08 05:33:52,720 - INFO - Selecting previously unselected package librhash0:amd64.
+2025-07-08 05:33:52,721 - INFO - Preparing to unpack .../049-librhash0_1.4.2-1ubuntu1_amd64.deb ...
+2025-07-08 05:33:52,725 - INFO - Unpacking librhash0:amd64 (1.4.2-1ubuntu1) ...
+2025-07-08 05:33:52,762 - INFO - Selecting previously unselected package dh-elpa-helper.
+2025-07-08 05:33:52,764 - INFO - Preparing to unpack .../050-dh-elpa-helper_2.0.9ubuntu1_all.deb ...
+2025-07-08 05:33:52,768 - INFO - Unpacking dh-elpa-helper (2.0.9ubuntu1) ...
+2025-07-08 05:33:52,812 - INFO - Selecting previously unselected package emacsen-common.
+2025-07-08 05:33:52,813 - INFO - Preparing to unpack .../051-emacsen-common_3.0.4_all.deb ...
+2025-07-08 05:33:52,829 - INFO - Unpacking emacsen-common (3.0.4) ...
+2025-07-08 05:33:52,882 - INFO - Selecting previously unselected package cmake-data.
+2025-07-08 05:33:52,883 - INFO - Preparing to unpack .../052-cmake-data_3.22.1-1ubuntu1.22.04.2_all.deb ...
+2025-07-08 05:33:52,896 - INFO - Unpacking cmake-data (3.22.1-1ubuntu1.22.04.2) ...
+2025-07-08 05:33:53,356 - INFO - Selecting previously unselected package cmake.
+2025-07-08 05:33:53,358 - INFO - Preparing to unpack .../053-cmake_3.22.1-1ubuntu1.22.04.2_amd64.deb ...
+2025-07-08 05:33:53,363 - INFO - Unpacking cmake (3.22.1-1ubuntu1.22.04.2) ...
+2025-07-08 05:33:53,467 - INFO - Selecting previously unselected package gcc-11-base:amd64.
+2025-07-08 05:33:53,469 - INFO - Preparing to unpack .../054-gcc-11-base_11.4.0-1ubuntu1~22.04_amd64.deb ...
+2025-07-08 05:33:53,474 - INFO - Unpacking gcc-11-base:amd64 (11.4.0-1ubuntu1~22.04) ...
+2025-07-08 05:33:53,519 - INFO - Selecting previously unselected package libisl23:amd64.
+2025-07-08 05:33:53,521 - INFO - Preparing to unpack .../055-libisl23_0.24-2build1_amd64.deb ...
+2025-07-08 05:33:53,525 - INFO - Unpacking libisl23:amd64 (0.24-2build1) ...
+2025-07-08 05:33:53,592 - INFO - Selecting previously unselected package libmpfr6:amd64.
+2025-07-08 05:33:53,594 - INFO - Preparing to unpack .../056-libmpfr6_4.1.0-3build3_amd64.deb ...
+2025-07-08 05:33:53,599 - INFO - Unpacking libmpfr6:amd64 (4.1.0-3build3) ...
+2025-07-08 05:33:53,647 - INFO - Selecting previously unselected package libmpc3:amd64.
+2025-07-08 05:33:53,648 - INFO - Preparing to unpack .../057-libmpc3_1.2.1-2build1_amd64.deb ...
+2025-07-08 05:33:53,652 - INFO - Unpacking libmpc3:amd64 (1.2.1-2build1) ...
+2025-07-08 05:33:53,688 - INFO - Selecting previously unselected package cpp-11.
+2025-07-08 05:33:53,689 - INFO - Preparing to unpack .../058-cpp-11_11.4.0-1ubuntu1~22.04_amd64.deb ...
+2025-07-08 05:33:53,693 - INFO - Unpacking cpp-11 (11.4.0-1ubuntu1~22.04) ...
+2025-07-08 05:33:53,848 - INFO - Selecting previously unselected package cpp.
+2025-07-08 05:33:53,850 - INFO - Preparing to unpack .../059-cpp_4%3a11.2.0-1ubuntu1_amd64.deb ...
+2025-07-08 05:33:53,856 - INFO - Unpacking cpp (4:11.2.0-1ubuntu1) ...
+2025-07-08 05:33:53,891 - INFO - Selecting previously unselected package fonts-dejavu-core.
+2025-07-08 05:33:53,894 - INFO - Preparing to unpack .../060-fonts-dejavu-core_2.37-2build1_all.deb ...
+2025-07-08 05:33:53,898 - INFO - Unpacking fonts-dejavu-core (2.37-2build1) ...
+2025-07-08 05:33:54,006 - INFO - Selecting previously unselected package fontconfig-config.
+2025-07-08 05:33:54,008 - INFO - Preparing to unpack .../061-fontconfig-config_2.13.1-4.2ubuntu5_all.deb ...
+2025-07-08 05:33:54,014 - INFO - Unpacking fontconfig-config (2.13.1-4.2ubuntu5) ...
+2025-07-08 05:33:54,060 - INFO - Selecting previously unselected package libcc1-0:amd64.
+2025-07-08 05:33:54,062 - INFO - Preparing to unpack .../062-libcc1-0_12.3.0-1ubuntu1~22.04_amd64.deb ...
+2025-07-08 05:33:54,066 - INFO - Unpacking libcc1-0:amd64 (12.3.0-1ubuntu1~22.04) ...
+2025-07-08 05:33:54,106 - INFO - Selecting previously unselected package libgomp1:amd64.
+2025-07-08 05:33:54,108 - INFO - Preparing to unpack .../063-libgomp1_12.3.0-1ubuntu1~22.04_amd64.deb ...
+2025-07-08 05:33:54,113 - INFO - Unpacking libgomp1:amd64 (12.3.0-1ubuntu1~22.04) ...
+2025-07-08 05:33:54,154 - INFO - Selecting previously unselected package libitm1:amd64.
+2025-07-08 05:33:54,156 - INFO - Preparing to unpack .../064-libitm1_12.3.0-1ubuntu1~22.04_amd64.deb ...
+2025-07-08 05:33:54,160 - INFO - Unpacking libitm1:amd64 (12.3.0-1ubuntu1~22.04) ...
+2025-07-08 05:33:54,199 - INFO - Selecting previously unselected package libatomic1:amd64.
+2025-07-08 05:33:54,201 - INFO - Preparing to unpack .../065-libatomic1_12.3.0-1ubuntu1~22.04_amd64.deb ...
+2025-07-08 05:33:54,205 - INFO - Unpacking libatomic1:amd64 (12.3.0-1ubuntu1~22.04) ...
+2025-07-08 05:33:54,248 - INFO - Selecting previously unselected package libasan6:amd64.
+2025-07-08 05:33:54,249 - INFO - Preparing to unpack .../066-libasan6_11.4.0-1ubuntu1~22.04_amd64.deb ...
+2025-07-08 05:33:54,253 - INFO - Unpacking libasan6:amd64 (11.4.0-1ubuntu1~22.04) ...
+2025-07-08 05:33:54,386 - INFO - Selecting previously unselected package liblsan0:amd64.
+2025-07-08 05:33:54,388 - INFO - Preparing to unpack .../067-liblsan0_12.3.0-1ubuntu1~22.04_amd64.deb ...
+2025-07-08 05:33:54,393 - INFO - Unpacking liblsan0:amd64 (12.3.0-1ubuntu1~22.04) ...
+2025-07-08 05:33:54,443 - INFO - Selecting previously unselected package libtsan0:amd64.
+2025-07-08 05:33:54,445 - INFO - Preparing to unpack .../068-libtsan0_11.4.0-1ubuntu1~22.04_amd64.deb ...
+2025-07-08 05:33:54,450 - INFO - Unpacking libtsan0:amd64 (11.4.0-1ubuntu1~22.04) ...
+2025-07-08 05:33:54,515 - INFO - Selecting previously unselected package libubsan1:amd64.
+2025-07-08 05:33:54,516 - INFO - Preparing to unpack .../069-libubsan1_12.3.0-1ubuntu1~22.04_amd64.deb ...
+2025-07-08 05:33:54,520 - INFO - Unpacking libubsan1:amd64 (12.3.0-1ubuntu1~22.04) ...
+2025-07-08 05:33:54,573 - INFO - Selecting previously unselected package libquadmath0:amd64.
+2025-07-08 05:33:54,575 - INFO - Preparing to unpack .../070-libquadmath0_12.3.0-1ubuntu1~22.04_amd64.deb ...
+2025-07-08 05:33:54,579 - INFO - Unpacking libquadmath0:amd64 (12.3.0-1ubuntu1~22.04) ...
+2025-07-08 05:33:54,612 - INFO - Selecting previously unselected package libgcc-11-dev:amd64.
+2025-07-08 05:33:54,613 - INFO - Preparing to unpack .../071-libgcc-11-dev_11.4.0-1ubuntu1~22.04_amd64.deb ...
+2025-07-08 05:33:54,617 - INFO - Unpacking libgcc-11-dev:amd64 (11.4.0-1ubuntu1~22.04) ...
+2025-07-08 05:33:54,715 - INFO - Selecting previously unselected package gcc-11.
+2025-07-08 05:33:54,717 - INFO - Preparing to unpack .../072-gcc-11_11.4.0-1ubuntu1~22.04_amd64.deb ...
+2025-07-08 05:33:54,722 - INFO - Unpacking gcc-11 (11.4.0-1ubuntu1~22.04) ...
+2025-07-08 05:33:55,642 - INFO - Selecting previously unselected package gcc.
+2025-07-08 05:33:55,644 - INFO - Preparing to unpack .../073-gcc_4%3a11.2.0-1ubuntu1_amd64.deb ...
+2025-07-08 05:33:55,649 - INFO - Unpacking gcc (4:11.2.0-1ubuntu1) ...
+2025-07-08 05:33:55,685 - INFO - Selecting previously unselected package libc-dev-bin.
+2025-07-08 05:33:55,687 - INFO - Preparing to unpack .../074-libc-dev-bin_2.35-0ubuntu3.10_amd64.deb ...
+2025-07-08 05:33:55,691 - INFO - Unpacking libc-dev-bin (2.35-0ubuntu3.10) ...
+2025-07-08 05:33:55,727 - INFO - Selecting previously unselected package linux-libc-dev:amd64.
+2025-07-08 05:33:55,729 - INFO - Preparing to unpack .../075-linux-libc-dev_5.15.0-143.153_amd64.deb ...
+2025-07-08 05:33:55,734 - INFO - Unpacking linux-libc-dev:amd64 (5.15.0-143.153) ...
+2025-07-08 05:33:55,935 - INFO - Selecting previously unselected package libcrypt-dev:amd64.
+2025-07-08 05:33:55,937 - INFO - Preparing to unpack .../076-libcrypt-dev_1%3a4.4.27-1_amd64.deb ...
+2025-07-08 05:33:55,942 - INFO - Unpacking libcrypt-dev:amd64 (1:4.4.27-1) ...
+2025-07-08 05:33:55,983 - INFO - Selecting previously unselected package rpcsvc-proto.
+2025-07-08 05:33:55,984 - INFO - Preparing to unpack .../077-rpcsvc-proto_1.4.2-0ubuntu6_amd64.deb ...
+2025-07-08 05:33:55,988 - INFO - Unpacking rpcsvc-proto (1.4.2-0ubuntu6) ...
+2025-07-08 05:33:56,023 - INFO - Selecting previously unselected package libtirpc-dev:amd64.
+2025-07-08 05:33:56,025 - INFO - Preparing to unpack .../078-libtirpc-dev_1.3.2-2ubuntu0.1_amd64.deb ...
+2025-07-08 05:33:56,029 - INFO - Unpacking libtirpc-dev:amd64 (1.3.2-2ubuntu0.1) ...
+2025-07-08 05:33:56,070 - INFO - Selecting previously unselected package libnsl-dev:amd64.
+2025-07-08 05:33:56,072 - INFO - Preparing to unpack .../079-libnsl-dev_1.3.0-2build2_amd64.deb ...
+2025-07-08 05:33:56,076 - INFO - Unpacking libnsl-dev:amd64 (1.3.0-2build2) ...
+2025-07-08 05:33:56,112 - INFO - Selecting previously unselected package libc6-dev:amd64.
+2025-07-08 05:33:56,114 - INFO - Preparing to unpack .../080-libc6-dev_2.35-0ubuntu3.10_amd64.deb ...
+2025-07-08 05:33:56,119 - INFO - Unpacking libc6-dev:amd64 (2.35-0ubuntu3.10) ...
+2025-07-08 05:33:56,274 - INFO - Selecting previously unselected package libstdc++-11-dev:amd64.
+2025-07-08 05:33:56,276 - INFO - Preparing to unpack .../081-libstdc++-11-dev_11.4.0-1ubuntu1~22.04_amd64.deb ...
+2025-07-08 05:33:56,280 - INFO - Unpacking libstdc++-11-dev:amd64 (11.4.0-1ubuntu1~22.04) ...
+2025-07-08 05:33:56,481 - INFO - Selecting previously unselected package g++-11.
+2025-07-08 05:33:56,483 - INFO - Preparing to unpack .../082-g++-11_11.4.0-1ubuntu1~22.04_amd64.deb ...
+2025-07-08 05:33:56,488 - INFO - Unpacking g++-11 (11.4.0-1ubuntu1~22.04) ...
+2025-07-08 05:33:56,798 - INFO - Selecting previously unselected package g++.
+2025-07-08 05:33:56,800 - INFO - Preparing to unpack .../083-g++_4%3a11.2.0-1ubuntu1_amd64.deb ...
+2025-07-08 05:33:56,826 - INFO - Unpacking g++ (4:11.2.0-1ubuntu1) ...
+2025-07-08 05:33:56,865 - INFO - Selecting previously unselected package libcurl3-gnutls:amd64.
+2025-07-08 05:33:56,868 - INFO - Preparing to unpack .../084-libcurl3-gnutls_7.81.0-1ubuntu1.20_amd64.deb ...
+2025-07-08 05:33:56,872 - INFO - Unpacking libcurl3-gnutls:amd64 (7.81.0-1ubuntu1.20) ...
+2025-07-08 05:33:56,907 - INFO - Selecting previously unselected package liberror-perl.
+2025-07-08 05:33:56,909 - INFO - Preparing to unpack .../085-liberror-perl_0.17029-1_all.deb ...
+2025-07-08 05:33:56,913 - INFO - Unpacking liberror-perl (0.17029-1) ...
+2025-07-08 05:33:56,953 - INFO - Selecting previously unselected package git-man.
+2025-07-08 05:33:56,955 - INFO - Preparing to unpack .../086-git-man_1%3a2.34.1-1ubuntu1.12_all.deb ...
+2025-07-08 05:33:56,959 - INFO - Unpacking git-man (1:2.34.1-1ubuntu1.12) ...
+2025-07-08 05:33:57,010 - INFO - Selecting previously unselected package git.
+2025-07-08 05:33:57,012 - INFO - Preparing to unpack .../087-git_1%3a2.34.1-1ubuntu1.12_amd64.deb ...
+2025-07-08 05:33:57,022 - INFO - Unpacking git (1:2.34.1-1ubuntu1.12) ...
+2025-07-08 05:33:57,543 - INFO - Selecting previously unselected package libfreetype6:amd64.
+2025-07-08 05:33:57,545 - INFO - Preparing to unpack .../088-libfreetype6_2.11.1+dfsg-1ubuntu0.3_amd64.deb ...
+2025-07-08 05:33:57,550 - INFO - Unpacking libfreetype6:amd64 (2.11.1+dfsg-1ubuntu0.3) ...
+2025-07-08 05:33:57,596 - INFO - Selecting previously unselected package libfontconfig1:amd64.
+2025-07-08 05:33:57,598 - INFO - Preparing to unpack .../089-libfontconfig1_2.13.1-4.2ubuntu5_amd64.deb ...
+2025-07-08 05:33:57,605 - INFO - Unpacking libfontconfig1:amd64 (2.13.1-4.2ubuntu5) ...
+2025-07-08 05:33:57,651 - INFO - Selecting previously unselected package libjpeg-turbo8:amd64.
+2025-07-08 05:33:57,653 - INFO - Preparing to unpack .../090-libjpeg-turbo8_2.1.2-0ubuntu1_amd64.deb ...
+2025-07-08 05:33:57,657 - INFO - Unpacking libjpeg-turbo8:amd64 (2.1.2-0ubuntu1) ...
+2025-07-08 05:33:57,690 - INFO - Selecting previously unselected package libjpeg8:amd64.
+2025-07-08 05:33:57,692 - INFO - Preparing to unpack .../091-libjpeg8_8c-2ubuntu10_amd64.deb ...
+2025-07-08 05:33:57,696 - INFO - Unpacking libjpeg8:amd64 (8c-2ubuntu10) ...
+2025-07-08 05:33:57,731 - INFO - Selecting previously unselected package libdeflate0:amd64.
+2025-07-08 05:33:57,733 - INFO - Preparing to unpack .../092-libdeflate0_1.10-2_amd64.deb ...
+2025-07-08 05:33:57,736 - INFO - Unpacking libdeflate0:amd64 (1.10-2) ...
+2025-07-08 05:33:57,775 - INFO - Selecting previously unselected package libjbig0:amd64.
+2025-07-08 05:33:57,777 - INFO - Preparing to unpack .../093-libjbig0_2.1-3.1ubuntu0.22.04.1_amd64.deb ...
+2025-07-08 05:33:57,782 - INFO - Unpacking libjbig0:amd64 (2.1-3.1ubuntu0.22.04.1) ...
+2025-07-08 05:33:57,820 - INFO - Selecting previously unselected package libwebp7:amd64.
+2025-07-08 05:33:57,822 - INFO - Preparing to unpack .../094-libwebp7_1.2.2-2ubuntu0.22.04.2_amd64.deb ...
+2025-07-08 05:33:57,827 - INFO - Unpacking libwebp7:amd64 (1.2.2-2ubuntu0.22.04.2) ...
+2025-07-08 05:33:57,874 - INFO - Selecting previously unselected package libtiff5:amd64.
+2025-07-08 05:33:57,876 - INFO - Preparing to unpack .../095-libtiff5_4.3.0-6ubuntu0.10_amd64.deb ...
+2025-07-08 05:33:57,880 - INFO - Unpacking libtiff5:amd64 (4.3.0-6ubuntu0.10) ...
+2025-07-08 05:33:57,922 - INFO - Selecting previously unselected package libxpm4:amd64.
+2025-07-08 05:33:57,924 - INFO - Preparing to unpack .../096-libxpm4_1%3a3.5.12-1ubuntu0.22.04.2_amd64.deb ...
+2025-07-08 05:33:57,929 - INFO - Unpacking libxpm4:amd64 (1:3.5.12-1ubuntu0.22.04.2) ...
+2025-07-08 05:33:57,975 - INFO - Selecting previously unselected package libgd3:amd64.
+2025-07-08 05:33:57,978 - INFO - Preparing to unpack .../097-libgd3_2.3.0-2ubuntu2.3_amd64.deb ...
+2025-07-08 05:33:57,982 - INFO - Unpacking libgd3:amd64 (2.3.0-2ubuntu2.3) ...
+2025-07-08 05:33:58,017 - INFO - Selecting previously unselected package libc-devtools.
+2025-07-08 05:33:58,020 - INFO - Preparing to unpack .../098-libc-devtools_2.35-0ubuntu3.10_amd64.deb ...
+2025-07-08 05:33:58,024 - INFO - Unpacking libc-devtools (2.35-0ubuntu3.10) ...
+2025-07-08 05:33:58,064 - INFO - Selecting previously unselected package libldap-common.
+2025-07-08 05:33:58,065 - INFO - Preparing to unpack .../099-libldap-common_2.5.19+dfsg-0ubuntu0.22.04.1_all.deb ...
+2025-07-08 05:33:58,071 - INFO - Unpacking libldap-common (2.5.19+dfsg-0ubuntu0.22.04.1) ...
+2025-07-08 05:33:58,115 - INFO - Selecting previously unselected package libsasl2-modules:amd64.
+2025-07-08 05:33:58,116 - INFO - Preparing to unpack .../100-libsasl2-modules_2.1.27+dfsg2-3ubuntu1.2_amd64.deb ...
+2025-07-08 05:33:58,121 - INFO - Unpacking libsasl2-modules:amd64 (2.1.27+dfsg2-3ubuntu1.2) ...
+2025-07-08 05:33:58,158 - INFO - Selecting previously unselected package make.
+2025-07-08 05:33:58,159 - INFO - Preparing to unpack .../101-make_4.3-4.1build1_amd64.deb ...
+2025-07-08 05:33:58,164 - INFO - Unpacking make (4.3-4.1build1) ...
+2025-07-08 05:33:58,199 - INFO - Selecting previously unselected package manpages-dev.
+2025-07-08 05:33:58,201 - INFO - Preparing to unpack .../102-manpages-dev_5.10-1ubuntu1_all.deb ...
+2025-07-08 05:33:58,205 - INFO - Unpacking manpages-dev (5.10-1ubuntu1) ...
+2025-07-08 05:33:58,411 - INFO - Selecting previously unselected package patch.
+2025-07-08 05:33:58,413 - INFO - Preparing to unpack .../103-patch_2.7.6-7build2_amd64.deb ...
+2025-07-08 05:33:58,418 - INFO - Unpacking patch (2.7.6-7build2) ...
+2025-07-08 05:33:58,462 - INFO - Setting up libexpat1:amd64 (2.4.7-1ubuntu0.6) ...
+2025-07-08 05:33:58,476 - INFO - Setting up gcc-11-base:amd64 (11.4.0-1ubuntu1~22.04) ...
+2025-07-08 05:33:58,488 - INFO - Setting up libxau6:amd64 (1:1.0.9-1build5) ...
+2025-07-08 05:33:58,499 - INFO - Setting up libpsl5:amd64 (0.21.0-1.2build2) ...
+2025-07-08 05:33:58,510 - INFO - Setting up manpages (5.10-1ubuntu1) ...
+2025-07-08 05:33:58,523 - INFO - Setting up libcbor0.8:amd64 (0.8.0-2ubuntu1) ...
+2025-07-08 05:33:58,534 - INFO - Setting up libbrotli1:amd64 (1.0.9-2build6) ...
+2025-07-08 05:33:58,544 - INFO - Setting up libsasl2-modules:amd64 (2.1.27+dfsg2-3ubuntu1.2) ...
+2025-07-08 05:33:58,564 - INFO - Setting up binutils-common:amd64 (2.38-4ubuntu2.8) ...
+2025-07-08 05:33:58,578 - INFO - Setting up libnghttp2-14:amd64 (1.43.0-1ubuntu0.2) ...
+2025-07-08 05:33:58,589 - INFO - Setting up libdeflate0:amd64 (1.10-2) ...
+2025-07-08 05:33:58,598 - INFO - Setting up less (590-1ubuntu0.22.04.3) ...
+2025-07-08 05:33:58,625 - INFO - Setting up linux-libc-dev:amd64 (5.15.0-143.153) ...
+2025-07-08 05:33:58,639 - INFO - Setting up libctf-nobfd0:amd64 (2.38-4ubuntu2.8) ...
+2025-07-08 05:33:58,652 - INFO - Setting up libgomp1:amd64 (12.3.0-1ubuntu1~22.04) ...
+2025-07-08 05:33:58,662 - INFO - Setting up perl-modules-5.34 (5.34.0-3ubuntu1.4) ...
+2025-07-08 05:33:58,672 - INFO - Setting up libldap-common (2.5.19+dfsg-0ubuntu0.22.04.1) ...
+2025-07-08 05:33:58,686 - INFO - Setting up libjbig0:amd64 (2.1-3.1ubuntu0.22.04.1) ...
+2025-07-08 05:33:58,695 - INFO - Setting up libasan6:amd64 (11.4.0-1ubuntu1~22.04) ...
+2025-07-08 05:33:58,706 - INFO - Setting up libsasl2-modules-db:amd64 (2.1.27+dfsg2-3ubuntu1.2) ...
+2025-07-08 05:33:58,718 - INFO - Setting up tzdata (2025b-0ubuntu0.22.04.1) ...
+2025-07-08 05:33:58,796 - INFO - Current default time zone: 'Etc/UTC'
+2025-07-08 05:33:58,799 - INFO - Local time is now:      Tue Jul  8 00:33:58 UTC 2025.
+2025-07-08 05:33:58,799 - INFO - Universal Time is now:  Tue Jul  8 00:33:58 UTC 2025.
+2025-07-08 05:33:58,799 - INFO - Run 'dpkg-reconfigure tzdata' if you wish to change it.
+2025-07-08 05:33:58,820 - INFO - Setting up libtirpc-dev:amd64 (1.3.2-2ubuntu0.1) ...
+2025-07-08 05:33:58,833 - INFO - Setting up libuv1:amd64 (1.43.0-1ubuntu0.1) ...
+2025-07-08 05:33:58,846 - INFO - Setting up rpcsvc-proto (1.4.2-0ubuntu6) ...
+2025-07-08 05:33:58,856 - INFO - Setting up emacsen-common (3.0.4) ...
+2025-07-08 05:33:58,904 - INFO - Setting up libx11-data (2:1.7.5-1ubuntu0.3) ...
+2025-07-08 05:33:58,917 - INFO - Setting up make (4.3-4.1build1) ...
+2025-07-08 05:33:58,929 - INFO - Setting up libmpfr6:amd64 (4.1.0-3build3) ...
+2025-07-08 05:33:58,941 - INFO - Setting up librtmp1:amd64 (2.4+20151223.gitfa8646d.1-2build4) ...
+2025-07-08 05:33:58,953 - INFO - Setting up dh-elpa-helper (2.0.9ubuntu1) ...
+2025-07-08 05:33:58,966 - INFO - Setting up libquadmath0:amd64 (12.3.0-1ubuntu1~22.04) ...
+2025-07-08 05:33:58,978 - INFO - Setting up libpng16-16:amd64 (1.6.37-3build5) ...
+2025-07-08 05:33:58,989 - INFO - Setting up libmpc3:amd64 (1.2.1-2build1) ...
+2025-07-08 05:33:59,002 - INFO - Setting up libatomic1:amd64 (12.3.0-1ubuntu1~22.04) ...
+2025-07-08 05:33:59,017 - INFO - Setting up patch (2.7.6-7build2) ...
+2025-07-08 05:33:59,032 - INFO - Setting up libjsoncpp25:amd64 (1.9.5-3) ...
+2025-07-08 05:33:59,048 - INFO - Setting up fonts-dejavu-core (2.37-2build1) ...
+2025-07-08 05:33:59,116 - INFO - Setting up ucf (3.0043) ...
+2025-07-08 05:33:59,269 - INFO - Setting up libjpeg-turbo8:amd64 (2.1.2-0ubuntu1) ...
+2025-07-08 05:33:59,284 - INFO - Setting up libsasl2-2:amd64 (2.1.27+dfsg2-3ubuntu1.2) ...
+2025-07-08 05:33:59,299 - INFO - Setting up libssh-4:amd64 (0.9.6-2ubuntu0.22.04.4) ...
+2025-07-08 05:33:59,314 - INFO - Setting up libwebp7:amd64 (1.2.2-2ubuntu0.22.04.2) ...
+2025-07-08 05:33:59,327 - INFO - Setting up libubsan1:amd64 (12.3.0-1ubuntu1~22.04) ...
+2025-07-08 05:33:59,340 - INFO - Setting up libmd0:amd64 (1.0.4-1build1) ...
+2025-07-08 05:33:59,352 - INFO - Setting up libnsl-dev:amd64 (1.3.0-2build2) ...
+2025-07-08 05:33:59,364 - INFO - Setting up librhash0:amd64 (1.4.2-1ubuntu1) ...
+2025-07-08 05:33:59,375 - INFO - Setting up libcrypt-dev:amd64 (1:4.4.27-1) ...
+2025-07-08 05:33:59,386 - INFO - Setting up git-man (1:2.34.1-1ubuntu1.12) ...
+2025-07-08 05:33:59,397 - INFO - Setting up netbase (6.3) ...
+2025-07-08 05:33:59,426 - INFO - Setting up cmake-data (3.22.1-1ubuntu1.22.04.2) ...
+2025-07-08 05:33:59,472 - INFO - Setting up libbinutils:amd64 (2.38-4ubuntu2.8) ...
+2025-07-08 05:33:59,487 - INFO - Setting up libfido2-1:amd64 (1.10.0-1) ...
+2025-07-08 05:33:59,499 - INFO - Setting up libisl23:amd64 (0.24-2build1) ...
+2025-07-08 05:33:59,509 - INFO - Setting up libc-dev-bin (2.35-0ubuntu3.10) ...
+2025-07-08 05:33:59,519 - INFO - Setting up openssl (3.0.2-0ubuntu1.19) ...
+2025-07-08 05:33:59,535 - INFO - Setting up libbsd0:amd64 (0.11.5-1) ...
+2025-07-08 05:33:59,547 - INFO - Setting up publicsuffix (20211207.1025-1) ...
+2025-07-08 05:33:59,559 - INFO - Setting up libcc1-0:amd64 (12.3.0-1ubuntu1~22.04) ...
+2025-07-08 05:33:59,572 - INFO - Setting up liblsan0:amd64 (12.3.0-1ubuntu1~22.04) ...
+2025-07-08 05:33:59,584 - INFO - Setting up libitm1:amd64 (12.3.0-1ubuntu1~22.04) ...
+2025-07-08 05:33:59,597 - INFO - Setting up libgdbm6:amd64 (1.23-1) ...
+2025-07-08 05:33:59,610 - INFO - Setting up libicu70:amd64 (70.1-2) ...
+2025-07-08 05:33:59,621 - INFO - Setting up libtsan0:amd64 (11.4.0-1ubuntu1~22.04) ...
+2025-07-08 05:33:59,635 - INFO - Setting up libctf0:amd64 (2.38-4ubuntu2.8) ...
+2025-07-08 05:33:59,647 - INFO - Setting up libjpeg8:amd64 (8c-2ubuntu10) ...
+2025-07-08 05:33:59,659 - INFO - Setting up cpp-11 (11.4.0-1ubuntu1~22.04) ...
+2025-07-08 05:33:59,672 - INFO - Setting up manpages-dev (5.10-1ubuntu1) ...
+2025-07-08 05:33:59,684 - INFO - Setting up libxdmcp6:amd64 (1:1.1.3-0ubuntu5) ...
+2025-07-08 05:33:59,698 - INFO - Setting up libxcb1:amd64 (1.14-3ubuntu3) ...
+2025-07-08 05:33:59,712 - INFO - Setting up fontconfig-config (2.13.1-4.2ubuntu5) ...
+2025-07-08 05:33:59,934 - INFO - Setting up libedit2:amd64 (3.1-20210910-1build1) ...
+2025-07-08 05:33:59,946 - INFO - Setting up libldap-2.5-0:amd64 (2.5.19+dfsg-0ubuntu0.22.04.1) ...
+2025-07-08 05:33:59,959 - INFO - Setting up ca-certificates (20240203~22.04.1) ...
+2025-07-08 05:34:00,594 - INFO - Updating certificates in /etc/ssl/certs...
+2025-07-08 05:34:01,537 - INFO - 146 added, 0 removed; done.
+2025-07-08 05:34:01,577 - INFO - Setting up libfreetype6:amd64 (2.11.1+dfsg-1ubuntu0.3) ...
+2025-07-08 05:34:01,589 - INFO - Setting up libgdbm-compat4:amd64 (1.23-1) ...
+2025-07-08 05:34:01,599 - INFO - Setting up libgcc-11-dev:amd64 (11.4.0-1ubuntu1~22.04) ...
+2025-07-08 05:34:01,613 - INFO - Setting up cpp (4:11.2.0-1ubuntu1) ...
+2025-07-08 05:34:01,628 - INFO - Setting up libcurl4:amd64 (7.81.0-1ubuntu1.20) ...
+2025-07-08 05:34:01,639 - INFO - Setting up libc6-dev:amd64 (2.35-0ubuntu3.10) ...
+2025-07-08 05:34:01,649 - INFO - Setting up libx11-6:amd64 (2:1.7.5-1ubuntu0.3) ...
+2025-07-08 05:34:01,660 - INFO - Setting up libtiff5:amd64 (4.3.0-6ubuntu0.10) ...
+2025-07-08 05:34:01,673 - INFO - Setting up libfontconfig1:amd64 (2.13.1-4.2ubuntu5) ...
+2025-07-08 05:34:01,682 - INFO - Setting up libxml2:amd64 (2.9.13+dfsg-1ubuntu0.7) ...
+2025-07-08 05:34:01,691 - INFO - Setting up libxmuu1:amd64 (2:1.1.3-3) ...
+2025-07-08 05:34:01,701 - INFO - Setting up binutils-x86-64-linux-gnu (2.38-4ubuntu2.8) ...
+2025-07-08 05:34:01,711 - INFO - Setting up libperl5.34:amd64 (5.34.0-3ubuntu1.4) ...
+2025-07-08 05:34:01,722 - INFO - Setting up libxpm4:amd64 (1:3.5.12-1ubuntu0.22.04.2) ...
+2025-07-08 05:34:01,733 - INFO - Setting up libarchive13:amd64 (3.6.0-1ubuntu1.5) ...
+2025-07-08 05:34:01,746 - INFO - Setting up openssh-client (1:8.9p1-3ubuntu0.13) ...
+2025-07-08 05:34:01,812 - INFO - update-alternatives: using /usr/bin/ssh to provide /usr/bin/rsh (rsh) in auto mode
+2025-07-08 05:34:01,812 - INFO - update-alternatives: warning: skip creation of /usr/share/man/man1/rsh.1.gz because associated file /usr/share/man/man1/ssh.1.gz (of link group rsh) doesn't exist
+2025-07-08 05:34:01,816 - INFO - update-alternatives: using /usr/bin/slogin to provide /usr/bin/rlogin (rlogin) in auto mode
+2025-07-08 05:34:01,816 - INFO - update-alternatives: warning: skip creation of /usr/share/man/man1/rlogin.1.gz because associated file /usr/share/man/man1/slogin.1.gz (of link group rlogin) doesn't exist
+2025-07-08 05:34:01,820 - INFO - update-alternatives: using /usr/bin/scp to provide /usr/bin/rcp (rcp) in auto mode
+2025-07-08 05:34:01,820 - INFO - update-alternatives: warning: skip creation of /usr/share/man/man1/rcp.1.gz because associated file /usr/share/man/man1/scp.1.gz (of link group rcp) doesn't exist
+2025-07-08 05:34:01,833 - INFO - Setting up libxext6:amd64 (2:1.3.4-1build1) ...
+2025-07-08 05:34:01,846 - INFO - Setting up libcurl3-gnutls:amd64 (7.81.0-1ubuntu1.20) ...
+2025-07-08 05:34:01,859 - INFO - Setting up binutils (2.38-4ubuntu2.8) ...
+2025-07-08 05:34:01,871 - INFO - Setting up perl (5.34.0-3ubuntu1.4) ...
+2025-07-08 05:34:01,894 - INFO - Setting up libgd3:amd64 (2.3.0-2ubuntu2.3) ...
+2025-07-08 05:34:01,905 - INFO - Setting up libstdc++-11-dev:amd64 (11.4.0-1ubuntu1~22.04) ...
+2025-07-08 05:34:01,916 - INFO - Setting up gcc-11 (11.4.0-1ubuntu1~22.04) ...
+2025-07-08 05:34:01,926 - INFO - Setting up xauth (1:1.1-1build2) ...
+2025-07-08 05:34:01,936 - INFO - Setting up cmake (3.22.1-1ubuntu1.22.04.2) ...
+2025-07-08 05:34:01,947 - INFO - Setting up libc-devtools (2.35-0ubuntu3.10) ...
+2025-07-08 05:34:01,959 - INFO - Setting up g++-11 (11.4.0-1ubuntu1~22.04) ...
+2025-07-08 05:34:01,970 - INFO - Setting up gcc (4:11.2.0-1ubuntu1) ...
+2025-07-08 05:34:01,997 - INFO - Setting up liberror-perl (0.17029-1) ...
+2025-07-08 05:34:02,012 - INFO - Setting up git (1:2.34.1-1ubuntu1.12) ...
+2025-07-08 05:34:02,036 - INFO - Setting up g++ (4:11.2.0-1ubuntu1) ...
+2025-07-08 05:34:02,058 - INFO - update-alternatives: using /usr/bin/g++ to provide /usr/bin/c++ (c++) in auto mode
+2025-07-08 05:34:02,058 - INFO - update-alternatives: warning: skip creation of /usr/share/man/man1/c++.1.gz because associated file /usr/share/man/man1/g++.1.gz (of link group c++) doesn't exist
+2025-07-08 05:34:02,064 - INFO - Processing triggers for libc-bin (2.35-0ubuntu3.10) ...
+2025-07-08 05:34:02,092 - INFO - Processing triggers for ca-certificates (20240203~22.04.1) ...
+2025-07-08 05:34:02,103 - INFO - Updating certificates in /etc/ssl/certs...
+2025-07-08 05:34:02,726 - INFO - 0 added, 0 removed; done.
+2025-07-08 05:34:02,726 - INFO - Running hooks in /etc/ca-certificates/update.d...
+2025-07-08 05:34:02,727 - INFO - done.
+2025-07-08 05:34:19,923 - INFO -  ---> Removed intermediate container ed175b7eaf2f
+2025-07-08 05:34:19,923 - INFO -  ---> c3edd6d4a6a1
+2025-07-08 05:34:19,923 - INFO - Step 5/8 : WORKDIR /testbed/
+2025-07-08 05:34:20,241 - INFO -  ---> Running in 3476df710649
+2025-07-08 05:34:21,502 - INFO -  ---> Removed intermediate container 3476df710649
+2025-07-08 05:34:21,502 - INFO -  ---> f7e2e7ff5fc0
+2025-07-08 05:34:21,503 - INFO - Step 6/8 : RUN git clone https://github.com/simdjson/simdjson .
+2025-07-08 05:34:21,595 - INFO -  ---> Running in 4b26fadccbb1
+2025-07-08 05:34:21,713 - INFO - Cloning into '.'...
+2025-07-08 05:34:49,132 - INFO -  ---> Removed intermediate container 4b26fadccbb1
+2025-07-08 05:34:49,132 - INFO -  ---> 7ac8416d08b1
+2025-07-08 05:34:49,132 - INFO - Step 7/8 : RUN git reset --hard c96ff018fedc7fe087b6f898442458a31a240a28 &&     git remote remove origin
+2025-07-08 05:34:49,375 - INFO -  ---> Running in 8e2b79406654
+2025-07-08 05:34:50,027 - INFO - HEAD is now at c96ff018 Version 0.8.
+2025-07-08 05:34:52,873 - INFO -  ---> Removed intermediate container 8e2b79406654
+2025-07-08 05:34:52,873 - INFO -  ---> 1e950f4ea94a
+2025-07-08 05:34:52,873 - INFO - Step 8/8 : RUN mkdir build &&     cmake -S . -B build -DSIMDJSON_BUILD_BENCHMARKS=OFF &&     cmake --build build
+2025-07-08 05:34:53,024 - INFO -  ---> Running in 03f6b63cc73a
+2025-07-08 05:34:53,224 - INFO - -- The CXX compiler identification is GNU 11.4.0
+2025-07-08 05:34:53,275 - INFO - -- The C compiler identification is GNU 11.4.0
+2025-07-08 05:34:53,283 - INFO - -- Detecting CXX compiler ABI info
+2025-07-08 05:34:53,389 - INFO - -- Detecting CXX compiler ABI info - done
+2025-07-08 05:34:53,398 - INFO - -- Check for working CXX compiler: /usr/bin/c++ - skipped
+2025-07-08 05:34:53,398 - INFO - -- Detecting CXX compile features
+2025-07-08 05:34:53,398 - INFO - -- Detecting CXX compile features - done
+2025-07-08 05:34:53,401 - INFO - -- Detecting C compiler ABI info
+2025-07-08 05:34:53,477 - INFO - -- Detecting C compiler ABI info - done
+2025-07-08 05:34:53,484 - INFO - -- Check for working C compiler: /usr/bin/cc - skipped
+2025-07-08 05:34:53,484 - INFO - -- Detecting C compile features
+2025-07-08 05:34:53,484 - INFO - -- Detecting C compile features - done
+2025-07-08 05:34:53,487 - INFO - -- The simdjson repository appears to be standalone.
+2025-07-08 05:34:53,487 - INFO - -- By default, we attempt to build everything.
+2025-07-08 05:34:53,487 - INFO - -- No build type selected, default to Release
+2025-07-08 05:34:53,489 - INFO - -- Looking for pthread.h
+2025-07-08 05:34:53,565 - INFO - -- Looking for pthread.h - found
+2025-07-08 05:34:53,565 - INFO - -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+2025-07-08 05:34:53,645 - INFO - -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+2025-07-08 05:34:53,645 - INFO - -- Found Threads: TRUE  
+2025-07-08 05:34:53,646 - INFO - -- Looking for fork
+2025-07-08 05:34:53,723 - INFO - -- Looking for fork - found
+2025-07-08 05:34:53,723 - INFO - -- Looking for wait
+2025-07-08 05:34:53,800 - INFO - -- Looking for wait - found
+2025-07-08 05:34:53,850 - INFO - -- Building a dynamic library.
+2025-07-08 05:34:53,850 - INFO - -- Library output directory: /testbed/build
+2025-07-08 05:34:53,854 - INFO - -- Importing google_benchmarks (google/benchmark@8982e1e)
+2025-07-08 05:35:01,097 - INFO - -- Failed to find LLVM FileCheck
+2025-07-08 05:35:01,101 - INFO - -- Found Git: /usr/bin/git (found version "2.34.1") 
+2025-07-08 05:35:01,262 - INFO - -- git Version: v0.2.1-c96ff018
+2025-07-08 05:35:01,262 - INFO - -- Version: 0.2.1
+2025-07-08 05:35:01,265 - INFO - -- Performing Test HAVE_CXX_FLAG_STD_CXX11
+2025-07-08 05:35:01,349 - INFO - -- Performing Test HAVE_CXX_FLAG_STD_CXX11 - Success
+2025-07-08 05:35:01,350 - INFO - -- Performing Test HAVE_CXX_FLAG_WALL
+2025-07-08 05:35:01,433 - INFO - -- Performing Test HAVE_CXX_FLAG_WALL - Success
+2025-07-08 05:35:01,434 - INFO - -- Performing Test HAVE_CXX_FLAG_WEXTRA
+2025-07-08 05:35:01,522 - INFO - -- Performing Test HAVE_CXX_FLAG_WEXTRA - Success
+2025-07-08 05:35:01,523 - INFO - -- Performing Test HAVE_CXX_FLAG_WSHADOW
+2025-07-08 05:35:01,607 - INFO - -- Performing Test HAVE_CXX_FLAG_WSHADOW - Success
+2025-07-08 05:35:01,607 - INFO - -- Performing Test HAVE_CXX_FLAG_WERROR
+2025-07-08 05:35:01,693 - INFO - -- Performing Test HAVE_CXX_FLAG_WERROR - Success
+2025-07-08 05:35:01,694 - INFO - -- Performing Test HAVE_CXX_FLAG_WSHORTEN_64_TO_32
+2025-07-08 05:35:01,731 - INFO - -- Performing Test HAVE_CXX_FLAG_WSHORTEN_64_TO_32 - Failed
+2025-07-08 05:35:01,732 - INFO - -- Performing Test HAVE_CXX_FLAG_FSTRICT_ALIASING
+2025-07-08 05:35:01,819 - INFO - -- Performing Test HAVE_CXX_FLAG_FSTRICT_ALIASING - Success
+2025-07-08 05:35:01,820 - INFO - -- Performing Test HAVE_CXX_FLAG_WNO_DEPRECATED_DECLARATIONS
+2025-07-08 05:35:01,906 - INFO - -- Performing Test HAVE_CXX_FLAG_WNO_DEPRECATED_DECLARATIONS - Success
+2025-07-08 05:35:01,906 - INFO - -- Performing Test HAVE_CXX_FLAG_WNO_DEPRECATED
+2025-07-08 05:35:01,994 - INFO - -- Performing Test HAVE_CXX_FLAG_WNO_DEPRECATED - Success
+2025-07-08 05:35:01,995 - INFO - -- Performing Test HAVE_CXX_FLAG_WSTRICT_ALIASING
+2025-07-08 05:35:02,078 - INFO - -- Performing Test HAVE_CXX_FLAG_WSTRICT_ALIASING - Success
+2025-07-08 05:35:02,079 - INFO - -- Performing Test HAVE_CXX_FLAG_WD654
+2025-07-08 05:35:02,104 - INFO - -- Performing Test HAVE_CXX_FLAG_WD654 - Failed
+2025-07-08 05:35:02,104 - INFO - -- Performing Test HAVE_CXX_FLAG_WTHREAD_SAFETY
+2025-07-08 05:35:02,140 - INFO - -- Performing Test HAVE_CXX_FLAG_WTHREAD_SAFETY - Failed
+2025-07-08 05:35:02,140 - INFO - -- Performing Test HAVE_CXX_FLAG_COVERAGE
+2025-07-08 05:35:02,229 - INFO - -- Performing Test HAVE_CXX_FLAG_COVERAGE - Success
+2025-07-08 05:35:02,229 - INFO - -- Performing Test HAVE_STD_REGEX
+2025-07-08 05:35:02,229 - INFO - -- Performing Test HAVE_STD_REGEX
+2025-07-08 05:35:04,276 - INFO - -- Performing Test HAVE_STD_REGEX -- success
+2025-07-08 05:35:04,277 - INFO - -- Performing Test HAVE_GNU_POSIX_REGEX
+2025-07-08 05:35:04,277 - INFO - -- Performing Test HAVE_GNU_POSIX_REGEX
+2025-07-08 05:35:04,307 - INFO - -- Performing Test HAVE_GNU_POSIX_REGEX -- failed to compile
+2025-07-08 05:35:04,307 - INFO - -- Performing Test HAVE_POSIX_REGEX
+2025-07-08 05:35:04,307 - INFO - -- Performing Test HAVE_POSIX_REGEX
+2025-07-08 05:35:04,555 - INFO - -- Performing Test HAVE_POSIX_REGEX -- success
+2025-07-08 05:35:04,555 - INFO - -- Performing Test HAVE_STEADY_CLOCK
+2025-07-08 05:35:04,555 - INFO - -- Performing Test HAVE_STEADY_CLOCK
+2025-07-08 05:35:04,739 - INFO - -- Performing Test HAVE_STEADY_CLOCK -- success
+2025-07-08 05:35:04,747 - INFO - -- Performing Test USE_BOOST_JSON
+2025-07-08 05:35:04,874 - INFO - -- Performing Test USE_BOOST_JSON - Success
+2025-07-08 05:35:04,875 - INFO - -- Importing boostjson (boostorg/json@ee8d72d)
+2025-07-08 05:35:07,042 - INFO - -- Importing cjson (DaveGamble/cJSON@c69134d)
+2025-07-08 05:35:08,601 - INFO - -- Importing fastjson (mikeando/fastjson@485f994)
+2025-07-08 05:35:09,811 - INFO - -- Importing gason (vivkin/gason@7aee524)
+2025-07-08 05:35:10,934 - INFO - -- Importing jsmn (zserge/jsmn@18e9fe4)
+2025-07-08 05:35:12,063 - INFO - -- Importing json (nlohmann/json@v3.9.1)
+2025-07-08 05:35:13,925 - INFO - -- Importing json11 (dropbox/json11@ec4e452)
+2025-07-08 05:35:15,054 - INFO - -- Importing rapidjson (Tencent/rapidjson@b32cd94)
+2025-07-08 05:35:16,742 - INFO - -- Importing sajson (chadaustin/sajson@2dcfd35)
+2025-07-08 05:35:19,302 - INFO - -- Importing ujson4c (esnme/ujson4c@e14f3fd)
+2025-07-08 05:35:20,636 - INFO - -- Importing yyjson (ibireme/yyjson@aa33ec5)
+2025-07-08 05:35:22,254 - INFO - -- Importing cxxopts (jarro2783/cxxopts@794c975)
+2025-07-08 05:35:23,528 - INFO - -- cxxopts version 2.2.0
+2025-07-08 05:35:23,532 - INFO - -- We have cxxopts as a dependency and we are buiding the tools (e.g., json2json).
+2025-07-08 05:35:23,552 - INFO - -- Could NOT find Python3 (missing: Python3_EXECUTABLE Interpreter) 
+2025-07-08 05:35:23,569 - INFO - -- Git is available and it is recent. We are enabling checkperf targets.
+2025-07-08 05:35:23,580 - INFO - -- Configuring done
+2025-07-08 05:35:23,840 - INFO - -- Generating done
+2025-07-08 05:35:23,853 - INFO - CMake Warning:
+2025-07-08 05:35:23,853 - INFO -   Manually-specified variables were not used by the project:
+2025-07-08 05:35:23,853 - INFO -     SIMDJSON_BUILD_BENCHMARKS
+2025-07-08 05:35:23,854 - INFO - -- Build files have been written to: /testbed/build
+2025-07-08 05:35:23,921 - INFO - [  0%] Building CXX object src/CMakeFiles/simdjson.dir/simdjson.cpp.o
+2025-07-08 05:35:28,575 - INFO - [  0%] Linking CXX shared library ../libsimdjson.so
+2025-07-08 05:35:28,690 - INFO - [  0%] Built target simdjson
+2025-07-08 05:35:28,713 - INFO - [  1%] Building CXX object dependencies/CMakeFiles/boostjson.dir/.cache/boostjson/src/src.cpp.o
+2025-07-08 05:35:32,316 - INFO - [  1%] Linking CXX static library libboostjson.a
+2025-07-08 05:35:32,356 - INFO - [  1%] Built target boostjson
+2025-07-08 05:35:32,379 - INFO - [  2%] Building C object dependencies/CMakeFiles/cjson.dir/.cache/cjson/cJSON.c.o
+2025-07-08 05:35:32,840 - INFO - [  2%] Linking C static library libcjson.a
+2025-07-08 05:35:32,876 - INFO - [  2%] Built target cjson
+2025-07-08 05:35:32,898 - INFO - [  3%] Building CXX object dependencies/CMakeFiles/fastjson.dir/.cache/fastjson/src/fastjson.cpp.o
+2025-07-08 05:35:34,025 - INFO - [  3%] Building CXX object dependencies/CMakeFiles/fastjson.dir/.cache/fastjson/src/fastjson2.cpp.o
+2025-07-08 05:35:34,278 - INFO - [  5%] Building CXX object dependencies/CMakeFiles/fastjson.dir/.cache/fastjson/src/fastjson_dom.cpp.o
+2025-07-08 05:35:34,670 - INFO - [  5%] Linking CXX static library libfastjson.a
+2025-07-08 05:35:34,710 - INFO - [  5%] Built target fastjson
+2025-07-08 05:35:34,736 - INFO - [  6%] Building CXX object dependencies/CMakeFiles/gason.dir/.cache/gason/src/gason.cpp.o
+2025-07-08 05:35:34,845 - INFO - [  6%] Linking CXX static library libgason.a
+2025-07-08 05:35:34,880 - INFO - [  6%] Built target gason
+2025-07-08 05:35:34,903 - INFO - [  6%] Building C object dependencies/CMakeFiles/jsmn.dir/.cache/jsmn/jsmn.c.o
+2025-07-08 05:35:34,971 - INFO - [  7%] Linking C static library libjsmn.a
+2025-07-08 05:35:35,006 - INFO - [  7%] Built target jsmn
+2025-07-08 05:35:35,028 - INFO - [  7%] Building CXX object dependencies/CMakeFiles/json11.dir/.cache/json11/json11.cpp.o
+2025-07-08 05:35:36,710 - INFO - [  8%] Linking CXX static library libjson11.a
+2025-07-08 05:35:36,749 - INFO - [  8%] Built target json11
+2025-07-08 05:35:36,771 - INFO - [ 10%] Building CXX object dependencies/CMakeFiles/jsoncpp.dir/jsoncppdist/jsoncpp.cpp.o
+2025-07-08 05:35:40,602 - INFO - [ 10%] Linking CXX static library libjsoncpp.a
+2025-07-08 05:35:40,642 - INFO - [ 10%] Built target jsoncpp
+2025-07-08 05:35:40,663 - INFO - [ 10%] Building C object dependencies/CMakeFiles/ujson4c.dir/.cache/ujson4c/src/ujdecode.c.o
+2025-07-08 05:35:40,805 - INFO - [ 11%] Building C object dependencies/CMakeFiles/ujson4c.dir/.cache/ujson4c/3rdparty/ultrajsondec.c.o
+2025-07-08 05:35:40,958 - INFO - [ 11%] Linking C static library libujson4c.a
+2025-07-08 05:35:40,994 - INFO - [ 11%] Built target ujson4c
+2025-07-08 05:35:41,018 - INFO - [ 11%] Building C object dependencies/CMakeFiles/yyjson.dir/.cache/yyjson/src/yyjson.c.o
+2025-07-08 05:35:46,226 - INFO - [ 12%] Linking C static library libyyjson.a
+2025-07-08 05:35:46,265 - INFO - [ 12%] Built target yyjson
+2025-07-08 05:35:46,291 - INFO - [ 12%] Building CXX object _deps/google_benchmarks/src/CMakeFiles/benchmark.dir/benchmark.cc.o
+2025-07-08 05:35:47,759 - INFO - [ 13%] Building CXX object _deps/google_benchmarks/src/CMakeFiles/benchmark.dir/benchmark_api_internal.cc.o
+2025-07-08 05:35:48,279 - INFO - [ 13%] Building CXX object _deps/google_benchmarks/src/CMakeFiles/benchmark.dir/benchmark_name.cc.o
+2025-07-08 05:35:48,680 - INFO - [ 13%] Building CXX object _deps/google_benchmarks/src/CMakeFiles/benchmark.dir/benchmark_register.cc.o
+2025-07-08 05:35:52,824 - INFO - [ 15%] Building CXX object _deps/google_benchmarks/src/CMakeFiles/benchmark.dir/benchmark_runner.cc.o
+2025-07-08 05:35:55,242 - INFO - [ 15%] Building CXX object _deps/google_benchmarks/src/CMakeFiles/benchmark.dir/colorprint.cc.o
+2025-07-08 05:35:55,883 - INFO - [ 16%] Building CXX object _deps/google_benchmarks/src/CMakeFiles/benchmark.dir/commandlineflags.cc.o
+2025-07-08 05:35:56,374 - INFO - [ 16%] Building CXX object _deps/google_benchmarks/src/CMakeFiles/benchmark.dir/complexity.cc.o
+2025-07-08 05:35:57,452 - INFO - [ 16%] Building CXX object _deps/google_benchmarks/src/CMakeFiles/benchmark.dir/console_reporter.cc.o
+2025-07-08 05:35:58,153 - INFO - [ 17%] Building CXX object _deps/google_benchmarks/src/CMakeFiles/benchmark.dir/counter.cc.o
+2025-07-08 05:35:58,632 - INFO - [ 17%] Building CXX object _deps/google_benchmarks/src/CMakeFiles/benchmark.dir/csv_reporter.cc.o
+2025-07-08 05:35:59,409 - INFO - [ 18%] Building CXX object _deps/google_benchmarks/src/CMakeFiles/benchmark.dir/json_reporter.cc.o
+2025-07-08 05:36:00,365 - INFO - [ 18%] Building CXX object _deps/google_benchmarks/src/CMakeFiles/benchmark.dir/reporter.cc.o
+2025-07-08 05:36:00,970 - INFO - [ 18%] Building CXX object _deps/google_benchmarks/src/CMakeFiles/benchmark.dir/sleep.cc.o
+2025-07-08 05:36:01,354 - INFO - [ 20%] Building CXX object _deps/google_benchmarks/src/CMakeFiles/benchmark.dir/statistics.cc.o
+2025-07-08 05:36:02,578 - INFO - [ 20%] Building CXX object _deps/google_benchmarks/src/CMakeFiles/benchmark.dir/string_util.cc.o
+2025-07-08 05:36:03,277 - INFO - [ 21%] Building CXX object _deps/google_benchmarks/src/CMakeFiles/benchmark.dir/sysinfo.cc.o
+2025-07-08 05:36:04,420 - INFO - [ 21%] Building CXX object _deps/google_benchmarks/src/CMakeFiles/benchmark.dir/timers.cc.o
+2025-07-08 05:36:05,026 - INFO - [ 22%] Linking CXX static library libbenchmark.a
+2025-07-08 05:36:05,074 - INFO - [ 22%] Built target benchmark
+2025-07-08 05:36:05,097 - INFO - [ 22%] Building CXX object _deps/google_benchmarks/src/CMakeFiles/benchmark_main.dir/benchmark_main.cc.o
+2025-07-08 05:36:05,474 - INFO - [ 22%] Linking CXX static library libbenchmark_main.a
+2025-07-08 05:36:05,510 - INFO - [ 22%] Built target benchmark_main
+2025-07-08 05:36:05,532 - INFO - [ 22%] Building CXX object tools/CMakeFiles/json2json.dir/json2json.cpp.o
+2025-07-08 05:36:12,238 - INFO - [ 22%] Linking CXX executable json2json
+2025-07-08 05:36:12,350 - INFO - [ 22%] Built target json2json
+2025-07-08 05:36:12,374 - INFO - [ 22%] Building CXX object tools/CMakeFiles/jsonstats.dir/jsonstats.cpp.o
+2025-07-08 05:36:18,790 - INFO - [ 23%] Linking CXX executable jsonstats
+2025-07-08 05:36:18,902 - INFO - [ 23%] Built target jsonstats
+2025-07-08 05:36:18,923 - INFO - [ 25%] Building CXX object tools/CMakeFiles/jsonpointer.dir/jsonpointer.cpp.o
+2025-07-08 05:36:20,528 - INFO - [ 25%] Linking CXX executable jsonpointer
+2025-07-08 05:36:20,629 - INFO - [ 25%] Built target jsonpointer
+2025-07-08 05:36:20,652 - INFO - [ 25%] Building CXX object tools/CMakeFiles/minify.dir/minify.cpp.o
+2025-07-08 05:36:26,919 - INFO - [ 25%] Linking CXX executable minify
+2025-07-08 05:36:27,034 - INFO - [ 25%] Built target minify
+2025-07-08 05:36:27,054 - INFO - [ 25%] Generating simdjson.cpp, simdjson.h, amalgamate_demo.cpp, README.md
+2025-07-08 05:36:27,079 - INFO - [ 25%] Built target singleheader-files
+2025-07-08 05:36:27,099 - INFO - [ 25%] Building CXX object singleheader/CMakeFiles/amalgamate_demo.dir/amalgamate_demo.cpp.o
+2025-07-08 05:36:32,047 - INFO - [ 26%] Linking CXX executable amalgamate_demo
+2025-07-08 05:36:32,152 - INFO - [ 26%] Built target amalgamate_demo
+2025-07-08 05:36:32,172 - INFO - [ 26%] Building CXX object singleheader/CMakeFiles/amalgamate_demo_direct_from_repository.dir/amalgamate_demo.cpp.o
+2025-07-08 05:36:37,241 - INFO - [ 27%] Linking CXX executable amalgamate_demo_direct_from_repository
+2025-07-08 05:36:37,344 - INFO - [ 27%] Built target amalgamate_demo_direct_from_repository
+2025-07-08 05:36:37,365 - INFO - [ 27%] Built target generated-data
+2025-07-08 05:36:37,388 - INFO - [ 28%] Building CXX object tests/CMakeFiles/numberparsingcheck.dir/numberparsingcheck.cpp.o
+2025-07-08 05:36:42,104 - INFO - [ 28%] Linking CXX executable numberparsingcheck
+2025-07-08 05:36:42,210 - INFO - [ 28%] Built target numberparsingcheck
+2025-07-08 05:36:42,236 - INFO - [ 30%] Building CXX object tests/CMakeFiles/stringparsingcheck.dir/stringparsingcheck.cpp.o
+2025-07-08 05:36:46,921 - INFO - [ 30%] Linking CXX executable stringparsingcheck
+2025-07-08 05:36:47,024 - INFO - [ 30%] Built target stringparsingcheck
+2025-07-08 05:36:47,046 - INFO - [ 30%] Building CXX object tests/CMakeFiles/random_string_number_tests.dir/random_string_number_tests.cpp.o
+2025-07-08 05:36:48,584 - INFO - [ 30%] Linking CXX executable random_string_number_tests
+2025-07-08 05:36:48,691 - INFO - [ 30%] Built target random_string_number_tests
+2025-07-08 05:36:48,713 - INFO - [ 30%] Building CXX object tests/CMakeFiles/basictests.dir/basictests.cpp.o
+2025-07-08 05:36:54,483 - INFO - [ 30%] Linking CXX executable basictests
+2025-07-08 05:36:54,602 - INFO - [ 30%] Built target basictests
+2025-07-08 05:36:54,625 - INFO - [ 31%] Building CXX object tests/CMakeFiles/document_stream_tests.dir/document_stream_tests.cpp.o
+2025-07-08 05:36:57,302 - INFO - [ 31%] Linking CXX executable document_stream_tests
+2025-07-08 05:36:57,410 - INFO - [ 31%] Built target document_stream_tests
+2025-07-08 05:36:57,432 - INFO - [ 32%] Building CXX object tests/CMakeFiles/document_tests.dir/document_tests.cpp.o
+2025-07-08 05:36:59,592 - INFO - [ 32%] Linking CXX executable document_tests
+2025-07-08 05:36:59,696 - INFO - [ 32%] Built target document_tests
+2025-07-08 05:36:59,718 - INFO - [ 32%] Building CXX object tests/CMakeFiles/errortests.dir/errortests.cpp.o
+2025-07-08 05:37:01,846 - INFO - [ 33%] Linking CXX executable errortests
+2025-07-08 05:37:01,950 - INFO - [ 33%] Built target errortests
+2025-07-08 05:37:01,970 - INFO - [ 35%] Building CXX object tests/CMakeFiles/extracting_values_example.dir/extracting_values_example.cpp.o
+2025-07-08 05:37:03,308 - INFO - [ 35%] Linking CXX executable extracting_values_example
+2025-07-08 05:37:03,410 - INFO - [ 35%] Built target extracting_values_example
+2025-07-08 05:37:03,433 - INFO - [ 35%] Building CXX object tests/CMakeFiles/integer_tests.dir/integer_tests.cpp.o
+2025-07-08 05:37:04,938 - INFO - [ 35%] Linking CXX executable integer_tests
+2025-07-08 05:37:05,040 - INFO - [ 35%] Built target integer_tests
+2025-07-08 05:37:05,063 - INFO - [ 36%] Building CXX object tests/CMakeFiles/jsoncheck.dir/jsoncheck.cpp.o
+2025-07-08 05:37:06,471 - INFO - [ 36%] Linking CXX executable jsoncheck
+2025-07-08 05:37:06,572 - INFO - [ 36%] Built target jsoncheck
+2025-07-08 05:37:06,592 - INFO - [ 36%] Building CXX object tests/CMakeFiles/minefieldcheck.dir/minefieldcheck.cpp.o
+2025-07-08 05:37:07,986 - INFO - [ 37%] Linking CXX executable minefieldcheck
+2025-07-08 05:37:08,090 - INFO - [ 37%] Built target minefieldcheck
+2025-07-08 05:37:08,111 - INFO - [ 37%] Building CXX object tests/CMakeFiles/parse_many_test.dir/parse_many_test.cpp.o
+2025-07-08 05:37:09,617 - INFO - [ 38%] Linking CXX executable parse_many_test
+2025-07-08 05:37:09,718 - INFO - [ 38%] Built target parse_many_test
+2025-07-08 05:37:09,740 - INFO - [ 38%] Building CXX object tests/CMakeFiles/pointercheck.dir/pointercheck.cpp.o
+2025-07-08 05:37:11,918 - INFO - [ 40%] Linking CXX executable pointercheck
+2025-07-08 05:37:12,022 - INFO - [ 40%] Built target pointercheck
+2025-07-08 05:37:12,043 - INFO - [ 41%] Building CXX object tests/CMakeFiles/unicode_tests.dir/unicode_tests.cpp.o
+2025-07-08 05:37:13,678 - INFO - [ 41%] Linking CXX executable unicode_tests
+2025-07-08 05:37:13,782 - INFO - [ 41%] Built target unicode_tests
+2025-07-08 05:37:13,803 - INFO - [ 42%] Building CXX object tests/CMakeFiles/trivially_copyable_test.dir/trivially_copyable_test.cpp.o
+2025-07-08 05:37:15,062 - INFO - [ 42%] Linking CXX executable trivially_copyable_test
+2025-07-08 05:37:15,172 - INFO - [ 42%] Built target trivially_copyable_test
+2025-07-08 05:37:15,193 - INFO - [ 43%] Building CXX object tests/CMakeFiles/minify_tests.dir/minify_tests.cpp.o
+2025-07-08 05:37:17,081 - INFO - [ 43%] Linking CXX executable minify_tests
+2025-07-08 05:37:17,186 - INFO - [ 43%] Built target minify_tests
+2025-07-08 05:37:17,207 - INFO - [ 45%] Building CXX object tests/CMakeFiles/padded_string_tests.dir/padded_string_tests.cpp.o
+2025-07-08 05:37:18,464 - INFO - [ 45%] Linking CXX executable padded_string_tests
+2025-07-08 05:37:18,572 - INFO - [ 45%] Built target padded_string_tests
+2025-07-08 05:37:18,594 - INFO - [ 46%] Building CXX object tests/CMakeFiles/checkimplementation.dir/checkimplementation.cpp.o
+2025-07-08 05:37:19,862 - INFO - [ 46%] Linking CXX executable checkimplementation
+2025-07-08 05:37:19,973 - INFO - [ 46%] Built target checkimplementation
+2025-07-08 05:37:19,995 - INFO - [ 47%] Building CXX object tests/ondemand/CMakeFiles/ondemand_active_tests.dir/ondemand_active_tests.cpp.o
+2025-07-08 05:37:22,388 - INFO - [ 47%] Linking CXX executable ondemand_active_tests
+2025-07-08 05:37:22,492 - INFO - [ 47%] Built target ondemand_active_tests
+2025-07-08 05:37:22,513 - INFO - [ 47%] Building CXX object tests/ondemand/CMakeFiles/ondemand_compilation_tests.dir/ondemand_compilation_tests.cpp.o
+2025-07-08 05:37:24,867 - INFO - [ 48%] Linking CXX executable ondemand_compilation_tests
+2025-07-08 05:37:24,969 - INFO - [ 48%] Built target ondemand_compilation_tests
+2025-07-08 05:37:24,989 - INFO - [ 48%] Building CXX object tests/ondemand/CMakeFiles/ondemand_dom_api_tests.dir/ondemand_dom_api_tests.cpp.o
+2025-07-08 05:37:47,660 - INFO - [ 48%] Linking CXX executable ondemand_dom_api_tests
+2025-07-08 05:37:47,767 - INFO - [ 48%] Built target ondemand_dom_api_tests
+2025-07-08 05:37:47,792 - INFO - [ 50%] Building CXX object tests/ondemand/CMakeFiles/ondemand_error_tests.dir/ondemand_error_tests.cpp.o
+2025-07-08 05:37:55,516 - INFO - [ 50%] Linking CXX executable ondemand_error_tests
+2025-07-08 05:37:55,618 - INFO - [ 50%] Built target ondemand_error_tests
+2025-07-08 05:37:55,639 - INFO - [ 51%] Building CXX object tests/ondemand/CMakeFiles/ondemand_key_string_tests.dir/ondemand_key_string_tests.cpp.o
+2025-07-08 05:37:57,248 - INFO - [ 51%] Linking CXX executable ondemand_key_string_tests
+2025-07-08 05:37:57,345 - INFO - [ 51%] Built target ondemand_key_string_tests
+2025-07-08 05:37:57,369 - INFO - [ 51%] Building CXX object tests/ondemand/CMakeFiles/ondemand_number_tests.dir/ondemand_number_tests.cpp.o
+2025-07-08 05:37:59,181 - INFO - [ 52%] Linking CXX executable ondemand_number_tests
+2025-07-08 05:37:59,293 - INFO - [ 52%] Built target ondemand_number_tests
+2025-07-08 05:37:59,313 - INFO - [ 52%] Building CXX object tests/ondemand/CMakeFiles/ondemand_ordering_tests.dir/ondemand_ordering_tests.cpp.o
+2025-07-08 05:38:04,879 - INFO - [ 53%] Linking CXX executable ondemand_ordering_tests
+2025-07-08 05:38:04,985 - INFO - [ 53%] Built target ondemand_ordering_tests
+2025-07-08 05:38:05,006 - INFO - [ 53%] Building CXX object tests/ondemand/CMakeFiles/ondemand_parse_api_tests.dir/ondemand_parse_api_tests.cpp.o
+2025-07-08 05:38:06,531 - INFO - [ 55%] Linking CXX executable ondemand_parse_api_tests
+2025-07-08 05:38:06,630 - INFO - [ 55%] Built target ondemand_parse_api_tests
+2025-07-08 05:38:06,652 - INFO - [ 55%] Building CXX object tests/ondemand/CMakeFiles/ondemand_readme_examples.dir/ondemand_readme_examples.cpp.o
+2025-07-08 05:38:10,389 - INFO - [ 55%] Linking CXX executable ondemand_readme_examples
+2025-07-08 05:38:10,500 - INFO - [ 55%] Built target ondemand_readme_examples
+2025-07-08 05:38:10,520 - INFO - [ 56%] Building CXX object tests/ondemand/CMakeFiles/ondemand_twitter_tests.dir/ondemand_twitter_tests.cpp.o
+2025-07-08 05:38:17,338 - INFO - [ 56%] Linking CXX executable ondemand_twitter_tests
+2025-07-08 05:38:17,442 - INFO - [ 56%] Built target ondemand_twitter_tests
+2025-07-08 05:38:17,466 - INFO - [ 56%] Building CXX object tests/ondemand/CMakeFiles/ondemand_assert_out_of_order_values.dir/ondemand_assert_out_of_order_values.cpp.o
+2025-07-08 05:38:18,985 - INFO - [ 57%] Linking CXX executable ondemand_assert_out_of_order_values
+2025-07-08 05:38:19,084 - INFO - [ 57%] Built target ondemand_assert_out_of_order_values
+2025-07-08 05:38:19,107 - INFO - [ 57%] Building CXX object benchmark/CMakeFiles/benchfeatures.dir/benchfeatures.cpp.o
+2025-07-08 05:38:23,504 - INFO - [ 58%] Linking CXX executable benchfeatures
+2025-07-08 05:38:23,605 - INFO - [ 58%] Built target benchfeatures
+2025-07-08 05:38:23,627 - INFO - [ 60%] Building CXX object benchmark/CMakeFiles/get_corpus_benchmark.dir/get_corpus_benchmark.cpp.o
+2025-07-08 05:38:24,901 - INFO - [ 60%] Linking CXX executable get_corpus_benchmark
+2025-07-08 05:38:25,003 - INFO - [ 60%] Built target get_corpus_benchmark
+2025-07-08 05:38:25,025 - INFO - [ 60%] Building CXX object benchmark/CMakeFiles/perfdiff.dir/perfdiff.cpp.o
+2025-07-08 05:38:25,647 - INFO - [ 61%] Linking CXX executable perfdiff
+2025-07-08 05:38:25,754 - INFO - [ 61%] Built target perfdiff
+2025-07-08 05:38:25,781 - INFO - [ 61%] Building CXX object benchmark/CMakeFiles/parse.dir/parse.cpp.o
+2025-07-08 05:38:28,067 - INFO - [ 62%] Linking CXX executable parse
+2025-07-08 05:38:28,169 - INFO - [ 62%] Built target parse
+2025-07-08 05:38:28,191 - INFO - [ 63%] Building CXX object benchmark/CMakeFiles/parse_stream.dir/parse_stream.cpp.o
+2025-07-08 05:38:29,952 - INFO - [ 63%] Linking CXX executable parse_stream
+2025-07-08 05:38:30,051 - INFO - [ 63%] Built target parse_stream
+2025-07-08 05:38:30,071 - INFO - [ 65%] Building CXX object benchmark/CMakeFiles/statisticalmodel.dir/statisticalmodel.cpp.o
+2025-07-08 05:38:31,714 - INFO - [ 65%] Linking CXX executable statisticalmodel
+2025-07-08 05:38:31,817 - INFO - [ 65%] Built target statisticalmodel
+2025-07-08 05:38:31,839 - INFO - [ 66%] Building CXX object benchmark/CMakeFiles/parse_noutf8validation.dir/parse.cpp.o
+2025-07-08 05:38:34,143 - INFO - [ 66%] Linking CXX executable parse_noutf8validation
+2025-07-08 05:38:34,244 - INFO - [ 66%] Built target parse_noutf8validation
+2025-07-08 05:38:34,266 - INFO - [ 66%] Building CXX object benchmark/CMakeFiles/parse_nonumberparsing.dir/parse.cpp.o
+2025-07-08 05:38:36,561 - INFO - [ 66%] Linking CXX executable parse_nonumberparsing
+2025-07-08 05:38:36,661 - INFO - [ 66%] Built target parse_nonumberparsing
+2025-07-08 05:38:36,689 - INFO - [ 67%] Building CXX object benchmark/CMakeFiles/parse_nostringparsing.dir/parse.cpp.o
+2025-07-08 05:38:38,962 - INFO - [ 67%] Linking CXX executable parse_nostringparsing
+2025-07-08 05:38:39,060 - INFO - [ 67%] Built target parse_nostringparsing
+2025-07-08 05:38:39,081 - INFO - [ 67%] Building CXX object benchmark/CMakeFiles/bench_parse_call.dir/bench_parse_call.cpp.o
+2025-07-08 05:38:40,914 - INFO - [ 68%] Linking CXX executable bench_parse_call
+2025-07-08 05:38:41,032 - INFO - [ 68%] Built target bench_parse_call
+2025-07-08 05:38:41,056 - INFO - [ 70%] Building CXX object benchmark/CMakeFiles/bench_dom_api.dir/bench_dom_api.cpp.o
+2025-07-08 05:38:44,018 - INFO - [ 70%] Linking CXX executable bench_dom_api
+2025-07-08 05:38:44,142 - INFO - [ 70%] Built target bench_dom_api
+2025-07-08 05:38:44,164 - INFO - [ 71%] Building CXX object benchmark/CMakeFiles/bench_ondemand.dir/bench_ondemand.cpp.o
+2025-07-08 05:39:08,225 - INFO - [ 71%] Linking CXX executable bench_ondemand
+2025-07-08 05:39:08,353 - INFO - [ 71%] Built target bench_ondemand
+2025-07-08 05:39:08,375 - INFO - [ 72%] Generating checkperf-reference/master/.git/config
+2025-07-08 05:39:08,383 - INFO - hint: Using 'master' as the name for the initial branch. This default branch name
+2025-07-08 05:39:08,383 - INFO - hint: is subject to change. To configure the initial branch name to use in all
+2025-07-08 05:39:08,383 - INFO - hint: of your new repositories, which will suppress this warning, call:
+2025-07-08 05:39:08,383 - INFO - hint: 
+2025-07-08 05:39:08,383 - INFO - hint: 	git config --global init.defaultBranch <name>
+2025-07-08 05:39:08,383 - INFO - hint: 
+2025-07-08 05:39:08,383 - INFO - hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2025-07-08 05:39:08,383 - INFO - hint: 'development'. The just-created branch can be renamed via this command:
+2025-07-08 05:39:08,383 - INFO - hint: 
+2025-07-08 05:39:08,383 - INFO - hint: 	git branch -m <name>
+2025-07-08 05:39:08,386 - INFO - Initialized empty Git repository in /testbed/build/benchmark/checkperf-reference/master/.git/
+2025-07-08 05:39:08,397 - INFO - [ 72%] Built target init-checkperf-repo
+2025-07-08 05:39:08,420 - INFO - [ 72%] Generating checkperf-reference/master/.git/FETCH_HEAD
+2025-07-08 05:39:13,154 - INFO - From https://github.com/simdjson/simdjson
+2025-07-08 05:39:13,154 - INFO -  * branch            master     -> FETCH_HEAD
+2025-07-08 05:39:13,158 - INFO -  * [new branch]      master     -> origin/master
+2025-07-08 05:39:13,276 - INFO - HEAD is now at 4acaf2e improving DOM ranges test and silencing a warning (#2385)
+2025-07-08 05:39:13,285 - INFO - [ 72%] Built target checkperf-repo
+2025-07-08 05:39:13,306 - INFO - [ 72%] Generating .simdjson-user-CMakeCache.txt
+2025-07-08 05:39:13,321 - INFO - [ 72%] Built target simdjson-user-cmakecache
+2025-07-08 05:39:13,341 - INFO - [ 73%] Generating checkperf-reference/master/build/CMakeCache.txt
+2025-07-08 05:39:13,369 - INFO - [ 73%] Generating checkperf-reference/master/build/cmake_install.cmake
+2025-07-08 05:39:13,447 - INFO - -- The CXX compiler identification is GNU 11.4.0
+2025-07-08 05:39:13,493 - INFO - -- The C compiler identification is GNU 11.4.0
+2025-07-08 05:39:13,501 - INFO - -- Detecting CXX compiler ABI info
+2025-07-08 05:39:13,589 - INFO - -- Detecting CXX compiler ABI info - done
+2025-07-08 05:39:13,596 - INFO - -- Check for working CXX compiler: /usr/bin/c++ - skipped
+2025-07-08 05:39:13,596 - INFO - -- Detecting CXX compile features
+2025-07-08 05:39:13,597 - INFO - -- Detecting CXX compile features - done
+2025-07-08 05:39:13,600 - INFO - -- Detecting C compiler ABI info
+2025-07-08 05:39:13,673 - INFO - -- Detecting C compiler ABI info - done
+2025-07-08 05:39:13,680 - INFO - -- Check for working C compiler: /usr/bin/cc - skipped
+2025-07-08 05:39:13,680 - INFO - -- Detecting C compile features
+2025-07-08 05:39:13,680 - INFO - -- Detecting C compile features - done
+2025-07-08 05:39:13,682 - INFO - CMake Deprecation Warning at cmake/handle-deprecations.cmake:2 (message):
+2025-07-08 05:39:13,682 - INFO -   SIMDJSON_BUILD_STATIC is deprecated, setting BUILD_SHARED_LIBS with its
+2025-07-08 05:39:13,682 - INFO -   value and unsetting it
+2025-07-08 05:39:13,682 - INFO - Call Stack (most recent call first):
+2025-07-08 05:39:13,682 - INFO -   CMakeLists.txt:63 (include)
+2025-07-08 05:39:13,682 - INFO - CMake Deprecation Warning at cmake/handle-deprecations.cmake:14 (message):
+2025-07-08 05:39:13,682 - INFO -   SIMDJSON_JUST_LIBRARY is deprecated, setting SIMDJSON_DEVELOPER_MODE with
+2025-07-08 05:39:13,682 - INFO -   its value and unsetting it
+2025-07-08 05:39:13,682 - INFO - Call Stack (most recent call first):
+2025-07-08 05:39:13,682 - INFO -   CMakeLists.txt:63 (include)
+2025-07-08 05:39:13,683 - INFO - -- Looking for fork
+2025-07-08 05:39:13,759 - INFO - -- Looking for fork - found
+2025-07-08 05:39:13,759 - INFO - -- Looking for wait
+2025-07-08 05:39:13,837 - INFO - -- Looking for wait - found
+2025-07-08 05:39:13,837 - INFO - -- Adding -Og to compile flag
+2025-07-08 05:39:13,839 - INFO - -- Looking for pthread.h
+2025-07-08 05:39:13,918 - INFO - -- Looking for pthread.h - found
+2025-07-08 05:39:13,918 - INFO - -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+2025-07-08 05:39:14,000 - INFO - -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+2025-07-08 05:39:14,000 - INFO - -- Found Threads: TRUE  
+2025-07-08 05:39:15,541 - INFO - -- CPM: Adding package simdjson-data@ ()
+2025-07-08 05:39:19,481 - INFO - -- CPM: Adding package cxxopts@ ()
+2025-07-08 05:39:21,271 - INFO - -- We have cxxopts as a dependency and we are building the tools (e.g., json2json).
+2025-07-08 05:39:21,295 - INFO - -- Could NOT find Python3 (missing: Python3_EXECUTABLE Interpreter) 
+2025-07-08 05:39:21,295 - INFO - -- Including amalgamate_demo test. 
+2025-07-08 05:39:21,295 - INFO - -- Including simdjson-singleheader test.
+2025-07-08 05:39:21,295 - INFO - -- Including amalgamate_demo_direct_from_repository test.
+2025-07-08 05:39:21,323 - INFO - -- Either git is unavailable or else it is too old. We are disabling checkperf targets.
+2025-07-08 05:39:21,327 - INFO - -- Configuring done
+2025-07-08 05:39:21,609 - INFO - -- Generating done
+2025-07-08 05:39:21,626 - INFO - -- Build files have been written to: /testbed/build/benchmark/checkperf-reference/master/build
+2025-07-08 05:39:21,712 - INFO - [  0%] Built target generated-data
+2025-07-08 05:39:21,735 - INFO - [100%] Building CXX object CMakeFiles/simdjson.dir/src/simdjson.cpp.o
+2025-07-08 05:39:27,182 - INFO - [100%] Linking CXX shared library libsimdjson.so
+2025-07-08 05:39:27,290 - INFO - [100%] Built target simdjson
+2025-07-08 05:39:27,313 - INFO - [100%] Building CXX object benchmark/dom/CMakeFiles/parse.dir/parse.cpp.o
+2025-07-08 05:39:27,394 - INFO - In file included from /testbed/build/benchmark/checkperf-reference/master/include/simdjson/builtin.h:4,
+2025-07-08 05:39:27,394 - INFO -                  from /testbed/build/benchmark/checkperf-reference/master/include/simdjson/builtin/ondemand.h:4,
+2025-07-08 05:39:27,394 - INFO -                  from /testbed/build/benchmark/checkperf-reference/master/include/simdjson/ondemand.h:4,
+2025-07-08 05:39:27,394 - INFO -                  from /testbed/build/benchmark/checkperf-reference/master/include/simdjson.h:55,
+2025-07-08 05:39:27,394 - INFO -                  from /testbed/build/benchmark/checkperf-reference/master/benchmark/dom/../event_counter.h:46,
+2025-07-08 05:39:27,394 - INFO -                  from /testbed/build/benchmark/checkperf-reference/master/benchmark/dom/parse.cpp:1:
+2025-07-08 05:39:27,394 - INFO - /testbed/build/benchmark/checkperf-reference/master/include/simdjson/builtin/base.h:25:2: error: #error Unknown SIMDJSON_BUILTIN_IMPLEMENTATION
+2025-07-08 05:39:27,394 - INFO -    25 | #error Unknown SIMDJSON_BUILTIN_IMPLEMENTATION
+2025-07-08 05:39:27,394 - INFO -       |  ^~~~~
+2025-07-08 05:39:27,394 - INFO - In file included from /testbed/build/benchmark/checkperf-reference/master/include/simdjson/builtin.h:5,
+2025-07-08 05:39:27,394 - INFO -                  from /testbed/build/benchmark/checkperf-reference/master/include/simdjson/builtin/ondemand.h:4,
+2025-07-08 05:39:27,394 - INFO -                  from /testbed/build/benchmark/checkperf-reference/master/include/simdjson/ondemand.h:4,
+2025-07-08 05:39:27,394 - INFO -                  from /testbed/build/benchmark/checkperf-reference/master/include/simdjson.h:55,
+2025-07-08 05:39:27,394 - INFO -                  from /testbed/build/benchmark/checkperf-reference/master/benchmark/dom/../event_counter.h:46,
+2025-07-08 05:39:27,394 - INFO -                  from /testbed/build/benchmark/checkperf-reference/master/benchmark/dom/parse.cpp:1:
+2025-07-08 05:39:27,394 - INFO - /testbed/build/benchmark/checkperf-reference/master/include/simdjson/builtin/implementation.h:27:2: error: #error Unknown SIMDJSON_BUILTIN_IMPLEMENTATION
+2025-07-08 05:39:27,394 - INFO -    27 | #error Unknown SIMDJSON_BUILTIN_IMPLEMENTATION
+2025-07-08 05:39:27,394 - INFO -       |  ^~~~~
+2025-07-08 05:39:27,395 - INFO - In file included from /testbed/build/benchmark/checkperf-reference/master/include/simdjson/builtin/ondemand.h:4,
+2025-07-08 05:39:27,395 - INFO -                  from /testbed/build/benchmark/checkperf-reference/master/include/simdjson/ondemand.h:4,
+2025-07-08 05:39:27,395 - INFO -                  from /testbed/build/benchmark/checkperf-reference/master/include/simdjson.h:55,
+2025-07-08 05:39:27,395 - INFO -                  from /testbed/build/benchmark/checkperf-reference/master/benchmark/dom/../event_counter.h:46,
+2025-07-08 05:39:27,395 - INFO -                  from /testbed/build/benchmark/checkperf-reference/master/benchmark/dom/parse.cpp:1:
+2025-07-08 05:39:27,395 - INFO - /testbed/build/benchmark/checkperf-reference/master/include/simdjson/builtin.h:28:2: error: #error Unknown SIMDJSON_BUILTIN_IMPLEMENTATION
+2025-07-08 05:39:27,395 - INFO -    28 | #error Unknown SIMDJSON_BUILTIN_IMPLEMENTATION
+2025-07-08 05:39:27,395 - INFO -       |  ^~~~~
+2025-07-08 05:39:27,395 - INFO - In file included from /testbed/build/benchmark/checkperf-reference/master/include/simdjson/ondemand.h:4,
+2025-07-08 05:39:27,395 - INFO -                  from /testbed/build/benchmark/checkperf-reference/master/include/simdjson.h:55,
+2025-07-08 05:39:27,395 - INFO -                  from /testbed/build/benchmark/checkperf-reference/master/benchmark/dom/../event_counter.h:46,
+2025-07-08 05:39:27,395 - INFO -                  from /testbed/build/benchmark/checkperf-reference/master/benchmark/dom/parse.cpp:1:
+2025-07-08 05:39:27,395 - INFO - /testbed/build/benchmark/checkperf-reference/master/include/simdjson/builtin/ondemand.h:28:2: error: #error Unknown SIMDJSON_BUILTIN_IMPLEMENTATION
+2025-07-08 05:39:27,395 - INFO -    28 | #error Unknown SIMDJSON_BUILTIN_IMPLEMENTATION
+2025-07-08 05:39:27,395 - INFO -       |  ^~~~~
+2025-07-08 05:39:27,903 - INFO - <command-line>: error: 'OFF' is not a namespace-name
+2025-07-08 05:39:27,903 - INFO - <command-line>: note: in definition of macro 'SIMDJSON_BUILTIN_IMPLEMENTATION'
+2025-07-08 05:39:27,903 - INFO - <command-line>: error: 'OFF' has not been declared
+2025-07-08 05:39:27,903 - INFO - <command-line>: note: in definition of macro 'SIMDJSON_BUILTIN_IMPLEMENTATION'
+2025-07-08 05:39:27,903 - INFO - In file included from /testbed/build/benchmark/checkperf-reference/master/include/simdjson/ondemand.h:4,
+2025-07-08 05:39:27,903 - INFO -                  from /testbed/build/benchmark/checkperf-reference/master/include/simdjson.h:55,
+2025-07-08 05:39:27,903 - INFO -                  from /testbed/build/benchmark/checkperf-reference/master/benchmark/dom/../event_counter.h:46,
+2025-07-08 05:39:27,903 - INFO -                  from /testbed/build/benchmark/checkperf-reference/master/benchmark/dom/parse.cpp:1:
+2025-07-08 05:39:27,903 - INFO - /testbed/build/benchmark/checkperf-reference/master/include/simdjson/builtin/ondemand.h:37:57: error: 'ondemand' is not a namespace-name
+2025-07-08 05:39:27,903 - INFO -    37 |   namespace ondemand = SIMDJSON_BUILTIN_IMPLEMENTATION::ondemand;
+2025-07-08 05:39:27,903 - INFO -       |                                                         ^~~~~~~~
+2025-07-08 05:39:27,903 - INFO - In file included from /testbed/build/benchmark/checkperf-reference/master/include/simdjson.h:55,
+2025-07-08 05:39:27,903 - INFO -                  from /testbed/build/benchmark/checkperf-reference/master/benchmark/dom/../event_counter.h:46,
+2025-07-08 05:39:27,903 - INFO -                  from /testbed/build/benchmark/checkperf-reference/master/benchmark/dom/parse.cpp:1:
+2025-07-08 05:39:27,903 - INFO - /testbed/build/benchmark/checkperf-reference/master/include/simdjson/ondemand.h:10:24: error: 'builtin' has not been declared
+2025-07-08 05:39:27,903 - INFO -    10 |   namespace ondemand = builtin::ondemand;
+2025-07-08 05:39:27,903 - INFO -       |                        ^~~~~~~
+2025-07-08 05:39:27,903 - INFO - /testbed/build/benchmark/checkperf-reference/master/include/simdjson/ondemand.h:10:33: error: 'ondemand' is not a namespace-name
+2025-07-08 05:39:27,903 - INFO -    10 |   namespace ondemand = builtin::ondemand;
+2025-07-08 05:39:27,903 - INFO -       |                                 ^~~~~~~~
+2025-07-08 05:39:28,106 - INFO - gmake[6]: *** [benchmark/dom/CMakeFiles/parse.dir/build.make:76: benchmark/dom/CMakeFiles/parse.dir/parse.cpp.o] Error 1
+2025-07-08 05:39:28,106 - INFO - gmake[5]: *** [CMakeFiles/Makefile2:3791: benchmark/dom/CMakeFiles/parse.dir/all] Error 2
+2025-07-08 05:39:28,106 - INFO - gmake[4]: *** [CMakeFiles/Makefile2:3798: benchmark/dom/CMakeFiles/parse.dir/rule] Error 2
+2025-07-08 05:39:28,106 - INFO - gmake[3]: *** [Makefile:1642: parse] Error 2
+2025-07-08 05:39:28,109 - INFO - gmake[2]: *** [benchmark/CMakeFiles/checkperf-parse.dir/build.make:70: benchmark/CMakeFiles/checkperf-parse] Error 2
+2025-07-08 05:39:28,109 - INFO - gmake[1]: *** [CMakeFiles/Makefile2:3258: benchmark/CMakeFiles/checkperf-parse.dir/all] Error 2
+2025-07-08 05:39:28,109 - INFO - gmake: *** [Makefile:166: all] Error 2
+2025-07-08 05:39:28,691 - INFO -  ---> Removed intermediate container 03f6b63cc73a
+2025-07-08 05:39:28,697 - ERROR - Error: The command '/bin/sh -c mkdir build &&     cmake -S . -B build -DSIMDJSON_BUILD_BENCHMARKS=OFF &&     cmake --build build' returned a non-zero code: 2
+2025-07-08 05:39:28,697 - ERROR - The command '/bin/sh -c mkdir build &&     cmake -S . -B build -DSIMDJSON_BUILD_BENCHMARKS=OFF &&     cmake --build build' returned a non-zero code: 2

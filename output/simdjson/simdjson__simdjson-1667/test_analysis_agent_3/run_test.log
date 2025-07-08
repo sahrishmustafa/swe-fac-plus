@@ -1,0 +1,3846 @@
+2025-07-08 06:47:01,028 - INFO - Checking if image simdjson__simdjson-1667-dockerfile3:latest exists locally...
+2025-07-08 06:47:01,066 - INFO - Image simdjson__simdjson-1667-dockerfile3:latest found locally.
+2025-07-08 06:47:01,066 - INFO - Creating container for simdjson__simdjson-1667...
+2025-07-08 06:47:01,578 - INFO - Container for simdjson__simdjson-1667 started: 1eed14f30f669d58d92b098b66fa76c1ed7e042f1f28a0521f43be8d15a18174
+2025-07-08 06:47:01,578 - INFO - Intermediate patch for simdjson__simdjson-1667 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/simdjson/simdjson__simdjson-1667/test_analysis_agent_3/patch.diff, now applying to container...
+2025-07-08 06:47:01,805 - INFO - Failed to apply patch to container, trying again...
+2025-07-08 06:47:01,871 - INFO - Apply patch success:
+patching file include/simdjson/generic/numberparsing.h
+patching file include/simdjson/generic/ondemand/document-inl.h
+patching file include/simdjson/generic/ondemand/document.h
+patching file include/simdjson/generic/ondemand/value-inl.h
+patching file include/simdjson/generic/ondemand/value.h
+patching file include/simdjson/generic/ondemand/value_iterator-inl.h
+patching file include/simdjson/generic/ondemand/value_iterator.h
+
+2025-07-08 06:47:02,030 - INFO - Git diff before:
+diff --git a/.appveyor.yml b/.appveyor.yml
+old mode 100644
+new mode 100755
+diff --git a/.circleci/config.yml b/.circleci/config.yml
+old mode 100644
+new mode 100755
+diff --git a/.cirrus.yml b/.cirrus.yml
+old mode 100644
+new mode 100755
+diff --git a/.clang-format b/.clang-format
+old mode 100644
+new mode 100755
+diff --git a/.dockerignore b/.dockerignore
+old mode 100644
+new mode 100755
+diff --git a/.drone.yml b/.drone.yml
+old mode 100644
+new mode 100755
+diff --git a/.gitattributes b/.gitattributes
+old mode 100644
+new mode 100755
+diff --git a/.github/ISSUE_TEMPLATE/bug_report.md b/.github/ISSUE_TEMPLATE/bug_report.md
+old mode 100644
+new mode 100755
+diff --git a/.github/ISSUE_TEMPLATE/feature_request.md b/.github/ISSUE_TEMPLATE/feature_request.md
+old mode 100644
+new mode 100755
+diff --git a/.github/ISSUE_TEMPLATE/standard-issue-template.md b/.github/ISSUE_TEMPLATE/standard-issue-template.md
+old mode 100644
+new mode 100755
+diff --git a/.github/pull_request_template.md b/.github/pull_request_template.md
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/alpine.yml b/.github/workflows/alpine.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/fix-trailing-whitespace.yml b/.github/workflows/fix-trailing-whitespace.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/fuzzers.yml b/.github/workflows/fuzzers.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/mingw-ci.yml b/.github/workflows/mingw-ci.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/mingw64-ci.yml b/.github/workflows/mingw64-ci.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/msys2-clang.yml b/.github/workflows/msys2-clang.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/msys2.yml b/.github/workflows/msys2.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/power-fuzz.yml b/.github/workflows/power-fuzz.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/ubuntu18-checkperf.yml b/.github/workflows/ubuntu18-checkperf.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/ubuntu18-threadsani.yml b/.github/workflows/ubuntu18-threadsani.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/ubuntu18.yml b/.github/workflows/ubuntu18.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/ubuntu20-checkperf.yml b/.github/workflows/ubuntu20-checkperf.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/ubuntu20-noexcept.yml b/.github/workflows/ubuntu20-noexcept.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/ubuntu20-nothread.yml b/.github/workflows/ubuntu20-nothread.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/ubuntu20-threadsani.yml b/.github/workflows/ubuntu20-threadsani.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/ubuntu20.yml b/.github/workflows/ubuntu20.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/vs15-ci.yml b/.github/workflows/vs15-ci.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/vs16-arm-ci.yml b/.github/workflows/vs16-arm-ci.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/vs16-ci.yml b/.github/workflows/vs16-ci.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/vs16-clang-ci.yml b/.github/workflows/vs16-clang-ci.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/vs16-ninja-ci.yml b/.github/workflows/vs16-ninja-ci.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/vs16-noexcept-ci.yml b/.github/workflows/vs16-noexcept-ci.yml
+old mode 100644
+new mode 100755
+diff --git a/.gitignore b/.gitignore
+old mode 100644
+new mode 100755
+diff --git a/.travis.yml b/.travis.yml
+old mode 100644
+new mode 100755
+diff --git a/.vscode/extensions.json b/.vscode/extensions.json
+old mode 100644
+new mode 100755
+diff --git a/.vscode/settings.json b/.vscode/settings.json
+old mode 100644
+new mode 100755
+diff --git a/AUTHORS b/AUTHORS
+old mode 100644
+new mode 100755
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/CONTRIBUTING.md b/CONTRIBUTING.md
+old mode 100644
+new mode 100755
+diff --git a/CONTRIBUTORS b/CONTRIBUTORS
+old mode 100644
+new mode 100755
+diff --git a/Doxyfile b/Doxyfile
+old mode 100644
+new mode 100755
+diff --git a/HACKING.md b/HACKING.md
+old mode 100644
+new mode 100755
+diff --git a/LICENSE b/LICENSE
+old mode 100644
+new mode 100755
+diff --git a/README.md b/README.md
+old mode 100644
+new mode 100755
+diff --git a/RELEASES.md b/RELEASES.md
+old mode 100644
+new mode 100755
+diff --git a/benchmark/CMakeLists.txt b/benchmark/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/benchmark/amazon_cellphones/amazon_cellphones.h b/benchmark/amazon_cellphones/amazon_cellphones.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/amazon_cellphones/simdjson_dom.h b/benchmark/amazon_cellphones/simdjson_dom.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/amazon_cellphones/simdjson_ondemand.h b/benchmark/amazon_cellphones/simdjson_ondemand.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/bench_dom_api.cpp b/benchmark/bench_dom_api.cpp
+old mode 100644
+new mode 100755
+diff --git a/benchmark/bench_ondemand.cpp b/benchmark/bench_ondemand.cpp
+old mode 100644
+new mode 100755
+diff --git a/benchmark/bench_parse_call.cpp b/benchmark/bench_parse_call.cpp
+old mode 100644
+new mode 100755
+diff --git a/benchmark/benchfeatures.cpp b/benchmark/benchfeatures.cpp
+old mode 100644
+new mode 100755
+diff --git a/benchmark/benchmark.h b/benchmark/benchmark.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/benchmarker.h b/benchmark/benchmarker.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/distinct_user_id/distinct_user_id.h b/benchmark/distinct_user_id/distinct_user_id.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/distinct_user_id/nlohmann_json.h b/benchmark/distinct_user_id/nlohmann_json.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/distinct_user_id/nlohmann_json_sax.h b/benchmark/distinct_user_id/nlohmann_json_sax.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/distinct_user_id/rapidjson.h b/benchmark/distinct_user_id/rapidjson.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/distinct_user_id/rapidjson_sax.h b/benchmark/distinct_user_id/rapidjson_sax.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/distinct_user_id/sajson.h b/benchmark/distinct_user_id/sajson.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/distinct_user_id/simdjson_dom.h b/benchmark/distinct_user_id/simdjson_dom.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/distinct_user_id/simdjson_dom_json_pointer.h b/benchmark/distinct_user_id/simdjson_dom_json_pointer.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/distinct_user_id/simdjson_ondemand.h b/benchmark/distinct_user_id/simdjson_ondemand.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/distinct_user_id/simdjson_ondemand_json_pointer.h b/benchmark/distinct_user_id/simdjson_ondemand_json_pointer.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/distinct_user_id/yyjson.h b/benchmark/distinct_user_id/yyjson.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/dom/CMakeLists.txt b/benchmark/dom/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/benchmark/dom/checkperf.cmake b/benchmark/dom/checkperf.cmake
+old mode 100644
+new mode 100755
+diff --git a/benchmark/dom/parse.cpp b/benchmark/dom/parse.cpp
+old mode 100644
+new mode 100755
+diff --git a/benchmark/dom/parse_stream.cpp b/benchmark/dom/parse_stream.cpp
+old mode 100644
+new mode 100755
+diff --git a/benchmark/dom/perfdiff.cpp b/benchmark/dom/perfdiff.cpp
+old mode 100644
+new mode 100755
+diff --git a/benchmark/dom/statisticalmodel.cpp b/benchmark/dom/statisticalmodel.cpp
+old mode 100644
+new mode 100755
+diff --git a/benchmark/event_counter.h b/benchmark/event_counter.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/find_tweet/find_tweet.h b/benchmark/find_tweet/find_tweet.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/find_tweet/nlohmann_json.h b/benchmark/find_tweet/nlohmann_json.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/find_tweet/nlohmann_json_sax.h b/benchmark/find_tweet/nlohmann_json_sax.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/find_tweet/rapidjson.h b/benchmark/find_tweet/rapidjson.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/find_tweet/rapidjson_sax.h b/benchmark/find_tweet/rapidjson_sax.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/find_tweet/sajson.h b/benchmark/find_tweet/sajson.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/find_tweet/simdjson_dom.h b/benchmark/find_tweet/simdjson_dom.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/find_tweet/simdjson_ondemand.h b/benchmark/find_tweet/simdjson_ondemand.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/find_tweet/yyjson.h b/benchmark/find_tweet/yyjson.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/get_corpus_benchmark.cpp b/benchmark/get_corpus_benchmark.cpp
+old mode 100644
+new mode 100755
+diff --git a/benchmark/json_benchmark/constants.h b/benchmark/json_benchmark/constants.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/json_benchmark/diff_results.h b/benchmark/json_benchmark/diff_results.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/json_benchmark/file_runner.h b/benchmark/json_benchmark/file_runner.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/json_benchmark/point.h b/benchmark/json_benchmark/point.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/json_benchmark/run_json_benchmark.h b/benchmark/json_benchmark/run_json_benchmark.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/json_benchmark/runner_base.h b/benchmark/json_benchmark/runner_base.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/json_benchmark/string_runner.h b/benchmark/json_benchmark/string_runner.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/kostya/kostya.h b/benchmark/kostya/kostya.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/kostya/nlohmann_json.h b/benchmark/kostya/nlohmann_json.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/kostya/nlohmann_json_sax.h b/benchmark/kostya/nlohmann_json_sax.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/kostya/rapidjson.h b/benchmark/kostya/rapidjson.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/kostya/rapidjson_sax.h b/benchmark/kostya/rapidjson_sax.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/kostya/sajson.h b/benchmark/kostya/sajson.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/kostya/simdjson_dom.h b/benchmark/kostya/simdjson_dom.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/kostya/simdjson_ondemand.h b/benchmark/kostya/simdjson_ondemand.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/kostya/yyjson.h b/benchmark/kostya/yyjson.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/large_amazon_cellphones/large_amazon_cellphones.h b/benchmark/large_amazon_cellphones/large_amazon_cellphones.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/large_amazon_cellphones/simdjson_dom.h b/benchmark/large_amazon_cellphones/simdjson_dom.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/large_amazon_cellphones/simdjson_ondemand.h b/benchmark/large_amazon_cellphones/simdjson_ondemand.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/large_random/large_random.h b/benchmark/large_random/large_random.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/large_random/nlohmann_json.h b/benchmark/large_random/nlohmann_json.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/large_random/nlohmann_json_sax.h b/benchmark/large_random/nlohmann_json_sax.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/large_random/rapidjson.h b/benchmark/large_random/rapidjson.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/large_random/rapidjson_sax.h b/benchmark/large_random/rapidjson_sax.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/large_random/sajson.h b/benchmark/large_random/sajson.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/large_random/simdjson_dom.h b/benchmark/large_random/simdjson_dom.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/large_random/simdjson_ondemand.h b/benchmark/large_random/simdjson_ondemand.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/large_random/simdjson_ondemand_unordered.h b/benchmark/large_random/simdjson_ondemand_unordered.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/large_random/yyjson.h b/benchmark/large_random/yyjson.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/largerandom/iter.h b/benchmark/largerandom/iter.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/largerandom/ondemand.h b/benchmark/largerandom/ondemand.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/largerandom/sax.h b/benchmark/largerandom/sax.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/linux/linux-perf-events.h b/benchmark/linux/linux-perf-events.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/partial_tweets/nlohmann_json.h b/benchmark/partial_tweets/nlohmann_json.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/partial_tweets/nlohmann_json_sax.h b/benchmark/partial_tweets/nlohmann_json_sax.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/partial_tweets/ondemand.h b/benchmark/partial_tweets/ondemand.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/partial_tweets/partial_tweets.h b/benchmark/partial_tweets/partial_tweets.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/partial_tweets/rapidjson.h b/benchmark/partial_tweets/rapidjson.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/partial_tweets/rapidjson_sax.h b/benchmark/partial_tweets/rapidjson_sax.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/partial_tweets/sajson.h b/benchmark/partial_tweets/sajson.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/partial_tweets/simdjson_dom.h b/benchmark/partial_tweets/simdjson_dom.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/partial_tweets/simdjson_ondemand.h b/benchmark/partial_tweets/simdjson_ondemand.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/partial_tweets/tweet.h b/benchmark/partial_tweets/tweet.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/partial_tweets/twitter_user.h b/benchmark/partial_tweets/twitter_user.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/partial_tweets/yyjson.h b/benchmark/partial_tweets/yyjson.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/top_tweet/README.md b/benchmark/top_tweet/README.md
+old mode 100644
+new mode 100755
+diff --git a/benchmark/top_tweet/nlohmann_json.h b/benchmark/top_tweet/nlohmann_json.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/top_tweet/nlohmann_json_sax.h b/benchmark/top_tweet/nlohmann_json_sax.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/top_tweet/rapidjson.h b/benchmark/top_tweet/rapidjson.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/top_tweet/rapidjson_sax.h b/benchmark/top_tweet/rapidjson_sax.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/top_tweet/sajson.h b/benchmark/top_tweet/sajson.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/top_tweet/simdjson_dom.h b/benchmark/top_tweet/simdjson_dom.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/top_tweet/simdjson_ondemand.h b/benchmark/top_tweet/simdjson_ondemand.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/top_tweet/top_tweet.h b/benchmark/top_tweet/top_tweet.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/top_tweet/yyjson.h b/benchmark/top_tweet/yyjson.h
+old mode 100644
+new mode 100755
+diff --git a/cmake/add_compile_only_test.cmake b/cmake/add_compile_only_test.cmake
+old mode 100644
+new mode 100755
+diff --git a/cmake/add_cpp_test.cmake b/cmake/add_cpp_test.cmake
+old mode 100644
+new mode 100755
+diff --git a/cmake/developer-options.cmake b/cmake/developer-options.cmake
+old mode 100644
+new mode 100755
+diff --git a/cmake/exception-flags.cmake b/cmake/exception-flags.cmake
+old mode 100644
+new mode 100755
+diff --git a/cmake/handle-deprecations.cmake b/cmake/handle-deprecations.cmake
+old mode 100644
+new mode 100755
+diff --git a/cmake/implementation-flags.cmake b/cmake/implementation-flags.cmake
+old mode 100644
+new mode 100755
+diff --git a/cmake/simdjson-config.cmake.in b/cmake/simdjson-config.cmake.in
+old mode 100644
+new mode 100755
+diff --git a/cmake/simdjson-props.cmake b/cmake/simdjson-props.cmake
+old mode 100644
+new mode 100755
+diff --git a/cmake/simdjson-user-cmakecache.cmake b/cmake/simdjson-user-cmakecache.cmake
+old mode 100644
+new mode 100755
+diff --git a/dependencies/.gitignore b/dependencies/.gitignore
+old mode 100644
+new mode 100755
+diff --git a/dependencies/CMakeLists.txt b/dependencies/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/dependencies/import.cmake b/dependencies/import.cmake
+old mode 100644
+new mode 100755
+diff --git a/dependencies/jsoncppdist/json/json-forwards.h b/dependencies/jsoncppdist/json/json-forwards.h
+old mode 100644
+new mode 100755
+diff --git a/dependencies/jsoncppdist/json/json.h b/dependencies/jsoncppdist/json/json.h
+old mode 100644
+new mode 100755
+diff --git a/dependencies/jsoncppdist/jsoncpp.cpp b/dependencies/jsoncppdist/jsoncpp.cpp
+old mode 100644
+new mode 100755
+diff --git a/doc/Multiline_JSON_Parse_Competition.png b/doc/Multiline_JSON_Parse_Competition.png
+old mode 100644
+new mode 100755
+diff --git a/doc/apache_builds.jsonparseandstat.png b/doc/apache_builds.jsonparseandstat.png
+old mode 100644
+new mode 100755
+diff --git a/doc/basics.md b/doc/basics.md
+old mode 100644
+new mode 100755
+diff --git a/doc/basics_doxygen.md b/doc/basics_doxygen.md
+old mode 100644
+new mode 100755
+diff --git a/doc/dom.md b/doc/dom.md
+old mode 100644
+new mode 100755
+diff --git a/doc/gbps.png b/doc/gbps.png
+old mode 100644
+new mode 100755
+diff --git a/doc/github_events.jsonparseandstat.png b/doc/github_events.jsonparseandstat.png
+old mode 100644
+new mode 100755
+diff --git a/doc/growing.png b/doc/growing.png
+old mode 100644
+new mode 100755
+diff --git a/doc/implementation-selection.md b/doc/implementation-selection.md
+old mode 100644
+new mode 100755
+diff --git a/doc/iterate_many.md b/doc/iterate_many.md
+old mode 100644
+new mode 100755
+diff --git a/doc/ondemand_design.md b/doc/ondemand_design.md
+old mode 100644
+new mode 100755
+diff --git a/doc/parse_many.md b/doc/parse_many.md
+old mode 100644
+new mode 100755
+diff --git a/doc/performance.md b/doc/performance.md
+old mode 100644
+new mode 100755
+diff --git a/doc/rome.png b/doc/rome.png
+old mode 100644
+new mode 100755
+diff --git a/doc/tape.md b/doc/tape.md
+old mode 100644
+new mode 100755
+diff --git a/doc/twitter.jsonparseandstat.png b/doc/twitter.jsonparseandstat.png
+old mode 100644
+new mode 100755
+diff --git a/doc/update-center.jsonparseandstat.png b/doc/update-center.jsonparseandstat.png
+old mode 100644
+new mode 100755
+diff --git a/examples/CMakeLists.txt b/examples/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/examples/quickstart/CMakeLists.txt b/examples/quickstart/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/examples/quickstart/Makefile b/examples/quickstart/Makefile
+old mode 100644
+new mode 100755
+diff --git a/examples/quickstart/add_quickstart_test.cmake b/examples/quickstart/add_quickstart_test.cmake
+old mode 100644
+new mode 100755
+diff --git a/examples/quickstart/quickstart.cpp b/examples/quickstart/quickstart.cpp
+old mode 100644
+new mode 100755
+diff --git a/examples/quickstart/quickstart2.cpp b/examples/quickstart/quickstart2.cpp
+old mode 100644
+new mode 100755
+diff --git a/examples/quickstart/quickstart2_noexceptions.cpp b/examples/quickstart/quickstart2_noexceptions.cpp
+old mode 100644
+new mode 100755
+diff --git a/examples/quickstart/quickstart_noexceptions.cpp b/examples/quickstart/quickstart_noexceptions.cpp
+old mode 100644
+new mode 100755
+diff --git a/examples/quickstart/quickstart_ondemand.cpp b/examples/quickstart/quickstart_ondemand.cpp
+old mode 100644
+new mode 100755
+diff --git a/examples/quickstart/quickstart_ondemand_noexceptions.cpp b/examples/quickstart/quickstart_ondemand_noexceptions.cpp
+old mode 100644
+new mode 100755
+diff --git a/extra/dumpbits.h b/extra/dumpbits.h
+old mode 100644
+new mode 100755
+diff --git a/fuzz/CMakeLists.txt b/fuzz/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/fuzz/FuzzUtils.h b/fuzz/FuzzUtils.h
+old mode 100644
+new mode 100755
+diff --git a/fuzz/Fuzzing.md b/fuzz/Fuzzing.md
+old mode 100644
+new mode 100755
+diff --git a/fuzz/NullBuffer.h b/fuzz/NullBuffer.h
+old mode 100644
+new mode 100755
+diff --git a/fuzz/fuzz_atpointer.cpp b/fuzz/fuzz_atpointer.cpp
+old mode 100644
+new mode 100755
+diff --git a/fuzz/fuzz_dump.cpp b/fuzz/fuzz_dump.cpp
+old mode 100644
+new mode 100755
+diff --git a/fuzz/fuzz_dump_raw_tape.cpp b/fuzz/fuzz_dump_raw_tape.cpp
+old mode 100644
+new mode 100755
+diff --git a/fuzz/fuzz_element.cpp b/fuzz/fuzz_element.cpp
+old mode 100644
+new mode 100755
+diff --git a/fuzz/fuzz_implementations.cpp b/fuzz/fuzz_implementations.cpp
+old mode 100644
+new mode 100755
+diff --git a/fuzz/fuzz_minify.cpp b/fuzz/fuzz_minify.cpp
+old mode 100644
+new mode 100755
+diff --git a/fuzz/fuzz_minifyimpl.cpp b/fuzz/fuzz_minifyimpl.cpp
+old mode 100644
+new mode 100755
+diff --git a/fuzz/fuzz_ndjson.cpp b/fuzz/fuzz_ndjson.cpp
+old mode 100644
+new mode 100755
+diff --git a/fuzz/fuzz_ondemand.cpp b/fuzz/fuzz_ondemand.cpp
+old mode 100644
+new mode 100755
+diff --git a/fuzz/fuzz_padded.cpp b/fuzz/fuzz_padded.cpp
+old mode 100644
+new mode 100755
+diff --git a/fuzz/fuzz_parser.cpp b/fuzz/fuzz_parser.cpp
+old mode 100644
+new mode 100755
+diff --git a/fuzz/fuzz_print_json.cpp b/fuzz/fuzz_print_json.cpp
+old mode 100644
+new mode 100755
+diff --git a/fuzz/fuzz_utf8.cpp b/fuzz/fuzz_utf8.cpp
+old mode 100644
+new mode 100755
+diff --git a/fuzz/main.cpp b/fuzz/main.cpp
+old mode 100644
+new mode 100755
+diff --git a/fuzz/supported_implementations.h b/fuzz/supported_implementations.h
+old mode 100644
+new mode 100755
+diff --git a/images/halvarflake.png b/images/halvarflake.png
+old mode 100644
+new mode 100755
+diff --git a/images/logo.png b/images/logo.png
+old mode 100644
+new mode 100755
+diff --git a/images/logotiny.png b/images/logotiny.png
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson.h b/include/simdjson.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/arm64.h b/include/simdjson/arm64.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/arm64/begin.h b/include/simdjson/arm64/begin.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/arm64/bitmanipulation.h b/include/simdjson/arm64/bitmanipulation.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/arm64/bitmask.h b/include/simdjson/arm64/bitmask.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/arm64/end.h b/include/simdjson/arm64/end.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/arm64/implementation.h b/include/simdjson/arm64/implementation.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/arm64/intrinsics.h b/include/simdjson/arm64/intrinsics.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/arm64/numberparsing.h b/include/simdjson/arm64/numberparsing.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/arm64/simd.h b/include/simdjson/arm64/simd.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/arm64/stringparsing.h b/include/simdjson/arm64/stringparsing.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/base.h b/include/simdjson/base.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/builtin.h b/include/simdjson/builtin.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/common_defs.h b/include/simdjson/common_defs.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/compiler_check.h b/include/simdjson/compiler_check.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/dom.h b/include/simdjson/dom.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/dom/array-inl.h b/include/simdjson/dom/array-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/dom/array.h b/include/simdjson/dom/array.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/dom/document-inl.h b/include/simdjson/dom/document-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/dom/document.h b/include/simdjson/dom/document.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/dom/document_stream-inl.h b/include/simdjson/dom/document_stream-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/dom/document_stream.h b/include/simdjson/dom/document_stream.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/dom/element-inl.h b/include/simdjson/dom/element-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/dom/element.h b/include/simdjson/dom/element.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/dom/jsonparser.h b/include/simdjson/dom/jsonparser.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/dom/object-inl.h b/include/simdjson/dom/object-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/dom/object.h b/include/simdjson/dom/object.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/dom/parsedjson.h b/include/simdjson/dom/parsedjson.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/dom/parsedjson_iterator-inl.h b/include/simdjson/dom/parsedjson_iterator-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/dom/parsedjson_iterator.h b/include/simdjson/dom/parsedjson_iterator.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/dom/parser-inl.h b/include/simdjson/dom/parser-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/dom/parser.h b/include/simdjson/dom/parser.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/dom/serialization-inl.h b/include/simdjson/dom/serialization-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/dom/serialization.h b/include/simdjson/dom/serialization.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/error-inl.h b/include/simdjson/error-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/error.h b/include/simdjson/error.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/fallback.h b/include/simdjson/fallback.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/fallback/begin.h b/include/simdjson/fallback/begin.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/fallback/bitmanipulation.h b/include/simdjson/fallback/bitmanipulation.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/fallback/end.h b/include/simdjson/fallback/end.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/fallback/implementation.h b/include/simdjson/fallback/implementation.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/fallback/numberparsing.h b/include/simdjson/fallback/numberparsing.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/fallback/stringparsing.h b/include/simdjson/fallback/stringparsing.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/atomparsing.h b/include/simdjson/generic/atomparsing.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/dom_parser_implementation.h b/include/simdjson/generic/dom_parser_implementation.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/implementation_simdjson_result_base-inl.h b/include/simdjson/generic/implementation_simdjson_result_base-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/implementation_simdjson_result_base.h b/include/simdjson/generic/implementation_simdjson_result_base.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/jsoncharutils.h b/include/simdjson/generic/jsoncharutils.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/numberparsing.h b/include/simdjson/generic/numberparsing.h
+old mode 100644
+new mode 100755
+index 1abe524d..e0f38061
+--- a/include/simdjson/generic/numberparsing.h
++++ b/include/simdjson/generic/numberparsing.h
+@@ -513,6 +513,9 @@ simdjson_really_inline error_code parse_number(const uint8_t *const, W &writer)
+ simdjson_unused simdjson_really_inline simdjson_result<uint64_t> parse_unsigned(const uint8_t * const src) noexcept { return 0; }
+ simdjson_unused simdjson_really_inline simdjson_result<int64_t> parse_integer(const uint8_t * const src) noexcept { return 0; }
+ simdjson_unused simdjson_really_inline simdjson_result<double> parse_double(const uint8_t * const src) noexcept { return 0; }
++simdjson_unused simdjson_really_inline simdjson_result<uint64_t> parse_unsigned_in_string(const uint8_t * const src) noexcept { return 0; }
++simdjson_unused simdjson_really_inline simdjson_result<int64_t> parse_integer_in_string(const uint8_t * const src) noexcept { return 0; }
++simdjson_unused simdjson_really_inline simdjson_result<double> parse_double_in_string(const uint8_t * const src) noexcept { return 0; }
+ 
+ #else
+ 
+@@ -773,6 +776,54 @@ simdjson_unused simdjson_really_inline simdjson_result<uint64_t> parse_unsigned(
+   return i;
+ }
+ 
++// Parse any number from 0 to 18,446,744,073,709,551,615
++simdjson_unused simdjson_really_inline simdjson_result<uint64_t> parse_unsigned_in_string(const uint8_t * const src) noexcept {
++  const uint8_t *p = src + 1;
++  //
++  // Parse the integer part.
++  //
++  // PERF NOTE: we don't use is_made_of_eight_digits_fast because large integers like 123456789 are rare
++  const uint8_t *const start_digits = p;
++  uint64_t i = 0;
++  while (parse_digit(*p, i)) { p++; }
++
++  // If there were no digits, or if the integer starts with 0 and has more than one digit, it's an error.
++  // Optimization note: size_t is expected to be unsigned.
++  size_t digit_count = size_t(p - start_digits);
++  // The longest positive 64-bit number is 20 digits.
++  // We do it this way so we don't trigger this branch unless we must.
++  // Optimization note: the compiler can probably merge
++  // ((digit_count == 0) || (digit_count > 20))
++  // into a single  branch since digit_count is unsigned.
++  if ((digit_count == 0) || (digit_count > 20)) { return INCORRECT_TYPE; }
++  // Here digit_count > 0.
++  if (('0' == *start_digits) && (digit_count > 1)) { return NUMBER_ERROR; }
++  // We can do the following...
++  // if (!jsoncharutils::is_structural_or_whitespace(*p)) {
++  //  return (*p == '.' || *p == 'e' || *p == 'E') ? INCORRECT_TYPE : NUMBER_ERROR;
++  // }
++  // as a single table lookup:
++  if (*p != '"') { return NUMBER_ERROR; }
++
++  if (digit_count == 20) {
++    // Positive overflow check:
++    // - A 20 digit number starting with 2-9 is overflow, because 18,446,744,073,709,551,615 is the
++    //   biggest uint64_t.
++    // - A 20 digit number starting with 1 is overflow if it is less than INT64_MAX.
++    //   If we got here, it's a 20 digit number starting with the digit "1".
++    // - If a 20 digit number starting with 1 overflowed (i*10+digit), the result will be smaller
++    //   than 1,553,255,926,290,448,384.
++    // - That is smaller than the smallest possible 20-digit number the user could write:
++    //   10,000,000,000,000,000,000.
++    // - Therefore, if the number is positive and lower than that, it's overflow.
++    // - The value we are looking at is less than or equal to 9,223,372,036,854,775,808 (INT64_MAX).
++    //
++    if (src[0] != uint8_t('1') || i <= uint64_t(INT64_MAX)) { return INCORRECT_TYPE; }
++  }
++
++  return i;
++}
++
+ // Parse any number from  -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807
+ simdjson_unused simdjson_really_inline simdjson_result<int64_t> parse_integer(const uint8_t *src) noexcept {
+   //
+@@ -859,6 +910,48 @@ simdjson_unused simdjson_really_inline simdjson_result<int64_t> parse_integer(co
+   return negative ? (~i+1) : i;
+ }
+ 
++// Parse any number from  -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807
++simdjson_unused simdjson_really_inline simdjson_result<int64_t> parse_integer_in_string(const uint8_t *src) noexcept {
++  //
++  // Check for minus sign
++  //
++  bool negative = (*(src + 1) == '-');
++  const uint8_t *p = src + negative + 1;
++
++  //
++  // Parse the integer part.
++  //
++  // PERF NOTE: we don't use is_made_of_eight_digits_fast because large integers like 123456789 are rare
++  const uint8_t *const start_digits = p;
++  uint64_t i = 0;
++  while (parse_digit(*p, i)) { p++; }
++
++  // If there were no digits, or if the integer starts with 0 and has more than one digit, it's an error.
++  // Optimization note: size_t is expected to be unsigned.
++  size_t digit_count = size_t(p - start_digits);
++  // We go from
++  // -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807
++  // so we can never represent numbers that have more than 19 digits.
++  size_t longest_digit_count = 19;
++  // Optimization note: the compiler can probably merge
++  // ((digit_count == 0) || (digit_count > longest_digit_count))
++  // into a single  branch since digit_count is unsigned.
++  if ((digit_count == 0) || (digit_count > longest_digit_count)) { return INCORRECT_TYPE; }
++  // Here digit_count > 0.
++  if (('0' == *start_digits) && (digit_count > 1)) { return NUMBER_ERROR; }
++  // We can do the following...
++  // if (!jsoncharutils::is_structural_or_whitespace(*p)) {
++  //  return (*p == '.' || *p == 'e' || *p == 'E') ? INCORRECT_TYPE : NUMBER_ERROR;
++  // }
++  // as a single table lookup:
++  if(*p != '"') { return NUMBER_ERROR; }
++  // Negative numbers have can go down to - INT64_MAX - 1 whereas positive numbers are limited to INT64_MAX.
++  // Performance note: This check is only needed when digit_count == longest_digit_count but it is
++  // so cheap that we might as well always make it.
++  if(i > uint64_t(INT64_MAX) + uint64_t(negative)) { return INCORRECT_TYPE; }
++  return negative ? (~i+1) : i;
++}
++
+ simdjson_unused simdjson_really_inline simdjson_result<double> parse_double(const uint8_t * src) noexcept {
+   //
+   // Check for minus sign
+@@ -1020,6 +1113,83 @@ simdjson_unused simdjson_really_inline simdjson_result<double> parse_double(cons
+   return d;
+ }
+ 
++simdjson_unused simdjson_really_inline simdjson_result<double> parse_double_in_string(const uint8_t * src) noexcept {
++  //
++  // Check for minus sign
++  //
++  bool negative = (*(src + 1) == '-');
++  src += negative + 1;
++
++  //
++  // Parse the integer part.
++  //
++  uint64_t i = 0;
++  const uint8_t *p = src;
++  p += parse_digit(*p, i);
++  bool leading_zero = (i == 0);
++  while (parse_digit(*p, i)) { p++; }
++  // no integer digits, or 0123 (zero must be solo)
++  if ( p == src ) { return INCORRECT_TYPE; }
++  if ( (leading_zero && p != src+1)) { return NUMBER_ERROR; }
++
++  //
++  // Parse the decimal part.
++  //
++  int64_t exponent = 0;
++  bool overflow;
++  if (simdjson_likely(*p == '.')) {
++    p++;
++    const uint8_t *start_decimal_digits = p;
++    if (!parse_digit(*p, i)) { return NUMBER_ERROR; } // no decimal digits
++    p++;
++    while (parse_digit(*p, i)) { p++; }
++    exponent = -(p - start_decimal_digits);
++
++    // Overflow check. More than 19 digits (minus the decimal) may be overflow.
++    overflow = p-src-1 > 19;
++    if (simdjson_unlikely(overflow && leading_zero)) {
++      // Skip leading 0.00000 and see if it still overflows
++      const uint8_t *start_digits = src + 2;
++      while (*start_digits == '0') { start_digits++; }
++      overflow = start_digits-src > 19;
++    }
++  } else {
++    overflow = p-src > 19;
++  }
++
++  //
++  // Parse the exponent
++  //
++  if (*p == 'e' || *p == 'E') {
++    p++;
++    bool exp_neg = *p == '-';
++    p += exp_neg || *p == '+';
++
++    uint64_t exp = 0;
++    const uint8_t *start_exp_digits = p;
++    while (parse_digit(*p, exp)) { p++; }
++    // no exp digits, or 20+ exp digits
++    if (p-start_exp_digits == 0 || p-start_exp_digits > 19) { return NUMBER_ERROR; }
++
++    exponent += exp_neg ? 0-exp : exp;
++  }
++
++  if (*p != '"') { return NUMBER_ERROR; }
++
++  overflow = overflow || exponent < simdjson::internal::smallest_power || exponent > simdjson::internal::largest_power;
++
++  //
++  // Assemble (or slow-parse) the float
++  //
++  double d;
++  if (simdjson_likely(!overflow)) {
++    if (compute_float_64(exponent, i, negative, d)) { return d; }
++  }
++  if (!parse_float_fallback(src-negative, &d)) {
++    return NUMBER_ERROR;
++  }
++  return d;
++}
+ } //namespace {}
+ #endif // SIMDJSON_SKIPNUMBERPARSING
+ 
+diff --git a/include/simdjson/generic/ondemand-inl.h b/include/simdjson/generic/ondemand-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand.h b/include/simdjson/generic/ondemand.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/array-inl.h b/include/simdjson/generic/ondemand/array-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/array.h b/include/simdjson/generic/ondemand/array.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/array_iterator-inl.h b/include/simdjson/generic/ondemand/array_iterator-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/array_iterator.h b/include/simdjson/generic/ondemand/array_iterator.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/document-inl.h b/include/simdjson/generic/ondemand/document-inl.h
+old mode 100644
+new mode 100755
+index 045411d5..7ebf39c2
+--- a/include/simdjson/generic/ondemand/document-inl.h
++++ b/include/simdjson/generic/ondemand/document-inl.h
+@@ -64,12 +64,21 @@ simdjson_really_inline simdjson_result<object> document::get_object() & noexcept
+ simdjson_really_inline simdjson_result<uint64_t> document::get_uint64() noexcept {
+   return get_root_value_iterator().get_root_uint64();
+ }
++simdjson_really_inline simdjson_result<uint64_t> document::get_uint64_in_string() noexcept {
++  return get_root_value_iterator().get_root_uint64_in_string();
++}
+ simdjson_really_inline simdjson_result<int64_t> document::get_int64() noexcept {
+   return get_root_value_iterator().get_root_int64();
+ }
++simdjson_really_inline simdjson_result<int64_t> document::get_int64_in_string() noexcept {
++  return get_root_value_iterator().get_root_int64_in_string();
++}
+ simdjson_really_inline simdjson_result<double> document::get_double() noexcept {
+   return get_root_value_iterator().get_root_double();
+ }
++simdjson_really_inline simdjson_result<double> document::get_double_in_string() noexcept {
++  return get_root_value_iterator().get_root_double_in_string();
++}
+ simdjson_really_inline simdjson_result<std::string_view> document::get_string() noexcept {
+   return get_root_value_iterator().get_root_string();
+ }
+diff --git a/include/simdjson/generic/ondemand/document.h b/include/simdjson/generic/ondemand/document.h
+old mode 100644
+new mode 100755
+index 2d65fc9c..3ea36349
+--- a/include/simdjson/generic/ondemand/document.h
++++ b/include/simdjson/generic/ondemand/document.h
+@@ -53,6 +53,13 @@ public:
+    * @returns INCORRECT_TYPE If the JSON value is not a 64-bit unsigned integer.
+    */
+   simdjson_really_inline simdjson_result<uint64_t> get_uint64() noexcept;
++  /**
++   * Cast this JSON value (inside string) to an unsigned integer.
++   *
++   * @returns A signed 64-bit integer.
++   * @returns INCORRECT_TYPE If the JSON value is not a 64-bit unsigned integer.
++   */
++  simdjson_really_inline simdjson_result<uint64_t> get_uint64_in_string() noexcept;
+   /**
+    * Cast this JSON value to a signed integer.
+    *
+@@ -60,6 +67,13 @@ public:
+    * @returns INCORRECT_TYPE If the JSON value is not a 64-bit integer.
+    */
+   simdjson_really_inline simdjson_result<int64_t> get_int64() noexcept;
++  /**
++   * Cast this JSON value (inside string) to a signed integer.
++   *
++   * @returns A signed 64-bit integer.
++   * @returns INCORRECT_TYPE If the JSON value is not a 64-bit integer.
++   */
++  simdjson_really_inline simdjson_result<int64_t> get_int64_in_string() noexcept;
+   /**
+    * Cast this JSON value to a double.
+    *
+@@ -67,6 +81,14 @@ public:
+    * @returns INCORRECT_TYPE If the JSON value is not a valid floating-point number.
+    */
+   simdjson_really_inline simdjson_result<double> get_double() noexcept;
++
++  /**
++   * Cast this JSON value (inside string) to a double.
++   *
++   * @returns A double.
++   * @returns INCORRECT_TYPE If the JSON value is not a valid floating-point number.
++   */
++  simdjson_really_inline simdjson_result<double> get_double_in_string() noexcept;
+   /**
+    * Cast this JSON value to a string.
+    *
+@@ -408,6 +430,7 @@ public:
+   simdjson_really_inline simdjson_result<uint64_t> get_uint64() noexcept;
+   simdjson_really_inline simdjson_result<int64_t> get_int64() noexcept;
+   simdjson_really_inline simdjson_result<double> get_double() noexcept;
++  simdjson_really_inline simdjson_result<double> get_double_from_string() noexcept;
+   simdjson_really_inline simdjson_result<std::string_view> get_string() noexcept;
+   simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::raw_json_string> get_raw_json_string() noexcept;
+   simdjson_really_inline simdjson_result<bool> get_bool() noexcept;
+diff --git a/include/simdjson/generic/ondemand/document_stream-inl.h b/include/simdjson/generic/ondemand/document_stream-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/document_stream.h b/include/simdjson/generic/ondemand/document_stream.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/field-inl.h b/include/simdjson/generic/ondemand/field-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/field.h b/include/simdjson/generic/ondemand/field.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/json_iterator-inl.h b/include/simdjson/generic/ondemand/json_iterator-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/json_iterator.h b/include/simdjson/generic/ondemand/json_iterator.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/json_type-inl.h b/include/simdjson/generic/ondemand/json_type-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/json_type.h b/include/simdjson/generic/ondemand/json_type.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/logger-inl.h b/include/simdjson/generic/ondemand/logger-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/logger.h b/include/simdjson/generic/ondemand/logger.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/object-inl.h b/include/simdjson/generic/ondemand/object-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/object.h b/include/simdjson/generic/ondemand/object.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/object_iterator-inl.h b/include/simdjson/generic/ondemand/object_iterator-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/object_iterator.h b/include/simdjson/generic/ondemand/object_iterator.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/parser-inl.h b/include/simdjson/generic/ondemand/parser-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/parser.h b/include/simdjson/generic/ondemand/parser.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/raw_json_string-inl.h b/include/simdjson/generic/ondemand/raw_json_string-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/raw_json_string.h b/include/simdjson/generic/ondemand/raw_json_string.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/serialization-inl.h b/include/simdjson/generic/ondemand/serialization-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/serialization.h b/include/simdjson/generic/ondemand/serialization.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/token_iterator-inl.h b/include/simdjson/generic/ondemand/token_iterator-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/token_iterator.h b/include/simdjson/generic/ondemand/token_iterator.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/token_position.h b/include/simdjson/generic/ondemand/token_position.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/value-inl.h b/include/simdjson/generic/ondemand/value-inl.h
+old mode 100644
+new mode 100755
+index 5b6e4fbc..95f6a349
+--- a/include/simdjson/generic/ondemand/value-inl.h
++++ b/include/simdjson/generic/ondemand/value-inl.h
+@@ -36,12 +36,21 @@ simdjson_really_inline simdjson_result<std::string_view> value::get_string() noe
+ simdjson_really_inline simdjson_result<double> value::get_double() noexcept {
+   return iter.get_double();
+ }
++simdjson_really_inline simdjson_result<double> value::get_double_in_string() noexcept {
++  return iter.get_double_in_string();
++}
+ simdjson_really_inline simdjson_result<uint64_t> value::get_uint64() noexcept {
+   return iter.get_uint64();
+ }
++simdjson_really_inline simdjson_result<uint64_t> value::get_uint64_in_string() noexcept {
++  return iter.get_uint64_in_string();
++}
+ simdjson_really_inline simdjson_result<int64_t> value::get_int64() noexcept {
+   return iter.get_int64();
+ }
++simdjson_really_inline simdjson_result<int64_t> value::get_int64_in_string() noexcept {
++  return iter.get_int64_in_string();
++}
+ simdjson_really_inline simdjson_result<bool> value::get_bool() noexcept {
+   return iter.get_bool();
+ }
+@@ -221,14 +230,26 @@ simdjson_really_inline simdjson_result<uint64_t> simdjson_result<SIMDJSON_IMPLEM
+   if (error()) { return error(); }
+   return first.get_uint64();
+ }
++simdjson_really_inline simdjson_result<uint64_t> simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::get_uint64_in_string() noexcept {
++  if (error()) { return error(); }
++  return first.get_uint64_in_string();
++}
+ simdjson_really_inline simdjson_result<int64_t> simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::get_int64() noexcept {
+   if (error()) { return error(); }
+   return first.get_int64();
+ }
++simdjson_really_inline simdjson_result<int64_t> simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::get_int64_in_string() noexcept {
++  if (error()) { return error(); }
++  return first.get_int64_in_string();
++}
+ simdjson_really_inline simdjson_result<double> simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::get_double() noexcept {
+   if (error()) { return error(); }
+   return first.get_double();
+ }
++simdjson_really_inline simdjson_result<double> simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::get_double_in_string() noexcept {
++  if (error()) { return error(); }
++  return first.get_double_in_string();
++}
+ simdjson_really_inline simdjson_result<std::string_view> simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::get_string() noexcept {
+   if (error()) { return error(); }
+   return first.get_string();
+diff --git a/include/simdjson/generic/ondemand/value.h b/include/simdjson/generic/ondemand/value.h
+old mode 100644
+new mode 100755
+index 65de6bc6..edd6d2b6
+--- a/include/simdjson/generic/ondemand/value.h
++++ b/include/simdjson/generic/ondemand/value.h
+@@ -69,11 +69,19 @@ public:
+   /**
+    * Cast this JSON value to an unsigned integer.
+    *
+-   * @returns A signed 64-bit integer.
++   * @returns A unsigned 64-bit integer.
+    * @returns INCORRECT_TYPE If the JSON value is not a 64-bit unsigned integer.
+    */
+   simdjson_really_inline simdjson_result<uint64_t> get_uint64() noexcept;
+ 
++  /**
++   * Cast this JSON value (inside string) to a unsigned integer.
++   *
++   * @returns A unsigned 64-bit integer.
++   * @returns INCORRECT_TYPE If the JSON value is not a 64-bit unsigned integer.
++   */
++  simdjson_really_inline simdjson_result<uint64_t> get_uint64_in_string() noexcept;
++
+   /**
+    * Cast this JSON value to a signed integer.
+    *
+@@ -82,6 +90,14 @@ public:
+    */
+   simdjson_really_inline simdjson_result<int64_t> get_int64() noexcept;
+ 
++  /**
++   * Cast this JSON value (inside string) to a signed integer.
++   *
++   * @returns A signed 64-bit integer.
++   * @returns INCORRECT_TYPE If the JSON value is not a 64-bit integer.
++   */
++  simdjson_really_inline simdjson_result<int64_t> get_int64_in_string() noexcept;
++
+   /**
+    * Cast this JSON value to a double.
+    *
+@@ -90,6 +106,14 @@ public:
+    */
+   simdjson_really_inline simdjson_result<double> get_double() noexcept;
+ 
++  /**
++   * Cast this JSON value (inside string) to a double
++   *
++   * @returns A double.
++   * @returns INCORRECT_TYPE If the JSON value is not a valid floating-point number.
++   */
++  simdjson_really_inline simdjson_result<double> get_double_in_string() noexcept;
++
+   /**
+    * Cast this JSON value to a string.
+    *
+@@ -416,8 +440,11 @@ public:
+   simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::object> get_object() noexcept;
+ 
+   simdjson_really_inline simdjson_result<uint64_t> get_uint64() noexcept;
++  simdjson_really_inline simdjson_result<uint64_t> get_uint64_in_string() noexcept;
+   simdjson_really_inline simdjson_result<int64_t> get_int64() noexcept;
++  simdjson_really_inline simdjson_result<int64_t> get_int64_in_string() noexcept;
+   simdjson_really_inline simdjson_result<double> get_double() noexcept;
++  simdjson_really_inline simdjson_result<double> get_double_in_string() noexcept;
+   simdjson_really_inline simdjson_result<std::string_view> get_string() noexcept;
+   simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::raw_json_string> get_raw_json_string() noexcept;
+   simdjson_really_inline simdjson_result<bool> get_bool() noexcept;
+diff --git a/include/simdjson/generic/ondemand/value_iterator-inl.h b/include/simdjson/generic/ondemand/value_iterator-inl.h
+old mode 100644
+new mode 100755
+index 258e75cf..7f3cd84a
+--- a/include/simdjson/generic/ondemand/value_iterator-inl.h
++++ b/include/simdjson/generic/ondemand/value_iterator-inl.h
+@@ -452,16 +452,31 @@ simdjson_warn_unused simdjson_really_inline simdjson_result<uint64_t> value_iter
+   if(result.error() != INCORRECT_TYPE) { advance_non_root_scalar("uint64"); }
+   return result;
+ }
++simdjson_warn_unused simdjson_really_inline simdjson_result<uint64_t> value_iterator::get_uint64_in_string() noexcept {
++  auto result = numberparsing::parse_unsigned_in_string(peek_non_root_scalar("uint64"));
++  if(result.error() != INCORRECT_TYPE) { advance_non_root_scalar("uint64"); }
++  return result;
++}
+ simdjson_warn_unused simdjson_really_inline simdjson_result<int64_t> value_iterator::get_int64() noexcept {
+   auto result = numberparsing::parse_integer(peek_non_root_scalar("int64"));
+   if(result.error() != INCORRECT_TYPE) { advance_non_root_scalar("int64"); }
+   return result;
+ }
++simdjson_warn_unused simdjson_really_inline simdjson_result<int64_t> value_iterator::get_int64_in_string() noexcept {
++  auto result = numberparsing::parse_integer_in_string(peek_non_root_scalar("int64"));
++  if(result.error() != INCORRECT_TYPE) { advance_non_root_scalar("int64"); }
++  return result;
++}
+ simdjson_warn_unused simdjson_really_inline simdjson_result<double> value_iterator::get_double() noexcept {
+   auto result = numberparsing::parse_double(peek_non_root_scalar("double"));
+   if(result.error() != INCORRECT_TYPE) { advance_non_root_scalar("double"); }
+   return result;
+ }
++simdjson_warn_unused simdjson_really_inline simdjson_result<double> value_iterator::get_double_in_string() noexcept {
++  auto result = numberparsing::parse_double_in_string(peek_non_root_scalar("double"));
++  if(result.error() != INCORRECT_TYPE) { advance_non_root_scalar("double"); }
++  return result;
++}
+ simdjson_warn_unused simdjson_really_inline simdjson_result<bool> value_iterator::get_bool() noexcept {
+   auto result = parse_bool(peek_non_root_scalar("bool"));
+   if(result.error() != INCORRECT_TYPE) { advance_non_root_scalar("bool"); }
+@@ -493,6 +508,18 @@ simdjson_warn_unused simdjson_really_inline simdjson_result<uint64_t> value_iter
+   if(result.error() != INCORRECT_TYPE) { advance_root_scalar("uint64"); }
+   return result;
+ }
++simdjson_warn_unused simdjson_really_inline simdjson_result<uint64_t> value_iterator::get_root_uint64_in_string() noexcept {
++  auto max_len = peek_start_length();
++  auto json = peek_root_scalar("uint64");
++  uint8_t tmpbuf[20+1]; // <20 digits> is the longest possible unsigned integer
++  if (!_json_iter->copy_to_buffer(json, max_len, tmpbuf)) {
++    logger::log_error(*_json_iter, start_position(), depth(), "Root number more than 20 characters");
++    return NUMBER_ERROR;
++  }
++  auto result = numberparsing::parse_unsigned_in_string(tmpbuf);
++  if(result.error() != INCORRECT_TYPE) { advance_root_scalar("uint64"); }
++  return result;
++}
+ simdjson_warn_unused simdjson_really_inline simdjson_result<int64_t> value_iterator::get_root_int64() noexcept {
+   auto max_len = peek_start_length();
+   auto json = peek_root_scalar("int64");
+@@ -506,6 +533,19 @@ simdjson_warn_unused simdjson_really_inline simdjson_result<int64_t> value_itera
+   if(result.error() != INCORRECT_TYPE) { advance_root_scalar("int64"); }
+   return result;
+ }
++simdjson_warn_unused simdjson_really_inline simdjson_result<int64_t> value_iterator::get_root_int64_in_string() noexcept {
++  auto max_len = peek_start_length();
++  auto json = peek_root_scalar("int64");
++  uint8_t tmpbuf[20+1]; // -<19 digits> is the longest possible integer
++  if (!_json_iter->copy_to_buffer(json, max_len, tmpbuf)) {
++    logger::log_error(*_json_iter, start_position(), depth(), "Root number more than 20 characters");
++    return NUMBER_ERROR;
++  }
++
++  auto result = numberparsing::parse_integer_in_string(tmpbuf);
++  if(result.error() != INCORRECT_TYPE) { advance_root_scalar("int64"); }
++  return result;
++}
+ simdjson_warn_unused simdjson_really_inline simdjson_result<double> value_iterator::get_root_double() noexcept {
+   auto max_len = peek_start_length();
+   auto json = peek_root_scalar("double");
+@@ -521,6 +561,21 @@ simdjson_warn_unused simdjson_really_inline simdjson_result<double> value_iterat
+   if(result.error() != INCORRECT_TYPE) { advance_root_scalar("double"); }
+   return result;
+ }
++simdjson_warn_unused simdjson_really_inline simdjson_result<double> value_iterator::get_root_double_in_string() noexcept {
++  auto max_len = peek_start_length();
++  auto json = peek_root_scalar("double");
++  // Per https://www.exploringbinary.com/maximum-number-of-decimal-digits-in-binary-floating-point-numbers/,
++  // 1074 is the maximum number of significant fractional digits. Add 8 more digits for the biggest
++  // number: -0.<fraction>e-308.
++  uint8_t tmpbuf[1074+8+1];
++  if (!_json_iter->copy_to_buffer(json, max_len, tmpbuf)) {
++    logger::log_error(*_json_iter, start_position(), depth(), "Root number more than 1082 characters");
++    return NUMBER_ERROR;
++  }
++  auto result = numberparsing::parse_double_in_string(tmpbuf);
++  if(result.error() != INCORRECT_TYPE) { advance_root_scalar("double"); }
++  return result;
++}
+ simdjson_warn_unused simdjson_really_inline simdjson_result<bool> value_iterator::get_root_bool() noexcept {
+   auto max_len = peek_start_length();
+   auto json = peek_root_scalar("bool");
+diff --git a/include/simdjson/generic/ondemand/value_iterator.h b/include/simdjson/generic/ondemand/value_iterator.h
+old mode 100644
+new mode 100755
+index e742198a..f9b2bbb8
+--- a/include/simdjson/generic/ondemand/value_iterator.h
++++ b/include/simdjson/generic/ondemand/value_iterator.h
+@@ -283,16 +283,22 @@ public:
+   simdjson_warn_unused simdjson_really_inline simdjson_result<std::string_view> get_string() noexcept;
+   simdjson_warn_unused simdjson_really_inline simdjson_result<raw_json_string> get_raw_json_string() noexcept;
+   simdjson_warn_unused simdjson_really_inline simdjson_result<uint64_t> get_uint64() noexcept;
++  simdjson_warn_unused simdjson_really_inline simdjson_result<uint64_t> get_uint64_in_string() noexcept;
+   simdjson_warn_unused simdjson_really_inline simdjson_result<int64_t> get_int64() noexcept;
++  simdjson_warn_unused simdjson_really_inline simdjson_result<int64_t> get_int64_in_string() noexcept;
+   simdjson_warn_unused simdjson_really_inline simdjson_result<double> get_double() noexcept;
++  simdjson_warn_unused simdjson_really_inline simdjson_result<double> get_double_in_string() noexcept;
+   simdjson_warn_unused simdjson_really_inline simdjson_result<bool> get_bool() noexcept;
+   simdjson_really_inline bool is_null() noexcept;
+ 
+   simdjson_warn_unused simdjson_really_inline simdjson_result<std::string_view> get_root_string() noexcept;
+   simdjson_warn_unused simdjson_really_inline simdjson_result<raw_json_string> get_root_raw_json_string() noexcept;
+   simdjson_warn_unused simdjson_really_inline simdjson_result<uint64_t> get_root_uint64() noexcept;
++  simdjson_warn_unused simdjson_really_inline simdjson_result<uint64_t> get_root_uint64_in_string() noexcept;
+   simdjson_warn_unused simdjson_really_inline simdjson_result<int64_t> get_root_int64() noexcept;
++  simdjson_warn_unused simdjson_really_inline simdjson_result<int64_t> get_root_int64_in_string() noexcept;
+   simdjson_warn_unused simdjson_really_inline simdjson_result<double> get_root_double() noexcept;
++  simdjson_warn_unused simdjson_really_inline simdjson_result<double> get_root_double_in_string() noexcept;
+   simdjson_warn_unused simdjson_really_inline simdjson_result<bool> get_root_bool() noexcept;
+   simdjson_really_inline bool is_root_null() noexcept;
+ 
+diff --git a/include/simdjson/generic/stringparsing.h b/include/simdjson/generic/stringparsing.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/haswell.h b/include/simdjson/haswell.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/haswell/begin.h b/include/simdjson/haswell/begin.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/haswell/bitmanipulation.h b/include/simdjson/haswell/bitmanipulation.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/haswell/bitmask.h b/include/simdjson/haswell/bitmask.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/haswell/end.h b/include/simdjson/haswell/end.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/haswell/implementation.h b/include/simdjson/haswell/implementation.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/haswell/intrinsics.h b/include/simdjson/haswell/intrinsics.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/haswell/numberparsing.h b/include/simdjson/haswell/numberparsing.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/haswell/simd.h b/include/simdjson/haswell/simd.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/haswell/stringparsing.h b/include/simdjson/haswell/stringparsing.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/implementation-base.h b/include/simdjson/implementation-base.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/implementation.h b/include/simdjson/implementation.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/implementations.h b/include/simdjson/implementations.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/internal/dom_parser_implementation.h b/include/simdjson/internal/dom_parser_implementation.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/internal/isadetection.h b/include/simdjson/internal/isadetection.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/internal/jsoncharutils_tables.h b/include/simdjson/internal/jsoncharutils_tables.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/internal/jsonformatutils.h b/include/simdjson/internal/jsonformatutils.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/internal/numberparsing_tables.h b/include/simdjson/internal/numberparsing_tables.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/internal/simdprune_tables.h b/include/simdjson/internal/simdprune_tables.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/internal/tape_ref-inl.h b/include/simdjson/internal/tape_ref-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/internal/tape_ref.h b/include/simdjson/internal/tape_ref.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/internal/tape_type.h b/include/simdjson/internal/tape_type.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/jsonioutil.h b/include/simdjson/jsonioutil.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/minify.h b/include/simdjson/minify.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/nonstd/string_view.hpp b/include/simdjson/nonstd/string_view.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/padded_string-inl.h b/include/simdjson/padded_string-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/padded_string.h b/include/simdjson/padded_string.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/padded_string_view-inl.h b/include/simdjson/padded_string_view-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/padded_string_view.h b/include/simdjson/padded_string_view.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/portability.h b/include/simdjson/portability.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/ppc64.h b/include/simdjson/ppc64.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/ppc64/begin.h b/include/simdjson/ppc64/begin.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/ppc64/bitmanipulation.h b/include/simdjson/ppc64/bitmanipulation.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/ppc64/bitmask.h b/include/simdjson/ppc64/bitmask.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/ppc64/end.h b/include/simdjson/ppc64/end.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/ppc64/implementation.h b/include/simdjson/ppc64/implementation.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/ppc64/intrinsics.h b/include/simdjson/ppc64/intrinsics.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/ppc64/numberparsing.h b/include/simdjson/ppc64/numberparsing.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/ppc64/simd.h b/include/simdjson/ppc64/simd.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/ppc64/stringparsing.h b/include/simdjson/ppc64/stringparsing.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/simdjson.h b/include/simdjson/simdjson.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/simdjson_version.h b/include/simdjson/simdjson_version.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/westmere.h b/include/simdjson/westmere.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/westmere/begin.h b/include/simdjson/westmere/begin.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/westmere/bitmanipulation.h b/include/simdjson/westmere/bitmanipulation.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/westmere/bitmask.h b/include/simdjson/westmere/bitmask.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/westmere/end.h b/include/simdjson/westmere/end.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/westmere/implementation.h b/include/simdjson/westmere/implementation.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/westmere/intrinsics.h b/include/simdjson/westmere/intrinsics.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/westmere/numberparsing.h b/include/simdjson/westmere/numberparsing.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/westmere/simd.h b/include/simdjson/westmere/simd.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/westmere/stringparsing.h b/include/simdjson/westmere/stringparsing.h
+old mode 100644
+new mode 100755
+diff --git a/jsonexamples/CMakeLists.txt b/jsonexamples/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/jsonexamples/amazon_cellphones.ndjson b/jsonexamples/amazon_cellphones.ndjson
+old mode 100644
+new mode 100755
+diff --git a/jsonexamples/twitter.json b/jsonexamples/twitter.json
+old mode 100644
+new mode 100755
+diff --git a/scripts/javascript/README.md b/scripts/javascript/README.md
+old mode 100644
+new mode 100755
+diff --git a/scripts/javascript/generatelargejson.js b/scripts/javascript/generatelargejson.js
+old mode 100644
+new mode 100755
+diff --git a/scripts/javascript/package-lock.json b/scripts/javascript/package-lock.json
+old mode 100644
+new mode 100755
+diff --git a/scripts/javascript/package.json b/scripts/javascript/package.json
+old mode 100644
+new mode 100755
+diff --git a/scripts/shootout.sh b/scripts/shootout.sh
+old mode 100644
+new mode 100755
+diff --git a/scripts/transitions/Makefile b/scripts/transitions/Makefile
+old mode 100644
+new mode 100755
+diff --git a/scripts/transitions/generatetransitions.cpp b/scripts/transitions/generatetransitions.cpp
+old mode 100644
+new mode 100755
+diff --git a/singleheader/CMakeLists.txt b/singleheader/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/singleheader/README.md b/singleheader/README.md
+old mode 100644
+new mode 100755
+diff --git a/singleheader/amalgamate_demo.cpp b/singleheader/amalgamate_demo.cpp
+old mode 100644
+new mode 100755
+diff --git a/singleheader/simdjson.cpp b/singleheader/simdjson.cpp
+old mode 100644
+new mode 100755
+diff --git a/singleheader/simdjson.h b/singleheader/simdjson.h
+old mode 100644
+new mode 100755
+diff --git a/src/arm64/dom_parser_implementation.cpp b/src/arm64/dom_parser_implementation.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/arm64/implementation.cpp b/src/arm64/implementation.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/fallback/dom_parser_implementation.cpp b/src/fallback/dom_parser_implementation.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/fallback/implementation.cpp b/src/fallback/implementation.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/from_chars.cpp b/src/from_chars.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/generic/stage1/buf_block_reader.h b/src/generic/stage1/buf_block_reader.h
+old mode 100644
+new mode 100755
+diff --git a/src/generic/stage1/find_next_document_index.h b/src/generic/stage1/find_next_document_index.h
+old mode 100644
+new mode 100755
+diff --git a/src/generic/stage1/json_minifier.h b/src/generic/stage1/json_minifier.h
+old mode 100644
+new mode 100755
+diff --git a/src/generic/stage1/json_scanner.h b/src/generic/stage1/json_scanner.h
+old mode 100644
+new mode 100755
+diff --git a/src/generic/stage1/json_string_scanner.h b/src/generic/stage1/json_string_scanner.h
+old mode 100644
+new mode 100755
+diff --git a/src/generic/stage1/json_structural_indexer.h b/src/generic/stage1/json_structural_indexer.h
+old mode 100644
+new mode 100755
+diff --git a/src/generic/stage1/utf8_lookup4_algorithm.h b/src/generic/stage1/utf8_lookup4_algorithm.h
+old mode 100644
+new mode 100755
+diff --git a/src/generic/stage1/utf8_validator.h b/src/generic/stage1/utf8_validator.h
+old mode 100644
+new mode 100755
+diff --git a/src/generic/stage2/json_iterator.h b/src/generic/stage2/json_iterator.h
+old mode 100644
+new mode 100755
+diff --git a/src/generic/stage2/logger.h b/src/generic/stage2/logger.h
+old mode 100644
+new mode 100755
+diff --git a/src/generic/stage2/structural_iterator.h b/src/generic/stage2/structural_iterator.h
+old mode 100644
+new mode 100755
+diff --git a/src/generic/stage2/tape_builder.h b/src/generic/stage2/tape_builder.h
+old mode 100644
+new mode 100755
+diff --git a/src/generic/stage2/tape_writer.h b/src/generic/stage2/tape_writer.h
+old mode 100644
+new mode 100755
+diff --git a/src/haswell/dom_parser_implementation.cpp b/src/haswell/dom_parser_implementation.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/haswell/implementation.cpp b/src/haswell/implementation.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/implementation.cpp b/src/implementation.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/internal/error_tables.cpp b/src/internal/error_tables.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/internal/jsoncharutils_tables.cpp b/src/internal/jsoncharutils_tables.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/internal/numberparsing_tables.cpp b/src/internal/numberparsing_tables.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/internal/simdprune_tables.cpp b/src/internal/simdprune_tables.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/ppc64/dom_parser_implementation.cpp b/src/ppc64/dom_parser_implementation.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/ppc64/implementation.cpp b/src/ppc64/implementation.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/simdjson.cpp b/src/simdjson.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/to_chars.cpp b/src/to_chars.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/westmere/dom_parser_implementation.cpp b/src/westmere/dom_parser_implementation.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/westmere/implementation.cpp b/src/westmere/implementation.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/CMakeLists.txt b/tests/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/tests/cast_tester.h b/tests/cast_tester.h
+old mode 100644
+new mode 100755
+diff --git a/tests/checkimplementation.cpp b/tests/checkimplementation.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/compilation_failure_tests/CMakeLists.txt b/tests/compilation_failure_tests/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/tests/compilation_failure_tests/bad_array_count.cpp b/tests/compilation_failure_tests/bad_array_count.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/compilation_failure_tests/dangling_parser_load.cpp b/tests/compilation_failure_tests/dangling_parser_load.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/compilation_failure_tests/dangling_parser_parse_padstring.cpp b/tests/compilation_failure_tests/dangling_parser_parse_padstring.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/compilation_failure_tests/dangling_parser_parse_stdstring.cpp b/tests/compilation_failure_tests/dangling_parser_parse_stdstring.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/compilation_failure_tests/dangling_parser_parse_uchar.cpp b/tests/compilation_failure_tests/dangling_parser_parse_uchar.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/compilation_failure_tests/dangling_parser_parse_uint8.cpp b/tests/compilation_failure_tests/dangling_parser_parse_uint8.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/compilation_failure_tests/example_compiletest.cpp b/tests/compilation_failure_tests/example_compiletest.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/compilation_failure_tests/unsafe_parse_many.cpp b/tests/compilation_failure_tests/unsafe_parse_many.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/docker/Dockerfile b/tests/docker/Dockerfile
+old mode 100644
+new mode 100755
+diff --git a/tests/dom/CMakeLists.txt b/tests/dom/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/tests/dom/allparserscheckfile.cpp b/tests/dom/allparserscheckfile.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/dom/basictests.cpp b/tests/dom/basictests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/dom/document_stream_tests.cpp b/tests/dom/document_stream_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/dom/document_tests.cpp b/tests/dom/document_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/dom/errortests.cpp b/tests/dom/errortests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/dom/extracting_values_example.cpp b/tests/dom/extracting_values_example.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/dom/integer_tests.cpp b/tests/dom/integer_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/dom/jsoncheck.cpp b/tests/dom/jsoncheck.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/dom/minefieldcheck.cpp b/tests/dom/minefieldcheck.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/dom/numberparsingcheck.cpp b/tests/dom/numberparsingcheck.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/dom/parse_many_test.cpp b/tests/dom/parse_many_test.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/dom/pointercheck.cpp b/tests/dom/pointercheck.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/dom/random_string_number_tests.cpp b/tests/dom/random_string_number_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/dom/readme_examples.cpp b/tests/dom/readme_examples.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/dom/readme_examples_noexceptions.cpp b/tests/dom/readme_examples_noexceptions.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/dom/singleheadertest.cpp b/tests/dom/singleheadertest.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/dom/stringparsingcheck.cpp b/tests/dom/stringparsingcheck.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/dom/trivially_copyable_test.cpp b/tests/dom/trivially_copyable_test.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/installation_tests/README.md b/tests/installation_tests/README.md
+old mode 100644
+new mode 100755
+diff --git a/tests/installation_tests/find/CMakeLists.txt b/tests/installation_tests/find/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/tests/minify_tests.cpp b/tests/minify_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/CMakeLists.txt b/tests/ondemand/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/compilation_failure_tests/CMakeLists.txt b/tests/ondemand/compilation_failure_tests/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/compilation_failure_tests/iterate_char_star.cpp b/tests/ondemand/compilation_failure_tests/iterate_char_star.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/compilation_failure_tests/iterate_string_view.cpp b/tests/ondemand/compilation_failure_tests/iterate_string_view.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/compilation_failure_tests/iterate_temporary_buffer.cpp b/tests/ondemand/compilation_failure_tests/iterate_temporary_buffer.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/ondemand_active_tests.cpp b/tests/ondemand/ondemand_active_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/ondemand_array_error_tests.cpp b/tests/ondemand/ondemand_array_error_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/ondemand_array_tests.cpp b/tests/ondemand/ondemand_array_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/ondemand_assert_out_of_order_values.cpp b/tests/ondemand/ondemand_assert_out_of_order_values.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/ondemand_compilation_tests.cpp b/tests/ondemand/ondemand_compilation_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/ondemand_document_stream_tests.cpp b/tests/ondemand/ondemand_document_stream_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/ondemand_error_tests.cpp b/tests/ondemand/ondemand_error_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/ondemand_json_pointer_tests.cpp b/tests/ondemand/ondemand_json_pointer_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/ondemand_key_string_tests.cpp b/tests/ondemand/ondemand_key_string_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/ondemand_misc_tests.cpp b/tests/ondemand/ondemand_misc_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/ondemand_number_tests.cpp b/tests/ondemand/ondemand_number_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/ondemand_object_error_tests.cpp b/tests/ondemand/ondemand_object_error_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/ondemand_object_find_field_tests.cpp b/tests/ondemand/ondemand_object_find_field_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/ondemand_object_index_tests.cpp b/tests/ondemand/ondemand_object_index_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/ondemand_object_tests.cpp b/tests/ondemand/ondemand_object_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/ondemand_ordering_tests.cpp b/tests/ondemand/ondemand_ordering_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/ondemand_parse_api_tests.cpp b/tests/ondemand/ondemand_parse_api_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/ondemand_readme_examples.cpp b/tests/ondemand/ondemand_readme_examples.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/ondemand_scalar_tests.cpp b/tests/ondemand/ondemand_scalar_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/ondemand_tostring_tests.cpp b/tests/ondemand/ondemand_tostring_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/ondemand_twitter_tests.cpp b/tests/ondemand/ondemand_twitter_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/ondemand_wrong_type_error_tests.cpp b/tests/ondemand/ondemand_wrong_type_error_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/test_ondemand.h b/tests/ondemand/test_ondemand.h
+old mode 100644
+new mode 100755
+diff --git a/tests/padded_string_tests.cpp b/tests/padded_string_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/staticchecks.cpp b/tests/staticchecks.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_macros.h b/tests/test_macros.h
+old mode 100644
+new mode 100755
+diff --git a/tests/unicode_tests.cpp b/tests/unicode_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tools/CMakeLists.txt b/tools/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/tools/json2json.cpp b/tools/json2json.cpp
+old mode 100644
+new mode 100755
+diff --git a/tools/jsonpointer.cpp b/tools/jsonpointer.cpp
+old mode 100644
+new mode 100755
+diff --git a/tools/jsonstats.cpp b/tools/jsonstats.cpp
+old mode 100644
+new mode 100755
+diff --git a/tools/minify.cpp b/tools/minify.cpp
+old mode 100644
+new mode 100755
+diff --git a/windows/CMakeLists.txt b/windows/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/windows/dirent_portable.h b/windows/dirent_portable.h
+old mode 100644
+new mode 100755
+diff --git a/windows/getopt.h b/windows/getopt.h
+old mode 100644
+new mode 100755
+diff --git a/windows/toni_ronnko_dirent.h b/windows/toni_ronnko_dirent.h
+old mode 100644
+new mode 100755
+diff --git a/windows/unistd.h b/windows/unistd.h
+old mode 100644
+new mode 100755
+2025-07-08 06:47:02,030 - INFO - Eval script for simdjson__simdjson-1667 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/simdjson/simdjson__simdjson-1667/test_analysis_agent_3/patch.diff, now applying to container...
+2025-07-08 06:49:02,204 - INFO - Test output for simdjson__simdjson-1667 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/simdjson/simdjson__simdjson-1667/test_analysis_agent_3/test_output.txt
+2025-07-08 06:49:02,520 - INFO - Git diff after:
+diff --git a/.appveyor.yml b/.appveyor.yml
+old mode 100644
+new mode 100755
+diff --git a/.circleci/config.yml b/.circleci/config.yml
+old mode 100644
+new mode 100755
+diff --git a/.cirrus.yml b/.cirrus.yml
+old mode 100644
+new mode 100755
+diff --git a/.clang-format b/.clang-format
+old mode 100644
+new mode 100755
+diff --git a/.dockerignore b/.dockerignore
+old mode 100644
+new mode 100755
+diff --git a/.drone.yml b/.drone.yml
+old mode 100644
+new mode 100755
+diff --git a/.gitattributes b/.gitattributes
+old mode 100644
+new mode 100755
+diff --git a/.github/ISSUE_TEMPLATE/bug_report.md b/.github/ISSUE_TEMPLATE/bug_report.md
+old mode 100644
+new mode 100755
+diff --git a/.github/ISSUE_TEMPLATE/feature_request.md b/.github/ISSUE_TEMPLATE/feature_request.md
+old mode 100644
+new mode 100755
+diff --git a/.github/ISSUE_TEMPLATE/standard-issue-template.md b/.github/ISSUE_TEMPLATE/standard-issue-template.md
+old mode 100644
+new mode 100755
+diff --git a/.github/pull_request_template.md b/.github/pull_request_template.md
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/alpine.yml b/.github/workflows/alpine.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/fix-trailing-whitespace.yml b/.github/workflows/fix-trailing-whitespace.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/fuzzers.yml b/.github/workflows/fuzzers.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/mingw-ci.yml b/.github/workflows/mingw-ci.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/mingw64-ci.yml b/.github/workflows/mingw64-ci.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/msys2-clang.yml b/.github/workflows/msys2-clang.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/msys2.yml b/.github/workflows/msys2.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/power-fuzz.yml b/.github/workflows/power-fuzz.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/ubuntu18-checkperf.yml b/.github/workflows/ubuntu18-checkperf.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/ubuntu18-threadsani.yml b/.github/workflows/ubuntu18-threadsani.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/ubuntu18.yml b/.github/workflows/ubuntu18.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/ubuntu20-checkperf.yml b/.github/workflows/ubuntu20-checkperf.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/ubuntu20-noexcept.yml b/.github/workflows/ubuntu20-noexcept.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/ubuntu20-nothread.yml b/.github/workflows/ubuntu20-nothread.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/ubuntu20-threadsani.yml b/.github/workflows/ubuntu20-threadsani.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/ubuntu20.yml b/.github/workflows/ubuntu20.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/vs15-ci.yml b/.github/workflows/vs15-ci.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/vs16-arm-ci.yml b/.github/workflows/vs16-arm-ci.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/vs16-ci.yml b/.github/workflows/vs16-ci.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/vs16-clang-ci.yml b/.github/workflows/vs16-clang-ci.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/vs16-ninja-ci.yml b/.github/workflows/vs16-ninja-ci.yml
+old mode 100644
+new mode 100755
+diff --git a/.github/workflows/vs16-noexcept-ci.yml b/.github/workflows/vs16-noexcept-ci.yml
+old mode 100644
+new mode 100755
+diff --git a/.gitignore b/.gitignore
+old mode 100644
+new mode 100755
+diff --git a/.travis.yml b/.travis.yml
+old mode 100644
+new mode 100755
+diff --git a/.vscode/extensions.json b/.vscode/extensions.json
+old mode 100644
+new mode 100755
+diff --git a/.vscode/settings.json b/.vscode/settings.json
+old mode 100644
+new mode 100755
+diff --git a/AUTHORS b/AUTHORS
+old mode 100644
+new mode 100755
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/CONTRIBUTING.md b/CONTRIBUTING.md
+old mode 100644
+new mode 100755
+diff --git a/CONTRIBUTORS b/CONTRIBUTORS
+old mode 100644
+new mode 100755
+diff --git a/Doxyfile b/Doxyfile
+old mode 100644
+new mode 100755
+diff --git a/HACKING.md b/HACKING.md
+old mode 100644
+new mode 100755
+diff --git a/LICENSE b/LICENSE
+old mode 100644
+new mode 100755
+diff --git a/README.md b/README.md
+old mode 100644
+new mode 100755
+diff --git a/RELEASES.md b/RELEASES.md
+old mode 100644
+new mode 100755
+diff --git a/benchmark/CMakeLists.txt b/benchmark/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/benchmark/amazon_cellphones/amazon_cellphones.h b/benchmark/amazon_cellphones/amazon_cellphones.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/amazon_cellphones/simdjson_dom.h b/benchmark/amazon_cellphones/simdjson_dom.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/amazon_cellphones/simdjson_ondemand.h b/benchmark/amazon_cellphones/simdjson_ondemand.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/bench_dom_api.cpp b/benchmark/bench_dom_api.cpp
+old mode 100644
+new mode 100755
+diff --git a/benchmark/bench_ondemand.cpp b/benchmark/bench_ondemand.cpp
+old mode 100644
+new mode 100755
+diff --git a/benchmark/bench_parse_call.cpp b/benchmark/bench_parse_call.cpp
+old mode 100644
+new mode 100755
+diff --git a/benchmark/benchfeatures.cpp b/benchmark/benchfeatures.cpp
+old mode 100644
+new mode 100755
+diff --git a/benchmark/benchmark.h b/benchmark/benchmark.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/benchmarker.h b/benchmark/benchmarker.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/distinct_user_id/distinct_user_id.h b/benchmark/distinct_user_id/distinct_user_id.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/distinct_user_id/nlohmann_json.h b/benchmark/distinct_user_id/nlohmann_json.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/distinct_user_id/nlohmann_json_sax.h b/benchmark/distinct_user_id/nlohmann_json_sax.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/distinct_user_id/rapidjson.h b/benchmark/distinct_user_id/rapidjson.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/distinct_user_id/rapidjson_sax.h b/benchmark/distinct_user_id/rapidjson_sax.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/distinct_user_id/sajson.h b/benchmark/distinct_user_id/sajson.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/distinct_user_id/simdjson_dom.h b/benchmark/distinct_user_id/simdjson_dom.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/distinct_user_id/simdjson_dom_json_pointer.h b/benchmark/distinct_user_id/simdjson_dom_json_pointer.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/distinct_user_id/simdjson_ondemand.h b/benchmark/distinct_user_id/simdjson_ondemand.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/distinct_user_id/simdjson_ondemand_json_pointer.h b/benchmark/distinct_user_id/simdjson_ondemand_json_pointer.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/distinct_user_id/yyjson.h b/benchmark/distinct_user_id/yyjson.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/dom/CMakeLists.txt b/benchmark/dom/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/benchmark/dom/checkperf.cmake b/benchmark/dom/checkperf.cmake
+old mode 100644
+new mode 100755
+diff --git a/benchmark/dom/parse.cpp b/benchmark/dom/parse.cpp
+old mode 100644
+new mode 100755
+diff --git a/benchmark/dom/parse_stream.cpp b/benchmark/dom/parse_stream.cpp
+old mode 100644
+new mode 100755
+diff --git a/benchmark/dom/perfdiff.cpp b/benchmark/dom/perfdiff.cpp
+old mode 100644
+new mode 100755
+diff --git a/benchmark/dom/statisticalmodel.cpp b/benchmark/dom/statisticalmodel.cpp
+old mode 100644
+new mode 100755
+diff --git a/benchmark/event_counter.h b/benchmark/event_counter.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/find_tweet/find_tweet.h b/benchmark/find_tweet/find_tweet.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/find_tweet/nlohmann_json.h b/benchmark/find_tweet/nlohmann_json.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/find_tweet/nlohmann_json_sax.h b/benchmark/find_tweet/nlohmann_json_sax.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/find_tweet/rapidjson.h b/benchmark/find_tweet/rapidjson.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/find_tweet/rapidjson_sax.h b/benchmark/find_tweet/rapidjson_sax.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/find_tweet/sajson.h b/benchmark/find_tweet/sajson.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/find_tweet/simdjson_dom.h b/benchmark/find_tweet/simdjson_dom.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/find_tweet/simdjson_ondemand.h b/benchmark/find_tweet/simdjson_ondemand.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/find_tweet/yyjson.h b/benchmark/find_tweet/yyjson.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/get_corpus_benchmark.cpp b/benchmark/get_corpus_benchmark.cpp
+old mode 100644
+new mode 100755
+diff --git a/benchmark/json_benchmark/constants.h b/benchmark/json_benchmark/constants.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/json_benchmark/diff_results.h b/benchmark/json_benchmark/diff_results.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/json_benchmark/file_runner.h b/benchmark/json_benchmark/file_runner.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/json_benchmark/point.h b/benchmark/json_benchmark/point.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/json_benchmark/run_json_benchmark.h b/benchmark/json_benchmark/run_json_benchmark.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/json_benchmark/runner_base.h b/benchmark/json_benchmark/runner_base.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/json_benchmark/string_runner.h b/benchmark/json_benchmark/string_runner.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/kostya/kostya.h b/benchmark/kostya/kostya.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/kostya/nlohmann_json.h b/benchmark/kostya/nlohmann_json.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/kostya/nlohmann_json_sax.h b/benchmark/kostya/nlohmann_json_sax.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/kostya/rapidjson.h b/benchmark/kostya/rapidjson.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/kostya/rapidjson_sax.h b/benchmark/kostya/rapidjson_sax.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/kostya/sajson.h b/benchmark/kostya/sajson.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/kostya/simdjson_dom.h b/benchmark/kostya/simdjson_dom.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/kostya/simdjson_ondemand.h b/benchmark/kostya/simdjson_ondemand.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/kostya/yyjson.h b/benchmark/kostya/yyjson.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/large_amazon_cellphones/large_amazon_cellphones.h b/benchmark/large_amazon_cellphones/large_amazon_cellphones.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/large_amazon_cellphones/simdjson_dom.h b/benchmark/large_amazon_cellphones/simdjson_dom.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/large_amazon_cellphones/simdjson_ondemand.h b/benchmark/large_amazon_cellphones/simdjson_ondemand.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/large_random/large_random.h b/benchmark/large_random/large_random.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/large_random/nlohmann_json.h b/benchmark/large_random/nlohmann_json.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/large_random/nlohmann_json_sax.h b/benchmark/large_random/nlohmann_json_sax.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/large_random/rapidjson.h b/benchmark/large_random/rapidjson.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/large_random/rapidjson_sax.h b/benchmark/large_random/rapidjson_sax.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/large_random/sajson.h b/benchmark/large_random/sajson.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/large_random/simdjson_dom.h b/benchmark/large_random/simdjson_dom.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/large_random/simdjson_ondemand.h b/benchmark/large_random/simdjson_ondemand.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/large_random/simdjson_ondemand_unordered.h b/benchmark/large_random/simdjson_ondemand_unordered.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/large_random/yyjson.h b/benchmark/large_random/yyjson.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/largerandom/iter.h b/benchmark/largerandom/iter.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/largerandom/ondemand.h b/benchmark/largerandom/ondemand.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/largerandom/sax.h b/benchmark/largerandom/sax.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/linux/linux-perf-events.h b/benchmark/linux/linux-perf-events.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/partial_tweets/nlohmann_json.h b/benchmark/partial_tweets/nlohmann_json.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/partial_tweets/nlohmann_json_sax.h b/benchmark/partial_tweets/nlohmann_json_sax.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/partial_tweets/ondemand.h b/benchmark/partial_tweets/ondemand.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/partial_tweets/partial_tweets.h b/benchmark/partial_tweets/partial_tweets.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/partial_tweets/rapidjson.h b/benchmark/partial_tweets/rapidjson.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/partial_tweets/rapidjson_sax.h b/benchmark/partial_tweets/rapidjson_sax.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/partial_tweets/sajson.h b/benchmark/partial_tweets/sajson.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/partial_tweets/simdjson_dom.h b/benchmark/partial_tweets/simdjson_dom.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/partial_tweets/simdjson_ondemand.h b/benchmark/partial_tweets/simdjson_ondemand.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/partial_tweets/tweet.h b/benchmark/partial_tweets/tweet.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/partial_tweets/twitter_user.h b/benchmark/partial_tweets/twitter_user.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/partial_tweets/yyjson.h b/benchmark/partial_tweets/yyjson.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/top_tweet/README.md b/benchmark/top_tweet/README.md
+old mode 100644
+new mode 100755
+diff --git a/benchmark/top_tweet/nlohmann_json.h b/benchmark/top_tweet/nlohmann_json.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/top_tweet/nlohmann_json_sax.h b/benchmark/top_tweet/nlohmann_json_sax.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/top_tweet/rapidjson.h b/benchmark/top_tweet/rapidjson.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/top_tweet/rapidjson_sax.h b/benchmark/top_tweet/rapidjson_sax.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/top_tweet/sajson.h b/benchmark/top_tweet/sajson.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/top_tweet/simdjson_dom.h b/benchmark/top_tweet/simdjson_dom.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/top_tweet/simdjson_ondemand.h b/benchmark/top_tweet/simdjson_ondemand.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/top_tweet/top_tweet.h b/benchmark/top_tweet/top_tweet.h
+old mode 100644
+new mode 100755
+diff --git a/benchmark/top_tweet/yyjson.h b/benchmark/top_tweet/yyjson.h
+old mode 100644
+new mode 100755
+diff --git a/cmake/add_compile_only_test.cmake b/cmake/add_compile_only_test.cmake
+old mode 100644
+new mode 100755
+diff --git a/cmake/add_cpp_test.cmake b/cmake/add_cpp_test.cmake
+old mode 100644
+new mode 100755
+diff --git a/cmake/developer-options.cmake b/cmake/developer-options.cmake
+old mode 100644
+new mode 100755
+diff --git a/cmake/exception-flags.cmake b/cmake/exception-flags.cmake
+old mode 100644
+new mode 100755
+diff --git a/cmake/handle-deprecations.cmake b/cmake/handle-deprecations.cmake
+old mode 100644
+new mode 100755
+diff --git a/cmake/implementation-flags.cmake b/cmake/implementation-flags.cmake
+old mode 100644
+new mode 100755
+diff --git a/cmake/simdjson-config.cmake.in b/cmake/simdjson-config.cmake.in
+old mode 100644
+new mode 100755
+diff --git a/cmake/simdjson-props.cmake b/cmake/simdjson-props.cmake
+old mode 100644
+new mode 100755
+diff --git a/cmake/simdjson-user-cmakecache.cmake b/cmake/simdjson-user-cmakecache.cmake
+old mode 100644
+new mode 100755
+diff --git a/dependencies/.gitignore b/dependencies/.gitignore
+old mode 100644
+new mode 100755
+diff --git a/dependencies/CMakeLists.txt b/dependencies/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/dependencies/import.cmake b/dependencies/import.cmake
+old mode 100644
+new mode 100755
+diff --git a/dependencies/jsoncppdist/json/json-forwards.h b/dependencies/jsoncppdist/json/json-forwards.h
+old mode 100644
+new mode 100755
+diff --git a/dependencies/jsoncppdist/json/json.h b/dependencies/jsoncppdist/json/json.h
+old mode 100644
+new mode 100755
+diff --git a/dependencies/jsoncppdist/jsoncpp.cpp b/dependencies/jsoncppdist/jsoncpp.cpp
+old mode 100644
+new mode 100755
+diff --git a/doc/Multiline_JSON_Parse_Competition.png b/doc/Multiline_JSON_Parse_Competition.png
+old mode 100644
+new mode 100755
+diff --git a/doc/apache_builds.jsonparseandstat.png b/doc/apache_builds.jsonparseandstat.png
+old mode 100644
+new mode 100755
+diff --git a/doc/basics.md b/doc/basics.md
+old mode 100644
+new mode 100755
+diff --git a/doc/basics_doxygen.md b/doc/basics_doxygen.md
+old mode 100644
+new mode 100755
+diff --git a/doc/dom.md b/doc/dom.md
+old mode 100644
+new mode 100755
+diff --git a/doc/gbps.png b/doc/gbps.png
+old mode 100644
+new mode 100755
+diff --git a/doc/github_events.jsonparseandstat.png b/doc/github_events.jsonparseandstat.png
+old mode 100644
+new mode 100755
+diff --git a/doc/growing.png b/doc/growing.png
+old mode 100644
+new mode 100755
+diff --git a/doc/implementation-selection.md b/doc/implementation-selection.md
+old mode 100644
+new mode 100755
+diff --git a/doc/iterate_many.md b/doc/iterate_many.md
+old mode 100644
+new mode 100755
+diff --git a/doc/ondemand_design.md b/doc/ondemand_design.md
+old mode 100644
+new mode 100755
+diff --git a/doc/parse_many.md b/doc/parse_many.md
+old mode 100644
+new mode 100755
+diff --git a/doc/performance.md b/doc/performance.md
+old mode 100644
+new mode 100755
+diff --git a/doc/rome.png b/doc/rome.png
+old mode 100644
+new mode 100755
+diff --git a/doc/tape.md b/doc/tape.md
+old mode 100644
+new mode 100755
+diff --git a/doc/twitter.jsonparseandstat.png b/doc/twitter.jsonparseandstat.png
+old mode 100644
+new mode 100755
+diff --git a/doc/update-center.jsonparseandstat.png b/doc/update-center.jsonparseandstat.png
+old mode 100644
+new mode 100755
+diff --git a/examples/CMakeLists.txt b/examples/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/examples/quickstart/CMakeLists.txt b/examples/quickstart/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/examples/quickstart/Makefile b/examples/quickstart/Makefile
+old mode 100644
+new mode 100755
+diff --git a/examples/quickstart/add_quickstart_test.cmake b/examples/quickstart/add_quickstart_test.cmake
+old mode 100644
+new mode 100755
+diff --git a/examples/quickstart/quickstart.cpp b/examples/quickstart/quickstart.cpp
+old mode 100644
+new mode 100755
+diff --git a/examples/quickstart/quickstart2.cpp b/examples/quickstart/quickstart2.cpp
+old mode 100644
+new mode 100755
+diff --git a/examples/quickstart/quickstart2_noexceptions.cpp b/examples/quickstart/quickstart2_noexceptions.cpp
+old mode 100644
+new mode 100755
+diff --git a/examples/quickstart/quickstart_noexceptions.cpp b/examples/quickstart/quickstart_noexceptions.cpp
+old mode 100644
+new mode 100755
+diff --git a/examples/quickstart/quickstart_ondemand.cpp b/examples/quickstart/quickstart_ondemand.cpp
+old mode 100644
+new mode 100755
+diff --git a/examples/quickstart/quickstart_ondemand_noexceptions.cpp b/examples/quickstart/quickstart_ondemand_noexceptions.cpp
+old mode 100644
+new mode 100755
+diff --git a/extra/dumpbits.h b/extra/dumpbits.h
+old mode 100644
+new mode 100755
+diff --git a/fuzz/CMakeLists.txt b/fuzz/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/fuzz/FuzzUtils.h b/fuzz/FuzzUtils.h
+old mode 100644
+new mode 100755
+diff --git a/fuzz/Fuzzing.md b/fuzz/Fuzzing.md
+old mode 100644
+new mode 100755
+diff --git a/fuzz/NullBuffer.h b/fuzz/NullBuffer.h
+old mode 100644
+new mode 100755
+diff --git a/fuzz/fuzz_atpointer.cpp b/fuzz/fuzz_atpointer.cpp
+old mode 100644
+new mode 100755
+diff --git a/fuzz/fuzz_dump.cpp b/fuzz/fuzz_dump.cpp
+old mode 100644
+new mode 100755
+diff --git a/fuzz/fuzz_dump_raw_tape.cpp b/fuzz/fuzz_dump_raw_tape.cpp
+old mode 100644
+new mode 100755
+diff --git a/fuzz/fuzz_element.cpp b/fuzz/fuzz_element.cpp
+old mode 100644
+new mode 100755
+diff --git a/fuzz/fuzz_implementations.cpp b/fuzz/fuzz_implementations.cpp
+old mode 100644
+new mode 100755
+diff --git a/fuzz/fuzz_minify.cpp b/fuzz/fuzz_minify.cpp
+old mode 100644
+new mode 100755
+diff --git a/fuzz/fuzz_minifyimpl.cpp b/fuzz/fuzz_minifyimpl.cpp
+old mode 100644
+new mode 100755
+diff --git a/fuzz/fuzz_ndjson.cpp b/fuzz/fuzz_ndjson.cpp
+old mode 100644
+new mode 100755
+diff --git a/fuzz/fuzz_ondemand.cpp b/fuzz/fuzz_ondemand.cpp
+old mode 100644
+new mode 100755
+diff --git a/fuzz/fuzz_padded.cpp b/fuzz/fuzz_padded.cpp
+old mode 100644
+new mode 100755
+diff --git a/fuzz/fuzz_parser.cpp b/fuzz/fuzz_parser.cpp
+old mode 100644
+new mode 100755
+diff --git a/fuzz/fuzz_print_json.cpp b/fuzz/fuzz_print_json.cpp
+old mode 100644
+new mode 100755
+diff --git a/fuzz/fuzz_utf8.cpp b/fuzz/fuzz_utf8.cpp
+old mode 100644
+new mode 100755
+diff --git a/fuzz/main.cpp b/fuzz/main.cpp
+old mode 100644
+new mode 100755
+diff --git a/fuzz/supported_implementations.h b/fuzz/supported_implementations.h
+old mode 100644
+new mode 100755
+diff --git a/images/halvarflake.png b/images/halvarflake.png
+old mode 100644
+new mode 100755
+diff --git a/images/logo.png b/images/logo.png
+old mode 100644
+new mode 100755
+diff --git a/images/logotiny.png b/images/logotiny.png
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson.h b/include/simdjson.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/arm64.h b/include/simdjson/arm64.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/arm64/begin.h b/include/simdjson/arm64/begin.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/arm64/bitmanipulation.h b/include/simdjson/arm64/bitmanipulation.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/arm64/bitmask.h b/include/simdjson/arm64/bitmask.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/arm64/end.h b/include/simdjson/arm64/end.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/arm64/implementation.h b/include/simdjson/arm64/implementation.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/arm64/intrinsics.h b/include/simdjson/arm64/intrinsics.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/arm64/numberparsing.h b/include/simdjson/arm64/numberparsing.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/arm64/simd.h b/include/simdjson/arm64/simd.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/arm64/stringparsing.h b/include/simdjson/arm64/stringparsing.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/base.h b/include/simdjson/base.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/builtin.h b/include/simdjson/builtin.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/common_defs.h b/include/simdjson/common_defs.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/compiler_check.h b/include/simdjson/compiler_check.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/dom.h b/include/simdjson/dom.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/dom/array-inl.h b/include/simdjson/dom/array-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/dom/array.h b/include/simdjson/dom/array.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/dom/document-inl.h b/include/simdjson/dom/document-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/dom/document.h b/include/simdjson/dom/document.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/dom/document_stream-inl.h b/include/simdjson/dom/document_stream-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/dom/document_stream.h b/include/simdjson/dom/document_stream.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/dom/element-inl.h b/include/simdjson/dom/element-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/dom/element.h b/include/simdjson/dom/element.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/dom/jsonparser.h b/include/simdjson/dom/jsonparser.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/dom/object-inl.h b/include/simdjson/dom/object-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/dom/object.h b/include/simdjson/dom/object.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/dom/parsedjson.h b/include/simdjson/dom/parsedjson.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/dom/parsedjson_iterator-inl.h b/include/simdjson/dom/parsedjson_iterator-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/dom/parsedjson_iterator.h b/include/simdjson/dom/parsedjson_iterator.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/dom/parser-inl.h b/include/simdjson/dom/parser-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/dom/parser.h b/include/simdjson/dom/parser.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/dom/serialization-inl.h b/include/simdjson/dom/serialization-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/dom/serialization.h b/include/simdjson/dom/serialization.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/error-inl.h b/include/simdjson/error-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/error.h b/include/simdjson/error.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/fallback.h b/include/simdjson/fallback.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/fallback/begin.h b/include/simdjson/fallback/begin.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/fallback/bitmanipulation.h b/include/simdjson/fallback/bitmanipulation.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/fallback/end.h b/include/simdjson/fallback/end.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/fallback/implementation.h b/include/simdjson/fallback/implementation.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/fallback/numberparsing.h b/include/simdjson/fallback/numberparsing.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/fallback/stringparsing.h b/include/simdjson/fallback/stringparsing.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/atomparsing.h b/include/simdjson/generic/atomparsing.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/dom_parser_implementation.h b/include/simdjson/generic/dom_parser_implementation.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/implementation_simdjson_result_base-inl.h b/include/simdjson/generic/implementation_simdjson_result_base-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/implementation_simdjson_result_base.h b/include/simdjson/generic/implementation_simdjson_result_base.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/jsoncharutils.h b/include/simdjson/generic/jsoncharutils.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/numberparsing.h b/include/simdjson/generic/numberparsing.h
+old mode 100644
+new mode 100755
+index 1abe524d..e0f38061
+--- a/include/simdjson/generic/numberparsing.h
++++ b/include/simdjson/generic/numberparsing.h
+@@ -513,6 +513,9 @@ simdjson_really_inline error_code parse_number(const uint8_t *const, W &writer)
+ simdjson_unused simdjson_really_inline simdjson_result<uint64_t> parse_unsigned(const uint8_t * const src) noexcept { return 0; }
+ simdjson_unused simdjson_really_inline simdjson_result<int64_t> parse_integer(const uint8_t * const src) noexcept { return 0; }
+ simdjson_unused simdjson_really_inline simdjson_result<double> parse_double(const uint8_t * const src) noexcept { return 0; }
++simdjson_unused simdjson_really_inline simdjson_result<uint64_t> parse_unsigned_in_string(const uint8_t * const src) noexcept { return 0; }
++simdjson_unused simdjson_really_inline simdjson_result<int64_t> parse_integer_in_string(const uint8_t * const src) noexcept { return 0; }
++simdjson_unused simdjson_really_inline simdjson_result<double> parse_double_in_string(const uint8_t * const src) noexcept { return 0; }
+ 
+ #else
+ 
+@@ -773,6 +776,54 @@ simdjson_unused simdjson_really_inline simdjson_result<uint64_t> parse_unsigned(
+   return i;
+ }
+ 
++// Parse any number from 0 to 18,446,744,073,709,551,615
++simdjson_unused simdjson_really_inline simdjson_result<uint64_t> parse_unsigned_in_string(const uint8_t * const src) noexcept {
++  const uint8_t *p = src + 1;
++  //
++  // Parse the integer part.
++  //
++  // PERF NOTE: we don't use is_made_of_eight_digits_fast because large integers like 123456789 are rare
++  const uint8_t *const start_digits = p;
++  uint64_t i = 0;
++  while (parse_digit(*p, i)) { p++; }
++
++  // If there were no digits, or if the integer starts with 0 and has more than one digit, it's an error.
++  // Optimization note: size_t is expected to be unsigned.
++  size_t digit_count = size_t(p - start_digits);
++  // The longest positive 64-bit number is 20 digits.
++  // We do it this way so we don't trigger this branch unless we must.
++  // Optimization note: the compiler can probably merge
++  // ((digit_count == 0) || (digit_count > 20))
++  // into a single  branch since digit_count is unsigned.
++  if ((digit_count == 0) || (digit_count > 20)) { return INCORRECT_TYPE; }
++  // Here digit_count > 0.
++  if (('0' == *start_digits) && (digit_count > 1)) { return NUMBER_ERROR; }
++  // We can do the following...
++  // if (!jsoncharutils::is_structural_or_whitespace(*p)) {
++  //  return (*p == '.' || *p == 'e' || *p == 'E') ? INCORRECT_TYPE : NUMBER_ERROR;
++  // }
++  // as a single table lookup:
++  if (*p != '"') { return NUMBER_ERROR; }
++
++  if (digit_count == 20) {
++    // Positive overflow check:
++    // - A 20 digit number starting with 2-9 is overflow, because 18,446,744,073,709,551,615 is the
++    //   biggest uint64_t.
++    // - A 20 digit number starting with 1 is overflow if it is less than INT64_MAX.
++    //   If we got here, it's a 20 digit number starting with the digit "1".
++    // - If a 20 digit number starting with 1 overflowed (i*10+digit), the result will be smaller
++    //   than 1,553,255,926,290,448,384.
++    // - That is smaller than the smallest possible 20-digit number the user could write:
++    //   10,000,000,000,000,000,000.
++    // - Therefore, if the number is positive and lower than that, it's overflow.
++    // - The value we are looking at is less than or equal to 9,223,372,036,854,775,808 (INT64_MAX).
++    //
++    if (src[0] != uint8_t('1') || i <= uint64_t(INT64_MAX)) { return INCORRECT_TYPE; }
++  }
++
++  return i;
++}
++
+ // Parse any number from  -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807
+ simdjson_unused simdjson_really_inline simdjson_result<int64_t> parse_integer(const uint8_t *src) noexcept {
+   //
+@@ -859,6 +910,48 @@ simdjson_unused simdjson_really_inline simdjson_result<int64_t> parse_integer(co
+   return negative ? (~i+1) : i;
+ }
+ 
++// Parse any number from  -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807
++simdjson_unused simdjson_really_inline simdjson_result<int64_t> parse_integer_in_string(const uint8_t *src) noexcept {
++  //
++  // Check for minus sign
++  //
++  bool negative = (*(src + 1) == '-');
++  const uint8_t *p = src + negative + 1;
++
++  //
++  // Parse the integer part.
++  //
++  // PERF NOTE: we don't use is_made_of_eight_digits_fast because large integers like 123456789 are rare
++  const uint8_t *const start_digits = p;
++  uint64_t i = 0;
++  while (parse_digit(*p, i)) { p++; }
++
++  // If there were no digits, or if the integer starts with 0 and has more than one digit, it's an error.
++  // Optimization note: size_t is expected to be unsigned.
++  size_t digit_count = size_t(p - start_digits);
++  // We go from
++  // -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807
++  // so we can never represent numbers that have more than 19 digits.
++  size_t longest_digit_count = 19;
++  // Optimization note: the compiler can probably merge
++  // ((digit_count == 0) || (digit_count > longest_digit_count))
++  // into a single  branch since digit_count is unsigned.
++  if ((digit_count == 0) || (digit_count > longest_digit_count)) { return INCORRECT_TYPE; }
++  // Here digit_count > 0.
++  if (('0' == *start_digits) && (digit_count > 1)) { return NUMBER_ERROR; }
++  // We can do the following...
++  // if (!jsoncharutils::is_structural_or_whitespace(*p)) {
++  //  return (*p == '.' || *p == 'e' || *p == 'E') ? INCORRECT_TYPE : NUMBER_ERROR;
++  // }
++  // as a single table lookup:
++  if(*p != '"') { return NUMBER_ERROR; }
++  // Negative numbers have can go down to - INT64_MAX - 1 whereas positive numbers are limited to INT64_MAX.
++  // Performance note: This check is only needed when digit_count == longest_digit_count but it is
++  // so cheap that we might as well always make it.
++  if(i > uint64_t(INT64_MAX) + uint64_t(negative)) { return INCORRECT_TYPE; }
++  return negative ? (~i+1) : i;
++}
++
+ simdjson_unused simdjson_really_inline simdjson_result<double> parse_double(const uint8_t * src) noexcept {
+   //
+   // Check for minus sign
+@@ -1020,6 +1113,83 @@ simdjson_unused simdjson_really_inline simdjson_result<double> parse_double(cons
+   return d;
+ }
+ 
++simdjson_unused simdjson_really_inline simdjson_result<double> parse_double_in_string(const uint8_t * src) noexcept {
++  //
++  // Check for minus sign
++  //
++  bool negative = (*(src + 1) == '-');
++  src += negative + 1;
++
++  //
++  // Parse the integer part.
++  //
++  uint64_t i = 0;
++  const uint8_t *p = src;
++  p += parse_digit(*p, i);
++  bool leading_zero = (i == 0);
++  while (parse_digit(*p, i)) { p++; }
++  // no integer digits, or 0123 (zero must be solo)
++  if ( p == src ) { return INCORRECT_TYPE; }
++  if ( (leading_zero && p != src+1)) { return NUMBER_ERROR; }
++
++  //
++  // Parse the decimal part.
++  //
++  int64_t exponent = 0;
++  bool overflow;
++  if (simdjson_likely(*p == '.')) {
++    p++;
++    const uint8_t *start_decimal_digits = p;
++    if (!parse_digit(*p, i)) { return NUMBER_ERROR; } // no decimal digits
++    p++;
++    while (parse_digit(*p, i)) { p++; }
++    exponent = -(p - start_decimal_digits);
++
++    // Overflow check. More than 19 digits (minus the decimal) may be overflow.
++    overflow = p-src-1 > 19;
++    if (simdjson_unlikely(overflow && leading_zero)) {
++      // Skip leading 0.00000 and see if it still overflows
++      const uint8_t *start_digits = src + 2;
++      while (*start_digits == '0') { start_digits++; }
++      overflow = start_digits-src > 19;
++    }
++  } else {
++    overflow = p-src > 19;
++  }
++
++  //
++  // Parse the exponent
++  //
++  if (*p == 'e' || *p == 'E') {
++    p++;
++    bool exp_neg = *p == '-';
++    p += exp_neg || *p == '+';
++
++    uint64_t exp = 0;
++    const uint8_t *start_exp_digits = p;
++    while (parse_digit(*p, exp)) { p++; }
++    // no exp digits, or 20+ exp digits
++    if (p-start_exp_digits == 0 || p-start_exp_digits > 19) { return NUMBER_ERROR; }
++
++    exponent += exp_neg ? 0-exp : exp;
++  }
++
++  if (*p != '"') { return NUMBER_ERROR; }
++
++  overflow = overflow || exponent < simdjson::internal::smallest_power || exponent > simdjson::internal::largest_power;
++
++  //
++  // Assemble (or slow-parse) the float
++  //
++  double d;
++  if (simdjson_likely(!overflow)) {
++    if (compute_float_64(exponent, i, negative, d)) { return d; }
++  }
++  if (!parse_float_fallback(src-negative, &d)) {
++    return NUMBER_ERROR;
++  }
++  return d;
++}
+ } //namespace {}
+ #endif // SIMDJSON_SKIPNUMBERPARSING
+ 
+diff --git a/include/simdjson/generic/ondemand-inl.h b/include/simdjson/generic/ondemand-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand.h b/include/simdjson/generic/ondemand.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/array-inl.h b/include/simdjson/generic/ondemand/array-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/array.h b/include/simdjson/generic/ondemand/array.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/array_iterator-inl.h b/include/simdjson/generic/ondemand/array_iterator-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/array_iterator.h b/include/simdjson/generic/ondemand/array_iterator.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/document-inl.h b/include/simdjson/generic/ondemand/document-inl.h
+old mode 100644
+new mode 100755
+index 045411d5..7ebf39c2
+--- a/include/simdjson/generic/ondemand/document-inl.h
++++ b/include/simdjson/generic/ondemand/document-inl.h
+@@ -64,12 +64,21 @@ simdjson_really_inline simdjson_result<object> document::get_object() & noexcept
+ simdjson_really_inline simdjson_result<uint64_t> document::get_uint64() noexcept {
+   return get_root_value_iterator().get_root_uint64();
+ }
++simdjson_really_inline simdjson_result<uint64_t> document::get_uint64_in_string() noexcept {
++  return get_root_value_iterator().get_root_uint64_in_string();
++}
+ simdjson_really_inline simdjson_result<int64_t> document::get_int64() noexcept {
+   return get_root_value_iterator().get_root_int64();
+ }
++simdjson_really_inline simdjson_result<int64_t> document::get_int64_in_string() noexcept {
++  return get_root_value_iterator().get_root_int64_in_string();
++}
+ simdjson_really_inline simdjson_result<double> document::get_double() noexcept {
+   return get_root_value_iterator().get_root_double();
+ }
++simdjson_really_inline simdjson_result<double> document::get_double_in_string() noexcept {
++  return get_root_value_iterator().get_root_double_in_string();
++}
+ simdjson_really_inline simdjson_result<std::string_view> document::get_string() noexcept {
+   return get_root_value_iterator().get_root_string();
+ }
+diff --git a/include/simdjson/generic/ondemand/document.h b/include/simdjson/generic/ondemand/document.h
+old mode 100644
+new mode 100755
+index 2d65fc9c..3ea36349
+--- a/include/simdjson/generic/ondemand/document.h
++++ b/include/simdjson/generic/ondemand/document.h
+@@ -53,6 +53,13 @@ public:
+    * @returns INCORRECT_TYPE If the JSON value is not a 64-bit unsigned integer.
+    */
+   simdjson_really_inline simdjson_result<uint64_t> get_uint64() noexcept;
++  /**
++   * Cast this JSON value (inside string) to an unsigned integer.
++   *
++   * @returns A signed 64-bit integer.
++   * @returns INCORRECT_TYPE If the JSON value is not a 64-bit unsigned integer.
++   */
++  simdjson_really_inline simdjson_result<uint64_t> get_uint64_in_string() noexcept;
+   /**
+    * Cast this JSON value to a signed integer.
+    *
+@@ -60,6 +67,13 @@ public:
+    * @returns INCORRECT_TYPE If the JSON value is not a 64-bit integer.
+    */
+   simdjson_really_inline simdjson_result<int64_t> get_int64() noexcept;
++  /**
++   * Cast this JSON value (inside string) to a signed integer.
++   *
++   * @returns A signed 64-bit integer.
++   * @returns INCORRECT_TYPE If the JSON value is not a 64-bit integer.
++   */
++  simdjson_really_inline simdjson_result<int64_t> get_int64_in_string() noexcept;
+   /**
+    * Cast this JSON value to a double.
+    *
+@@ -67,6 +81,14 @@ public:
+    * @returns INCORRECT_TYPE If the JSON value is not a valid floating-point number.
+    */
+   simdjson_really_inline simdjson_result<double> get_double() noexcept;
++
++  /**
++   * Cast this JSON value (inside string) to a double.
++   *
++   * @returns A double.
++   * @returns INCORRECT_TYPE If the JSON value is not a valid floating-point number.
++   */
++  simdjson_really_inline simdjson_result<double> get_double_in_string() noexcept;
+   /**
+    * Cast this JSON value to a string.
+    *
+@@ -408,6 +430,7 @@ public:
+   simdjson_really_inline simdjson_result<uint64_t> get_uint64() noexcept;
+   simdjson_really_inline simdjson_result<int64_t> get_int64() noexcept;
+   simdjson_really_inline simdjson_result<double> get_double() noexcept;
++  simdjson_really_inline simdjson_result<double> get_double_from_string() noexcept;
+   simdjson_really_inline simdjson_result<std::string_view> get_string() noexcept;
+   simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::raw_json_string> get_raw_json_string() noexcept;
+   simdjson_really_inline simdjson_result<bool> get_bool() noexcept;
+diff --git a/include/simdjson/generic/ondemand/document_stream-inl.h b/include/simdjson/generic/ondemand/document_stream-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/document_stream.h b/include/simdjson/generic/ondemand/document_stream.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/field-inl.h b/include/simdjson/generic/ondemand/field-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/field.h b/include/simdjson/generic/ondemand/field.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/json_iterator-inl.h b/include/simdjson/generic/ondemand/json_iterator-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/json_iterator.h b/include/simdjson/generic/ondemand/json_iterator.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/json_type-inl.h b/include/simdjson/generic/ondemand/json_type-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/json_type.h b/include/simdjson/generic/ondemand/json_type.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/logger-inl.h b/include/simdjson/generic/ondemand/logger-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/logger.h b/include/simdjson/generic/ondemand/logger.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/object-inl.h b/include/simdjson/generic/ondemand/object-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/object.h b/include/simdjson/generic/ondemand/object.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/object_iterator-inl.h b/include/simdjson/generic/ondemand/object_iterator-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/object_iterator.h b/include/simdjson/generic/ondemand/object_iterator.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/parser-inl.h b/include/simdjson/generic/ondemand/parser-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/parser.h b/include/simdjson/generic/ondemand/parser.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/raw_json_string-inl.h b/include/simdjson/generic/ondemand/raw_json_string-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/raw_json_string.h b/include/simdjson/generic/ondemand/raw_json_string.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/serialization-inl.h b/include/simdjson/generic/ondemand/serialization-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/serialization.h b/include/simdjson/generic/ondemand/serialization.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/token_iterator-inl.h b/include/simdjson/generic/ondemand/token_iterator-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/token_iterator.h b/include/simdjson/generic/ondemand/token_iterator.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/token_position.h b/include/simdjson/generic/ondemand/token_position.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/generic/ondemand/value-inl.h b/include/simdjson/generic/ondemand/value-inl.h
+old mode 100644
+new mode 100755
+index 5b6e4fbc..95f6a349
+--- a/include/simdjson/generic/ondemand/value-inl.h
++++ b/include/simdjson/generic/ondemand/value-inl.h
+@@ -36,12 +36,21 @@ simdjson_really_inline simdjson_result<std::string_view> value::get_string() noe
+ simdjson_really_inline simdjson_result<double> value::get_double() noexcept {
+   return iter.get_double();
+ }
++simdjson_really_inline simdjson_result<double> value::get_double_in_string() noexcept {
++  return iter.get_double_in_string();
++}
+ simdjson_really_inline simdjson_result<uint64_t> value::get_uint64() noexcept {
+   return iter.get_uint64();
+ }
++simdjson_really_inline simdjson_result<uint64_t> value::get_uint64_in_string() noexcept {
++  return iter.get_uint64_in_string();
++}
+ simdjson_really_inline simdjson_result<int64_t> value::get_int64() noexcept {
+   return iter.get_int64();
+ }
++simdjson_really_inline simdjson_result<int64_t> value::get_int64_in_string() noexcept {
++  return iter.get_int64_in_string();
++}
+ simdjson_really_inline simdjson_result<bool> value::get_bool() noexcept {
+   return iter.get_bool();
+ }
+@@ -221,14 +230,26 @@ simdjson_really_inline simdjson_result<uint64_t> simdjson_result<SIMDJSON_IMPLEM
+   if (error()) { return error(); }
+   return first.get_uint64();
+ }
++simdjson_really_inline simdjson_result<uint64_t> simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::get_uint64_in_string() noexcept {
++  if (error()) { return error(); }
++  return first.get_uint64_in_string();
++}
+ simdjson_really_inline simdjson_result<int64_t> simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::get_int64() noexcept {
+   if (error()) { return error(); }
+   return first.get_int64();
+ }
++simdjson_really_inline simdjson_result<int64_t> simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::get_int64_in_string() noexcept {
++  if (error()) { return error(); }
++  return first.get_int64_in_string();
++}
+ simdjson_really_inline simdjson_result<double> simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::get_double() noexcept {
+   if (error()) { return error(); }
+   return first.get_double();
+ }
++simdjson_really_inline simdjson_result<double> simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::get_double_in_string() noexcept {
++  if (error()) { return error(); }
++  return first.get_double_in_string();
++}
+ simdjson_really_inline simdjson_result<std::string_view> simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::get_string() noexcept {
+   if (error()) { return error(); }
+   return first.get_string();
+diff --git a/include/simdjson/generic/ondemand/value.h b/include/simdjson/generic/ondemand/value.h
+old mode 100644
+new mode 100755
+index 65de6bc6..edd6d2b6
+--- a/include/simdjson/generic/ondemand/value.h
++++ b/include/simdjson/generic/ondemand/value.h
+@@ -69,11 +69,19 @@ public:
+   /**
+    * Cast this JSON value to an unsigned integer.
+    *
+-   * @returns A signed 64-bit integer.
++   * @returns A unsigned 64-bit integer.
+    * @returns INCORRECT_TYPE If the JSON value is not a 64-bit unsigned integer.
+    */
+   simdjson_really_inline simdjson_result<uint64_t> get_uint64() noexcept;
+ 
++  /**
++   * Cast this JSON value (inside string) to a unsigned integer.
++   *
++   * @returns A unsigned 64-bit integer.
++   * @returns INCORRECT_TYPE If the JSON value is not a 64-bit unsigned integer.
++   */
++  simdjson_really_inline simdjson_result<uint64_t> get_uint64_in_string() noexcept;
++
+   /**
+    * Cast this JSON value to a signed integer.
+    *
+@@ -82,6 +90,14 @@ public:
+    */
+   simdjson_really_inline simdjson_result<int64_t> get_int64() noexcept;
+ 
++  /**
++   * Cast this JSON value (inside string) to a signed integer.
++   *
++   * @returns A signed 64-bit integer.
++   * @returns INCORRECT_TYPE If the JSON value is not a 64-bit integer.
++   */
++  simdjson_really_inline simdjson_result<int64_t> get_int64_in_string() noexcept;
++
+   /**
+    * Cast this JSON value to a double.
+    *
+@@ -90,6 +106,14 @@ public:
+    */
+   simdjson_really_inline simdjson_result<double> get_double() noexcept;
+ 
++  /**
++   * Cast this JSON value (inside string) to a double
++   *
++   * @returns A double.
++   * @returns INCORRECT_TYPE If the JSON value is not a valid floating-point number.
++   */
++  simdjson_really_inline simdjson_result<double> get_double_in_string() noexcept;
++
+   /**
+    * Cast this JSON value to a string.
+    *
+@@ -416,8 +440,11 @@ public:
+   simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::object> get_object() noexcept;
+ 
+   simdjson_really_inline simdjson_result<uint64_t> get_uint64() noexcept;
++  simdjson_really_inline simdjson_result<uint64_t> get_uint64_in_string() noexcept;
+   simdjson_really_inline simdjson_result<int64_t> get_int64() noexcept;
++  simdjson_really_inline simdjson_result<int64_t> get_int64_in_string() noexcept;
+   simdjson_really_inline simdjson_result<double> get_double() noexcept;
++  simdjson_really_inline simdjson_result<double> get_double_in_string() noexcept;
+   simdjson_really_inline simdjson_result<std::string_view> get_string() noexcept;
+   simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::raw_json_string> get_raw_json_string() noexcept;
+   simdjson_really_inline simdjson_result<bool> get_bool() noexcept;
+diff --git a/include/simdjson/generic/ondemand/value_iterator-inl.h b/include/simdjson/generic/ondemand/value_iterator-inl.h
+old mode 100644
+new mode 100755
+index 258e75cf..7f3cd84a
+--- a/include/simdjson/generic/ondemand/value_iterator-inl.h
++++ b/include/simdjson/generic/ondemand/value_iterator-inl.h
+@@ -452,16 +452,31 @@ simdjson_warn_unused simdjson_really_inline simdjson_result<uint64_t> value_iter
+   if(result.error() != INCORRECT_TYPE) { advance_non_root_scalar("uint64"); }
+   return result;
+ }
++simdjson_warn_unused simdjson_really_inline simdjson_result<uint64_t> value_iterator::get_uint64_in_string() noexcept {
++  auto result = numberparsing::parse_unsigned_in_string(peek_non_root_scalar("uint64"));
++  if(result.error() != INCORRECT_TYPE) { advance_non_root_scalar("uint64"); }
++  return result;
++}
+ simdjson_warn_unused simdjson_really_inline simdjson_result<int64_t> value_iterator::get_int64() noexcept {
+   auto result = numberparsing::parse_integer(peek_non_root_scalar("int64"));
+   if(result.error() != INCORRECT_TYPE) { advance_non_root_scalar("int64"); }
+   return result;
+ }
++simdjson_warn_unused simdjson_really_inline simdjson_result<int64_t> value_iterator::get_int64_in_string() noexcept {
++  auto result = numberparsing::parse_integer_in_string(peek_non_root_scalar("int64"));
++  if(result.error() != INCORRECT_TYPE) { advance_non_root_scalar("int64"); }
++  return result;
++}
+ simdjson_warn_unused simdjson_really_inline simdjson_result<double> value_iterator::get_double() noexcept {
+   auto result = numberparsing::parse_double(peek_non_root_scalar("double"));
+   if(result.error() != INCORRECT_TYPE) { advance_non_root_scalar("double"); }
+   return result;
+ }
++simdjson_warn_unused simdjson_really_inline simdjson_result<double> value_iterator::get_double_in_string() noexcept {
++  auto result = numberparsing::parse_double_in_string(peek_non_root_scalar("double"));
++  if(result.error() != INCORRECT_TYPE) { advance_non_root_scalar("double"); }
++  return result;
++}
+ simdjson_warn_unused simdjson_really_inline simdjson_result<bool> value_iterator::get_bool() noexcept {
+   auto result = parse_bool(peek_non_root_scalar("bool"));
+   if(result.error() != INCORRECT_TYPE) { advance_non_root_scalar("bool"); }
+@@ -493,6 +508,18 @@ simdjson_warn_unused simdjson_really_inline simdjson_result<uint64_t> value_iter
+   if(result.error() != INCORRECT_TYPE) { advance_root_scalar("uint64"); }
+   return result;
+ }
++simdjson_warn_unused simdjson_really_inline simdjson_result<uint64_t> value_iterator::get_root_uint64_in_string() noexcept {
++  auto max_len = peek_start_length();
++  auto json = peek_root_scalar("uint64");
++  uint8_t tmpbuf[20+1]; // <20 digits> is the longest possible unsigned integer
++  if (!_json_iter->copy_to_buffer(json, max_len, tmpbuf)) {
++    logger::log_error(*_json_iter, start_position(), depth(), "Root number more than 20 characters");
++    return NUMBER_ERROR;
++  }
++  auto result = numberparsing::parse_unsigned_in_string(tmpbuf);
++  if(result.error() != INCORRECT_TYPE) { advance_root_scalar("uint64"); }
++  return result;
++}
+ simdjson_warn_unused simdjson_really_inline simdjson_result<int64_t> value_iterator::get_root_int64() noexcept {
+   auto max_len = peek_start_length();
+   auto json = peek_root_scalar("int64");
+@@ -506,6 +533,19 @@ simdjson_warn_unused simdjson_really_inline simdjson_result<int64_t> value_itera
+   if(result.error() != INCORRECT_TYPE) { advance_root_scalar("int64"); }
+   return result;
+ }
++simdjson_warn_unused simdjson_really_inline simdjson_result<int64_t> value_iterator::get_root_int64_in_string() noexcept {
++  auto max_len = peek_start_length();
++  auto json = peek_root_scalar("int64");
++  uint8_t tmpbuf[20+1]; // -<19 digits> is the longest possible integer
++  if (!_json_iter->copy_to_buffer(json, max_len, tmpbuf)) {
++    logger::log_error(*_json_iter, start_position(), depth(), "Root number more than 20 characters");
++    return NUMBER_ERROR;
++  }
++
++  auto result = numberparsing::parse_integer_in_string(tmpbuf);
++  if(result.error() != INCORRECT_TYPE) { advance_root_scalar("int64"); }
++  return result;
++}
+ simdjson_warn_unused simdjson_really_inline simdjson_result<double> value_iterator::get_root_double() noexcept {
+   auto max_len = peek_start_length();
+   auto json = peek_root_scalar("double");
+@@ -521,6 +561,21 @@ simdjson_warn_unused simdjson_really_inline simdjson_result<double> value_iterat
+   if(result.error() != INCORRECT_TYPE) { advance_root_scalar("double"); }
+   return result;
+ }
++simdjson_warn_unused simdjson_really_inline simdjson_result<double> value_iterator::get_root_double_in_string() noexcept {
++  auto max_len = peek_start_length();
++  auto json = peek_root_scalar("double");
++  // Per https://www.exploringbinary.com/maximum-number-of-decimal-digits-in-binary-floating-point-numbers/,
++  // 1074 is the maximum number of significant fractional digits. Add 8 more digits for the biggest
++  // number: -0.<fraction>e-308.
++  uint8_t tmpbuf[1074+8+1];
++  if (!_json_iter->copy_to_buffer(json, max_len, tmpbuf)) {
++    logger::log_error(*_json_iter, start_position(), depth(), "Root number more than 1082 characters");
++    return NUMBER_ERROR;
++  }
++  auto result = numberparsing::parse_double_in_string(tmpbuf);
++  if(result.error() != INCORRECT_TYPE) { advance_root_scalar("double"); }
++  return result;
++}
+ simdjson_warn_unused simdjson_really_inline simdjson_result<bool> value_iterator::get_root_bool() noexcept {
+   auto max_len = peek_start_length();
+   auto json = peek_root_scalar("bool");
+diff --git a/include/simdjson/generic/ondemand/value_iterator.h b/include/simdjson/generic/ondemand/value_iterator.h
+old mode 100644
+new mode 100755
+index e742198a..f9b2bbb8
+--- a/include/simdjson/generic/ondemand/value_iterator.h
++++ b/include/simdjson/generic/ondemand/value_iterator.h
+@@ -283,16 +283,22 @@ public:
+   simdjson_warn_unused simdjson_really_inline simdjson_result<std::string_view> get_string() noexcept;
+   simdjson_warn_unused simdjson_really_inline simdjson_result<raw_json_string> get_raw_json_string() noexcept;
+   simdjson_warn_unused simdjson_really_inline simdjson_result<uint64_t> get_uint64() noexcept;
++  simdjson_warn_unused simdjson_really_inline simdjson_result<uint64_t> get_uint64_in_string() noexcept;
+   simdjson_warn_unused simdjson_really_inline simdjson_result<int64_t> get_int64() noexcept;
++  simdjson_warn_unused simdjson_really_inline simdjson_result<int64_t> get_int64_in_string() noexcept;
+   simdjson_warn_unused simdjson_really_inline simdjson_result<double> get_double() noexcept;
++  simdjson_warn_unused simdjson_really_inline simdjson_result<double> get_double_in_string() noexcept;
+   simdjson_warn_unused simdjson_really_inline simdjson_result<bool> get_bool() noexcept;
+   simdjson_really_inline bool is_null() noexcept;
+ 
+   simdjson_warn_unused simdjson_really_inline simdjson_result<std::string_view> get_root_string() noexcept;
+   simdjson_warn_unused simdjson_really_inline simdjson_result<raw_json_string> get_root_raw_json_string() noexcept;
+   simdjson_warn_unused simdjson_really_inline simdjson_result<uint64_t> get_root_uint64() noexcept;
++  simdjson_warn_unused simdjson_really_inline simdjson_result<uint64_t> get_root_uint64_in_string() noexcept;
+   simdjson_warn_unused simdjson_really_inline simdjson_result<int64_t> get_root_int64() noexcept;
++  simdjson_warn_unused simdjson_really_inline simdjson_result<int64_t> get_root_int64_in_string() noexcept;
+   simdjson_warn_unused simdjson_really_inline simdjson_result<double> get_root_double() noexcept;
++  simdjson_warn_unused simdjson_really_inline simdjson_result<double> get_root_double_in_string() noexcept;
+   simdjson_warn_unused simdjson_really_inline simdjson_result<bool> get_root_bool() noexcept;
+   simdjson_really_inline bool is_root_null() noexcept;
+ 
+diff --git a/include/simdjson/generic/stringparsing.h b/include/simdjson/generic/stringparsing.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/haswell.h b/include/simdjson/haswell.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/haswell/begin.h b/include/simdjson/haswell/begin.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/haswell/bitmanipulation.h b/include/simdjson/haswell/bitmanipulation.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/haswell/bitmask.h b/include/simdjson/haswell/bitmask.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/haswell/end.h b/include/simdjson/haswell/end.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/haswell/implementation.h b/include/simdjson/haswell/implementation.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/haswell/intrinsics.h b/include/simdjson/haswell/intrinsics.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/haswell/numberparsing.h b/include/simdjson/haswell/numberparsing.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/haswell/simd.h b/include/simdjson/haswell/simd.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/haswell/stringparsing.h b/include/simdjson/haswell/stringparsing.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/implementation-base.h b/include/simdjson/implementation-base.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/implementation.h b/include/simdjson/implementation.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/implementations.h b/include/simdjson/implementations.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/internal/dom_parser_implementation.h b/include/simdjson/internal/dom_parser_implementation.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/internal/isadetection.h b/include/simdjson/internal/isadetection.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/internal/jsoncharutils_tables.h b/include/simdjson/internal/jsoncharutils_tables.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/internal/jsonformatutils.h b/include/simdjson/internal/jsonformatutils.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/internal/numberparsing_tables.h b/include/simdjson/internal/numberparsing_tables.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/internal/simdprune_tables.h b/include/simdjson/internal/simdprune_tables.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/internal/tape_ref-inl.h b/include/simdjson/internal/tape_ref-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/internal/tape_ref.h b/include/simdjson/internal/tape_ref.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/internal/tape_type.h b/include/simdjson/internal/tape_type.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/jsonioutil.h b/include/simdjson/jsonioutil.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/minify.h b/include/simdjson/minify.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/nonstd/string_view.hpp b/include/simdjson/nonstd/string_view.hpp
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/padded_string-inl.h b/include/simdjson/padded_string-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/padded_string.h b/include/simdjson/padded_string.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/padded_string_view-inl.h b/include/simdjson/padded_string_view-inl.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/padded_string_view.h b/include/simdjson/padded_string_view.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/portability.h b/include/simdjson/portability.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/ppc64.h b/include/simdjson/ppc64.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/ppc64/begin.h b/include/simdjson/ppc64/begin.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/ppc64/bitmanipulation.h b/include/simdjson/ppc64/bitmanipulation.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/ppc64/bitmask.h b/include/simdjson/ppc64/bitmask.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/ppc64/end.h b/include/simdjson/ppc64/end.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/ppc64/implementation.h b/include/simdjson/ppc64/implementation.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/ppc64/intrinsics.h b/include/simdjson/ppc64/intrinsics.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/ppc64/numberparsing.h b/include/simdjson/ppc64/numberparsing.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/ppc64/simd.h b/include/simdjson/ppc64/simd.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/ppc64/stringparsing.h b/include/simdjson/ppc64/stringparsing.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/simdjson.h b/include/simdjson/simdjson.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/simdjson_version.h b/include/simdjson/simdjson_version.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/westmere.h b/include/simdjson/westmere.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/westmere/begin.h b/include/simdjson/westmere/begin.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/westmere/bitmanipulation.h b/include/simdjson/westmere/bitmanipulation.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/westmere/bitmask.h b/include/simdjson/westmere/bitmask.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/westmere/end.h b/include/simdjson/westmere/end.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/westmere/implementation.h b/include/simdjson/westmere/implementation.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/westmere/intrinsics.h b/include/simdjson/westmere/intrinsics.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/westmere/numberparsing.h b/include/simdjson/westmere/numberparsing.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/westmere/simd.h b/include/simdjson/westmere/simd.h
+old mode 100644
+new mode 100755
+diff --git a/include/simdjson/westmere/stringparsing.h b/include/simdjson/westmere/stringparsing.h
+old mode 100644
+new mode 100755
+diff --git a/jsonexamples/CMakeLists.txt b/jsonexamples/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/jsonexamples/amazon_cellphones.ndjson b/jsonexamples/amazon_cellphones.ndjson
+old mode 100644
+new mode 100755
+diff --git a/jsonexamples/twitter.json b/jsonexamples/twitter.json
+old mode 100644
+new mode 100755
+diff --git a/scripts/javascript/README.md b/scripts/javascript/README.md
+old mode 100644
+new mode 100755
+diff --git a/scripts/javascript/generatelargejson.js b/scripts/javascript/generatelargejson.js
+old mode 100644
+new mode 100755
+diff --git a/scripts/javascript/package-lock.json b/scripts/javascript/package-lock.json
+old mode 100644
+new mode 100755
+diff --git a/scripts/javascript/package.json b/scripts/javascript/package.json
+old mode 100644
+new mode 100755
+diff --git a/scripts/shootout.sh b/scripts/shootout.sh
+old mode 100644
+new mode 100755
+diff --git a/scripts/transitions/Makefile b/scripts/transitions/Makefile
+old mode 100644
+new mode 100755
+diff --git a/scripts/transitions/generatetransitions.cpp b/scripts/transitions/generatetransitions.cpp
+old mode 100644
+new mode 100755
+diff --git a/singleheader/CMakeLists.txt b/singleheader/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/singleheader/README.md b/singleheader/README.md
+old mode 100644
+new mode 100755
+diff --git a/singleheader/amalgamate_demo.cpp b/singleheader/amalgamate_demo.cpp
+old mode 100644
+new mode 100755
+diff --git a/singleheader/simdjson.cpp b/singleheader/simdjson.cpp
+old mode 100644
+new mode 100755
+diff --git a/singleheader/simdjson.h b/singleheader/simdjson.h
+old mode 100644
+new mode 100755
+diff --git a/src/arm64/dom_parser_implementation.cpp b/src/arm64/dom_parser_implementation.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/arm64/implementation.cpp b/src/arm64/implementation.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/fallback/dom_parser_implementation.cpp b/src/fallback/dom_parser_implementation.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/fallback/implementation.cpp b/src/fallback/implementation.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/from_chars.cpp b/src/from_chars.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/generic/stage1/buf_block_reader.h b/src/generic/stage1/buf_block_reader.h
+old mode 100644
+new mode 100755
+diff --git a/src/generic/stage1/find_next_document_index.h b/src/generic/stage1/find_next_document_index.h
+old mode 100644
+new mode 100755
+diff --git a/src/generic/stage1/json_minifier.h b/src/generic/stage1/json_minifier.h
+old mode 100644
+new mode 100755
+diff --git a/src/generic/stage1/json_scanner.h b/src/generic/stage1/json_scanner.h
+old mode 100644
+new mode 100755
+diff --git a/src/generic/stage1/json_string_scanner.h b/src/generic/stage1/json_string_scanner.h
+old mode 100644
+new mode 100755
+diff --git a/src/generic/stage1/json_structural_indexer.h b/src/generic/stage1/json_structural_indexer.h
+old mode 100644
+new mode 100755
+diff --git a/src/generic/stage1/utf8_lookup4_algorithm.h b/src/generic/stage1/utf8_lookup4_algorithm.h
+old mode 100644
+new mode 100755
+diff --git a/src/generic/stage1/utf8_validator.h b/src/generic/stage1/utf8_validator.h
+old mode 100644
+new mode 100755
+diff --git a/src/generic/stage2/json_iterator.h b/src/generic/stage2/json_iterator.h
+old mode 100644
+new mode 100755
+diff --git a/src/generic/stage2/logger.h b/src/generic/stage2/logger.h
+old mode 100644
+new mode 100755
+diff --git a/src/generic/stage2/structural_iterator.h b/src/generic/stage2/structural_iterator.h
+old mode 100644
+new mode 100755
+diff --git a/src/generic/stage2/tape_builder.h b/src/generic/stage2/tape_builder.h
+old mode 100644
+new mode 100755
+diff --git a/src/generic/stage2/tape_writer.h b/src/generic/stage2/tape_writer.h
+old mode 100644
+new mode 100755
+diff --git a/src/haswell/dom_parser_implementation.cpp b/src/haswell/dom_parser_implementation.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/haswell/implementation.cpp b/src/haswell/implementation.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/implementation.cpp b/src/implementation.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/internal/error_tables.cpp b/src/internal/error_tables.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/internal/jsoncharutils_tables.cpp b/src/internal/jsoncharutils_tables.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/internal/numberparsing_tables.cpp b/src/internal/numberparsing_tables.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/internal/simdprune_tables.cpp b/src/internal/simdprune_tables.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/ppc64/dom_parser_implementation.cpp b/src/ppc64/dom_parser_implementation.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/ppc64/implementation.cpp b/src/ppc64/implementation.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/simdjson.cpp b/src/simdjson.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/to_chars.cpp b/src/to_chars.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/westmere/dom_parser_implementation.cpp b/src/westmere/dom_parser_implementation.cpp
+old mode 100644
+new mode 100755
+diff --git a/src/westmere/implementation.cpp b/src/westmere/implementation.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/CMakeLists.txt b/tests/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/tests/cast_tester.h b/tests/cast_tester.h
+old mode 100644
+new mode 100755
+diff --git a/tests/checkimplementation.cpp b/tests/checkimplementation.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/compilation_failure_tests/CMakeLists.txt b/tests/compilation_failure_tests/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/tests/compilation_failure_tests/bad_array_count.cpp b/tests/compilation_failure_tests/bad_array_count.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/compilation_failure_tests/dangling_parser_load.cpp b/tests/compilation_failure_tests/dangling_parser_load.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/compilation_failure_tests/dangling_parser_parse_padstring.cpp b/tests/compilation_failure_tests/dangling_parser_parse_padstring.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/compilation_failure_tests/dangling_parser_parse_stdstring.cpp b/tests/compilation_failure_tests/dangling_parser_parse_stdstring.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/compilation_failure_tests/dangling_parser_parse_uchar.cpp b/tests/compilation_failure_tests/dangling_parser_parse_uchar.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/compilation_failure_tests/dangling_parser_parse_uint8.cpp b/tests/compilation_failure_tests/dangling_parser_parse_uint8.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/compilation_failure_tests/example_compiletest.cpp b/tests/compilation_failure_tests/example_compiletest.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/compilation_failure_tests/unsafe_parse_many.cpp b/tests/compilation_failure_tests/unsafe_parse_many.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/docker/Dockerfile b/tests/docker/Dockerfile
+old mode 100644
+new mode 100755
+diff --git a/tests/dom/CMakeLists.txt b/tests/dom/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/tests/dom/allparserscheckfile.cpp b/tests/dom/allparserscheckfile.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/dom/basictests.cpp b/tests/dom/basictests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/dom/document_stream_tests.cpp b/tests/dom/document_stream_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/dom/document_tests.cpp b/tests/dom/document_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/dom/errortests.cpp b/tests/dom/errortests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/dom/extracting_values_example.cpp b/tests/dom/extracting_values_example.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/dom/integer_tests.cpp b/tests/dom/integer_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/dom/jsoncheck.cpp b/tests/dom/jsoncheck.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/dom/minefieldcheck.cpp b/tests/dom/minefieldcheck.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/dom/numberparsingcheck.cpp b/tests/dom/numberparsingcheck.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/dom/parse_many_test.cpp b/tests/dom/parse_many_test.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/dom/pointercheck.cpp b/tests/dom/pointercheck.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/dom/random_string_number_tests.cpp b/tests/dom/random_string_number_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/dom/readme_examples.cpp b/tests/dom/readme_examples.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/dom/readme_examples_noexceptions.cpp b/tests/dom/readme_examples_noexceptions.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/dom/singleheadertest.cpp b/tests/dom/singleheadertest.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/dom/stringparsingcheck.cpp b/tests/dom/stringparsingcheck.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/dom/trivially_copyable_test.cpp b/tests/dom/trivially_copyable_test.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/installation_tests/README.md b/tests/installation_tests/README.md
+old mode 100644
+new mode 100755
+diff --git a/tests/installation_tests/find/CMakeLists.txt b/tests/installation_tests/find/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/tests/minify_tests.cpp b/tests/minify_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/compilation_failure_tests/CMakeLists.txt b/tests/ondemand/compilation_failure_tests/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/compilation_failure_tests/iterate_char_star.cpp b/tests/ondemand/compilation_failure_tests/iterate_char_star.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/compilation_failure_tests/iterate_string_view.cpp b/tests/ondemand/compilation_failure_tests/iterate_string_view.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/compilation_failure_tests/iterate_temporary_buffer.cpp b/tests/ondemand/compilation_failure_tests/iterate_temporary_buffer.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/ondemand_active_tests.cpp b/tests/ondemand/ondemand_active_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/ondemand_array_error_tests.cpp b/tests/ondemand/ondemand_array_error_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/ondemand_array_tests.cpp b/tests/ondemand/ondemand_array_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/ondemand_assert_out_of_order_values.cpp b/tests/ondemand/ondemand_assert_out_of_order_values.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/ondemand_compilation_tests.cpp b/tests/ondemand/ondemand_compilation_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/ondemand_document_stream_tests.cpp b/tests/ondemand/ondemand_document_stream_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/ondemand_error_tests.cpp b/tests/ondemand/ondemand_error_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/ondemand_json_pointer_tests.cpp b/tests/ondemand/ondemand_json_pointer_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/ondemand_key_string_tests.cpp b/tests/ondemand/ondemand_key_string_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/ondemand_misc_tests.cpp b/tests/ondemand/ondemand_misc_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/ondemand_number_tests.cpp b/tests/ondemand/ondemand_number_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/ondemand_object_error_tests.cpp b/tests/ondemand/ondemand_object_error_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/ondemand_object_find_field_tests.cpp b/tests/ondemand/ondemand_object_find_field_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/ondemand_object_index_tests.cpp b/tests/ondemand/ondemand_object_index_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/ondemand_object_tests.cpp b/tests/ondemand/ondemand_object_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/ondemand_ordering_tests.cpp b/tests/ondemand/ondemand_ordering_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/ondemand_parse_api_tests.cpp b/tests/ondemand/ondemand_parse_api_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/ondemand_readme_examples.cpp b/tests/ondemand/ondemand_readme_examples.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/ondemand_scalar_tests.cpp b/tests/ondemand/ondemand_scalar_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/ondemand_tostring_tests.cpp b/tests/ondemand/ondemand_tostring_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/ondemand_twitter_tests.cpp b/tests/ondemand/ondemand_twitter_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/ondemand_wrong_type_error_tests.cpp b/tests/ondemand/ondemand_wrong_type_error_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/ondemand/test_ondemand.h b/tests/ondemand/test_ondemand.h
+old mode 100644
+new mode 100755
+diff --git a/tests/padded_string_tests.cpp b/tests/padded_string_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/staticchecks.cpp b/tests/staticchecks.cpp
+old mode 100644
+new mode 100755
+diff --git a/tests/test_macros.h b/tests/test_macros.h
+old mode 100644
+new mode 100755
+diff --git a/tests/unicode_tests.cpp b/tests/unicode_tests.cpp
+old mode 100644
+new mode 100755
+diff --git a/tools/CMakeLists.txt b/tools/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/tools/json2json.cpp b/tools/json2json.cpp
+old mode 100644
+new mode 100755
+diff --git a/tools/jsonpointer.cpp b/tools/jsonpointer.cpp
+old mode 100644
+new mode 100755
+diff --git a/tools/jsonstats.cpp b/tools/jsonstats.cpp
+old mode 100644
+new mode 100755
+diff --git a/tools/minify.cpp b/tools/minify.cpp
+old mode 100644
+new mode 100755
+diff --git a/windows/CMakeLists.txt b/windows/CMakeLists.txt
+old mode 100644
+new mode 100755
+diff --git a/windows/dirent_portable.h b/windows/dirent_portable.h
+old mode 100644
+new mode 100755
+diff --git a/windows/getopt.h b/windows/getopt.h
+old mode 100644
+new mode 100755
+diff --git a/windows/toni_ronnko_dirent.h b/windows/toni_ronnko_dirent.h
+old mode 100644
+new mode 100755
+diff --git a/windows/unistd.h b/windows/unistd.h
+old mode 100644
+new mode 100755
+2025-07-08 06:49:02,520 - INFO - Git diff changed after running eval script
+2025-07-08 06:49:02,520 - INFO - Attempting to stop container simdjson__simdjson-1667-test1...
+2025-07-08 06:49:17,737 - INFO - Attempting to remove container simdjson__simdjson-1667-test1...
+2025-07-08 06:49:17,888 - INFO - Container simdjson__simdjson-1667-test1 removed.
+2025-07-08 06:49:17,888 - INFO - Attempting to remove image simdjson__simdjson-1667-dockerfile3:latest...
+2025-07-08 06:49:19,646 - INFO - Image simdjson__simdjson-1667-dockerfile3:latest removed.

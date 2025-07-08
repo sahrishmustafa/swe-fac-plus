@@ -1,0 +1,20 @@
++ cd /testbed
++ git checkout 359c2db460f4410e86782a99eef06dabbfd96d34 tests/test_next_gen.py
++ git apply -v -
+Checking patch tests/test_next_gen.py...
+Applied patch tests/test_next_gen.py cleanly.
++ python -m pytest tests/test_next_gen.py
+============================= test session starts ==============================
+platform linux -- Python 3.9.17, pytest-8.4.1, pluggy-1.6.0
+rootdir: /testbed
+configfile: pyproject.toml
+plugins: hypothesis-6.135.24, xdist-3.8.0, mypy-plugins-3.2.0
+collected 33 items
+
+tests/test_next_gen.py .................................                 [100%]
+
+============================== 33 passed in 0.11s ==============================
+OMNIGRIL_EXIT_CODE=0
++ rc=0
++ echo OMNIGRIL_EXIT_CODE=0
++ git checkout 359c2db460f4410e86782a99eef06dabbfd96d34 tests/test_next_gen.py

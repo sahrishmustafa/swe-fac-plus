@@ -1,0 +1,439 @@
++ cd /testbed
++ git checkout d6eede9e085f0b36edcf0a2f6dff5f7875181019 test/format-test.cc
+Updated 1 path from 7452cbbd
++ git apply -v -
+Checking patch test/format-test.cc...
+Applied patch test/format-test.cc cleanly.
++ mkdir -p build
++ cd build
++ cmake -DCMAKE_BUILD_TYPE=Release -GNinja ..
+-- CMake version: 3.16.3
+-- The CXX compiler identification is GNU 8.4.0
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Version: 6.0.0
+-- Build type: Release
+-- CXX_STANDARD: 11
+-- Performing Test has_std_11_flag
+-- Performing Test has_std_11_flag - Success
+-- Performing Test has_std_0x_flag
+-- Performing Test has_std_0x_flag - Success
+-- Performing Test SUPPORTS_VARIADIC_TEMPLATES
+-- Performing Test SUPPORTS_VARIADIC_TEMPLATES - Success
+-- Performing Test SUPPORTS_USER_DEFINED_LITERALS
+-- Performing Test SUPPORTS_USER_DEFINED_LITERALS - Success
+-- Performing Test FMT_HAS_VARIANT
+-- Performing Test FMT_HAS_VARIANT - Success
+-- Looking for open
+-- Looking for open - found
+-- Looking for strtod_l
+-- Looking for strtod_l - found
+-- Target 'doc' disabled (requires doxygen)
+-- Looking for C++ include pthread.h
+-- Looking for C++ include pthread.h - found
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed
+-- Looking for pthread_create in pthreads
+-- Looking for pthread_create in pthreads - not found
+-- Looking for pthread_create in pthread
+-- Looking for pthread_create in pthread - found
+-- Found Threads: TRUE  
+-- Performing Test HAVE_FNO_DELETE_NULL_POINTER_CHECKS
+-- Performing Test HAVE_FNO_DELETE_NULL_POINTER_CHECKS - Success
+-- FMT_PEDANTIC: OFF
+-- Looking for a CUDA compiler
+-- Looking for a CUDA compiler - NOTFOUND
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /testbed/build
++ build_config_rc=0
++ '[' 0 -ne 0 ']'
++ cmake --build . -j2
+[1/51] Building CXX object CMakeFiles/fmt.dir/src/posix.cc.o
+[2/51] Building CXX object test/CMakeFiles/posix-test.dir/posix-test.cc.o
+[3/51] Building CXX object CMakeFiles/fmt.dir/src/format.cc.o
+[4/51] Linking CXX static library libfmt.a
+[5/51] Building CXX object test/CMakeFiles/assert-test.dir/assert-test.cc.o
+[6/51] Building CXX object test/CMakeFiles/custom-formatter-test.dir/custom-formatter-test.cc.o
+[7/51] Building CXX object test/CMakeFiles/ranges-test.dir/ranges-test.cc.o
+[8/51] Building CXX object test/CMakeFiles/scan-test.dir/scan-test.cc.o
+[9/51] Building CXX object test/CMakeFiles/core-test.dir/core-test.cc.o
+[10/51] Building CXX object test/CMakeFiles/header-only-test.dir/header-only-test.cc.o
+[11/51] Building CXX object test/CMakeFiles/header-only-test.dir/header-only-test2.cc.o
+[12/51] Building CXX object test/CMakeFiles/chrono-test.dir/chrono-test.cc.o
+[13/51] Building CXX object test/CMakeFiles/header-only-test.dir/test-main.cc.o
+[14/51] Building CXX object test/CMakeFiles/gtest-extra-test.dir/gtest-extra-test.cc.o
+[15/51] Building CXX object test/CMakeFiles/posix-mock-test.dir/posix-mock-test.cc.o
+[16/51] Building CXX object test/CMakeFiles/format-impl-test.dir/format-impl-test.cc.o
+[17/51] Building CXX object test/CMakeFiles/posix-mock-test.dir/test-main.cc.o
+[18/51] Building CXX object test/CMakeFiles/posix-mock-test.dir/gtest-extra.cc.o
+[19/51] Building CXX object test/CMakeFiles/posix-mock-test.dir/util.cc.o
+[20/51] Building CXX object test/CMakeFiles/posix-mock-test.dir/__/src/format.cc.o
+[21/51] Building CXX object test/CMakeFiles/grisu-test.dir/grisu-test.cc.o
+[22/51] Building CXX object test/CMakeFiles/printf-test.dir/printf-test.cc.o
+[23/51] Building CXX object test/CMakeFiles/gmock.dir/gmock-gtest-all.cc.o
+[24/51] Linking CXX static library test/libgmock.a
+[25/51] Linking CXX executable bin/header-only-test
+[26/51] Linking CXX executable bin/posix-mock-test
+[27/51] Building CXX object test/CMakeFiles/test-main.dir/test-main.cc.o
+[28/51] Building CXX object test/CMakeFiles/test-main.dir/gtest-extra.cc.o
+[29/51] Building CXX object test/CMakeFiles/test-main.dir/util.cc.o
+[30/51] Linking CXX static library test/libtest-main.a
+[31/51] Linking CXX executable bin/posix-test
+[32/51] Linking CXX executable bin/custom-formatter-test
+[33/51] Linking CXX executable bin/assert-test
+[34/51] Linking CXX executable bin/ranges-test
+[35/51] Linking CXX executable bin/chrono-test
+[36/51] Linking CXX executable bin/scan-test
+[37/51] Linking CXX executable bin/core-test
+[38/51] Linking CXX executable bin/format-impl-test
+[39/51] Linking CXX executable bin/gtest-extra-test
+[40/51] Linking CXX executable bin/printf-test
+[41/51] Linking CXX executable bin/grisu-test
+[42/51] Building CXX object test/CMakeFiles/locale-test.dir/locale-test.cc.o
+[43/51] Linking CXX executable bin/locale-test
+[44/51] Building CXX object test/CMakeFiles/format-test.dir/format-test.cc.o
+[45/51] Linking CXX executable bin/format-test
+[46/51] Building CXX object test/CMakeFiles/color-test.dir/color-test.cc.o
+[47/51] Linking CXX executable bin/color-test
+[48/51] Building CXX object test/CMakeFiles/ostream-test.dir/ostream-test.cc.o
+[49/51] Linking CXX executable bin/ostream-test
+[50/51] Building CXX object test/CMakeFiles/compile-test.dir/compile-test.cc.o
+[51/51] Linking CXX executable bin/compile-test
++ build_rc=0
++ '[' 0 -ne 0 ']'
++ echo 'Running specific ctest for format-test.'
++ ctest --output-on-failure -R format-test
+Running specific ctest for format-test.
+Test project /testbed/build
+    Start 7: format-test
+Errors while running CTest
+1/1 Test #7: format-test ......................***Failed    0.01 sec
+[==========] Running 126 tests from 13 test cases.
+[----------] Global test environment set-up.
+[----------] 55 tests from FormatterTest
+[ RUN      ] FormatterTest.TestFormattersEnabled
+[       OK ] FormatterTest.TestFormattersEnabled (0 ms)
+[ RUN      ] FormatterTest.Escape
+[       OK ] FormatterTest.Escape (0 ms)
+[ RUN      ] FormatterTest.UnmatchedBraces
+[       OK ] FormatterTest.UnmatchedBraces (0 ms)
+[ RUN      ] FormatterTest.NoArgs
+[       OK ] FormatterTest.NoArgs (0 ms)
+[ RUN      ] FormatterTest.ArgsInDifferentPositions
+[       OK ] FormatterTest.ArgsInDifferentPositions (0 ms)
+[ RUN      ] FormatterTest.ArgErrors
+[       OK ] FormatterTest.ArgErrors (1 ms)
+[ RUN      ] FormatterTest.ManyArgs
+[       OK ] FormatterTest.ManyArgs (0 ms)
+[ RUN      ] FormatterTest.NamedArg
+[       OK ] FormatterTest.NamedArg (0 ms)
+[ RUN      ] FormatterTest.AutoArgIndex
+[       OK ] FormatterTest.AutoArgIndex (0 ms)
+[ RUN      ] FormatterTest.EmptySpecs
+[       OK ] FormatterTest.EmptySpecs (0 ms)
+[ RUN      ] FormatterTest.LeftAlign
+[       OK ] FormatterTest.LeftAlign (0 ms)
+[ RUN      ] FormatterTest.RightAlign
+[       OK ] FormatterTest.RightAlign (0 ms)
+[ RUN      ] FormatterTest.NumericAlign
+[       OK ] FormatterTest.NumericAlign (0 ms)
+[ RUN      ] FormatterTest.CenterAlign
+[       OK ] FormatterTest.CenterAlign (0 ms)
+[ RUN      ] FormatterTest.Fill
+[       OK ] FormatterTest.Fill (0 ms)
+[ RUN      ] FormatterTest.PlusSign
+[       OK ] FormatterTest.PlusSign (0 ms)
+[ RUN      ] FormatterTest.MinusSign
+[       OK ] FormatterTest.MinusSign (0 ms)
+[ RUN      ] FormatterTest.SpaceSign
+[       OK ] FormatterTest.SpaceSign (0 ms)
+[ RUN      ] FormatterTest.HashFlag
+[       OK ] FormatterTest.HashFlag (0 ms)
+[ RUN      ] FormatterTest.ZeroFlag
+[       OK ] FormatterTest.ZeroFlag (0 ms)
+[ RUN      ] FormatterTest.Width
+[       OK ] FormatterTest.Width (0 ms)
+[ RUN      ] FormatterTest.RuntimeWidth
+[       OK ] FormatterTest.RuntimeWidth (0 ms)
+[ RUN      ] FormatterTest.Precision
+[       OK ] FormatterTest.Precision (0 ms)
+[ RUN      ] FormatterTest.RuntimePrecision
+[       OK ] FormatterTest.RuntimePrecision (1 ms)
+[ RUN      ] FormatterTest.FormatShort
+[       OK ] FormatterTest.FormatShort (0 ms)
+[ RUN      ] FormatterTest.FormatInt
+[       OK ] FormatterTest.FormatInt (1 ms)
+[ RUN      ] FormatterTest.FormatBin
+[       OK ] FormatterTest.FormatBin (0 ms)
+[ RUN      ] FormatterTest.FormatDec
+[       OK ] FormatterTest.FormatDec (0 ms)
+[ RUN      ] FormatterTest.FormatHex
+[       OK ] FormatterTest.FormatHex (0 ms)
+[ RUN      ] FormatterTest.FormatOct
+[       OK ] FormatterTest.FormatOct (0 ms)
+[ RUN      ] FormatterTest.FormatIntLocale
+[       OK ] FormatterTest.FormatIntLocale (0 ms)
+[ RUN      ] FormatterTest.FormatConvertibleToLongLong
+[       OK ] FormatterTest.FormatConvertibleToLongLong (0 ms)
+[ RUN      ] FormatterTest.FormatFloat
+[       OK ] FormatterTest.FormatFloat (0 ms)
+[ RUN      ] FormatterTest.FormatDouble
+[       OK ] FormatterTest.FormatDouble (1 ms)
+[ RUN      ] FormatterTest.PrecisionRounding
+[       OK ] FormatterTest.PrecisionRounding (0 ms)
+[ RUN      ] FormatterTest.FormatNaN
+[       OK ] FormatterTest.FormatNaN (0 ms)
+[ RUN      ] FormatterTest.FormatInfinity
+[       OK ] FormatterTest.FormatInfinity (0 ms)
+[ RUN      ] FormatterTest.FormatLongDouble
+[       OK ] FormatterTest.FormatLongDouble (0 ms)
+[ RUN      ] FormatterTest.FormatChar
+[       OK ] FormatterTest.FormatChar (2 ms)
+[ RUN      ] FormatterTest.FormatVolatileChar
+[       OK ] FormatterTest.FormatVolatileChar (0 ms)
+[ RUN      ] FormatterTest.FormatUnsignedChar
+[       OK ] FormatterTest.FormatUnsignedChar (0 ms)
+[ RUN      ] FormatterTest.FormatWChar
+[       OK ] FormatterTest.FormatWChar (0 ms)
+[ RUN      ] FormatterTest.FormatCString
+[       OK ] FormatterTest.FormatCString (1 ms)
+[ RUN      ] FormatterTest.FormatSCharString
+[       OK ] FormatterTest.FormatSCharString (0 ms)
+[ RUN      ] FormatterTest.FormatUCharString
+[       OK ] FormatterTest.FormatUCharString (0 ms)
+[ RUN      ] FormatterTest.FormatPointer
+[       OK ] FormatterTest.FormatPointer (1 ms)
+[ RUN      ] FormatterTest.FormatString
+[       OK ] FormatterTest.FormatString (0 ms)
+[ RUN      ] FormatterTest.FormatStringView
+[       OK ] FormatterTest.FormatStringView (0 ms)
+[ RUN      ] FormatterTest.FormatCustom
+[       OK ] FormatterTest.FormatCustom (0 ms)
+[ RUN      ] FormatterTest.CustomFormat
+[       OK ] FormatterTest.CustomFormat (0 ms)
+[ RUN      ] FormatterTest.CustomFormatTo
+[       OK ] FormatterTest.CustomFormatTo (0 ms)
+[ RUN      ] FormatterTest.WideFormatString
+[       OK ] FormatterTest.WideFormatString (0 ms)
+[ RUN      ] FormatterTest.FormatStringFromSpeedTest
+[       OK ] FormatterTest.FormatStringFromSpeedTest (0 ms)
+[ RUN      ] FormatterTest.FormatExamples
+[       OK ] FormatterTest.FormatExamples (0 ms)
+[ RUN      ] FormatterTest.Examples
+[       OK ] FormatterTest.Examples (0 ms)
+[----------] 55 tests from FormatterTest (8 ms total)
+
+[----------] 6 tests from UtilTest
+[ RUN      ] UtilTest.BitCast
+[       OK ] UtilTest.BitCast (0 ms)
+[ RUN      ] UtilTest.Increment
+[       OK ] UtilTest.Increment (0 ms)
+[ RUN      ] UtilTest.ParseNonnegativeInt
+Skipping parse_nonnegative_int test
+[       OK ] UtilTest.ParseNonnegativeInt (0 ms)
+[ RUN      ] UtilTest.FormatSystemError
+[       OK ] UtilTest.FormatSystemError (0 ms)
+[ RUN      ] UtilTest.SystemError
+[       OK ] UtilTest.SystemError (0 ms)
+[ RUN      ] UtilTest.ReportSystemError
+[       OK ] UtilTest.ReportSystemError (0 ms)
+[----------] 6 tests from UtilTest (0 ms total)
+
+[----------] 4 tests from IteratorTest
+[ RUN      ] IteratorTest.CountingIterator
+[       OK ] IteratorTest.CountingIterator (0 ms)
+[ RUN      ] IteratorTest.TruncatingIterator
+[       OK ] IteratorTest.TruncatingIterator (0 ms)
+[ RUN      ] IteratorTest.TruncatingBackInserter
+[       OK ] IteratorTest.TruncatingBackInserter (0 ms)
+[ RUN      ] IteratorTest.IsOutputIterator
+[       OK ] IteratorTest.IsOutputIterator (0 ms)
+[----------] 4 tests from IteratorTest (0 ms total)
+
+[----------] 7 tests from MemoryBufferTest
+[ RUN      ] MemoryBufferTest.Ctor
+[       OK ] MemoryBufferTest.Ctor (0 ms)
+[ RUN      ] MemoryBufferTest.MoveCtorInlineBuffer
+[       OK ] MemoryBufferTest.MoveCtorInlineBuffer (0 ms)
+[ RUN      ] MemoryBufferTest.MoveCtorDynamicBuffer
+[       OK ] MemoryBufferTest.MoveCtorDynamicBuffer (0 ms)
+[ RUN      ] MemoryBufferTest.MoveAssignment
+[       OK ] MemoryBufferTest.MoveAssignment (0 ms)
+[ RUN      ] MemoryBufferTest.Grow
+[       OK ] MemoryBufferTest.Grow (0 ms)
+[ RUN      ] MemoryBufferTest.Allocator
+[       OK ] MemoryBufferTest.Allocator (0 ms)
+[ RUN      ] MemoryBufferTest.ExceptionInDeallocate
+[       OK ] MemoryBufferTest.ExceptionInDeallocate (0 ms)
+[----------] 7 tests from MemoryBufferTest (0 ms total)
+
+[----------] 1 test from AllocatorTest
+[ RUN      ] AllocatorTest.allocator_ref
+[       OK ] AllocatorTest.allocator_ref (1 ms)
+[----------] 1 test from AllocatorTest (1 ms total)
+
+[----------] 1 test from StringViewTest
+[ RUN      ] StringViewTest.Ctor
+[       OK ] StringViewTest.Ctor (0 ms)
+[----------] 1 test from StringViewTest (0 ms total)
+
+[----------] 12 tests from WriterTest
+[ RUN      ] WriterTest.Data
+[       OK ] WriterTest.Data (0 ms)
+[ RUN      ] WriterTest.WriteInt
+[       OK ] WriterTest.WriteInt (0 ms)
+[ RUN      ] WriterTest.WriteLong
+[       OK ] WriterTest.WriteLong (0 ms)
+[ RUN      ] WriterTest.WriteLongLong
+[       OK ] WriterTest.WriteLongLong (0 ms)
+[ RUN      ] WriterTest.WriteDouble
+[       OK ] WriterTest.WriteDouble (0 ms)
+[ RUN      ] WriterTest.WriteLongDouble
+[       OK ] WriterTest.WriteLongDouble (0 ms)
+[ RUN      ] WriterTest.WriteDoubleAtBufferBoundary
+[       OK ] WriterTest.WriteDoubleAtBufferBoundary (0 ms)
+[ RUN      ] WriterTest.WriteDoubleWithFilledBuffer
+[       OK ] WriterTest.WriteDoubleWithFilledBuffer (0 ms)
+[ RUN      ] WriterTest.WriteChar
+[       OK ] WriterTest.WriteChar (0 ms)
+[ RUN      ] WriterTest.WriteWideChar
+[       OK ] WriterTest.WriteWideChar (0 ms)
+[ RUN      ] WriterTest.WriteString
+[       OK ] WriterTest.WriteString (0 ms)
+[ RUN      ] WriterTest.WriteWideString
+[       OK ] WriterTest.WriteWideString (0 ms)
+[----------] 12 tests from WriterTest (0 ms total)
+
+[----------] 5 tests from FormatToTest
+[ RUN      ] FormatToTest.FormatWithoutArgs
+[       OK ] FormatToTest.FormatWithoutArgs (0 ms)
+[ RUN      ] FormatToTest.Format
+[       OK ] FormatToTest.Format (0 ms)
+[ RUN      ] FormatToTest.WideString
+[       OK ] FormatToTest.WideString (0 ms)
+[ RUN      ] FormatToTest.FormatToMemoryBuffer
+[       OK ] FormatToTest.FormatToMemoryBuffer (0 ms)
+[ RUN      ] FormatToTest.FormatToNonbackInsertIteratorWithSignAndNumericAlignment
+[       OK ] FormatToTest.FormatToNonbackInsertIteratorWithSignAndNumericAlignment (0 ms)
+[----------] 5 tests from FormatToTest (0 ms total)
+
+[----------] 1 test from BoolTest
+[ RUN      ] BoolTest.FormatBool
+[       OK ] BoolTest.FormatBool (0 ms)
+[----------] 1 test from BoolTest (0 ms total)
+
+[----------] 2 tests from FormatIntTest
+[ RUN      ] FormatIntTest.Data
+[       OK ] FormatIntTest.Data (0 ms)
+[ RUN      ] FormatIntTest.FormatInt
+[       OK ] FormatIntTest.FormatInt (0 ms)
+[----------] 2 tests from FormatIntTest (0 ms total)
+
+[----------] 29 tests from FormatTest
+[ RUN      ] FormatTest.Print
+[       OK ] FormatTest.Print (0 ms)
+[ RUN      ] FormatTest.Variadic
+[       OK ] FormatTest.Variadic (0 ms)
+[ RUN      ] FormatTest.Dynamic
+[       OK ] FormatTest.Dynamic (0 ms)
+[ RUN      ] FormatTest.JoinArg
+[       OK ] FormatTest.JoinArg (0 ms)
+[ RUN      ] FormatTest.FormatMessageExample
+[       OK ] FormatTest.FormatMessageExample (0 ms)
+[ RUN      ] FormatTest.UnpackedArgs
+[       OK ] FormatTest.UnpackedArgs (0 ms)
+[ RUN      ] FormatTest.CompileTimeString
+[       OK ] FormatTest.CompileTimeString (0 ms)
+[ RUN      ] FormatTest.CustomFormatCompileTimeString
+[       OK ] FormatTest.CustomFormatCompileTimeString (0 ms)
+[ RUN      ] FormatTest.UdlTemplate
+[       OK ] FormatTest.UdlTemplate (0 ms)
+[ RUN      ] FormatTest.UdlPassUserDefinedObjectAsLvalue
+[       OK ] FormatTest.UdlPassUserDefinedObjectAsLvalue (0 ms)
+[ RUN      ] FormatTest.Enum
+[       OK ] FormatTest.Enum (0 ms)
+[ RUN      ] FormatTest.FormatterNotSpecialized
+[       OK ] FormatTest.FormatterNotSpecialized (0 ms)
+[ RUN      ] FormatTest.CustomArgFormatter
+[       OK ] FormatTest.CustomArgFormatter (0 ms)
+[ RUN      ] FormatTest.NonNullTerminatedFormatString
+[       OK ] FormatTest.NonNullTerminatedFormatString (0 ms)
+[ RUN      ] FormatTest.DynamicFormatter
+[       OK ] FormatTest.DynamicFormatter (0 ms)
+[ RUN      ] FormatTest.ToString
+[       OK ] FormatTest.ToString (0 ms)
+[ RUN      ] FormatTest.ToWString
+[       OK ] FormatTest.ToWString (0 ms)
+[ RUN      ] FormatTest.OutputIterators
+[       OK ] FormatTest.OutputIterators (0 ms)
+[ RUN      ] FormatTest.FormattedSize
+[       OK ] FormatTest.FormattedSize (0 ms)
+[ RUN      ] FormatTest.FormatToN
+[       OK ] FormatTest.FormatToN (0 ms)
+[ RUN      ] FormatTest.WideFormatToN
+[       OK ] FormatTest.WideFormatToN (0 ms)
+[ RUN      ] FormatTest.ConstructU8StringViewFromCString
+[       OK ] FormatTest.ConstructU8StringViewFromCString (0 ms)
+[ RUN      ] FormatTest.ConstructU8StringViewFromDataAndSize
+[       OK ] FormatTest.ConstructU8StringViewFromDataAndSize (0 ms)
+[ RUN      ] FormatTest.U8StringViewLiteral
+[       OK ] FormatTest.U8StringViewLiteral (0 ms)
+[ RUN      ] FormatTest.FormatU8String
+[       OK ] FormatTest.FormatU8String (0 ms)
+[ RUN      ] FormatTest.EmphasisNonHeaderOnly
+[       OK ] FormatTest.EmphasisNonHeaderOnly (0 ms)
+[ RUN      ] FormatTest.CharTraitsIsNotAmbiguous
+[       OK ] FormatTest.CharTraitsIsNotAmbiguous (0 ms)
+[ RUN      ] FormatTest.FormatCustomChar
+[       OK ] FormatTest.FormatCustomChar (0 ms)
+[ RUN      ] FormatTest.FormatUTF8Precision
+../test/format-test.cc:2631: Failure
+Value of: 5
+Expected: result.size()
+Which is: 4
+../test/format-test.cc:2632: Failure
+Value of: str.substr(0, 5)
+  Actual: { 99, 97, 102, 195, 169 }
+Expected: result
+Which is: { 99, 97, 102, 195 }
+[  FAILED  ] FormatTest.FormatUTF8Precision (0 ms)
+[----------] 29 tests from FormatTest (0 ms total)
+
+[----------] 1 test from StrTest
+[ RUN      ] StrTest.Convert
+[       OK ] StrTest.Convert (0 ms)
+[----------] 1 test from StrTest (0 ms total)
+
+[----------] 2 tests from LiteralsTest
+[ RUN      ] LiteralsTest.Format
+[       OK ] LiteralsTest.Format (0 ms)
+[ RUN      ] LiteralsTest.NamedArg
+[       OK ] LiteralsTest.NamedArg (0 ms)
+[----------] 2 tests from LiteralsTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 126 tests from 13 test cases ran. (9 ms total)
+[  PASSED  ] 125 tests.
+[  FAILED  ] 1 test, listed below:
+[  FAILED  ] FormatTest.FormatUTF8Precision
+
+ 1 FAILED TEST
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   0.02 sec
+
+The following tests FAILED:
+	  7 - format-test (Failed)
++ rc=8
++ cd /testbed
++ git checkout d6eede9e085f0b36edcf0a2f6dff5f7875181019 test/format-test.cc
+Updated 1 path from 7452cbbd
++ echo OMNIGRIL_EXIT_CODE=8
+OMNIGRIL_EXIT_CODE=8

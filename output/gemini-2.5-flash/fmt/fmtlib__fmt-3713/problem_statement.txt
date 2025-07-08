@@ -1,0 +1,7 @@
+formatting a std::optional with format_as function fails to compile using clang
+clang reports compiler error for code that formats a variable of type std::optional<T>, where T is an enum with a `format_as` custom formatter. The same code compiles fine with gcc or msvc.
+[gobolt example](https://godbolt.org/z/h6jE463jP)
+
+The compiler error is due to the optional formatter (in fmt/std.h) calling `u.set_debug_format(set);` on line 170, and this function being private due to private inheritance (fmt/format.h - line 4055.
+
+Adding the following line to fmt/format line 4058 solves the problem:   ` using base::set_debug_format;`. Alternatively, changing from private to public inheritance on line 4055 fixes it too.

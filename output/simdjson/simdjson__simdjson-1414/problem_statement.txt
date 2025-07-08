@@ -1,0 +1,94 @@
+ondemand::parser::get command reordering leads to segfault
+This simple example causes an segfault.
+The first loop-run works, the second causes a segfault
+switch the two get statements leads to an segfault in the first run.
+Can somebody reproduce this behaviour?
+
+Tested on:
+Linux ubuntu 20.04 gcc9 and gcc10
+Windows 10 64 bit gcc9
+CPU: amd and intel
+
+```
+#include <singleheader/simdjson.h>
+
+int main()
+{
+    using namespace simdjson;
+    auto const abstract_json= R"(
+                              { "str" : 123 }
+                              )"_padded;
+
+    for ( int i= 0; i < 2; ++i )
+    {
+        ondemand::parser parser;
+        auto doc = parser.iterate( abstract_json );
+        ondemand::value val= doc["str"];
+        if ( i == 0 )
+        {
+            auto a= val.get<ondemand::array>();
+            auto s= val.get<std::string_view>();
+        }
+        else
+        {
+            auto s= val.get<std::string_view>();
+            auto a= val.get<ondemand::array>(); //<-- segfault
+        }
+#if 0
+        auto d= val.get<double>();
+        auto u= val.get<uint64_t>();
+        auto i= val.get<int64_t>();
+        auto b= val.get<bool>();
+        auto o= val.get<ondemand::object>();
+#endif
+    }
+    return 0;
+}
+```
+ondemand::parser::get command reordering leads to segfault
+This simple example causes an segfault.
+The first loop-run works, the second causes a segfault
+switch the two get statements leads to an segfault in the first run.
+Can somebody reproduce this behaviour?
+
+Tested on:
+Linux ubuntu 20.04 gcc9 and gcc10
+Windows 10 64 bit gcc9
+CPU: amd and intel
+
+```
+#include <singleheader/simdjson.h>
+
+int main()
+{
+    using namespace simdjson;
+    auto const abstract_json= R"(
+                              { "str" : 123 }
+                              )"_padded;
+
+    for ( int i= 0; i < 2; ++i )
+    {
+        ondemand::parser parser;
+        auto doc = parser.iterate( abstract_json );
+        ondemand::value val= doc["str"];
+        if ( i == 0 )
+        {
+            auto a= val.get<ondemand::array>();
+            auto s= val.get<std::string_view>();
+        }
+        else
+        {
+            auto s= val.get<std::string_view>();
+            auto a= val.get<ondemand::array>(); //<-- segfault
+        }
+#if 0
+        auto d= val.get<double>();
+        auto u= val.get<uint64_t>();
+        auto i= val.get<int64_t>();
+        auto b= val.get<bool>();
+        auto o= val.get<ondemand::object>();
+#endif
+    }
+    return 0;
+}
+```

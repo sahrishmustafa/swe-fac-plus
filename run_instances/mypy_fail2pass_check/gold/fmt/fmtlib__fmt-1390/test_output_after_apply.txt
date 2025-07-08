@@ -1,0 +1,124 @@
++ cd /testbed
++ git checkout d6eede9e085f0b36edcf0a2f6dff5f7875181019 test/format-test.cc
+Updated 1 path from 7452cbbd
++ git apply -v -
+Checking patch test/format-test.cc...
+Applied patch test/format-test.cc cleanly.
++ mkdir -p build
++ cd build
++ cmake -DCMAKE_BUILD_TYPE=Release -GNinja ..
+-- CMake version: 3.16.3
+-- The CXX compiler identification is GNU 8.4.0
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Version: 6.0.0
+-- Build type: Release
+-- CXX_STANDARD: 11
+-- Performing Test has_std_11_flag
+-- Performing Test has_std_11_flag - Success
+-- Performing Test has_std_0x_flag
+-- Performing Test has_std_0x_flag - Success
+-- Performing Test SUPPORTS_VARIADIC_TEMPLATES
+-- Performing Test SUPPORTS_VARIADIC_TEMPLATES - Success
+-- Performing Test SUPPORTS_USER_DEFINED_LITERALS
+-- Performing Test SUPPORTS_USER_DEFINED_LITERALS - Success
+-- Performing Test FMT_HAS_VARIANT
+-- Performing Test FMT_HAS_VARIANT - Success
+-- Looking for open
+-- Looking for open - found
+-- Looking for strtod_l
+-- Looking for strtod_l - found
+-- Target 'doc' disabled (requires doxygen)
+-- Looking for C++ include pthread.h
+-- Looking for C++ include pthread.h - found
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed
+-- Looking for pthread_create in pthreads
+-- Looking for pthread_create in pthreads - not found
+-- Looking for pthread_create in pthread
+-- Looking for pthread_create in pthread - found
+-- Found Threads: TRUE  
+-- Performing Test HAVE_FNO_DELETE_NULL_POINTER_CHECKS
+-- Performing Test HAVE_FNO_DELETE_NULL_POINTER_CHECKS - Success
+-- FMT_PEDANTIC: OFF
+-- Looking for a CUDA compiler
+-- Looking for a CUDA compiler - NOTFOUND
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /testbed/build
++ build_config_rc=0
++ '[' 0 -ne 0 ']'
++ cmake --build . -j2
+[1/51] Building CXX object CMakeFiles/fmt.dir/src/posix.cc.o
+[2/51] Building CXX object test/CMakeFiles/posix-test.dir/posix-test.cc.o
+[3/51] Building CXX object CMakeFiles/fmt.dir/src/format.cc.o
+[4/51] Linking CXX static library libfmt.a
+[5/51] Building CXX object test/CMakeFiles/assert-test.dir/assert-test.cc.o
+[6/51] Building CXX object test/CMakeFiles/custom-formatter-test.dir/custom-formatter-test.cc.o
+[7/51] Building CXX object test/CMakeFiles/ranges-test.dir/ranges-test.cc.o
+[8/51] Building CXX object test/CMakeFiles/scan-test.dir/scan-test.cc.o
+[9/51] Building CXX object test/CMakeFiles/core-test.dir/core-test.cc.o
+[10/51] Building CXX object test/CMakeFiles/header-only-test.dir/header-only-test.cc.o
+[11/51] Building CXX object test/CMakeFiles/header-only-test.dir/header-only-test2.cc.o
+[12/51] Building CXX object test/CMakeFiles/header-only-test.dir/test-main.cc.o
+[13/51] Building CXX object test/CMakeFiles/chrono-test.dir/chrono-test.cc.o
+[14/51] Building CXX object test/CMakeFiles/gtest-extra-test.dir/gtest-extra-test.cc.o
+[15/51] Building CXX object test/CMakeFiles/format-impl-test.dir/format-impl-test.cc.o
+[16/51] Building CXX object test/CMakeFiles/posix-mock-test.dir/posix-mock-test.cc.o
+[17/51] Building CXX object test/CMakeFiles/posix-mock-test.dir/test-main.cc.o
+[18/51] Building CXX object test/CMakeFiles/posix-mock-test.dir/gtest-extra.cc.o
+[19/51] Building CXX object test/CMakeFiles/posix-mock-test.dir/util.cc.o
+[20/51] Building CXX object test/CMakeFiles/posix-mock-test.dir/__/src/format.cc.o
+[21/51] Building CXX object test/CMakeFiles/grisu-test.dir/grisu-test.cc.o
+[22/51] Building CXX object test/CMakeFiles/printf-test.dir/printf-test.cc.o
+[23/51] Building CXX object test/CMakeFiles/gmock.dir/gmock-gtest-all.cc.o
+[24/51] Linking CXX static library test/libgmock.a
+[25/51] Linking CXX executable bin/header-only-test
+[26/51] Linking CXX executable bin/posix-mock-test
+[27/51] Building CXX object test/CMakeFiles/test-main.dir/test-main.cc.o
+[28/51] Building CXX object test/CMakeFiles/test-main.dir/gtest-extra.cc.o
+[29/51] Building CXX object test/CMakeFiles/test-main.dir/util.cc.o
+[30/51] Linking CXX static library test/libtest-main.a
+[31/51] Linking CXX executable bin/posix-test
+[32/51] Linking CXX executable bin/custom-formatter-test
+[33/51] Linking CXX executable bin/assert-test
+[34/51] Linking CXX executable bin/ranges-test
+[35/51] Linking CXX executable bin/chrono-test
+[36/51] Linking CXX executable bin/scan-test
+[37/51] Linking CXX executable bin/core-test
+[38/51] Linking CXX executable bin/format-impl-test
+[39/51] Linking CXX executable bin/gtest-extra-test
+[40/51] Linking CXX executable bin/printf-test
+[41/51] Linking CXX executable bin/grisu-test
+[42/51] Building CXX object test/CMakeFiles/locale-test.dir/locale-test.cc.o
+[43/51] Linking CXX executable bin/locale-test
+[44/51] Building CXX object test/CMakeFiles/format-test.dir/format-test.cc.o
+[45/51] Linking CXX executable bin/format-test
+[46/51] Building CXX object test/CMakeFiles/color-test.dir/color-test.cc.o
+[47/51] Linking CXX executable bin/color-test
+[48/51] Building CXX object test/CMakeFiles/compile-test.dir/compile-test.cc.o
+[49/51] Linking CXX executable bin/compile-test
+[50/51] Building CXX object test/CMakeFiles/ostream-test.dir/ostream-test.cc.o
+[51/51] Linking CXX executable bin/ostream-test
++ build_rc=0
++ '[' 0 -ne 0 ']'
++ echo 'Running specific ctest for format-test.'
++ ctest --output-on-failure -R format-test
+Running specific ctest for format-test.
+Test project /testbed/build
+    Start 7: format-test
+1/1 Test #7: format-test ......................   Passed    0.01 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   0.02 sec
++ rc=0
++ cd /testbed
++ git checkout d6eede9e085f0b36edcf0a2f6dff5f7875181019 test/format-test.cc
+Updated 1 path from 7452cbbd
+OMNIGRIL_EXIT_CODE=0
++ echo OMNIGRIL_EXIT_CODE=0

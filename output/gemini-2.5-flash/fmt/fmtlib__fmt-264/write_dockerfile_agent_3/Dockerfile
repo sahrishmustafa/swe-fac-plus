@@ -1,0 +1,42 @@
+FROM --platform=linux/x86_64 ubuntu:20.04
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Etc/UTC
+
+# Install essential system dependencies: build-essential for C++ compiler and make, cmake for build system,
+# git for cloning, and gdb for debugging.
+# Install gcc-7 and g++-7 specifically to address compatibility issues with older fmtlib source code.
+RUN apt update && apt install -y \
+    build-essential \
+    cmake \
+    git \
+    gdb \
+    gcc-7 \
+    g++-7 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set GCC 7 as the default compiler for subsequent build steps.
+ENV CC=/usr/bin/gcc-7
+ENV CXX=/usr/bin/g++-7
+
+# Set the working directory inside the container.
+WORKDIR /testbed/
+
+# Clone the target repository into the working directory.
+RUN git clone https://github.com/fmtlib/fmt .
+
+# Checkout the specific commit SHA to ensure reproducibility.
+RUN git reset --hard 97e9ed11bce828235a25e2cb72910fa6928ffdf5
+
+# Initialize and update Git submodules, which are required for dependencies like GoogleTest/GoogleMock.
+RUN git submodule update --init
+
+# Create a build directory, navigate into it, and configure the project with CMake.
+# CMake will now automatically detect and use the compilers specified by CC and CXX environment variables.
+# -DCMAKE_BUILD_TYPE=Release: Specifies a release build configuration.
+# -DFMT_PEDANTIC=ON: Enables additional pedantic checks during compilation as suggested by the context.
+# -DFMT_TEST=ON: Ensures the test target is enabled for building.
+# Finally, compile the project using all available processor cores.
+RUN mkdir build \
+    && cd build \
+    && cmake -DCMAKE_BUILD_TYPE=Release -DFMT_PEDANTIC=ON -DFMT_TEST=ON .. \
+    && make -j "$(nproc)"

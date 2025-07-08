@@ -1,0 +1,2 @@
+Remove basic_fixed_buffer
+The undocumented `basic_fixed_buffer` class should be removed because it was superseded by the iterator-based API.

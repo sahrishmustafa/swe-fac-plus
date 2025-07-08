@@ -1,0 +1,165 @@
++ cd /testbed
++ TARGET_COMMIT_SHA=6cd04aa858f2d92105c0fbd65cdafb96428db002
++ TARGET_TEST_FILE=tests/ondemand/ondemand_json_pointer_tests.cpp
++ TARGET_CTEST_NAME=ondemand_json_pointer_tests
++ git checkout 6cd04aa858f2d92105c0fbd65cdafb96428db002 tests/ondemand/ondemand_json_pointer_tests.cpp
+Updated 1 path from ac0503ad
++ git apply -v -
+Checking patch tests/ondemand/ondemand_json_pointer_tests.cpp...
+Applied patch tests/ondemand/ondemand_json_pointer_tests.cpp cleanly.
++ cd build
+Attempting to rebuild the project after patch application...
++ echo 'Attempting to rebuild the project after patch application...'
++ cmake --build . -j4
+[  1%] Built target cjson
+[  2%] Built target ujson4c
+[  2%] Built target jsoncpp
+[  3%] Built target simdjson
+[  6%] Built target fastjson
+[  7%] Built target gason
+[  8%] Built target yyjson
+[ 10%] Built target jsmn
+[ 11%] Built target json11
+[ 13%] Built target minify
+[ 22%] Built target benchmark
+[ 24%] Built target jsonpointer
+[ 25%] Built target jsonstats
+[ 26%] Built target amalgamate_demo_direct_from_repository
+[ 27%] Built target json2json
+[ 29%] Built target singleheader-files
+[ 29%] Built target generated-data
+[ 30%] Built target fuzz_print_json
+[ 32%] Built target fuzz_padded
+[ 34%] Built target fuzz_dump
+[ 35%] Built target fuzz_minifyimpl
+[ 36%] Built target fuzz_element
+[ 37%] Built target fuzz_ondemand
+[ 39%] Built target fuzz_utf8
+[ 41%] Built target fuzz_implementations
+[ 44%] Built target fuzz_parser
+[ 44%] Built target fuzz_atpointer
+[ 45%] Built target fuzz_dump_raw_tape
+[ 46%] Built target fuzz_minify
+[ 48%] Built target benchmark_main
+[ 49%] Built target fuzz_ndjson
+[ 50%] Built target amalgamate_demo
+[ 51%] Built target unicode_tests
+[ 51%] Built target checkimplementation
+[ 51%] Built target minify_tests
+[ 53%] Built target padded_string_tests
+[ 54%] Built target pointercheck
+[ 55%] Built target numberparsingcheck
+[ 56%] Built target document_tests
+[ 58%] Built target basictests
+[ 59%] Built target integer_tests
+[ 60%] Built target jsoncheck
+[ 62%] Built target document_stream_tests
+[ 63%] Built target minefieldcheck
+[ 63%] Built target random_string_number_tests
+[ 65%] Built target parse_many_test
+[ 65%] Built target trivially_copyable_test
+[ 67%] Built target extracting_values_example
+[ 68%] Built target ondemand_object_tests
+[ 68%] Built target stringparsingcheck
+[ 69%] Built target errortests
+[ 70%] Built target ondemand_object_error_tests
+[ 70%] Built target ondemand_misc_tests
+[ 72%] Built target ondemand_error_tests
+[ 73%] Built target ondemand_compilation_tests
+[ 74%] Built target ondemand_array_error_tests
+[ 75%] Built target ondemand_array_tests
+[ 77%] Built target ondemand_key_string_tests
+Scanning dependencies of target ondemand_json_pointer_tests
+[ 78%] Built target ondemand_active_tests
+[ 78%] Building CXX object tests/ondemand/CMakeFiles/ondemand_json_pointer_tests.dir/ondemand_json_pointer_tests.cpp.o
+[ 79%] Built target ondemand_tostring_tests
+[ 81%] Built target ondemand_ordering_tests
+[ 82%] Built target ondemand_readme_examples
+[ 83%] Built target ondemand_number_tests
+[ 84%] Built target ondemand_parse_api_tests
+[ 84%] Built target ondemand_scalar_tests
+[ 86%] Built target ondemand_twitter_tests
+[ 86%] Built target ondemand_wrong_type_error_tests
+[ 86%] Built target ondemand_assert_out_of_order_values
+[ 87%] Built target benchfeatures
+[ 88%] Built target get_corpus_benchmark
+[ 88%] Built target bench_parse_call
+[ 89%] Built target bench_dom_api
+[ 91%] Built target perfdiff
+[ 92%] Built target bench_ondemand
+[ 93%] Built target parse_noutf8validation
+[ 94%] Built target parse
+[ 96%] Built target parse_stream
+[ 97%] Built target statisticalmodel
+[ 98%] Built target parse_nonumberparsing
+[ 98%] Built target parse_nostringparsing
+[100%] Linking CXX executable ondemand_json_pointer_tests
+[100%] Built target ondemand_json_pointer_tests
+Project rebuilt successfully.
+Running target tests: ondemand_json_pointer_tests
++ '[' 0 -ne 0 ']'
++ echo 'Project rebuilt successfully.'
++ echo 'Running target tests: ondemand_json_pointer_tests'
++ ctest --output-on-failure -R ondemand_json_pointer_tests
+Test project /testbed/build
+    Start 42: ondemand_json_pointer_tests
+1/1 Test #42: ondemand_json_pointer_tests ......***Failed    0.00 sec
+builtin_implementation -- fallback
+------------------------------------------------------------
+Running tests.
+> Running demo_test ...
+> Running demo_relative_path ...
+> Running run_success_test ...
+> Running run_success_test ...
+> Running run_success_test ...
+> Running run_success_test ...
+> Running run_success_test ...
+> Running run_success_test ...
+> Running run_success_test ...
+> Running run_success_test ...
+> Running run_success_test ...
+> Running run_success_test ...
+> Running run_success_test ...
+> Running run_success_test ...
+> Running run_success_test ...
+> Running run_success_test ...
+> Running run_success_test ...
+> Running run_success_test ...
+> Running run_success_test ...
+> Running run_success_test ...
+> Running run_success_test ...
+> Running run_success_test ...
+> Running run_success_test ...
+> Running run_success_test ...
+> Running run_failure_test ...
+> Running run_failure_test ...
+> Running run_failure_test ...
+> Running run_failure_test ...
+> Running run_failure_test ...
+> Running run_failure_test ...
+> Running run_failure_test ...
+> Running many_json_pointers ...
+FAIL: cars.at_pointer(json_pointer).get(x) returned error: The JSON document has an improper structure: missing or superfluous commas, braces, missing keys, etc. (3)
+FAILED.
+
+
+0% tests passed, 1 tests failed out of 1
+
+Label Time Summary:
+acceptance            =   0.00 sec*proc (1 test)
+ondemand              =   0.00 sec*proc (1 test)
+per_implementation    =   0.00 sec*proc (1 test)
+
+Total Test time (real) =   0.01 sec
+
+The following tests FAILED:
+	 42 - ondemand_json_pointer_tests (Failed)
+Errors while running CTest
+OMNIGRIL_EXIT_CODE=8
+Cleaning up: reverting changes to tests/ondemand/ondemand_json_pointer_tests.cpp
++ rc=8
++ echo OMNIGRIL_EXIT_CODE=8
++ cd /testbed
++ echo 'Cleaning up: reverting changes to tests/ondemand/ondemand_json_pointer_tests.cpp'
++ git checkout 6cd04aa858f2d92105c0fbd65cdafb96428db002 tests/ondemand/ondemand_json_pointer_tests.cpp
+Updated 1 path from ac0503ad

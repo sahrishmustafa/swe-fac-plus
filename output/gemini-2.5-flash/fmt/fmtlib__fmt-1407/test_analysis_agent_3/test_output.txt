@@ -1,0 +1,92 @@
++ cd /testbed
++ TARGET_COMMIT_SHA=1f918159edded99c9c0cf005c96ecc12e4cc92b1
++ TEST_FILES='test/core-test.cc test/format-test.cc'
++ git checkout 1f918159edded99c9c0cf005c96ecc12e4cc92b1 test/core-test.cc test/format-test.cc
+Updated 0 paths from a82842b1
++ git apply -v -
+Checking patch test/core-test.cc...
+Checking patch test/format-test.cc...
+Applied patch test/core-test.cc cleanly.
+Applied patch test/format-test.cc cleanly.
++ cd build
++ cmake --build . -j2
+[1/57] Building CXX object CMakeFiles/fmt.dir/src/posix.cc.o
+[2/57] Building CXX object CMakeFiles/fmt.dir/src/format.cc.o
+[3/57] Linking CXX static library libfmt.a
+[4/57] Building CXX object test/CMakeFiles/color-test.dir/color-test.cc.o
+[5/57] Building CXX object test/CMakeFiles/ostream-test.dir/ostream-test.cc.o
+[6/57] Building CXX object test/CMakeFiles/locale-test.dir/locale-test.cc.o
+[7/57] Building CXX object test/CMakeFiles/gmock.dir/gmock-gtest-all.cc.o
+[8/57] Linking CXX static library test/libgmock.a
+[9/57] Building CXX object test/CMakeFiles/compile-test.dir/compile-test.cc.o
+[10/57] Building CXX object test/CMakeFiles/grisu-test.dir/grisu-test.cc.o
+[11/57] Building CXX object test/CMakeFiles/std-format-test.dir/std-format-test.cc.o
+[12/57] Building CXX object test/CMakeFiles/printf-test.dir/printf-test.cc.o
+[13/57] Building CXX object test/CMakeFiles/posix-mock-test.dir/posix-mock-test.cc.o
+[14/57] Building CXX object test/CMakeFiles/format-test.dir/format-test.cc.o
+[15/57] Building CXX object test/CMakeFiles/posix-mock-test.dir/test-main.cc.o
+[16/57] Building CXX object test/CMakeFiles/posix-mock-test.dir/gtest-extra.cc.o
+[17/57] Building CXX object test/CMakeFiles/posix-mock-test.dir/util.cc.o
+[18/57] Building CXX object test/CMakeFiles/posix-mock-test.dir/__/src/format.cc.o
+[19/57] Linking CXX executable bin/posix-mock-test
+[20/57] Building CXX object test/CMakeFiles/header-only-test.dir/header-only-test.cc.o
+[21/57] Building CXX object test/CMakeFiles/header-only-test.dir/header-only-test2.cc.o
+[22/57] Building CXX object test/CMakeFiles/header-only-test.dir/test-main.cc.o
+[23/57] Linking CXX executable bin/header-only-test
+[24/57] Building CXX object test/CMakeFiles/format-impl-test.dir/format-impl-test.cc.o
+[25/57] Building CXX object test/CMakeFiles/scan-test.dir/scan-test.cc.o
+[26/57] Building CXX object test/CMakeFiles/core-test.dir/core-test.cc.o
+[27/57] Building CXX object test/CMakeFiles/gtest-extra-test.dir/gtest-extra-test.cc.o
+[28/57] Building CXX object test/CMakeFiles/chrono-test.dir/chrono-test.cc.o
+[29/57] Building CXX object test/CMakeFiles/ranges-test.dir/ranges-test.cc.o
+[30/57] Building CXX object test/CMakeFiles/noexception-test.dir/__/src/format.cc.o
+[31/57] Linking CXX static library test/libnoexception-test.a
+[32/57] Building CXX object test/CMakeFiles/assert-test.dir/assert-test.cc.o
+[33/57] Building CXX object test/CMakeFiles/custom-formatter-test.dir/custom-formatter-test.cc.o
+[34/57] Building CXX object test/CMakeFiles/posix-test.dir/posix-test.cc.o
+[35/57] Building CXX object test/CMakeFiles/test-main.dir/test-main.cc.o
+[36/57] Building CXX object test/CMakeFiles/test-main.dir/gtest-extra.cc.o
+[37/57] Building CXX object test/CMakeFiles/test-main.dir/util.cc.o
+[38/57] Linking CXX static library test/libtest-main.a
+[39/57] Linking CXX executable bin/ostream-test
+[40/57] Linking CXX executable bin/color-test
+[41/57] Linking CXX executable bin/compile-test
+[42/57] Linking CXX executable bin/locale-test
+[43/57] Linking CXX executable bin/format-test
+[44/57] Linking CXX executable bin/grisu-test
+[45/57] Linking CXX executable bin/std-format-test
+[46/57] Linking CXX executable bin/printf-test
+[47/57] Linking CXX executable bin/format-impl-test
+[48/57] Linking CXX executable bin/core-test
+[49/57] Linking CXX executable bin/scan-test
+[50/57] Linking CXX executable bin/chrono-test
+[51/57] Linking CXX executable bin/gtest-extra-test
+[52/57] Linking CXX executable bin/ranges-test
+[53/57] Linking CXX executable bin/assert-test
+[54/57] Linking CXX executable bin/custom-formatter-test
+[55/57] Linking CXX executable bin/posix-test
+[56/57] Building CXX object test/CMakeFiles/nolocale-test.dir/__/src/format.cc.o
+[57/57] Linking CXX static library test/libnolocale-test.a
++ build_rc=0
++ '[' 0 -ne 0 ']'
++ echo 'Running specific ctest for core-test and format-test.'
+Running specific ctest for core-test and format-test.
++ CTEST_OUTPUT_ON_FAILURE=1
++ ctest --output-on-failure -R '(core-test|format-test)'
+Test project /testbed/build
+    Start  4: core-test
+1/3 Test  #4: core-test ........................   Passed    0.00 sec
+    Start  7: format-test
+2/3 Test  #7: format-test ......................   Passed    0.01 sec
+    Start 18: std-format-test
+3/3 Test #18: std-format-test ..................   Passed    0.00 sec
+
+100% tests passed, 0 tests failed out of 3
+
+Total Test time (real) =   0.02 sec
++ rc=0
++ cd /testbed
++ git checkout 1f918159edded99c9c0cf005c96ecc12e4cc92b1 test/core-test.cc test/format-test.cc
+Updated 2 paths from a82842b1
+OMNIGRIL_EXIT_CODE=0
++ echo OMNIGRIL_EXIT_CODE=0

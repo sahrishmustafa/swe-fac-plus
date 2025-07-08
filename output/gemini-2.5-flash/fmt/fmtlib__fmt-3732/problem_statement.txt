@@ -1,0 +1,41 @@
+%j doesn't seem to work with a duration object
+<!--
+Please make sure that the problem reproduces on the current master before
+submitting an issue.
+If possible please provide a repro on Compiler Explorer:
+https://godbolt.org/z/fxccbh53W.
+-->
+
+here is the snippet : [https://godbolt.org/z/jTxGzvEhT](https://godbolt.org/z/jTxGzvEhT)
+
+I'm trying to format a duration in days:hours:minutes:seconds.
+using %T work wonders for hours:minutes:seconds, however %j does not compile at all, despite the docs saying "If the type being formatted is a specialization of duration, the decimal number of days without padding." which should fill my use case.
+
+here is a snippet of my compilation error:
+```
+[build] C:/Cache/CPM/fmt/01ac001d8da09bd242594dc67d36dccb9854883e/include/fmt/chrono.h: In member function 'void DemoWindow::acquisitionFinished()':
+[build] C:\Projets\CB110_DATA_LOGGER_SW\UI\demowindow.cpp:124:53:   in 'constexpr' expansion of 'fmt::v10::basic_format_string<char, std::chrono::duration<long long int, std::ratio<1, 1> >&>("{:%j}")'
+[build] C:/Cache/CPM/fmt/01ac001d8da09bd242594dc67d36dccb9854883e/include/fmt/core.h:2740:40:   in 'constexpr' expansion of 'fmt::v10::detail::parse_format_string<true, char, format_string_checker<char, std::chrono::duration<long long int, std::ratio<1, 1> > > >(((fmt::v10::basic_format_string<char, std::chrono::duration<long long int, std::ratio<1, 1> >&>*)this)->fmt::v10::basic_format_string<char, std::chrono::duration<long long int, std::ratio<1, 1> >&>::str_, fmt::v10::detail::format_string_checker<char, std::chrono::duration<long long int, std::ratio<1, 1> > >(fmt::v10::basic_string_view<char>(((const char*)s))))'
+[build] C:/Cache/CPM/fmt/01ac001d8da09bd242594dc67d36dccb9854883e/include/fmt/core.h:2489:44:   in 'constexpr' expansion of 'fmt::v10::detail::parse_replacement_field<char, format_string_checker<char, std::chrono::duration<long long int, std::ratio<1, 1> > >&>((p + -1), end, (* & handler))'
+[build] C:/Cache/CPM/fmt/01ac001d8da09bd242594dc67d36dccb9854883e/include/fmt/core.h:2467:38:   in 'constexpr' expansion of '(& handler)->fmt::v10::detail::format_string_checker<char, std::chrono::duration<long long int, std::ratio<1, 1> > >::on_format_specs(adapter.fmt::v10::detail::parse_replacement_field<char, format_string_checker<char, std::chrono::duration<long long int, std::ratio<1, 1> > >&>(const char*, const char*, format_string_checker<char, std::chrono::duration<long long int, std::ratio<1, 1> > >&)::id_adapter::arg_id, (begin + 1), end)'
+[build] C:/Cache/CPM/fmt/01ac001d8da09bd242594dc67d36dccb9854883e/include/fmt/core.h:2639:51:   in 'constexpr' expansion of '((fmt::v10::detail::format_string_checker<char, std::chrono::duration<long long int, std::ratio<1, 1> > >*)this)->fmt::v10::detail::format_string_checker<char, std::chrono::duration<long long int, std::ratio<1, 1> > >::parse_funcs_[id](((fmt::v10::detail::format_string_checker<char, std::chrono::duration<long long int, std::ratio<1, 1> > >*)this)->fmt::v10::detail::format_string_checker<char, std::chrono::duration<long long int, std::ratio<1, 1> > >::context_)'
+[build] C:/Cache/CPM/fmt/01ac001d8da09bd242594dc67d36dccb9854883e/include/fmt/core.h:2546:53:   in 'constexpr' expansion of 'fmt::v10::formatter<std::chrono::duration<long long int>, char, void>().fmt::v10::formatter<std::chrono::duration<long long int>, char, void>::parse(ctx.fmt::v10::detail::compile_parse_context<char>::<anonymous>)'
+[build] C:/Cache/CPM/fmt/01ac001d8da09bd242594dc67d36dccb9854883e/include/fmt/chrono.h:2035:38:   in 'constexpr' expansion of 'fmt::v10::detail::parse_chrono_format<char, chrono_format_checker&>(it, end, checker)'
+[build] C:/Cache/CPM/fmt/01ac001d8da09bd242594dc67d36dccb9854883e/include/fmt/chrono.h:723:29:   in 'constexpr' expansion of '((fmt::v10::detail::null_chrono_spec_handler<fmt::v10::detail::chrono_format_checker>*)(& handler))->fmt::v10::detail::null_chrono_spec_handler<fmt::v10::detail::chrono_format_checker>::on_day_of_year()'
+[build] C:/Cache/CPM/fmt/01ac001d8da09bd242594dc67d36dccb9854883e/include/fmt/chrono.h:894:52: error: 'constexpr void fmt::v10::detail::null_chrono_spec_handler<Derived>::unsupported() [with Derived = fmt::v10::detail::chrono_format_checker]' called in a constant expression
+[build]   894 |   FMT_CONSTEXPR void on_day_of_year() { unsupported(); }
+[build]       |                                         ~~~~~~~~~~~^~
+[build] C:/Cache/CPM/fmt/01ac001d8da09bd242594dc67d36dccb9854883e/include/fmt/chrono.h:875:22: note: 'constexpr void fmt::v10::detail::null_chrono_spec_handler<Derived>::unsupported() [with Derived = fmt::v10::detail::chrono_format_checker]' is not usable as a 'constexpr' function because:
+[build]   875 |   FMT_CONSTEXPR void unsupported() {
+[build]       |                      ^~~~~~~~~~~
+[build] C:/Cache/CPM/fmt/01ac001d8da09bd242594dc67d36dccb9854883e/include/fmt/chrono.h:876:45: error: call to non-'constexpr' function 'void fmt::v10::detail::chrono_format_checker::unsupported()'
+[build]   876 |     static_cast<Derived*>(this)->unsupported();
+[build]       |     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+[build] C:/Cache/CPM/fmt/01ac001d8da09bd242594dc67d36dccb9854883e/include/fmt/chrono.h:1578:21: note: 'void fmt::v10::detail::chrono_format_checker::unsupported()' declared here
+[build]  1578 |   FMT_NORETURN void unsupported() { FMT_THROW(format_error("no date")); }
+[build]       |                     ^~~~~~~~~~~
+```
+
+I'm using fmt v10.1.1, and originally tried on fmt 9.1.0.
+
+Please advise me if you need additionnal information !

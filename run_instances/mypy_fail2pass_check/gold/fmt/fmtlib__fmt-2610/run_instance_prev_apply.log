@@ -1,0 +1,24 @@
+2025-07-08 10:55:50,712 - INFO - Building instance image setup.fmtlib__fmt-2610:latest for fmtlib__fmt-2610
+2025-07-08 11:01:16,973 - INFO - Error in evaluating model for fmtlib__fmt-2610: setup.fmtlib__fmt-2610:latest: The command '/bin/sh -c git clone https://github.com/fmtlib/fmt /testbed &&     cd /testbed &&     git reset --hard 19cac63fe4b4d8fe6a4ced28de16a68659cf9035 &&     git remote remove origin &&     mkdir build &&     cd build &&     cmake .. &&     make -j2' returned a non-zero code: 2
+Check (run_instances/mypy_fail2pass_check/gold/fmtlib__fmt-2610/build_image.log) for more information.
+Traceback (most recent call last):
+  File "/home/sahrish/Desktop/swe-bench/swe-factory-local/evaluation/docker_build.py", line 143, in build_image
+    raise docker.errors.BuildError(
+docker.errors.BuildError: The command '/bin/sh -c git clone https://github.com/fmtlib/fmt /testbed &&     cd /testbed &&     git reset --hard 19cac63fe4b4d8fe6a4ced28de16a68659cf9035 &&     git remote remove origin &&     mkdir build &&     cd build &&     cmake .. &&     make -j2' returned a non-zero code: 2
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/sahrish/Desktop/swe-bench/swe-factory-local/evaluation/run_evaluation.py", line 187, in run_instance_setup
+    container = build_setup_container(test_spec, client, run_id, logger, rm_image, log_dir, force_rebuild)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/sahrish/Desktop/swe-bench/swe-factory-local/evaluation/docker_build.py", line 642, in build_setup_container
+    build_instance_image_one_stage(test_spec, client, logger, nocache, output_path)
+  File "/home/sahrish/Desktop/swe-bench/swe-factory-local/evaluation/docker_build.py", line 550, in build_instance_image_one_stage
+    build_image(
+  File "/home/sahrish/Desktop/swe-bench/swe-factory-local/evaluation/docker_build.py", line 149, in build_image
+    raise BuildImageError(image_name, str(e), logger) from e
+docker_build.BuildImageError: setup.fmtlib__fmt-2610:latest: The command '/bin/sh -c git clone https://github.com/fmtlib/fmt /testbed &&     cd /testbed &&     git reset --hard 19cac63fe4b4d8fe6a4ced28de16a68659cf9035 &&     git remote remove origin &&     mkdir build &&     cd build &&     cmake .. &&     make -j2' returned a non-zero code: 2
+Check (run_instances/mypy_fail2pass_check/gold/fmtlib__fmt-2610/build_image.log) for more information.
+
+Check (run_instances/mypy_fail2pass_check/gold/fmtlib__fmt-2610/run_instance_prev_apply.log) for more information.

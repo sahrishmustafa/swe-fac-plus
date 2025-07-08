@@ -4,22 +4,23 @@ ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Etc/UTC
 
 # System dependencies installation. Installs essential tools and libraries required for development and runtime
-RUN apt update && apt install -y \
+# build-essential provides gcc, g++, and make, which are necessary for compiling C++ projects.
+# cmake is the required build system.
+# git is for cloning the repository.
+RUN apt update && apt install -y --no-install-recommends \
     build-essential \
     cmake \
     git \
-    ninja-build \
     && rm -rf /var/lib/apt/lists/*
 
-# set default workdir to testbed.
+# Set default workdir to /testbed.
 WORKDIR /testbed/
 
-# Target Project setup. Clones source code, checkouts to the target version, configures it, and builds the project
+# Target Project setup. Clones source code and checkouts to the target version.
+# The repository is cloned into /testbed.
+# The specified commit SHA for version 7.1 is checked out to ensure reproducibility.
+# 'git remote remove origin' is good practice for isolated environments.
 RUN git clone https://github.com/fmtlib/fmt /testbed && \
     cd /testbed && \
     git reset --hard 835b910e7d758efdfdce9f23df1b190deb3373db && \
-    git remote remove origin && \
-    mkdir build && \
-    cd build && \
-    cmake -DFMT_TEST=ON -DCMAKE_BUILD_TYPE=Release .. && \
-    cmake --build .
+    git remote remove origin

@@ -1,0 +1,71 @@
+2025-07-08 05:10:26,838 - INFO - Building image simdjson__simdjson-1414
+Using dockerfile:
+# Base image specification based on the collected information
+FROM ubuntu:20.10
+
+# Set environment variables for non-interactive apt operations and timezone
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Etc/UTC
+
+# Install system dependencies required for building and testing the project
+# This includes cmake for the build system, g++ for C++ compilation,
+# git for cloning the repository, and tzdata for timezone configuration.
+RUN apt update && \
+    apt install -y \
+    cmake \
+    g++ \
+    git \
+    tzdata \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set the working directory inside the container to /testbed
+WORKDIR /testbed/
+
+# Clone the target repository into the /testbed directory
+RUN git clone https://github.com/simdjson/simdjson .
+
+# Checkout the specific commit SHA for reproducibility
+RUN git reset --hard c96ff018fedc7fe087b6f898442458a31a240a28 && \
+    # Remove the remote origin to prevent accidental pushes or fetches to the original repo
+    git remote remove origin
+
+# Create a build directory and configure/build the project using CMake
+# This prepares the environment for test execution by compiling the source code
+# and linking necessary libraries.
+RUN mkdir build && \
+    cmake -S . -B build && \
+    cmake --build build
+
+2025-07-08 05:10:28,681 - INFO - Step 1/8 : FROM ubuntu:20.10
+2025-07-08 05:10:45,547 - INFO -  ---> a7b08558af07
+2025-07-08 05:10:45,547 - INFO - Step 2/8 : ARG DEBIAN_FRONTEND=noninteractive
+2025-07-08 05:10:45,924 - INFO -  ---> Running in e7317b4b57b4
+2025-07-08 05:10:46,431 - INFO -  ---> Removed intermediate container e7317b4b57b4
+2025-07-08 05:10:46,431 - INFO -  ---> bb53ccc967bd
+2025-07-08 05:10:46,431 - INFO - Step 3/8 : ENV TZ=Etc/UTC
+2025-07-08 05:10:46,515 - INFO -  ---> Running in df037dece376
+2025-07-08 05:10:46,897 - INFO -  ---> Removed intermediate container df037dece376
+2025-07-08 05:10:46,897 - INFO -  ---> f56aa81f025f
+2025-07-08 05:10:46,897 - INFO - Step 4/8 : RUN apt update &&     apt install -y     cmake     g++     git     tzdata     && rm -rf /var/lib/apt/lists/*
+2025-07-08 05:10:46,981 - INFO -  ---> Running in 7ec2026aaeae
+2025-07-08 05:10:47,318 - INFO - WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
+2025-07-08 05:10:47,911 - INFO - Ign:1 http://security.ubuntu.com/ubuntu groovy-security InRelease
+2025-07-08 05:10:48,233 - INFO - Ign:2 http://archive.ubuntu.com/ubuntu groovy InRelease
+2025-07-08 05:10:48,233 - INFO - Err:3 http://security.ubuntu.com/ubuntu groovy-security Release
+2025-07-08 05:10:48,233 - INFO -   404  Not Found [IP: 91.189.91.81 80]
+2025-07-08 05:10:48,802 - INFO - Ign:4 http://archive.ubuntu.com/ubuntu groovy-updates InRelease
+2025-07-08 05:10:49,259 - INFO - Ign:5 http://archive.ubuntu.com/ubuntu groovy-backports InRelease
+2025-07-08 05:10:49,499 - INFO - Err:6 http://archive.ubuntu.com/ubuntu groovy Release
+2025-07-08 05:10:49,499 - INFO -   404  Not Found [IP: 185.125.190.83 80]
+2025-07-08 05:10:49,748 - INFO - Err:7 http://archive.ubuntu.com/ubuntu groovy-updates Release
+2025-07-08 05:10:49,748 - INFO -   404  Not Found [IP: 185.125.190.83 80]
+2025-07-08 05:10:50,009 - INFO - Err:8 http://archive.ubuntu.com/ubuntu groovy-backports Release
+2025-07-08 05:10:50,009 - INFO -   404  Not Found [IP: 185.125.190.83 80]
+2025-07-08 05:10:50,028 - INFO - Reading package lists...
+2025-07-08 05:10:50,032 - INFO - E: The repository 'http://security.ubuntu.com/ubuntu groovy-security Release' does not have a Release file.
+2025-07-08 05:10:50,032 - INFO - E: The repository 'http://archive.ubuntu.com/ubuntu groovy Release' does not have a Release file.
+2025-07-08 05:10:50,032 - INFO - E: The repository 'http://archive.ubuntu.com/ubuntu groovy-updates Release' does not have a Release file.
+2025-07-08 05:10:50,032 - INFO - E: The repository 'http://archive.ubuntu.com/ubuntu groovy-backports Release' does not have a Release file.
+2025-07-08 05:10:50,189 - INFO -  ---> Removed intermediate container 7ec2026aaeae
+2025-07-08 05:10:50,193 - ERROR - Error: The command '/bin/sh -c apt update &&     apt install -y     cmake     g++     git     tzdata     && rm -rf /var/lib/apt/lists/*' returned a non-zero code: 100
+2025-07-08 05:10:50,194 - ERROR - The command '/bin/sh -c apt update &&     apt install -y     cmake     g++     git     tzdata     && rm -rf /var/lib/apt/lists/*' returned a non-zero code: 100

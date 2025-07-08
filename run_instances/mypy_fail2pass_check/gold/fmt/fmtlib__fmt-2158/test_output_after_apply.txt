@@ -1,0 +1,199 @@
++ cd /testbed
++ TARGET_COMMIT_SHA=835b910e7d758efdfdce9f23df1b190deb3373db
++ TEST_FILES=test/format-test.cc
++ TEST_NAME=format-test
++ echo 'Cleaning up any existing build directory...'
++ rm -rf build
+Cleaning up any existing build directory...
+Performing initial CMake configuration...
++ echo 'Performing initial CMake configuration...'
++ mkdir build
++ cmake -S . -B build -DFMT_TEST=ON -DCMAKE_BUILD_TYPE=Release
+-- CMake version: 3.22.1
+-- The CXX compiler identification is GNU 11.4.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Version: 7.1.3
+-- Build type: Release
+-- CXX_STANDARD: 11
+-- Performing Test has_std_11_flag
+-- Performing Test has_std_11_flag - Success
+-- Performing Test has_std_0x_flag
+-- Performing Test has_std_0x_flag - Success
+-- Performing Test SUPPORTS_USER_DEFINED_LITERALS
+-- Performing Test SUPPORTS_USER_DEFINED_LITERALS - Success
+-- Performing Test FMT_HAS_VARIANT
+-- Performing Test FMT_HAS_VARIANT - Success
+-- Required features: cxx_variadic_templates
+-- Looking for strtod_l
+-- Looking for strtod_l - found
+-- Target 'doc' disabled (requires doxygen)
+-- Looking for C++ include pthread.h
+-- Looking for C++ include pthread.h - found
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE  
+-- Performing Test HAVE_FNO_DELETE_NULL_POINTER_CHECKS
+-- Performing Test HAVE_FNO_DELETE_NULL_POINTER_CHECKS - Success
+-- FMT_PEDANTIC: OFF
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /testbed/build
++ configure_rc=0
++ '[' 0 -ne 0 ']'
++ echo 'Performing initial project build with -j2...'
++ cmake --build build -j2
+Performing initial project build with -j2...
+[  4%] Building CXX object test/CMakeFiles/gmock.dir/gmock-gtest-all.cc.o
+[  4%] Building CXX object CMakeFiles/fmt.dir/src/format.cc.o
+[  6%] Building CXX object CMakeFiles/fmt.dir/src/os.cc.o
+[  8%] Linking CXX static library libfmt.a
+[  8%] Built target fmt
+[ 10%] Linking CXX static library libgmock.a
+[ 10%] Built target gmock
+[ 14%] Building CXX object test/CMakeFiles/test-main.dir/test-main.cc.o
+[ 14%] Building CXX object test/CMakeFiles/posix-mock-test.dir/posix-mock-test.cc.o
+[ 16%] Building CXX object test/CMakeFiles/test-main.dir/gtest-extra.cc.o
+[ 18%] Building CXX object test/CMakeFiles/test-main.dir/util.cc.o
+[ 20%] Linking CXX static library libtest-main.a
+[ 20%] Built target test-main
+[ 22%] Building CXX object test/CMakeFiles/header-only-test.dir/header-only-test.cc.o
+[ 24%] Building CXX object test/CMakeFiles/header-only-test.dir/header-only-test2.cc.o
+[ 26%] Building CXX object test/CMakeFiles/header-only-test.dir/test-main.cc.o
+[ 28%] Linking CXX executable ../bin/header-only-test
+[ 28%] Built target header-only-test
+[ 30%] Building CXX object test/CMakeFiles/assert-test.dir/assert-test.cc.o
+[ 32%] Linking CXX executable ../bin/assert-test
+[ 34%] Building CXX object test/CMakeFiles/posix-mock-test.dir/__/src/format.cc.o
+[ 34%] Built target assert-test
+[ 36%] Building CXX object test/CMakeFiles/chrono-test.dir/chrono-test.cc.o
+[ 38%] Building CXX object test/CMakeFiles/posix-mock-test.dir/test-main.cc.o
+[ 40%] Building CXX object test/CMakeFiles/posix-mock-test.dir/gtest-extra.cc.o
+[ 42%] Building CXX object test/CMakeFiles/posix-mock-test.dir/util.cc.o
+[ 44%] Linking CXX executable ../bin/posix-mock-test
+[ 44%] Built target posix-mock-test
+[ 46%] Building CXX object test/CMakeFiles/color-test.dir/color-test.cc.o
+[ 48%] Linking CXX executable ../bin/color-test
+[ 48%] Built target color-test
+[ 51%] Building CXX object test/CMakeFiles/core-test.dir/core-test.cc.o
+[ 53%] Linking CXX executable ../bin/chrono-test
+[ 53%] Built target chrono-test
+[ 55%] Building CXX object test/CMakeFiles/gtest-extra-test.dir/gtest-extra-test.cc.o
+[ 57%] Linking CXX executable ../bin/gtest-extra-test
+[ 57%] Built target gtest-extra-test
+[ 59%] Building CXX object test/CMakeFiles/format-test.dir/format-test.cc.o
+[ 61%] Linking CXX executable ../bin/core-test
+[ 61%] Built target core-test
+[ 63%] Building CXX object test/CMakeFiles/format-impl-test.dir/format-impl-test.cc.o
+[ 65%] Linking CXX executable ../bin/format-impl-test
+[ 65%] Built target format-impl-test
+[ 67%] Building CXX object test/CMakeFiles/locale-test.dir/locale-test.cc.o
+[ 69%] Linking CXX executable ../bin/locale-test
+[ 69%] Built target locale-test
+[ 71%] Building CXX object test/CMakeFiles/ostream-test.dir/ostream-test.cc.o
+[ 73%] Linking CXX executable ../bin/ostream-test
+[ 73%] Built target ostream-test
+[ 75%] Building CXX object test/CMakeFiles/compile-test.dir/compile-test.cc.o
+[ 77%] Linking CXX executable ../bin/format-test
+[ 77%] Built target format-test
+[ 79%] Building CXX object test/CMakeFiles/printf-test.dir/printf-test.cc.o
+[ 81%] Linking CXX executable ../bin/compile-test
+[ 81%] Built target compile-test
+[ 83%] Building CXX object test/CMakeFiles/ranges-test.dir/ranges-test.cc.o
+[ 85%] Linking CXX executable ../bin/ranges-test
+[ 85%] Built target ranges-test
+[ 87%] Building CXX object test/CMakeFiles/scan-test.dir/scan-test.cc.o
+[ 89%] Linking CXX executable ../bin/scan-test
+[ 89%] Built target scan-test
+[ 91%] Building CXX object test/CMakeFiles/enforce-compile-string-test.dir/enforce-compile-string-test.cc.o
+[ 93%] Linking CXX executable ../bin/enforce-compile-string-test
+[ 93%] Built target enforce-compile-string-test
+[ 95%] Building CXX object test/CMakeFiles/os-test.dir/os-test.cc.o
+[ 97%] Linking CXX executable ../bin/os-test
+[ 97%] Built target os-test
+[100%] Linking CXX executable ../bin/printf-test
+[100%] Built target printf-test
+Resetting target test file(s) to original commit state...
++ build_rc=0
++ '[' 0 -ne 0 ']'
++ echo 'Resetting target test file(s) to original commit state...'
++ git checkout 835b910e7d758efdfdce9f23df1b190deb3373db test/format-test.cc
+Updated 1 path from e6b8dfa9
++ echo 'Applying test patch...'
++ git apply -v -
+Applying test patch...
+<stdin>:25: trailing whitespace.
+  
+Checking patch test/format-test.cc...
+Applied patch test/format-test.cc cleanly.
+warning: 1 line adds whitespace errors.
++ echo 'Rebuilding project after patch to include test changes with -j2...'
++ cmake --build build -j2
+Rebuilding project after patch to include test changes with -j2...
+Consolidate compiler generated dependencies of target gmock
+Consolidate compiler generated dependencies of target fmt
+[ 10%] Built target fmt
+[ 10%] Built target gmock
+Consolidate compiler generated dependencies of target test-main
+Consolidate compiler generated dependencies of target posix-mock-test
+[ 18%] Built target test-main
+[ 30%] Built target posix-mock-test
+Consolidate compiler generated dependencies of target header-only-test
+Consolidate compiler generated dependencies of target assert-test
+[ 38%] Built target assert-test
+[ 42%] Built target header-only-test
+Consolidate compiler generated dependencies of target color-test
+Consolidate compiler generated dependencies of target chrono-test
+[ 46%] Built target color-test
+[ 51%] Built target chrono-test
+Consolidate compiler generated dependencies of target gtest-extra-test
+Consolidate compiler generated dependencies of target core-test
+[ 55%] Built target gtest-extra-test
+[ 59%] Built target core-test
+Consolidate compiler generated dependencies of target format-impl-test
+Consolidate compiler generated dependencies of target format-test
+[ 61%] Building CXX object test/CMakeFiles/format-test.dir/format-test.cc.o
+[ 65%] Built target format-impl-test
+Consolidate compiler generated dependencies of target locale-test
+[ 69%] Built target locale-test
+Consolidate compiler generated dependencies of target ostream-test
+[ 73%] Built target ostream-test
+Consolidate compiler generated dependencies of target compile-test
+[ 77%] Built target compile-test
+Consolidate compiler generated dependencies of target printf-test
+[ 81%] Built target printf-test
+Consolidate compiler generated dependencies of target ranges-test
+[ 85%] Built target ranges-test
+Consolidate compiler generated dependencies of target scan-test
+[ 89%] Built target scan-test
+Consolidate compiler generated dependencies of target enforce-compile-string-test
+[ 93%] Built target enforce-compile-string-test
+Consolidate compiler generated dependencies of target os-test
+[ 97%] Built target os-test
+[100%] Linking CXX executable ../bin/format-test
+[100%] Built target format-test
++ rebuild_rc=0
++ '[' 0 -ne 0 ']'
++ echo 'Navigating to build directory and running tests...'
++ cd build
++ CTEST_OUTPUT_ON_FAILURE=1
++ ctest --output-on-failure -R format-test
+Navigating to build directory and running tests...
+Test project /testbed/build
+    Start 6: format-test
+1/1 Test #6: format-test ......................   Passed    0.02 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   0.02 sec
+Cleaning up: Reverting changes made to test files by the patch...
++ rc=0
++ cd /testbed
++ echo 'Cleaning up: Reverting changes made to test files by the patch...'
++ git checkout 835b910e7d758efdfdce9f23df1b190deb3373db test/format-test.cc
+Updated 1 path from e6b8dfa9
+OMNIGRIL_EXIT_CODE=0
++ echo OMNIGRIL_EXIT_CODE=0

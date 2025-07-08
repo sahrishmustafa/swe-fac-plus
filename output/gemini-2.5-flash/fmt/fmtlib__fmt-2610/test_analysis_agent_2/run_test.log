@@ -1,0 +1,54 @@
+2025-07-08 07:11:16,211 - INFO - Checking if image fmtlib__fmt-2610-dockerfile2:latest exists locally...
+2025-07-08 07:11:16,246 - INFO - Image fmtlib__fmt-2610-dockerfile2:latest found locally.
+2025-07-08 07:11:16,246 - INFO - Creating container for fmtlib__fmt-2610...
+2025-07-08 07:11:16,630 - INFO - Container for fmtlib__fmt-2610 started: afd68f5a31f08239f6c620be297028db3995b1583c403baf79d850fb081fc042
+2025-07-08 07:11:16,630 - INFO - Intermediate patch for fmtlib__fmt-2610 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/gemini-2.5-flash/fmt/fmtlib__fmt-2610/test_analysis_agent_2/patch.diff, now applying to container...
+2025-07-08 07:11:16,857 - INFO - Failed to apply patch to container, trying again...
+2025-07-08 07:11:16,916 - INFO - Apply patch success:
+patching file include/fmt/core.h
+
+2025-07-08 07:11:17,010 - INFO - Git diff before:
+diff --git a/include/fmt/core.h b/include/fmt/core.h
+index bb56da7f..e2abdece 100644
+--- a/include/fmt/core.h
++++ b/include/fmt/core.h
+@@ -1372,8 +1372,11 @@ template <typename Context> struct arg_mapper {
+   // the C array overload.
+   template <
+       typename T,
+-      FMT_ENABLE_IF(std::is_convertible<const T&, const void*>::value &&
+-                    !std::is_convertible<const T&, const char_type*>::value)>
++      FMT_ENABLE_IF(
++          std::is_member_pointer<T>::value ||
++          std::is_function<typename std::remove_pointer<T>::type>::value ||
++          (std::is_convertible<const T&, const void*>::value &&
++           !std::is_convertible<const T&, const char_type*>::value))>
+   FMT_CONSTEXPR auto map(const T&) -> unformattable_pointer {
+     return {};
+   }
+2025-07-08 07:11:17,010 - INFO - Eval script for fmtlib__fmt-2610 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/gemini-2.5-flash/fmt/fmtlib__fmt-2610/test_analysis_agent_2/patch.diff, now applying to container...
+2025-07-08 07:12:46,248 - INFO - Test output for fmtlib__fmt-2610 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/gemini-2.5-flash/fmt/fmtlib__fmt-2610/test_analysis_agent_2/test_output.txt
+2025-07-08 07:12:46,301 - INFO - Git diff after:
+diff --git a/include/fmt/core.h b/include/fmt/core.h
+index bb56da7f..e2abdece 100644
+--- a/include/fmt/core.h
++++ b/include/fmt/core.h
+@@ -1372,8 +1372,11 @@ template <typename Context> struct arg_mapper {
+   // the C array overload.
+   template <
+       typename T,
+-      FMT_ENABLE_IF(std::is_convertible<const T&, const void*>::value &&
+-                    !std::is_convertible<const T&, const char_type*>::value)>
++      FMT_ENABLE_IF(
++          std::is_member_pointer<T>::value ||
++          std::is_function<typename std::remove_pointer<T>::type>::value ||
++          (std::is_convertible<const T&, const void*>::value &&
++           !std::is_convertible<const T&, const char_type*>::value))>
+   FMT_CONSTEXPR auto map(const T&) -> unformattable_pointer {
+     return {};
+   }
+2025-07-08 07:12:46,302 - INFO - Attempting to stop container fmtlib__fmt-2610-test2...
+2025-07-08 07:13:01,463 - INFO - Attempting to remove container fmtlib__fmt-2610-test2...
+2025-07-08 07:13:01,508 - INFO - Container fmtlib__fmt-2610-test2 removed.
+2025-07-08 07:13:01,508 - INFO - Attempting to remove image fmtlib__fmt-2610-dockerfile2:latest...
+2025-07-08 07:13:02,206 - INFO - Image fmtlib__fmt-2610-dockerfile2:latest removed.

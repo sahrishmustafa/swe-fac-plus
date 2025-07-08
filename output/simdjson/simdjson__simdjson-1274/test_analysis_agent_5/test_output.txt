@@ -1,0 +1,107 @@
++ cd /testbed
++ git checkout 265db2e533d4cdc8f7548717b911a92b6a7c9ec9 tests/ondemand/ondemand_basictests.cpp
+Updated 0 paths from 397ae22e
++ git apply -v -
+Checking patch tests/ondemand/ondemand_basictests.cpp...
+Applied patch tests/ondemand/ondemand_basictests.cpp cleanly.
++ cd build
+Rebuilding the project after patch application...
++ echo 'Rebuilding the project after patch application...'
+++ nproc
++ make -j12
+[  0%] Built target generated-data
+Scanning dependencies of target simdjson-user-cmakecache
+[  0%] Generating .simdjson-user-CMakeCache.txt
+Scanning dependencies of target init-checkperf-repo
+Scanning dependencies of target yyjson
+[  0%] Built target simdjson-user-cmakecache
+Scanning dependencies of target fuzz_ondemand
+Scanning dependencies of target competition-ujson4c
+[  1%] Generating checkperf-reference/master/.git/config
+Scanning dependencies of target boostjson
+[  2%] Building C object dependencies/CMakeFiles/competition-ujson4c.dir/ujson4c/src/ujdecode.c.o
+[  2%] Building C object dependencies/CMakeFiles/yyjson.dir/yyjson/src/yyjson.c.o
+Scanning dependencies of target fuzz_element
+Scanning dependencies of target fuzz_minifyimpl
+[  3%] Building CXX object fuzz/CMakeFiles/fuzz_ondemand.dir/fuzz_ondemand.cpp.o
+Scanning dependencies of target fuzz_dump
+Scanning dependencies of target amalgamate_demo_direct_from_repository
+Scanning dependencies of target fuzz_parser
+[  3%] Building CXX object dependencies/CMakeFiles/boostjson.dir/boost.json/src/src.cpp.o
+[  5%] Building CXX object fuzz/CMakeFiles/fuzz_element.dir/fuzz_element.cpp.o
+Scanning dependencies of target simdjson
+Scanning dependencies of target fuzz_atpointer
+[  5%] Building CXX object fuzz/CMakeFiles/fuzz_minifyimpl.dir/fuzz_minifyimpl.cpp.o
+[  6%] Building CXX object fuzz/CMakeFiles/fuzz_dump.dir/fuzz_dump.cpp.o
+[  7%] Building CXX object singleheader/CMakeFiles/amalgamate_demo_direct_from_repository.dir/amalgamate_demo.cpp.o
+Initialized empty Git repository in /testbed/build/benchmark/checkperf-reference/master/.git/
+[  9%] Building CXX object fuzz/CMakeFiles/fuzz_parser.dir/fuzz_parser.cpp.o
+[ 10%] Building CXX object src/CMakeFiles/simdjson.dir/simdjson.cpp.o
+[ 10%] Building CXX object fuzz/CMakeFiles/fuzz_atpointer.dir/fuzz_atpointer.cpp.o
+[ 10%] Built target init-checkperf-repo
+[ 11%] Building CXX object fuzz/CMakeFiles/fuzz_parser.dir/main.cpp.o
+[ 12%] Linking C static library libcompetition-ujson4c.a
+[ 12%] Built target competition-ujson4c
+[ 14%] Building CXX object fuzz/CMakeFiles/fuzz_dump.dir/main.cpp.o
+[ 14%] Building CXX object fuzz/CMakeFiles/fuzz_dump.dir/__/src/simdjson.cpp.o
+[ 14%] Building CXX object fuzz/CMakeFiles/fuzz_ondemand.dir/main.cpp.o
+[ 14%] Building CXX object fuzz/CMakeFiles/fuzz_element.dir/main.cpp.o
+[ 14%] Building CXX object fuzz/CMakeFiles/fuzz_atpointer.dir/main.cpp.o
+[ 15%] Building CXX object fuzz/CMakeFiles/fuzz_minifyimpl.dir/main.cpp.o
+Scanning dependencies of target fuzz_dump_raw_tape
+[ 15%] Building CXX object fuzz/CMakeFiles/fuzz_dump_raw_tape.dir/fuzz_dump_raw_tape.cpp.o
+Scanning dependencies of target fuzz_minify
+[ 15%] Building CXX object fuzz/CMakeFiles/fuzz_minify.dir/fuzz_minify.cpp.o
+[ 15%] Building CXX object fuzz/CMakeFiles/fuzz_parser.dir/__/src/simdjson.cpp.o
+[ 16%] Building CXX object fuzz/CMakeFiles/fuzz_ondemand.dir/__/src/simdjson.cpp.o
+[ 18%] Building CXX object fuzz/CMakeFiles/fuzz_element.dir/__/src/simdjson.cpp.o
+[ 19%] Building CXX object fuzz/CMakeFiles/fuzz_minifyimpl.dir/__/src/simdjson.cpp.o
+[ 20%] Building CXX object fuzz/CMakeFiles/fuzz_atpointer.dir/__/src/simdjson.cpp.o
+[ 22%] Building CXX object fuzz/CMakeFiles/fuzz_minify.dir/main.cpp.o
+[ 23%] Building CXX object fuzz/CMakeFiles/fuzz_dump_raw_tape.dir/main.cpp.o
+[ 23%] Building CXX object fuzz/CMakeFiles/fuzz_minify.dir/__/src/simdjson.cpp.o
+[ 23%] Building CXX object fuzz/CMakeFiles/fuzz_dump_raw_tape.dir/__/src/simdjson.cpp.o
+[ 24%] Linking CXX static library libboostjson.a
+[ 24%] Built target boostjson
+Scanning dependencies of target fuzz_print_json
+[ 24%] Building CXX object fuzz/CMakeFiles/fuzz_print_json.dir/fuzz_print_json.cpp.o
+c++: fatal error: Killed signal terminated program cc1plus
+compilation terminated.
+make[2]: *** [singleheader/CMakeFiles/amalgamate_demo_direct_from_repository.dir/build.make:63: singleheader/CMakeFiles/amalgamate_demo_direct_from_repository.dir/amalgamate_demo.cpp.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:865: singleheader/CMakeFiles/amalgamate_demo_direct_from_repository.dir/all] Error 2
+make[1]: *** Waiting for unfinished jobs....
+[ 25%] Building CXX object fuzz/CMakeFiles/fuzz_print_json.dir/main.cpp.o
+[ 25%] Building CXX object fuzz/CMakeFiles/fuzz_print_json.dir/__/src/simdjson.cpp.o
+c++: fatal error: Killed signal terminated program cc1plus
+compilation terminated.
+make[2]: *** [src/CMakeFiles/simdjson.dir/build.make:63: src/CMakeFiles/simdjson.dir/simdjson.cpp.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:594: src/CMakeFiles/simdjson.dir/all] Error 2
+c++: fatal error: Killed signal terminated program cc1plus
+compilation terminated.
+make[2]: *** [fuzz/CMakeFiles/fuzz_dump.dir/build.make:89: fuzz/CMakeFiles/fuzz_dump.dir/__/src/simdjson.cpp.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:2549: fuzz/CMakeFiles/fuzz_dump.dir/all] Error 2
+[ 27%] Linking C static library libyyjson.a
+[ 27%] Built target yyjson
+[ 27%] Linking CXX executable fuzz_atpointer
+[ 27%] Built target fuzz_atpointer
+[ 28%] Linking CXX executable fuzz_print_json
+[ 28%] Linking CXX executable fuzz_ondemand
+[ 28%] Linking CXX executable fuzz_element
+[ 28%] Built target fuzz_ondemand
+[ 28%] Built target fuzz_print_json
+[ 29%] Linking CXX executable fuzz_parser
+[ 29%] Built target fuzz_element
+[ 29%] Built target fuzz_parser
+[ 29%] Linking CXX executable fuzz_minifyimpl
+[ 29%] Built target fuzz_minifyimpl
+[ 31%] Linking CXX executable fuzz_minify
+[ 32%] Linking CXX executable fuzz_dump_raw_tape
+[ 32%] Built target fuzz_minify
+[ 32%] Built target fuzz_dump_raw_tape
+make: *** [Makefile:163: all] Error 2
++ build_rc=2
++ '[' 2 -ne 0 ']'
++ echo 'Project rebuild failed with exit code 2. Aborting test execution.'
++ OMNIGRIL_EXIT_CODE=1
++ exit 1
+Project rebuild failed with exit code 2. Aborting test execution.

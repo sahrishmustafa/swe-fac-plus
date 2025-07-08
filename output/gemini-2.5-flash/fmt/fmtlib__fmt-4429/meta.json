@@ -1,0 +1,22 @@
+{
+    "task_id": "fmtlib__fmt-4429",
+    "setup_info": {
+        "repo_path": "github/_cache/fmtlib__fmt-4429_2025-07-08_07-01-21",
+        "repo_cache_path": "github/_cache/fmtlib/fmt_cache"
+    },
+    "task_info": {
+        "repo": "fmtlib/fmt",
+        "pull_number": 4429,
+        "instance_id": "fmtlib__fmt-4429",
+        "issue_numbers": [
+            "4423"
+        ],
+        "base_commit": "41b3bed4d2ee4ecef2d0647b35084e510f0875c0",
+        "patch": "diff --git a/include/fmt/base.h b/include/fmt/base.h\n--- a/include/fmt/base.h\n+++ b/include/fmt/base.h\n@@ -539,7 +539,7 @@ template <typename Char> class basic_string_view {\n #endif\n   FMT_CONSTEXPR20 basic_string_view(const Char* s) : data_(s) {\n #if FMT_HAS_BUILTIN(__builtin_strlen) || FMT_GCC_VERSION || FMT_CLANG_VERSION\n-    if (std::is_same<Char, char>::value) {\n+    if (std::is_same<Char, char>::value && !detail::is_constant_evaluated()) {\n       size_ = __builtin_strlen(detail::narrow(s));\n       return;\n     }\n",
+        "test_patch": "diff --git a/test/base-test.cc b/test/base-test.cc\n--- a/test/base-test.cc\n+++ b/test/base-test.cc\n@@ -92,6 +92,29 @@ TEST(string_view_test, compare) {\n   check_op<std::greater_equal>();\n }\n \n+#if FMT_USE_CONSTEVAL\n+namespace {\n+\n+template <size_t N>\n+struct fixed_string {\n+    char data[N] = {};\n+\n+    constexpr fixed_string(char const (&m)[N]) {\n+        for (size_t i = 0; i != N; ++i) {\n+            data[i] = m[i];\n+        }\n+    }\n+};\n+\n+}\n+\n+TEST(string_view_test, from_constexpr_fixed_string) {\n+  static constexpr auto fs = fixed_string<5>(\"x={}\");\n+  static constexpr auto fmt = fmt::string_view(fs.data);\n+  EXPECT_EQ(fmt, \"x={}\");\n+}\n+#endif\n+\n TEST(base_test, is_locking) {\n   EXPECT_FALSE(fmt::detail::is_locking<const char(&)[3]>());\n }\n",
+        "problem_statement": "Don't use __builtin_strlen\nWhen upgrading `{fmt}`, https://github.com/fmtlib/fmt/commit/b4d1d7f8e broke some of our usage. We had a place where we were building up a format string using a type like this:\n\n```cpp\ntemplate <size_t N>\nstruct fixed_string {\n    char data[N] = {}; \n\n    constexpr fixed_string(char const (&m)[N]) {\n        for (size_t i = 0; i != N; ++i) {\n            data[i] = m[i];\n        }\n    }   \n};\n```\n\nAnd trying to do something like:\n```cpp\nstatic constexpr auto f = fixed_string(\"x={}\");\nfmt::print(f.data, 42);\n```\n\nThis works on fmt 10.2.1 and 11.0, [fails on trunk](https://compiler-explorer.com/z/MvM86dd5j) \u2014\u00a0after that commit, with:\n\n```cpp\n/opt/compiler-explorer/libs/fmt/trunk/include/fmt/base.h:543:31: error: '__builtin_strlen(((const char*)(& f.fixed_string<5>::data)))' is not a constant expression\n  543 |       size_ = __builtin_strlen(detail::narrow(s));\n      |               ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~\n```\n\n[gcc says](https://gcc.gnu.org/bugzilla/show_bug.cgi?id=119866) that `__builtin_strlen` isn't usable like this. Which... if they say so. But seems unlikely this will change, so I think `{fmt}` should also revert to previous usage. \n",
+        "hints_text": "That's unfortunate but I agree that we shouldn't break this reasonable usage. A PR to revert and add a test case would be welcome.",
+        "created_at": "2025-04-26T17:46:16Z",
+        "version": "11.1"
+    }
+}

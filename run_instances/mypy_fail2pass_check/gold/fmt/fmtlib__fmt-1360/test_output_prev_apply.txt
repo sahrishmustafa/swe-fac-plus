@@ -1,0 +1,55 @@
++ cd /testbed
++ git checkout 96f91428c6ad2d19f1ce87ae160b78f52ed989fb test/core-test.cc test/locale-test.cc
+Updated 2 paths from 41f2ed4d
++ git apply -v -
+Checking patch test/core-test.cc...
+Checking patch test/locale-test.cc...
+Applied patch test/core-test.cc cleanly.
+Applied patch test/locale-test.cc cleanly.
++ cd _build
++ cmake --build .
+Consolidate compiler generated dependencies of target fmt
+[  5%] Built target fmt
+Consolidate compiler generated dependencies of target gmock
+[  8%] Built target gmock
+Consolidate compiler generated dependencies of target test-main
+[ 15%] Built target test-main
+Consolidate compiler generated dependencies of target assert-test
+[ 19%] Built target assert-test
+Consolidate compiler generated dependencies of target chrono-test
+[ 22%] Built target chrono-test
+Consolidate compiler generated dependencies of target color-test
+[ 26%] Built target color-test
+Consolidate compiler generated dependencies of target core-test
+[ 28%] Building CXX object test/CMakeFiles/core-test.dir/core-test.cc.o
+[ 29%] Linking CXX executable ../bin/core-test
+[ 29%] Built target core-test
+Consolidate compiler generated dependencies of target grisu-test
+[ 33%] Built target grisu-test
+Consolidate compiler generated dependencies of target gtest-extra-test
+[ 36%] Built target gtest-extra-test
+Consolidate compiler generated dependencies of target format-test
+[ 40%] Built target format-test
+Consolidate compiler generated dependencies of target format-impl-test
+[ 43%] Built target format-impl-test
+Consolidate compiler generated dependencies of target locale-test
+[ 45%] Building CXX object test/CMakeFiles/locale-test.dir/locale-test.cc.o
+/testbed/test/locale-test.cc: In member function 'virtual void LocaleTest_DoubleDecimalPoint_Test::TestBody()':
+/testbed/test/locale-test.cc:26:5: error: 'using writer = class fmt::v6::internal::basic_writer<fmt::v6::buffer_range<char> >' {aka 'class fmt::v6::internal::basic_writer<fmt::v6::buffer_range<char> >'} has no member named 'write_fp'; did you mean 'write_int'?
+   26 |   w.write_fp<double, false>(1.23, specs);
+      |     ^~~~~~~~
+      |     write_int
+/testbed/test/locale-test.cc:26:14: error: expected primary-expression before 'double'
+   26 |   w.write_fp<double, false>(1.23, specs);
+      |              ^~~~~~
+gmake[2]: *** [test/CMakeFiles/locale-test.dir/build.make:76: test/CMakeFiles/locale-test.dir/locale-test.cc.o] Error 1
+gmake[1]: *** [CMakeFiles/Makefile2:467: test/CMakeFiles/locale-test.dir/all] Error 2
+gmake: *** [Makefile:166: all] Error 2
++ build_rc=2
++ '[' 2 -ne 0 ']'
++ echo 'Build failed with exit code 2. Setting OMNIGRIL_EXIT_CODE to 1 and exiting.'
++ rc=1
++ echo OMNIGRIL_EXIT_CODE=1
++ exit 1
+Build failed with exit code 2. Setting OMNIGRIL_EXIT_CODE to 1 and exiting.
+OMNIGRIL_EXIT_CODE=1

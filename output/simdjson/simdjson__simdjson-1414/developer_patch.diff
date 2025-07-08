@@ -1,0 +1,1102 @@
+diff --git a/include/simdjson/generic/numberparsing.h b/include/simdjson/generic/numberparsing.h
+--- a/include/simdjson/generic/numberparsing.h
++++ b/include/simdjson/generic/numberparsing.h
+@@ -423,7 +423,7 @@ simdjson_really_inline error_code parse_exponent(simdjson_unused const uint8_t *
+   return SUCCESS;
+ }
+ 
+-simdjson_really_inline int significant_digits(const uint8_t * start_digits, int digit_count) {
++simdjson_really_inline size_t significant_digits(const uint8_t * start_digits, size_t digit_count) {
+   // It is possible that the integer had an overflow.
+   // We have to handle the case where we have 0.0000somenumber.
+   const uint8_t *start = start_digits;
+@@ -431,11 +431,11 @@ simdjson_really_inline int significant_digits(const uint8_t * start_digits, int
+     start++;
+   }
+   // we over-decrement by one when there is a '.'
+-  return digit_count - int(start - start_digits);
++  return digit_count - size_t(start - start_digits);
+ }
+ 
+ template<typename W>
+-simdjson_really_inline error_code write_float(const uint8_t *const src, bool negative, uint64_t i, const uint8_t * start_digits, int digit_count, int64_t exponent, W &writer) {
++simdjson_really_inline error_code write_float(const uint8_t *const src, bool negative, uint64_t i, const uint8_t * start_digits, size_t digit_count, int64_t exponent, W &writer) {
+   // If we frequently had to deal with long strings of digits,
+   // we could extend our code by using a 128-bit integer instead
+   // of a 64-bit integer. However, this is uncommon in practice.
+@@ -529,7 +529,8 @@ simdjson_really_inline error_code parse_number(const uint8_t *const src, W &writ
+   while (parse_digit(*p, i)) { p++; }
+ 
+   // If there were no digits, or if the integer starts with 0 and has more than one digit, it's an error.
+-  int digit_count = int(p - start_digits);
++  // Optimization note: size_t is expected to be unsigned.
++  size_t digit_count = size_t(p - start_digits);
+   if (digit_count == 0 || ('0' == *start_digits && digit_count > 1)) { return INVALID_NUMBER(src); }
+ 
+   //
+@@ -549,23 +550,23 @@ simdjson_really_inline error_code parse_number(const uint8_t *const src, W &writ
+     SIMDJSON_TRY( parse_exponent(src, p, exponent) );
+   }
+   if (is_float) {
+-    const bool clean_end = jsoncharutils::is_structural_or_whitespace(*p);
++    const bool dirty_end = jsoncharutils::is_not_structural_or_whitespace(*p);
+     SIMDJSON_TRY( write_float(src, negative, i, start_digits, digit_count, exponent, writer) );
+-    if (!clean_end) { return INVALID_NUMBER(src); }
++    if (dirty_end) { return INVALID_NUMBER(src); }
+     return SUCCESS;
+   }
+ 
+   // The longest negative 64-bit number is 19 digits.
+   // The longest positive 64-bit number is 20 digits.
+   // We do it this way so we don't trigger this branch unless we must.
+-  int longest_digit_count = negative ? 19 : 20;
++  size_t longest_digit_count = negative ? 19 : 20;
+   if (digit_count > longest_digit_count) { return INVALID_NUMBER(src); }
+   if (digit_count == longest_digit_count) {
+     if (negative) {
+       // Anything negative above INT64_MAX+1 is invalid
+       if (i > uint64_t(INT64_MAX)+1) { return INVALID_NUMBER(src);  }
+       WRITE_INTEGER(~i+1, src, writer);
+-      if (!jsoncharutils::is_structural_or_whitespace(*p)) { return INVALID_NUMBER(src); }
++      if (jsoncharutils::is_not_structural_or_whitespace(*p)) { return INVALID_NUMBER(src); }
+       return SUCCESS;
+     // Positive overflow check:
+     // - A 20 digit number starting with 2-9 is overflow, because 18,446,744,073,709,551,615 is the
+@@ -588,16 +589,81 @@ simdjson_really_inline error_code parse_number(const uint8_t *const src, W &writ
+   } else {
+     WRITE_INTEGER(negative ? (~i+1) : i, src, writer);
+   }
+-  if (!jsoncharutils::is_structural_or_whitespace(*p)) { return INVALID_NUMBER(src); }
++  if (jsoncharutils::is_not_structural_or_whitespace(*p)) { return INVALID_NUMBER(src); }
+   return SUCCESS;
+ }
+ 
+-// SAX functions
++// Inlineable functions
+ namespace {
++
++// This table can be used to characterize the final character of an integer
++// string. For JSON structural character and allowable white space characters,
++// we return SUCCESS. For 'e', '.' and 'E', we return INCORRECT_TYPE. Otherwise
++// we return NUMBER_ERROR.
++// Optimization note: we could easily reduce the size of the table by half (to 128)
++// at the cost of an extra branch.
++// Optimization note: we want the values to use at most 8 bits (not, e.g., 32 bits):
++static_assert(error_code(uint8_t(NUMBER_ERROR))== NUMBER_ERROR, "bad NUMBER_ERROR cast");
++static_assert(error_code(uint8_t(SUCCESS))== SUCCESS, "bad NUMBER_ERROR cast");
++static_assert(error_code(uint8_t(INCORRECT_TYPE))== INCORRECT_TYPE, "bad NUMBER_ERROR cast");
++
++const uint8_t integer_string_finisher[256] = {
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, NUMBER_ERROR, NUMBER_ERROR,
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, NUMBER_ERROR, SUCCESS,
++    SUCCESS,      NUMBER_ERROR,   NUMBER_ERROR, SUCCESS,      NUMBER_ERROR,
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, NUMBER_ERROR, NUMBER_ERROR,
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, NUMBER_ERROR, NUMBER_ERROR,
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, NUMBER_ERROR, NUMBER_ERROR,
++    NUMBER_ERROR, NUMBER_ERROR,   SUCCESS,      NUMBER_ERROR, NUMBER_ERROR,
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, NUMBER_ERROR, NUMBER_ERROR,
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, NUMBER_ERROR, SUCCESS,
++    NUMBER_ERROR, INCORRECT_TYPE, NUMBER_ERROR, NUMBER_ERROR, NUMBER_ERROR,
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, NUMBER_ERROR, NUMBER_ERROR,
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, SUCCESS,      NUMBER_ERROR,
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, NUMBER_ERROR, NUMBER_ERROR,
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, NUMBER_ERROR, INCORRECT_TYPE,
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, NUMBER_ERROR, NUMBER_ERROR,
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, NUMBER_ERROR, NUMBER_ERROR,
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, NUMBER_ERROR, NUMBER_ERROR,
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, NUMBER_ERROR, NUMBER_ERROR,
++    NUMBER_ERROR, SUCCESS,        NUMBER_ERROR, SUCCESS,      NUMBER_ERROR,
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, NUMBER_ERROR, NUMBER_ERROR,
++    NUMBER_ERROR, INCORRECT_TYPE, NUMBER_ERROR, NUMBER_ERROR, NUMBER_ERROR,
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, NUMBER_ERROR, NUMBER_ERROR,
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, NUMBER_ERROR, NUMBER_ERROR,
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, NUMBER_ERROR, NUMBER_ERROR,
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, SUCCESS,      NUMBER_ERROR,
++    SUCCESS,      NUMBER_ERROR,   NUMBER_ERROR, NUMBER_ERROR, NUMBER_ERROR,
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, NUMBER_ERROR, NUMBER_ERROR,
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, NUMBER_ERROR, NUMBER_ERROR,
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, NUMBER_ERROR, NUMBER_ERROR,
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, NUMBER_ERROR, NUMBER_ERROR,
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, NUMBER_ERROR, NUMBER_ERROR,
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, NUMBER_ERROR, NUMBER_ERROR,
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, NUMBER_ERROR, NUMBER_ERROR,
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, NUMBER_ERROR, NUMBER_ERROR,
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, NUMBER_ERROR, NUMBER_ERROR,
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, NUMBER_ERROR, NUMBER_ERROR,
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, NUMBER_ERROR, NUMBER_ERROR,
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, NUMBER_ERROR, NUMBER_ERROR,
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, NUMBER_ERROR, NUMBER_ERROR,
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, NUMBER_ERROR, NUMBER_ERROR,
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, NUMBER_ERROR, NUMBER_ERROR,
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, NUMBER_ERROR, NUMBER_ERROR,
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, NUMBER_ERROR, NUMBER_ERROR,
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, NUMBER_ERROR, NUMBER_ERROR,
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, NUMBER_ERROR, NUMBER_ERROR,
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, NUMBER_ERROR, NUMBER_ERROR,
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, NUMBER_ERROR, NUMBER_ERROR,
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, NUMBER_ERROR, NUMBER_ERROR,
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, NUMBER_ERROR, NUMBER_ERROR,
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, NUMBER_ERROR, NUMBER_ERROR,
++    NUMBER_ERROR, NUMBER_ERROR,   NUMBER_ERROR, NUMBER_ERROR, NUMBER_ERROR,
++    NUMBER_ERROR};
++
+ // Parse any number from 0 to 18,446,744,073,709,551,615
+ simdjson_unused simdjson_really_inline simdjson_result<uint64_t> parse_unsigned(const uint8_t * const src) noexcept {
+   const uint8_t *p = src;
+-
+   //
+   // Parse the integer part.
+   //
+@@ -607,13 +673,23 @@ simdjson_unused simdjson_really_inline simdjson_result<uint64_t> parse_unsigned(
+   while (parse_digit(*p, i)) { p++; }
+ 
+   // If there were no digits, or if the integer starts with 0 and has more than one digit, it's an error.
+-  int digit_count = int(p - start_digits);
+-  if (digit_count == 0 || ('0' == *start_digits && digit_count > 1)) { return NUMBER_ERROR; }
+-  if (!jsoncharutils::is_structural_or_whitespace(*p)) { return NUMBER_ERROR; }
+-
++  // Optimization note: size_t is expected to be unsigned.
++  size_t digit_count = size_t(p - start_digits);
+   // The longest positive 64-bit number is 20 digits.
+   // We do it this way so we don't trigger this branch unless we must.
+-  if (digit_count > 20) { return NUMBER_ERROR; }
++  // Optimization note: the compiler can probably merge
++  // ((digit_count == 0) || (digit_count > 20))
++  // into a single  branch since digit_count is unsigned.
++  if ((digit_count == 0) || (digit_count > 20)) { return INCORRECT_TYPE; }
++  // Here digit_count > 0.
++  if (('0' == *start_digits) && (digit_count > 1)) { return NUMBER_ERROR; }
++  // We can do the following...
++  // if (!jsoncharutils::is_structural_or_whitespace(*p)) {
++  //  return (*p == '.' || *p == 'e' || *p == 'E') ? INCORRECT_TYPE : NUMBER_ERROR;
++  // }
++  // as a single table lookup:
++  if (integer_string_finisher[*p] != SUCCESS) { return error_code(integer_string_finisher[*p]); }
++
+   if (digit_count == 20) {
+     // Positive overflow check:
+     // - A 20 digit number starting with 2-9 is overflow, because 18,446,744,073,709,551,615 is the
+@@ -627,7 +703,7 @@ simdjson_unused simdjson_really_inline simdjson_result<uint64_t> parse_unsigned(
+     // - Therefore, if the number is positive and lower than that, it's overflow.
+     // - The value we are looking at is less than or equal to 9,223,372,036,854,775,808 (INT64_MAX).
+     //
+-    if (src[0] != uint8_t('1') || i <= uint64_t(INT64_MAX)) { return NUMBER_ERROR; }
++    if (src[0] != uint8_t('1') || i <= uint64_t(INT64_MAX)) { return INCORRECT_TYPE; }
+   }
+ 
+   return i;
+@@ -650,19 +726,28 @@ simdjson_unused simdjson_really_inline simdjson_result<int64_t> parse_integer(co
+   while (parse_digit(*p, i)) { p++; }
+ 
+   // If there were no digits, or if the integer starts with 0 and has more than one digit, it's an error.
+-  int digit_count = int(p - start_digits);
+-  if (digit_count == 0 || ('0' == *start_digits && digit_count > 1)) { return NUMBER_ERROR; }
+-  if (!jsoncharutils::is_structural_or_whitespace(*p)) { return NUMBER_ERROR; }
+-
++  // Optimization note: size_t is expected to be unsigned.
++  size_t digit_count = size_t(p - start_digits);
+   // The longest negative 64-bit number is 19 digits.
+   // The longest positive 64-bit number is 20 digits.
+   // We do it this way so we don't trigger this branch unless we must.
+-  int longest_digit_count = negative ? 19 : 20;
+-  if (digit_count > longest_digit_count) { return NUMBER_ERROR; }
++  size_t longest_digit_count = negative ? 19 : 20;
++  // Optimization note: the compiler can probably merge
++  // ((digit_count == 0) || (digit_count > longest_digit_count))
++  // into a single  branch since digit_count is unsigned.
++  if ((digit_count == 0) || (digit_count > longest_digit_count)) { return INCORRECT_TYPE; }
++  // Here digit_count > 0.
++  if (('0' == *start_digits) && (digit_count > 1)) { return NUMBER_ERROR; }
++  // We can do the following...
++  // if (!jsoncharutils::is_structural_or_whitespace(*p)) {
++  //  return (*p == '.' || *p == 'e' || *p == 'E') ? INCORRECT_TYPE : NUMBER_ERROR;
++  // }
++  // as a single table lookup:
++  if(integer_string_finisher[*p] != SUCCESS) { return error_code(integer_string_finisher[*p]); }
+   if (digit_count == longest_digit_count) {
+-    if(negative) {
++    if (negative) {
+       // Anything negative above INT64_MAX+1 is invalid
+-      if (i > uint64_t(INT64_MAX)+1) { return NUMBER_ERROR; }
++      if (i > uint64_t(INT64_MAX)+1) { return INCORRECT_TYPE; }
+       return ~i+1;
+ 
+     // Positive overflow check:
+@@ -677,7 +762,7 @@ simdjson_unused simdjson_really_inline simdjson_result<int64_t> parse_integer(co
+     // - Therefore, if the number is positive and lower than that, it's overflow.
+     // - The value we are looking at is less than or equal to 9,223,372,036,854,775,808 (INT64_MAX).
+     //
+-    } else if (src[0] != uint8_t('1') || i <= uint64_t(INT64_MAX)) { return NUMBER_ERROR; }
++    } else if (src[0] != uint8_t('1') || i <= uint64_t(INT64_MAX)) { return INCORRECT_TYPE; }
+   }
+ 
+   return negative ? (~i+1) : i;
+@@ -699,7 +784,8 @@ simdjson_unused simdjson_really_inline simdjson_result<double> parse_double(cons
+   bool leading_zero = (i == 0);
+   while (parse_digit(*p, i)) { p++; }
+   // no integer digits, or 0123 (zero must be solo)
+-  if ( p == src || (leading_zero && p != src+1)) { return NUMBER_ERROR; }
++  if ( p == src ) { return INCORRECT_TYPE; }
++  if ( (leading_zero && p != src+1)) { return NUMBER_ERROR; }
+ 
+   //
+   // Parse the decimal part.
+diff --git a/include/simdjson/generic/ondemand/array-inl.h b/include/simdjson/generic/ondemand/array-inl.h
+--- a/include/simdjson/generic/ondemand/array-inl.h
++++ b/include/simdjson/generic/ondemand/array-inl.h
+@@ -50,11 +50,6 @@ simdjson_really_inline simdjson_result<array> array::start(value_iterator &iter)
+   SIMDJSON_TRY( iter.start_array().get(has_value) );
+   return array(iter);
+ }
+-simdjson_really_inline simdjson_result<array> array::try_start(value_iterator &iter) noexcept {
+-  simdjson_unused bool has_value;
+-  SIMDJSON_TRY( iter.try_start_array().get(has_value) );
+-  return array(iter);
+-}
+ simdjson_really_inline array array::started(value_iterator &iter) noexcept {
+   simdjson_unused bool has_value = iter.started_array();
+   return array(iter);
+diff --git a/include/simdjson/generic/ondemand/array.h b/include/simdjson/generic/ondemand/array.h
+--- a/include/simdjson/generic/ondemand/array.h
++++ b/include/simdjson/generic/ondemand/array.h
+@@ -41,14 +41,6 @@ class array {
+    * @error INCORRECT_TYPE if the iterator is not at [.
+    */
+   static simdjson_really_inline simdjson_result<array> start(value_iterator &iter) noexcept;
+-  /**
+-   * Begin array iteration.
+-   *
+-   * @param iter The iterator. Must be where the initial [ is expected. Will be *moved* into the
+-   *        resulting array.
+-   * @error INCORRECT_TYPE if the iterator is not at [.
+-   */
+-  static simdjson_really_inline simdjson_result<array> try_start(value_iterator &iter) noexcept;
+   /**
+    * Begin array iteration.
+    *
+diff --git a/include/simdjson/generic/ondemand/logger-inl.h b/include/simdjson/generic/ondemand/logger-inl.h
+--- a/include/simdjson/generic/ondemand/logger-inl.h
++++ b/include/simdjson/generic/ondemand/logger-inl.h
+@@ -21,20 +21,28 @@ static simdjson_really_inline char printable_char(char c) {
+ simdjson_really_inline void log_event(const json_iterator &iter, const char *type, std::string_view detail, int delta, int depth_delta) noexcept {
+   log_line(iter, "", type, detail, delta, depth_delta);
+ }
++
++simdjson_really_inline void log_value(const json_iterator &iter, token_position index, depth_t depth, const char *type, std::string_view detail) noexcept {
++  log_line(iter, index, depth, "", type, detail);
++}
+ simdjson_really_inline void log_value(const json_iterator &iter, const char *type, std::string_view detail, int delta, int depth_delta) noexcept {
+   log_line(iter, "", type, detail, delta, depth_delta);
+ }
+-simdjson_really_inline void log_value(const json_iterator &iter, token_position index, depth_t depth, const char *type, std::string_view detail) noexcept {
+-  log_line(iter, index, depth, "", type, detail);
++
++simdjson_really_inline void log_start_value(const json_iterator &iter, token_position index, depth_t depth, const char *type, std::string_view detail) noexcept {
++  log_line(iter, index, depth, "+", type, detail);
++  if (LOG_ENABLED) { log_depth++; }
+ }
+ simdjson_really_inline void log_start_value(const json_iterator &iter, const char *type, int delta, int depth_delta) noexcept {
+   log_line(iter, "+", type, "", delta, depth_delta);
+-  log_depth++;
++  if (LOG_ENABLED) { log_depth++; }
+ }
++
+ simdjson_really_inline void log_end_value(const json_iterator &iter, const char *type, int delta, int depth_delta) noexcept {
+-  log_depth--;
++  if (LOG_ENABLED) { log_depth--; }
+   log_line(iter, "-", type, "", delta, depth_delta);
+ }
++
+ simdjson_really_inline void log_error(const json_iterator &iter, const char *error, const char *detail, int delta, int depth_delta) noexcept {
+   log_line(iter, "ERROR: ", error, detail, delta, depth_delta);
+ }
+@@ -45,22 +53,26 @@ simdjson_really_inline void log_error(const json_iterator &iter, token_position
+ simdjson_really_inline void log_event(const value_iterator &iter, const char *type, std::string_view detail, int delta, int depth_delta) noexcept {
+   log_event(iter.json_iter(), type, detail, delta, depth_delta);
+ }
++
+ simdjson_really_inline void log_value(const value_iterator &iter, const char *type, std::string_view detail, int delta, int depth_delta) noexcept {
+   log_value(iter.json_iter(), type, detail, delta, depth_delta);
+ }
++
+ simdjson_really_inline void log_start_value(const value_iterator &iter, const char *type, int delta, int depth_delta) noexcept {
+   log_start_value(iter.json_iter(), type, delta, depth_delta);
+ }
++
+ simdjson_really_inline void log_end_value(const value_iterator &iter, const char *type, int delta, int depth_delta) noexcept {
+   log_end_value(iter.json_iter(), type, delta, depth_delta);
+ }
++
+ simdjson_really_inline void log_error(const value_iterator &iter, const char *error, const char *detail, int delta, int depth_delta) noexcept {
+   log_error(iter.json_iter(), error, detail, delta, depth_delta);
+ }
+ 
+ simdjson_really_inline void log_headers() noexcept {
+-  log_depth = 0;
+   if (LOG_ENABLED) {
++    log_depth = 0;
+     printf("\n");
+     printf("| %-*s ", LOG_EVENT_LEN,        "Event");
+     printf("| %-*s ", LOG_BUFFER_LEN,       "Buffer");
+diff --git a/include/simdjson/generic/ondemand/logger.h b/include/simdjson/generic/ondemand/logger.h
+--- a/include/simdjson/generic/ondemand/logger.h
++++ b/include/simdjson/generic/ondemand/logger.h
+@@ -14,15 +14,16 @@ namespace logger {
+ #endif
+ 
+ static simdjson_really_inline void log_headers() noexcept;
+-static simdjson_really_inline void log_line(const json_iterator &iter, const char *title_prefix, const char *title, std::string_view detail, int delta, int depth_delta) noexcept;
+ static simdjson_really_inline void log_line(const json_iterator &iter, token_position index, depth_t depth, const char *title_prefix, const char *title, std::string_view detail) noexcept;
++static simdjson_really_inline void log_line(const json_iterator &iter, const char *title_prefix, const char *title, std::string_view detail, int delta, int depth_delta) noexcept;
+ static simdjson_really_inline void log_event(const json_iterator &iter, const char *type, std::string_view detail="", int delta=0, int depth_delta=0) noexcept;
+-static simdjson_really_inline void log_value(const json_iterator &iter, const char *type, std::string_view detail="", int delta=-1, int depth_delta=0) noexcept;
+ static simdjson_really_inline void log_value(const json_iterator &iter, token_position index, depth_t depth, const char *type, std::string_view detail="") noexcept;
++static simdjson_really_inline void log_value(const json_iterator &iter, const char *type, std::string_view detail="", int delta=-1, int depth_delta=0) noexcept;
++static simdjson_really_inline void log_start_value(const json_iterator &iter, token_position index, depth_t depth, const char *type, std::string_view detail="") noexcept;
+ static simdjson_really_inline void log_start_value(const json_iterator &iter, const char *type, int delta=-1, int depth_delta=0) noexcept;
+ static simdjson_really_inline void log_end_value(const json_iterator &iter, const char *type, int delta=-1, int depth_delta=0) noexcept;
+-static simdjson_really_inline void log_error(const json_iterator &iter, const char *error, const char *detail="", int delta=-1, int depth_delta=0) noexcept;
+ static simdjson_really_inline void log_error(const json_iterator &iter, token_position index, depth_t depth, const char *error, const char *detail="") noexcept;
++static simdjson_really_inline void log_error(const json_iterator &iter, const char *error, const char *detail="", int delta=-1, int depth_delta=0) noexcept;
+ 
+ static simdjson_really_inline void log_event(const value_iterator &iter, const char *type, std::string_view detail="", int delta=0, int depth_delta=0) noexcept;
+ static simdjson_really_inline void log_value(const value_iterator &iter, const char *type, std::string_view detail="", int delta=-1, int depth_delta=0) noexcept;
+diff --git a/include/simdjson/generic/ondemand/object-inl.h b/include/simdjson/generic/ondemand/object-inl.h
+--- a/include/simdjson/generic/ondemand/object-inl.h
++++ b/include/simdjson/generic/ondemand/object-inl.h
+@@ -38,11 +38,6 @@ simdjson_really_inline simdjson_result<object> object::start(value_iterator &ite
+   SIMDJSON_TRY( iter.start_object().get(has_value) );
+   return object(iter);
+ }
+-simdjson_really_inline simdjson_result<object> object::try_start(value_iterator &iter) noexcept {
+-  simdjson_unused bool has_value;
+-  SIMDJSON_TRY( iter.try_start_object().get(has_value) );
+-  return object(iter);
+-}
+ simdjson_really_inline object object::started(value_iterator &iter) noexcept {
+   simdjson_unused bool has_value = iter.started_object();
+   return iter;
+diff --git a/include/simdjson/generic/ondemand/object.h b/include/simdjson/generic/ondemand/object.h
+--- a/include/simdjson/generic/ondemand/object.h
++++ b/include/simdjson/generic/ondemand/object.h
+@@ -72,7 +72,6 @@ class object {
+ 
+ protected:
+   static simdjson_really_inline simdjson_result<object> start(value_iterator &iter) noexcept;
+-  static simdjson_really_inline simdjson_result<object> try_start(value_iterator &iter) noexcept;
+   static simdjson_really_inline object started(value_iterator &iter) noexcept;
+   static simdjson_really_inline object resume(const value_iterator &iter) noexcept;
+   simdjson_really_inline object(const value_iterator &iter) noexcept;
+diff --git a/include/simdjson/generic/ondemand/value-inl.h b/include/simdjson/generic/ondemand/value-inl.h
+--- a/include/simdjson/generic/ondemand/value-inl.h
++++ b/include/simdjson/generic/ondemand/value-inl.h
+@@ -13,26 +13,13 @@ simdjson_really_inline value value::resume(const value_iterator &iter) noexcept
+   return iter;
+ }
+ 
+-simdjson_really_inline simdjson_result<array> value::get_array() && noexcept {
++simdjson_really_inline simdjson_result<array> value::get_array() noexcept {
+   return array::start(iter);
+ }
+-simdjson_really_inline simdjson_result<array> value::get_array() & noexcept {
+-  return array::try_start(iter);
+-}
+-simdjson_really_inline simdjson_result<object> value::get_object() && noexcept {
++simdjson_really_inline simdjson_result<object> value::get_object() noexcept {
+   return object::start(iter);
+ }
+-simdjson_really_inline simdjson_result<object> value::get_object() & noexcept {
+-  return object::try_start(iter);
+-}
+-simdjson_really_inline simdjson_result<object> value::start_or_resume_object() & noexcept {
+-  if (iter.at_start()) {
+-    return get_object();
+-  } else {
+-    return object::resume(iter);
+-  }
+-}
+-simdjson_really_inline simdjson_result<object> value::start_or_resume_object() && noexcept {
++simdjson_really_inline simdjson_result<object> value::start_or_resume_object() noexcept {
+   if (iter.at_start()) {
+     return get_object();
+   } else {
+@@ -62,44 +49,25 @@ simdjson_really_inline bool value::is_null() noexcept {
+   return iter.is_null();
+ }
+ 
+-template<> simdjson_really_inline simdjson_result<array> value::get() & noexcept { return get_array(); }
+-template<> simdjson_really_inline simdjson_result<object> value::get() & noexcept { return get_object(); }
+-template<> simdjson_really_inline simdjson_result<raw_json_string> value::get() & noexcept { return get_raw_json_string(); }
+-template<> simdjson_really_inline simdjson_result<std::string_view> value::get() & noexcept { return get_string(); }
+-template<> simdjson_really_inline simdjson_result<double> value::get() & noexcept { return get_double(); }
+-template<> simdjson_really_inline simdjson_result<uint64_t> value::get() & noexcept { return get_uint64(); }
+-template<> simdjson_really_inline simdjson_result<int64_t> value::get() & noexcept { return get_int64(); }
+-template<> simdjson_really_inline simdjson_result<bool> value::get() & noexcept { return get_bool(); }
+-
+-template<> simdjson_really_inline simdjson_result<value> value::get() && noexcept { return std::forward<value>(*this); }
+-template<> simdjson_really_inline simdjson_result<array> value::get() && noexcept { return std::forward<value>(*this).get_array(); }
+-template<> simdjson_really_inline simdjson_result<object> value::get() && noexcept { return std::forward<value>(*this).get_object(); }
+-template<> simdjson_really_inline simdjson_result<raw_json_string> value::get() && noexcept { return std::forward<value>(*this).get_raw_json_string(); }
+-template<> simdjson_really_inline simdjson_result<std::string_view> value::get() && noexcept { return std::forward<value>(*this).get_string(); }
+-template<> simdjson_really_inline simdjson_result<double> value::get() && noexcept { return std::forward<value>(*this).get_double(); }
+-template<> simdjson_really_inline simdjson_result<uint64_t> value::get() && noexcept { return std::forward<value>(*this).get_uint64(); }
+-template<> simdjson_really_inline simdjson_result<int64_t> value::get() && noexcept { return std::forward<value>(*this).get_int64(); }
+-template<> simdjson_really_inline simdjson_result<bool> value::get() && noexcept { return std::forward<value>(*this).get_bool(); }
++template<> simdjson_really_inline simdjson_result<array> value::get() noexcept { return get_array(); }
++template<> simdjson_really_inline simdjson_result<object> value::get() noexcept { return get_object(); }
++template<> simdjson_really_inline simdjson_result<raw_json_string> value::get() noexcept { return get_raw_json_string(); }
++template<> simdjson_really_inline simdjson_result<std::string_view> value::get() noexcept { return get_string(); }
++template<> simdjson_really_inline simdjson_result<double> value::get() noexcept { return get_double(); }
++template<> simdjson_really_inline simdjson_result<uint64_t> value::get() noexcept { return get_uint64(); }
++template<> simdjson_really_inline simdjson_result<int64_t> value::get() noexcept { return get_int64(); }
++template<> simdjson_really_inline simdjson_result<bool> value::get() noexcept { return get_bool(); }
+ 
+-template<typename T> simdjson_really_inline error_code value::get(T &out) & noexcept {
++template<typename T> simdjson_really_inline error_code value::get(T &out) noexcept {
+   return get<T>().get(out);
+ }
+-template<typename T> simdjson_really_inline error_code value::get(T &out) && noexcept {
+-  return std::forward<value>(*this).get<T>().get(out);
+-}
+ 
+ #if SIMDJSON_EXCEPTIONS
+-simdjson_really_inline value::operator array() && noexcept(false) {
+-  return std::forward<value>(*this).get_array();
+-}
+-simdjson_really_inline value::operator array() & noexcept(false) {
+-  return std::forward<value>(*this).get_array();
+-}
+-simdjson_really_inline value::operator object() && noexcept(false) {
+-  return std::forward<value>(*this).get_object();
++simdjson_really_inline value::operator array() noexcept(false) {
++  return get_array();
+ }
+-simdjson_really_inline value::operator object() & noexcept(false) {
+-  return std::forward<value>(*this).get_object();
++simdjson_really_inline value::operator object() noexcept(false) {
++  return get_object();
+ }
+ simdjson_really_inline value::operator uint64_t() noexcept(false) {
+   return get_uint64();
+@@ -128,44 +96,26 @@ simdjson_really_inline simdjson_result<array_iterator> value::end() & noexcept {
+   return {};
+ }
+ 
+-simdjson_really_inline simdjson_result<value> value::find_field(std::string_view key) & noexcept {
++simdjson_really_inline simdjson_result<value> value::find_field(std::string_view key) noexcept {
+   return start_or_resume_object().find_field(key);
+ }
+-simdjson_really_inline simdjson_result<value> value::find_field(std::string_view key) && noexcept {
+-  return std::forward<value>(*this).start_or_resume_object().find_field(key);
+-}
+-simdjson_really_inline simdjson_result<value> value::find_field(const char *key) & noexcept {
++simdjson_really_inline simdjson_result<value> value::find_field(const char *key) noexcept {
+   return start_or_resume_object().find_field(key);
+ }
+-simdjson_really_inline simdjson_result<value> value::find_field(const char *key) && noexcept {
+-  return std::forward<value>(*this).start_or_resume_object().find_field(key);
+-}
+ 
+-simdjson_really_inline simdjson_result<value> value::find_field_unordered(std::string_view key) & noexcept {
++simdjson_really_inline simdjson_result<value> value::find_field_unordered(std::string_view key) noexcept {
+   return start_or_resume_object().find_field_unordered(key);
+ }
+-simdjson_really_inline simdjson_result<value> value::find_field_unordered(std::string_view key) && noexcept {
+-  return std::forward<value>(*this).start_or_resume_object().find_field_unordered(key);
+-}
+-simdjson_really_inline simdjson_result<value> value::find_field_unordered(const char *key) & noexcept {
++simdjson_really_inline simdjson_result<value> value::find_field_unordered(const char *key) noexcept {
+   return start_or_resume_object().find_field_unordered(key);
+ }
+-simdjson_really_inline simdjson_result<value> value::find_field_unordered(const char *key) && noexcept {
+-  return std::forward<value>(*this).start_or_resume_object().find_field_unordered(key);
+-}
+ 
+-simdjson_really_inline simdjson_result<value> value::operator[](std::string_view key) & noexcept {
++simdjson_really_inline simdjson_result<value> value::operator[](std::string_view key) noexcept {
+   return start_or_resume_object()[key];
+ }
+-simdjson_really_inline simdjson_result<value> value::operator[](std::string_view key) && noexcept {
+-  return std::forward<value>(*this).start_or_resume_object()[key];
+-}
+-simdjson_really_inline simdjson_result<value> value::operator[](const char *key) & noexcept {
++simdjson_really_inline simdjson_result<value> value::operator[](const char *key) noexcept {
+   return start_or_resume_object()[key];
+ }
+-simdjson_really_inline simdjson_result<value> value::operator[](const char *key) && noexcept {
+-  return std::forward<value>(*this).start_or_resume_object()[key];
+-}
+ 
+ } // namespace ondemand
+ } // namespace SIMDJSON_IMPLEMENTATION
+@@ -197,73 +147,41 @@ simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::array_
+   return {};
+ }
+ 
+-simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::find_field(std::string_view key) & noexcept {
++simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::find_field(std::string_view key) noexcept {
+   if (error()) { return error(); }
+   return first.find_field(key);
+ }
+-simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::find_field(std::string_view key) && noexcept {
+-  if (error()) { return error(); }
+-  return std::forward<SIMDJSON_IMPLEMENTATION::ondemand::value>(first).find_field(key);
+-}
+-simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::find_field(const char *key) & noexcept {
++simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::find_field(const char *key) noexcept {
+   if (error()) { return error(); }
+   return first.find_field(key);
+ }
+-simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::find_field(const char *key) && noexcept {
+-  if (error()) { return error(); }
+-  return std::forward<SIMDJSON_IMPLEMENTATION::ondemand::value>(first).find_field(key);
+-}
+ 
+-simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::find_field_unordered(std::string_view key) & noexcept {
++simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::find_field_unordered(std::string_view key) noexcept {
+   if (error()) { return error(); }
+   return first.find_field_unordered(key);
+ }
+-simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::find_field_unordered(std::string_view key) && noexcept {
+-  if (error()) { return error(); }
+-  return std::forward<SIMDJSON_IMPLEMENTATION::ondemand::value>(first).find_field_unordered(key);
+-}
+-simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::find_field_unordered(const char *key) & noexcept {
++simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::find_field_unordered(const char *key) noexcept {
+   if (error()) { return error(); }
+   return first.find_field_unordered(key);
+ }
+-simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::find_field_unordered(const char *key) && noexcept {
+-  if (error()) { return error(); }
+-  return std::forward<SIMDJSON_IMPLEMENTATION::ondemand::value>(first).find_field_unordered(key);
+-}
+ 
+-simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::operator[](std::string_view key) & noexcept {
++simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::operator[](std::string_view key) noexcept {
+   if (error()) { return error(); }
+   return first[key];
+ }
+-simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::operator[](std::string_view key) && noexcept {
+-  if (error()) { return error(); }
+-  return std::forward<SIMDJSON_IMPLEMENTATION::ondemand::value>(first)[key];
+-}
+-simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::operator[](const char *key) & noexcept {
++simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::operator[](const char *key) noexcept {
+   if (error()) { return error(); }
+   return first[key];
+ }
+-simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::operator[](const char *key) && noexcept {
+-  if (error()) { return error(); }
+-  return std::forward<SIMDJSON_IMPLEMENTATION::ondemand::value>(first)[key];
+-}
+ 
+-simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::array> simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::get_array() & noexcept {
++simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::array> simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::get_array() noexcept {
+   if (error()) { return error(); }
+   return first.get_array();
+ }
+-simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::array> simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::get_array() && noexcept {
+-  if (error()) { return error(); }
+-  return std::forward<SIMDJSON_IMPLEMENTATION::ondemand::value>(first).get_array();
+-}
+-simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::object> simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::get_object() & noexcept {
++simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::object> simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::get_object() noexcept {
+   if (error()) { return error(); }
+   return first.get_object();
+ }
+-simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::object> simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::get_object() && noexcept {
+-  if (error()) { return error(); }
+-  return std::forward<SIMDJSON_IMPLEMENTATION::ondemand::value>(first).get_object();
+-}
+ simdjson_really_inline simdjson_result<uint64_t> simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::get_uint64() noexcept {
+   if (error()) { return error(); }
+   return first.get_uint64();
+@@ -293,59 +211,34 @@ simdjson_really_inline bool simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::v
+   return first.is_null();
+ }
+ 
+-template<typename T> simdjson_really_inline simdjson_result<T> simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::get() & noexcept {
++template<typename T> simdjson_really_inline simdjson_result<T> simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::get() noexcept {
+   if (error()) { return error(); }
+   return first.get<T>();
+ }
+-template<typename T> simdjson_really_inline simdjson_result<T> simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::get() && noexcept {
+-  if (error()) { return error(); }
+-  return std::forward<SIMDJSON_IMPLEMENTATION::ondemand::value>(first).get<T>();
+-}
+-template<typename T> simdjson_really_inline error_code simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::get(T &out) & noexcept {
++template<typename T> simdjson_really_inline error_code simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::get(T &out) noexcept {
+   if (error()) { return error(); }
+   return first.get<T>(out);
+ }
+-template<typename T> simdjson_really_inline error_code simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::get(T &out) && noexcept {
+-  if (error()) { return error(); }
+-  return std::forward<SIMDJSON_IMPLEMENTATION::ondemand::value>(first).get<T>(out);
+-}
+ 
+-template<> simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::get<SIMDJSON_IMPLEMENTATION::ondemand::value>() & noexcept  {
++template<> simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::get<SIMDJSON_IMPLEMENTATION::ondemand::value>() noexcept  {
+   if (error()) { return error(); }
+   return std::move(first);
+ }
+-template<> simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::get<SIMDJSON_IMPLEMENTATION::ondemand::value>() && noexcept {
+-  if (error()) { return error(); }
+-  return std::forward<SIMDJSON_IMPLEMENTATION::ondemand::value>(first);
+-}
+-template<> simdjson_really_inline error_code simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::get<SIMDJSON_IMPLEMENTATION::ondemand::value>(SIMDJSON_IMPLEMENTATION::ondemand::value &out) & noexcept {
++template<> simdjson_really_inline error_code simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::get<SIMDJSON_IMPLEMENTATION::ondemand::value>(SIMDJSON_IMPLEMENTATION::ondemand::value &out) noexcept {
+   if (error()) { return error(); }
+   out = first;
+   return SUCCESS;
+ }
+-template<> simdjson_really_inline error_code simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::get<SIMDJSON_IMPLEMENTATION::ondemand::value>(SIMDJSON_IMPLEMENTATION::ondemand::value &out) && noexcept {
+-  if (error()) { return error(); }
+-  out = std::forward<SIMDJSON_IMPLEMENTATION::ondemand::value>(first);
+-  return SUCCESS;
+-}
+ 
+ #if SIMDJSON_EXCEPTIONS
+-simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::operator SIMDJSON_IMPLEMENTATION::ondemand::array() & noexcept(false) {
++simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::operator SIMDJSON_IMPLEMENTATION::ondemand::array() noexcept(false) {
+   if (error()) { throw simdjson_error(error()); }
+   return first;
+ }
+-simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::operator SIMDJSON_IMPLEMENTATION::ondemand::array() && noexcept(false) {
+-  if (error()) { throw simdjson_error(error()); }
+-  return std::forward<SIMDJSON_IMPLEMENTATION::ondemand::value>(first);
+-}
+-simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::operator SIMDJSON_IMPLEMENTATION::ondemand::object() & noexcept(false) {
++simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::operator SIMDJSON_IMPLEMENTATION::ondemand::object() noexcept(false) {
+   if (error()) { throw simdjson_error(error()); }
+   return first;
+ }
+-simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::operator SIMDJSON_IMPLEMENTATION::ondemand::object() && noexcept(false) {
+-  if (error()) { throw simdjson_error(error()); }
+-  return std::forward<SIMDJSON_IMPLEMENTATION::ondemand::value>(first);
+-}
+ simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value>::operator uint64_t() noexcept(false) {
+   if (error()) { throw simdjson_error(error()); }
+   return first;
+diff --git a/include/simdjson/generic/ondemand/value.h b/include/simdjson/generic/ondemand/value.h
+--- a/include/simdjson/generic/ondemand/value.h
++++ b/include/simdjson/generic/ondemand/value.h
+@@ -30,9 +30,7 @@ class value {
+    * @returns A value of the given type, parsed from the JSON.
+    * @returns INCORRECT_TYPE If the JSON value is not the given type.
+    */
+-  template<typename T> simdjson_really_inline simdjson_result<T> get() & noexcept;
+-  /** @overload template<typename T> simdjson_result<T> get() & noexcept */
+-  template<typename T> simdjson_really_inline simdjson_result<T> get() && noexcept;
++  template<typename T> simdjson_really_inline simdjson_result<T> get() noexcept;
+ 
+   /**
+    * Get this value as the given type.
+@@ -43,9 +41,7 @@ class value {
+    * @returns INCORRECT_TYPE If the JSON value is not an object.
+    * @returns SUCCESS If the parse succeeded and the out parameter was set to the value.
+    */
+-  template<typename T> simdjson_really_inline error_code get(T &out) & noexcept;
+-  /** @overload template<typename T> error_code get(T &out) & noexcept */
+-  template<typename T> simdjson_really_inline error_code get(T &out) && noexcept;
++  template<typename T> simdjson_really_inline error_code get(T &out) noexcept;
+ 
+   /**
+    * Cast this JSON value to an array.
+@@ -53,9 +49,7 @@ class value {
+    * @returns An object that can be used to iterate the array.
+    * @returns INCORRECT_TYPE If the JSON value is not an array.
+    */
+-  simdjson_really_inline simdjson_result<array> get_array() && noexcept;
+-  /** @overload simdjson_really_inline operator get_array() && noexcept(false); */
+-  simdjson_really_inline simdjson_result<array> get_array() & noexcept;
++  simdjson_really_inline simdjson_result<array> get_array() noexcept;
+ 
+   /**
+    * Cast this JSON value to an object.
+@@ -63,9 +57,7 @@ class value {
+    * @returns An object that can be used to look up or iterate fields.
+    * @returns INCORRECT_TYPE If the JSON value is not an object.
+    */
+-  simdjson_really_inline simdjson_result<object> get_object() && noexcept;
+-  /** @overload simdjson_really_inline operator object() && noexcept(false); */
+-  simdjson_really_inline simdjson_result<object> get_object() & noexcept;
++  simdjson_really_inline simdjson_result<object> get_object() noexcept;
+ 
+   /**
+    * Cast this JSON value to an unsigned integer.
+@@ -136,18 +128,14 @@ class value {
+    * @returns An object that can be used to iterate the array.
+    * @exception simdjson_error(INCORRECT_TYPE) If the JSON value is not an array.
+    */
+-  simdjson_really_inline operator array() && noexcept(false);
+-  /** @overload simdjson_really_inline operator array() && noexcept(false); */
+-  simdjson_really_inline operator array() & noexcept(false);
++  simdjson_really_inline operator array() noexcept(false);
+   /**
+    * Cast this JSON value to an object.
+    *
+    * @returns An object that can be used to look up or iterate fields.
+    * @exception simdjson_error(INCORRECT_TYPE) If the JSON value is not an object.
+    */
+-  simdjson_really_inline operator object() && noexcept(false);
+-  /** @overload simdjson_really_inline operator object() && noexcept(false); */
+-  simdjson_really_inline operator object() & noexcept(false);
++  simdjson_really_inline operator object() noexcept(false);
+   /**
+    * Cast this JSON value to an unsigned integer.
+    *
+@@ -234,13 +222,9 @@ class value {
+    * @param key The key to look up.
+    * @returns The value of the field, or NO_SUCH_FIELD if the field is not in the object.
+    */
+-  simdjson_really_inline simdjson_result<value> find_field(std::string_view key) & noexcept;
+-  /** @overload simdjson_really_inline simdjson_result<value> find_field(std::string_view key) & noexcept; */
+-  simdjson_really_inline simdjson_result<value> find_field(std::string_view key) && noexcept;
+-  /** @overload simdjson_really_inline simdjson_result<value> find_field(std::string_view key) & noexcept; */
+-  simdjson_really_inline simdjson_result<value> find_field(const char *key) & noexcept;
+-  /** @overload simdjson_really_inline simdjson_result<value> find_field(std::string_view key) & noexcept; */
+-  simdjson_really_inline simdjson_result<value> find_field(const char *key) && noexcept;
++  simdjson_really_inline simdjson_result<value> find_field(std::string_view key) noexcept;
++  /** @overload simdjson_really_inline simdjson_result<value> find_field(std::string_view key) noexcept; */
++  simdjson_really_inline simdjson_result<value> find_field(const char *key) noexcept;
+ 
+   /**
+    * Look up a field by name on an object, without regard to key order.
+@@ -261,21 +245,13 @@ class value {
+    * @param key The key to look up.
+    * @returns The value of the field, or NO_SUCH_FIELD if the field is not in the object.
+    */
+-  simdjson_really_inline simdjson_result<value> find_field_unordered(std::string_view key) & noexcept;
+-  /** @overload simdjson_really_inline simdjson_result<value> find_field_unordered(std::string_view key) & noexcept; */
+-  simdjson_really_inline simdjson_result<value> find_field_unordered(std::string_view key) && noexcept;
+-  /** @overload simdjson_really_inline simdjson_result<value> find_field_unordered(std::string_view key) & noexcept; */
+-  simdjson_really_inline simdjson_result<value> find_field_unordered(const char *key) & noexcept;
+-  /** @overload simdjson_really_inline simdjson_result<value> find_field_unordered(std::string_view key) & noexcept; */
+-  simdjson_really_inline simdjson_result<value> find_field_unordered(const char *key) && noexcept;
+-  /** @overload simdjson_really_inline simdjson_result<value> find_field_unordered(std::string_view key) & noexcept; */
+-  simdjson_really_inline simdjson_result<value> operator[](std::string_view key) & noexcept;
+-  /** @overload simdjson_really_inline simdjson_result<value> find_field_unordered(std::string_view key) & noexcept; */
+-  simdjson_really_inline simdjson_result<value> operator[](std::string_view key) && noexcept;
+-  /** @overload simdjson_really_inline simdjson_result<value> find_field_unordered(std::string_view key) & noexcept; */
+-  simdjson_really_inline simdjson_result<value> operator[](const char *key) & noexcept;
+-  /** @overload simdjson_really_inline simdjson_result<value> find_field_unordered(std::string_view key) & noexcept; */
+-  simdjson_really_inline simdjson_result<value> operator[](const char *key) && noexcept;
++  simdjson_really_inline simdjson_result<value> find_field_unordered(std::string_view key) noexcept;
++  /** @overload simdjson_really_inline simdjson_result<value> find_field_unordered(std::string_view key) noexcept; */
++  simdjson_really_inline simdjson_result<value> find_field_unordered(const char *key) noexcept;
++  /** @overload simdjson_really_inline simdjson_result<value> find_field_unordered(std::string_view key) noexcept; */
++  simdjson_really_inline simdjson_result<value> operator[](std::string_view key) noexcept;
++  /** @overload simdjson_really_inline simdjson_result<value> find_field_unordered(std::string_view key) noexcept; */
++  simdjson_really_inline simdjson_result<value> operator[](const char *key) noexcept;
+ 
+ protected:
+   /**
+@@ -303,9 +279,7 @@ class value {
+   /**
+    * Get the object, starting or resuming it as necessary
+    */
+-  simdjson_really_inline simdjson_result<object> start_or_resume_object() & noexcept;
+-  /** @overload simdjson_really_inline simdjson_result<object> start_or_resume_object() & noexcept; */
+-  simdjson_really_inline simdjson_result<object> start_or_resume_object() && noexcept;
++  simdjson_really_inline simdjson_result<object> start_or_resume_object() noexcept;
+ 
+   // simdjson_really_inline void log_value(const char *type) const noexcept;
+   // simdjson_really_inline void log_error(const char *message) const noexcept;
+@@ -334,11 +308,8 @@ struct simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> : public SIMDJS
+   simdjson_really_inline simdjson_result(error_code error) noexcept; ///< @private
+   simdjson_really_inline simdjson_result() noexcept = default;
+ 
+-  simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::array> get_array() && noexcept;
+-  simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::array> get_array() & noexcept;
+-
+-  simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::object> get_object() && noexcept;
+-  simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::object> get_object() & noexcept;
++  simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::array> get_array() noexcept;
++  simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::object> get_object() noexcept;
+ 
+   simdjson_really_inline simdjson_result<uint64_t> get_uint64() noexcept;
+   simdjson_really_inline simdjson_result<int64_t> get_int64() noexcept;
+@@ -348,17 +319,13 @@ struct simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> : public SIMDJS
+   simdjson_really_inline simdjson_result<bool> get_bool() noexcept;
+   simdjson_really_inline bool is_null() noexcept;
+ 
+-  template<typename T> simdjson_really_inline simdjson_result<T> get() & noexcept;
+-  template<typename T> simdjson_really_inline simdjson_result<T> get() && noexcept;
++  template<typename T> simdjson_really_inline simdjson_result<T> get() noexcept;
+ 
+-  template<typename T> simdjson_really_inline error_code get(T &out) & noexcept;
+-  template<typename T> simdjson_really_inline error_code get(T &out) && noexcept;
++  template<typename T> simdjson_really_inline error_code get(T &out) noexcept;
+ 
+ #if SIMDJSON_EXCEPTIONS
+-  simdjson_really_inline operator SIMDJSON_IMPLEMENTATION::ondemand::array() && noexcept(false);
+-  simdjson_really_inline operator SIMDJSON_IMPLEMENTATION::ondemand::array() & noexcept(false);
+-  simdjson_really_inline operator SIMDJSON_IMPLEMENTATION::ondemand::object() && noexcept(false);
+-  simdjson_really_inline operator SIMDJSON_IMPLEMENTATION::ondemand::object() & noexcept(false);
++  simdjson_really_inline operator SIMDJSON_IMPLEMENTATION::ondemand::array() noexcept(false);
++  simdjson_really_inline operator SIMDJSON_IMPLEMENTATION::ondemand::object() noexcept(false);
+   simdjson_really_inline operator uint64_t() noexcept(false);
+   simdjson_really_inline operator int64_t() noexcept(false);
+   simdjson_really_inline operator double() noexcept(false);
+@@ -390,13 +357,9 @@ struct simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> : public SIMDJS
+    * @param key The key to look up.
+    * @returns The value of the field, or NO_SUCH_FIELD if the field is not in the object.
+    */
+-  simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> find_field(std::string_view key) & noexcept;
+-  /** @overload simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> find_field(std::string_view key) & noexcept; */
+-  simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> find_field(std::string_view key) && noexcept;
+-  /** @overload simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> find_field(std::string_view key) & noexcept; */
+-  simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> find_field(const char *key) & noexcept;
+-  /** @overload simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> find_field(std::string_view key) & noexcept; */
+-  simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> find_field(const char *key) && noexcept;
++  simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> find_field(std::string_view key) noexcept;
++  /** @overload simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> find_field(std::string_view key) noexcept; */
++  simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> find_field(const char *key) noexcept;
+ 
+   /**
+    * Look up a field by name on an object, without regard to key order.
+@@ -417,21 +380,13 @@ struct simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> : public SIMDJS
+    * @param key The key to look up.
+    * @returns The value of the field, or NO_SUCH_FIELD if the field is not in the object.
+    */
+-  simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> find_field_unordered(std::string_view key) & noexcept;
+-  /** @overload simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> find_field_unordered(std::string_view key) & noexcept; */
+-  simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> find_field_unordered(std::string_view key) && noexcept;
+-  /** @overload simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> find_field_unordered(std::string_view key) & noexcept; */
+-  simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> find_field_unordered(const char *key) & noexcept;
+-  /** @overload simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> find_field_unordered(std::string_view key) & noexcept; */
+-  simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> find_field_unordered(const char *key) && noexcept;
+-  /** @overload simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> find_field_unordered(std::string_view key) & noexcept; */
+-  simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> operator[](std::string_view key) & noexcept;
+-  /** @overload simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> find_field_unordered(std::string_view key) & noexcept; */
+-  simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> operator[](std::string_view key) && noexcept;
+-  /** @overload simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> find_field_unordered(std::string_view key) & noexcept; */
+-  simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> operator[](const char *key) & noexcept;
+-  /** @overload simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> find_field_unordered(std::string_view key) & noexcept; */
+-  simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> operator[](const char *key) && noexcept;
++  simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> find_field_unordered(std::string_view key) noexcept;
++  /** @overload simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> find_field_unordered(std::string_view key) noexcept; */
++  simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> find_field_unordered(const char *key) noexcept;
++  /** @overload simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> find_field_unordered(std::string_view key) noexcept; */
++  simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> operator[](std::string_view key) noexcept;
++  /** @overload simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> find_field_unordered(std::string_view key) noexcept; */
++  simdjson_really_inline simdjson_result<SIMDJSON_IMPLEMENTATION::ondemand::value> operator[](const char *key) noexcept;
+ };
+ 
+ } // namespace simdjson
+diff --git a/include/simdjson/generic/ondemand/value_iterator-inl.h b/include/simdjson/generic/ondemand/value_iterator-inl.h
+--- a/include/simdjson/generic/ondemand/value_iterator-inl.h
++++ b/include/simdjson/generic/ondemand/value_iterator-inl.h
+@@ -10,20 +10,12 @@ simdjson_really_inline value_iterator::value_iterator(json_iterator *json_iter,
+ }
+ 
+ simdjson_warn_unused simdjson_really_inline simdjson_result<bool> value_iterator::start_object() noexcept {
+-  assert_at_start();
+-
+-  if (*_json_iter->advance() != '{') { logger::log_error(*_json_iter, "Not an object"); return INCORRECT_TYPE; }
+-  return started_object();
+-}
+-simdjson_warn_unused simdjson_really_inline simdjson_result<bool> value_iterator::try_start_object() noexcept {
+-  assert_at_start();
+-
+-  if (*_json_iter->peek() != '{') { logger::log_error(*_json_iter, "Not an object"); return INCORRECT_TYPE; }
+-  _json_iter->advance();
++  if (*advance_container_start("object") != '{') { return incorrect_type_error("Not an object"); }
+   return started_object();
+ }
+ 
+ simdjson_warn_unused simdjson_really_inline bool value_iterator::started_object() noexcept {
++  assert_at_container_start();
+   if (*_json_iter->peek() == '}') {
+     logger::log_value(*_json_iter, "empty object");
+     _json_iter->advance();
+@@ -256,21 +248,12 @@ simdjson_warn_unused simdjson_really_inline error_code value_iterator::field_val
+ }
+ 
+ simdjson_warn_unused simdjson_really_inline simdjson_result<bool> value_iterator::start_array() noexcept {
+-  assert_at_start();
+-
+-  if (*_json_iter->advance() != '[') { logger::log_error(*_json_iter, "Not an array"); return INCORRECT_TYPE; }
+-  return started_array();
+-}
+-
+-simdjson_warn_unused simdjson_really_inline simdjson_result<bool> value_iterator::try_start_array() noexcept {
+-  assert_at_start();
+-
+-  if (*_json_iter->peek() != '[') { logger::log_error(*_json_iter, "Not an array"); return INCORRECT_TYPE; }
+-  _json_iter->advance();
++  if (*advance_container_start("array") != '[') { return incorrect_type_error("Not an array"); }
+   return started_array();
+ }
+ 
+ simdjson_warn_unused simdjson_really_inline bool value_iterator::started_array() noexcept {
++  assert_at_container_start();
+   if (*_json_iter->peek() == ']') {
+     logger::log_value(*_json_iter, "empty array");
+     _json_iter->advance();
+@@ -313,7 +296,7 @@ simdjson_warn_unused simdjson_really_inline simdjson_result<std::string_view> va
+   return get_raw_json_string().unescape(_json_iter->string_buf_loc());
+ }
+ simdjson_warn_unused simdjson_really_inline simdjson_result<raw_json_string> value_iterator::get_raw_json_string() noexcept {
+-  auto json = advance_scalar("string");
++  auto json = advance_start("string");
+   if (*json != '"') { return incorrect_type_error("Not a string"); }
+   return raw_json_string(json+1);
+ }
+@@ -342,21 +325,21 @@ simdjson_warn_unused simdjson_really_inline simdjson_result<raw_json_string> val
+   return get_raw_json_string();
+ }
+ simdjson_warn_unused simdjson_really_inline simdjson_result<uint64_t> value_iterator::get_root_uint64() noexcept {
+-  auto max_len = peek_scalar_length();
++  auto max_len = peek_start_length();
+   auto json = advance_root_scalar("uint64");
+   uint8_t tmpbuf[20+1]; // <20 digits> is the longest possible unsigned integer
+   if (!_json_iter->copy_to_buffer(json, max_len, tmpbuf)) { logger::log_error(*_json_iter, _start_position, depth(), "Root number more than 20 characters"); return NUMBER_ERROR; }
+   return numberparsing::parse_unsigned(tmpbuf);
+ }
+ simdjson_warn_unused simdjson_really_inline simdjson_result<int64_t> value_iterator::get_root_int64() noexcept {
+-  auto max_len = peek_scalar_length();
++  auto max_len = peek_start_length();
+   auto json = advance_root_scalar("int64");
+   uint8_t tmpbuf[20+1]; // -<19 digits> is the longest possible integer
+   if (!_json_iter->copy_to_buffer(json, max_len, tmpbuf)) { logger::log_error(*_json_iter, _start_position, depth(), "Root number more than 20 characters"); return NUMBER_ERROR; }
+   return numberparsing::parse_integer(tmpbuf);
+ }
+ simdjson_warn_unused simdjson_really_inline simdjson_result<double> value_iterator::get_root_double() noexcept {
+-  auto max_len = peek_scalar_length();
++  auto max_len = peek_start_length();
+   auto json = advance_root_scalar("double");
+   // Per https://www.exploringbinary.com/maximum-number-of-decimal-digits-in-binary-floating-point-numbers/, 1074 is the maximum number of significant fractional digits. Add 8 more digits for the biggest number: -0.<fraction>e-308.
+   uint8_t tmpbuf[1074+8+1];
+@@ -364,14 +347,14 @@ simdjson_warn_unused simdjson_really_inline simdjson_result<double> value_iterat
+   return numberparsing::parse_double(tmpbuf);
+ }
+ simdjson_warn_unused simdjson_really_inline simdjson_result<bool> value_iterator::get_root_bool() noexcept {
+-  auto max_len = peek_scalar_length();
++  auto max_len = peek_start_length();
+   auto json = advance_root_scalar("bool");
+   uint8_t tmpbuf[5+1];
+   if (!_json_iter->copy_to_buffer(json, max_len, tmpbuf)) { return incorrect_type_error("Not a boolean"); }
+   return parse_bool(tmpbuf);
+ }
+ simdjson_really_inline bool value_iterator::is_root_null() noexcept {
+-  auto max_len = peek_scalar_length();
++  auto max_len = peek_start_length();
+   auto json = advance_root_scalar("null");
+   return max_len >= 4 && !atomparsing::str4ncmp(json, "null") &&
+          (max_len == 4 || jsoncharutils::is_structural_or_whitespace(json[5]));
+@@ -427,17 +410,17 @@ simdjson_warn_unused simdjson_really_inline json_iterator &value_iterator::json_
+   return *_json_iter;
+ }
+ 
+-simdjson_really_inline const uint8_t *value_iterator::peek_scalar() const noexcept {
++simdjson_really_inline const uint8_t *value_iterator::peek_start() const noexcept {
+   return _json_iter->peek(_start_position);
+ }
+-simdjson_really_inline uint32_t value_iterator::peek_scalar_length() const noexcept {
++simdjson_really_inline uint32_t value_iterator::peek_start_length() const noexcept {
+   return _json_iter->peek_length(_start_position);
+ }
+ 
+-simdjson_really_inline const uint8_t *value_iterator::advance_scalar(const char *type) const noexcept {
++simdjson_really_inline const uint8_t *value_iterator::advance_start(const char *type) const noexcept {
+   logger::log_value(*_json_iter, _start_position, depth(), type);
+   // If we're not at the position anymore, we don't want to advance the cursor.
+-  if (!is_at_start()) { return peek_scalar(); }
++  if (!is_at_start()) { return peek_start(); }
+ 
+   // Get the JSON and advance the cursor, decreasing depth to signify that we have retrieved the value.
+   assert_at_start();
+@@ -445,9 +428,19 @@ simdjson_really_inline const uint8_t *value_iterator::advance_scalar(const char
+   _json_iter->ascend_to(depth()-1);
+   return result;
+ }
++simdjson_really_inline const uint8_t *value_iterator::advance_container_start(const char *type) const noexcept {
++  // If we're not at the position anymore, we don't want to advance the cursor.
++  if (is_at_container_start()) { return peek_start(); }
++
++  logger::log_start_value(*_json_iter, _start_position, depth(), type);
++
++  // Get the JSON and advance the cursor, decreasing depth to signify that we have retrieved the value.
++  assert_at_start();
++  return _json_iter->advance();
++}
+ simdjson_really_inline const uint8_t *value_iterator::advance_root_scalar(const char *type) const noexcept {
+   logger::log_value(*_json_iter, _start_position, depth(), type);
+-  if (!is_at_start()) { return peek_scalar(); }
++  if (!is_at_start()) { return peek_start(); }
+ 
+   assert_at_root();
+   auto result = _json_iter->advance();
+@@ -456,7 +449,7 @@ simdjson_really_inline const uint8_t *value_iterator::advance_root_scalar(const
+ }
+ simdjson_really_inline const uint8_t *value_iterator::advance_non_root_scalar(const char *type) const noexcept {
+   logger::log_value(*_json_iter, _start_position, depth(), type);
+-  if (!is_at_start()) { return peek_scalar(); }
++  if (!is_at_start()) { return peek_start(); }
+ 
+   assert_at_non_root_start();
+   auto result = _json_iter->advance();
+@@ -472,6 +465,9 @@ simdjson_really_inline error_code value_iterator::incorrect_type_error(const cha
+ simdjson_really_inline bool value_iterator::is_at_start() const noexcept {
+   return _json_iter->token.index == _start_position;
+ }
++simdjson_really_inline bool value_iterator::is_at_container_start() const noexcept {
++  return _json_iter->token.index == _start_position + 1;
++}
+ 
+ simdjson_really_inline void value_iterator::assert_at_start() const noexcept {
+   SIMDJSON_ASSUME( _json_iter->token.index == _start_position );
+@@ -479,6 +475,12 @@ simdjson_really_inline void value_iterator::assert_at_start() const noexcept {
+   SIMDJSON_ASSUME( _depth > 0 );
+ }
+ 
++simdjson_really_inline void value_iterator::assert_at_container_start() const noexcept {
++  SIMDJSON_ASSUME( _json_iter->token.index == _start_position + 1 );
++  SIMDJSON_ASSUME( _json_iter->_depth == _depth );
++  SIMDJSON_ASSUME( _depth > 0 );
++}
++
+ simdjson_really_inline void value_iterator::assert_at_next() const noexcept {
+   SIMDJSON_ASSUME( _json_iter->token.index > _start_position );
+   SIMDJSON_ASSUME( _json_iter->_depth == _depth );
+diff --git a/include/simdjson/generic/ondemand/value_iterator.h b/include/simdjson/generic/ondemand/value_iterator.h
+--- a/include/simdjson/generic/ondemand/value_iterator.h
++++ b/include/simdjson/generic/ondemand/value_iterator.h
+@@ -208,13 +208,6 @@ class value_iterator {
+    * @error INCORRECT_TYPE If there is no [.
+    */
+   simdjson_warn_unused simdjson_really_inline simdjson_result<bool> start_array() noexcept;
+-  /**
+-   * Check for an opening [ and start an array iteration.
+-   *
+-   * @returns Whether the array had any elements (returns false for empty).
+-   * @error INCORRECT_TYPE If there is no [.
+-   */
+-  simdjson_warn_unused simdjson_really_inline simdjson_result<bool> try_start_array() noexcept;
+ 
+   /**
+    * Start an array iteration after the user has already checked and moved past the [.
+@@ -278,16 +271,19 @@ class value_iterator {
+   simdjson_really_inline bool parse_null(const uint8_t *json) const noexcept;
+   simdjson_really_inline simdjson_result<bool> parse_bool(const uint8_t *json) const noexcept;
+ 
+-  simdjson_really_inline const uint8_t *peek_scalar() const noexcept;
+-  simdjson_really_inline uint32_t peek_scalar_length() const noexcept;
+-  simdjson_really_inline const uint8_t *advance_scalar(const char *type) const noexcept;
++  simdjson_really_inline const uint8_t *peek_start() const noexcept;
++  simdjson_really_inline uint32_t peek_start_length() const noexcept;
++  simdjson_really_inline const uint8_t *advance_start(const char *type) const noexcept;
++  simdjson_really_inline const uint8_t *advance_container_start(const char *type) const noexcept;
+   simdjson_really_inline const uint8_t *advance_root_scalar(const char *type) const noexcept;
+   simdjson_really_inline const uint8_t *advance_non_root_scalar(const char *type) const noexcept;
+ 
+   simdjson_really_inline error_code incorrect_type_error(const char *message) const noexcept;
+ 
+   simdjson_really_inline bool is_at_start() const noexcept;
++  simdjson_really_inline bool is_at_container_start() const noexcept;
+   simdjson_really_inline void assert_at_start() const noexcept;
++  simdjson_really_inline void assert_at_container_start() const noexcept;
+   simdjson_really_inline void assert_at_root() const noexcept;
+   simdjson_really_inline void assert_at_child() const noexcept;
+   simdjson_really_inline void assert_at_next() const noexcept;

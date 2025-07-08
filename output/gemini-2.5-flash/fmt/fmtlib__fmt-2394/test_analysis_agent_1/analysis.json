@@ -1,0 +1,7 @@
+{
+  "is_finish": false,
+  "guidance_for_write_dockerfile_agent": "The Dockerfile build failed in Step 5 due to an HTTP 404 error when trying to fetch the LLVM GPG key from `https://apt.llvm.org/llvm-snapshot.gpg.pub`. This URL appears to be incorrect or no longer valid. The correct URL for the LLVM GPG key is typically `https://apt.llvm.org/llvm-snapshot.gpg` (without the `.pub` suffix). Update the Dockerfile to fetch the GPG key from the correct URL. The updated line should be: `wget -O - https://apt.llvm.org/llvm-snapshot.gpg | apt-key add -`.",
+  "guidance_for_write_eval_script_agent": "",
+  "guidance_for_context_retrieval_agent": "",
+  "build_image_status": false
+}

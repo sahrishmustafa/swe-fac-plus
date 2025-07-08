@@ -1,0 +1,38 @@
+Formatting for strings with custom allocators fails to compile
+When using a `std::basic_string` with a custom allocator, it fails to compile in a few use cases, e.g.:
+
+```cpp
+std::string f1() {
+    // This compiles.
+    return fmt::format("{}", std::tuple<std::string>{});
+}
+
+std::string f2() {
+    // This compiles.
+    return fmt::format("{}", std::pmr::string{});
+}
+
+std::string f3() {
+    // This does not compile.
+    return fmt::format("{}", std::tuple<std::pmr::string>{});
+}
+```
+
+You can reproduce the error here: https://godbolt.org/z/4oa1jqr1G
+
+I checked the code, and it seems `std::basic_string` is specialized only for the default allocator. I think the fix might be as simple as replacing
+
+```cpp
+FMT_FORMAT_AS(std::basic_string<Char>, basic_string_view<Char>);
+```
+
+with
+
+```cpp
+template <typename Char, typename Alloc>
+class formatter<std::basic_string<Char, std::char_traits<Char>, Alloc>, Char>
+    : public formatter<basic_string_view<Char>, Char> {};
+```
+
+It is also not clear why printing a `std::pmr::string` alone works. Maybe it's falling back to `string_view` while the tuple version is not.
+

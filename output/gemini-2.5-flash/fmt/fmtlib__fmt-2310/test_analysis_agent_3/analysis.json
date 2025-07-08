@@ -1,0 +1,7 @@
+{
+  "is_finish": false,
+  "guidance_for_write_dockerfile_agent": "",
+  "guidance_for_write_eval_script_agent": "The project build failed with a 'Killed signal terminated program cc1plus' error (lines 103-105 of the log). This typically indicates an out-of-memory (OOM) issue during compilation. The evaluation script uses `cmake --build build -j$(nproc)`, which attempts to utilize all available CPU cores, potentially leading to excessive memory consumption on resource-constrained environments. To resolve this, modify both `cmake --build` commands in the eval script. Change `-j$(nproc)` to a lower, fixed number of parallel jobs, such as `-j2` (consistent with the Dockerfile's build setting), to prevent OOM errors and allow the build to complete successfully. The relevant lines to update are:\n- Line 51: `cmake --build build -j$(nproc)`\n- Line 106: `cmake --build build -j$(nproc)`",
+  "guidance_for_context_retrieval_agent": "",
+  "build_image_status": true
+}

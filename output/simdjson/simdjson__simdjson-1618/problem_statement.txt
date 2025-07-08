@@ -1,0 +1,8 @@
+Document new On Demand JSON Pointer
+We have a JSON Pointer API on top of OnDemand.  See https://github.com/simdjson/simdjson/pull/1615
+
+We now need to updated our documentation. Currently, it relies on the DOM backend:
+
+https://github.com/simdjson/simdjson/blob/master/doc/basics.md#json-pointer
+
+This should get updated with tested examples that are relying on your new work. This new documentation should state that our json pointer implementation relies on `find_field`. Importantly, we need to document how one can issue multiple JSON Pointer queries on the same document.

@@ -1,11 +1,14 @@
 #!/bin/bash
 set -uxo pipefail
+# Navigate to the testbed directory, which is the root of the cloned repository.
 cd /testbed
 
-# Ensure the target test file is in its original state before applying any patch
+# Ensure the target test file is in its original state before applying any patch.
+# This prevents issues if a previous run's patch was not fully reverted.
 git checkout 87fbc6f7566e4d3266bd3a2cd69f6c90e1aefa5d "test/prepare-test.cc"
 
-# Required: apply test patch to update target tests
+# Required: apply the test patch to update the target tests.
+# The actual patch content will be injected here programmatically.
 git apply -v - <<'EOF_114329324912'
 diff --git a/test/prepare-test.cc b/test/prepare-test.cc
 --- a/test/prepare-test.cc
@@ -80,27 +83,34 @@ diff --git a/test/prepare-test.cc b/test/prepare-test.cc
 +}
 EOF_114329324912
 
-# Build system setup
-# 1. Create the build directory
-mkdir build
+# Required: After applying the test patch, rebuild the test binary or recompile the project
+# This ensures that any new or modified tests from the patch are included in the executable.
+# Navigate to the build directory where the project was initially configured.
+cd /testbed/build
 
-# 2. Configure CMake with tests enabled
-cmake -S . -B build -DFMT_TEST=ON
+# Rebuild the project. This will recompile `test/prepare-test.cc` if it was modified by the patch,
+# and link it into the `prepare-test` executable.
+echo "Attempting to rebuild the project after applying the patch..."
+make -j$(nproc)
+build_rc=$? # Capture the exit code of the build command
 
-# 3. Build the project
-cmake --build build
+# Critical: If the build fails, set the OMNIGRIL_EXIT_CODE to 1 and exit immediately.
+if [ $build_rc -ne 0 ]; then
+  echo "Project rebuild failed with exit code $build_rc. Test execution aborted."
+  echo "OMNIGRIL_EXIT_CODE=1" # Indicate failure due to build error
+  exit 0 # Exit the script successfully from a shell perspective, but report failure via OMNIGRIL_EXIT_CODE
+fi
 
-# Test execution
-# Navigate into the build directory
-cd build
+echo "Project rebuilt successfully. Proceeding with test execution."
 
-# Run tests: ctest will execute all tests compiled as part of the FMT_TEST target,
-# which includes tests derived from test/prepare-test.cc.
-ctest --output-on-failure
-rc=$? # Capture exit code immediately after running tests
+# Test execution: Run only the specified target test using CTest.
+# The collected information indicates that `prepare-test.cc` compiles to a CTest target named `prepare-test`.
+ctest -R prepare-test --output-on-failure
+rc=$? # Capture the exit code immediately after running the tests
 
-echo "OMNIGRIL_EXIT_CODE=$rc" # Required, echo test status
+echo "OMNIGRIL_EXIT_CODE=$rc" # Required: Echo the test status for the test log analysis agent
 
-# Cleanup: Revert changes made by the patch to the target test file
-cd /testbed # Ensure we are in the repository root for git checkout
+# Cleanup: Revert changes made by the patch to the target test file.
+# Navigate back to the repository root directory before performing git checkout.
+cd /testbed
 git checkout 87fbc6f7566e4d3266bd3a2cd69f6c90e1aefa5d "test/prepare-test.cc"

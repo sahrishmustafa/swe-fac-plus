@@ -1,0 +1,317 @@
++ cd /testbed
++ TARGET_COMMIT_SHA=6cd04aa858f2d92105c0fbd65cdafb96428db002
++ TARGET_TEST_FILE=tests/ondemand/ondemand_json_pointer_tests.cpp
++ TARGET_CTEST_NAME=ondemand_json_pointer_tests
++ git checkout 6cd04aa858f2d92105c0fbd65cdafb96428db002 tests/ondemand/ondemand_json_pointer_tests.cpp
+Updated 1 path from ac0503ad
++ git apply -v -
+Checking patch tests/ondemand/ondemand_json_pointer_tests.cpp...
+Applied patch tests/ondemand/ondemand_json_pointer_tests.cpp cleanly.
++ cd build
++ echo 'Attempting to rebuild the project after patch application...'
+Attempting to rebuild the project after patch application...
++ cmake --build . -j4
+[  2%] Built target ujson4c
+[  2%] Built target jsoncpp
+[  2%] Built target cjson
+Scanning dependencies of target simdjson
+[  3%] Building CXX object CMakeFiles/simdjson.dir/src/simdjson.cpp.o
+[  5%] Built target yyjson
+[  8%] Built target gason
+[  8%] Built target fastjson
+[ 10%] Built target jsmn
+[ 11%] Built target json11
+[ 21%] Built target benchmark
+[ 22%] Built target amalgamate_demo_direct_from_repository
+[ 24%] Built target singleheader-files
+[ 24%] Built target generated-data
+[ 25%] Built target benchmark_main
+[ 26%] Built target amalgamate_demo
+[ 26%] Linking CXX static library libsimdjson.a
+[ 26%] Built target simdjson
+Scanning dependencies of target jsonstats
+Scanning dependencies of target minify
+Scanning dependencies of target json2json
+Scanning dependencies of target jsonpointer
+[ 27%] Building CXX object tools/CMakeFiles/minify.dir/minify.cpp.o
+[ 27%] Building CXX object tools/CMakeFiles/jsonstats.dir/jsonstats.cpp.o
+[ 29%] Building CXX object tools/CMakeFiles/json2json.dir/json2json.cpp.o
+[ 29%] Building CXX object tools/CMakeFiles/jsonpointer.dir/jsonpointer.cpp.o
+[ 29%] Linking CXX executable jsonpointer
+[ 29%] Built target jsonpointer
+Scanning dependencies of target unicode_tests
+[ 30%] Building CXX object tests/CMakeFiles/unicode_tests.dir/unicode_tests.cpp.o
+[ 30%] Linking CXX executable unicode_tests
+[ 30%] Built target unicode_tests
+Scanning dependencies of target checkimplementation
+[ 30%] Building CXX object tests/CMakeFiles/checkimplementation.dir/checkimplementation.cpp.o
+[ 30%] Linking CXX executable checkimplementation
+[ 30%] Built target checkimplementation
+Scanning dependencies of target minify_tests
+[ 30%] Building CXX object tests/CMakeFiles/minify_tests.dir/minify_tests.cpp.o
+[ 30%] Linking CXX executable jsonstats
+[ 31%] Linking CXX executable minify
+[ 31%] Built target jsonstats
+[ 31%] Built target minify
+Scanning dependencies of target padded_string_tests
+Scanning dependencies of target pointercheck
+[ 32%] Building CXX object tests/CMakeFiles/padded_string_tests.dir/padded_string_tests.cpp.o
+[ 32%] Building CXX object tests/dom/CMakeFiles/pointercheck.dir/pointercheck.cpp.o
+[ 34%] Linking CXX executable json2json
+[ 34%] Built target json2json
+Scanning dependencies of target document_tests
+[ 34%] Building CXX object tests/dom/CMakeFiles/document_tests.dir/document_tests.cpp.o
+[ 34%] Linking CXX executable minify_tests
+[ 34%] Built target minify_tests
+Scanning dependencies of target numberparsingcheck
+[ 35%] Building CXX object tests/dom/CMakeFiles/numberparsingcheck.dir/numberparsingcheck.cpp.o
+[ 35%] Linking CXX executable padded_string_tests
+[ 35%] Built target padded_string_tests
+Scanning dependencies of target basictests
+[ 36%] Building CXX object tests/dom/CMakeFiles/basictests.dir/basictests.cpp.o
+[ 36%] Linking CXX executable numberparsingcheck
+[ 36%] Built target numberparsingcheck
+Scanning dependencies of target integer_tests
+[ 37%] Linking CXX executable pointercheck
+[ 37%] Building CXX object tests/dom/CMakeFiles/integer_tests.dir/integer_tests.cpp.o
+[ 37%] Built target pointercheck
+Scanning dependencies of target jsoncheck
+[ 37%] Building CXX object tests/dom/CMakeFiles/jsoncheck.dir/jsoncheck.cpp.o
+[ 39%] Linking CXX executable document_tests
+[ 39%] Built target document_tests
+Scanning dependencies of target document_stream_tests
+[ 40%] Building CXX object tests/dom/CMakeFiles/document_stream_tests.dir/document_stream_tests.cpp.o
+[ 41%] Linking CXX executable integer_tests
+[ 43%] Linking CXX executable jsoncheck
+[ 43%] Built target integer_tests
+Scanning dependencies of target minefieldcheck
+[ 43%] Building CXX object tests/dom/CMakeFiles/minefieldcheck.dir/minefieldcheck.cpp.o
+[ 43%] Built target jsoncheck
+Scanning dependencies of target parse_many_test
+[ 43%] Building CXX object tests/dom/CMakeFiles/parse_many_test.dir/parse_many_test.cpp.o
+[ 44%] Linking CXX executable minefieldcheck
+[ 44%] Built target minefieldcheck
+Scanning dependencies of target random_string_number_tests
+[ 44%] Building CXX object tests/dom/CMakeFiles/random_string_number_tests.dir/random_string_number_tests.cpp.o
+[ 45%] Linking CXX executable parse_many_test
+[ 45%] Built target parse_many_test
+[ 45%] Linking CXX executable trivially_copyable_test
+[ 46%] Built target trivially_copyable_test
+Scanning dependencies of target extracting_values_example
+[ 48%] Building CXX object tests/dom/CMakeFiles/extracting_values_example.dir/extracting_values_example.cpp.o
+[ 48%] Linking CXX executable document_stream_tests
+[ 48%] Built target document_stream_tests
+Scanning dependencies of target stringparsingcheck
+[ 48%] Building CXX object tests/dom/CMakeFiles/stringparsingcheck.dir/stringparsingcheck.cpp.o
+[ 48%] Linking CXX executable random_string_number_tests
+[ 48%] Built target random_string_number_tests
+Scanning dependencies of target errortests
+[ 48%] Building CXX object tests/dom/CMakeFiles/errortests.dir/errortests.cpp.o
+[ 48%] Linking CXX executable extracting_values_example
+[ 48%] Built target extracting_values_example
+Scanning dependencies of target ondemand_object_tests
+[ 48%] Building CXX object tests/ondemand/CMakeFiles/ondemand_object_tests.dir/ondemand_object_tests.cpp.o
+[ 48%] Linking CXX executable basictests
+[ 48%] Linking CXX executable stringparsingcheck
+[ 48%] Built target basictests
+Scanning dependencies of target ondemand_object_error_tests
+[ 49%] Building CXX object tests/ondemand/CMakeFiles/ondemand_object_error_tests.dir/ondemand_object_error_tests.cpp.o
+[ 49%] Built target stringparsingcheck
+Scanning dependencies of target ondemand_misc_tests
+[ 49%] Building CXX object tests/ondemand/CMakeFiles/ondemand_misc_tests.dir/ondemand_misc_tests.cpp.o
+[ 50%] Linking CXX executable errortests
+[ 50%] Built target errortests
+Scanning dependencies of target ondemand_error_tests
+[ 51%] Building CXX object tests/ondemand/CMakeFiles/ondemand_error_tests.dir/ondemand_error_tests.cpp.o
+[ 51%] Linking CXX executable ondemand_misc_tests
+[ 51%] Built target ondemand_misc_tests
+Scanning dependencies of target ondemand_compilation_tests
+[ 53%] Building CXX object tests/ondemand/CMakeFiles/ondemand_compilation_tests.dir/ondemand_compilation_tests.cpp.o
+[ 53%] Linking CXX executable ondemand_object_error_tests
+[ 53%] Built target ondemand_object_error_tests
+Scanning dependencies of target ondemand_array_error_tests
+[ 53%] Building CXX object tests/ondemand/CMakeFiles/ondemand_array_error_tests.dir/ondemand_array_error_tests.cpp.o
+[ 53%] Linking CXX executable ondemand_compilation_tests
+[ 53%] Built target ondemand_compilation_tests
+Scanning dependencies of target ondemand_key_string_tests
+[ 53%] Building CXX object tests/ondemand/CMakeFiles/ondemand_key_string_tests.dir/ondemand_key_string_tests.cpp.o
+[ 53%] Linking CXX executable ondemand_error_tests
+[ 53%] Built target ondemand_error_tests
+Scanning dependencies of target ondemand_json_pointer_tests
+[ 53%] Building CXX object tests/ondemand/CMakeFiles/ondemand_json_pointer_tests.dir/ondemand_json_pointer_tests.cpp.o
+[ 54%] Linking CXX executable ondemand_key_string_tests
+[ 54%] Built target ondemand_key_string_tests
+Scanning dependencies of target ondemand_array_tests
+[ 54%] Building CXX object tests/ondemand/CMakeFiles/ondemand_array_tests.dir/ondemand_array_tests.cpp.o
+[ 55%] Linking CXX executable ondemand_array_error_tests
+[ 55%] Built target ondemand_array_error_tests
+Scanning dependencies of target ondemand_active_tests
+[ 56%] Building CXX object tests/ondemand/CMakeFiles/ondemand_active_tests.dir/ondemand_active_tests.cpp.o
+[ 58%] Linking CXX executable ondemand_json_pointer_tests
+[ 58%] Built target ondemand_json_pointer_tests
+Scanning dependencies of target ondemand_tostring_tests
+[ 58%] Building CXX object tests/ondemand/CMakeFiles/ondemand_tostring_tests.dir/ondemand_tostring_tests.cpp.o
+[ 58%] Linking CXX executable ondemand_active_tests
+[ 58%] Built target ondemand_active_tests
+Scanning dependencies of target ondemand_ordering_tests
+[ 58%] Building CXX object tests/ondemand/CMakeFiles/ondemand_ordering_tests.dir/ondemand_ordering_tests.cpp.o
+[ 59%] Linking CXX executable ondemand_tostring_tests
+[ 59%] Built target ondemand_tostring_tests
+Scanning dependencies of target ondemand_readme_examples
+[ 60%] Building CXX object tests/ondemand/CMakeFiles/ondemand_readme_examples.dir/ondemand_readme_examples.cpp.o
+[ 62%] Linking CXX executable ondemand_array_tests
+[ 62%] Built target ondemand_array_tests
+Scanning dependencies of target ondemand_number_tests
+[ 63%] Building CXX object tests/ondemand/CMakeFiles/ondemand_number_tests.dir/ondemand_number_tests.cpp.o
+[ 63%] Linking CXX executable ondemand_number_tests
+[ 63%] Built target ondemand_number_tests
+Scanning dependencies of target ondemand_parse_api_tests
+[ 63%] Building CXX object tests/ondemand/CMakeFiles/ondemand_parse_api_tests.dir/ondemand_parse_api_tests.cpp.o
+[ 64%] Linking CXX executable ondemand_ordering_tests
+[ 64%] Built target ondemand_ordering_tests
+Scanning dependencies of target ondemand_scalar_tests
+[ 65%] Building CXX object tests/ondemand/CMakeFiles/ondemand_scalar_tests.dir/ondemand_scalar_tests.cpp.o
+[ 65%] Linking CXX executable ondemand_readme_examples
+[ 65%] Built target ondemand_readme_examples
+Scanning dependencies of target ondemand_twitter_tests
+[ 65%] Building CXX object tests/ondemand/CMakeFiles/ondemand_twitter_tests.dir/ondemand_twitter_tests.cpp.o
+[ 65%] Linking CXX executable ondemand_parse_api_tests
+[ 65%] Built target ondemand_parse_api_tests
+Scanning dependencies of target ondemand_wrong_type_error_tests
+[ 65%] Building CXX object tests/ondemand/CMakeFiles/ondemand_wrong_type_error_tests.dir/ondemand_wrong_type_error_tests.cpp.o
+[ 65%] Linking CXX executable ondemand_scalar_tests
+[ 65%] Built target ondemand_scalar_tests
+Scanning dependencies of target ondemand_assert_out_of_order_values
+[ 65%] Building CXX object tests/ondemand/CMakeFiles/ondemand_assert_out_of_order_values.dir/ondemand_assert_out_of_order_values.cpp.o
+[ 65%] Linking CXX executable ondemand_assert_out_of_order_values
+[ 65%] Built target ondemand_assert_out_of_order_values
+Scanning dependencies of target benchfeatures
+[ 67%] Building CXX object benchmark/CMakeFiles/benchfeatures.dir/benchfeatures.cpp.o
+[ 68%] Linking CXX executable ondemand_twitter_tests
+[ 68%] Built target ondemand_twitter_tests
+Scanning dependencies of target get_corpus_benchmark
+[ 68%] Building CXX object benchmark/CMakeFiles/get_corpus_benchmark.dir/get_corpus_benchmark.cpp.o
+[ 69%] Linking CXX executable ondemand_object_tests
+[ 69%] Built target ondemand_object_tests
+Scanning dependencies of target bench_parse_call
+[ 69%] Building CXX object benchmark/CMakeFiles/bench_parse_call.dir/bench_parse_call.cpp.o
+[ 70%] Linking CXX executable get_corpus_benchmark
+[ 70%] Built target get_corpus_benchmark
+Scanning dependencies of target bench_dom_api
+[ 70%] Building CXX object benchmark/CMakeFiles/bench_dom_api.dir/bench_dom_api.cpp.o
+[ 70%] Linking CXX executable bench_parse_call
+[ 70%] Built target bench_parse_call
+Scanning dependencies of target bench_ondemand
+[ 70%] Building CXX object benchmark/CMakeFiles/bench_ondemand.dir/bench_ondemand.cpp.o
+[ 70%] Linking CXX executable benchfeatures
+[ 72%] Linking CXX executable bench_dom_api
+[ 72%] Built target benchfeatures
+[ 73%] Linking CXX executable perfdiff
+[ 73%] Linking CXX executable ondemand_wrong_type_error_tests
+[ 73%] Built target bench_dom_api
+[ 73%] Built target ondemand_wrong_type_error_tests
+Scanning dependencies of target parse_noutf8validation
+Scanning dependencies of target parse
+[ 74%] Building CXX object benchmark/dom/CMakeFiles/parse_noutf8validation.dir/parse.cpp.o
+[ 75%] Building CXX object benchmark/dom/CMakeFiles/parse.dir/parse.cpp.o
+[ 75%] Built target perfdiff
+Scanning dependencies of target parse_stream
+[ 77%] Building CXX object benchmark/dom/CMakeFiles/parse_stream.dir/parse_stream.cpp.o
+[ 77%] Linking CXX executable parse_stream
+[ 77%] Built target parse_stream
+Scanning dependencies of target statisticalmodel
+[ 77%] Building CXX object benchmark/dom/CMakeFiles/statisticalmodel.dir/statisticalmodel.cpp.o
+[ 77%] Linking CXX executable parse_noutf8validation
+[ 77%] Linking CXX executable parse
+[ 77%] Built target parse_noutf8validation
+Scanning dependencies of target parse_nonumberparsing
+[ 77%] Built target parse
+[ 77%] Building CXX object benchmark/dom/CMakeFiles/parse_nonumberparsing.dir/parse.cpp.o
+Scanning dependencies of target parse_nostringparsing
+[ 77%] Building CXX object benchmark/dom/CMakeFiles/parse_nostringparsing.dir/parse.cpp.o
+[ 78%] Linking CXX executable statisticalmodel
+[ 78%] Built target statisticalmodel
+Scanning dependencies of target fuzz_print_json
+[ 78%] Building CXX object fuzz/CMakeFiles/fuzz_print_json.dir/fuzz_print_json.cpp.o
+[ 78%] Linking CXX executable parse_nostringparsing
+[ 78%] Linking CXX executable fuzz_print_json
+[ 79%] Linking CXX executable parse_nonumberparsing
+[ 79%] Built target parse_nostringparsing
+[ 81%] Built target fuzz_print_json
+[ 81%] Built target parse_nonumberparsing
+Scanning dependencies of target fuzz_padded
+Scanning dependencies of target fuzz_dump
+[ 82%] Building CXX object fuzz/CMakeFiles/fuzz_padded.dir/fuzz_padded.cpp.o
+Scanning dependencies of target fuzz_minifyimpl
+[ 82%] Building CXX object fuzz/CMakeFiles/fuzz_dump.dir/fuzz_dump.cpp.o
+[ 82%] Building CXX object fuzz/CMakeFiles/fuzz_minifyimpl.dir/fuzz_minifyimpl.cpp.o
+[ 83%] Linking CXX executable fuzz_padded
+[ 83%] Linking CXX executable fuzz_dump
+[ 83%] Built target fuzz_padded
+[ 84%] Built target fuzz_dump
+Scanning dependencies of target fuzz_element
+[ 84%] Linking CXX executable fuzz_minifyimpl
+Scanning dependencies of target fuzz_ondemand
+[ 86%] Building CXX object fuzz/CMakeFiles/fuzz_element.dir/fuzz_element.cpp.o
+[ 87%] Building CXX object fuzz/CMakeFiles/fuzz_ondemand.dir/fuzz_ondemand.cpp.o
+[ 88%] Built target fuzz_minifyimpl
+Scanning dependencies of target fuzz_utf8
+[ 88%] Building CXX object fuzz/CMakeFiles/fuzz_utf8.dir/fuzz_utf8.cpp.o
+[ 88%] Linking CXX executable fuzz_utf8
+[ 88%] Linking CXX executable fuzz_ondemand
+[ 89%] Built target fuzz_utf8
+Scanning dependencies of target fuzz_implementations
+[ 91%] Building CXX object fuzz/CMakeFiles/fuzz_implementations.dir/fuzz_implementations.cpp.o
+[ 91%] Linking CXX executable fuzz_element
+[ 91%] Built target fuzz_ondemand
+Scanning dependencies of target fuzz_parser
+[ 91%] Building CXX object fuzz/CMakeFiles/fuzz_parser.dir/fuzz_parser.cpp.o
+[ 91%] Built target fuzz_element
+Scanning dependencies of target fuzz_atpointer
+[ 91%] Building CXX object fuzz/CMakeFiles/fuzz_atpointer.dir/fuzz_atpointer.cpp.o
+[ 92%] Linking CXX executable fuzz_parser
+[ 92%] Built target fuzz_parser
+Scanning dependencies of target fuzz_dump_raw_tape
+[ 92%] Building CXX object fuzz/CMakeFiles/fuzz_dump_raw_tape.dir/fuzz_dump_raw_tape.cpp.o
+[ 93%] Linking CXX executable fuzz_atpointer
+[ 94%] Linking CXX executable fuzz_implementations
+[ 94%] Built target fuzz_atpointer
+Scanning dependencies of target fuzz_minify
+[ 94%] Building CXX object fuzz/CMakeFiles/fuzz_minify.dir/fuzz_minify.cpp.o
+[ 94%] Built target fuzz_implementations
+Scanning dependencies of target fuzz_ndjson
+[ 94%] Building CXX object fuzz/CMakeFiles/fuzz_ndjson.dir/fuzz_ndjson.cpp.o
+[ 94%] Linking CXX executable fuzz_dump_raw_tape
+[ 96%] Built target fuzz_dump_raw_tape
+[ 97%] Linking CXX executable fuzz_minify
+[ 97%] Linking CXX executable fuzz_ndjson
+[ 97%] Built target fuzz_minify
+[ 98%] Built target fuzz_ndjson
+[100%] Linking CXX executable bench_ondemand
+[100%] Built target bench_ondemand
+Project rebuilt successfully.
+Running target tests: ondemand_json_pointer_tests
++ '[' 0 -ne 0 ']'
++ echo 'Project rebuilt successfully.'
++ echo 'Running target tests: ondemand_json_pointer_tests'
++ ctest --output-on-failure -R ondemand_json_pointer_tests
+Test project /testbed/build
+    Start 42: ondemand_json_pointer_tests
+1/1 Test #42: ondemand_json_pointer_tests ......   Passed    0.00 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Label Time Summary:
+acceptance            =   0.00 sec*proc (1 test)
+ondemand              =   0.00 sec*proc (1 test)
+per_implementation    =   0.00 sec*proc (1 test)
+
+Total Test time (real) =   0.02 sec
++ rc=0
++ echo OMNIGRIL_EXIT_CODE=0
++ cd /testbed
++ echo 'Cleaning up: reverting changes to tests/ondemand/ondemand_json_pointer_tests.cpp'
++ git checkout 6cd04aa858f2d92105c0fbd65cdafb96428db002 tests/ondemand/ondemand_json_pointer_tests.cpp
+OMNIGRIL_EXIT_CODE=0
+Cleaning up: reverting changes to tests/ondemand/ondemand_json_pointer_tests.cpp
+Updated 1 path from ac0503ad

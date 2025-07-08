@@ -1,0 +1,7 @@
+{
+  "is_finish": false,
+  "guidance_for_write_dockerfile_agent": "The Dockerfile build failed during the `make -j$(nproc)` step with `c++: fatal error: Killed signal terminated program cc1plus` errors. This indicates that the compiler ran out of memory or other resources during compilation, likely due to using too many parallel jobs. To fix this, modify the `make` command in the Dockerfile from `make -j$(nproc)` to `make` (which will use a default or single job) or `make -j<lower_number_of_cores>` (e.g., `make -j2`) to reduce resource contention during compilation. Given the project's complexity and number of submodules, reducing parallelism is crucial.",
+  "guidance_for_write_eval_script_agent": "",
+  "guidance_for_context_retrieval_agent": "",
+  "build_image_status": false
+}

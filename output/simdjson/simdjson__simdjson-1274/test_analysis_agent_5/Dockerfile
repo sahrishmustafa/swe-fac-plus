@@ -1,0 +1,53 @@
+FROM --platform=linux/x86_64 ubuntu:20.04
+
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Etc/UTC
+
+# Install system dependencies
+# git: For cloning the repository
+# cmake: For configuring the project build
+# build-essential: Includes g++ (C++ compiler) and make (build tool)
+# tzdata: To handle timezone settings non-interactively
+RUN apt update && \
+    apt install -y \
+        git \
+        cmake \
+        build-essential \
+        tzdata && \
+    rm -rf /var/lib/apt/lists/*
+
+# Set the working directory inside the container
+WORKDIR /testbed/
+
+# Clone the target repository
+RUN git clone https://github.com/simdjson/simdjson /testbed
+
+# Checkout the specific commit SHA
+RUN git reset --hard 265db2e533d4cdc8f7548717b911a92b6a7c9ec9
+
+# Remove remote origin to avoid accidental pushes or fetches to the original repo
+RUN git remote remove origin
+
+# Build the project using CMake
+# 1. Create a build directory
+# 2. Change into the build directory
+# 3. Configure CMake with specified options.
+#    -DSIMDJSON_GOOGLE_BENCHMARKS=OFF: Changed from ON to OFF.
+#    -DSIMDJSON_BUILD_STATIC=ON compiles static libraries.
+#    -DSIMDJSON_BUILD_BENCHMARKS=OFF, -DSIMDJSON_BUILD_TOOLS=OFF, -DSIMDJSON_BUILD_EXAMPLES=OFF:
+#      Added to explicitly disable building problematic optional components (benchmarks, tools, examples).
+#    CMAKE_INSTALL_PREFIX is set but not used for installation in the Dockerfile.
+# 4. Build only the required targets: `simdjson` library and `ondemand_basictests` executable.
+#    This bypasses the problematic 'checkperf' and benchmarking targets that caused compilation issues.
+#    The `-j2` flag limits parallelism to prevent out-of-memory errors during compilation.
+RUN mkdir build && \
+    cd build && \
+    cmake \
+        -DSIMDJSON_GOOGLE_BENCHMARKS=OFF \
+        -DSIMDJSON_BUILD_STATIC=ON \
+        -DSIMDJSON_BUILD_BENCHMARKS=OFF \
+        -DSIMDJSON_BUILD_TOOLS=OFF \
+        -DSIMDJSON_BUILD_EXAMPLES=OFF \
+        -DCMAKE_INSTALL_PREFIX:PATH=/usr/local \
+        .. && \
+    make -j2 simdjson ondemand_basictests

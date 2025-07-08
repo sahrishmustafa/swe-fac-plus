@@ -1,0 +1,3 @@
+join does not use ADL on begin/end of its ranges
+`fmt::join` is using `std::begin` and `std::end` on the range it is being passed. This makes it harder for user-defined types that have their own `begin` and `end` living in their own namespace. E.g., range-for does ADL on `begin`/`end` on a range's associated namespaces. It it by design that `{fmt}` does not do the same?
+

@@ -1,0 +1,22 @@
++ cd /testbed
++ git checkout 40cba172ed66584cf670c98202ed474a316667e3 tests/ondemand/CMakeLists.txt
+Updated 1 path from 36880e8a
++ git apply -v -
+Checking patch tests/ondemand/CMakeLists.txt...
+Checking patch tests/ondemand/ondemand_json_pointer_tests.cpp...
+Applied patch tests/ondemand/CMakeLists.txt cleanly.
+Applied patch tests/ondemand/ondemand_json_pointer_tests.cpp cleanly.
++ cd build
+/eval.sh: line 214: cd: build: No such file or directory
++ export SIMDJSON_DEVELOPER_MODE=ON
++ SIMDJSON_DEVELOPER_MODE=ON
+++ nproc
++ cmake --build . -j12
+Error: could not load cache
++ '[' 1 -ne 0 ']'
++ echo 'Build failed after patch application. Exiting.'
++ rc=1
++ echo OMNIGRIL_EXIT_CODE=1
++ exit 1
+Build failed after patch application. Exiting.
+OMNIGRIL_EXIT_CODE=1

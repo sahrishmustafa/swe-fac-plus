@@ -1,13 +1,13 @@
-2025-07-04 19:11:52,577 - INFO - Checking if image fmtlib__fmt-1390-dockerfile1:latest exists locally...
-2025-07-04 19:11:52,597 - INFO - Image fmtlib__fmt-1390-dockerfile1:latest found locally.
-2025-07-04 19:11:52,597 - INFO - Creating container for fmtlib__fmt-1390...
-2025-07-04 19:11:52,895 - INFO - Container for fmtlib__fmt-1390 started: a5352fefa608c6fd990e4f733262a4c3ebe68d2153ac0402fe061b8e1910a61c
-2025-07-04 19:11:52,896 - INFO - Intermediate patch for fmtlib__fmt-1390 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/gemini-2.5-flash/fmt/fmtlib__fmt-1390/test_analysis_agent_1/patch.diff, now applying to container...
-2025-07-04 19:11:53,123 - INFO - Failed to apply patch to container, trying again...
-2025-07-04 19:11:53,186 - INFO - Apply patch success:
+2025-07-07 23:07:08,829 - INFO - Checking if image fmtlib__fmt-1390-dockerfile1:latest exists locally...
+2025-07-07 23:07:08,859 - INFO - Image fmtlib__fmt-1390-dockerfile1:latest found locally.
+2025-07-07 23:07:08,859 - INFO - Creating container for fmtlib__fmt-1390...
+2025-07-07 23:07:09,088 - INFO - Container for fmtlib__fmt-1390 started: e908cb58ad393f342b5ba1e1330a7d88ef2a82f9c858123e6646e430d8d2efc6
+2025-07-07 23:07:09,089 - INFO - Intermediate patch for fmtlib__fmt-1390 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/gemini-2.5-flash/fmt/fmtlib__fmt-1390/test_analysis_agent_1/patch.diff, now applying to container...
+2025-07-07 23:07:09,317 - INFO - Failed to apply patch to container, trying again...
+2025-07-07 23:07:09,383 - INFO - Apply patch success:
 patching file include/fmt/format.h
 
-2025-07-04 19:11:53,283 - INFO - Git diff before:
+2025-07-07 23:07:09,476 - INFO - Git diff before:
 diff --git a/include/fmt/format.h b/include/fmt/format.h
 index 6ed7fc43..4c9e33fd 100644
 --- a/include/fmt/format.h
@@ -46,9 +46,9 @@ index 6ed7fc43..4c9e33fd 100644
 +                                        internal::to_unsigned(specs.precision));
      write(data, size, specs);
    }
-2025-07-04 19:11:53,283 - INFO - Eval script for fmtlib__fmt-1390 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/gemini-2.5-flash/fmt/fmtlib__fmt-1390/test_analysis_agent_1/patch.diff, now applying to container...
-2025-07-04 19:11:53,522 - INFO - Test output for fmtlib__fmt-1390 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/gemini-2.5-flash/fmt/fmtlib__fmt-1390/test_analysis_agent_1/test_output.txt
-2025-07-04 19:11:53,570 - INFO - Git diff after:
+2025-07-07 23:07:09,476 - INFO - Eval script for fmtlib__fmt-1390 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/gemini-2.5-flash/fmt/fmtlib__fmt-1390/test_analysis_agent_1/patch.diff, now applying to container...
+2025-07-07 23:08:09,041 - INFO - Test output for fmtlib__fmt-1390 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/gemini-2.5-flash/fmt/fmtlib__fmt-1390/test_analysis_agent_1/test_output.txt
+2025-07-07 23:08:09,200 - INFO - Git diff after:
 diff --git a/include/fmt/format.h b/include/fmt/format.h
 index 6ed7fc43..4c9e33fd 100644
 --- a/include/fmt/format.h
@@ -87,8 +87,28 @@ index 6ed7fc43..4c9e33fd 100644
 +                                        internal::to_unsigned(specs.precision));
      write(data, size, specs);
    }
-2025-07-04 19:11:53,570 - INFO - Attempting to stop container fmtlib__fmt-1390-test1...
-2025-07-04 19:12:08,711 - INFO - Attempting to remove container fmtlib__fmt-1390-test1...
-2025-07-04 19:12:08,743 - INFO - Container fmtlib__fmt-1390-test1 removed.
-2025-07-04 19:12:08,743 - INFO - Attempting to remove image fmtlib__fmt-1390-dockerfile1:latest...
-2025-07-04 19:12:09,116 - INFO - Image fmtlib__fmt-1390-dockerfile1:latest removed.
+ 
+diff --git a/test/format-test.cc b/test/format-test.cc
+index f5a35569..2173936b 100644
+--- a/test/format-test.cc
++++ b/test/format-test.cc
+@@ -2621,3 +2621,13 @@ TEST(FormatTest, FormatCustomChar) {
+   EXPECT_EQ(result.size(), 1);
+   EXPECT_EQ(result[0], mychar('x'));
+ }
++
++TEST(FormatTest, FormatUTF8Precision) {
++  using str_type = std::basic_string<char8_t>;
++  str_type format(reinterpret_cast<const char8_t*>(u8"{:.4}"));
++  str_type str(reinterpret_cast<const char8_t*>(u8"caf\u00e9s")); // cafés
++  auto result = fmt::format(format, str);
++  EXPECT_EQ(fmt::internal::count_code_points(result), 4);
++  EXPECT_EQ(result.size(), 5);
++  EXPECT_EQ(result, str.substr(0, 5));
++}
+2025-07-07 23:08:09,200 - INFO - Git diff changed after running eval script
+2025-07-07 23:08:09,200 - INFO - Attempting to stop container fmtlib__fmt-1390-test1...
+2025-07-07 23:08:24,387 - INFO - Attempting to remove container fmtlib__fmt-1390-test1...
+2025-07-07 23:08:24,460 - INFO - Container fmtlib__fmt-1390-test1 removed.
+2025-07-07 23:08:24,460 - INFO - Attempting to remove image fmtlib__fmt-1390-dockerfile1:latest...
+2025-07-07 23:08:25,382 - INFO - Image fmtlib__fmt-1390-dockerfile1:latest removed.

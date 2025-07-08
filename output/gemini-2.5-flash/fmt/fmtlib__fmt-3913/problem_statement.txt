@@ -1,0 +1,6 @@
+Add support for `std::chrono::year_month_day`
+Since c++20 there is https://en.cppreference.com/w/cpp/chrono/year_month_day. Currently the only way to format this is to convert it to a `time_point` or writing a custom formatter. I think it would be quite useful to support this directly.
+
+There exists an std implementation https://en.cppreference.com/w/cpp/chrono/year_month_day/formatter, but none in {fmt}.
+
+There exists a lot of other calendar points like this, which arent supported either

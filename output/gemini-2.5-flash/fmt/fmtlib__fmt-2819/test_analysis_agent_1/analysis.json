@@ -1,0 +1,7 @@
+{
+  "is_finish": false,
+  "guidance_for_write_dockerfile_agent": "",
+  "guidance_for_write_eval_script_agent": "The build process failed during compilation with a 'fatal error: Killed signal terminated program cc1plus' message, indicating an Out-Of-Memory (OOM) error. Consequently, the tests were not executed.\nTo resolve this, modify the `cmake --build . -j$(nproc)` command in the eval script to use fewer parallel jobs. The current `j$(nproc)` might be too aggressive for the container's available memory.\nChange `cmake --build . -j$(nproc)` to `cmake --build . -j4` (or even a lower number like `-j2` as a fallback) to reduce memory pressure during compilation. This limits the number of concurrent compilation processes and should prevent the OOM error.",
+  "guidance_for_context_retrieval_agent": "",
+  "build_image_status": true
+}

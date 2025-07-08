@@ -1,0 +1,4 @@
+at_pointer in On Demand should automatically rewind
+Currently, users of the On Demand API who use at_pointer (JSON Pointer) have to manually rewind.
+
+Why don't we make that automatic?

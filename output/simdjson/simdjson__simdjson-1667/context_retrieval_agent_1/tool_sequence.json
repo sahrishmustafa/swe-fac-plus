@@ -1,0 +1,62 @@
+[
+  {
+    "func_name": "browse_file_for_environment_info",
+    "arguments": {
+      "file_path": "README.md",
+      "custom_query": "How to build and run tests, required tools like CMake, compiler versions."
+    },
+    "call_ok": true,
+    "result": "Runtime Requirements:\n- C++ compiler: g++ (version 7 or better) or clang++ (version 6 or better)\n- Operating System: 64-bit system (e.g., Linux, macOS, freeBSD). Visual Studio and Xcode environments are also supported.\n\nBuilding:\n- For a quick start example:\n    - Download `simdjson.h`, `simdjson.cpp`, and `twitter.json`.\n    - Compile `quickstart.cpp` with `simdjson.cpp`:\n        `c++ -o quickstart quickstart.cpp simdjson.cpp`\n\nTesting:\n- The `README.md` does not explicitly detail the commands to run the full test suite.\n- It mentions CI badges for Ubuntu 18.04, Ubuntu 20.04, VS16, and MinGW64, indicating automated testing.\n- The document refers to `CONTRIBUTING.md` and `HACKING.md` for more information on contributing, source, building, and architecture/design, which are likely to contain detailed test instructions.",
+    "agent_id": "ContextRetrievalAgent"
+  },
+  {
+    "func_name": "browse_file_for_environment_info",
+    "arguments": {
+      "file_path": "CONTRIBUTING.md",
+      "custom_query": "Detailed build and test instructions, developer setup."
+    },
+    "call_ok": true,
+    "result": "Runtime Requirements:\n- C++ (implied, as the library is written in C++)\n- C++11 (as a guideline, \"When in doubt, avoid advanced C++ features (beyond C++11)\")\n\nTesting:\n- New features and bug fixes require accompanying tests.\n- Contributions must pass \"continuous-integration tests.\"\n- Test details (framework, commands) are not explicitly provided in this document.\n\nDeveloper Setup:\n- For detailed build and testing instructions, and developer setup, refer to `HACKING.md`.",
+    "agent_id": "ContextRetrievalAgent"
+  },
+  {
+    "func_name": "browse_file_for_environment_info",
+    "arguments": {
+      "file_path": "CMakeLists.txt",
+      "custom_query": "CMake version requirements, C++ standard, external dependencies, and how tests are added."
+    },
+    "call_ok": true,
+    "result": "CMake Version Requirements:\n- Minimum required: 3.14\n\nC++ Standard:\n- C++11 (`cxx_std_11`)\n\nExternal Dependencies:\n- Threads (found via `find_package(Threads REQUIRED)`)\n- `grep`, `find`, `file`, `nm` (system commands used in tests)\n\nTesting:\n- Test framework: CTest (enabled by `enable_testing()`)\n- Tests are added using `add_test()` command.\n- A custom target `all_tests` is created.\n- Subdirectories `tests`, `examples`, `benchmark`, `fuzz` likely contain test/example/benchmark code.\n- Specific tests identified:\n    - `just_ascii`: Checks source files for non-ASCII characters.\n    - `avoid_abort`: Checks if `simdjson` library links to `abort`. (Skipped if `SIMDJSON_SANITIZE` is ON)\n    - `avoid_cout`: Checks if `simdjson` library links to `cout`. (Skipped if `SIMDJSON_SANITIZE` is ON)\n    - `avoid_cerr`: Checks if `simdjson` library links to `cerr`. (Skipped if `SIMDJSON_SANITIZE` is ON)\n    - `avoid_printf`: Checks if `simdjson` library links to `printf`. (Skipped if `SIMDJSON_SANITIZE` is ON)\n    - `avoid_stdout`: Checks if `simdjson` library links to `stdout`. (Skipped if `SIMDJSON_SANITIZE` is ON)\n    - `avoid_stderr`: Checks if `simdjson` library links to `stderr`. (Skipped if `SIMDJSON_SANITIZE` is ON)\n- Test commands usually run via `ctest` after building the project.",
+    "agent_id": "ContextRetrievalAgent"
+  },
+  {
+    "func_name": "browse_file_for_environment_info",
+    "arguments": {
+      "file_path": ".travis.yml",
+      "custom_query": "Environment setup (packages, compiler), build commands, and test execution commands."
+    },
+    "call_ok": true,
+    "result": "Runtime Requirements:\n- Language: C++\n- OS: Ubuntu 18.04 (bionic)\n- Architecture: ppc64le\n- Required apt packages (various configurations):\n    - g++-8\n    - g++-9\n    - g++-10\n    - clang-6.0\n    - clang-7\n    - clang-8\n    - clang-9\n    - clang-10\n- Other tools: wget\n- Custom PPA for simdjson and cmake:\n    - `https://raw.githubusercontent.com/simdjson/debian-ppa/master`\n    - GPG key for the PPA: `https://raw.githubusercontent.com/simdjson/debian-ppa/master/key.gpg`\n    - LLVM Toolchain PPAs:\n        - `llvm-toolchain-bionic-6.0`\n        - `llvm-toolchain-bionic-7`\n        - `llvm-toolchain-bionic-8`\n        - `llvm-toolchain-bionic-9`\n        - `llvm-toolchain-bionic-10`\n    - Ubuntu Toolchain PPA: `ubuntu-toolchain-r-test`\n\nKey Environment Variables (set during build preparation):\n- `simdjson_DEPENDENCY_CACHE_DIR=$HOME/.dep_cache` (global)\n- `COMPILER`: Varies based on matrix, example values:\n    - `CC=gcc-8 && CXX=g++-8`\n    - `CC=clang-10 && CXX=clang++-10`\n- `SANITIZE`: \"on\" (when sanitizer build is enabled)\n- `STATIC`: \"on\" (when static library build is enabled)\n- `CMAKE_CXX_FLAGS=\"-maltivec -mcpu=power9 -mtune=power9\"`\n- `CMAKE_C_FLAGS=\"${CMAKE_CXX_FLAGS}\"`\n- `CMAKE_FLAGS=\"-DCMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS} -DCMAKE_C_FLAGS=${CMAKE_C_FLAGS} -DSIMDJSON_IMPLEMENTATION=ppc64;fallback\"`\n    - If `SANITIZE` is \"on\": `CMAKE_FLAGS=\"${CMAKE_FLAGS} -DSIMDJSON_SANITIZE=ON\"`\n    - If `STATIC` is \"on\": `CMAKE_FLAGS=\"${CMAKE_FLAGS} -DBUILD_SHARED_LIBS=OFF\"`\n- `ASAN_OPTIONS=\"detect_leaks=0\"` (when `SANITIZE` is \"on\")\n- `CTEST_FLAGS=\"-j4 --output-on-failure -LE explicitonly\"`\n\nBuild Commands:\n1.  Setup environment: `eval \"${COMPILER}\"`\n2.  Add simdjson PPA and install specific cmake version:\n    - `wget -q -O - \"https://raw.githubusercontent.com/simdjson/debian-ppa/master/key.gpg\" | sudo apt-key add -`\n    - `sudo apt-add-repository \"deb https://raw.githubusercontent.com/simdjson/debian-ppa/master simdjson main\"`\n    - `sudo apt-get -qq update`\n    - `sudo apt-get purge cmake cmake-data`\n    - `sudo apt-get -t simdjson -y install cmake`\n3.  Create build directory: `mkdir build`\n4.  Navigate to build directory: `cd build`\n5.  Configure build with CMake: `cmake $CMAKE_FLAGS ..` (Note: `$CMAKE_FLAGS` is dynamically set based on environment variables)\n6.  Compile project: `cmake --build . -- -j2`\n\nTesting:\n- Test framework: CTest\n- Test commands (executed from `build` directory):\n    - `SIMDJSON_FORCE_IMPLEMENTATION=ppc64 ctest $CTEST_FLAGS -L per_implementation`\n    - `SIMDJSON_FORCE_IMPLEMENTATION=fallback ctest $CTEST_FLAGS -L per_implementation`\n    - `ctest $CTEST_FLAGS -LE \"acceptance|per_implementation\"`",
+    "agent_id": "ContextRetrievalAgent"
+  },
+  {
+    "func_name": "browse_folder",
+    "arguments": {
+      "path": ".github/workflows",
+      "depth": "1"
+    },
+    "call_ok": true,
+    "result": "You are browsing the path: /home/sahrish/Desktop/swe-bench/swe-factory-local/testbed/simdjson__simdjson-1667_2025-07-08_04-24-15/.github/workflows. The browsing Depth is 1.\nStructure of this path:\n\nubuntu20-noexcept.yml\n\nvs16-clang-ci.yml\n\nmingw-ci.yml\n\nubuntu18.yml\n\nmingw64-ci.yml\n\nubuntu20-checkperf.yml\n\nubuntu20-threadsani.yml\n\nubuntu20-nothread.yml\n\nvs16-arm-ci.yml\n\nvs15-ci.yml\n\nubuntu18-checkperf.yml\n\nubuntu20.yml\n\nmsys2.yml\n\nvs16-ninja-ci.yml\n\nubuntu18-threadsani.yml\n\nfix-trailing-whitespace.yml\n\nvs16-noexcept-ci.yml\n\npower-fuzz.yml\n\nfuzzers.yml\n\nvs16-ci.yml\n\nmsys2-clang.yml\n\nalpine.yml\n\n",
+    "agent_id": "ContextRetrievalAgent"
+  },
+  {
+    "func_name": "browse_file_for_environment_info",
+    "arguments": {
+      "file_path": "tests/ondemand/CMakeLists.txt",
+      "custom_query": "Specific build or test instructions for ondemand tests, how they are added to the main build."
+    },
+    "call_ok": true,
+    "result": "Runtime Requirements:\n- C++ Compiler (e.g., GCC, Clang, MSVC)\n- CMake (for project configuration and build system generation)\n\nList of libraries:\n- simdjson (linked by all tests)\n\nSpecific build or test instructions for ondemand tests, and how they are added to the main build:\n- **Test Definition**: On-demand tests are defined and added to the build system using the `add_cpp_test` CMake macro. Each call to `add_cpp_test` creates a separate test executable.\n- **Linking**: All these tests link against the `simdjson` library.\n- **Inclusion**: The `include_directories(..)` command indicates that header files from the parent directory are used.\n- **Subdirectories**: The `compilation_failure_tests` subdirectory is also included in the build process, likely containing additional tests or test-related sources.\n- **Conditional Tests**: Some tests (`ondemand_assert_out_of_order_values`) are conditionally added based on the availability of POSIX `fork` and `wait` functions, typically on Unix-like systems.\n- **Post-Build Step (MSVC Shared Libs)**: If building shared libraries on MSVC, the `simdjson` DLL is copied to the directory of the `ondemand_parse_api_tests` executable after it's built to ensure it can be found at runtime.\n- **Test Execution (Implied)**: Once the CMake project is configured and built (e.g., via `cmake --build .`), the defined tests can typically be run using the `ctest` command from the build directory (or `make test` / `ninja test` depending on the generator), as `add_cpp_test` usually registers tests with CTest. The `LABELS` (e.g., `ondemand`, `acceptance`) can be used to filter which tests are run by CTest.",
+    "agent_id": "ContextRetrievalAgent"
+  }
+]

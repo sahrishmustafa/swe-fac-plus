@@ -1,0 +1,190 @@
++ cd /testbed
++ git checkout 40cba172ed66584cf670c98202ed474a316667e3 tests/ondemand/CMakeLists.txt
+Updated 1 path from 36880e8a
++ git apply -v -
+Checking patch tests/ondemand/CMakeLists.txt...
+Checking patch tests/ondemand/ondemand_json_pointer_tests.cpp...
+error: tests/ondemand/ondemand_json_pointer_tests.cpp: already exists in working directory
++ cd build
++ export SIMDJSON_DEVELOPER_MODE=ON
++ SIMDJSON_DEVELOPER_MODE=ON
++ cmake --build . -j4
+-- Importing google_benchmarks (google/benchmark@8982e1e)
+-- Failed to find LLVM FileCheck
+-- git Version: v0.2.1-40cba172-dirty
+-- Version: 0.2.1
+-- Performing Test HAVE_STD_REGEX -- success
+-- Performing Test HAVE_GNU_POSIX_REGEX -- failed to compile
+-- Performing Test HAVE_POSIX_REGEX -- success
+-- Performing Test HAVE_STEADY_CLOCK -- success
+-- Importing simdjson-data (simdjson/simdjson-data@a5b13babe65c1bba7186b41b43d4cbdc20a5c470)
+-- Importing cjson (DaveGamble/cJSON@c69134d)
+-- Importing fastjson (mikeando/fastjson@485f994)
+-- Importing gason (vivkin/gason@7aee524)
+-- Importing jsmn (zserge/jsmn@18e9fe4)
+-- Importing json (nlohmann/json@v3.9.1)
+-- Importing json11 (dropbox/json11@ec4e452)
+-- Importing rapidjson (Tencent/rapidjson@b32cd94)
+-- Importing sajson (chadaustin/sajson@2dcfd35)
+-- Importing ujson4c (esnme/ujson4c@e14f3fd)
+-- Importing yyjson (ibireme/yyjson@aa33ec5)
+-- Importing cxxopts (jarro2783/cxxopts@794c975)
+-- cxxopts version 2.2.0
+-- We have cxxopts as a dependency and we are building the tools (e.g., json2json).
+-- Including amalgamate_demo test. 
+-- Including simdjson-singleheader test.
+-- Including amalgamate_demo_direct_from_repository test.
+-- Either git is unavailable or else it is too old. We are disabling checkperf targets.
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /testbed/build
+[  2%] Built target cjson
+[  2%] Built target jsoncpp
+[  3%] Built target ujson4c
+[  5%] Built target simdjson
+[  7%] Built target gason
+[  8%] Built target fastjson
+[ 10%] Built target yyjson
+[ 11%] Built target jsmn
+[ 11%] Built target json11
+[ 21%] Built target benchmark
+[ 24%] Built target jsonpointer
+[ 24%] Built target minify
+[ 24%] Built target jsonstats
+[ 28%] Built target singleheader-files
+[ 28%] Built target json2json
+[ 28%] Built target amalgamate_demo_direct_from_repository
+[ 28%] Built target generated-data
+[ 30%] Built target fuzz_padded
+[ 30%] Built target fuzz_print_json
+[ 32%] Built target fuzz_dump
+[ 33%] Built target fuzz_minifyimpl
+[ 35%] Built target fuzz_element
+[ 38%] Built target fuzz_ondemand
+[ 39%] Built target fuzz_utf8
+[ 41%] Built target fuzz_implementations
+[ 42%] Built target fuzz_parser
+[ 43%] Built target fuzz_atpointer
+[ 44%] Built target fuzz_dump_raw_tape
+[ 46%] Built target fuzz_minify
+[ 47%] Built target benchmark_main
+[ 48%] Built target fuzz_ndjson
+[ 50%] Built target amalgamate_demo
+[ 51%] Built target unicode_tests
+[ 51%] Built target checkimplementation
+[ 52%] Built target minify_tests
+[ 53%] Built target padded_string_tests
+[ 53%] Built target pointercheck
+[ 55%] Built target document_tests
+[ 56%] Built target numberparsingcheck
+[ 57%] Built target basictests
+[ 58%] Built target integer_tests
+[ 60%] Built target jsoncheck
+[ 61%] Built target document_stream_tests
+[ 62%] Built target minefieldcheck
+[ 64%] Built target parse_many_test
+[ 65%] Built target random_string_number_tests
+[ 66%] Built target trivially_copyable_test
+[ 67%] Built target extracting_values_example
+[ 69%] Built target stringparsingcheck
+[ 70%] Built target errortests
+[ 70%] Built target ondemand_object_tests
+[ 71%] Built target ondemand_object_error_tests
+[ 73%] Built target ondemand_misc_tests
+[ 74%] Built target ondemand_array_error_tests
+[ 75%] Built target ondemand_key_string_tests
+[ 75%] Built target ondemand_error_tests
+[ 76%] Built target ondemand_compilation_tests
+[ 78%] Built target ondemand_array_tests
+[ 79%] Built target ondemand_ordering_tests
+[ 80%] Built target ondemand_readme_examples
+[ 80%] Built target ondemand_active_tests
+[ 82%] Built target ondemand_tostring_tests
+[ 83%] Built target ondemand_number_tests
+[ 84%] Built target ondemand_parse_api_tests
+[ 85%] Built target ondemand_scalar_tests
+[ 85%] Built target ondemand_twitter_tests
+[ 87%] Built target ondemand_wrong_type_error_tests
+[ 88%] Built target ondemand_assert_out_of_order_values
+[ 89%] Built target benchfeatures
+[ 91%] Built target get_corpus_benchmark
+[ 92%] Built target bench_parse_call
+[ 92%] Built target bench_dom_api
+[ 94%] Built target perfdiff
+[ 94%] Built target bench_ondemand
+[ 96%] Built target parse
+[ 97%] Built target parse_noutf8validation
+[ 98%] Built target parse_stream
+[ 98%] Built target statisticalmodel
+[ 98%] Built target parse_nonumberparsing
+[100%] Built target parse_nostringparsing
++ '[' 0 -ne 0 ']'
++ ctest --output-on-failure --tests-regex '.*ondemand.*'
+Test project /testbed/build
+      Start 37: ondemand_tostring_tests
+ 1/23 Test #37: ondemand_tostring_tests ...............   Passed    0.25 sec
+      Start 38: ondemand_active_tests
+ 2/23 Test #38: ondemand_active_tests .................   Passed    0.01 sec
+      Start 39: ondemand_array_tests
+ 3/23 Test #39: ondemand_array_tests ..................   Passed    0.01 sec
+      Start 40: ondemand_array_error_tests
+ 4/23 Test #40: ondemand_array_error_tests ............   Passed    0.01 sec
+      Start 41: ondemand_compilation_tests
+ 5/23 Test #41: ondemand_compilation_tests ............   Passed    0.01 sec
+      Start 42: ondemand_error_tests
+ 6/23 Test #42: ondemand_error_tests ..................   Passed    0.01 sec
+      Start 43: ondemand_key_string_tests
+ 7/23 Test #43: ondemand_key_string_tests .............   Passed    0.01 sec
+      Start 44: ondemand_misc_tests
+ 8/23 Test #44: ondemand_misc_tests ...................   Passed    0.01 sec
+      Start 45: ondemand_number_tests
+ 9/23 Test #45: ondemand_number_tests .................   Passed    0.02 sec
+      Start 46: ondemand_object_tests
+10/23 Test #46: ondemand_object_tests .................   Passed    0.01 sec
+      Start 47: ondemand_object_error_tests
+11/23 Test #47: ondemand_object_error_tests ...........   Passed    0.01 sec
+      Start 48: ondemand_ordering_tests
+12/23 Test #48: ondemand_ordering_tests ...............   Passed    0.01 sec
+      Start 49: ondemand_parse_api_tests
+13/23 Test #49: ondemand_parse_api_tests ..............   Passed    0.01 sec
+      Start 50: ondemand_readme_examples
+14/23 Test #50: ondemand_readme_examples ..............   Passed    0.01 sec
+      Start 51: ondemand_scalar_tests
+15/23 Test #51: ondemand_scalar_tests .................   Passed    0.01 sec
+      Start 52: ondemand_twitter_tests
+16/23 Test #52: ondemand_twitter_tests ................   Passed    0.01 sec
+      Start 53: ondemand_wrong_type_error_tests
+17/23 Test #53: ondemand_wrong_type_error_tests .......   Passed    0.01 sec
+      Start 54: ondemand_assert_out_of_order_values
+18/23 Test #54: ondemand_assert_out_of_order_values ...   Passed    0.01 sec
+      Start 84: quickstart_ondemand
+19/23 Test #84: quickstart_ondemand ...................   Passed   10.31 sec
+      Start 85: quickstart_ondemand11
+20/23 Test #85: quickstart_ondemand11 .................   Passed    9.39 sec
+      Start 86: quickstart_ondemand14
+21/23 Test #86: quickstart_ondemand14 .................   Passed    9.46 sec
+      Start 87: quickstart_ondemand_noexceptions
+22/23 Test #87: quickstart_ondemand_noexceptions ......   Passed    6.77 sec
+      Start 88: quickstart_ondemand_noexceptions11
+23/23 Test #88: quickstart_ondemand_noexceptions11 ....   Passed    6.09 sec
+
+100% tests passed, 0 tests failed out of 23
+
+Label Time Summary:
+acceptance             =  26.86 sec*proc (20 tests)
+assert                 =   0.01 sec*proc (1 test)
+compile                =  42.02 sec*proc (5 tests)
+explicitonly           =   0.01 sec*proc (1 test)
+no_mingw               =  42.02 sec*proc (5 tests)
+ondemand               =   0.40 sec*proc (18 tests)
+per_implementation     =   0.40 sec*proc (18 tests)
+quickstart             =  42.02 sec*proc (5 tests)
+quickstart_ondemand    =  42.02 sec*proc (5 tests)
+
+Total Test time (real) =  42.44 sec
++ rc=0
++ echo OMNIGRIL_EXIT_CODE=0
++ cd /testbed
+OMNIGRIL_EXIT_CODE=0
++ git checkout 40cba172ed66584cf670c98202ed474a316667e3 tests/ondemand/CMakeLists.txt
+Updated 0 paths from 36880e8a

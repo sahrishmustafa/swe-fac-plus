@@ -1,0 +1,107 @@
+#!/bin/bash
+set -uxo pipefail
+
+# Navigate to the repository root as all operations are relative to it.
+cd /testbed
+
+# Define the target commit SHA and test files to be cleaned/reverted.
+TARGET_COMMIT_SHA="eaa8efb950be5d8f1803a99b06f76cf398c67cb8"
+TARGET_TEST_FILES=(
+    "test/ranges-test.cc"
+)
+
+# Ensure the target test files are in their original state before applying any patch.
+# This resets them to the state at the target commit SHA, undoing any previous changes.
+echo "Checking out target files to a clean state..."
+for FILE in "${TARGET_TEST_FILES[@]}"; do
+    git checkout "$TARGET_COMMIT_SHA" "$FILE"
+done
+
+# Required: apply test patch to update target tests (if any).
+echo "Applying test patch..."
+git apply -v - <<'EOF_114329324912'
+diff --git a/test/ranges-test.cc b/test/ranges-test.cc
+--- a/test/ranges-test.cc
++++ b/test/ranges-test.cc
+@@ -85,11 +85,22 @@ TEST(ranges_test, format_pair) {
+   EXPECT_EQ(fmt::format("{}", p), "(42, 1.5)");
+ }
+ 
++struct unformattable {};
++
+ TEST(ranges_test, format_tuple) {
+   auto t =
+       std::tuple<int, float, std::string, char>(42, 1.5f, "this is tuple", 'i');
+   EXPECT_EQ(fmt::format("{}", t), "(42, 1.5, \"this is tuple\", 'i')");
+   EXPECT_EQ(fmt::format("{}", std::tuple<>()), "()");
++
++  EXPECT_TRUE((fmt::is_formattable<std::tuple<>>::value));
++  EXPECT_FALSE((fmt::is_formattable<unformattable>::value));
++  EXPECT_FALSE((fmt::is_formattable<std::tuple<unformattable>>::value));
++  EXPECT_FALSE((fmt::is_formattable<std::tuple<unformattable, int>>::value));
++  EXPECT_FALSE((fmt::is_formattable<std::tuple<int, unformattable>>::value));
++  EXPECT_FALSE(
++      (fmt::is_formattable<std::tuple<unformattable, unformattable>>::value));
++  EXPECT_TRUE((fmt::is_formattable<std::tuple<int, float>>::value));
+ }
+ 
+ #ifdef FMT_RANGES_TEST_ENABLE_FORMAT_STRUCT
+@@ -220,7 +231,6 @@ TEST(ranges_test, enum_range) {
+ }
+ 
+ #if !FMT_MSC_VERSION
+-struct unformattable {};
+ 
+ TEST(ranges_test, unformattable_range) {
+   EXPECT_FALSE((fmt::has_formatter<std::vector<unformattable>,
+EOF_114329324912
+
+# Navigate into the clean build directory for recompilation.
+# The Dockerfile already creates and enters 'build' during initial setup.
+# We just need to navigate back into it and ensure it's up-to-date.
+cd build
+
+# Configure CMake for the project.
+echo "Reconfiguring CMake..."
+cmake .. -DCMAKE_BUILD_TYPE=Release -DFMT_TEST=ON
+cmake_config_rc=$?
+
+if [ $cmake_config_rc -ne 0 ]; then
+    echo "CMake configuration failed with exit code $cmake_config_rc. Setting OMNIGRIL_EXIT_CODE to 1 and exiting."
+    rc=1
+    echo "OMNIGRIL_EXIT_CODE=$rc"
+    exit $rc
+fi
+
+# Required: rebuild the project to include any changes from the patch in the test executables.
+# Using -j$(nproc) for parallel compilation.
+# CRITICAL: If the build/compilation step fails, the script must immediately set rc=1 and exit.
+# Do not continue to run tests if the build fails, as this may run outdated binaries and produce false positive results.
+echo "Building the project..."
+cmake --build . -j$(nproc)
+build_rc=$?
+
+if [ $build_rc -ne 0 ]; then
+    echo "Build failed with exit code $build_rc. Setting OMNIGRIL_EXIT_CODE to 1 and exiting."
+    rc=1
+    echo "OMNIGRIL_EXIT_CODE=$rc"
+    exit $rc
+fi
+
+# Execute target tests using ctest.
+# Run only the specific test "ranges-test" as identified from "test/ranges-test.cc".
+echo "Running specific test: ranges-test using ctest..."
+export CTEST_OUTPUT_ON_FAILURE=True # This ensures full output for failed tests
+ctest -C Release -R "ranges-test"
+
+rc=$? # Capture the exit code of the test command immediately.
+
+echo "OMNIGRIL_EXIT_CODE=$rc" # Required: Echo the captured exit code for result parsing.
+
+# Cleanup: Revert changes made by the patch to the target test files.
+# Navigate back to the repository root first to ensure `git checkout` operates correctly.
+cd /testbed
+echo "Cleaning up: Reverting test file changes..."
+for FILE in "${TARGET_TEST_FILES[@]}"; do
+    git checkout "$TARGET_COMMIT_SHA" "$FILE"
+done

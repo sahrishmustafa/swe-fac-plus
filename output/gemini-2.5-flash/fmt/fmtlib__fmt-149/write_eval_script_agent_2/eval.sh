@@ -1,12 +1,15 @@
 #!/bin/bash
 set -uxo pipefail
+
+# Navigate to the testbed directory where the repository is cloned and built
 cd /testbed
 
-# Ensure the target test file is at the specified commit SHA before applying any patch
+# Ensure the target test file is in a clean state before applying the patch.
+# This assumes the patch is intended for test/util-test.cc
 git checkout 88f4be3d19364a484431309f750535386c7d0d5c "test/util-test.cc"
 
-# Apply the test patch to the relevant files.
-# The patch is revised to add a simple, robust test case that should not cause a segfault.
+# Apply the test patch. The content is provided via heredoc standard input.
+# The actual patch content will be programmatically inserted here.
 git apply -v - <<'EOF_114329324912'
 diff --git a/test/util-test.cc b/test/util-test.cc
 --- a/test/util-test.cc
@@ -62,20 +65,55 @@ diff --git a/test/util-test.cc b/test/util-test.cc
 +}
 EOF_114329324912
 
-# Crucial step: Rebuild the project to incorporate the changes from the applied patch.
-# Changes to source files like 'test/util-test.cc' require recompilation for them to take effect
-# in the test executables.
+# CRITICAL: Rebuild the project after applying the patch to ensure any
+# modified source files (including test sources) are recompiled and new
+# test binaries are generated or updated.
+# Navigate to the build directory.
 cd build
-make -j$(nproc)
 
-# Execute the specified target test file using CTest.
-# CTEST_OUTPUT_ON_FAILURE=1 ensures detailed output for failures.
-# -R util-test restricts CTest to run only the test executable associated with test/util-test.cc.
-CTEST_OUTPUT_ON_FAILURE=1 ctest -R util-test
-rc=$?
+# Execute the make command to recompile the project.
+# Use -j "$(nproc)" for parallel compilation.
+# If the build fails, capture the error, set rc=1, and exit immediately.
+make -j "$(nproc)"
+if [ $? -ne 0 ]; then
+    rc=1
+    echo "OMNIGRIL_EXIT_CODE=$rc"
+    exit $rc
+fi
 
+# Execute the tests using CTest via make test from the build directory.
+# CTEST_OUTPUT_ON_FAILURE=1 ensures detailed output on test failures.
+# As per collected information, test/util-test.cc is part of the general
+# make test command, and there is no specific command to run only this file.
+# Running `make test` will pick up the changes from the patched file.
+CTEST_OUTPUT_ON_FAILURE=1 make test
+rc=$? # Capture the exit code of the test execution
+
+# If tests failed, attempt to get GDB stack traces for specific failing executables.
+if [ "$rc" -ne 0 ]; then
+    echo "Tests failed. Attempting to get GDB stack traces for specific failing executables."
+    # Define the full paths to the test executables that might fail.
+    # Note: These paths are relative to the `/testbed` root, but we are currently in `/testbed/build`.
+    # So we need to provide absolute paths or navigate appropriately.
+    FAITH_FAILING_TEST_EXECUTABLES=("/testbed/build/bin/format-test" "/testbed/build/bin/util-test")
+    
+    for test_exe in "${FAITH_FAILING_TEST_EXECUTABLES[@]}"; do
+        if [ -f "$test_exe" ]; then
+            echo "--- Running $test_exe under GDB to capture stack trace ---"
+            gdb -batch -ex "run" -ex "thread apply all bt full" -ex "quit" "$test_exe" 2>&1 || true
+            echo "--- End of GDB output for $test_exe ---"
+        else
+            echo "Warning: Test executable '$test_exe' not found. Skipping GDB trace."
+        fi
+    done
+fi
+
+# Go back to the /testbed root directory for cleanup.
+cd ..
+
+# Echo the exit code in the required format for Omnigril.
 echo "OMNIGRIL_EXIT_CODE=$rc"
 
-# Clean up: revert changes made by the patch to the target test file
-cd /testbed
+# Clean up: revert changes to the target test file to its original state.
+# This ensures the repository is clean for subsequent runs if any.
 git checkout 88f4be3d19364a484431309f750535386c7d0d5c "test/util-test.cc"

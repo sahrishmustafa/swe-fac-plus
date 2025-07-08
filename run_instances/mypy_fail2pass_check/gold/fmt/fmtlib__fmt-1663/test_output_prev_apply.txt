@@ -1,0 +1,89 @@
++ cd /testbed
++ git checkout 8d9d528bf52c60864802844e8acf16db09dae19a test/core-test.cc
+Updated 1 path from 0c83681e
++ git apply -v -
+Checking patch test/core-test.cc...
+Applied patch test/core-test.cc cleanly.
+Navigating to build directory for recompilation...
+Building the project...
++ echo 'Navigating to build directory for recompilation...'
++ cd /testbed/build
++ echo 'Building the project...'
+++ nproc
++ make -j12
+Consolidate compiler generated dependencies of target fmt
+Consolidate compiler generated dependencies of target gmock
+[  5%] Built target fmt
+[  9%] Built target gmock
+Consolidate compiler generated dependencies of target header-only-test
+Consolidate compiler generated dependencies of target posix-mock-test
+Consolidate compiler generated dependencies of target test-main
+[ 17%] Built target header-only-test
+[ 31%] Built target test-main
+[ 37%] Built target posix-mock-test
+Consolidate compiler generated dependencies of target grisu-test
+Consolidate compiler generated dependencies of target assert-test
+Consolidate compiler generated dependencies of target format-test
+Consolidate compiler generated dependencies of target chrono-test
+Consolidate compiler generated dependencies of target color-test
+Consolidate compiler generated dependencies of target ostream-test
+[ 41%] Built target assert-test
+[ 45%] Built target grisu-test
+Consolidate compiler generated dependencies of target compile-test
+Consolidate compiler generated dependencies of target gtest-extra-test
+[ 49%] Built target format-test
+[ 52%] Built target color-test
+[ 56%] Built target chrono-test
+Consolidate compiler generated dependencies of target format-impl-test
+Consolidate compiler generated dependencies of target core-test
+[ 60%] Built target ostream-test
+[ 64%] Built target compile-test
+Consolidate compiler generated dependencies of target printf-test
+[ 68%] Built target gtest-extra-test
+Consolidate compiler generated dependencies of target locale-test
+Consolidate compiler generated dependencies of target custom-formatter-test
+Consolidate compiler generated dependencies of target ranges-test
+[ 70%] Building CXX object test/CMakeFiles/core-test.dir/core-test.cc.o
+Consolidate compiler generated dependencies of target scan-test
+[ 74%] Built target format-impl-test
+Consolidate compiler generated dependencies of target os-test
+[ 78%] Built target printf-test
+[ 82%] Built target locale-test
+[ 86%] Built target custom-formatter-test
+[ 90%] Built target ranges-test
+[ 94%] Built target scan-test
+[ 98%] Built target os-test
+In file included from /testbed/test/core-test.cc:26:
+/testbed/include/fmt/core.h: In instantiation of 'void fmt::v6::dynamic_format_arg_store<Context>::push_back(const T&) [with T = fmt::v6::internal::named_arg<int, char>; Context = fmt::v6::basic_format_context<std::back_insert_iterator<fmt::v6::internal::buffer<char> >, char>]':
+/testbed/test/core-test.cc:461:18:   required from here
+/testbed/include/fmt/core.h:1498:9: error: static assertion failed: named arguments are not supported yet
+ 1498 |         !std::is_base_of<internal::named_arg_base<char_type>, T>::value,
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/testbed/include/fmt/core.h:1498:9: note: '!(bool)std::integral_constant<bool, true>::value' evaluates to false
+/testbed/include/fmt/core.h: In instantiation of 'void fmt::v6::dynamic_format_arg_store<Context>::push_back(const T&) [with T = fmt::v6::internal::named_arg<char [11], char>; Context = fmt::v6::basic_format_context<std::back_insert_iterator<fmt::v6::internal::buffer<char> >, char>]':
+/testbed/test/core-test.cc:469:18:   required from here
+/testbed/include/fmt/core.h:1498:9: error: static assertion failed: named arguments are not supported yet
+/testbed/include/fmt/core.h:1498:9: note: '!(bool)std::integral_constant<bool, true>::value' evaluates to false
+/testbed/include/fmt/core.h: In instantiation of 'void fmt::v6::dynamic_format_arg_store<Context>::push_back(const T&) [with T = fmt::v6::internal::named_arg<std::reference_wrapper<const char [11]>, char>; Context = fmt::v6::basic_format_context<std::back_insert_iterator<fmt::v6::internal::buffer<char> >, char>]':
+/testbed/test/core-test.cc:470:18:   required from here
+/testbed/include/fmt/core.h:1498:9: error: static assertion failed: named arguments are not supported yet
+/testbed/include/fmt/core.h:1498:9: note: '!(bool)std::integral_constant<bool, true>::value' evaluates to false
+/testbed/include/fmt/core.h: In instantiation of 'void fmt::v6::dynamic_format_arg_store<Context>::push_back(std::reference_wrapper<_Functor>) [with T = const fmt::v6::internal::named_arg<int, char>; Context = fmt::v6::basic_format_context<std::back_insert_iterator<fmt::v6::internal::buffer<char> >, char>]':
+/testbed/test/core-test.cc:496:18:   required from here
+/testbed/include/fmt/core.h:1512:23: error: static assertion failed: objects of built-in types and string views are always copied
+ 1512 |         need_copy<T>::value,
+      |                       ^~~~~
+/testbed/include/fmt/core.h:1512:23: note: 'fmt::v6::dynamic_format_arg_store<fmt::v6::basic_format_context<std::back_insert_iterator<fmt::v6::internal::buffer<char> >, char> >::need_copy<const fmt::v6::internal::named_arg<int, char> >::value' evaluates to false
+/testbed/include/fmt/core.h: In instantiation of 'void fmt::v6::dynamic_format_arg_store<Context>::push_back(const T&) [with T = fmt::v6::internal::named_arg<custom_type, char>; Context = fmt::v6::basic_format_context<std::back_insert_iterator<fmt::v6::internal::buffer<char> >, char>]':
+/testbed/test/core-test.cc:508:18:   required from here
+/testbed/include/fmt/core.h:1498:9: error: static assertion failed: named arguments are not supported yet
+ 1498 |         !std::is_base_of<internal::named_arg_base<char_type>, T>::value,
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/testbed/include/fmt/core.h:1498:9: note: '!(bool)std::integral_constant<bool, true>::value' evaluates to false
+/testbed/include/fmt/core.h: In instantiation of 'void fmt::v6::dynamic_format_arg_store<Context>::push_back(const T&) [with T = fmt::v6::internal::named_arg<std::reference_wrapper<const custom_type>, char>; Context = fmt::v6::basic_format_context<std::back_insert_iterator<fmt::v6::internal::buffer<char> >, char>]':
+/testbed/test/core-test.cc:512:18:   required from here
+/testbed/include/fmt/core.h:1498:9: error: static assertion failed: named arguments are not supported yet
+/testbed/include/fmt/core.h:1498:9: note: '!(bool)std::integral_constant<bool, true>::value' evaluates to false
+make[2]: *** [test/CMakeFiles/core-test.dir/build.make:76: test/CMakeFiles/core-test.dir/core-test.cc.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:321: test/CMakeFiles/core-test.dir/all] Error 2
+make: *** [Makefile:166: all] Error 2

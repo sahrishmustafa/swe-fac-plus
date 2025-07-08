@@ -1,0 +1,22 @@
+{
+    "task_id": "fmtlib__fmt-3734",
+    "setup_info": {
+        "repo_path": "github/_cache/fmtlib__fmt-3734_2025-07-08_07-01-21",
+        "repo_cache_path": "github/_cache/fmtlib/fmt_cache"
+    },
+    "task_info": {
+        "repo": "fmtlib/fmt",
+        "pull_number": 3734,
+        "instance_id": "fmtlib__fmt-3734",
+        "issue_numbers": [
+            "3726"
+        ],
+        "base_commit": "f5750892436a667fe622e5ecc8a02c15a5d9bc88",
+        "patch": "diff --git a/include/fmt/core.h b/include/fmt/core.h\n--- a/include/fmt/core.h\n+++ b/include/fmt/core.h\n@@ -2429,6 +2429,7 @@ FMT_CONSTEXPR FMT_INLINE auto parse_format_specs(\n     case 'G':\n       return parse_presentation_type(pres::general_upper, float_set);\n     case 'c':\n+      if (arg_type == type::bool_type) throw_format_error(\"invalid format specifier\");\n       return parse_presentation_type(pres::chr, integral_set);\n     case 's':\n       return parse_presentation_type(pres::string,\n",
+        "test_patch": "diff --git a/test/format-test.cc b/test/format-test.cc\n--- a/test/format-test.cc\n+++ b/test/format-test.cc\n@@ -1159,6 +1159,8 @@ TEST(format_test, format_bool) {\n   EXPECT_EQ(\"true\", fmt::format(\"{:s}\", true));\n   EXPECT_EQ(\"false\", fmt::format(\"{:s}\", false));\n   EXPECT_EQ(\"false \", fmt::format(\"{:6s}\", false));\n+  EXPECT_THROW_MSG((void)fmt::format(runtime(\"{:c}\"), false), format_error,\n+                   \"invalid format specifier\");\n }\n \n TEST(format_test, format_short) {\n",
+        "problem_statement": "presentation_type `c` accepted in combination with `bool`\nWhile applying massive random tests with generated format-specs, it turned out that the `c` presentation-type is allowed for `bool`. \r\n\r\n```cpp\r\n    std::string_view constexpr formatString{\"{:X<#9c}\"}; // invalid format string\r\n    std::cout << fmt::format(formatString, false) << std::endl; // accepted, compile error expected\r\n    std::cout << std::format(formatString, false) << std::endl; // rejected, compiler error as expected\r\n```\r\n\r\n[godbolt](https://www.godbolt.org/z/xzbsdq49o)\r\n\r\nWhile writing for `false` the value is missing\r\n```cpp\r\n    std::string_view constexpr formatString{\"{:X<#2c}\"};\r\n    auto const s1{fmt::format(formatString, false)};\r\n    std::cout << s1 << std::endl; // prints \"X\"\r\n```\r\n[godbolt](https://www.godbolt.org/z/ccz388zMr)\r\n\r\nfor `true` the output seems to include uninitialized memory (unprintable chars)\r\n```cpp\r\n    std::string_view constexpr formatString{\"{:X<#2c}\"};\r\n    auto const s1{fmt::format(formatString, false)};\r\n    std::cout << s1 << std::endl; // prints \"?X\", where ? is an unprintable char\r\n```\r\n[godbolt](https://www.godbolt.org/z/W5dGjK5h9)\n",
+        "hints_text": "The output is `\\0` or `\\1`, not uninitialized, but I agree that we should forbid this as `std::format` does. A PR would be welcome.",
+        "created_at": "2023-12-03T03:21:55Z",
+        "version": "10.1"
+    }
+}

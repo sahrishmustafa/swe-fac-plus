@@ -1,0 +1,31 @@
+Don't use __builtin_strlen
+When upgrading `{fmt}`, https://github.com/fmtlib/fmt/commit/b4d1d7f8e broke some of our usage. We had a place where we were building up a format string using a type like this:
+
+```cpp
+template <size_t N>
+struct fixed_string {
+    char data[N] = {}; 
+
+    constexpr fixed_string(char const (&m)[N]) {
+        for (size_t i = 0; i != N; ++i) {
+            data[i] = m[i];
+        }
+    }   
+};
+```
+
+And trying to do something like:
+```cpp
+static constexpr auto f = fixed_string("x={}");
+fmt::print(f.data, 42);
+```
+
+This works on fmt 10.2.1 and 11.0, [fails on trunk](https://compiler-explorer.com/z/MvM86dd5j) — after that commit, with:
+
+```cpp
+/opt/compiler-explorer/libs/fmt/trunk/include/fmt/base.h:543:31: error: '__builtin_strlen(((const char*)(& f.fixed_string<5>::data)))' is not a constant expression
+  543 |       size_ = __builtin_strlen(detail::narrow(s));
+      |               ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+```
+
+[gcc says](https://gcc.gnu.org/bugzilla/show_bug.cgi?id=119866) that `__builtin_strlen` isn't usable like this. Which... if they say so. But seems unlikely this will change, so I think `{fmt}` should also revert to previous usage. 

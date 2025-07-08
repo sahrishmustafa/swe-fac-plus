@@ -1,13 +1,13 @@
 {
     "commit": "bc13c6de390751ecf8daa1b1ce8f775d104fdc65",
-    "start_epoch": 1751881028.676241,
-    "end_epoch": 1751881472.050221,
-    "elapsed_seconds": 443.37398,
+    "start_epoch": 1751920898.151221,
+    "end_epoch": 1751921694.253005,
+    "elapsed_seconds": 796.101784,
     "model": "gemini-2.5-flash",
     "input_cost_per_token": 2.5e-06,
     "output_cost_per_token": 1e-05,
-    "total_input_tokens": 27652,
-    "total_output_tokens": 2816,
-    "total_tokens": 30468,
-    "total_cost": 0.09729000000000002
+    "total_input_tokens": 66005,
+    "total_output_tokens": 6751,
+    "total_tokens": 72756,
+    "total_cost": 0.23252250000000002
 }

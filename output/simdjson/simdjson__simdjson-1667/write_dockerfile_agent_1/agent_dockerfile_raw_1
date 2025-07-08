@@ -1,0 +1,69 @@
+<dockerfile>
+# Base image specification. Defines the foundation OS and architecture for the container (Required)
+FROM ubuntu:20.04
+
+# Set environment variables for non-interactive apt operations and timezone
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Etc/UTC
+
+# System dependencies installation. Installs essential tools and libraries required for development and runtime (Required)
+# Update package lists, upgrade existing packages, and install necessary packages:
+# - build-essential: Provides make, gcc, and g++ for compiling C++ projects.
+# - git: Required for cloning the target repository.
+# - python3: General utility, often used by build tools or scripts.
+# - wget, gnupg, software-properties-common: For adding APT repositories and managing keys, specifically for CMake PPA.
+# - g++-10: The specific C++ compiler version required, as per context.
+RUN apt update && apt upgrade -y && \
+    apt install -y \
+    build-essential \
+    git \
+    python3 \
+    wget \
+    gnupg \
+    software-properties-common \
+    g++-10
+
+# Configure g++-10 as the default G++ and GCC compiler using update-alternatives.
+# This ensures that CMake and other build tools automatically pick version 10 of
+# the compiler, matching the project's dependency requirements.
+# A high priority (900) is used to make it the preferred default choice.
+RUN update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 900 --slave /usr/bin/gcov gcov /usr/bin/gcov-10 && \
+    update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 900 --slave /usr/bin/gcov-tool gcov-tool /usr/bin/gcov-tool-10
+
+# Install CMake from Kitware PPA.
+# The project's CI uses a specific method to install CMake from a custom PPA,
+# purging the system CMake first. This ensures the correct tested CMake version is used.
+# First, remove any pre-installed system CMake to avoid conflicts.
+# Then, add the Kitware GPG key and repository, update package lists, and install CMake.
+RUN apt purge --auto-remove cmake -y || echo "CMake not present or purge failed. Continuing installation." && \
+    wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null && \
+    apt-add-repository 'deb https://apt.kitware.com/ubuntu/ focal main' && \
+    apt update && \
+    apt install -y cmake && \
+    rm -rf /var/lib/apt/lists/*
+
+# Set the working directory inside the container
+WORKDIR /testbed/
+
+# Target Project setup. Clones the source code and checks out the specified commit SHA.
+# The repository is cloned into /testbed/.
+RUN git clone https://github.com/simdjson/simdjson.git /testbed/ && \
+    cd /testbed/ && \
+    git checkout 47a62db55936e29e1966a26a9aadb5f28237ae37 && \
+    git remote remove origin
+
+# Configure and build the project.
+# Create a 'build' directory, navigate into it, and perform CMake configuration.
+# The -DSIMDJSON_DEVELOPER_MODE=ON flag is crucial for ensuring tests are built and discoverable by CTest.
+# Then, build the entire project using all available CPU cores for parallel compilation.
+RUN cd /testbed/ && \
+    mkdir build && \
+    cd build && \
+    cmake .. -DSIMDJSON_DEVELOPER_MODE=ON && \
+    cmake --build . -j$(nproc)
+
+# Apply global read/write permissions for the entire /testbed directory.
+# This ensures that any subsequent operations by the eval script have full access to
+# the source code, build artifacts, and test executables.
+RUN chmod -R 777 /testbed
+</dockerfile>

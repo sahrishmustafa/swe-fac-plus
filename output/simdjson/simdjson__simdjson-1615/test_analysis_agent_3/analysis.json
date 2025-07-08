@@ -1,0 +1,7 @@
+{
+  "is_finish": false,
+  "guidance_for_write_dockerfile_agent": "",
+  "guidance_for_write_eval_script_agent": "The tests were not executed because the project build failed during the evaluation script's execution. The log shows `c++: fatal error: Killed signal terminated program cc1plus`, which is a common indicator of an Out-Of-Memory (OOM) error during compilation.\n\nIn the Dockerfile, the initial build step `cmake --build . -j4` already limits parallel compilation jobs to 4 to prevent potential OOM issues. However, the eval script uses `cmake --build . -j$(nproc)` for the rebuild after applying the patch. On this system, `nproc` appears to be 12, which is likely causing the resource exhaustion.\n\n**Action:** Modify the `eval_script`. Change the line `cmake --build . -j$(nproc)` to `cmake --build . -j4` to match the more conservative and successful approach used in the Dockerfile. This will limit memory usage during the rebuild and should allow the compilation to complete, enabling the `ctest` command to run.",
+  "guidance_for_context_retrieval_agent": "",
+  "build_image_status": true
+}

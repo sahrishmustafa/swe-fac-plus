@@ -1,0 +1,121 @@
++ cd /testbed
++ git checkout 8d9d528bf52c60864802844e8acf16db09dae19a test/core-test.cc
+Updated 1 path from 0c83681e
++ git apply -v -
+Checking patch test/core-test.cc...
+Applied patch test/core-test.cc cleanly.
++ echo 'Navigating to build directory for recompilation...'
++ cd /testbed/build
++ echo 'Building the project...'
+Navigating to build directory for recompilation...
+Building the project...
+++ nproc
++ make -j12
+Consolidate compiler generated dependencies of target fmt
+Consolidate compiler generated dependencies of target gmock
+[  3%] Building CXX object CMakeFiles/fmt.dir/src/format.cc.o
+[  3%] Building CXX object CMakeFiles/fmt.dir/src/os.cc.o
+[  7%] Built target gmock
+Consolidate compiler generated dependencies of target header-only-test
+Consolidate compiler generated dependencies of target posix-mock-test
+[ 11%] Building CXX object test/CMakeFiles/header-only-test.dir/header-only-test.cc.o
+[ 11%] Building CXX object test/CMakeFiles/header-only-test.dir/header-only-test2.cc.o
+[ 15%] Building CXX object test/CMakeFiles/posix-mock-test.dir/__/src/format.cc.o
+[ 15%] Building CXX object test/CMakeFiles/posix-mock-test.dir/posix-mock-test.cc.o
+[ 19%] Building CXX object test/CMakeFiles/posix-mock-test.dir/gtest-extra.cc.o
+[ 19%] Building CXX object test/CMakeFiles/posix-mock-test.dir/util.cc.o
+[ 21%] Linking CXX executable ../bin/header-only-test
+[ 23%] Built target header-only-test
+[ 25%] Linking CXX static library libfmt.a
+[ 25%] Built target fmt
+Consolidate compiler generated dependencies of target test-main
+[ 29%] Building CXX object test/CMakeFiles/test-main.dir/util.cc.o
+[ 29%] Building CXX object test/CMakeFiles/test-main.dir/gtest-extra.cc.o
+[ 31%] Linking CXX static library libtest-main.a
+[ 33%] Linking CXX executable ../bin/posix-mock-test
+[ 35%] Built target test-main
+Consolidate compiler generated dependencies of target ostream-test
+Consolidate compiler generated dependencies of target grisu-test
+Consolidate compiler generated dependencies of target chrono-test
+Consolidate compiler generated dependencies of target format-impl-test
+Consolidate compiler generated dependencies of target color-test
+Consolidate compiler generated dependencies of target core-test
+Consolidate compiler generated dependencies of target locale-test
+[ 37%] Building CXX object test/CMakeFiles/ostream-test.dir/ostream-test.cc.o
+[ 39%] Building CXX object test/CMakeFiles/grisu-test.dir/grisu-test.cc.o
+Consolidate compiler generated dependencies of target format-test
+[ 41%] Building CXX object test/CMakeFiles/chrono-test.dir/chrono-test.cc.o
+Consolidate compiler generated dependencies of target assert-test
+[ 43%] Building CXX object test/CMakeFiles/format-impl-test.dir/format-impl-test.cc.o
+Consolidate compiler generated dependencies of target gtest-extra-test
+[ 45%] Building CXX object test/CMakeFiles/core-test.dir/core-test.cc.o
+[ 47%] Building CXX object test/CMakeFiles/color-test.dir/color-test.cc.o
+[ 49%] Building CXX object test/CMakeFiles/locale-test.dir/locale-test.cc.o
+Consolidate compiler generated dependencies of target compile-test
+[ 50%] Building CXX object test/CMakeFiles/format-test.dir/format-test.cc.o
+[ 52%] Building CXX object test/CMakeFiles/assert-test.dir/assert-test.cc.o
+[ 54%] Building CXX object test/CMakeFiles/gtest-extra-test.dir/gtest-extra-test.cc.o
+[ 56%] Building CXX object test/CMakeFiles/compile-test.dir/compile-test.cc.o
+[ 58%] Built target posix-mock-test
+Consolidate compiler generated dependencies of target printf-test
+[ 60%] Building CXX object test/CMakeFiles/printf-test.dir/printf-test.cc.o
+[ 62%] Linking CXX executable ../bin/assert-test
+[ 62%] Built target assert-test
+Consolidate compiler generated dependencies of target custom-formatter-test
+[ 64%] Building CXX object test/CMakeFiles/custom-formatter-test.dir/custom-formatter-test.cc.o
+[ 66%] Linking CXX executable ../bin/grisu-test
+[ 66%] Built target grisu-test
+Consolidate compiler generated dependencies of target ranges-test
+[ 68%] Building CXX object test/CMakeFiles/ranges-test.dir/ranges-test.cc.o
+[ 70%] Linking CXX executable ../bin/ranges-test
+[ 70%] Built target ranges-test
+Consolidate compiler generated dependencies of target scan-test
+[ 72%] Building CXX object test/CMakeFiles/scan-test.dir/scan-test.cc.o
+[ 74%] Linking CXX executable ../bin/custom-formatter-test
+[ 74%] Built target custom-formatter-test
+Consolidate compiler generated dependencies of target os-test
+[ 76%] Building CXX object test/CMakeFiles/os-test.dir/os-test.cc.o
+[ 78%] Linking CXX executable ../bin/gtest-extra-test
+[ 78%] Built target gtest-extra-test
+[ 80%] Linking CXX executable ../bin/scan-test
+[ 82%] Linking CXX executable ../bin/color-test
+[ 84%] Linking CXX executable ../bin/os-test
+[ 84%] Built target scan-test
+[ 84%] Built target color-test
+[ 84%] Built target os-test
+[ 86%] Linking CXX executable ../bin/format-impl-test
+[ 86%] Built target format-impl-test
+[ 88%] Linking CXX executable ../bin/locale-test
+[ 88%] Built target locale-test
+[ 90%] Linking CXX executable ../bin/ostream-test
+[ 90%] Built target ostream-test
+[ 92%] Linking CXX executable ../bin/core-test
+[ 92%] Built target core-test
+[ 94%] Linking CXX executable ../bin/compile-test
+[ 94%] Built target compile-test
+[ 96%] Linking CXX executable ../bin/chrono-test
+[ 96%] Built target chrono-test
+[ 98%] Linking CXX executable ../bin/printf-test
+[ 98%] Built target printf-test
+[100%] Linking CXX executable ../bin/format-test
+[100%] Built target format-test
++ build_rc=0
++ '[' 0 -ne 0 ']'
++ echo 'Running target test: core-test'
++ export CTEST_OUTPUT_ON_FAILURE=1
++ CTEST_OUTPUT_ON_FAILURE=1
++ ctest -R core-test
+Running target test: core-test
+Test project /testbed/build
+    Start 4: core-test
+1/1 Test #4: core-test ........................   Passed    0.00 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   0.01 sec
+OMNIGRIL_EXIT_CODE=0
++ rc=0
++ echo OMNIGRIL_EXIT_CODE=0
++ cd /testbed
++ git checkout 8d9d528bf52c60864802844e8acf16db09dae19a test/core-test.cc
+Updated 1 path from 0c83681e

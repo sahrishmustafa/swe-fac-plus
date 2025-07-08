@@ -1,0 +1,22 @@
+{
+    "task_id": "fmtlib__fmt-4325",
+    "setup_info": {
+        "repo_path": "github/_cache/fmtlib__fmt-4325_2025-07-08_07-01-21",
+        "repo_cache_path": "github/_cache/fmtlib/fmt_cache"
+    },
+    "task_info": {
+        "repo": "fmtlib/fmt",
+        "pull_number": 4325,
+        "instance_id": "fmtlib__fmt-4325",
+        "issue_numbers": [
+            "4303"
+        ],
+        "base_commit": "41539c29f342e67abb925b946acab6d55d331b36",
+        "patch": "diff --git a/include/fmt/base.h b/include/fmt/base.h\n--- a/include/fmt/base.h\n+++ b/include/fmt/base.h\n@@ -1121,7 +1121,7 @@ using use_formatter =\n     bool_constant<(std::is_class<T>::value || std::is_enum<T>::value ||\n                    std::is_union<T>::value || std::is_array<T>::value) &&\n                   !has_to_string_view<T>::value && !is_named_arg<T>::value &&\n-                  !use_format_as<T>::value && !use_format_as_member<T>::value>;\n+                  !use_format_as<T>::value && !use_format_as_member<U>::value>;\n \n template <typename Char, typename T, typename U = remove_const_t<T>>\n auto has_formatter_impl(T* p, buffered_context<Char>* ctx = nullptr)\n",
+        "test_patch": "diff --git a/test/std-test.cc b/test/std-test.cc\n--- a/test/std-test.cc\n+++ b/test/std-test.cc\n@@ -13,13 +13,17 @@\n #include <vector>\n \n #include \"fmt/os.h\"  // fmt::system_category\n-#include \"fmt/ranges.h\"\n #include \"gtest-extra.h\"  // StartsWith\n \n #ifdef __cpp_lib_filesystem\n TEST(std_test, path) {\n   using std::filesystem::path;\n   EXPECT_EQ(fmt::format(\"{}\", path(\"/usr/bin\")), \"/usr/bin\");\n+\n+  // see #4303\n+  const path p = \"/usr/bin\";\n+  EXPECT_EQ(fmt::format(\"{}\", p), \"/usr/bin\");\n+\n   EXPECT_EQ(fmt::format(\"{:?}\", path(\"/usr/bin\")), \"\\\"/usr/bin\\\"\");\n   EXPECT_EQ(fmt::format(\"{:8}\", path(\"foo\")), \"foo     \");\n \n@@ -44,6 +48,9 @@ TEST(std_test, path) {\n #  endif\n }\n \n+// Intentionally delayed include to test #4303\n+#include \"fmt/ranges.h\"\n+\n // Test ambiguity problem described in #2954.\n TEST(ranges_std_test, format_vector_path) {\n   auto p = std::filesystem::path(\"foo/bar.txt\");\n",
+        "problem_statement": "Compile error: partial specialization of struct fmt::v11::formatter\nPrinting a `const std::filesystem::path` with `fileystem`, `fmt/ostream.h` and `fmt/std.h` included and later including `fmt/ranges.h` in the same compilation unit causes a strange compile error.\r\n\r\nTested with fmt-11.0.0 and gcc-14.2.\r\n\r\n```\r\n#include <filesystem>\r\n#include <fmt/ostream.h>\r\n#include <fmt/std.h>\r\n\r\nvoid f()\r\n{\r\n    const auto fn = std::filesystem::path{};\r\n    fmt::print(\"{}\", fn);\r\n}\r\n\r\n#include <fmt/ranges.h>\r\n```\r\nhttps://godbolt.org/z/G5TPbz7o9\n",
+        "hints_text": "Are you doing this as part of a unity/jumbo or something like that, is that how this scenario occurs?\r\n\r\nI believe this is falling foul of this rule, explained nicely by this [SO answer](https://stackoverflow.com/a/21112309/8594193):\r\n\r\n> If a template, a member template or a member of a class template is explicitly specialized then that specialization shall be declared before the first use of that specialization that would cause an implicit instantiation to take place, in every translation unit in which such a use occurs; no diagnostic is required.\r\n\r\nWhere here you're instantiating the specialization of the `formatter` by using it to call `print`, before the other (partial) specializations of it are declared by including the fmt ranges header\r\n\r\nAlso notably in a comment on that answer, clang silently happily compiles this while gcc doesn't, hence it only failing on gcc\r\n\r\nI'm not an expert on this, but as I see it, unless vitaut wants to provide support for this (possibly via a fmt_fwd type header(s) etc. and I don't know how hard that would be) I don't know of a solution for this, other than avoiding it @std-any-emplace \nThis could probably happen if `f` is in a header.\n> Are you doing this as part of a unity/jumbo or something like that, is that how this scenario occurs?\r\n\r\nYes, it did indeed happen during a unity build and it took me a while to figure out what was causing compile failure.\r\n\r\nMy workaround for the issue was to include all aforementioned headers in all library-using files.\r\n\r\n\nWhat I also found interesting is, that the constness of `fn` is important. A non-const `fn` does not cause failure.",
+        "created_at": "2025-01-23T14:27:53Z",
+        "version": "11.1"
+    }
+}

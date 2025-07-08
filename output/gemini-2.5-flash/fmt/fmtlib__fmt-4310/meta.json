@@ -1,0 +1,22 @@
+{
+    "task_id": "fmtlib__fmt-4310",
+    "setup_info": {
+        "repo_path": "github/_cache/fmtlib__fmt-4310_2025-07-08_07-01-21",
+        "repo_cache_path": "github/_cache/fmtlib/fmt_cache"
+    },
+    "task_info": {
+        "repo": "fmtlib/fmt",
+        "pull_number": 4310,
+        "instance_id": "fmtlib__fmt-4310",
+        "issue_numbers": [
+            "4307"
+        ],
+        "base_commit": "01914f0389ef6ff151c289670f6910e059d5063f",
+        "patch": "diff --git a/include/fmt/base.h b/include/fmt/base.h\n--- a/include/fmt/base.h\n+++ b/include/fmt/base.h\n@@ -2656,6 +2656,7 @@ class context {\n   FMT_CONSTEXPR auto arg_id(string_view name) const -> int {\n     return args_.get_id(name);\n   }\n+  auto args() const -> const format_args& { return args_; }\n \n   // Returns an iterator to the beginning of the output range.\n   FMT_CONSTEXPR auto out() const -> iterator { return out_; }\n",
+        "test_patch": "diff --git a/test/base-test.cc b/test/base-test.cc\n--- a/test/base-test.cc\n+++ b/test/base-test.cc\n@@ -875,3 +875,12 @@ TEST(base_test, no_repeated_format_string_conversions) {\n   fmt::format_to(buf, nondeterministic_format_string());\n #endif\n }\n+\n+TEST(base_test, format_context_accessors) {\n+  class copier {\n+    static fmt::format_context copy(fmt::appender app,\n+                                    const fmt::format_context& ctx) {\n+      return fmt::format_context(std::move(app), ctx.args(), ctx.locale());\n+    }\n+  };\n+}\n",
+        "problem_statement": "Can't access context args() directly in 11.1.0\nI have a use case where my custom formatter needs to format to a buffer and then remove either the front or the back of the buffer.\r\n\r\nExample on 11.0.0 where this works: https://godbolt.org/z/96KeTG9bG\r\n\r\nIn order to do this, I create a new `format_context` using the original context's `args()` and `locale()` in the `format` function, but with a temporary append buffer. I then can output just a chunk of the buffer.\r\n\r\nWith 11.1.0 there was some code cleanup in 1416edabbb0f9b91053555d80015e6857f6dc433 that removed the accessor for `args_` which breaks my use case. In order for my code to work I either need:\r\n- An accessor to `args_` and `locale_` (`locale()` is still available)\r\n- A method to replace `out_`\r\n- A constructor to make a new context from a `const context&` and a new `appender`\r\n\r\nSample found on godbolt:\r\n```c++\r\n#include <fmt/core.h>\r\n#include <string_view>\r\n\r\ntemplate<class T>\r\nclass truncator\r\n{\r\n    const T& t;\r\n    int c;\r\n  public:\r\n    constexpr truncator(const T& data_, const int count_) noexcept\r\n        : t{data_}, c{count_}\r\n    {}\r\n\r\n    constexpr const T& data() const noexcept { return t; }\r\n    constexpr int count() const noexcept { return c; }\r\n};\r\n\r\ntemplate<class T>\r\nconstexpr truncator<T> trunc(const T& data, int count) noexcept\r\n{\r\n    return {data, count};\r\n}\r\n\r\nnamespace fmt\r\n{\r\ntemplate<typename T, typename Char>\r\nstruct formatter<truncator<T>, Char> : public formatter<T, Char>\r\n{\r\n  public:\r\n    template<typename FormatContext>\r\n    auto format(const truncator<T>& v, FormatContext& ctx) const\r\n    {\r\n        basic_memory_buffer<Char> buffer;\r\n        format_context ctx2(appender{buffer}, ctx.args(), ctx.locale());\r\n        formatter<T, Char>::format(v.data(), ctx2);\r\n\t\tauto beg = buffer.begin();\r\n\t\tauto end = buffer.end();\r\n        const auto size = std::distance(beg, end);\r\n        const auto abs_count = v.count() < 0 ? -v.count() : v.count();\r\n        if(v.count() != 0 && size > abs_count) {\r\n            const auto size_remove = size - abs_count;\r\n\t\t\tif(v.count() > 0) {\r\n\t\t\t\tbeg = std::next(beg, size_remove);\r\n\t\t\t} else {\r\n\t\t\t\tend = std::prev(end, size_remove);\r\n\t\t\t}\r\n        }\r\n        ctx.advance_to(std::copy(beg, end, ctx.out()));\r\n\t\treturn ctx.out();\r\n    }\r\n};\r\n}\r\n\r\nint main() {\r\n  fmt::print(\">{0}<\\n\", trunc(1234, -2));\r\n  fmt::print(\">{0}<\\n\", trunc(1234, 2));\r\n}\r\n```\r\n\n",
+        "hints_text": "",
+        "created_at": "2025-01-15T22:27:46Z",
+        "version": "11.1"
+    }
+}

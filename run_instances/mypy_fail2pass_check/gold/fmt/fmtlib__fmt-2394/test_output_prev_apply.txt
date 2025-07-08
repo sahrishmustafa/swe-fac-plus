@@ -1,0 +1,166 @@
++ cd /testbed
++ git checkout cfc05e05f08dc0b6fe619831c96f00ee27d99613 test/color-test.cc
+Updated 1 path from c793e859
++ git apply -v -
+Checking patch test/color-test.cc...
+Applied patch test/color-test.cc cleanly.
++ mkdir -p build
+Configuring CMake...
++ cd build
++ echo 'Configuring CMake...'
++ cmake .. -DCMAKE_BUILD_TYPE=Release -DFMT_TEST=ON
+-- CMake version: 3.16.3
+-- The CXX compiler identification is GNU 9.4.0
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Module support is disabled.
+-- Version: 8.0.1
+-- Build type: Release
+-- CXX_STANDARD: 11
+-- Performing Test has_std_11_flag
+-- Performing Test has_std_11_flag - Success
+-- Performing Test has_std_0x_flag
+-- Performing Test has_std_0x_flag - Success
+-- Performing Test SUPPORTS_USER_DEFINED_LITERALS
+-- Performing Test SUPPORTS_USER_DEFINED_LITERALS - Success
+-- Performing Test FMT_HAS_VARIANT
+-- Performing Test FMT_HAS_VARIANT - Success
+-- Required features: cxx_variadic_templates
+-- Looking for strtod_l
+-- Looking for strtod_l - found
+-- Target 'doc' disabled (requires doxygen)
+-- Looking for C++ include pthread.h
+-- Looking for C++ include pthread.h - found
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed
+-- Looking for pthread_create in pthreads
+-- Looking for pthread_create in pthreads - not found
+-- Looking for pthread_create in pthread
+-- Looking for pthread_create in pthread - found
+-- Found Threads: TRUE  
+-- Performing Test HAVE_FNO_DELETE_NULL_POINTER_CHECKS
+-- Performing Test HAVE_FNO_DELETE_NULL_POINTER_CHECKS - Success
+-- FMT_PEDANTIC: OFF
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /testbed/build
+Building the project...
++ cmake_config_rc=0
++ '[' 0 -ne 0 ']'
++ echo 'Building the project...'
+++ nproc
++ cmake --build . -j12
+Scanning dependencies of target fmt
+Scanning dependencies of target gtest
+[  1%] Building CXX object CMakeFiles/fmt.dir/src/os.cc.o
+[  3%] Building CXX object CMakeFiles/fmt.dir/src/format.cc.o
+[  5%] Building CXX object test/gtest/CMakeFiles/gtest.dir/gmock-gtest-all.cc.o
+[  6%] Linking CXX static library libfmt.a
+[  6%] Built target fmt
+[  8%] Linking CXX static library libgtest.a
+[  8%] Built target gtest
+Scanning dependencies of target test-main
+Scanning dependencies of target posix-mock-test
+Scanning dependencies of target unicode-test
+Scanning dependencies of target format-impl-test
+[ 10%] Building CXX object test/CMakeFiles/posix-mock-test.dir/posix-mock-test.cc.o
+[ 15%] Building CXX object test/CMakeFiles/test-main.dir/test-main.cc.o
+[ 15%] Building CXX object test/CMakeFiles/unicode-test.dir/util.cc.o
+[ 15%] Building CXX object test/CMakeFiles/unicode-test.dir/gtest-extra.cc.o
+[ 17%] Building CXX object test/CMakeFiles/unicode-test.dir/__/src/os.cc.o
+[ 18%] Building CXX object test/CMakeFiles/test-main.dir/util.cc.o
+[ 22%] Building CXX object test/CMakeFiles/unicode-test.dir/unicode-test.cc.o
+[ 24%] Building CXX object test/CMakeFiles/unicode-test.dir/test-main.cc.o
+[ 24%] Building CXX object test/CMakeFiles/test-main.dir/gtest-extra.cc.o
+[ 25%] Building CXX object test/CMakeFiles/format-impl-test.dir/format-impl-test.cc.o
+[ 27%] Building CXX object test/CMakeFiles/format-impl-test.dir/header-only-test.cc.o
+[ 29%] Building CXX object test/CMakeFiles/posix-mock-test.dir/__/src/format.cc.o
+[ 31%] Building CXX object test/CMakeFiles/format-impl-test.dir/test-main.cc.o
+[ 32%] Building CXX object test/CMakeFiles/format-impl-test.dir/gtest-extra.cc.o
+[ 34%] Building CXX object test/CMakeFiles/posix-mock-test.dir/test-main.cc.o
+[ 36%] Linking CXX static library libtest-main.a
+[ 36%] Built target test-main
+Scanning dependencies of target os-test
+[ 37%] Building CXX object test/CMakeFiles/os-test.dir/os-test.cc.o
+Scanning dependencies of target assert-test
+[ 39%] Building CXX object test/CMakeFiles/format-impl-test.dir/util.cc.o
+[ 41%] Building CXX object test/CMakeFiles/assert-test.dir/assert-test.cc.o
+Scanning dependencies of target ranges-test
+[ 43%] Linking CXX executable ../bin/assert-test
+[ 44%] Building CXX object test/CMakeFiles/ranges-test.dir/ranges-test.cc.o
+[ 44%] Built target assert-test
+[ 46%] Building CXX object test/CMakeFiles/posix-mock-test.dir/gtest-extra.cc.o
+[ 48%] Building CXX object test/CMakeFiles/posix-mock-test.dir/util.cc.o
+[ 50%] Building CXX object test/CMakeFiles/format-impl-test.dir/__/src/os.cc.o
+Scanning dependencies of target chrono-test
+[ 51%] Building CXX object test/CMakeFiles/chrono-test.dir/chrono-test.cc.o
+Scanning dependencies of target xchar-test
+Scanning dependencies of target scan-test
+[ 53%] Building CXX object test/CMakeFiles/scan-test.dir/scan-test.cc.o
+[ 55%] Building CXX object test/CMakeFiles/xchar-test.dir/xchar-test.cc.o
+Scanning dependencies of target args-test
+[ 56%] Building CXX object test/CMakeFiles/args-test.dir/args-test.cc.o
+Scanning dependencies of target core-test
+[ 58%] Building CXX object test/CMakeFiles/core-test.dir/core-test.cc.o
+[ 60%] Linking CXX executable ../bin/unicode-test
+Scanning dependencies of target gtest-extra-test
+[ 62%] Building CXX object test/CMakeFiles/gtest-extra-test.dir/gtest-extra-test.cc.o
+[ 62%] Built target unicode-test
+Scanning dependencies of target color-test
+[ 63%] Building CXX object test/CMakeFiles/color-test.dir/color-test.cc.o
+[ 65%] Linking CXX executable ../bin/os-test
+[ 65%] Built target os-test
+Scanning dependencies of target ostream-test
+[ 67%] Building CXX object test/CMakeFiles/ostream-test.dir/ostream-test.cc.o
+In file included from /testbed/test/gtest/gmock/gmock.h:303,
+                 from /testbed/test/gtest-extra.h:16,
+                 from /testbed/test/color-test.cc:12:
+/testbed/test/color-test.cc: In member function ‘virtual void color_test_format_Test::TestBody()’:
+/testbed/test/color-test.cc:23:40: error: ‘faint’ is not a member of ‘fmt::v8::emphasis’
+   23 |   EXPECT_EQ(fmt::format(fmt::emphasis::faint, "faint"), "\x1b[2mfaint\x1b[0m");
+      |                                        ^~~~~
+/testbed/test/color-test.cc:28:40: error: ‘blink’ is not a member of ‘fmt::v8::emphasis’
+   28 |   EXPECT_EQ(fmt::format(fmt::emphasis::blink, "blink"), "\x1b[5mblink\x1b[0m");
+      |                                        ^~~~~
+/testbed/test/color-test.cc:29:40: error: ‘reverse’ is not a member of ‘fmt::v8::emphasis’
+   29 |   EXPECT_EQ(fmt::format(fmt::emphasis::reverse, "reverse"),
+      |                                        ^~~~~~~
+/testbed/test/color-test.cc:31:40: error: ‘conceal’ is not a member of ‘fmt::v8::emphasis’
+   31 |   EXPECT_EQ(fmt::format(fmt::emphasis::conceal, "conceal"),
+      |                                        ^~~~~~~
+make[2]: *** [test/CMakeFiles/color-test.dir/build.make:63: test/CMakeFiles/color-test.dir/color-test.cc.o] Error 1
+make[1]: *** [CMakeFiles/Makefile2:544: test/CMakeFiles/color-test.dir/all] Error 2
+make[1]: *** Waiting for unfinished jobs....
+[ 68%] Linking CXX executable ../bin/scan-test
+[ 68%] Built target scan-test
+[ 70%] Linking CXX executable ../bin/ranges-test
+[ 70%] Built target ranges-test
+[ 72%] Linking CXX executable ../bin/format-impl-test
+[ 72%] Built target format-impl-test
+[ 74%] Linking CXX executable ../bin/args-test
+[ 74%] Built target args-test
+[ 75%] Linking CXX executable ../bin/gtest-extra-test
+[ 75%] Built target gtest-extra-test
+[ 77%] Linking CXX executable ../bin/ostream-test
+[ 79%] Linking CXX executable ../bin/posix-mock-test
+[ 79%] Built target ostream-test
+[ 79%] Built target posix-mock-test
+[ 81%] Linking CXX executable ../bin/xchar-test
+[ 81%] Built target xchar-test
+[ 82%] Linking CXX executable ../bin/core-test
+[ 82%] Built target core-test
+[ 84%] Linking CXX executable ../bin/chrono-test
+[ 84%] Built target chrono-test
+make: *** [Makefile:163: all] Error 2
++ build_rc=2
++ '[' 2 -ne 0 ']'
++ echo 'Build failed with exit code 2. Setting OMNIGRIL_EXIT_CODE to 1 and exiting.'
++ rc=1
++ echo OMNIGRIL_EXIT_CODE=1
++ exit 1
+Build failed with exit code 2. Setting OMNIGRIL_EXIT_CODE to 1 and exiting.
+OMNIGRIL_EXIT_CODE=1

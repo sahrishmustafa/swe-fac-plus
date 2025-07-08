@@ -1,0 +1,12 @@
+Use display width in precision
+Use display width in precision. For example:
+
+```c++
+fmt::print("{:.5}", "🐱🐱🐱");
+```
+
+should print
+
+```
+🐱🐱
+```

@@ -1,7 +1,7 @@
 {
-  "is_finish": true,
-  "guidance_for_write_dockerfile_agent": "",
+  "is_finish": false,
+  "guidance_for_write_dockerfile_agent": "The Dockerfile failed during the `git clone` operation with a 'server certificate verification failed. CAfile: none CRLfile: none' error. This indicates that the container environment is missing the necessary CA certificates to verify the SSL certificate of GitHub. To resolve this, add `ca-certificates` to the `apt install` command in Step 4 of the Dockerfile. This package provides the common CA certificates required for secure communication.",
   "guidance_for_write_eval_script_agent": "",
   "guidance_for_context_retrieval_agent": "",
-  "build_image_status": true
+  "build_image_status": false
 }

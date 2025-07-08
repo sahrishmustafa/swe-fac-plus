@@ -1,0 +1,32 @@
+%S ignores precision for chrono durations where the decimal part should have been only zeros
+Any chrono duration *n* where 0 < *n* < 10⁻*ᴺ* formatted with `{:.N%S}` receives full precision instead of *N* decimals. This also holds if adding any number of whole seconds. In other words, any duration where the decimal part should have been rounded to `.0`, `.00`, `.000` etc. will be printed with all decimals. For example, with `{:.2%S}`, 4567 milliseconds are printed as `04.56`, while 4007 milliseconds are printed as `04.007` (instead of the expected `04.00`). 4007000 microseconds are printed as `04.007000` while 4017000 microseconds are printed as `04.01`.
+
+If the decimal part is exactly zero (i.e., the duration is a whole number of seconds), there will be one zero more than the specified precision. Thus, 1000 milliseconds will be printed as `01.00` with `{:.1%S}`, `01.000` with `{:.2%S}` etc., whilst 1100 milliseconds will be printed as `01.1`, `01.10` etc. (as expected) for the same format strings.
+
+Code to reproduce:
+```c++
+#include <fmt/chrono.h>
+#include <fmt/core.h>
+
+int main()
+{
+  constexpr std::chrono::microseconds works{10'001};
+  constexpr std::chrono::microseconds fails{9'999};
+  fmt::println("{:.2%S} {:.2%S}", works, fails);
+}
+```
+
+Expected output:
+```
+00.01 00.00
+```
+
+Actual output:
+```
+00.01 00.009999
+```
+
+Godbolt:
+https://godbolt.org/z/rncqqGWW3
+
+Tested with recent versions of Clang and GCC. Affects both `fmt::format` and `fmt::println`.

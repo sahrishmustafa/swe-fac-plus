@@ -1,0 +1,7 @@
+{
+  "is_finish": false,
+  "guidance_for_write_dockerfile_agent": "The Dockerfile needs to perform the initial CMake configuration and build steps to create the 'build' directory and compile the project. Currently, the Dockerfile only clones the repository but does not set up the compile-time environment. Add the following steps after the 'git checkout' and 'chmod' commands to create a build directory, configure CMake (ensuring developer mode is enabled for tests), and build the project:\n\n# Configure and build the project.\n# Create a build directory, navigate into it, and perform CMake configuration\n# with SIMDJSON_DEVELOPER_MODE=ON to ensure tests and examples are included.\n# Then, build the entire project. This prepares the environment for running tests.\nRUN mkdir build && \\\n    cd build && \\\n    cmake .. -DSIMDJSON_DEVELOPER_MODE=ON && \\\n    cmake --build . -j$(nproc)",
+  "guidance_for_write_eval_script_agent": "",
+  "guidance_for_context_retrieval_agent": "",
+  "build_image_status": true
+}

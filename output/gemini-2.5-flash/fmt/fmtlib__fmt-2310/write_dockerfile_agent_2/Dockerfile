@@ -1,0 +1,38 @@
+# Base image specification. Defines the foundation OS and architecture for the container
+FROM ubuntu:22.04
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Etc/UTC
+
+# System dependencies installation. Installs essential tools and libraries required for development and runtime
+# build-essential provides gcc, g++, and make, which are necessary for compiling C++ projects.
+# cmake is the required build system.
+# git is for cloning the repository.
+# ca-certificates is added to fix SSL certificate verification issues during git clone.
+# python3 and curl are included as per the reference Dockerfile, suggesting their use in supporting scripts.
+RUN apt update && \
+    for i in $(seq 1 5); do \
+        apt install -y --no-install-recommends build-essential cmake git ca-certificates python3 curl && break; \
+        echo "Attempt $i failed to install dependencies, retrying in 5 seconds..."; \
+        sleep 5; \
+    done && \
+    rm -rf /var/lib/apt/lists/*
+
+# Set default workdir to /testbed.
+WORKDIR /testbed/
+
+# Target Project setup. Clones source code and checkouts to the target version.
+# The repository is cloned into /testbed.
+# The specified commit SHA for version 7.1 is checked out to ensure reproducibility.
+# 'git remote remove origin' is good practice for isolated environments.
+RUN git clone https://github.com/fmtlib/fmt /testbed && \
+    cd /testbed && \
+    git reset --hard bc13c6de390751ecf8daa1b1ce8f775d104fdc65 && \
+    git remote remove origin
+
+# Build the project, including tests.
+# CMake is used to configure the build, and then Make compiles the source code.
+# This step prepares the environment for running tests by building the test executables.
+RUN mkdir /testbed/build && \
+    cd /testbed/build && \
+    cmake .. && \
+    make -j$(nproc)

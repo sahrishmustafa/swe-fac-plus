@@ -1,0 +1,103 @@
+2025-07-08 04:57:07,719 - INFO - Checking if image simdjson__simdjson-1274-dockerfile5:latest exists locally...
+2025-07-08 04:57:07,800 - INFO - Image simdjson__simdjson-1274-dockerfile5:latest found locally.
+2025-07-08 04:57:07,800 - INFO - Creating container for simdjson__simdjson-1274...
+2025-07-08 04:57:08,207 - INFO - Container for simdjson__simdjson-1274 started: 4bcc080c8d8200f540788df5c9abed24816596617a8763f83636fb09225b7e17
+2025-07-08 04:57:08,209 - INFO - Intermediate patch for simdjson__simdjson-1274 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/simdjson/simdjson__simdjson-1274/test_analysis_agent_5/patch.diff, now applying to container...
+2025-07-08 04:57:08,497 - INFO - Failed to apply patch to container, trying again...
+2025-07-08 04:57:08,559 - INFO - Apply patch success:
+patching file include/simdjson/generic/numberparsing.h
+
+2025-07-08 04:57:10,075 - INFO - Git diff before:
+diff --git a/include/simdjson/generic/numberparsing.h b/include/simdjson/generic/numberparsing.h
+index 934e57e3..098a90b0 100644
+--- a/include/simdjson/generic/numberparsing.h
++++ b/include/simdjson/generic/numberparsing.h
+@@ -42,6 +42,8 @@ simdjson_really_inline double to_double(uint64_t mantissa, uint64_t real_exponen
+ // We assume that power is in the [smallest_power,
+ // largest_power] interval: the caller is responsible for this check.
+ simdjson_really_inline bool compute_float_64(int64_t power, uint64_t i, bool negative, double &d) {
++  assert(power>=simdjson::internal::smallest_power);
++  assert(power<=simdjson::internal::largest_power);
+   // we start with a fast path
+   // It was described in
+   // Clinger WD. How to read floating point numbers accurately.
+@@ -734,11 +736,12 @@ simdjson_unused simdjson_really_inline simdjson_result<double> parse_double(cons
+     if (p-start_exp_digits == 0 || p-start_exp_digits > 19) { return NUMBER_ERROR; }
+ 
+     exponent += exp_neg ? 0-exp : exp;
+-    overflow = overflow || exponent < simdjson::internal::smallest_power || exponent > simdjson::internal::largest_power;
+   }
+ 
+   if (jsoncharutils::is_not_structural_or_whitespace(*p)) { return NUMBER_ERROR; }
+ 
++  overflow = overflow || exponent < simdjson::internal::smallest_power || exponent > simdjson::internal::largest_power;
++
+   //
+   // Assemble (or slow-parse) the float
+   //
+2025-07-08 04:57:10,075 - INFO - Eval script for simdjson__simdjson-1274 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/simdjson/simdjson__simdjson-1274/test_analysis_agent_5/patch.diff, now applying to container...
+2025-07-08 05:08:53,184 - INFO - Test output for simdjson__simdjson-1274 written to /home/sahrish/Desktop/swe-bench/swe-factory-local/output/simdjson/simdjson__simdjson-1274/test_analysis_agent_5/test_output.txt
+2025-07-08 05:08:53,628 - INFO - Git diff after:
+diff --git a/include/simdjson/generic/numberparsing.h b/include/simdjson/generic/numberparsing.h
+index 934e57e3..098a90b0 100644
+--- a/include/simdjson/generic/numberparsing.h
++++ b/include/simdjson/generic/numberparsing.h
+@@ -42,6 +42,8 @@ simdjson_really_inline double to_double(uint64_t mantissa, uint64_t real_exponen
+ // We assume that power is in the [smallest_power,
+ // largest_power] interval: the caller is responsible for this check.
+ simdjson_really_inline bool compute_float_64(int64_t power, uint64_t i, bool negative, double &d) {
++  assert(power>=simdjson::internal::smallest_power);
++  assert(power<=simdjson::internal::largest_power);
+   // we start with a fast path
+   // It was described in
+   // Clinger WD. How to read floating point numbers accurately.
+@@ -734,11 +736,12 @@ simdjson_unused simdjson_really_inline simdjson_result<double> parse_double(cons
+     if (p-start_exp_digits == 0 || p-start_exp_digits > 19) { return NUMBER_ERROR; }
+ 
+     exponent += exp_neg ? 0-exp : exp;
+-    overflow = overflow || exponent < simdjson::internal::smallest_power || exponent > simdjson::internal::largest_power;
+   }
+ 
+   if (jsoncharutils::is_not_structural_or_whitespace(*p)) { return NUMBER_ERROR; }
+ 
++  overflow = overflow || exponent < simdjson::internal::smallest_power || exponent > simdjson::internal::largest_power;
++
+   //
+   // Assemble (or slow-parse) the float
+   //
+diff --git a/tests/ondemand/ondemand_basictests.cpp b/tests/ondemand/ondemand_basictests.cpp
+index 58766088..a7994b13 100644
+--- a/tests/ondemand/ondemand_basictests.cpp
++++ b/tests/ondemand/ondemand_basictests.cpp
+@@ -326,10 +326,25 @@ namespace number_tests {
+     printf("Powers of 10 can be parsed.\n");
+     return true;
+   }
++
++  void github_issue_1273() {
++    padded_string bad(std::string_view("0.0300000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000024000000000000000000000000000000000000000000000000000000000000122978293824"));
++    simdjson::builtin::ondemand::parser parser;
++    simdjson_unused auto blah=parser.iterate(bad);
++    double x;
++    simdjson_unused auto blah2=blah.get(x);
++  }
++
++  bool old_crashes() {
++    github_issue_1273();
++    return true;
++  }
++
+   bool run() {
+     return small_integers() &&
+            powers_of_two() &&
+-           powers_of_ten();
++           powers_of_ten() &&
++           old_crashes();
+   }
+ }
+2025-07-08 05:08:53,628 - INFO - Git diff changed after running eval script
+2025-07-08 05:08:53,629 - INFO - Attempting to stop container simdjson__simdjson-1274-test1...
+2025-07-08 05:09:08,870 - INFO - Attempting to remove container simdjson__simdjson-1274-test1...
+2025-07-08 05:09:08,981 - INFO - Container simdjson__simdjson-1274-test1 removed.
+2025-07-08 05:09:08,982 - INFO - Attempting to remove image simdjson__simdjson-1274-dockerfile5:latest...
+2025-07-08 05:09:10,108 - INFO - Image simdjson__simdjson-1274-dockerfile5:latest removed.

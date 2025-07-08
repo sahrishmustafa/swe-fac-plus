@@ -1,0 +1,7 @@
+{
+  "is_finish": false,
+  "guidance_for_write_dockerfile_agent": "The Dockerfile failed to build because 'ubuntu:20.10' (Groovy Gorilla) has reached End of Life (EOL), and its package repositories are no longer directly available. The `apt update` command is failing with 404 'Not Found' errors for the repository links.\nTo fix this, change the base image from `ubuntu:20.10` to a supported LTS (Long Term Support) version, such as `ubuntu:22.04` (Jammy Jellyfish). This will provide stable and accessible package repositories for installing dependencies.",
+  "guidance_for_write_eval_script_agent": "",
+  "guidance_for_context_retrieval_agent": "",
+  "build_image_status": false
+}

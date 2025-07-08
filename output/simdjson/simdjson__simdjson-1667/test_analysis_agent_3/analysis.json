@@ -1,0 +1,7 @@
+{
+  "is_finish": false,
+  "guidance_for_write_dockerfile_agent": "",
+  "guidance_for_write_eval_script_agent": "The test execution failed due to a 'Killed signal' (typically an Out-Of-Memory error) during the compilation of a test, specifically 'quickstart_ondemand14'. This suggests that the parallel execution of `ctest` (using `j$(nproc)`) is consuming too many resources.\n\nTo resolve this, modify the `ctest` command in the eval script to limit parallelism, similar to how `cmake --build` is already limited. Change `ctest -L ondemand -j$(nproc) --output-on-failure` to `ctest -L ondemand -j4 --output-on-failure`. This will restrict the number of parallel test jobs to 4, which is consistent with the build process and should prevent resource exhaustion.",
+  "guidance_for_context_retrieval_agent": "",
+  "build_image_status": true
+}

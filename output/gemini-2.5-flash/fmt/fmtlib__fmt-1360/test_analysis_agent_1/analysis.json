@@ -1,7 +1,7 @@
 {
-  "is_finish": true,
-  "guidance_for_write_dockerfile_agent": "",
+  "is_finish": false,
+  "guidance_for_write_dockerfile_agent": "The Dockerfile build failed because 'g++-8' is not available in the 'ubuntu-toolchain-r/test' PPA for Ubuntu 22.04 (jammy). Ubuntu 22.04 ships with `g++-11` by default, which fully supports C++17, the standard used in your CMake configuration (`-DCMAKE_CXX_STANDARD=17`).\n\nTo fix this: \n1. Remove the entire RUN command block that adds the 'ubuntu-toolchain-r/test' PPA and installs `g++-8` (i.e., Step 5/7 in the provided Dockerfile).\n2. The `build-essential` package (already installed in an earlier step) will provide the default `g++` compiler on Ubuntu 22.04 (typically `g++-11`), which is sufficient for building this project with C++17.",
   "guidance_for_write_eval_script_agent": "",
   "guidance_for_context_retrieval_agent": "",
-  "build_image_status": true
+  "build_image_status": false
 }
