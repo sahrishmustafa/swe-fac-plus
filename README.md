@@ -2,6 +2,8 @@
 
 Your automated factory for GitHub Issue Resolution Training Data and Evaluation Benchmarks.
 
+[![SVG Banners](https://svg-banners.vercel.app/api?type=origin&text1=SWE-Factory%20🧑‍💻&text2=✨%20Build%20Your%20GitHub%20Issue%20Resolution%20Dataset%2C%20Right%20Now!&width=900&height=200)](https://github.com/Akshay090/svg-banners)
+
 ## ✨ Key Features
 
 - **An automated pipeline** for GitHub issue resolution data collection, reducing your manual effort!
