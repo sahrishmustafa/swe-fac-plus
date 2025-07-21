@@ -1,15 +1,15 @@
-# 👉🏻 SWE-Factory 👈🏻
+# SWE-Factory
 
 Your automated factory for GitHub Issue Resolution Training Data and Evaluation Benchmarks.
 
-## ✨ Key Features
+## Key Features
 
 - **An automated pipeline** for GitHub issue resolution data collection, reducing your manual effort!
 - **Produce reliable and reproducible Docker-based evaluation environments**
 - **Automatic environment construction using the LLM-powered multi-agent system (SWE-Builder)**
-- **Support for multiple programming languages** (we have evaluated Python, Java, JS, and TS extensively.)
+- **Support for multiple programming languages** now including C++ alongside Python, Java, JavaScript, and TypeScript.
 
-## 📦 Environment Setup
+## Environment Setup
 
 Our experiments are conducted using Docker version 27.0.3-1 and Ubuntu 22.04.4 LTS.
 
@@ -21,13 +21,13 @@ conda activate swe-factory
 pip install -r requirements.txt
 ```
 
-## 🚀 Running SWE-Factory
+##  Running SWE-Factory
 
-### 📍 Stage I: Raw Issue Data Collection
+### Stage I: Raw Issue Data Collection
 
 We use GitHub APIs and predefined patterns to collect raw issue data (e.g., `python-mypy-instances.jsonl`). Check the detailed tutorial in the [data_collection/collect](./data_collection/collect) directory.
 
-### 🛠 Stage II: Automated Evaluation Environemnt Setup via SWE-Builder
+### Stage II: Automated Evaluation Environemnt Setup via SWE-Builder
 
 After collecting raw issue data, set up the evaluation environment by running:
 
@@ -48,24 +48,24 @@ python app/main.py swe-bench \
 
 We employ SWE-Builder, an LLM-based multi-agent system consisting of:
 
-1. **🔍 Repository Explorer**
+1. **Repository Explorer**
    - Gathers environment setup and test commands automatically.
 
-2. **🐳 Environment Manager**
+2. **Environment Manager**
    - Generates Dockerfiles for reproducible test environments.
 
-3. **📝 Test Manager**
+3. **Test Manager**
    - Writes evaluation scripts to run tests inside containers.
 
-4. **🔬 Test Analyst**
+4. **Test Analyst**
    - Validates generated environments and orchestrates iterative refinement.
 
-5. **💾 Evaluation Environment Memory Pool**
+5. **Evaluation Environment Memory Pool**
    - Reuses previously successful setups for efficiency and consistency.
 
 ![Overview](figure/overview.png)
 
-#### 📊 SWE-Builder Evaluation Results
+#### SWE-Builder Evaluation Results
 
 We evaluated SWE-Builder using three base models:
 
@@ -83,7 +83,7 @@ export OPENAI_KEY=<your_key>
 bash run/run.sh
 ```
 
-### ✅ Stage III: Fail2Pass Validation
+### Stage III: Fail2Pass Validation
 
 After generating evaluation environments, perform Fail2Pass validation:
 
@@ -99,13 +99,13 @@ The validated instances can be filtered using the generated `fail2pass_status.js
 
 **Note:** Although our automated validation demonstrates high precision, manual checks are recommended to ensure dataset quality, particularly to identify and filter out error-to-pass cases.
 
-## 📌 Using Your Own Dataset
+## Using Your Own Dataset
 
 After building your dataset for evaluation and training, check the [evaluation](./evaluation) directory for detailed instructions on how to run tests and obtain test exection feedback.
 
 ## 📖 Citation
 
-If SWE-Factory helps your research or projects, star ⭐ our repo or cite us:
+If SWE-Factory helps your research or projects, star our repo or cite us:
 
 ```bibtex
 @article{guo2025swefactory,
@@ -117,7 +117,7 @@ If SWE-Factory helps your research or projects, star ⭐ our repo or cite us:
 }
 ```
 
-## 🙏 Acknowledgements
+## Acknowledgements
 
 - We build upon prior research — **[SWE-bench](https://arxiv.org/abs/2310.06770)**, **[AutoCodeRover](https://arxiv.org/abs/2404.05427)**, **[Magis](https://arxiv.org/abs/2403.17927)**, and **[OmniGIRL](https://arxiv.org/abs/2505.04606)** — foundational to our work.
-- Huge thanks to the **open-source developer community**; your invaluable contributions underpin software engineering research! ❤️
+- Huge thanks to the **open-source developer community**; your invaluable contributions underpin software engineering research!
