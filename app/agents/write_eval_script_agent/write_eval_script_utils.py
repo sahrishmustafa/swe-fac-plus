@@ -77,7 +77,6 @@ The script must execute the provided test files inside the specified Docker envi
 6. **After applying the test patch, you must rebuild the test binary or recompile the project so that the new or modified tests are included in the executable.**
     - For example, if using CMake, you might run `cmake --build .` or `make` after patching.
     - If using another build system, use the appropriate command to ensure the test binary is up to date.
-    - **CRITICAL: If the build/compilation step fails, the script must immediately set rc=1 and exit. Do not continue to run tests if the build fails, as this may run outdated binaries and produce false positive results.**
 
 7. You MUST capture the exit code immediately after running the tests using ``rc=$? '', and then echo: ``OMNIGRIL_EXIT_CODE=$rc''. This ensures the judge can determine whether the tests passed successfully.
 
